@@ -1,0 +1,216 @@
+---
+title: "Search with CitationGecko"
+output: html_notebook
+bibliography: ../www/Multidimensional-parameters-MCLM.bib
+csl: ../www/apa-old-doi-prefix.csl
+---
+
+```{r setup}
+library(tidyverse)
+library(bib2df)
+library(writexl)
+library(glue)
+```
+
+# Procedure
+
+## Initial search
+
+On 15 july, 2021, I use the following papers as seeds in [CitationGecko](https://citationgecko.azurewebsites.net/):
+
+::: {#refs}
+:::
+
+<br>
+
+Then select:
+
+-   Papers citing seed papers
+
+-   Filter: Year after 1984
+
+Then click on "Export" (in the network view) and save the results as `output/citation_gecko/GeckoRecommendations.bib`[^search_citation_gecko-1].
+
+[^search_citation_gecko-1]: A bug in `bib2pdf()` prevents from saving files in the usual resource folder `www`. (It parses the regexp `www.` as a remote URL, which is matched by `www/`; it should parse `www\\.` to interpret a literal dot.)
+
+```{r entries-raw}
+entries_raw <- bib2df("../output/citation_gecko/GeckoRecommendations.bib")
+
+n_raw <- entries_raw %>% count() %>% pull()
+```
+
+There are `r n_raw` entries in this search.
+
+## Manual processing
+
+I import the bibliography to Zotero into a new collection "GeckoRecommendations". After initial curtaion (eliminate duplicates, search for available full text, and rename PDFs according to metadata), the following manual filtering is made:
+
+-   Entries with `null` title
+
+-   Entries with "book review" in the title
+
+-   Entries with titles "Commentaries", "References" (content checked, non-relevant)
+
+I export this collection as `output/citation_gecko/GeckoRecommendations_filtered.bib`.
+
+```{r entries-filtered}
+entries_filtered <-
+  bib2df("../output/citation_gecko/GeckoRecommendations_filtered.bib")
+
+n_filtered <- entries_filtered %>% count() %>% pull()
+```
+
+This filtering leaves `r n_filtered` entries.
+
+## Exploration of the metadata
+
+I perform an assisted exploration to find some patterns in the publications.
+
+### Publications by journal
+
+```{r journal-count}
+entries_filtered %>% count(JOURNAL) %>% arrange(desc(n))
+```
+
+```{r}
+entries_filtered %>% filter(is.na(JOURNAL))
+```
+
+One entry without journal name; corresponds to a book, the bibliographic entry is from 1985 (too old for my purposes), and barely addresses the topic of multidimensionality.
+
+```{r}
+entries_filtered <- entries_filtered %>% filter(!is.na(JOURNAL))
+```
+
+I explore several journals, that seem to be non-central to the topic, but essentially most of them seem to cite Reckase or Zhang for some relevant reason. It is difficult to filter out journals by name or keywords, as most articles seem to deal with multidimensional IRT in one way or another, even in journals that seem completely unrelated. Some of them are even theoretical reviews of multidimensional IRT and not just applications.
+
+### Publications by title and keywords
+
+We filter the publications that contain the keyword "multidimensional" in any field:
+
+```{r}
+entries_multidimensional <- entries_filtered %>%
+  rowwise() %>%
+  filter(
+    c_across(where(is.character)) %>%
+      tolower() %>%
+      str_detect("multidimensional") %>%
+      any()
+  ) %>%
+  ungroup()
+
+n_entries_multidimensional <- entries_multidimensional %>% count() %>% pull()
+```
+
+This leaves `r n_entries_multidimensional` entries, which are suitable for manual classification.
+
+## Manual classification
+
+### Preparation
+
+I export the selected entries to an Excel file, first reordering the fields, flattening the `AUTHOR` field (otherwise it is not written properly), and ordering by year to make the search easier.
+
+```{r}
+entries_multidimensional <- entries_multidimensional %>%
+  select(AUTHOR, YEAR, TITLE, JOURNAL, DOI, everything()) %>%
+  rowwise() %>%
+  mutate(across(AUTHOR, glue_collapse, sep = "; ")) %>%
+  ungroup() %>%
+  arrange(YEAR)
+
+entries_multidimensional %>%
+  write_xlsx("../output/citation_gecko/Recommendations_wb_bak.xlsx")
+```
+
+Then I manually copy this file to `../output/citation_gecko/Recommendations_wb.xlsx`. I do this as a safeguard, in case I run again this whole notebook no information is lost in the working file if it is overwritten.
+
+### Classification
+
+I create a new collumn in the Excel file "CLASSIFICATION", in column "AI", where I fill in the results of the manual classification. Then, to decide whether a paper is relevant, I search for citations of @reckase_difficulty_1985, @reckase_discriminating_1991, @ackerman_creating_1994, and @zhang_conditional_1999. If the paper mentions the computation of the multidimensional difficulty (MDIFF, MID, or MDL) or discrimination (MDISC) parameter (I search for those terms and also "difficulty" and "discrimination"), then I check whether they assume an orthogonal latent space (by searching for "distribution", "orthogonal", and "correlation", if necessary).
+
+The possible resulting categories are:
+
+-   **Full text unavailable**
+
+-   **Orthogonality assumed**: Assumes orthogonality among latent dimensions, and computes the MDIFF and MDISC accordingly, OR does not mention the latent space structure at all (and therefore it just assumes orthogonality, as in @reckase_difficulty_1985 and @reckase_discriminating_1991).
+
+-   **Not relevant**: There is no mention to the multidimensional parameters or their computations, OR they are only discussed theoretically. Multidimensional traits may be simulated, dealt with, or theoretically discussed, but not in relationship with the multidimensional parameters.
+
+-   **Oblique dimensions disregarding non-orthogonality**: Computes the MDIFF and/or MDISC parameters applying Reckase's [-@reckase_difficulty_1985] and Reckase and McKinely's [-@reckase_discriminating_1991] formulae, disregarding the fact that these only apply to orthogonal latent spaces.
+
+### Title formatting
+
+While doing the manual classification, I find out that at least one entry (Wang, Chang, & Boughton, 2010) has been filtered out due to the title using the term "Multi-Dimensional" (with a dash) instead of "Multidimensional". Therefore, I change the matching regular expression to "`multi-?dimensional"`, which matches both terms. However, the BibTeX entries are "[case protected](https://tex.stackexchange.com/a/10775/171606)" with curly braces, which may prevent entries like this one from being detected ("{Multi}-{Dimensional}" instead of "{Multi-Dimensional}". In order to avoid this, the curly braces are removed from the titles of the bibliographical entries first.
+
+```{r}
+entries_no_curly_braces <- entries_filtered %>%
+  mutate(TITLE = TITLE %>% str_remove_all("[\\{\\}]"))
+
+entries_multidimensional <- entries_no_curly_braces %>%
+  rowwise() %>%
+  filter(
+    c_across(where(is.character)) %>%
+      tolower() %>%
+      str_detect("multi-?dimensional") %>%
+      any()
+  ) %>%
+  ungroup() %>%
+  select(AUTHOR, YEAR, TITLE, JOURNAL, DOI, everything()) %>%
+  rowwise() %>%
+  mutate(across(AUTHOR, glue_collapse, sep = "; ")) %>%
+  ungroup() %>%
+  arrange(YEAR)
+
+n_entries_multidimensional_hyphenated <- entries_multidimensional %>%
+  count() %>%
+  pull()
+
+entries_multidimensional %>%
+  write_xlsx("../output/citation_gecko/Recommendations_wb_bak.xlsx")
+```
+
+The updated list has `r n_entries_multidimensional_hyphenated` (apparently, only that one entry had been missed for this reason).
+
+### Missing entries with the acronym MIRT
+
+While doing the manual search, I notice a few papers having the acronym "MIRT" in the title, that have not been considered in the results. As I assume they also refer to "Multidimensional Item Response Theory", and therefore should be included in the results, I re-run the filtering including these results.
+
+```{r}
+entries_with_mirt <- entries_no_curly_braces %>%
+  rowwise() %>%
+  filter(
+    c_across(where(is.character)) %>%
+      tolower() %>%
+      str_detect("(multi-?dimensional|mirt)") %>%
+      any()
+  ) %>%
+  ungroup() %>%
+  select(AUTHOR, YEAR, TITLE, JOURNAL, DOI, everything()) %>%
+  rowwise() %>%
+  mutate(across(AUTHOR, glue_collapse, sep = "; ")) %>%
+  ungroup() %>%
+  arrange(YEAR)
+
+n_entries_multidimensional_mirt <- entries_with_mirt %>%
+  count() %>%
+  pull()
+
+entries_with_mirt %>%
+  write_xlsx("../output/citation_gecko/Recommendations_wb_bak.xlsx")
+```
+
+The number of entries is now `r n_entries_multidimensional_mirt`. The new ones included are:
+
+```{r}
+entries_with_mirt %>% anti_join(entries_multidimensional)
+```
+
+# Known issues
+
+There is at least one known paper that has not been included and is known to be relevant:
+
+Fragoso, T. M., & Cúri, M. (2013). Improving psychometric assessment of the Beck Depression Inventory using Multidimensional Item Response Theory. *Biometrical Journal*, *55*(4), 527--540. <https://doi.org/10.1002/bimj.201200197>
+
+This reference has been found because it is cited by Silva (2019), and classifies as "Oblique dimensions disregarding non-orthogonality". The problem is that it does not cite directly any of the seed papers considered. Instead, it cites Reckase (1997; A Linear Logistic Multidimensional Model for Dichotomous Item Response Data).
+
+The problem with CitationGecko is that it does not allow to construct the whole citation network, so only direct references of the seed papers can be found.

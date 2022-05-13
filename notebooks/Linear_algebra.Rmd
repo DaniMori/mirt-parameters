@@ -1,0 +1,413 @@
+---
+title: "Linear algebra"
+output:
+  html_notebook:
+    number_sections: yes
+---
+
+Following this document:
+https://www.math.hkust.edu.hk/~mabfchen/Math111/Week13-14.pdf
+
+# Dot product of $\mathbb{R}^n$
+
+All clear here.
+
+
+# Inner product spaces
+
+**Example 2.1 (adapted).**
+
+For
+$\mathbf{\theta}_1 = \begin{bmatrix}\theta_{11}\\ \theta_{12}\\ \end{bmatrix}$,
+$\mathbf{\theta}_2 = \begin{bmatrix}\theta_{21}\\ \theta_{22}\\ \end{bmatrix}$
+$\in \mathbb{R}^2$,
+define
+
+$$
+\langle \mathbf{\theta}_1, \mathbf{\theta}_2 \rangle =
+  \tfrac{4}{3} \theta_{11} \theta_{21} -
+    \tfrac{2}{3} \theta_{11} \theta_{22} -
+    \tfrac{2}{3} \theta_{12} \theta_{21} +
+    \tfrac{4}{3} \theta_{12} \theta_{22}.
+$$
+
+Then $\langle,  \rangle$ is an inner product on $\mathbb{R}^2$.
+The properties fulfill (see handwritten notebook "Linear algebra").
+
+
+For each $\theta \in \Theta$, the **norm** or **length** of $\theta$ is
+defined as
+
+$$
+\lVert \mathbf{\theta} \rVert :=
+  \sqrt{ \langle \mathbf{\theta}, \mathbf{\theta} \rangle }
+$$
+
+
+# Examples of inner product spaces
+
+**Example 3.1.**
+
+**IMPORTANT:**
+The vector space $\mathbb{R}^n$ with this special inner product (dot product)
+is called the **Euclidean $n$-space**, and the dot product is called the
+**standard inner product** on $\mathbb{R}^n$.
+
+
+# Representation of inner product
+
+**Theorem 4.1 (adapted).** Let $\Theta$ be an $n$-dimensional vector space with
+an inner product $\langle, \rangle$, and let $\Sigma^{-1}$ be the matrix of
+$\langle, \rangle$ relative to a basis $\mathcal{B}$.
+Then for any vectors $\mathbf{\theta}_1', \mathbf{\theta}_2' \in \Theta$,
+
+$$
+\langle \mathbf{\theta}_1', \mathbf{\theta}_2' \rangle =
+  \mathbf{\theta}_1^T \Sigma^{-1} \mathbf{\theta}_2,
+$$
+
+where $\mathbf{\theta}_1$ and $\mathbf{\theta}_2$ are the coordinate vectors
+of $\mathbf{\theta}_1'$ and $\mathbf{\theta}_2'$, respectively, i.e.,
+$\mathbf{\theta}_1 = [\mathbf{\theta}_1']_\mathcal{B}$ and
+$\mathbf{\theta}_2 = [\mathbf{\theta}_2']_\mathcal{B}$.
+
+
+**Example 4.1 (adapted).** For the inner product of $\mathbb{R}^2$ defined by
+
+$$
+\langle \mathbf{\theta}_1', \mathbf{\theta}_2' \rangle =
+  \frac{4}{3} \theta_{11} \theta_{21} -
+    \frac{2}{3} \theta_{11} \theta_{22} -
+    \frac{2}{3} \theta_{12} \theta_{21} +
+    \frac{4}{3} \theta_{12} \theta_{22},
+$$
+
+where
+$\mathbf{\theta}_1 = \begin{bmatrix} \theta_{11}\\ \theta_{12}\\ \end{bmatrix}$,
+$\mathbf{\theta}_2 = \begin{bmatrix} \theta_{21}\\ \theta_{22}\\ \end{bmatrix}$
+$\in \mathbb{R}^2$,
+its matrix relative to the standard basis
+$\mathcal{E} = \{ \mathbf{e}_1, \mathbf{e}_2 \}$ is
+
+$$
+\Sigma^{-1} = \begin{bmatrix}
+    \langle \mathbf{e}_1, \mathbf{e}_1 \rangle &
+      \langle \mathbf{e}_1, \mathbf{e}_2 \rangle \\
+    \langle \mathbf{e}_2, \mathbf{e}_1 \rangle &
+      \langle \mathbf{e}_2, \mathbf{e}_2 \rangle \\
+  \end{bmatrix} =
+  \begin{bmatrix}
+     \tfrac{4}{3} & -\tfrac{2}{3} \\
+    -\tfrac{2}{3} &  \tfrac{4}{3} \\
+  \end{bmatrix}
+$$
+
+(see handwritten notebook "Linear algebra").
+
+With a change of variables:
+
+$$
+\Bigg\{
+\begin{array} \\
+  \theta_{11} =             \theta_{11}' \\
+  \theta_{12} = \cos \alpha \theta_{11}' + \sin \alpha \theta_{12}'
+\end{array}
+$$
+
+$$
+\Bigg\{
+\begin{array} \\
+  \theta_{21} =             \theta_{21}' \\
+  \theta_{22} = \cos \alpha \theta_{21}' + \sin \alpha \theta_{22}'
+\end{array}
+$$
+
+we have (see handwritten notebook "Linear algebra")
+
+$$
+\langle \mathbf{\theta}_1', \mathbf{\theta}_2' \rangle =
+  \theta_{11}'\theta_{21}' + \theta_{12}'\theta_{22}' =
+  \mathbf{\theta}_1'^T \mathbf{\theta}_2'.
+$$
+
+This is equivalent to choosing a new basis
+
+$$
+\mathcal{B} = \left\{
+  \mathbf{u}_1 = \begin{bmatrix} 1\\ \cos \alpha\\ \end{bmatrix},
+  \mathbf{u}_2 = \begin{bmatrix} 0\\ \sin \alpha\\ \end{bmatrix}
+\right\}
+$$
+
+so that the inner product relative to it is the identity matrix, i.e.
+(see handwritten notebook "Linear algebra"),
+
+$$
+\begin{bmatrix}
+  \langle \mathbf{u}_1, \mathbf{u}_1 \rangle &
+    \langle \mathbf{u}_1, \mathbf{u}_2 \rangle \\
+  \langle \mathbf{u}_2, \mathbf{u}_1 \rangle &
+    \langle \mathbf{u}_2, \mathbf{u}_2 \rangle \\
+\end{bmatrix} =
+\begin{bmatrix}
+  1 & 0 \\
+  0 & 1 \\
+\end{bmatrix}.
+$$
+
+Let $\mathbf{P}$ the transition matrix from the standard basis
+$\{ \mathbf{e}_1, \mathbf{e}_2 \}$ to the basis
+$\{ \mathbf{u}_1, \mathbf{u}_2 \}$, i.e.,
+
+$$
+[ \mathbf{u}_1, \mathbf{u}_2 ] = [ \mathbf{e}_1, \mathbf{e}_2 ] \mathbf{P} =
+  [ \mathbf{e}_1, \mathbf{e}_2 ]
+  \begin{bmatrix}
+         1      &      0      \\
+    \cos \alpha & \sin \alpha \\
+  \end{bmatrix}
+$$
+
+Let $\mathbf{\theta}_1$ be the coordinate vector
+of the vector $\mathbf{\theta}_1'$ relative to the basis $\mathcal{B}$.
+(The coordinate vector of $\mathbf{\theta}_1'$ relative to the standard basis is
+$\mathbf{\theta}_1'$ itself.)
+Then
+
+$$
+\mathbf{\theta}_1' = [ \mathbf{e}_1, \mathbf{e}_2 ] \mathbf{\theta}_1' =
+  [ \mathbf{u}_1, \mathbf{u}_2 ]                    \mathbf{\theta}_1  =
+  [ \mathbf{e}_1, \mathbf{e}_2 ] \mathbf{P}         \mathbf{\theta}_1,
+$$
+
+and it follows that
+
+$$
+\mathbf{\theta}_1' = \mathbf{P} \mathbf{\theta}_1.
+$$
+
+Similarly,
+
+$$
+\mathbf{\theta}_2' = \mathbf{P} \mathbf{\theta}_2.
+$$
+
+Note that $\mathbf{\theta}_1'^T = \mathbf{\theta}_1^T \mathbf{P}^T$,
+so by Theorem 4.1,
+
+$$
+\langle \mathbf{\theta}_1',         \mathbf{\theta}_2' \rangle =
+  \mathbf{\theta}_1'^T \mathbf{I}_n \mathbf{\theta}_2'         =
+  \mathbf{\theta}_1'^T              \mathbf{\theta}_2',
+$$
+
+on one hand, and
+
+$$
+\langle \mathbf{\theta}_1', \mathbf{\theta}_2' \rangle                       =
+  \mathbf{\theta}_1^T               \Sigma^{-1}            \mathbf{\theta}_2 =
+  \mathbf{\theta}_1'^T \mathbf{P}^T \Sigma^{-1} \mathbf{P} \mathbf{\theta}_2'
+$$
+
+on the other.
+
+
+**Theorem 4.2.** Let $\Theta$ be a finite-dimensional inner product space.
+Let $\Sigma^{-1}$, $\mathbf{B}$ be matrices of the inner product relative to
+bases $\mathcal{B}$, $\mathcal{B}'$ of $\Theta$, respectively.
+If $\mathbf{P}$ is the transition matrix
+from $\mathcal{B}'$ to $\mathcal{B}$[^trans-matrix-basis],
+then
+
+[^trans-matrix-basis]: According to the document I'm following,
+the transition matrix if from basis $\mathcal{B}$ to $\mathcal{B}'$,
+but to my understanding, in the previous example this transition matrix
+is from the standard basis to $\mathcal{B}$, and so it should be here
+(as in my example, the standard basis $\mathcal{E}$
+plays the role of $\mathcal{B}'$ in this theorem).
+
+$$
+\mathbf{B} = \mathbf{P}^T \Sigma^{-1} \mathbf{P}.
+$$
+
+
+**Application of Theorem 4.2. to my bersion of example 4.1.**
+
+In my case, the standard basis $\mathcal{E}$ plays the role of $\mathcal{B}'$
+in Theorem 4.2. The inner product matrix relative to it is $\mathbf{I}_n$,
+and the transition matrix from $\mathcal{E}$ to $\mathcal{B}$ is
+
+$$
+\mathbf{P} = \begin{bmatrix}
+         1      &      0      \\
+    \cos \alpha & \sin \alpha \\
+  \end{bmatrix}
+$$
+
+It is true that:
+
+$$
+\mathbf{I}_n = \mathbf{P}^T \Sigma^{-1} \mathbf{P}
+$$
+
+(see handwritten notebook for derivation).
+
+# Cauchy-Schwarz inequality
+
+**IMPORTANT HERE!**
+
+The **angle $\alpha$ between $u$ and $v$** is defined by
+
+$$
+\cos \alpha = \frac{
+    \langle \mathbf{u}, \mathbf{v} \rangle
+  } {
+    \lVert \mathbf{u} \rVert \lVert \mathbf{v} \rVert
+  }.
+$$
+
+The angle exists and is unique.
+
+(**IMPORTANT NOTE!!** $\cos \alpha$ apparently is independent of the inner
+product, i.e., which basis it is computed in).
+
+
+# Orthogonality
+
+Let $\Theta$ be an inner product space.
+Two vectors $\mathbf{u}$ and $\mathbf{v}$ are said to be **orthogonal** if
+
+$$
+\langle \mathbf{u}, \mathbf{v} \rangle = 0
+$$
+
+
+# Orthogonal sets and bases
+
+Let $\Theta$ be an inner product space.
+A subset $S = {\mathbf{u}_1, \mathbf{u}_1, \dots, \mathbf{u}_k}$
+of nonzero vectors of $\Theta$ is called an **orthogonal set**
+if every pair of vectors are orthogonal, i.e.,
+
+$$
+\langle \mathbf{u}_i, \mathbf{u}_j \rangle = 0, \, 1 \le i < j \le k.
+$$
+
+An orthogonal set $S = {\mathbf{u}_1, \mathbf{u}_1, \dots, \mathbf{u}_k}$
+is called an **orthonormal set** if we further have
+
+$$
+\lVert \mathbf{u}_i \rVert = 1, \, 1 \le i \le k.
+$$
+
+An **orthonormal basis** or $\Theta$ is a basis which is also
+an orthonormal set.
+
+
+# Orthogonal projection
+
+Let $\Theta$ be an inner product space.
+Let $\mathbf{\theta}_1$ be a nonzero vector of $\Theta$.
+We want to decompose an arbitrary vector $\mathbf{y}$ into the form
+
+$$
+\mathbf{y} = \alpha \mathbf{\theta}_1 + z, \,
+\mathrm{where} \, \mathbf{z} \in \mathbf{\theta}_1^\perp.
+$$
+
+Since $z \perp \mathbf{\theta}_1$, we have
+
+$$
+\langle \mathbf{\theta}_1, \mathbf{y} \rangle =
+  \langle \mathbf{\theta}_1, \alpha \mathbf{\theta}_1 \rangle =
+  \alpha \langle \mathbf{\theta}_1, \mathbf{\theta}_1 \rangle.
+$$
+
+This implies that
+
+$$
+\alpha = \frac{
+    \langle \mathbf{\theta}_1, \mathbf{y} \rangle
+  }
+  {
+    \langle \mathbf{\theta}_1, \mathbf{\theta}_1 \rangle
+  }.
+$$
+
+We define the vector
+
+$$
+\mathrm{Proj}_{\mathbf{\theta}_1}(\mathbf{y}) = \frac{
+    \langle \mathbf{\theta}_1, \mathbf{y} \rangle
+  }
+  {
+    \langle \mathbf{\theta}_1, \mathbf{\theta}_1 \rangle
+  } \mathbf{\theta}_1,
+$$
+
+called the **orthogonal projection of $\mathbf{y}$ along $\mathbf{\theta}_1$**.
+The linear transformation
+$\mathrm{Proj}_{\mathbf{\theta}_1}: \Theta \rightarrow \Theta$
+is called the
+**orthogonal projection of $\Theta$ onto the direction $\mathbf{\theta}_1$**.
+
+(Example 8.1 clear, and then generalization of the orthogonal projection from
+a vector to a subspace. But note this is in an Euclidean space, i.e.,
+a vector space with *standard inner product*.)
+
+
+
+
+```{r, include=FALSE}
+alpha <- pi / 3
+rho   <- cos(alpha)
+
+u_1 <- c(1, rho)
+u_2 <- c(0, sin(alpha))
+
+R     <- rbind(u_1, u_2) # R^T = [u_1, u_2]
+R_inv <- R |> solve() |> unname()
+R_inv_alt <- matrix(c(1, 0, -rho / sin(alpha), 1 / sin(alpha)), nrow = 2)
+all.equal(R_inv, R_inv_alt) # Son iguales
+
+Sigma <- t(R) %*% R
+
+Sigma_inv <- solve(Sigma)
+
+all.equal(Sigma_inv, R_inv %*% t(R_inv)) # Son iguales
+```
+
+
+# Adaptation to the case in hand {-}
+
+Let's assume that the inner product of $\mathbb{R}^2$ relative to basis
+$\mathcal{B} = \{ \mathbf{u}_1, \mathbf{u}_2 \}$,
+where
+$\mathbf{u}_1 = \begin{bmatrix} 1\\ -\frac{\cos \alpha}{\sin \alpha} \\ \end{bmatrix}$
+and
+$\mathbf{u}_2 = \begin{bmatrix} 0\\ \frac{1}{\sin \alpha} \\ \end{bmatrix}$,
+is defined by
+
+$$
+\langle \mathbf{x}, \mathbf{y} \rangle = \frac{4}{3} x_1y_1 - \frac{2}{3} x_1y_2
+  - \frac{2}{3} x_2y_1 + \frac{4}{3} x_2y_2,
+$$
+
+where
+$\mathbf{x} = \begin{bmatrix} x_1\\ x_2\\ \end{bmatrix}$,
+$\mathbf{y} = \begin{bmatrix} y_1\\ y_2\\ \end{bmatrix}$,
+$\in \mathbb{R}^2$,
+
+
+$$
+\Sigma^{-1} = \begin{bmatrix}
+    \langle \mathbf{e}_1, \mathbf{e}_1 \rangle &
+      \langle \mathbf{e}_1, \mathbf{e}_2 \rangle \\
+    \langle \mathbf{e}_2, \mathbf{e}_1 \rangle &
+      \langle \mathbf{e}_2, \mathbf{e}_2 \rangle \\
+  \end{bmatrix} =
+  \begin{bmatrix}
+     \tfrac{4}{3} & -\tfrac{2}{3} \\
+    -\tfrac{2}{3} &  \tfrac{4}{3} \\
+  \end{bmatrix}
+$$

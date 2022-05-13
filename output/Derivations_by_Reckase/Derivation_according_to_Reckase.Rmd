@@ -1,0 +1,692 @@
+---
+title: "Multidimensional difficulty and discrimination parameters according to Reckase & McKinley"
+author: "Daniel Morillo"
+date: "`r Sys.Date()`"
+output:
+  officedown::rdocx_document:
+    tables:
+      style: APA_Like_style
+    mapstyles:
+      Normal: First Paragraph
+    base_format: bookdown::word_document2
+    reference_docx: ../../www/Template.docx
+    number_sections: no
+    keep_md:         no
+    fig_width:       4
+    fig_height:      4
+bibliography: ../../www/Multidimensional-parameters-MCLM.bib
+csl:          ../../www/apa-old-doi-prefix.csl
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r setup, include=FALSE}
+library(knitr)
+
+ROOT_DIR <- "../.."
+DOC_DIR <- getwd()
+
+opts_knit$set(root.dir = ROOT_DIR)
+opts_chunk$set(
+  echo     = FALSE,
+  cache    = FALSE,
+  dev      = "png",
+  dpi      =   300,
+  dev.args = list(type = "cairo-png"),
+  fig.pos = "!H"
+)
+
+# Constants:
+GRAPH_FONT   <- "serif"
+LINE_WIDTH   <- .1
+VECTOR_WIDTH <- 1.5
+ANGLE_WIDTH  <- .5
+POINT_CHAR   <- 19L
+
+
+# Output configuration options:
+options(digits = 4)
+# theme_set(
+#   theme_classic(
+#     base_size      = 12,
+#     base_family    = GRAPH_FONT,
+#     base_line_size = LINE_WIDTH
+#   ) %+replace%
+#   theme(
+#     axis.title.x = element_text(hjust = 1),
+#     axis.title.y = element_text(vjust = 1, angle = 0)
+#   )
+# )
+```
+
+
+```{r includes, cache=FALSE}
+source("R/Formulas.R")
+```
+
+
+# Introduction
+
+We are going to use the method proposed by @reckase_difficulty_1985
+in order to determine the difficulty of a multidimensional item
+in a non-orthogonal latent space.
+Then, we will determine its discrimination,
+following @reckase_discriminating_1991.
+In order to better understand these,
+we will first review the original derivations in the orthogonal space.
+
+# Original parameter derivations
+
+## Multidimensional difficulty in @reckase_difficulty_1985
+
+Equation 7 in @reckase_difficulty_1985 applies the constraint
+$\sum_{k=1}^n\cos^2 \alpha_{jk} = 1$,
+which implies orthogonal axes.
+This constraint is necessary because the $n$ cosines are not independent;
+rather, they are (non-linearly) dependent by the constraint in their Equation 7.
+
+For a certain dimension $k$ ($k \in [1, n-1]$),
+the derivative of each addend in their Equation 6 is 0
+(because it is independent of $\cos \alpha_{ki}$),
+except for the derivatives of the $k-\mathrm{th}$ term,
+which is $\tfrac{\alpha_{ki}}{4}$,
+and the $n-\mathrm{th}$ term, given by
+
+\begin{equation}
+  \begin{split}
+    \frac{\delta}{\delta \cos \alpha_{jk}}
+      \frac{a_{in}}{4}
+      \sqrt{ 1 - \sum_{k=1}^{n-1} \cos^2 \alpha_{jk} } &=
+        \frac{a_{in}}{4}
+          \frac{1}{2 \sqrt{ 1 - \sum_{k=1}^{n-1} \cos^2 \alpha_{jk} } }
+          \left(-2 \cos \alpha_{jk} \right) \\
+      &= - \frac{a_{in}}{4}
+        \frac{
+            \cos \alpha_{jk}
+          } {
+            \sqrt{ 1 - \sum_{k=1}^{n-1} \cos^2 \alpha_{jk} }
+          } \\
+      &= - \frac{a_{in}}{4} \frac{\cos \alpha_{jk}}{\cos \alpha_{jn}}.
+  \end{split}
+\end{equation}
+
+Therefore, the derivative of their Equation 6 is given by
+
+\begin{equation}
+  \frac{\delta}{\delta \cos \alpha_{jk}}
+    \frac{1}{4}
+    \sum_{k=1}^{n} a_{ik} \cos \alpha_{jk} =
+  \frac{1}{4}
+    \left( a_{ik} - a_{in} \frac{\cos \alpha_{jk}}{\cos \alpha_{jn}} \right).
+\end{equation}
+
+The term $\tfrac{1}{4}$ can be dropped when equating to 0,
+thus resulting in the $n-1$ expressions in Equation 8 in
+@reckase_difficulty_1985.
+By reformulating each of these equations we can show that
+$\cos \alpha_{ik}$ is proportional to $a_{ik}$ for all $k$:
+
+\begin{equation}
+  a_{ik} - a_{in} \frac{\cos \alpha_{jk}}{\cos \alpha_{jn}} = 0 \Leftrightarrow
+    \frac{a_{ik}}{\cos \alpha_{jk}} = \frac{a_{in}}{\cos \alpha_{jn}} = C.
+\end{equation}
+
+Thus, the solution implies computing the proportionality constant $C$.
+
+The system is complemented by Equation 7,
+giving $n$ equations with the $n$ cosines as unknowns.
+Operating on the previous equation,
+
+\begin{equation}
+  \begin{split}
+    \cos \alpha_{jk} = \frac{a_{ik}}{C} &\Leftrightarrow
+      \cos^2 \alpha_{jk} = \frac{a_{ik}^2}{C^2} \\
+      &\Leftrightarrow \sum_{k=1}^{n} \cos^2 \alpha_{jk} =
+        \sum_{k=1}^{n} \frac{a_{ik}^2}{C^2} \\
+      &\Leftrightarrow \frac{1}{C^2} \sum_{k=1}^{n} a_{ik}^2 = 1 \\
+      &\Leftrightarrow C^2 = \sum_{k=1}^{n} a_{ik}^2 \\
+      &\Leftrightarrow C = \sqrt{ \sum_{k=1}^{n} a_{ik}^2 },
+  \end{split}
+\end{equation}
+
+results in the value of $C$ which, when solving for $j = i$,
+gives Equation 9 in @reckase_difficulty_1985.
+
+The signed distance to the point of steepest slope, $D_i$,
+is obtained by substituting Equation 9 for $\cos \alpha_{ik}$ in Equation 3.
+The exponent of the logit function results in
+(the summation index is changed from $k$ to $l$ in the denominator
+to avoid collision):
+
+\begin{equation}
+  \begin{split}
+    \sum_{k=1}^{n} a_{ik} `r THETA_MODULE` \cos \alpha_{jk} + d_i &=
+        \sum_{k=1}^{n} a_{ik}
+        `r THETA_MODULE`
+        \frac{a_{ik}}{\sqrt{ \sum_{l=1}^{n} a_{il}^2} } + d_i \\
+      &= \frac{ \sum_{k=1}^{n} a_{ik}^2 }{ \sqrt{ \sum_{l=1}^{n} a_{il}^2 } }
+        `r THETA_MODULE`  + d_i \\
+      &= \sqrt{
+          \frac{ \left( \sum_{k=1}^{n} a_{ik}^2 \right)^2 }
+               { \sum_{l=1}^{n} a_{il}^2 }
+        }
+        `r THETA_MODULE` +
+        d_i \\
+      &= \sqrt{ \sum_{k=1}^{n} a_{ik}^2 } `r THETA_MODULE`  + d_i.
+  \end{split}
+\end{equation}
+
+Solving for $P_{ij} = .5$ implies that the exponent equals 0.
+Thus solving for $D_i = `r THETA_MODULE`$,
+
+\begin{equation}
+  \begin{split}
+    \sqrt{ \sum_{k=1}^{n} a_{ik}^2 } D_i + d_i = 0 &\Leftrightarrow
+      \sqrt{ \sum_{k=1}^{n} a_{ik}^2 } D_i = -d_i \\
+    &\Leftrightarrow D_i = - \frac{d_i}{ \sqrt{ \sum_{k=1}^{n} a_{ik}^2 } },
+  \end{split}
+\end{equation}
+
+which gives Equation 10.
+
+
+## Multidimensional discrimination
+
+The multidimensional discrimination parameter ($MDISC$)
+is obtained straightforwardly from the previous equations and
+Equations 6 through 9 in @reckase_discriminating_1991.
+
+
+# Parameters in the non-orthogonal space
+
+## Model definition
+
+The model is defined by Reckase's [-@reckase_difficulty_1985] Equation 1.
+However, in the present case, $`r THETA_J`$ is multivariate normal:
+
+\begin{equation}
+  `r THETA_J` \sim \mathcal{N}(\mathbf{\upmu}, `r SIGMA`),
+\end{equation}
+
+where $\mathbf{\upmu}$ is an $n$-element vector of means and
+$`r SIGMA` = `r S_MATRIX` `r R_MATRIX` `r S_MATRIX`'$
+an $n$-dimensional positive definite covariance matrix,
+with $`r R_MATRIX`$ the corresponding correlation matrix
+(also positive definite) and $`r S_MATRIX`$ a scaling diagonal matrix
+with $s_{ii} = \sigma_{ii}$
+(i.e., the matrix of standard deviations).
+
+When $`r THETA_J`$ is standardized, $`r S_MATRIX` = `r ID_MATRIX`$ and
+$`r SIGMA` = `r R_MATRIX`$.
+When $`r R_MATRIX` = `r ID_MATRIX`$, the elements of $`r THETA_J`$
+are independent and $`r SIGMA` = `r S_MATRIX` `r S_MATRIX`'$,
+which implies that the basis of the latent space $`r THETA`$ is orthogonal.
+When both conditions occur simultaneously, $`r SIGMA` = `r ID_MATRIX`$,
+and the basis of the latent space $`r THETA`$ is canonical and therefore
+orthonormal.
+
+One may assume that the latter must occur for the conditions in
+@reckase_difficulty_1985 to apply.
+However, Reckase's derivations apply to an orthogonal latent space,
+which actually happens in the second condition.
+That is, the only requirement is that the elements of $`r THETA_J`$ are
+independent, being irrelevant whether they are standardized or not.
+Therefore, our generalization applies to the non-orthogonal case.
+
+
+## Model recasting into polar coordinates {#polar-coords}
+
+Following the method outlined by @reckase_difficulty_1985,
+the model is first transformed into polar coordinates,
+as in Reckase's [-@reckase_difficulty_1985] Equation 3.
+However, to apply this transformation one must consider that,
+in a non-orthogonal space,
+$`r THETA_J` = `r R_COS_ALPHA_THETA`$
+instead of $`r THETA_MODULE` `r COS_ALPHA_J_VECTOR`$, as in Rekcase's
+[-@reckase_difficulty_1985] Equation 3.
+
+**Proof 1**.[^proof-needed]
+First, let $`r THETA_ORTH` = `r B_INVERSE` `r THETA`$
+be an orthogonal latent space with $`r B_MATRIX`$ a rotation matrix such that
+$`r B_MATRIX` `r B_MATRIX`' = `r R_MATRIX`$.
+The norm $`r THETA_J_ORTH_NORM` \equiv `r THETA_MODULE`$
+of a vector $`r THETA_J_ORTH`$ in $`r THETA_ORTH`$
+is defined by
+
+\begin{equation}
+  `r THETA_MODULE`^2 = `r THETA_J_ORTH`' `r THETA_J_ORTH` =
+    `r THETA_J`' `r B_INVERSE`' `r B_INVERSE` `r THETA_J` =
+    `r THETA_J`' (`r B_MATRIX` `r B_MATRIX`')^{-1} `r THETA_J` =
+    `r THETA_J`' `r R_INVERSE` `r THETA_J`.                 (\#eq:inner-product)
+\end{equation}
+
+Therefore, we consistently define
+$\langle \mathbf{x}, \mathbf{y} \rangle = \mathbf{x}' `r R_INVERSE` \mathbf{y}$ as an inner product in $`r THETA`$ with norm
+$`r THETA_MODULE` = \sqrt{`r THETA_J`' `r R_INVERSE` `r THETA_J`}$.
+By definition of the inner product, the cosine between
+$`r THETA_J`$ and each vector $`r BASIS_VECTOR`$ of the basis of $`r THETA`$
+is given by their inner product divided by the norms of the two vectors:
+
+\begin{equation}
+  `r COS_ALPHA_JK` = \frac{
+      `r BASIS_VECTOR`' `r R_INVERSE` `r THETA_J`
+    } {
+      `r BASIS_VECTOR_NORM` `r THETA_J_NORM`
+    } =
+    \frac{
+      `r BASIS_VECTOR`' `r R_INVERSE` `r THETA_J`
+    } {
+      1 `r THETA_J_NORM`
+    } =
+    \frac{`r BASIS_VECTOR`' `r R_INVERSE` `r THETA_J`}{ `r THETA_MODULE`}.
+\end{equation}
+
+Therefore, the vector of cosines is given by
+
+\begin{equation}
+  `r COS_ALPHA_J_VECTOR` = \frac{
+      \begin{pmatrix}
+        `r BASIS_VECTOR_1`' \\
+        \vdots              \\
+        `r BASIS_VECTOR_N`'
+      \end{pmatrix}
+      `r R_INVERSE` `r THETA_J`
+    } {
+       `r THETA_MODULE`
+    } =
+    \frac{`r ID_MATRIX` `r R_INVERSE` `r THETA_J`}{`r THETA_MODULE`}
+\end{equation}
+
+\begin{equation}
+    `r COS_ALPHA_J_VECTOR` = \frac{`r R_INVERSE` `r THETA_J`}{`r THETA_MODULE`}.
+                                                         (\#eq:director-cosines)
+\end{equation}
+
+Solving for $`r THETA_J`$,
+
+\begin{equation}
+  \begin{split}
+    \frac{`r R_MATRIX` `r R_INVERSE` `r THETA_J`}{ `r THETA_MODULE`} &=
+      `r R_COS_ALPHA` \\
+    `r THETA_J` &= `r R_COS_ALPHA_THETA`.\blacksquare
+  \end{split}
+\end{equation}
+
+[^proof-needed]: It took me quite an effort to realise that Equation 3 in
+@reckase_difficulty_1985 did not apply straightforwardly,
+and derivate the following proof.
+However, I'm not sure if it's really necessary to proof this,
+as I think it must be an already-known result of the inner product
+[see e.g., @harman_modern_1970,
+though probably not the most appropriate source].
+
+
+Thus, the model expression in polar coordinates is given by
+
+\begin{equation}
+  `r P_MCLM_OBL` = `r LOGISTIC_OBL_POLAR`.                     (\#eq:MCLM-polar)
+\end{equation}
+
+
+## Multidimensional difficulty {#md-diff}
+
+The equivalent to Reckase's [-@reckase_difficulty_1985]
+Equations 4 through 6 are:
+
+\begin{equation}
+  `r IRF_DIFF2_THETA` = `r IRF_DIFF2_THETA_DEF`,
+\end{equation}
+
+\begin{equation}
+  `r IRF_DIFF_THETA` = `r IRF_DIFF_THETA_DEF`,
+\end{equation}
+
+and
+
+\begin{equation}
+  \tfrac{1}{4} `r A_R_COS_ALPHA`,                               (\#eq:max-slope)
+\end{equation}
+
+
+To derive the direction of steepest slope we must take into account the
+dependence among the components of $`r COS_ALPHA_J_VECTOR`$,
+as in Reckase's [-@reckase_difficulty_1985] Equation 7.
+However, this dependence is expressed here as
+
+\begin{equation}
+  `r COS_ALPHA_J_VECTOR` ' `r R_MATRIX` `r COS_ALPHA_J_VECTOR` = 1
+                                                        (\#eq:cosine-constraint)
+\end{equation}
+
+**Proof 2**.[^proof-needed-2]
+From Equation \@ref(eq:director-cosines), we have that
+
+\begin{equation}
+  \begin{split}
+    `r R_MATRIX` `r COS_ALPHA_J_VECTOR` &=
+      \frac{`r THETA_J`}{`r THETA_MODULE`},\\
+    `r B_MATRIX` `r B_MATRIX`' `r COS_ALPHA_J_VECTOR` &=
+      \frac{`r THETA_J`}{`r THETA_MODULE`}.
+  \end{split}
+\end{equation}
+
+Also, in the orthogonal space,
+
+\begin{equation}
+  \begin{split}
+    `r COS_ALPHA_J_ORTH_VECTOR` &= \frac{`r THETA_J_ORTH`}{`r THETA_MODULE`}, \\
+    `r COS_ALPHA_J_ORTH_VECTOR` &=
+      \frac{`r B_INVERSE` `r THETA_J`}{`r THETA_MODULE`}, \\
+    `r B_MATRIX` `r COS_ALPHA_J_ORTH_VECTOR` &=
+      \frac{`r THETA_J`}{`r THETA_MODULE`}.
+  \end{split}
+\end{equation}
+
+Equating the left terms in both equations,
+
+\begin{equation}
+  `r B_MATRIX` `r B_MATRIX`' `r COS_ALPHA_J_VECTOR` =
+    `r B_MATRIX` `r COS_ALPHA_J_ORTH_VECTOR`,
+\end{equation}
+
+\begin{equation}
+  `r B_MATRIX`' `r COS_ALPHA_J_VECTOR` = `r COS_ALPHA_J_ORTH_VECTOR`
+                                                      (\#eq:cosines-equivalence)
+\end{equation}
+
+and squaring,
+
+\begin{equation}
+  \begin{split}
+    `r COS_ALPHA_J_VECTOR`' `r B_MATRIX` `r B_MATRIX`' `r COS_ALPHA_J_VECTOR` &=
+      `r COS_ALPHA_J_ORTH_VECTOR`' `r COS_ALPHA_J_ORTH_VECTOR`; \\
+    `r COS_ALPHA_J_VECTOR`' `r R_MATRIX` `r COS_ALPHA_J_VECTOR` &= 1.
+      \blacksquare
+  \end{split}
+\end{equation}
+
+[^proof-needed-2]: As before, I doubt this proof is strictly necessary.
+
+(Now, I've come to a dead end here, as I don't know how to solve
+\@ref(eq:cosine-constraint) for $`r COS_2_ALPHA_JN`$.
+I arrive to the covariance matrix of $`r COS_ALPHA_J_VECTOR`$,
+$\mathrm{cov}(`r COS_ALPHA_J_VECTOR`) = `r R_INVERSE` `r S_MATRIX` `r R_MATRIX` `r S_MATRIX`' `r R_INVERSE`'$,
+but I don't see how this can be solved for a single component of
+$`r COS_ALPHA_J_VECTOR`$.
+A possible solution would be to define
+$`r THETA_ORTH` = `r T_INVERSE` `r THETA`$ as an orthonormal latent space
+with $`r T_MATRIX` = `r S_MATRIX` `r B_MATRIX`$,
+such that $`r T_MATRIX` `r T_MATRIX`' = `r SIGMA`$.
+This would lead to the substitution of $`r R_MATRIX`$ by $`r SIGMA`$ in all
+the equations in sections \@ref(polar-coords) and \@ref(md-diff),
+and therefore $\mathrm{cov}(`r COS_ALPHA_J_VECTOR`) = `r SIGMA`^{-1}$.
+However, I don't know how to continue from here either.)
+
+
+### Derivating the multidimensional difficulty by orthogonalization
+
+The most straightforward way of solving it seems to be by orthogonalizing
+the latent space, computing the solution in this orthogonalized space,
+and then transforming the space back into oblique coordinates
+(as I do in my dissertation).
+Using this approach, we may find the solution in the orthogonal space
+applying the method in @reckase_difficulty_1985.
+
+First, we define $`r A_VECTOR_ORTH` = `r B_MATRIX`' `r A_VECTOR`$ such that
+$`r A_VECTOR_ORTH`' `r THETA_J_ORTH` = `r A_VECTOR`' `r B_MATRIX` `r B_INVERSE` `r THETA_J` = `r A_VECTOR`' `r THETA_J`$.
+Then, we can compute $`r COS_ALPHA_J_ORTH_VECTOR`$ and $`r MDIFF`$ applyting
+Reckase's [-@reckase_difficulty_1985] equations 3 through 10.
+This results in
+
+\begin{equation}
+  `r COS_ALPHA_IK_ORTH` =
+    \frac{`r A_COMPONENT_ORTH`}{\sqrt{`r A_VECTOR_ORTH`' `r A_VECTOR_ORTH`}}
+\end{equation}
+
+and
+
+\begin{equation}
+  `r MDIFF` =
+    \frac{- `r D_PARAM`}{\sqrt{`r A_VECTOR_ORTH`' `r A_VECTOR_ORTH`}}.
+\end{equation}
+
+The first one can be expressed in vector terms:
+
+\begin{equation}
+  `r COS_ALPHA_I_ORTH_VECTOR` =
+    \frac{`r A_VECTOR_ORTH`}{\sqrt{`r A_VECTOR_ORTH`' `r A_VECTOR_ORTH`}},
+\end{equation}
+
+and thus both can be expressed in terms of $`r A_VECTOR`$ instead of
+$`r A_VECTOR_ORTH`$, with
+$`r A_VECTOR_ORTH`' `r A_VECTOR_ORTH` = `r A_VECTOR`' `r B_MATRIX` `r B_MATRIX`' `r A_VECTOR` = `r A_VECTOR`' `r R_MATRIX` `r A_VECTOR`$:
+
+\begin{equation}
+  `r COS_ALPHA_I_ORTH_VECTOR` = \frac{
+      `r B_MATRIX`' `r A_VECTOR`
+    } {
+      \sqrt{`r A_VECTOR`' `r R_MATRIX` `r A_VECTOR`}
+    },
+\end{equation}
+
+and
+
+\begin{equation}
+  `r MDIFF` =
+    \frac{- `r D_PARAM`}{\sqrt{`r A_VECTOR`' `r R_MATRIX` `r A_VECTOR`}}.
+\end{equation}
+
+From Equation \@ref(eq:cosines-equivalence) we have that 
+$`r COS_ALPHA_I_ORTH_VECTOR` = `r B_MATRIX`' `r COS_ALPHA_I_VECTOR`$, so
+[^warning-direction]
+
+\begin{equation}
+  `r B_MATRIX`' `r COS_ALPHA_I_VECTOR` = \frac{
+      `r B_MATRIX`' `r A_VECTOR`
+    } {
+      \sqrt{`r A_VECTOR`' `r R_MATRIX` `r A_VECTOR`}
+    },
+\end{equation}
+
+\begin{equation}
+  `r COS_ALPHA_I_VECTOR` =
+    \frac{`r A_VECTOR`}{\sqrt{`r A_VECTOR`' `r R_MATRIX` `r A_VECTOR`}}.
+                                                         (\#eq:director-cosines)
+\end{equation}
+
+[^warning-direction]: Warning!
+This result is not the same as what I found in the dissertation (Equation 3.7).
+This one seems to be the correct one though.
+I think the explanation is that, in my dissertation,
+the projections should be on the orthogonal axes instead, that is,
+$`r COS_ALPHA_I_ORTH_VECTOR`'$ in the left side.
+
+
+### Derivating the multidimensional difficulty form the equation in polar coordinates
+
+Using the method outlined above, one can derivate the director cosines which
+describe the measurement direction.
+However, the absolute value of the multidimensional difficulty can be derived
+by applying this solution to the model expression in polar coordinates,
+i.e. Equation \@ref(eq:MCLM-polar).
+
+Substituting Equation \@ref(eq:director-cosines) for $`r COS_ALPHA_I_VECTOR`$ in
+Equation \@ref(eq:MCLM-polar) we may find the maximum slope, solving for
+$`r MDIFF` = `r THETA_MODULE`$ when $P_ij = .5$,
+that is, $`r P_MCLM_OBL_MDIFF` = .5$:
+
+\begin{equation}
+  \begin{split}
+    `r LOGISTIC_OBL_POLAR_MDIFF` = .5 &\Leftrightarrow
+      `r EXPONENT_OBL_POLAR_MDIFF` = 0 \\
+      &\Leftrightarrow \frac{
+        `r A_VECTOR`' `r R_MATRIX` `r A_VECTOR`
+      } {
+        \sqrt{`r A_VECTOR`' `r R_MATRIX` `r A_VECTOR`}
+      } `r MDIFF` = - `r D_PARAM`
+  \end{split}
+\end{equation}
+      
+\begin{equation}
+  \begin{split}
+      `r MDIFF` = - \frac{
+        `r D_PARAM`
+      } {
+        \sqrt{`r A_VECTOR`' `r R_MATRIX` `r A_VECTOR`}
+      }
+  \end{split}                                              (\#eq:MDIFF-solution)
+\end{equation}
+
+
+## Multidimensional discrimination
+
+Analogously, we apply Equations 4 through 9 in @reckase_discriminating_1991,
+arriving at the equivalent of their Equation 9 in the orthogonal space:
+
+\begin{equation}
+  `r MDISC` = \sqrt{`r A_VECTOR_ORTH`' `r A_VECTOR_ORTH`} =
+    \sqrt{`r A_VECTOR`' `r R_MATRIX` `r A_VECTOR`}.
+\end{equation}
+
+
+## Properties of the multidimensional parameters
+
+### Multidimensional discrimination
+
+Substituting $`r COS_ALPHA_J_VECTOR`$ in expression \@ref(eq:max-slope) by
+$`r COS_ALPHA_I_VECTOR`$,
+and the substituting Equation \@ref(eq:director-cosines) into
+\@ref(eq:max-slope) results in
+
+\begin{equation}
+  \tfrac{1}{4} \sqrt{`r A_VECTOR`' `r R_MATRIX` `r A_VECTOR`} =
+    \tfrac{1}{4} `r MDISC`.
+\end{equation}
+
+
+Therefore, $`r MDISC`$ is analogous
+to the $a_i$ parameter in unidimensional IRT:
+Its scale amounts to four times the slope and can be interpreted accordingly,
+as in the orthogonal case.
+
+When $a_{il} \neq 0$ and $a_{ik} = 0, \forall k \neq l$,
+then $`r MDISC` = a_{il}$.
+That is, $`r MDISC`$ reduces to the unidimensional discrimination parameter
+as expected, the same way it does in the orthogonal case.
+
+Finally, @reckase_difficulty_1985 [p. 404] states that "when $`r ALPHA_JK` = 0$
+and $\alpha_{jl} = 90$ for $l \neq k$,
+indicating that the slope of the surface at $P_{ij} = .5$
+is determined parallel to axis $k$, $`r COS_ALPHA_JK` = 1$ and
+$\cos \alpha_{jl} = 0$.
+The slope parallel to axis $k$ is then given by $\tfrac{1}{4} a_{ik}$."
+
+In the non-orthogonal space, the equality $\alpha_{jl} = 90$
+does not necessarily hold,
+and thus it is not generally true that $\cos \alpha_{jl} = 0$.
+In fact, $`r COS_ALPHA_JK`$ equals the inner product of $`r A_VECTOR`$
+with the basis vector
+$`r BASIS_VECTOR`' = (e_1, \ldots, e_k, \ldots, e_n), e_k = 1, e_l = 0 \, \forall l \neq k$:
+
+\begin{equation}
+  `r COS_ALPHA_JK` = \frac{
+      `r BASIS_VECTOR`' `r R_MATRIX` `r A_VECTOR`
+    } {
+      \left\| e \right\| \left\| `r A_VECTOR` \right\|
+    } =
+    \frac{
+      `r BASIS_VECTOR`' `r R_MATRIX` `r A_VECTOR`
+    } {
+      \left\| e \right\| \left\| `r A_VECTOR` \right\|
+    } =
+    \frac{
+      (\rho_{k1}, \ldots, 1, \ldots, \rho_{kn}) `r A_VECTOR`
+    } {
+      \sqrt{`r A_VECTOR`' `r R_MATRIX` `r A_VECTOR`}
+    } =
+    \frac{
+      a_{ik} + \sum_{l = 1, l \neq k}^n \rho_{kl} a_{il}
+    } {
+      \sqrt{`r A_VECTOR`' `r R_MATRIX` `r A_VECTOR`}
+    }.
+\end{equation}
+
+Therefore, this condition does not generally hold in the non-orthogonal space.
+
+
+### Multidimensional difficulty
+
+$`r MDIFF`$ has the same relationship with $`r D_PARAM`$
+as $b_i$ for the 2PL model, i.e.
+
+\begin{equation}
+  `r MDIFF` = - \frac{`r D_PARAM`}{`r MDISC`}.       (\#eq:relationship-MDIFF-d)
+\end{equation}
+
+
+# Alternative definition of the inner product
+
+## Orthogonal interpretation of the coordinates for correlated traits
+
+The definition of the inner product in $`r THETA`$ as
+$\langle \mathbf{x}, \mathbf{y} \rangle = \mathbf{x}' `r R_INVERSE` \mathbf{y}$
+is arbitrary, and it has been done in order to make it consistent with the
+inner product
+$\langle \mathbf{x}, \mathbf{y} \rangle = \mathbf{x}' \mathbf{y}$
+in the orthogonal space $`r THETA_ORTH`$.
+This is convenient in order to transform between the oblique and orthogonal
+space back and forth,
+and thus leverage on Reckase's [-@reckase_difficulty_1985] derivations to
+solve the non-orthogonal case.
+However, we could want to define an inner product in $`r THETA`$ such that
+the inner product in the test space
+$\langle \mathbf{x}, \mathbf{y} \rangle = \mathbf{x}' \mathbf{y}$.
+This would imply an inner product
+$\langle \mathbf{x}, \mathbf{y} \rangle = \mathbf{x}' \mathbf{y}$
+in the latent trait space, and all the formulae in @reckase_difficulty_1985
+and @reckase_discriminating_1991 would apply.
+However, in applications where one would need to compute the equivalent
+parameters in an orthogonal space (i.e. equating, linking, or multigroup IRT),
+additional complications would arise,
+as the inner product in the orthogonal space would be defined by
+the inner product
+$\langle \mathbf{x}, \mathbf{y} \rangle = \mathbf{x}' (`r B_MATRIX`' `r B_MATRIX`)^{-1} \mathbf{y}$.
+
+
+## Orthonormalization
+
+The orthogonal latent space $`r THETA_ORTH`$ could instead be defined as
+$`r THETA_ORTH` = `r T_INVERSE` `r THETA`$,
+with $`r T_MATRIX` = `r S_MATRIX` `r B_MATRIX`$,
+such that $\mathrm{cov}(`r THETA_ORTH`) = `r ID_MATRIX`$.
+
+**Proof 3.** The covariance of $`r THETA_ORTH`$ is given by
+$\mathrm{cov}(`r THETA_ORTH`) = `r T_INVERSE` `r SIGMA` `r T_INVERSE`'$, and
+$`r T_MATRIX` `r T_MATRIX`' = `r S_MATRIX` `r B_MATRIX` `r B_MATRIX`' `r S_MATRIX`' = `r SIGMA`$.
+Thus substituting:
+
+\begin{equation}
+  \mathrm{cov}(`r THETA_ORTH`) =
+    `r T_INVERSE` `r T_MATRIX` `r T_MATRIX`' `r T_INVERSE`' =
+    `r ID_MATRIX`.\blacksquare
+\end{equation}
+
+Using this definition results in an inner product as defined in
+@zhang_theoretical_1999; all the derivations from \@ref(eq:inner-product) to
+\@ref(eq:relationship-MDIFF-d) would be equivalent,
+substituting $`r B_MATRIX`$ by $`r T_MATRIX`$ and $`r R_MATRIX`$ by $`r SIGMA`$.
+This has the advantage that different latent spaces can be referred to a common
+metric.
+However, it also has the disadvantage of changing the metric (i.e. covariances)
+of the latent space, resulting in a change in variances.
+This is detrimental for graphical representation purposes, on one side,
+and for the property of analogy with unidimensional IRT on the other,
+as $`r MDISC`$ is no longer analogous to its unidimensional counterpart $a_i$.
+
+The original derivation, on the other side,
+has a consistent metric with the original, oblique latent space
+(but $`r THETA_ORTH`$ apparently does not satisfy
+$\mathrm{cov}(`r THETA_ORTH`) = `r S_MATRIX` `r S_MATRIX`'$, in general).
+
+
+# References
