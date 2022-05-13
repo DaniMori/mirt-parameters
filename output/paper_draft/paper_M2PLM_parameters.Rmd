@@ -138,7 +138,7 @@ is usually implicit in the MIRT literature without further consideration<!--# Ex
 What is more, disregarding this geometrical interpretation may lead to
 misconceptions that put the measurement and its conclusions into question.<!-- completar?? -->
 
-A latent space where the traits are correlated is more readily interpretable as
+A latent space where the traits are correlated is easier to represent in
 a geometrical space with non-orthogonal axes,
 often referred to as *general Cartesian coordinates* [@harman_modern_1970].
 Such a space has the advantage that the cosines of the angles between two axes
