@@ -306,6 +306,22 @@
         "vctrs"
       ]
     },
+    "bookdown": {
+      "Package": "bookdown",
+      "Version": "0.26",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "65ebdc552e88fc98c596f4797c5415ad",
+      "Requirements": [
+        "htmltools",
+        "jquerylib",
+        "knitr",
+        "rmarkdown",
+        "tinytex",
+        "xfun",
+        "yaml"
+      ]
+    },
     "broom": {
       "Package": "broom",
       "Version": "0.8.0",
@@ -338,6 +354,17 @@
         "jsonlite",
         "rlang",
         "sass"
+      ]
+    },
+    "cachem": {
+      "Package": "cachem",
+      "Version": "1.0.6",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "648c5b3d71e6a37e3043617489a0a0e9",
+      "Requirements": [
+        "fastmap",
+        "rlang"
       ]
     },
     "callr": {
@@ -865,6 +892,17 @@
       "Hash": "7ce2733a9826b3aeb1775d56fd305472",
       "Requirements": []
     },
+    "memoise": {
+      "Package": "memoise",
+      "Version": "2.0.1",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "e2817ccf4a065c5d9d7f2cfbe7c1d78c",
+      "Requirements": [
+        "cachem",
+        "rlang"
+      ]
+    },
     "mgcv": {
       "Package": "mgcv",
       "Version": "1.8-40",
@@ -919,6 +957,24 @@
       "Hash": "dbca60742be0c9eddc5205e5c7ca1f44",
       "Requirements": [
         "lattice"
+      ]
+    },
+    "officedown": {
+      "Package": "officedown",
+      "Version": "0.2.4",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "3155d3070224cbc38efd59a3948605d6",
+      "Requirements": [
+        "knitr",
+        "memoise",
+        "officer",
+        "rlang",
+        "rmarkdown",
+        "rvg",
+        "uuid",
+        "xml2",
+        "yaml"
       ]
     },
     "officer": {
@@ -1166,6 +1222,20 @@
         "rlang",
         "selectr",
         "tibble",
+        "xml2"
+      ]
+    },
+    "rvg": {
+      "Package": "rvg",
+      "Version": "0.2.5",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "a823d1d2fd9dcb8eb648d85ad68be046",
+      "Requirements": [
+        "Rcpp",
+        "gdtools",
+        "officer",
+        "rlang",
         "xml2"
       ]
     },
