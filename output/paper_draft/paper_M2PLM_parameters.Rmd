@@ -46,7 +46,7 @@ options(digits = 3)
 ```{r write-bib, cache=TRUE}
 # automatically create a bib database for R packages
 write_bib(
-  c(.packages(), 'bookdown', 'knitr', 'rmarkdown', 'lavaan'),
+  c(.packages(), 'bookdown', 'knitr', 'rmarkdown'),
   'www/packages.bib'
 )
 ```
