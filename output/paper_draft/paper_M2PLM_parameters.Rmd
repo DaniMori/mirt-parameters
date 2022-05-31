@@ -105,7 +105,7 @@ a *multidimensional discrimination* (MDISC) parameter definition for that model.
 
 A crucial assumption leading to those formulations is that the axes of the
 latent space are orthogonal
-[see @reckase_difficulty_1985, p. 404 and Equation 7].
+[see @reckase_difficulty_1985, p. 404 and Equation 7].<!--# It may be worth mentioning that the orthogonality assumption is also implicit in the expression of the M2PL model in polar coordinates (p. 403 and Eq. 3 in Reckase 1985) -->
 Of course, orthogonality is a property of a geometrical space instead of a
 latent trait space.
 Thus, nothing prevents a researcher from interpreting an abstraction such as
@@ -152,7 +152,7 @@ a more realistic case than an identity matrix.
 Assuming orthogonality among traits is usually unrealistic, be it in the
 cognitive [e.g., @reckase_multidimensional_2009] or the non-cognitive domain<!--# Reference to example? -->.
 Moreover, certain applications impose the estimation of
-non-identity latent covariance matrices (e.g. multigroup equating) even when<!-- # Reference needed?. -->
+non-identity latent covariance matrices (e.g. multigroup equating) even when<!-- # Reference needed? -->
 interpreting the latent dimensions as substantive constructs is not a goal.
 As we will argue, the usual definitions of the
 MID and MDISC parameters do not generalize to the non-orthogonal geometry used
@@ -172,13 +172,13 @@ A positive change in the dimension tapped by one category will inevitably
 lead to a decrease in the probability of response to the other category.
 One can easily note that a monotonically decreasing probability for a certain
 dimension is given by a non-positive discrimination parameter
-(and an unchanging probability by a null discrimination parameter),
+(and an unchanging probability by a null discrimination parameter),<!--# Actually, this also applies to the cognitive domain, which may not be very well explained. -->
 contrary to the constrains imposed by @reckase_difficulty_1985 [p. 411].
 However, the multidimensional item parameters can also be defined for
 items with monotonically non-increasing probabilities, as we will see.
 
 The main objective of this paper is thus to provide a generalization of
-the MIRT parameters in two senses: on one hand, in an oblique coordinate system
+the MIRT parameters in two aspects: on one hand, in an oblique coordinate system
 that can be soundly applied to the correlated trait case; on the other, to
 items that yield monotonous response probabilities, but in the broader sense of
 unchanging monotony. Additionally, we aim at providing a method for
@@ -383,8 +383,8 @@ i.e. the equations outlined by Reckase).
 To compute the direction of the maximum slope,
 Reckase leverages on the property that the squared direction cosines sum up to 1
 (see Equation 7 therein).
-However, this assertion does not apply to the general case,
-as it implicitly assumes orthogonal coordinates.<!-- # TODO: To appendix the following, or maybe give for granted? -->
+However, this assertion implicitly assumes orthogonal coordinates,
+so it does not apply in general to `r DIR_COS_VEC`.<!-- # TODO: To appendix the following, or maybe give for granted? -->
 Instead, we may consider the direction cosine vector in $`r LATENT_SPACE_STD`$:
 
 \begin{equation}
@@ -596,7 +596,7 @@ The implication is that the item is displaced along
 its measurement direction forwards or backwards with respect to the origin.
 
 The measurement direction is given by the signs of $`r DIR_COS_ITEM_VEC`$ which,
-also due to the strictly positiveness of $`r MDISC_PARAM`$,
+also due to the strict positivity of $`r MDISC_PARAM`$,
 are equal to the signs of $`r DISCR_VECTOR`$.
 This property leads directly to generalizing the indices to the monotonically
 non-increasing case: The measurement direction relative to dimension
@@ -608,7 +608,7 @@ which means that $`r MIL_PARAM`$ is orthogonal to the $`r DIM_INDEX`$-th axis.
 However, note that this does not necessarily imply that the vector is
 parallel to any other axis or strictly contained in the hyperplane formed
 by other axes; this will always be true for the $`r MIL_AG_PARAM`$ due to the
-orthogonality assumption, but will depend on the correlation matrix
+orthogonality assumption, but it will depend on the correlation matrix
 $`r CORR_MATRIX`$ for the other two versions of the index.
 
 ## Graphical representation
