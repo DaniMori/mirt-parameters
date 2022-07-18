@@ -21,8 +21,6 @@ library(flextable)
 library(scales)
 
 ## ----sources----
-source("R/Output.R")
-source("R/Formulae.R")
 
 ## ---- CONSTANTS: -------------------------------------------------------------
 
@@ -77,26 +75,16 @@ theme_set( # `ggplot` output configuration
 items_MCLM <- items_MCLM |> rownames_to_column(var = "item")
 
 # Orthogonal case:
-items_orth <- items_MCLM                                             |>
-  pivot_longer(starts_with('a_'), names_to = "dim", values_to = "a") |>
-  group_by(item)                                                     |>
-  transmute(
-    item,
-    ## Compute the multidimensional parameters:
-    dim    = dim |> str_remove("a_"),
-    MDISC  = (t(a) %*% a) |> drop() |> sqrt(),
-    D      = - l / MDISC,
-    cos    =   a / MDISC,
-    angle  = acos(cos) / pi * 180, # TODO: Angles?
-    ## Compute the coordinates:
-    origin = D * cos,
-    end    = origin + MDISC * cos,
-  )                                                                  |>
-  ungroup()                                                          |>
-  ## Transform the coordinates (are the same, so change the names only)
-  rename_with(paste0, origin:end, "_transf")                         |>
-  pivot_wider(names_from = dim, values_from = cos:end_transf)
-
+items_orth <- items_MCLM |> compute_mirt_params(l, starts_with('a_'))
+items_orth <- items_orth |>
+  select(-(rad_1:rad_2)) |>
+  full_join(
+    items_orth |> compute_mirt_coords(
+      D, MDISC, starts_with('cos_'),
+      original_coords = FALSE
+    ),
+    by = "item"
+  )
 
 # Oblique case:
 
@@ -112,32 +100,24 @@ corr_matrix                 <- solve(inner_prod_matrix)
                        # == transform_matrix_inv %*% transform_matrix_inv_transp
 sqrt_diag_inner_prod_matrix <- diag(inner_prod_matrix) |> diag() |> sqrt()
 
-items_oblique <- items_MCLM                                          |>
-  pivot_longer(starts_with('a_'), names_to = "dim", values_to = "a") |>
-  group_by(item)                                                     |>
-  transmute(
-    item,
-    ## Compute the multidimensional parameters:
-    dim    = dim |> str_remove("a_"),
-    MDISC  = (t(a) %*% corr_matrix %*% a) |> drop() |> sqrt(),
-    D      = - l / MDISC,
-    cos    = (corr_matrix %*% a / MDISC)  |> drop(),
-    angle  = acos(cos) / pi * 180, # TODO: Angles?
-    ## Compute the coordinates:
-    origin = D * cos,
-    end    = origin + MDISC * cos,
-    ## Transform the coordinates:
-    across(
-      origin:end,
-      .fns = lst(transf = ~(transform_matrix %*% .) |> drop())
-    )
-  )                                                                  |>
-  ungroup()                                                          |>
-  pivot_wider(names_from = dim, values_from = cos:end_transf)
+## Compute parameters and coordinates:
+items_oblique <- items_MCLM |>
+  compute_mirt_params(l, starts_with('a_'), cov_matrix = corr_matrix)
+items_oblique <- items_oblique |>
+  select(-(rad_1:rad_2))       |>
+  full_join(
+    items_oblique |> compute_mirt_coords(
+      D, MDISC, starts_with('cos_'),
+      transform       = transform_matrix,
+      original_coords = FALSE
+    ),
+    by = "item"
+  )
+
 
 item_params <- full_join(
-  items_orth    |> select(item:angle_2, -starts_with("cos")),
-  items_oblique |> select(item:angle_2, -starts_with("cos")),
+  items_orth    |> select(item:deg_2, -starts_with("cos")),
+  items_oblique |> select(item:deg_2, -starts_with("cos")),
   by     = "item",
   suffix = c("_orth", "_ob")
 )
@@ -150,7 +130,7 @@ item_params <- full_join(items_MCLM, item_params, by = "item")
 # Add blank columns to format table (separate different types of parameters)
 item_params <- item_params            |>
   add_column(sep1 = NA, .after = "l") |>
-  add_column(sep2 = NA, .after = "angle_2_orth")
+  add_column(sep2 = NA, .after = "deg_2_orth")
 
 # Table header (for flextable object):
 item_headers <- tibble(
@@ -174,29 +154,28 @@ item_headers <- tibble(
     "a_{i1}",
     "a_{i2}",
     INTERCEPT_PARAM,
-    c(" ", "MDISC_i", DISTANCE_PARAM, "\\alpha_{i1}", "\\alpha_{i2}") |>
-      rep(2) # TODO: angles?
+    c(" ", "MDISC_i", DISTANCE_PARAM, "\\alpha_{i1}", "\\alpha_{i2}") |> rep(2)
   )
 )
 
 # Table formatted as a `flextable` object:
-item_params_output <- item_params          |>
-  flextable()                              |>
-  set_header_df(item_headers)              |>
-  merge_v(part = "header")                 |>
-  merge_h(part = "header", i = 1:2)        |>
+item_params_output <- item_params                 |>
+  flextable()                                     |>
+  set_header_df(item_headers)                     |>
+  merge_v(part = "header")                        |>
+  merge_h(part = "header", i = 1:2)               |>
   mk_par(
     i = 2:3, j = c(2:4, 6:9, 11:14),
     part    = "header",
     value   = as_paragraph(as_equation(.)),
     use_dot = TRUE
-  )                                        |>
-  colformat_double(j = -(1:4), digits = 3) |>
-  colformat_double(j = c(8:9, 13:14), digits = 1) |> # TODO: angles?
-  theme_vanilla()                          |>
-  align(align = "center", part = "header") |>
-  set_table_properties(layout = "autofit") |>
-  fontsize(size = 12, part = "all")        |>
+  )                                               |>
+  colformat_double(j = -(1:4), digits = 3)        |>
+  colformat_double(j = c(8:9, 13:14), digits = 1) |>
+  theme_vanilla()                                 |>
+  align(align = "center", part = "header")        |>
+  set_table_properties(layout = "autofit")        |>
+  fontsize(size = 12, part = "all")               |>
   font(part = "all", fontname = "Times New Roman")
 
 ## ----compose-oblique-plot----
