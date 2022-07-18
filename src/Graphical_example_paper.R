@@ -21,6 +21,10 @@ library(flextable)
 library(scales)
 
 ## ----sources----
+source("R/Mirt_toolbox.R")
+source("R/Formulae.R")
+source("R/LaTeX_math.R")
+source("R/Output.R")
 
 ## ---- CONSTANTS: -------------------------------------------------------------
 
