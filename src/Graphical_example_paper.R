@@ -141,7 +141,7 @@ item_headers <- tibble(
   col_keys = item_params %>% colnames(),
   metric   = c(
     "Item",
-    "MCLM"                        |> rep(3),
+    "M2PL"                        |> rep(3),
     " ",
     "Multidimensional parameters" |> rep(9)
   ),
