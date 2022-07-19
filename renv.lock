@@ -160,15 +160,15 @@
     },
     "assertive.extra": {
       "Package": "assertive.extra",
-      "Version": "0.0.0.9004",
+      "Version": "0.0.0.9007",
       "Source": "GitHub",
       "RemoteType": "github",
       "RemoteHost": "api.github.com",
       "RemoteRepo": "assertive_extra",
       "RemoteUsername": "CCOMS-UAM",
       "RemoteRef": "HEAD",
-      "RemoteSha": "941ca935da19c83163251476cb404f9e0a28a26d",
-      "Hash": "15fa5b59e57b2f09056313902a0136ef",
+      "RemoteSha": "c8a3b9ba78550d003c0385213daa819af7fd6579",
+      "Hash": "85b4da7578c1997f37e2c86a5ab2325f",
       "Requirements": [
         "assertive",
         "psych"

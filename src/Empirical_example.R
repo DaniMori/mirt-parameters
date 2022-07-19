@@ -17,6 +17,7 @@
 ## ----libraries----
 library(tidyverse)
 library(flextable)
+library(assertive.numbers)
 
 ## ----sources----
 source("R/Mirt_toolbox.R")
@@ -38,11 +39,10 @@ source("R/Mirt_toolbox.R")
 ## ----read-items----
 
 # Item parameters:
-items <- read_csv2("dat/Table_5_Tezza_et_al_2018.csv", )
+items <- read_csv2("dat/Table_5_Tezza_et_al_2018.csv")
 
 ## ----orthogonal-params----
-items_orth <- items_mirt_params |>
-  compute_mirt_params(d, starts_with('a'), dir_out = "deg")
+items_orth <- items |> compute_mirt_params(d, starts_with('a'), dir_out = "deg")
 
 ## ----compare-orthogonal-params----
 
@@ -88,7 +88,7 @@ item_params <- item_params |> select(
   starts_with('deg_' |> paste0(1:4))                 # direction angles
 )
 
-## ----compose-example-items-table----
+## ----compose-empirical-items-table----
 
 # Add blank columns to format table (separate different types of parameters)
 item_params <- item_params                   |>
@@ -98,33 +98,42 @@ item_params <- item_params                   |>
 
 # Table header (for flextable object):
 item_headers <- tibble(
-  col_keys = item_params %>% colnames(),
+  col_keys = item_params |> colnames(),
+  metric   = col_keys %>% {
+    case_when(
+      . == "item"            ~ "Item",
+      str_detect(., "a\\d+") ~ "M2PL",
+      . == 'l'               ~ "M2PL",
+      str_detect(., "sep1")  ~ ' ',
+      TRUE                   ~ "Multidimensional parameters"
+    )
+  },
   param    = col_keys %>% {
     case_when(
       . == "item"              ~ "Item",
-      str_detect(., "a\\d+")   ~ "Discrimination",
-      . == 'l'                 ~ "l",
+      str_detect(., "a\\d+")   ~ "a_i",
+      . == 'l'                 ~ "l_i",
       str_detect(., "sep\\d+") ~ ' ',
-      str_detect(., "MDISC_")  ~ "MDISC",
-      str_detect(., "D_")      ~ "D",
-      str_detect(., "deg_")    ~ "\\alpha",
+      str_detect(., "MDISC_")  ~ "MDISC_i",
+      str_detect(., "D_")      ~ "D_i",
+      str_detect(., "deg_")    ~ "\\alpha_i",
     )
   },
   dim      = col_keys %>% {
     case_when(
       . == "item"              ~ "Item",
-      . == 'l'                 ~ "l",
-      str_detect(., "a\\d+")   ~ "Discrimination",
+      . == 'l'                 ~ "l_i",
+      str_detect(., "a\\d+")   ~ "(dimension)",
       str_detect(., "sep\\d+") ~ ' ',
       str_detect(., "\\d+")    ~ str_extract(., "\\d+"),
-      str_detect(., "MDISC_")  ~ "MDISC",
-      str_detect(., "D_")      ~ "D"
+      str_detect(., "MDISC_")  ~ "MDISC_i",
+      str_detect(., "D_")      ~ "D_i"
     )
   },
   space    = col_keys %>% {
     case_when(
       . == "item"              ~ "Item",
-      . == 'l'                 ~ "l",
+      . == 'l'                 ~ "l_i",
       str_detect(., "_orth")   ~ "orth.",
       str_detect(., "_ob")     ~ "obl.",
       str_detect(., "sep\\d+") ~ ' ',
@@ -134,20 +143,21 @@ item_headers <- tibble(
 )
 
 # Table formatted as a `flextable` object:
-item_params_output <- item_params          |>
-  flextable()                              |>
-  set_header_df(item_headers)              |>
-  merge_v(part = "header")                 |>
-  merge_h(part = "header", i = 1:2)        |>
+item_params_output <- item_params            |>
+  flextable()                                |>
+  set_header_df(item_headers)                |>
+  merge_v(part = "header")                   |>
+  merge_h(part = "header", i = 1:3)          |>
   mk_par(
-    i = 1, j = item_headers$col_keys |> str_detect("^deg_"),
+    i = 2, j = item_headers$col_keys |> str_detect("(item|sep)", negate = TRUE),
     part    = "header",
     value   = as_paragraph(as_equation(.)),
     use_dot = TRUE
-  )                                        |>
-  colformat_double(digits = 2)             |>
-  theme_vanilla()                          |>
-  align(align = "center", part = "header") |>
-  set_table_properties(layout = "autofit") |>
-  fontsize(size = 12, part = "all")        |>
+  )                                          |>
+  colformat_double(j = -1, digits = 2)       |>
+  theme_vanilla()                            |>
+  align(align = "center", part = "header")   |>
+  valign(valign = "bottom", part = "header") |>
+  set_table_properties(layout = "autofit")   |>
+  fontsize(size = 10, part = "all")          |>
   font(part = "all", fontname = "Times New Roman")

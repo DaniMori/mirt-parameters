@@ -78,7 +78,7 @@ compute_mirt_params <- function(items,
     dplyr::transmute(
       !!item_id,
       ## Compute the multidimensional parameters:
-      dim   = par |> str_extract("\\d+"),
+      dim   = par |> stringr::str_extract("\\d+"),
       MDISC = (t(a) %*% cov_matrix %*% a) |> drop() |> sqrt(),
       D     = - !!intercept / MDISC,
       cos   = (cov_matrix %*% a / MDISC)  |> drop(),
@@ -164,7 +164,7 @@ compute_mirt_coords <- function(items,
     dplyr::group_by(!!item_id)                                      |>
     dplyr::transmute(
       !!item_id,
-      dim    = par |> str_extract("\\d+"),
+      dim    = par |> stringr::str_extract("\\d+"),
       ## Format the direction as cosines:
       cos = dir_in |> switch (
         cos = dir,

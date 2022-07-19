@@ -55,22 +55,6 @@ write_bib(
 source("R/Formulae.R",                encoding = 'UTF-8')
 ```
 
-```{r read-chunks}
-read_chunk("src/Graphical_example_paper.R")
-```
-
-```{r libraries, message=FALSE}
-```
-
-```{r sources, message=FALSE}
-```
-
-```{r constants}
-```
-
-```{r graphical-output-conf}
-```
-
 # Introduction
 
 Multidimensional item response theory (MIRT) models have been widely used since
@@ -680,6 +664,22 @@ the following steps:
 
 ### Graphical representation example
 
+```{r read-chunks-graphical-example}
+read_chunk("src/Graphical_example_paper.R")
+```
+
+```{r libraries, message=FALSE}
+```
+
+```{r sources, message=FALSE}
+```
+
+```{r constants}
+```
+
+```{r graphical-output-conf}
+```
+
 ```{r compute-example-items}
 ```
 
@@ -767,7 +767,49 @@ even when they are not parallel to the other axis.
 
 ## Example with empirical data
 
+```{r reset-root-wd}
+# Necessary for knitr to find the source file:
+opts_knit$set(root.dir = ROOT_DIR)
+```
+
+```{r read-chunks-empirical-example}
+read_chunk("src/Empirical_example.R")
+```
+
+```{r libraries, message=FALSE}
+```
+
+```{r sources, message=FALSE}
+```
+
+```{r read-items, message=FALSE}
+```
+
+```{r orthogonal-params}
+```
+
+```{r oblique-params}
+```
+
+```{r params-table}
+```
+
+```{r compose-empirical-items-table}
+```
+
+```{r set-flextable-wd, cache=FALSE}
+```
+
+<!---BLOCK_LANDSCAPE_START--->
+
+```{r empirical-items-table-out, cache=FALSE, tab.id="empirical-items-table-out", tab.cap="Item parameters for the empirical example"}
+item_params_output
+```
+
+<!---BLOCK_LANDSCAPE_STOP--->
+
 <!-- # TODO: Complete? -->
+
 
 # Discussion
 
