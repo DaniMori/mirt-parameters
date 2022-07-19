@@ -190,9 +190,8 @@ the applicability and generalization of our results.
 Consider a $`r N_DIMS`$-dimensional latent space $`r LATENT_SPACE`$,
 defined by vector space $V$ and basis $`r LS_BASIS`$,
 being $`r LS_BASIS_EQ`$ an arbitrary set of linearly independent vectors.
-Person $j$ is represented in $`r LATENT_SPACE`$ by vector
-$`r TRAIT_VC_PERSON_J`$,
-being $`r TRAIT_VECTOR`$ a multivariate normal variable
+A respondent is represented in $`r LATENT_SPACE`$ by
+coordinate vector $`r TRAIT_VECTOR`$, assumed to be multivariate normal:
 
 \begin{equation}
   `r TRAIT_MV_DEF`,
@@ -214,7 +213,7 @@ $`r ITEM_INDEX`$ according to the M2PL model is formulated as follows:
 
 being  
 $`r IRF_M2PL`$ ($= `r IRF_ABBR`$ henceforth, for simplicity) the probability of
-a positive response to item $`r ITEM_INDEX`$ by person $`r PERSON_INDEX`$,  
+a positive response to item $`r ITEM_INDEX`$ for a given $`r TRAIT_VECTOR`$,  
 $`r DISCR_VECTOR`$ a $`r N_DIMS`$-dimensional vector of
 discrimination parameters, and  
 $`r INTERCEPT_PARAM`$ an intercept parameter related to the location of the item
@@ -340,7 +339,7 @@ already assumes the orthogonality of the latent space.
 Following the procedure outlined by @reckase_difficulty_1985
 [@reckase_discriminating_1991],
 we first compute the point of maximum slope by finding the root(s) of
-the second derivative with respect to $`r TRAIT_J_MODULE`$.
+the second derivative with respect to $`r TRAIT_VECTOR`$.
 
 \begin{equation}
   `r IRF_2ND_DIFF_EQ`,                                      (\#eq:M2PL-2nd-diff)
@@ -348,8 +347,8 @@ the second derivative with respect to $`r TRAIT_J_MODULE`$.
 
 The root we are interested in is found for $`r IRF_MAX_SLOPE_EQ`$
 (the other ones occur when $`r IRF_ABBR`$ equals 0 and 1,
-which result in improper values of $`r TRAIT_J_MODULE`$).
-The slope in direction $`r DIR_ANGLE_J_VEC`$ is given by
+which result in improper values of $`r TRAIT_MODULE`$).
+The slope in direction $`r DIR_ANGLE_VEC`$ is given by
 
 \begin{equation}
   `r IRF_1ST_DIFF_EQ`.                                      (\#eq:M2PL-1st-diff)

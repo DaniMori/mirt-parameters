@@ -43,8 +43,6 @@ LS_BASIS_EQ        <- latex_eq(LS_BASIS, LS_BASIS_SET)
 
 # Latent vector definition:
 TRAIT_VECTOR      <- latex_bf("\\uptheta")
-PERSON_INDEX      <- latex('j')
-TRAIT_VC_PERSON_J <- latex_sub(TRAIT_VECTOR, PERSON_INDEX)
 MEAN_VECTOR       <- latex_bf("\\upmu")
 COV_MATRIX        <- latex_bf("\\upSigma")
 NORMAL_DISTR      <- latex_cal('N')
@@ -76,15 +74,15 @@ DISCR_VECTOR_TRANSP <- latex_transp(DISCR_VECTOR)
 IRF_M2PL <- latex(
   'P',
   latex_parentheses(
-    latex_eq(latex_sub('X', "$ITEM_INDEX$$PERSON_INDEX$"), 1),
+    latex_eq(latex_sub('X', "$ITEM_INDEX$"), 1),
     '|',
-    latex_enum(DISCR_VECTOR, INTERCEPT_PARAM, TRAIT_VC_PERSON_J)
+    latex_enum(DISCR_VECTOR, INTERCEPT_PARAM, TRAIT_VECTOR)
   )
 )
-IRF_ABBR <- latex_sub('P', "$ITEM_INDEX$$PERSON_INDEX$")
+IRF_ABBR <- latex_sub('P', "$ITEM_INDEX$")
 
 LOGIT_M2PL    <- latex_parentheses(
-  DISCR_VECTOR_TRANSP, "$TRAIT_VC_PERSON_J$ + $INTERCEPT_PARAM$"
+  DISCR_VECTOR_TRANSP, "$TRAIT_VECTOR$ + $INTERCEPT_PARAM$"
 )
 EXPFUNC_M2PL  <- latex_exp(latex_sqbrackets("-$LOGIT_M2PL$"))
 LOGISTIC_M2PL <- latex_logistic(LOGIT_M2PL)
@@ -147,14 +145,16 @@ TRAIT_TRANSF_TRAIT    <- latex(
   TRAIT_VECTOR
 )
 
-TRAIT_VC_PERSON_K        <- latex_sub(TRAIT_VECTOR, DIM_INDEX)
-TRAIT_VC_PERSON_J_TRANSP <- latex_transp(TRAIT_VC_PERSON_J)
+AUX_INDEX             <- latex('j')
+TRAIT_VECTOR_J        <- latex_sub(TRAIT_VECTOR, AUX_INDEX)
+TRAIT_VECTOR_J_TRANSP <- latex_transp(TRAIT_VECTOR_J)
+TRAIT_VECTOR_K        <- latex_sub(TRAIT_VECTOR, DIM_INDEX)
 
-INNER_PROD_TRAIT  <- latex_innerprod(TRAIT_VC_PERSON_J, TRAIT_VC_PERSON_K)
+INNER_PROD_TRAIT  <- latex_innerprod(TRAIT_VECTOR_J, TRAIT_VECTOR_K)
 INNER_PROD_TRANSF <- latex(
-  TRAIT_VC_PERSON_J_TRANSP,
+  TRAIT_VECTOR_J_TRANSP,
   INNER_PROD_MATRIX,
-  TRAIT_VC_PERSON_K
+  TRAIT_VECTOR_K
 )
 
 INNER_PROD_MAT_EQ <- latex_eq(INNER_PROD_MATRIX, INNER_PROD_TRANSF_DEF)
@@ -163,13 +163,13 @@ INNER_PROD_EQ     <- latex_eq(INNER_PROD_TRAIT,  INNER_PROD_TRANSF)
 ### Direction cosines ----
 
 ANGLE           <- latex("\\gamma")
-ANGLE_VECTORS   <- latex_sub(ANGLE, "$PERSON_INDEX$$DIM_INDEX$")
+ANGLE_VECTORS   <- latex_sub(ANGLE, "$AUX_INDEX$$DIM_INDEX$")
 COS_VECTORS     <- latex_cos(ANGLE_VECTORS)
-PERSON_J_NORM   <- latex_norm(TRAIT_VC_PERSON_J)
-PERSON_K_NORM   <- latex_norm(TRAIT_VC_PERSON_K)
+TRAIT_VC_J_NORM <- latex_norm(TRAIT_VECTOR_J)
+TRAIT_VC_K_NORM <- latex_norm(TRAIT_VECTOR_K)
 COS_VECTORS_DEF <- latex_frac(
   INNER_PROD_TRAIT,
-  "$PERSON_J_NORM$ $PERSON_K_NORM$"
+  "$TRAIT_VC_J_NORM$ $TRAIT_VC_K_NORM$"
 )
 COS_VECTORS_EQ  <- latex_eq(COS_VECTORS, COS_VECTORS_DEF)
 
@@ -222,11 +222,7 @@ DIAG_MATRIX_INNER_PROD_INV_SQ <- latex_raised_to(
   exp = latex("-$FRAC_1_2$")
 )
 DIR_COS_VEC_DEF               <- latex_frac(
-  latex(
-    DIAG_MATRIX_INNER_PROD_INV_SQ,
-    INNER_PROD_MATRIX,
-    TRAIT_VECTOR
-  ),
+  latex(DIAG_MATRIX_INNER_PROD_INV_SQ, INNER_PROD_MATRIX, TRAIT_VECTOR),
   TRAIT_MODULE
 )
 DIR_COS_VEC_EQ                <- latex_eq(DIR_COS_VEC, DIR_COS_VEC_DEF)
@@ -246,13 +242,8 @@ TRAIT_VECTOR_POLAR_COEFF    <- latex(INNER_PROD_INV_DIAG_SQ_PROD, DIR_COS_VEC)
 TRAIT_VECTOR_POLAR_DEF      <- latex(TRAIT_VECTOR_POLAR_COEFF, TRAIT_MODULE)
 TRAIT_VECTOR_POLAR_EQ       <- latex_eq(TRAIT_VECTOR, TRAIT_VECTOR_POLAR_DEF)
 
-TRAIT_J_MODULE       <- latex_sub(TRAIT_MODULE, PERSON_INDEX)
-DIR_ANGLE_J_VEC      <- latex_sub(DIR_ANGLE_VEC, PERSON_INDEX)
-DIR_COS_J_VEC        <- latex_cos(DIR_ANGLE_J_VEC)
-TRAIT_J_POLAR_COEFF  <- latex(INNER_PROD_INV_DIAG_SQ_PROD, DIR_COS_J_VEC)
-TRAIT_VC_J_POLAR_DEF <- latex(TRAIT_J_POLAR_COEFF, TRAIT_J_MODULE)
 LOGIT_M2PL_POLAR     <- latex_parentheses(
-  "$DISCR_VECTOR_TRANSP$ $TRAIT_VC_J_POLAR_DEF$ + $INTERCEPT_PARAM$"
+  "$DISCR_VECTOR_TRANSP$ $TRAIT_VECTOR_POLAR_DEF$ + $INTERCEPT_PARAM$"
 )
 EXPFUNC_M2PL_POLAR   <- latex_exp(latex_sqbrackets("-$LOGIT_M2PL_POLAR$"))
 LOGISTIC_M2PL_POLAR  <- latex_logistic(LOGIT_M2PL_POLAR)
@@ -263,10 +254,10 @@ IRF_POLAR_EQ         <- latex_eq(IRF_ABBR, LOGISTIC_M2PL_POLAR)
 
 # Terms:
 IRF_SQUARED           <- latex_squared(IRF_ABBR)
-DISCR_VEC_TRAIT_COEFF <- latex(DISCR_VECTOR_TRANSP, TRAIT_J_POLAR_COEFF)
+DISCR_VEC_TRAIT_COEFF <- latex(DISCR_VECTOR_TRANSP, TRAIT_VECTOR_POLAR_COEFF)
 
 # Second derivative:
-IRF_2ND_DIFF     <- latex_seconddiff(IRF_ABBR, TRAIT_J_MODULE)
+IRF_2ND_DIFF     <- latex_seconddiff(IRF_ABBR, TRAIT_MODULE)
 IRF_2ND_DIFF_DEF <- latex(
   latex_squared(DISCR_VEC_TRAIT_COEFF, .par = TRUE),
   IRF_ABBR,
@@ -277,7 +268,7 @@ IRF_MAX_SLOPE    <- '.5' ## TODO: Format prop-like!!
 IRF_MAX_SLOPE_EQ <- latex_eq(IRF_ABBR, IRF_MAX_SLOPE)
 
 # First derivative:
-IRF_1ST_DIFF     <- latex_firstdiff(IRF_ABBR, TRAIT_J_MODULE)
+IRF_1ST_DIFF     <- latex_firstdiff(IRF_ABBR, TRAIT_MODULE)
 IRF_1ST_DIFF_DEF <- latex(
   IRF_ABBR,
   latex_parentheses("1 - $IRF_ABBR$"),
@@ -321,15 +312,13 @@ TRAIT_POLAR_COEFF_COS_STD_EQ   <- latex_eq(
 )
 
 # Maximum slope as function of standardized direction cosines:
-DIR_ANGLE_J_STD_VEC         <- latex_prime(DIR_ANGLE_J_VEC)
-DIR_COS_J_STD_VEC           <- latex_cos(DIR_ANGLE_J_STD_VEC)
-TRAIT_J_POLAR_COEFF_COS_STD <- latex(TRANSFORM_MATRIX_INV, DIR_COS_J_STD_VEC)
-SLOPE_MAX_STD_COSINES_DEF   <- latex(
+TRAIT_VECTOR_POLAR_COEFF_COS_STD <- latex(TRANSFORM_MATRIX_INV, DIR_COS_VEC_STD)
+SLOPE_MAX_STD_COSINES_DEF        <- latex(
   FRAC_1_4,
   DISCR_VECTOR_TRANSP,
-  TRAIT_J_POLAR_COEFF_COS_STD
+  TRAIT_VECTOR_POLAR_COEFF_COS_STD
 )
-SLOPE_MAX_STD_COSINES_EQ    <- latex_eq(SLOPE_MAX, SLOPE_MAX_STD_COSINES_DEF)
+SLOPE_MAX_STD_COSINES_EQ       <- latex_eq(SLOPE_MAX, SLOPE_MAX_STD_COSINES_DEF)
 
 # Standardized discrimination vector:
 DISCR_VECTOR_STD            <- latex_prime(DISCR_VECTOR)
@@ -341,7 +330,7 @@ DIR_ANGLE_ITEM_VEC         <- latex_sub(DIR_ANGLE_VEC, ITEM_INDEX)
 DIR_ANGLE_STD_ITEM_VEC     <- latex_prime(DIR_ANGLE_ITEM_VEC)
 DIR_ANGLE_STD_SUBSTITUTE   <- latex_eq(
   DIR_ANGLE_STD_ITEM_VEC,
-  DIR_ANGLE_J_STD_VEC
+  DIR_ANGLE_VEC_STD
 )
 DISCR_VECTOR_STD_TRANSP    <- latex_transp(DISCR_VECTOR_STD)
 DIR_COS_STD_ITEM_VEC_DEF   <- latex_frac(
@@ -366,13 +355,13 @@ DIR_COS_ITEM_VEC_DEF    <- latex_frac(
   "$DIAG_MATRIX_INNER_PROD_INV_SQ$ $DISCR_VECTOR$",
   DISCR_VECTOR_MODULE_DEF
 )
-DIR_COS_ITEM_VEC_EQ   <- latex_eq(DIR_COS_ITEM_VEC, DIR_COS_ITEM_VEC_DEF)
+DIR_COS_ITEM_VEC_EQ     <- latex_eq(DIR_COS_ITEM_VEC, DIR_COS_ITEM_VEC_DEF)
 
 # Item signed distance:
-DIR_COS_SUBSTITUTE  <- latex_eq(DIR_COS_J_VEC, DIR_COS_ITEM_VEC)
+DIR_COS_SUBSTITUTE  <- latex_eq(DIR_COS_VEC, DIR_COS_ITEM_VEC)
 DISTANCE_SYM        <- latex('D')
 DISTANCE_PARAM      <- latex_sub(DISTANCE_SYM, ITEM_INDEX)
-DISTANCE_SUBSTITUTE <- latex_eq(TRAIT_J_MODULE, DISTANCE_PARAM)
+DISTANCE_SUBSTITUTE <- latex_eq(TRAIT_MODULE, DISTANCE_PARAM)
 DISTANCE_PARAM_DEF  <- latex_frac("-$INTERCEPT_PARAM$", DISCR_VECTOR_MODULE_DEF)
 DISTANCE_PARAM_EQ   <- latex_eq(DISTANCE_PARAM, DISTANCE_PARAM_DEF)
 
@@ -639,262 +628,6 @@ TRANSFORM_MATRIX_EXAMPLE_EQ <- latex_def(
   TRANSFORM_MATRIX,
   TRANSFORM_MATRIX_EXAMPLE
 )
-
-# COV_MATRIX_ORTH <- latex(COV_MATRIX, ORTHOGONALIZED)
-# 
-# TRAIT_VECTOR_ORTH      <- latex(TRAIT_VECTOR, ORTHOGONALIZED)
-# TRAIT_VECTOR_ORTH_NORM <- latex("\\left\\|", TRAIT_VECTOR_ORTH, "\\right\\|")
-# 
-# 
-# IRF             <- latex(
-#   "P \\left( x_{ij} = 1 |",
-#   "$DISCR_VECTOR$, $INTERCEPT_PARAM$, $ALPHA_J_VECTOR$, $TRAIT_MODULE$",
-#   "\\right)"
-# )
-# IRF_DIFF_THETA  <- latex_firstdiff(IRF, TRAIT_MODULE)
-# IRF_DIFF2_THETA <- latex_seconddiff(IRF, TRAIT_MODULE)
-# 
-# 
-# IRF_ABBR            <- latex("P_{ij}")
-# IRF_DIFF_THETA_DEF  <- latex(IRF_ABBR, "(1 - $IRF_ABBR$)", A_R_COS_ALPHA)
-# IRF_DIFF2_THETA_DEF <- latex(
-#   "($A_R_COS_ALPHA$)^2",
-#   IRF_ABBR,
-#   "(2 $IRF_ABBR$^2 - 3 $IRF_ABBR$ + 1)"
-# )
-# 
-# 
-# ALPHA_J_ORTH_VECTOR     <- latex(ALPHA_J_VECTOR, ORTHOGONALIZED)
-# COS_ALPHA_J_ORTH_VECTOR <- latex("\\cos $ALPHA_J_ORTH_VECTOR$")
-# R_COS_ALPHA_ORTH        <- latex("$CORR_MATRIX$ $COS_ALPHA_J_ORTH_VECTOR$")
-# R_COS_ALPHA_ORTH_THETA  <- latex("$R_COS_ALPHA_ORTH$ $TRAIT_MODULE$")
-# 
-# COS_2_ALPHA_JN <- latex("\\cos^2 $ALPHA$_{jn}")
-# 
-# COS_ALPHA_IK_ORTH       <- latex("\\cos $ALPHA$_{ik}", ORTHOGONALIZED)
-# ALPHA_I_VECTOR          <- latex("\\mathbf{$ALPHA$}_i")
-# COS_ALPHA_I_VECTOR      <- latex("\\cos $ALPHA_I_VECTOR$")
-# ALPHA_I_ORTH_VECTOR     <- latex(ALPHA_I_VECTOR, ORTHOGONALIZED)
-# COS_ALPHA_I_ORTH_VECTOR <- latex("\\cos $ALPHA_I_ORTH_VECTOR$")
-# 
-# MDIFF <- latex("MDIFF_i")
-# MDISC <- latex("MDISC_i")
-# 
-# 
-# P_MCLM_OBL_MDIFF <- latex(
-#   "P(X_{ij} = 1 | ",
-#   DISCR_VECTOR, ", ",
-#   INTERCEPT_PARAM, ", ",
-#   "$ALPHA_J_VECTOR$ = $ALPHA_I_VECTOR$,",
-#   "$TRAIT_MODULE$ = $MDIFF$)"
-# )
-# 
-# 
-# R_COS_ALPHA_I             <- latex("$CORR_MATRIX$ $COS_ALPHA_I_VECTOR$")
-# A_R_COS_ALPHA_I           <- latex("$DISCR_VECTOR$' $R_COS_ALPHA_I$")
-# EXPONENT_OBL_POLAR_MDIFF  <- latex(
-#   "($A_R_COS_ALPHA_I$ $MDIFF$ + $INTERCEPT_PARAM$)"
-# )
-# EXPFUNC_OBL_POLAR_MDIFF   <- latex_exp("[-$EXPONENT_OBL_POLAR_MDIFF$]")
-# LOG_DENOM_OBL_POLAR_MDIFF <- latex_log_den("$EXPONENT_OBL_POLAR_MDIFF$")
-# LOGISTIC_OBL_POLAR_MDIFF  <- latex_logistic("$EXPONENT_OBL_POLAR_MDIFF$")
-# LOG_INV_OBL_POLAR_MDIFF   <- latex_inv_log("$EXPONENT_OBL_POLAR_MDIFF$")
-# 
-# 
-# ### MCLM graphical representation ----
-# 
-# #### Matrices and vectors ----
-# 
-# ORTHOGONALIZED <- "^\\mathbf{o}"
-# INVERSE        <- "^{-1}"
-# 
-# ID_MATRIX <- "\\mathbf{I}"
-# 
-# THETA      <- "\\mathbf{\\uptheta}"
-# THETA_ORTH <- latex(THETA, ORTHOGONALIZED)
-# T_MATRIX   <- "\\mathbf{T}"
-# T_INVERSE  <- latex(T_MATRIX, INVERSE)
-# CORR_MATRIX   <- "\\mathbf{R}"
-# R_INVERSE  <- latex(CORR_MATRIX, INVERSE)
-# D_MATRIX   <- "\\mathbf{D}"
-# COV <- "\\operatorname{Cov}"
-# 
-# DISCR_VECTOR_ORTH <- latex("$DISCR_VECTOR$^o")
-# 
-# 
-# #### MCLM model ----
-# 
-# A_TRANSP_T <- latex("$DISCR_VECTOR$' $T_MATRIX$")
-# T_TRANSP_A <- latex("$T_MATRIX$' $DISCR_VECTOR$")
-# 
-# A_THETA      <- latex("$DISCR_VECTOR$' $THETA$")
-# A_THETA_ORTH <- latex("$A_TRANSP_T$ $THETA_ORTH$")
-# 
-# EXPONENT_MCLM      <- latex("($A_THETA$ + l_i)")
-# EXPONENT_MCLM_ORTH <- latex("($A_THETA_ORTH$ + l_i)")
-# 
-# P_THETA <- latex("P_i($THETA$)")
-# 
-# LOGISTIC_MCLM      <- latex_logistic("[$EXPONENT_MCLM$]")
-# LOGISTIC_MCLM_ORTH <- latex_logistic("[$EXPONENT_MCLM_ORTH$]")
-# 
-# 
-# #### Multidimensional parameters ----
-# 
-# 
-# MBL <- "MBL_i"
-# MBS <- "MBS_i"
-# 
-# MBL_DEF <- latex(
-#   "-",
-#   latex_frac("l_i", latex_sqrt("$A_TRANSP_T$ $T_TRANSP_A$"))
-# )
-# MBL_DEF_ORTH <- latex(
-#   "-",
-#   latex_frac("l_i", latex_sqrt("$DISCR_VECTOR_ORTH$' $DISCR_VECTOR_ORTH$"))
-# )
-# 
-# MBS_DEF      <- latex("\\left\\| $T_TRANSP_A$ \\right\\|")
-# MBS_DEF_ORTH <- latex("\\left\\| $DISCR_VECTOR_ORTH$ \\right\\|")
-# 
-# 
-# #### Coordinate change ----
-# 
-# THETA_1 <- "\\uptheta_1"
-# THETA_2 <- "\\uptheta_2"
-# 
-# COORD_SYSTEM      <- latex(THETA_1, THETA_2)
-# COORD_SYSTEM_ORTH <- latex("$THETA_1$^\\mathrm{o}", "$THETA_2$^\\mathrm{o}")
-# 
-# RHO_COORD_SYSTEM       <- latex("\\rho_{$COORD_SYSTEM$}")
-# SIN_ALPHA_COORD_SYSTEM <- latex("\\sqrt{1 - $RHO_COORD_SYSTEM$^2}")
-# 
-# 
-# #### Change of base ----
-# 
-# V_2_VECTOR       <- "\\mathbf{v}_2"
-# SIN_ALPHA_AS_RHO <- latex("\\sqrt{1 - \\rho^2}")
-# TAN_ALPHA_AS_RHO <- latex_frac(SIN_ALPHA_AS_RHO, "\\rho")
-# DIRECTOR_VECTOR  <- latex("\\left(1, \\, $TAN_ALPHA_AS_RHO$\\right)")
-# NORM_DIR_VECTOR  <- latex("\\left(\\rho, \\, $SIN_ALPHA_AS_RHO$\\right)")
-# ORTHONORMAL_BASE <- latex("\\{(1, \\, 0), (0, \\, 1)\\}")
-# OBLIQUE_BASE     <- latex(
-#   "\\left\\{(1, \\, 0), $NORM_DIR_VECTOR$ \\right\\}"
-# )
-# 
-# 
-# #### Graphical representation parameters ----
-# 
-# GAMMA_COMPONENT <- "\\gamma_{ik}"
-# GAMMA_VECTOR    <- "\\mathbf{\\gamma}"
-# 
-# A_COMPONENT_ORTH <- "a_{ik}^o"
-# 
-# DIRECTOR_COSINE <- latex("\\cos $GAMMA_COMPONENT$")
-# DIR_COS_VECTOR  <- latex("\\cos $GAMMA_VECTOR$")
-# 
-# DIR_COS_VECTOR_DEF <- latex_frac(T_TRANSP_A, MBS)
-# 
-# TAN_BETA_DEF <- latex_tan_def("\\beta")
-# 
-# 
-# DIR_VECTOR        <- latex("(1, \\, \\tan \\beta)")
-# DIR_VECTOR_NORM   <- latex("(\\cos \\beta, \\, \\sin \\beta)")
-# DIR_VECTOR_NORM_T <- paste(
-#   "\\begin{pmatrix}",
-#   "  \\cos \\beta \\\\",
-#   "  \\sin \\beta",
-#   "\\end{pmatrix}",
-#   sep = "\n"
-# )
-# 
-# X_COORD_Q <- latex("x + l \\, \\cos \\beta")
-# Y_COORD_Q <- latex("y + l \\, \\sin \\beta")
-# 
-# SIN_BETA_AS_COS <- latex_sin_as_cos("\\beta")
-# 
-# T_INVERSE_DEF <- latex(
-#   "\\begin{pmatrix}",
-#   "  1 & \\rho \\\\",
-#   "  0 & \\sqrt{{1 - \\rho^2}}",
-#   "\\end{pmatrix}",
-#   sep = "\n"
-# )
-# 
-# T_MATRIX_DEF <- latex(
-#   "\\begin{pmatrix}",
-#   "  1 & -\\tfrac{\\rho}{$SIN_ALPHA_AS_RHO$} \\\\",
-#   "  0 &  \\tfrac{1}    {$SIN_ALPHA_AS_RHO$}",
-#   "\\end{pmatrix}",
-#   sep = "\n"
-# )
-# T_MATRIX_TRANSP_DEF <- latex(
-#   "\\begin{pmatrix}",
-#   "                                   1 &                             0 \\\\",
-#   "  -\\frac{\\rho}{$SIN_ALPHA_AS_RHO$} & \\frac{1}{$SIN_ALPHA_AS_RHO$}",
-#   "\\end{pmatrix}",
-#   sep = "\n"
-# )
-# 
-# 
-# #### Example of graphical representation ----
-# 
-# A_1_VECTOR      <- "\\mathbf{a}_1"
-# A_1_VECTOR_ORTH <- latex("$A_1_VECTOR$^o")
-# 
-# RHO_EXAMPLE      <- "0.5"
-# RHO_SQ_EXAMPLE   <- "0.25"
-# A_1_VECTOR_DEF_T <- "(2, \\, -0.5)"
-# A_1_VEC_DEF_VERT <- latex(
-#   "\\begin{pmatrix}",
-#   "   2 \\\\",
-#   "  -0.5",
-#   "\\end{pmatrix}",
-#   sep = "\n"
-# )
-# A_1_VEC_DEF_FRAC <- latex(
-#   "\\begin{pmatrix}",
-#   "               2 \\\\",
-#   "  -\\tfrac{1}{2}",
-#   "\\end{pmatrix}",
-#   sep = "\n"
-# )
-# 
-# 
-# SIN_ALPHA_AS_RHO_EXAMPLE <- latex("\\sqrt{1 - $RHO_EXAMPLE$^2}")
-# 
-# T_MATRIX_DEF_EXAMPLE <- latex(
-#   "\\begin{pmatrix}",
-#   "  1 & -\\tfrac{$RHO_EXAMPLE$}{$SIN_ALPHA_AS_RHO_EXAMPLE$} \\\\",
-#   "  0 &  \\tfrac{1}            {$SIN_ALPHA_AS_RHO_EXAMPLE$}",
-#   "\\end{pmatrix}",
-#   sep = "\n"
-# )
-# T_MATRIX_TRANSP_FRAC_DEF <- latex(
-#   "\\begin{pmatrix}",
-#   "   1                     &                   0 \\\\",
-#   "  -\\tfrac{1}{\\sqrt{3}} & \\tfrac{2}{\\sqrt{3}}",
-#   "\\end{pmatrix}",
-#   sep = "\n"
-# )
-# 
-# T_SQ <- latex(
-#   "\\begin{pmatrix}",
-#   "    \\tfrac{4}{3} & -\\tfrac{2}{3} \\\\",
-#   "   -\\tfrac{2}{3} &  \\tfrac{4}{3}",
-#   "\\end{pmatrix}",
-#   sep = "\n"
-# )
-# 
-# PROD_T_A_1    <- latex("$T_MATRIX$' $A_1_VECTOR$")
-# PROD_SQ_A_1_T <- latex("$A_1_VECTOR$' $T_MATRIX$ $PROD_T_A_1$")
-# 
-# MBL_1     <- "MBL_1"
-# MBL_1_DEF <- latex(
-#   "-",
-#   latex_frac("l_1", latex_sqrt("$PROD_SQ_A_1_T$"))
-# )
-
 
 ## ---- FUNCTIONS: -------------------------------------------------------------
 
