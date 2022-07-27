@@ -41,6 +41,8 @@ INNER_PROD_LEFT  <- "\\langle"
 INNER_PROD_RIGHT <- "\\rangle"
 INNER_PROD_SEP   <- ",\\,"
 
+SUMMATION_OP <- "\\sum"
+
 LATEX_CLASS <- "laTeR"
 
 
@@ -107,6 +109,31 @@ latex_sign <- function(..., .par = NA) {
   if (.par) argument <- latex_parentheses(argument)
   
   latex(latex_rm("sign"), argument)
+}
+
+### Iterated operations: ----
+
+latex_summation <- function(index, ..., from = 1, to = NULL, .par = NA) {
+  
+  if (is.na(.par)) .par <- length(list(...)) != 1
+  
+  if (is.null(to)) {
+    
+    sub <- latex_in(index, from)
+    
+  } else {
+    
+    sub <- latex_eq(index, from)
+  }
+  
+  operator <- latex_sub(SUMMATION_OP, sub)
+  
+  if (!is.null(to)) operator <- latex_raised_to(operator, exp = to)
+  
+  result <- latex(...)
+  if (.par) result <- latex_parentheses(result)
+  
+  latex(operator, result)
 }
 
 ### Powers and roots: ----

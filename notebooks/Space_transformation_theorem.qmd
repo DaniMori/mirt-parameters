@@ -1,0 +1,83 @@
+---
+title: "Space transformation in Multidimensional IRT (Theorem)"
+author: "Mario Luzardo, Daniel Morillo"
+format:
+  docx:
+    number-sections: true
+    highlight-style: github  
+  html: default
+callout-collapse: true
+editor_options: 
+  chunk_output_type: console
+---
+
+# Introduction
+
+Transcription of Mario's notes
+
+```{r setup, include=FALSE}
+# Includes:
+
+library(knitr)
+
+ROOT_DIR <- ".."
+DOC_DIR <- getwd()
+
+opts_knit$set(root.dir = ROOT_DIR)
+# opts_chunk$set(
+#   echo     = FALSE,
+#   cache    = FALSE,
+#   dev      = "png",
+#   dpi      =   300,
+#   dev.args = list(type = "cairo-png"),
+#   fig.pos = "!H"
+# )
+```
+
+```{r sources, cache=FALSE, include=FALSE}
+source("R/Formulae.R", encoding = 'UTF-8')
+```
+
+# Main
+
+Let's consider a $`r N_DIMS`$ latent space $`r LATENT_SPACE`$ with Euclidean
+vector structure, and let $`r LS_BASIS_EQ`$ be a basis of $`r LATENT_SPACE`$.
+
+::: callout-note
+Stating that $`r LS_BASIS`$ is a basis implies that its vectors are linearly
+independent and are a generator of $`r LATENT_SPACE`$; i.e., any vector
+$`r TRAIT_VEC_IN_LS`$ can be expressed as a linear combination of
+$`r LS_BASIS`$.
+:::
+
+Let's consider a dichotomous item $`r ITEM_INDEX`$ such that the probability
+that respondent with trait $`r LS_BASIS_EQ`$ gives a correct[^1] response is
+given by
+
+$$
+  `r M2PL_FORMULATION`
+$$ {#eq-M2PL-formulation}
+
+Let's consider in $`r LATENT_SPACE`$ the standard basis $`r LS_STD_BASIS_EQ`$ as
+well.
+
+For all $`r TRAIT_VEC_IN_LS`$ we have both representations[^2]:
+
+$`r TRAIT_VECTOR_DEF_BASIS_EQ`$, and $`r TRAIT_VECTOR_DEF_STD_BASIS_EQ`$
+
+Let $`r BASIS_CHANGE_DEF`$ be the change of basis matrix.
+
+[^1]: I prefer to refer to the responses as "positive/negative", instead of
+    "correct/incorrect", as this terminology contemplates the possibility of
+    non-cognitive as well as cognitive domains.
+
+[^2]: I'm preferring here the notation I use in the draft, that is,
+    $`r DIM_INDEX`$ for indexing the dimensions (instead of $`r ITEM_INDEX`$,
+    which is also used to index the items), $`r TRAIT_MODULE`$ for the
+    coordinates of $`r TRAIT_VECTOR`$ in $`r LS_BASIS`$,
+    and $`r TRAIT_VEC_STD_EL`$ for the coordinates in $`r LS_STD_BASIS`$.
+    Nevertheless, as Mario reminded me, it is worth noting that this notation
+    for the vector coordinates is ambiguous, as we are using the same symbol
+    ($`r TRAIT_VECTOR`$) for the "geometric vector" and
+    the "algebraic vector" (i.e. column matrix) of its coordinates in
+    $`r LATENT_SPACE`$ (this notation is usually accepted though).
