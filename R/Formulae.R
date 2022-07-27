@@ -633,6 +633,34 @@ TRANSFORM_MATRIX_EXAMPLE_EQ <- latex_def(
   TRANSFORM_MATRIX_EXAMPLE
 )
 
+### Mario's Theorem: ----
+
+TRAIT_VEC_STD_MOD    <- latex_prime(TRAIT_MODULE)
+TRAIT_VEC_STD_COMP   <- latex_sub(TRAIT_VEC_STD_MOD, DIM_INDEX)
+STD_BASIS_VECTOR_ANY <- latex_sub(STD_BASIS_VECTOR, DIM_INDEX)
+
+TRAIT_VECTOR_DEF_BASIS        <- latex_summation(
+  TRAIT_COMPONENT, BASIS_VECTOR_ANY,
+  index = DIM_INDEX, from = 1, to = N_DIMS,
+  .par = FALSE
+)
+TRAIT_VECTOR_DEF_BASIS_EQ     <- latex_eq(TRAIT_VECTOR, TRAIT_VECTOR_DEF_BASIS)
+TRAIT_VECTOR_DEF_STD_BASIS    <- latex_summation(
+  TRAIT_VEC_STD_COMP, BASIS_VECTOR_ANY_TRANSF,
+  index = DIM_INDEX, from = 1, to = N_DIMS,
+  .par = FALSE
+)
+TRAIT_VECTOR_DEF_STD_BASIS_EQ <- latex_eq(
+  TRAIT_VECTOR,
+  TRAIT_VECTOR_DEF_STD_BASIS
+)
+
+BASIS_CHANGE_SYM <- latex(
+  "{}_{$LS_STD_BASIS$}",
+  latex_sub(latex_parentheses('I'), LS_BASIS)
+)
+BASIS_CHANGE_DEF <- latex_eq(BASIS_CHANGE_SYM, TRANSFORM_MATRIX)
+
 ## ---- FUNCTIONS: -------------------------------------------------------------
 
 ### <Section name>: ----
