@@ -190,8 +190,9 @@ the applicability and generalization of our results.
 Consider a $`r N_DIMS`$-dimensional latent space $`r LATENT_SPACE`$,
 defined by vector space $V$ and basis $`r LS_BASIS`$,
 being $`r LS_BASIS_EQ`$ an arbitrary set of linearly independent vectors.
-A respondent is represented in $`r LATENT_SPACE`$ by
-coordinate vector $`r TRAIT_VECTOR`$, assumed to be multivariate normal:
+A respondent is represented by vector $`r TRAIT_VEC_IN_LS`$,
+with coordinates $`r TRAIT_VECTOR`$ in $`r LATENT_SPACE`$,
+which is assumed to be a multivariate normal random variable:
 
 \begin{equation}
   `r TRAIT_MV_DEF`,

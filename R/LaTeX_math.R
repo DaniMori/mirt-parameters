@@ -26,8 +26,9 @@ DELIMITER  <- '$'
 SEP        <- ' '
 EQ_SIGN    <- ' = '
 EQUIV_SIGN <- ' \\equiv '
-DEF_SIGN   <- ' \\coloneq'
+DEF_SIGN   <- ' \\coloneq '
 SIM_SIGN   <- ' \\sim '
+IN_SIGN    <- ' \\in '
 NO_SEP     <- ''
 SEP_COMMA  <- ', '
 UNDERSCORE <- '_'
@@ -196,6 +197,11 @@ latex_innerprod <- function(x, y) {
   latex(INNER_PROD_LEFT, x, INNER_PROD_SEP, y, INNER_PROD_RIGHT)
 }
 
+
+
+### Sets: ----
+
+latex_in <- function(element, set) latex(element, set, .sep = IN_SIGN)
 
 
 ### Enclosing functions: ----

@@ -32,8 +32,8 @@ FRAC_1_4 <- latex_frac(1, 4, .sep = NO_SEP)
 # Latent space definition:
 LATENT_SPACE       <- latex_bf("\\upTheta")
 N_DIMS             <- latex('n')
-BASIS_VECTOR_MOD   <- latex('u')
-BASIS_VECTOR       <- latex_bf(BASIS_VECTOR_MOD)
+BASIS_VECTOR_EL    <- latex('u')
+BASIS_VECTOR       <- latex_bf(BASIS_VECTOR_EL)
 BASIS_VECTOR_FIRST <- latex("$BASIS_VECTOR$_1")
 BASIS_VECTOR_LAST  <- latex("$BASIS_VECTOR$_$N_DIMS$")
 LS_BASIS           <- latex_cal("B")
@@ -42,11 +42,12 @@ LS_BASIS_SET       <- latex_curlybraces(LS_BASIS_ELEMENTS)
 LS_BASIS_EQ        <- latex_eq(LS_BASIS, LS_BASIS_SET)
 
 # Latent vector definition:
-TRAIT_VECTOR      <- latex_bf("\\uptheta")
-MEAN_VECTOR       <- latex_bf("\\upmu")
-COV_MATRIX        <- latex_bf("\\upSigma")
-NORMAL_DISTR      <- latex_cal('N')
-MV_DISTRIBUTION   <- latex(
+TRAIT_VECTOR    <- latex_bf("\\uptheta")
+TRAIT_VEC_IN_LS <- latex_in(TRAIT_VECTOR, LATENT_SPACE)
+MEAN_VECTOR     <- latex_bf("\\upmu")
+COV_MATRIX      <- latex_bf("\\upSigma")
+NORMAL_DISTR    <- latex_cal('N')
+MV_DISTRIBUTION <- latex(
   NORMAL_DISTR,
   latex_parentheses("$MEAN_VECTOR$, $COV_MATRIX$")
 )
@@ -92,7 +93,8 @@ M2PL_FORMULATION <- latex_eq(IRF_M2PL, LOGISTIC_M2PL)
 
 ### Change of basis in the latent space ----
 
-STD_BASIS_VECTOR      <- latex_bf('e')
+STD_BASIS_VECTOR_EL   <- latex('e')
+STD_BASIS_VECTOR      <- latex_bf(STD_BASIS_VECTOR_EL)
 LATENT_SPACE_STD      <- latex_prime(LATENT_SPACE)
 TRAIT_VECTOR_STD      <- latex_prime(TRAIT_VECTOR)
 LS_STD_BASIS          <- latex_cal('E')
@@ -103,7 +105,6 @@ LS_STD_BASIS_ELEMENTS <- latex_enum(
 )
 LS_STD_BASIS_SET      <- latex_curlybraces(LS_STD_BASIS_ELEMENTS)
 LS_STD_BASIS_EQ       <- latex_eq(LS_STD_BASIS, LS_STD_BASIS_SET)
-
 
 TRAIT_NORM   <- latex_norm(TRAIT_VECTOR)
 TRAIT_MODULE <- latex("\\theta")
@@ -182,7 +183,7 @@ DIR_COSINE_DEF             <- latex_frac(
   INNER_PROD_TRAIT_BASIS_VEC,
   "$BASIS_VECTOR_NORM$ $TRAIT_NORM$"
 )
-BASIS_VECTOR_ANY_MOD       <- latex_sub(BASIS_VECTOR_MOD, DIM_INDEX)
+BASIS_VECTOR_ANY_MOD       <- latex_sub(BASIS_VECTOR_EL, DIM_INDEX)
 TRAIT_MODULE_INV           <- latex_frac(1, TRAIT_MODULE, .sep = NO_SEP)
 DIR_COSINE_DEF_EXPANDED    <- latex(
   TRAIT_MODULE_INV, latex_frac(1, BASIS_VECTOR_ANY_MOD, .sep = NO_SEP),# Denoms.
@@ -198,8 +199,8 @@ DIAG_INNER_PROD_MATRIX     <- latex(
   latex_rm("diag"),
   latex_parentheses(INNER_PROD_MATRIX)
 )
-BASIS_VECTOR_FIRST_MOD     <- latex_sub(BASIS_VECTOR_MOD, 1)
-BASIS_VECTOR_LAST_MOD      <- latex_sub(BASIS_VECTOR_MOD, N_DIMS)
+BASIS_VECTOR_FIRST_MOD     <- latex_sub(BASIS_VECTOR_EL, 1)
+BASIS_VECTOR_LAST_MOD      <- latex_sub(BASIS_VECTOR_EL, N_DIMS)
 DIAG_INNER_PROD_MATRIX_DEF <- latex_transp(
   latex_sqbrackets(
     latex_enum(
@@ -394,8 +395,8 @@ DISCR_VECTOR_MODULE_EQ <- latex_eq(
 )
 
 # Test space basis:
-ITEM_BASIS_VECTOR_MOD     <- latex('v')
-ITEM_BASIS_VECTOR         <- latex_bf(ITEM_BASIS_VECTOR_MOD)
+ITEM_BASIS_VECTOR_EL      <- latex('v')
+ITEM_BASIS_VECTOR         <- latex_bf(ITEM_BASIS_VECTOR_EL)
 ITEM_BASIS_VECTOR_FIRST   <- latex_sub(ITEM_BASIS_VECTOR, 1)
 ITEM_BASIS_VECTOR_LAST    <- latex_sub(ITEM_BASIS_VECTOR, N_DIMS)
 ITEM_SPACE_BASIS          <- latex_cal("B^*")
@@ -613,7 +614,7 @@ ORIGIN_ITEM_TRANSF_EQ  <- latex_eq(ORIGIN_ITEM_TRANSF, ORIGIN_ITEM_TRANSF_DEF)
 END_ITEM_TRANSF_DEF    <- latex(TRANSFORM_MATRIX, END_ITEM)
 END_ITEM_TRANSF_EQ     <- latex_eq(END_ITEM_TRANSF, END_ITEM_TRANSF_DEF)
 
-### Graphical representation example: ----
+#### Graphical representation example: ----
 
 CORR <- latex("\\rho")
 
