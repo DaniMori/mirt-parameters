@@ -16,7 +16,7 @@ The output of this file is the document that will eventually
 be submitted to a journal,
 along with the necessary additional files (i.e., cover letter).
 
-# Renderin the output
+# Rendering the output
 
 The easiest way to render the project output is by sourcing the script
 [src/Build_project.R](src/Build_project.R).
@@ -72,7 +72,7 @@ Rstudio project in the folder specified.
 The URL that must be entered into the `Repository URL` text box is:
 
 ```
-https://github.com/CCOMS-UAM/mapping-initiatives.git
+https://github.com/DaniMori/mirt-parameters.git
 ```
 
 [CR]: https://book.cds101.com/using-rstudio-server-to-clone-a-github-repo-as-a-new-project.html#step---2
