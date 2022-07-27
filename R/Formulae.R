@@ -661,6 +661,34 @@ BASIS_CHANGE_SYM <- latex(
 )
 BASIS_CHANGE_DEF <- latex_eq(BASIS_CHANGE_SYM, TRANSFORM_MATRIX)
 
+TRAIT_COORDS_DEF <- latex_eq(
+  TRAIT_VECTOR,
+  latex(
+    "coord" |> latex_rm() |> latex_sub(LS_BASIS, .abbr = TRUE),
+    latex_parentheses(TRAIT_VECTOR, .sep = NO_SEP)
+  )
+)
+
+TRAIT_STD_COORDS_DEF <- latex_eq(
+  TRAIT_VECTOR_STD,
+  latex(
+    "coord" |> latex_rm() |> latex_sub(LS_STD_BASIS, .abbr = TRUE),
+    latex_parentheses(TRAIT_VECTOR, .sep = NO_SEP)
+  )
+)
+
+BASIS_CHANGE_EQ <- latex_eq(TRAIT_VECTOR_STD, TRAIT_TRANSFORM)
+
+BASIS_VEC_STD_COORDS_DEF <- latex_eq(
+  BASIS_VECTOR_ANY_TRANSF,
+  latex(
+    "coord" |> latex_rm() |> latex_sub(LS_STD_BASIS, .abbr = TRUE),
+    latex_parentheses(BASIS_VECTOR_ANY, .sep = NO_SEP)
+  )
+)
+
+INNER_PROD_BASIS <- latex_innerprod('\\,', '') |> latex_sub(LS_BASIS)
+
 ## ---- FUNCTIONS: -------------------------------------------------------------
 
 ### <Section name>: ----
