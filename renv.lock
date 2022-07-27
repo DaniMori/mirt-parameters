@@ -63,11 +63,7 @@
       "Source": "Repository",
       "Repository": "CRAN",
       "Hash": "0315f0d8f1d2be81b7271a07a0ecc918",
-      "Requirements": [
-        "Rcpp",
-        "curl",
-        "jsonlite"
-      ]
+      "Requirements": []
     },
     "askpass": {
       "Package": "askpass",
@@ -328,7 +324,9 @@
       "Source": "Repository",
       "Repository": "CRAN",
       "Hash": "23abf173c2b783dcc43379ab9bba00ee",
-      "Requirements": []
+      "Requirements": [
+        "glue"
+      ]
     },
     "clipr": {
       "Package": "clipr",
@@ -432,11 +430,7 @@
       "Source": "Repository",
       "Repository": "CRAN",
       "Hash": "bc66f665a66d66af8c5e80bc31bbce31",
-      "Requirements": [
-        "katex",
-        "xml2",
-        "xslt"
-      ]
+      "Requirements": []
     },
     "evaluate": {
       "Package": "evaluate",
@@ -644,9 +638,7 @@
       "Source": "Repository",
       "Repository": "CRAN",
       "Hash": "b542009415992579f97c96702a3d1671",
-      "Requirements": [
-        "V8"
-      ]
+      "Requirements": []
     },
     "knitr": {
       "Package": "knitr",
@@ -678,7 +670,10 @@
       "Source": "Repository",
       "Repository": "CRAN",
       "Hash": "a6b6d352e3ed897373ab19d8395c98d0",
-      "Requirements": []
+      "Requirements": [
+        "glue",
+        "rlang"
+      ]
     },
     "lubridate": {
       "Package": "lubridate",
@@ -790,7 +785,15 @@
       "Source": "Repository",
       "Repository": "CRAN",
       "Hash": "f95cf85794546c4ac2b9a6ca42e671ff",
-      "Requirements": []
+      "Requirements": [
+        "cli",
+        "fansi",
+        "glue",
+        "lifecycle",
+        "rlang",
+        "utf8",
+        "vctrs"
+      ]
     },
     "pkgconfig": {
       "Package": "pkgconfig",
@@ -1002,11 +1005,19 @@
     },
     "tibble": {
       "Package": "tibble",
-      "Version": "3.1.7",
+      "Version": "3.1.8",
       "Source": "Repository",
       "Repository": "CRAN",
-      "Hash": "08415af406e3dd75049afef9552e7355",
-      "Requirements": []
+      "Hash": "56b6934ef0f8c68225949a8672fe1a8f",
+      "Requirements": [
+        "fansi",
+        "lifecycle",
+        "magrittr",
+        "pillar",
+        "pkgconfig",
+        "rlang",
+        "vctrs"
+      ]
     },
     "tidyr": {
       "Package": "tidyr",
@@ -1070,7 +1081,11 @@
       "Source": "Repository",
       "Repository": "CRAN",
       "Hash": "8b54f22e2a58c4f275479c92ce041a57",
-      "Requirements": []
+      "Requirements": [
+        "cli",
+        "glue",
+        "rlang"
+      ]
     },
     "viridisLite": {
       "Package": "viridisLite",
@@ -1126,10 +1141,7 @@
       "Source": "Repository",
       "Repository": "CRAN",
       "Hash": "2f44fc659e30d602098fb238e3b656ed",
-      "Requirements": [
-        "Rcpp",
-        "xml2"
-      ]
+      "Requirements": []
     },
     "yaml": {
       "Package": "yaml",
