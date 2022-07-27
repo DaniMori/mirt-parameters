@@ -51,7 +51,7 @@ $`r LS_BASIS`$.
 :::
 
 Let's consider a dichotomous item $`r ITEM_INDEX`$ such that the probability
-that respondent with trait $`r LS_BASIS_EQ`$ gives a correct[^1] response is
+that respondent with trait $`r LS_BASIS_EQ`$ gives a positive[^1] response is
 given by
 
 $$
@@ -65,19 +65,40 @@ For all $`r TRAIT_VEC_IN_LS`$ we have both representations[^2]:
 
 $`r TRAIT_VECTOR_DEF_BASIS_EQ`$, and $`r TRAIT_VECTOR_DEF_STD_BASIS_EQ`$
 
-Let $`r BASIS_CHANGE_DEF`$ be the change of basis matrix.
+Let $`r BASIS_CHANGE_DEF`$ be the change of basis matrix; then, if we denote
+$`r TRAIT_COORDS_DEF`$ and $`r TRAIT_STD_COORDS_DEF`$ we have that
+
+$$
+  `r BASIS_CHANGE_EQ`
+$$ {#eq-change-basis}
+
+The $`r DIM_INDEX`$-th column of $`r TRANSFORM_MATRIX`$ is given by the
+coordinates of $`r BASIS_VECTOR_ANY`$ in basis $`r LS_STD_BASIS`$. If
+$`r BASIS_VEC_STD_COORDS_DEF`$ then[^3]
+
+$$
+  `r TRANSFORM_MATRIX_EQ`
+$$ {#eq-transform-matrix-def}
+
+In $`r LATENT_SPACE`$ with the standard basis we have the usual scalar product.
+In $`r LATENT_SPACE`$ with basis $`r LS_BASIS`$ we define an inner product
+$`r INNER_PROD_BASIS`$ such that the norm of $`r TRAIT_VECTOR`$ is invariant.
 
 [^1]: I prefer to refer to the responses as "positive/negative", instead of
     "correct/incorrect", as this terminology contemplates the possibility of
-    non-cognitive as well as cognitive domains.
+    non-cognitive (as well as cognitive) domains.
 
 [^2]: I'm preferring here the notation I use in the draft, that is,
     $`r DIM_INDEX`$ for indexing the dimensions (instead of $`r ITEM_INDEX`$,
     which is also used to index the items), $`r TRAIT_MODULE`$ for the
-    coordinates of $`r TRAIT_VECTOR`$ in $`r LS_BASIS`$,
-    and $`r TRAIT_VEC_STD_EL`$ for the coordinates in $`r LS_STD_BASIS`$.
+    coordinates of $`r TRAIT_VECTOR`$ in $`r LS_BASIS`$, and
+    $`r TRAIT_VEC_STD_COMP`$ for the coordinates in $`r LS_STD_BASIS`$.
     Nevertheless, as Mario reminded me, it is worth noting that this notation
     for the vector coordinates is ambiguous, as we are using the same symbol
-    ($`r TRAIT_VECTOR`$) for the "geometric vector" and
-    the "algebraic vector" (i.e. column matrix) of its coordinates in
-    $`r LATENT_SPACE`$ (this notation is usually accepted though).
+    ($`r TRAIT_VECTOR`$) for the "geometric vector" and the "algebraic vector"
+    (i.e. column matrix) of its coordinates in $`r LATENT_SPACE`$ (this notation
+    is usually accepted though).
+
+[^3]: It is ok to use square brackets here? I'm using it instead of parentheses
+    because I had already written this (with a function), but if it's not
+    correct I change it to parentheses.
