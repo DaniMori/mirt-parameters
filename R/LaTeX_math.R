@@ -22,17 +22,20 @@ library(glue)
 
 ## ---- CONSTANTS: -------------------------------------------------------------
 
-DELIMITER  <- '$'
-SEP        <- ' '
-EQ_SIGN    <- ' = '
-EQUIV_SIGN <- ' \\equiv '
-DEF_SIGN   <- ' \\coloneq '
-SIM_SIGN   <- ' \\sim '
-IN_SIGN    <- ' \\in '
-NO_SEP     <- ''
-SEP_COMMA  <- ', '
-UNDERSCORE <- '_'
-ELLIPSIS   <- '...'
+DELIMITER     <- '$'
+SEP           <- ' '
+EQ_SIGN       <- ' = '
+EQUIV_SIGN    <- ' \\equiv '
+DEF_SIGN      <- ' \\coloneq '
+SIM_SIGN      <- ' \\sim '
+IN_SIGN       <- ' \\in '
+NO_SEP        <- ''
+SEP_COMMA     <- ', '
+UNDERSCORE    <- '_'
+NEWLINE       <- '\\\\'
+ALIGN         <- '&'
+ELLIPSIS      <- '...'
+DIAG_ELLIPSIS <- '\\ddots'
 
 TRANSPOSED_SUFFIX <- '^T'
 PRIME_SUFFIX      <- "'"
