@@ -129,7 +129,7 @@ $$
 with $`r INNER_PROD_MATRIX_ROW`$ the $`r DIM_INDEX`$-th row of
 $`r INNER_PROD_MATRIX`$.
 
-Therefore, $`r DIR_COS_VEC_EQ2`$ and $`r TRAIT_VECTOR_POLAR_EQ2`$.
+Therefore, $`r DIR_COS_VEC_EQ2`$ and $`r TRAIT_VECTOR_POLAR_EQ2`$.[^9]
 $\blacksquare$
 :::
 :::
@@ -239,6 +239,12 @@ and thus $`r LEMMA_2_EQ`$.$\blacksquare$
 
 [^8]: Mario is using $V$ here but I understand he refers to the latent (vector)
     space, which I have denoted it by $`r LATENT_SPACE`$. Is this correct?
+
+[^9]: I don't quite understand the whole proof, particularly, the equivalence
+    $`r latex_eq(latex(latex_transp(STD_BASIS_VECTOR_ANY), INNER_PROD_MATRIX), INNER_PROD_MATRIX_ROW)`$,
+    and the step from $`r DIR_COS_ANY`$ to $`r DIR_COS_VEC`$. This step is
+    similar to my step from Equation 6 to Equation 7 in the draft, which I had
+    the feeling was missing some intermediate steps.
 
 [^10]: Again I'm using here the notation I have used in the draft and before
     (see also footnote 5).
