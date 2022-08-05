@@ -1,11 +1,10 @@
 ---
-title: "Space transformation in Multidimensional IRT (Theorem)"
+title: "Space transformation in Multidimensional IRT (Lemmas)"
 author: "Mario Luzardo, Daniel Morillo"
 format:
   docx:
     number-sections: true
     highlight-style: github  
-  html: default
 callout-collapse: true
 editor_options: 
   chunk_output_type: console
@@ -82,7 +81,127 @@ $$ {#eq-transform-matrix-def}
 
 In $`r LATENT_SPACE`$ with the standard basis we have the usual scalar product.
 In $`r LATENT_SPACE`$ with basis $`r LS_BASIS`$ we define an inner product
-$`r INNER_PROD_BASIS`$ such that the norm of $`r TRAIT_VECTOR`$ is invariant.
+$`r INNER_PROD_BASIS`$ such that the norm of $`r TRAIT_VECTOR`$ is invariant,
+i.e., $`r TRAIT_NORMS_EQ`$. Thus,[^4]
+
+$$
+  `r TRAIT_NORM_STD_EQ`.
+$$
+
+Therefore we must define the inner product $`r INNER_PROD_BASIS`$ with Gram
+matrix $`r INNER_PROD_MAT_EQ`$. That is, $`r INNER_PROD_EQ`$.[^5]
+
+The Gram matrix has as element $`r INNER_PROD_MAT_EL_EQ`$. As
+$`r TRANSFORM_MATRIX`$ (and consequently, $`r TRANSFORM_MATRIX_TRANSP`$) is
+invertible so $`r INNER_PROD_MATRIX`$ is, and
+$`r INNER_PROD_MATRIX_INV_EQ`$.[^6]
+
+Let's consider now the vectors $`r DIR_COS_VEC`$ and $`r DIR_COS_VEC_STD`$, made
+up by $`r N_DIMS`$ direction cosines of $`r TRAIT_VECTOR`$ with the basis
+vectors of $`r LS_BASIS`$ and $`r LS_STD_BASIS`$, respectively.[^7]
+
+::: {#lem-dircos}
+Under the previously defined conditions, for all $`r TRAIT_VEC_IN_LS`$,[^8]
+
+$$
+  `r DIR_COS_VEC_EQ`
+$$
+
+with
+
+$$
+  `r DIAG_MATRIX_INNER_PROD_INV_SQ_EQ`.
+$$
+
+Therefore,
+
+$$
+  `r TRAIT_VECTOR_POLAR_EQ2`.
+$$
+
+::: proof
+For every $`r DIM_INDEX`$; $`r DIM_ENUM_EQ`$,
+
+$$
+  `r DIR_COSINE_PROOF`,
+$$
+
+with $`r INNER_PROD_MATRIX_ROW`$ the $`r DIM_INDEX`$-th row of
+$`r INNER_PROD_MATRIX`$.
+
+Therefore, $`r DIR_COS_VEC_EQ2`$ and $`r TRAIT_VECTOR_POLAR_EQ2`$.[^9]
+$\blacksquare$
+:::
+:::
+
+::: {#lem-convert-spaces}
+Let's consider another basis $`r NEW_BASIS_EQ`$ in $`r LATENT_SPACE`$ and the
+inner product $`r INNER_PROD_NEWBS`$ that keeps the norm invariant.
+
+Let $`r DIR_COS_VEC_NEWBS`$ be the vector of direction cosines of
+$`r TRAIT_VECTOR`$ (i.e., the cosines with the elements of $`r NEW_BASIS`$).
+
+Then,
+
+$$
+  `r LEMMA_2_EQ`,
+$$ {#eq-lemma-2}
+
+where
+
+$$
+  `r DIAG_MATRIX_INNER_PROD_NEWBS_INV_SQ_EQ`
+$$
+
+and $`r BASIS_CHANGE_NEWBS_DEF`$.
+
+::: proof
+Let's call $`r TRAIT_NEWBS_COORDS_DEF`$ and let $`r BASIS_CHANGE_NEWBS_DEF`$ be
+the change of basis matrix such that $`r BASIS_CHANGE_NEWBS`$.
+
+We have that $`r BASES_CHANGE_EQ`$.
+
+The inner product $`r INNER_PROD_NEWBS`$ that keeps the norm invariant is
+defined by[^10] $`r INNER_PROD_NEWBS_EQ`$, and we define
+$`r INNER_PROD_MAT_NEWBS_EQ`$.
+
+By @lem-dircos, for each case we have:
+
+1.  $`r TRAIT_VECTOR_POLAR_STD_EQ`$
+
+2.  $`r TRAIT_VECTOR_POLAR_EQ2`$
+
+3.  $`r TRAIT_VEC_NEWBS_POLAR_EQ`$
+
+Given (1),
+
+$$
+  `r TRAIT_COORDS_EQUIV`
+$$
+
+$$
+  `r TRAIT_COORDS_EQUIV_NEWBS`.
+$$
+
+Using (2) and (3) we get[^11]
+
+$$
+  `r TRAIT_COORDS_EQUIV_EXPANDED`
+$$
+
+$$
+  `r TRAIT_COORDS_EQUIV_NEWBS_EXPANDED`.
+$$
+
+Therefore,
+
+$$
+  `r TRAIT_COORDS_EQUIV_EXPANDED_EQ`,
+$$
+
+and thus $`r LEMMA_2_EQ`$.$\blacksquare$
+:::
+:::
 
 [^1]: I prefer to refer to the responses as "positive/negative", instead of
     "correct/incorrect", as this terminology contemplates the possibility of
@@ -99,6 +218,35 @@ $`r INNER_PROD_BASIS`$ such that the norm of $`r TRAIT_VECTOR`$ is invariant.
     (i.e. column matrix) of its coordinates in $`r LATENT_SPACE`$ (this notation
     is usually accepted though).
 
-[^3]: It is ok to use square brackets here? I'm using it instead of parentheses
+[^3]: Is it ok to use square brackets here? I'm using it instead of parentheses
     because I had already written this (with a function), but if it's not
     correct I change it to parentheses.
+
+[^4]: Mario wrote in the leftmost therm of the equality "the norm of
+    $`r TRAIT_VECTOR`$", but it should be "the *squared* norm of
+    $`r TRAIT_VECTOR`$".
+
+[^5]: Having already defined $`r TRAIT_COORDS_DEF`$, I have found this notation
+    more convenient (consistent with what I had already written, for which I had
+    it already coded).
+
+[^6]: I haven't considered it necessary to add the observation, as I think is a
+    rather known theorem in matrix algebra (see e.g. [this response in Math
+    Stackexchange](https://math.stackexchange.com/a/340234/1082326 "Response to 'Transpose of inverse vs inverse of transpose'")).
+
+[^7]: I'm omitting here (for the moment) the mathematical expressions defining
+    the direction cosine vectors.
+
+[^8]: Mario is using $V$ here but I understand he refers to the latent (vector)
+    space, which I have denoted it by $`r LATENT_SPACE`$. Is this correct?
+
+[^9]: I don't quite understand the whole proof, particularly, the equivalence
+    $`r latex_eq(latex(latex_transp(STD_BASIS_VECTOR_ANY), INNER_PROD_MATRIX), INNER_PROD_MATRIX_ROW)`$,
+    and the step from $`r DIR_COS_ANY`$ to $`r DIR_COS_VEC`$. This step is
+    similar to my step from Equation 6 to Equation 7 in the draft, which I had
+    the feeling was missing some intermediate steps.
+
+[^10]: Again I'm using here the notation I have used in the draft and before
+    (see also footnote 5).
+
+[^11]: I have skipped some basic matrix algebra steps here.
