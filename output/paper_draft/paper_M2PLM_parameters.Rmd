@@ -340,7 +340,7 @@ already assumes the orthogonality of the latent space.
 Following the procedure outlined by @reckase_difficulty_1985
 [@reckase_discriminating_1991],
 we first compute the point of maximum slope by finding the root(s) of
-the second derivative with respect to $`r TRAIT_VECTOR`$.
+the second derivative with respect to $`r TRAIT_MODULE`$.
 
 \begin{equation}
   `r IRF_2ND_DIFF_EQ`,                                      (\#eq:M2PL-2nd-diff)
@@ -373,7 +373,7 @@ To compute the direction of the maximum slope,
 Reckase leverages on the property that the squared direction cosines sum up to 1
 (see Equation 7 therein).
 However, this assertion implicitly assumes orthogonal coordinates,
-so it does not apply in general to `r DIR_COS_VEC`.<!-- # TODO: To appendix the following, or maybe give for granted? -->
+so it does not apply in general to $`r DIR_COS_VEC`$.<!-- # TODO: To appendix the following, or maybe give for granted? -->
 Instead, we may consider the direction cosine vector in $`r LATENT_SPACE_STD`$:
 
 \begin{equation}
