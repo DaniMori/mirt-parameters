@@ -34,10 +34,14 @@ LATENT_SPACE       <- latex_bf("\\upTheta")
 N_DIMS             <- latex('n')
 BASIS_VECTOR_EL    <- latex('u')
 BASIS_VECTOR       <- latex_bf(BASIS_VECTOR_EL)
-BASIS_VECTOR_FIRST <- latex("$BASIS_VECTOR$_1")
-BASIS_VECTOR_LAST  <- latex("$BASIS_VECTOR$_$N_DIMS$")
+BASIS_VECTOR_FIRST <- latex_sub(BASIS_VECTOR, 1)
+BASIS_VECTOR_LAST  <- latex_sub(BASIS_VECTOR, N_DIMS)
 LS_BASIS           <- latex_cal("B")
-LS_BASIS_ELEMENTS  <- latex("$BASIS_VECTOR_FIRST$, ... , $BASIS_VECTOR_LAST$")
+LS_BASIS_ELEMENTS  <- latex_enum(
+  BASIS_VECTOR_FIRST,
+  ELLIPSIS,
+  BASIS_VECTOR_LAST
+)
 LS_BASIS_SET       <- latex_curlybraces(LS_BASIS_ELEMENTS)
 LS_BASIS_EQ        <- latex_eq(LS_BASIS, LS_BASIS_SET)
 
