@@ -633,7 +633,9 @@ TRANSFORM_MATRIX_EXAMPLE_EQ <- latex_def(
   TRANSFORM_MATRIX_EXAMPLE
 )
 
-### Mario's lemmas: ----
+### Mario's annotations: ----
+
+#### Director cosines lemmas: ----
 
 TRAIT_VEC_STD_MOD    <- latex_prime(TRAIT_MODULE)
 TRAIT_VEC_STD_COMP   <- latex_sub(TRAIT_VEC_STD_MOD, DIM_INDEX)

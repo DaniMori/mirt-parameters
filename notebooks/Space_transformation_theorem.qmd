@@ -209,7 +209,14 @@ and thus $`r LEMMA_2_EQ`$.$\blacksquare$
 
 # Point of maximum slope
 
+There is little difference (notation and a few steps) from my own computataions,
+so I think its ok not to transcribe it (Mario and I are "on the same page").
 
+# Test space and latent space
+
+I think this part details the derivation of my Equation 21 (which I have
+omitted, but is equivalent to Equations 13 through 15), so it is ok not to
+transcribe this part for now.
 
 [^1]: I prefer to refer to the responses as "positive/negative", instead of
     "correct/incorrect", as this terminology allows for non-cognitive (as well
