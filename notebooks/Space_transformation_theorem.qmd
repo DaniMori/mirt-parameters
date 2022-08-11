@@ -37,10 +37,11 @@ opts_knit$set(root.dir = ROOT_DIR)
 source("R/Formulae.R", encoding = 'UTF-8')
 ```
 
-# Main
+# Direction consines transformations
 
-Let's consider a $`r N_DIMS`$ latent space $`r LATENT_SPACE`$ with Euclidean
-vector structure, and let $`r LS_BASIS_EQ`$ be a basis of $`r LATENT_SPACE`$.
+Let's consider a $`r N_DIMS`$-dimensional latent space $`r LATENT_SPACE`$ with
+Euclidean vector structure, and let $`r LS_BASIS_EQ`$ be a basis of
+$`r LATENT_SPACE`$.
 
 ::: callout-note
 Stating that $`r LS_BASIS`$ is a basis implies that its vectors are linearly
@@ -50,15 +51,15 @@ $`r LS_BASIS`$.
 :::
 
 Let's consider a dichotomous item $`r ITEM_INDEX`$ such that the probability
-that respondent with trait $`r LS_BASIS_EQ`$ gives a positive[^1] response is
-given by
+that a respondent with trait $`r TRAIT_VEC_IN_LS`$ gives a positive[^1] response
+is given by
 
 $$
   `r M2PL_FORMULATION`
 $$ {#eq-M2PL-formulation}
 
-Let's consider in $`r LATENT_SPACE`$ the standard basis $`r LS_STD_BASIS_EQ`$ as
-well.
+Let's consider as well the standard basis $`r LS_STD_BASIS_EQ`$ in
+$`r LATENT_SPACE`$.
 
 For all $`r TRAIT_VEC_IN_LS`$ we have both representations[^2]:
 
@@ -68,7 +69,7 @@ Let $`r BASIS_CHANGE_DEF`$ be the change of basis matrix; then, if we denote
 $`r TRAIT_COORDS_DEF`$ and $`r TRAIT_STD_COORDS_DEF`$ we have that
 
 $$
-  `r BASIS_CHANGE_EQ`
+  `r BASIS_CHANGE_EQ`.
 $$ {#eq-change-basis}
 
 The $`r DIM_INDEX`$-th column of $`r TRANSFORM_MATRIX`$ is given by the
@@ -79,8 +80,8 @@ $$
   `r TRANSFORM_MATRIX_EQ`
 $$ {#eq-transform-matrix-def}
 
-In $`r LATENT_SPACE`$ with the standard basis we have the usual scalar product.
-In $`r LATENT_SPACE`$ with basis $`r LS_BASIS`$ we define an inner product
+With the standard basis in $`r LATENT_SPACE`$ we have the usual scalar product.
+With basis $`r LS_BASIS`$ in $`r LATENT_SPACE`$ we define an inner product
 $`r INNER_PROD_BASIS`$ such that the norm of $`r TRAIT_VECTOR`$ is invariant,
 i.e., $`r TRAIT_NORMS_EQ`$. Thus,[^4]
 
@@ -89,19 +90,20 @@ $$
 $$
 
 Therefore we must define the inner product $`r INNER_PROD_BASIS`$ with Gram
-matrix $`r INNER_PROD_MAT_EQ`$. That is, $`r INNER_PROD_EQ`$.[^5]
+matrix $`r INNER_PROD_MAT_EQ`$. That is, $`r INNER_PROD_EQ`$,[^5] which keeps
+the norm invariant.
 
-The Gram matrix has as element $`r INNER_PROD_MAT_EL_EQ`$. As
+The Gram matrix has as element $`r INNER_PROD_MAT_EL_EQ`$.[^6] As
 $`r TRANSFORM_MATRIX`$ (and consequently, $`r TRANSFORM_MATRIX_TRANSP`$) is
 invertible so $`r INNER_PROD_MATRIX`$ is, and
-$`r INNER_PROD_MATRIX_INV_EQ`$.[^6]
+$`r INNER_PROD_MATRIX_INV_EQ`$.[^7]
 
 Let's consider now the vectors $`r DIR_COS_VEC`$ and $`r DIR_COS_VEC_STD`$, made
-up by $`r N_DIMS`$ direction cosines of $`r TRAIT_VECTOR`$ with the basis
-vectors of $`r LS_BASIS`$ and $`r LS_STD_BASIS`$, respectively.[^7]
+up by the $`r N_DIMS`$ direction cosines of $`r TRAIT_VECTOR`$ with the basis
+vectors of $`r LS_BASIS`$ and $`r LS_STD_BASIS`$, respectively.[^8]
 
 ::: {#lem-dircos}
-Under the previously defined conditions, for all $`r TRAIT_VEC_IN_LS`$,[^8]
+Under the previously defined conditions, for all $`r TRAIT_VEC_IN_LS`$,[^9]
 
 $$
   `r DIR_COS_VEC_EQ`
@@ -136,10 +138,12 @@ $\blacksquare$
 
 ::: {#lem-convert-spaces}
 Let's consider another basis $`r NEW_BASIS_EQ`$ in $`r LATENT_SPACE`$ and the
-inner product $`r INNER_PROD_NEWBS`$ that keeps the norm invariant.
+inner product $`r INNER_PROD_NEWBS`$ that keeps the norm of the Euclidean space
+invariant.
 
 Let $`r DIR_COS_VEC_NEWBS`$ be the vector of direction cosines of
-$`r TRAIT_VECTOR`$ (i.e., the cosines with the elements of $`r NEW_BASIS`$).
+$`r TRAIT_VECTOR`$ in $`r NEW_BASIS`$ (i.e., the cosines with the elements of
+$`r NEW_BASIS`$).
 
 Then,
 
@@ -203,24 +207,31 @@ and thus $`r LEMMA_2_EQ`$.$\blacksquare$
 :::
 :::
 
+# Point of maximum slope
+
+
+
 [^1]: I prefer to refer to the responses as "positive/negative", instead of
-    "correct/incorrect", as this terminology contemplates the possibility of
-    non-cognitive (as well as cognitive) domains.
+    "correct/incorrect", as this terminology allows for non-cognitive (as well
+    as cognitive) domains.
 
 [^2]: I'm preferring here the notation I use in the draft, that is,
     $`r DIM_INDEX`$ for indexing the dimensions (instead of $`r ITEM_INDEX`$,
-    which is also used to index the items), $`r TRAIT_MODULE`$ for the
+    which is also used to index the items), $`r TRAIT_COMPONENT`$ for the
     coordinates of $`r TRAIT_VECTOR`$ in $`r LS_BASIS`$, and
     $`r TRAIT_VEC_STD_COMP`$ for the coordinates in $`r LS_STD_BASIS`$.
     Nevertheless, as Mario reminded me, it is worth noting that this notation
     for the vector coordinates is ambiguous, as we are using the same symbol
-    ($`r TRAIT_VECTOR`$) for the "geometric vector" and the "algebraic vector"
-    (i.e. column matrix) of its coordinates in $`r LATENT_SPACE`$ (this notation
-    is usually accepted though).
+    ($`r TRAIT_VECTOR`$) for the "geometric vector" (i.e. "arrow" in vector
+    space) and the "algebraic vector" (i.e. column matrix) of its coordinates in
+    $`r LATENT_SPACE`$ (although this notation is usually accepted).
 
 [^3]: Is it ok to use square brackets here? I'm using it instead of parentheses
     because I had already written this (with a function), but if it's not
-    correct I change it to parentheses.
+    correct I change it to parentheses. **Also:** Is this a common algebra
+    result? It feels like the this step is left implicit without justification;
+    in my case, in the draft I needed to go all the way by Equations 2 through 4
+    (section 2.2.1)
 
 [^4]: Mario wrote in the leftmost therm of the equality "the norm of
     $`r TRAIT_VECTOR`$", but it should be "the *squared* norm of
@@ -230,14 +241,19 @@ and thus $`r LEMMA_2_EQ`$.$\blacksquare$
     more convenient (consistent with what I had already written, for which I had
     it already coded).
 
-[^6]: I haven't considered it necessary to add the observation, as I think is a
+[^6]: There is an erratum here in Mario's notes, I think. It should be the inner
+    product of $`r BASIS_VECTOR_AUX_TRANSF`$ and $`r BASIS_VECTOR_ANY_TRANSF`$
+    as I have written, instead of $`r BASIS_VECTOR_AUX`$ and
+    $`r BASIS_VECTOR_ANY`$, as Mario wrote.
+
+[^7]: I haven't considered it necessary to add the observation, as I think is a
     rather known theorem in matrix algebra (see e.g. [this response in Math
     Stackexchange](https://math.stackexchange.com/a/340234/1082326 "Response to 'Transpose of inverse vs inverse of transpose'")).
 
-[^7]: I'm omitting here (for the moment) the mathematical expressions defining
+[^8]: I'm omitting here (for the moment) the mathematical expressions defining
     the direction cosine vectors.
 
-[^8]: Mario is using $V$ here but I understand he refers to the latent (vector)
+[^9]: Mario is using $V$ here but I understand he refers to the latent (vector)
     space, which I have denoted it by $`r LATENT_SPACE`$. Is this correct?
 
 [^10]: Again I'm using here the notation I have used in the draft and before
