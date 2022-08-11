@@ -114,6 +114,10 @@ which will render the project output.
 source("src/Build_project.R")
 ```
 
+The output file generated will be in the following path:
+
+`output/paper_draft/paper_M2PLM_parameters.docx`
+
 **NOTE:** Rendering the project may take a while, especially the first time.
 This is due to the `renv` package restoring the environment, which implies
 downloading and installing several R packages. Please, be patient!
