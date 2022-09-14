@@ -89,7 +89,7 @@ a *multidimensional discrimination* (MDISC) parameter definition for that model.
 
 A crucial assumption leading to those formulations is that the axes of the
 latent space are orthogonal
-[see @reckase_difficulty_1985, p. 404 and Equation 7].
+[@ackerman_using_1994; @ackerman_multidimensional_2005; see also @reckase_difficulty_1985, p. 404 and Equation 7].
 Of course, orthogonality is a property of a geometrical space instead of a
 latent trait space.
 Thus, nothing prevents a researcher from interpreting an abstraction such as
@@ -225,7 +225,7 @@ cognitive traits, we speak of _positive_ instead of _correct response_.
 This may imply a correct response, if we are talking about a cognitive test, or
 endorsing an item (or a certain response option) in a non-cognitive domain.
 Second, although not explicitly stated, $`r DISCR_VECTOR`$ is a vector of
-non-negative real numbers in Reckse
+non-negative real numbers in Reckase
 [-@reckase_difficulty_1985, a decrease in the probability of a correct response with an increase in ability makes little sense].
 In our case, $`r DISCR_VECTOR`$ is a vector of real numbers; the value
 of the $`r DIM_INDEX`$-th component $`r DISCR_PARAM`$ can be negative if
