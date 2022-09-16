@@ -1,0 +1,161 @@
+---
+title: "Multidimensional information"
+author: "Daniel Morillo"
+format: html
+bibliography: ../www/Multidimensional-parameters-MCLM.bib
+editor: visual
+---
+
+# Introduction
+
+Hereby I am going to derive the multidimensional information, according to
+@ackerman_creating_1994.
+
+# Derivations
+
+@ackerman_creating_1994's Equations 1 through 7 and 13 through 16 for
+bidimensional latent spaces apply directly to the 3-or-more dimensional case,
+regardless of the latent covariance structure, as this is not involved at all in
+those expressions. The only caveat is that he uses the normal parameterization,
+and thus for the M2PL as we have been formulating it the 1.7 factor in Equation
+1 does not apply (and subsequently, the 1.7\^2 = 2.89 factor in Equations 7 and
+14).
+
+The first deviation from his work comes in the paragraph right before Equation
+13, where he states that
+
+> the unidimensional trait level $\theta$ is equal to the linear composite,
+> $\theta_c$, defined by $\theta_c = \beta_1 \theta_1 + \beta_2 \theta_2$, in
+> which $\theta_c$ represents a linear composite in the angular direction of
+> $\alpha$ and $\beta_1 = \cos \alpha$ and $\beta_2 = \sin \alpha$.
+
+In our case, $\mathbf{\beta}$ must be a $D$-dimensional vector, being its $k$-th
+component $\beta_k = \cos \alpha_k$, $k = [1, \dots, n]$.
+
+## Components of $\mathbf{\beta}$
+
+The main problem with determining the composite direction given by
+$\mathbf{\beta}$ is that its components must be the cosines of the angles with
+the $\theta_k$ axes. At this point, my main doubt is which space to use for
+computing the angles: the latent trait space or the test space?
+
+I will first try with a correlated, bidimensional latent space as an example to
+explore the solution. In this space, the information of simple-structure items
+in the direction parallel to the axes of its tapped trait should be equal to the
+information of the unidimensional case. In the direction of the other trait
+axis, the information should be more positive the more positive the correlation
+is (constrained by the information of the former axis as maximum value).
+
+I first define the latent space, by considering a bivariate standardize normal
+distribution with correlated dimensions:
+
+```{r}
+rho     <- .5
+sigma   <- c(1, rho, rho, 1) |> matrix(2)
+sig_inv <- sigma |> solve()
+```
+
+I define the item discrimination parameters:
+
+```{r}
+a_item <- c(1, 0) |> matrix()
+d_item <- 0
+```
+
+Then, the composite direction must be given by any arbitrary vector that is then
+multiplied (by the inner product) with the basis vectors to be transformed into
+a vector of cosines:
+
+```{r}
+comp_vec <- c(0, 1) |> matrix()
+```
+
+Now, computing the module of the basis vectors and the composite vector requires
+the inner product matrix for the first time. I will try with the inverse of the
+covariance matrix first.
+
+```{r}
+library(magrittr)
+
+ip_matrix <- sig_inv
+
+comp_vec_mod <- t(comp_vec) %*% ip_matrix %*% comp_vec |>
+  drop() |>
+  sqrt()
+
+u_1 <- c(1, 0) |> matrix()
+u_2 <- c(0, 1) |> matrix()
+
+basis_matrix <- cbind(u_1, u_2)
+basis_vec_mods <- t(basis_matrix) %*% ip_matrix %*% basis_matrix |>
+  diag() |>
+  sqrt()
+
+comp_cos_vec <- t(comp_vec) %*% ip_matrix %*% basis_matrix |>
+  divide_by(comp_vec_mod * basis_vec_mods) |>
+  matrix()
+
+comp_cos_vec
+```
+
+These are the cosines, the components of the vector $\beta$. The covariance
+error matrix, Equation 13 in @ackerman_creating_1994, is given by the inverse of
+the information matrix. The latter can be expressed as
+$\mathbf{A}^T\mathbf{A}PQ$, being $\mathbf{A}$ the matrix of all item
+parameters; the covariance matrix can be subsequently expressed as
+$(\mathbf{A}^T\mathbf{A})^{-1}PQ^{-1}$. In our case, for a single item,
+$\mathbf{A} = a^T$.
+
+```{r}
+A_matrix <- a_item |> t()
+
+A_sq     <- t(A_matrix) %*% A_matrix
+# A_sq_inv <- A_sq |> solve() ## Not run
+```
+
+As @ackerman_creating_1994 states (and I already knew) "for a single item or for
+$n$ items that measure in exactly the same direction \[...\], Equation 7 (i.e.
+the information matrix) is singular" (p. 259). This implies that I need at least
+two items, and I want the information to be mostly aligned with one of the axes,
+but they must not measure in the same direction. Therefore, I create a second
+item, with near simple structure on the trait of the first axis.
+
+```{r}
+a_item_1 <- a_item
+a_item_2 <- c(.95, .1) |> matrix()
+
+A_matrix <- cbind(a_item_1, a_item_2) |> t()
+
+A_sq     <- t(A_matrix) %*% A_matrix
+A_sq_inv <- A_sq |> solve()
+```
+
+Once we have the error covariance matrix (except for the $PQ^{-1}$ factor), we
+can pre- and post- multiply by (transposed) $\mathbf{\beta}$ to compute first
+the error variance in that direction, and then its inverse to obtain the
+information.
+
+```{r}
+error_var <- t(comp_cos_vec) %*% A_sq_inv %*% comp_cos_vec
+comp_info <- 1 / error_var
+```
+
+The resulting multidimensional information coefficient for the direction
+parallel to the second axis is `r comp_info`. Let's try to compute it in the
+direction of the first axis:
+
+```{r}
+comp_vec     <- c(1, 0) |> matrix()
+comp_vec_mod <- t(comp_vec) %*% ip_matrix %*% comp_vec |>
+  drop() |>
+  sqrt()
+comp_cos_vec <- t(comp_vec) %*% ip_matrix %*% basis_matrix |>
+  divide_by(comp_vec_mod * basis_vec_mods) |>
+  matrix()
+
+error_var <- t(comp_cos_vec) %*% A_sq_inv %*% comp_cos_vec
+comp_info <- 1 / error_var
+```
+
+In the first axis the coefficient is `r comp_info`. This seems rather small when
+one should expect a much higher information than in the second axis.
