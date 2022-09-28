@@ -18,7 +18,7 @@ bidimensional latent spaces apply directly to the 3-or-more dimensional case,
 regardless of the latent covariance structure, as this is not involved at all in
 those expressions. The only caveat is that he uses the normal parameterization,
 and thus for the M2PL as we have been formulating it the 1.7 factor in Equation
-1 does not apply (and subsequently, the 1.7\^2 = 2.89 factor in Equations 7 and
+1 does not apply (and subsequently, the 1.7^2^ = 2.89 factor in Equations 7 and
 14).
 
 The first deviation from his work comes in the paragraph right before Equation
@@ -43,10 +43,10 @@ I will first try with a correlated, bidimensional latent space as an example to
 explore the solution. In this space, the information of simple-structure items
 in the direction parallel to the axes of its tapped trait should be equal to the
 information of the unidimensional case. In the direction of the other trait
-axis, the information should be more positive the more positive the correlation
-is (constrained by the information of the former axis as maximum value).
+axis, the information should be higher the more positive the correlation is
+(constrained by the information of the former axis as maximum value).
 
-I first define the latent space, by considering a bivariate standardize normal
+I first define the latent space, by considering a bivariate standardized normal
 distribution with correlated dimensions:
 
 ```{r}
@@ -98,11 +98,11 @@ comp_cos_vec <- t(comp_vec) %*% ip_matrix %*% basis_matrix |>
 comp_cos_vec
 ```
 
-These are the cosines, the components of the vector $\beta$. The covariance
-error matrix, Equation 13 in @ackerman_creating_1994, is given by the inverse of
-the information matrix. The latter can be expressed as
+These are the cosines, the components of the vector $\beta$. The error
+covariance matrix, Equation 13 in @ackerman_creating_1994, is given by the
+inverse of the information matrix. The latter can be expressed as
 $\mathbf{A}^T\mathbf{A}PQ$, being $\mathbf{A}$ the matrix of all item
-parameters; the covariance matrix can be subsequently expressed as
+parameters; the error covariance matrix can be subsequently expressed as
 $(\mathbf{A}^T\mathbf{A})^{-1}PQ^{-1}$. In our case, for a single item,
 $\mathbf{A} = a^T$.
 
