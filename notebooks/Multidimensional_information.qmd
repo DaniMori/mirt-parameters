@@ -1,17 +1,28 @@
 ---
 title: "Multidimensional information"
 author: "Daniel Morillo"
-format: html
+format:
+  html:
+    toc: true
+    toc-location: left
+    toc-depth: 4
 bibliography: ../www/Multidimensional-parameters-MCLM.bib
 editor: visual
 ---
 
+```{r setup}
+#| include: false
+options(digits = 5)
+```
+
 # Introduction
 
-Hereby I am going to derive the multidimensional information, according to
-@ackerman_creating_1994.
+Hereby I am going to try to derive the multidimensional information, according
+to @ackerman_creating_1994.
 
 # Derivations
+
+## Multidimensional information
 
 @ackerman_creating_1994's Equations 1 through 7 and 13 through 16 for
 bidimensional latent spaces apply directly to the 3-or-more dimensional case,
@@ -20,6 +31,8 @@ those expressions. The only caveat is that he uses the normal parameterization,
 and thus for the M2PL as we have been formulating it the 1.7 factor in Equation
 1 does not apply (and subsequently, the 1.7^2^ = 2.89 factor in Equations 7 and
 14).
+
+## Linear composite $\mathbf{\beta}$
 
 The first deviation from his work comes in the paragraph right before Equation
 13, where he states that
@@ -32,12 +45,14 @@ The first deviation from his work comes in the paragraph right before Equation
 In our case, $\mathbf{\beta}$ must be a $D$-dimensional vector, being its $k$-th
 component $\beta_k = \cos \alpha_k$, $k = [1, \dots, n]$.
 
-## Components of $\mathbf{\beta}$
+### Components of $\mathbf{\beta}$
 
 The main problem with determining the composite direction given by
 $\mathbf{\beta}$ is that its components must be the cosines of the angles with
 the $\theta_k$ axes. At this point, my main doubt is which space to use for
 computing the angles: the latent trait space or the test space?
+
+## Example with a correlated bidimensional space
 
 I will first try with a correlated, bidimensional latent space as an example to
 explore the solution. In this space, the information of simple-structure items
@@ -49,15 +64,18 @@ axis, the information should be higher the more positive the correlation is
 I first define the latent space, by considering a bivariate standardized normal
 distribution with correlated dimensions:
 
-```{r}
-rho     <- .5
+```{r def-corr}
+rho <- .5
+```
+
+```{r def-covariance}
 sigma   <- c(1, rho, rho, 1) |> matrix(2)
 sig_inv <- sigma |> solve()
 ```
 
 I define the item discrimination parameters:
 
-```{r}
+```{r def-item}
 a_item <- c(1, 0) |> matrix()
 d_item <- 0
 ```
@@ -66,18 +84,22 @@ Then, the composite direction must be given by any arbitrary vector that is then
 multiplied (by the inner product) with the basis vectors to be transformed into
 a vector of cosines:
 
-```{r}
+```{r def-composite}
 comp_vec <- c(0, 1) |> matrix()
 ```
+
+### Computation in the latent space {#latent-space}
 
 Now, computing the module of the basis vectors and the composite vector requires
 the inner product matrix for the first time. I will try with the inverse of the
 covariance matrix first.
 
-```{r}
-library(magrittr)
-
+```{r def-inner-product}
 ip_matrix <- sig_inv
+```
+
+```{r compute-composite-components}
+library(magrittr)
 
 comp_vec_mod <- t(comp_vec) %*% ip_matrix %*% comp_vec |>
   drop() |>
@@ -86,7 +108,7 @@ comp_vec_mod <- t(comp_vec) %*% ip_matrix %*% comp_vec |>
 u_1 <- c(1, 0) |> matrix()
 u_2 <- c(0, 1) |> matrix()
 
-basis_matrix <- cbind(u_1, u_2)
+basis_matrix   <- cbind(u_1, u_2)
 basis_vec_mods <- t(basis_matrix) %*% ip_matrix %*% basis_matrix |>
   diag() |>
   sqrt()
@@ -106,23 +128,26 @@ parameters; the error covariance matrix can be subsequently expressed as
 $(\mathbf{A}^T\mathbf{A})^{-1}PQ^{-1}$. In our case, for a single item,
 $\mathbf{A} = a^T$.
 
-```{r}
+```{r compute-discr-matrix-attemt}
 A_matrix <- a_item |> t()
 
 A_sq     <- t(A_matrix) %*% A_matrix
 # A_sq_inv <- A_sq |> solve() ## Not run
 ```
 
-As @ackerman_creating_1994 states (and I already knew) "for a single item or for
-$n$ items that measure in exactly the same direction \[...\], Equation 7 (i.e.
-the information matrix) is singular" (p. 259). This implies that I need at least
-two items, and I want the information to be mostly aligned with one of the axes,
-but they must not measure in the same direction. Therefore, I create a second
-item, with near simple structure on the trait of the first axis.
+As @ackerman_creating_1994 states "for a single item or for $n$ items that
+measure in exactly the same direction \[...\], Equation 7 (i.e. the information
+matrix) is singular" (p. 259). This I already knew, but hadn't realized it was
+the case; therefore, my previous assertion that "in the direction of the other
+trait axis, the information should be higher the more positive the correlation
+is" is actually false (for one item). Therefore, I need at least two items, and
+I want the information to be mostly aligned with one of the axes, but they must
+not measure in the same direction. Thus I create a second item, with near simple
+structure on the trait of the first axis.
 
-```{r}
+```{r def-items}
 a_item_1 <- a_item
-a_item_2 <- c(.95, .1) |> matrix()
+a_item_2 <- c(1.5, .1) |> matrix()
 
 A_matrix <- cbind(a_item_1, a_item_2) |> t()
 
@@ -135,16 +160,16 @@ can pre- and post- multiply by (transposed) $\mathbf{\beta}$ to compute first
 the error variance in that direction, and then its inverse to obtain the
 information.
 
-```{r}
-error_var <- t(comp_cos_vec) %*% A_sq_inv %*% comp_cos_vec
-comp_info <- 1 / error_var
+```{r compute-info-axis2}
+error_var  <- t(comp_cos_vec) %*% A_sq_inv %*% comp_cos_vec
+comp_info2 <- 1 / error_var
 ```
 
 The resulting multidimensional information coefficient for the direction
-parallel to the second axis is `r comp_info`. Let's try to compute it in the
+parallel to the second axis is `r comp_info2`. Let's try to compute it in the
 direction of the first axis:
 
-```{r}
+```{r compute-info-axis1}
 comp_vec     <- c(1, 0) |> matrix()
 comp_vec_mod <- t(comp_vec) %*% ip_matrix %*% comp_vec |>
   drop() |>
@@ -153,9 +178,152 @@ comp_cos_vec <- t(comp_vec) %*% ip_matrix %*% basis_matrix |>
   divide_by(comp_vec_mod * basis_vec_mods) |>
   matrix()
 
-error_var <- t(comp_cos_vec) %*% A_sq_inv %*% comp_cos_vec
-comp_info <- 1 / error_var
+error_var  <- t(comp_cos_vec) %*% A_sq_inv %*% comp_cos_vec
+comp_info1 <- 1 / error_var
+
+ratio <- comp_info1 / comp_info2
 ```
 
-In the first axis the coefficient is `r comp_info`. This seems rather small when
-one should expect a much higher information than in the second axis.
+In the first axis the coefficient is `r comp_info1`. This seems rather small
+when one should expect a much higher information than in the second axis; the
+ratio in the two directions is `r ratio`.
+
+#### Test with higher correlation
+
+Common sense tells us that the more aligned the axes are, the more similar the
+information will be on the two dimensions parallel with the two axes. To test
+this commonsense assumption, we try the previous computations again with a
+higher correlation.
+
+```{r test-higher-corr}
+# Correlation and covariance matrix
+rho       <- .93
+sigma     <- c(1, rho, rho, 1) |> matrix(2)
+sig_inv   <- sigma |> solve()
+ip_matrix <- sig_inv
+
+# Basis vectors
+basis_vec_mods <- t(basis_matrix) %*% ip_matrix %*% basis_matrix |>
+  diag() |>
+  sqrt()
+
+# Composite cosine vectors
+comp_vecs     <- diag(2)
+comp_vecs_mod <- t(comp_vecs) %*% ip_matrix %*% comp_vecs |>
+  diag() |>
+  sqrt()
+comp_cos_vecs <- t(comp_vecs) %*% ip_matrix %*% basis_matrix |>
+  divide_by(comp_vecs_mod * basis_vec_mods)
+
+# Error variance and information in the composite directions
+error_var <- t(comp_cos_vecs) %*% A_sq_inv %*% comp_cos_vecs |> diag()
+comp_info <- 1 / error_var
+
+ratio <- comp_info[1] / comp_info[2]
+```
+
+The information in the two axes is now `r comp_info[1]` and `r comp_info[2]`,
+being their ratio `r ratio`. This fulfills the assumption we wanted to test.
+However, it doesn't make much sense that the information in the direction of the
+first axis has decreased.
+
+### Computation in the test space
+
+We are going to test the same assumption, but this time in the test space. This
+implies using the covariance matrix as inner product matrix, instead of its
+inverse.
+
+```{r}
+rho <- .5
+```
+
+We try first with a correlation of `r rho`.
+
+```{r compute-test-space}
+# Covariance matrix
+sigma     <- c(1, rho, rho, 1) |> matrix(2)
+ip_matrix <- sigma
+
+# Basis vectors
+basis_vec_mods <- t(basis_matrix) %*% ip_matrix %*% basis_matrix |>
+  diag() |>
+  sqrt()
+
+# Composite cosine vectors
+comp_vecs     <- diag(2)
+comp_vecs_mod <- t(comp_vecs) %*% ip_matrix %*% comp_vecs |>
+  diag() |>
+  sqrt()
+comp_cos_vecs <- t(comp_vecs) %*% ip_matrix %*% basis_matrix |>
+  divide_by(comp_vecs_mod * basis_vec_mods)
+
+# Error variance and information in the composite directions
+error_var <- t(comp_cos_vecs) %*% A_sq_inv %*% comp_cos_vecs |> diag()
+comp_info <- 1 / error_var
+
+ratio <- comp_info[1] / comp_info[2]
+```
+
+The information in both axes directions would be `r comp_info[1]` and
+`r comp_info[2]`, and their ratio `r ratio`.
+
+```{r}
+rho <- .93
+```
+
+Now we compute the same result, but with a correlation of `r rho` as we did
+before.
+
+```{r compute-test-space-high-corr}
+# Covariance matrix
+sigma     <- c(1, rho, rho, 1) |> matrix(2)
+ip_matrix <- sigma
+
+# Basis vectors
+basis_vec_mods <- t(basis_matrix) %*% ip_matrix %*% basis_matrix |>
+  diag() |>
+  sqrt()
+
+# Composite cosine vectors
+comp_vecs     <- diag(2)
+comp_vecs_mod <- t(comp_vecs) %*% ip_matrix %*% comp_vecs |>
+  diag() |>
+  sqrt()
+comp_cos_vecs <- t(comp_vecs) %*% ip_matrix %*% basis_matrix |>
+  divide_by(comp_vecs_mod * basis_vec_mods)
+
+# Error variance and information in the composite directions
+error_var <- t(comp_cos_vecs) %*% A_sq_inv %*% comp_cos_vecs |> diag()
+comp_info <- 1 / error_var
+
+ratio <- comp_info[1] / comp_info[2]
+```
+
+The information would be now `r comp_info[1]` and `r comp_info[2]` for the first
+and second axis direction, respectively, and their ratio `r ratio`.
+
+### Interpretation of the differences in the results in both spaces
+
+The information in the direction of the first axis decreases also, as happened
+when computing the directions in the latent space. However, the information in
+the direction of the second axis increases, while when computing it in the
+latent space it also decreased. It makes more sense to assume that the direction
+would increase in the second axis direction with an increase in the correlation,
+as it gets more aligned with the first axis.
+
+On the other hand, exploring the cosines that determine the composite direction
+one can see that, when using the latent space, they get more aligned **in the
+opposite direction** when the correlation increases. This makes me think that,
+in this case, the information is more evenly distributed across all direction in
+the latent space. However, what I would expect is that the information get more
+"concentrated" in a single direction.
+
+### Correction about the computation of the information matrix
+
+There is also one last thing when computing the information with two (or more)
+items: I have assumed that the $PQ^{-1}$ factor can be factored out of the
+matrix (see section [Computation in the latent space](#latent-space) above).
+However, this is wrong. Its value is different for each item, and thus
+it must be taken into account when computing the sum of the information for all
+the items. This implies that the information matrix cannot be computed as
+$\mathbf{A}^T\mathbf{A}PQ$ as I assumed before, for more than one item.
