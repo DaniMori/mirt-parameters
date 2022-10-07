@@ -42,7 +42,8 @@ source("R/Mirt_toolbox.R")
 items <- read_csv2("dat/Table_5_Tezza_et_al_2018.csv")
 
 ## ----orthogonal-params----
-items_orth <- items |> compute_mirt_params(d, starts_with('a'), dir_out = "deg")
+items_orth <- items |>
+  compute_mirt_params(d, matches('^a\\d$'), dir_out = "deg")
 
 ## ----compare-orthogonal-params----
 
@@ -68,7 +69,7 @@ corr_matrix[1, 4] <- corr_matrix[4, 1] <- .4
 
 ## Compute the parameters:
 items_oblique <- items |> compute_mirt_params(
-  d, starts_with('a'),
+  d, matches('^a\\d$'),
   cov_matrix = corr_matrix,
   dir_out = "deg"
 )
@@ -76,14 +77,14 @@ items_oblique <- items |> compute_mirt_params(
 ## ----params-table----
 
 # Collapse parameters:
-item_params <- items                    |>
-  select(item, starts_with('a'), l = d) |>
-  full_join(items_orth,    by = "item") |>
+item_params <- items                     |>
+  select(item, matches('^a\\d$'), l = d) |>
+  full_join(items_orth,    by = "item")  |>
   full_join(items_oblique, by = "item", suffix = c("_orth", "_ob"))
 
 # Reorder parameters:
 item_params <- item_params |> select(
-  item, starts_with('a'), l,                         # Linear MIRT parameters
+  item, matches('^a\\d$'), l,                        # Linear MIRT parameters
   starts_with(c("MDISC", "D"), ignore.case = FALSE), # MDISC and D
   starts_with('deg_' |> paste0(1:4))                 # direction angles
 )
