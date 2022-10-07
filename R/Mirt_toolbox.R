@@ -72,6 +72,11 @@ compute_mirt_params <- function(items,
 
 
   ## Main: ----
+  
+  # Compute inverse s.d. matrix:
+  var_matrix    <- cov_matrix |> diag() |> diag()
+  inv_sd_matrix <- var_matrix |> sqrt() |> solve()
+  
   items                                                                      |>
     tidyr::pivot_longer(!!discrimination, names_to = "par", values_to = "a") |>
     dplyr::group_by(!!item_id)                                               |>
@@ -81,7 +86,7 @@ compute_mirt_params <- function(items,
       dim   = par |> stringr::str_extract("\\d+"),
       MDISC = (t(a) %*% cov_matrix %*% a) |> drop() |> sqrt(),
       D     = - !!intercept / MDISC,
-      cos   = (cov_matrix %*% a / MDISC)  |> drop(),
+      cos   = (inv_sd_matrix %*% cov_matrix %*% a / MDISC)  |> drop(),
       rad   = acos(cos),
       deg   = rad * RAD_DEG_FACTOR
     )                                                                        |>
