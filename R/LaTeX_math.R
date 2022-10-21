@@ -41,6 +41,9 @@ INNER_PROD_LEFT  <- "\\langle"
 INNER_PROD_RIGHT <- "\\rangle"
 INNER_PROD_SEP   <- ",\\,"
 
+SUMMATION_OP   <- "\\sum"
+COORDINATES_OP <- "coord"
+
 LATEX_CLASS <- "laTeR"
 
 
@@ -109,6 +112,32 @@ latex_sign <- function(..., .par = NA) {
   latex(latex_rm("sign"), argument)
 }
 
+### Iterated operations: ----
+
+latex_summation <- function(index, ..., from = 1, to = NULL, .par = NA) {
+  
+  if (is.na(.par)) .par <- length(list(...)) != 1
+  
+  if (is.null(to)) {
+    
+    sub <- latex_in(index, from)
+    
+  } else {
+    
+    sub <- latex_eq(index, from)
+  }
+  
+  operator <- latex_sub(SUMMATION_OP, sub)
+  
+  if (!is.null(to)) operator <- latex_raised_to(operator, exp = to)
+  
+  result <- latex(...)
+  if (.par) result <- latex_parentheses(result)
+  
+  latex(operator, result)
+}
+
+
 ### Powers and roots: ----
 
 latex_raised_to <- function(..., exp, .abbr = NA, .par = NA) {
@@ -173,6 +202,26 @@ latex_sin <- function(x) { latex("\\sin $x$") }
 latex_tan_def    <- function(x) {
   
   latex_frac(latex_sin(x), latex_cos(x))
+}
+
+
+### Linear algebra: ----
+
+latex_basis_change <- function(init_basis, end_basis) {
+  
+  latex(
+    "{}_{$end_basis$}",
+    latex_sub(latex_parentheses('I'), init_basis)
+  )
+}
+latex_coords <- function(vector, basis) {
+  
+  COORDINATES_OP <- latex_rm(COORDINATES_OP)
+  latex(
+    latex_sub(COORDINATES_OP, LS_BASIS, .abbr = TRUE),
+    latex_parentheses(vector, .sep = NO_SEP),
+    .sep = NO_SEP
+  )
 }
 
 

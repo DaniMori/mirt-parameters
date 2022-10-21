@@ -188,10 +188,8 @@ the applicability and generalization of our results.
 ## Model formulation
 
 Consider a $`r N_DIMS`$-dimensional latent space $`r LATENT_SPACE`$,
-defined by vector space $V$ and basis $`r LS_BASIS`$,
-being $`r LS_BASIS_EQ`$ an arbitrary set of linearly independent vectors.
+defined by vector space $V$ and basis $`r LS_BASIS_EQ`$.
 A respondent is represented by vector $`r TRAIT_VEC_IN_LS`$,
-with coordinates $`r TRAIT_VECTOR`$ in $`r LATENT_SPACE`$,
 which is assumed to be a multivariate normal random variable:
 
 \begin{equation}
@@ -205,20 +203,16 @@ with $`r CORR_MATRIX`$ the corresponding correlation matrix
 (also positive definite) and $`r SD_MATRIX`$ a scaling diagonal matrix
 with $`r VAR_COV_EQ`$ (i.e., the variances).
 
-As in @reckase_difficulty_1985, the characteristic function of item
-$`r ITEM_INDEX`$ according to the M2PL model is formulated as follows:
+According to the M2PL model, the probability of a positive response to item
+$`r ITEM_INDEX`$ is
 
 \begin{equation}
   `r M2PL_FORMULATION`,                                  (\#eq:M2PL-formulation)
 \end{equation}
 
-being  
-$`r IRF_M2PL`$ ($= `r IRF_ABBR`$ henceforth, for simplicity) the probability of
-a positive response to item $`r ITEM_INDEX`$ for a given $`r TRAIT_VECTOR`$,  
-$`r DISCR_VECTOR`$ a $`r N_DIMS`$-dimensional vector of
-discrimination parameters, and  
-$`r INTERCEPT_PARAM`$ an intercept parameter related to the location of the item
-in the latent space.
+where $`r DISCR_VECTOR`$ is a $`r N_DIMS`$-dimensional vector of discrimination
+parameters, and $`r INTERCEPT_PARAM`$ an intercept parameter related to the
+location of the item in the latent space.
 
 We must make a few remarks here. First, as we are not constraining ourselves to
 cognitive traits, we speak of _positive_ instead of _correct response_.
@@ -244,20 +238,21 @@ In order to contemplate the general case,
 we need to introduce a few linear algebra results before proceeding futher.
 
 ## Linear algebra of non-orthogonal coordinates
-<!-- # TODO: To appendix, OR citation about these? -->
 
-### Inner product
+Let's consider the standard basis $`r LS_STD_BASIS_EQ`$ in $`r LATENT_SPACE`$.
+TODO: Incomplete in Mario's version, is it correct to say "in the latent space"?
+We can write all $`r TRAIT_VEC_IN_LS`$ as a linear combination of each baseis.
+Therefore, we have both representations: $`r TRAIT_VECTOR_DEF_BASIS_EQ`$, and
+$`r TRAIT_VECTOR_DEF_STD_BASIS_EQ`$, where $`r TRAIT_COORDS_EQ`$ and
+$`r TRAIT_COORDS_STD_EQ`$.
 
-Let $`r INNER_PROD_EQ`$ be the inner product in $`r LATENT_SPACE`$, with
-the positive-definite matrix $`r INNER_PROD_MATRIX`$ its inner product matrix.
-We may apply a change of basis in $`r LATENT_SPACE`$ that results in a space
-$`r LATENT_SPACE_STD`$ with the standard basis $`r LS_STD_BASIS_EQ`$.
-Such a change of basis can be defined as
+Let $`r BASIS_CHANGE_DEF`$ be the change of basis matrix; then, we have that
 
 \begin{equation}
-  `r BASIS_CHANGE`,                                          (\#eq:change-basis)
+  `r BASIS_CHANGE`.                                          (\#eq:change-basis)
 \end{equation}
 
+The $`r DIM_INDEX`$-th column of $`r TRANSFORM_MATRIX`$
 
 with $`r TRAIT_VECTOR_STD`$ the coordinates
 of $`r TRAIT_VECTOR`$ in $`r LATENT_SPACE_STD`$ and $`r TRANSFORM_MATRIX_EQ`$
@@ -773,7 +768,7 @@ opts_knit$set(root.dir = ROOT_DIR)
 ```
 
 ```{r read-chunks-empirical-example}
-read_chunk("src/Empirical_example.R")
+read_chunk("src/Empirical_example_Tezza2018.R")
 ```
 
 ```{r libraries, message=FALSE}

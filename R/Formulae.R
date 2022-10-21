@@ -93,7 +93,7 @@ EXPFUNC_M2PL  <- latex_exp(latex_sqbrackets("-$LOGIT_M2PL$"))
 LOGISTIC_M2PL <- latex_logistic(LOGIT_M2PL)
 LOG_INV_M2PL  <- latex_inv_log(LOGIT_M2PL)
 
-M2PL_FORMULATION <- latex_eq(IRF_M2PL, LOGISTIC_M2PL)
+M2PL_FORMULATION <- latex_eq(IRF_M2PL, IRF_ABBR, LOGISTIC_M2PL)
 
 ### Change of basis in the latent space ----
 
@@ -110,11 +110,43 @@ LS_STD_BASIS_ELEMENTS <- latex_enum(
 LS_STD_BASIS_SET      <- latex_curlybraces(LS_STD_BASIS_ELEMENTS)
 LS_STD_BASIS_EQ       <- latex_eq(LS_STD_BASIS, LS_STD_BASIS_SET)
 
+BASIS_VECTOR_ANY          <- latex_sub(BASIS_VECTOR, DIM_INDEX)
+BASIS_VECTOR_ANY_TRANSF   <- latex_prime(BASIS_VECTOR_ANY)
+TRAIT_MODULE              <- latex("\\theta")
+TRAIT_COMPONENT           <- latex_sub(TRAIT_MODULE, DIM_INDEX)
+TRAIT_VECTOR_DEF_BASIS    <- latex_summation(
+  TRAIT_COMPONENT, BASIS_VECTOR_ANY,
+  index = DIM_INDEX, from = 1, to = N_DIMS,
+  .par = FALSE
+)
+TRAIT_VECTOR_DEF_BASIS_EQ <- latex_eq(TRAIT_VECTOR, TRAIT_VECTOR_DEF_BASIS)
+
+TRAIT_VEC_STD_MOD             <- latex_prime(TRAIT_MODULE)
+TRAIT_VEC_STD_COMP            <- latex_sub(TRAIT_VEC_STD_MOD, DIM_INDEX)
+STD_BASIS_VECTOR_ANY          <- latex_sub(STD_BASIS_VECTOR, DIM_INDEX)
+TRAIT_VECTOR_DEF_STD_BASIS    <- latex_summation(
+  TRAIT_VEC_STD_COMP, STD_BASIS_VECTOR_ANY,
+  index = DIM_INDEX, from = 1, to = N_DIMS,
+  .par = FALSE
+)
+TRAIT_VECTOR_DEF_STD_BASIS_EQ <- latex_eq(
+  TRAIT_VECTOR,
+  TRAIT_VECTOR_DEF_STD_BASIS
+)
+
+TRAIT_COORDS_DEF     <- latex_coords(TRAIT_VECTOR, LS_BASIS)
+TRAIT_COORDS_EQ      <- latex_eq(TRAIT_VECTOR, TRAIT_COORDS_DEF)
+TRAIT_COORDS_STD_DEF <- latex_coords(TRAIT_VECTOR_STD, LS_STD_BASIS)
+TRAIT_COORDS_STD_EQ  <- latex_eq(TRAIT_VECTOR, TRAIT_COORDS_STD_DEF)
+
+TRANSFORM_MATRIX <- latex_bf('P')
+BASIS_CHANGE_SYM <- latex_basis_change(LS_BASIS, LS_STD_BASIS)
+BASIS_CHANGE_DEF <- latex_eq(BASIS_CHANGE_SYM, TRANSFORM_MATRIX)
+
 TRAIT_NORM   <- latex_norm(TRAIT_VECTOR)
 TRAIT_MODULE <- latex("\\theta")
 NORM_EQ      <- latex_equiv(TRAIT_MODULE, TRAIT_NORM)
 
-TRANSFORM_MATRIX          <- latex_bf('P')
 TRANSFORM_MATRIX_TRANSP   <- latex_transp(TRANSFORM_MATRIX)
 BASIS_VECTOR_TRANSF       <- latex_prime(BASIS_VECTOR)
 BASIS_VECTOR_FIRST_TRANSF <- latex_prime(BASIS_VECTOR_FIRST)
@@ -126,8 +158,6 @@ LS_BASIS_ELEMENTS_TRANSF  <- latex_enum(
 )
 TRANSFORM_MATRIX_DEF      <- latex_sqbrackets(LS_BASIS_ELEMENTS_TRANSF)
 TRANSFORM_MATRIX_EQ       <- latex_eq(TRANSFORM_MATRIX, TRANSFORM_MATRIX_DEF)
-BASIS_VECTOR_ANY          <- latex_sub(BASIS_VECTOR, DIM_INDEX)
-BASIS_VECTOR_ANY_TRANSF   <- latex_prime(BASIS_VECTOR_ANY)
 
 
 TRAIT_TRANSFORM <- latex(TRANSFORM_MATRIX, TRAIT_VECTOR)
@@ -581,7 +611,6 @@ DIAG_KTH_ELEMENT   <- latex(DIM_INDEX, DIM_INDEX, .sep = NO_SEP)
 # Director cosines:
 ANGLE_VECTORS_ITEM   <- latex_sub(ANGLE, "$ITEM_INDEX$$DIM_INDEX$")
 COS_VECTORS_ITEM     <- latex_cos(ANGLE_VECTORS_ITEM)
-TRAIT_COMPONENT      <- latex_sub(TRAIT_MODULE, DIM_INDEX)
 SIGN_COS_VEC_ITEM    <- latex_sign(COS_VECTORS_ITEM, .par = TRUE)
 SIGN_COS_VEC_ITEM_EQ <- latex_eq(SIGN_COS_VEC_ITEM, 0)
 
@@ -632,8 +661,3 @@ TRANSFORM_MATRIX_EXAMPLE_EQ <- latex_def(
   TRANSFORM_MATRIX,
   TRANSFORM_MATRIX_EXAMPLE
 )
-
-## ---- FUNCTIONS: -------------------------------------------------------------
-
-### <Section name>: ----
-
