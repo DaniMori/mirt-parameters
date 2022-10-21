@@ -1,0 +1,37 @@
+---
+title: "Distributions in Carlson (2017)"
+format: html
+editor: visual
+bibliography: ../www/Multidimensional-parameters-MCLM.bib
+---
+
+# Introduction
+
+These distributions are taken from @carlson_unidimensional_2017's Table 2.
+
+```{r table-2}
+covs <- c(
+  0.496, 0.138, 0.678,
+  0.496, 0.223, 0.870,
+  0.507, 0.328, 0.902,
+  0.295, 0.428, 0.928,
+  0.085, 0.383, 0.808,
+  0.069, 0.546, 0.380
+) |>
+  matrix(ncol = 3, byrow = TRUE)
+
+get_corr_mat <- function(vals) {
+  
+  cov <- vals[3] |> matrix(2, 2)
+  diag(cov) <- vals[1:2]
+  
+  cov2cor(cov)
+}
+
+get_corr_mat(covs[1, ])
+get_corr_mat(covs[2, ])
+get_corr_mat(covs[3, ])
+get_corr_mat(covs[4, ])
+get_corr_mat(covs[5, ])
+get_corr_mat(covs[6, ])
+```
