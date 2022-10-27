@@ -22,6 +22,12 @@ library(glue)
 
 ## ---- CONSTANTS: -------------------------------------------------------------
 
+EMPTY_STRING      <- ''
+
+TRANSPOSED_SUFFIX <- '^T'
+PRIME_SUFFIX      <- "'"
+EMPTY_OPERAND     <- EMPTY_STRING
+
 DELIMITER  <- '$'
 SEP        <- ' '
 EQ_SIGN    <- ' = '
@@ -29,13 +35,10 @@ EQUIV_SIGN <- ' \\equiv '
 DEF_SIGN   <- ' \\coloneq '
 SIM_SIGN   <- ' \\sim '
 IN_SIGN    <- ' \\in '
-NO_SEP     <- ''
+NO_SEP     <- EMPTY_STRING
 SEP_COMMA  <- ', '
 UNDERSCORE <- '_'
 ELLIPSIS   <- '...'
-
-TRANSPOSED_SUFFIX <- '^T'
-PRIME_SUFFIX      <- "'"
 
 INNER_PROD_LEFT  <- "\\langle"
 INNER_PROD_RIGHT <- "\\rangle"
@@ -184,8 +187,14 @@ latex_seconddiff <- function(fun, par) {
 ### Exponentials and logistics: ----
 
 latex_exp       <- function(x) latex("\\exp{$latex(x)$}")
-latex_log_den   <- function(x) latex("1 + ", latex_exp(latex("\\left[-$x$\\right]")))
+
+latex_log_den   <- function(x) {
+  
+  latex("1 + ", latex_exp(latex("\\left[-$x$\\right]")))
+}
+
 latex_logistic  <- function(x) latex_frac(1, latex_log_den(x))
+
 latex_inv_log   <- function(x) latex_frac(1, latex("1 + ", latex_exp(x)))
 
 
@@ -214,6 +223,7 @@ latex_basis_change <- function(init_basis, end_basis) {
     latex_sub(latex_parentheses('I'), init_basis)
   )
 }
+
 latex_coords <- function(vector, basis) {
   
   COORDINATES_OP <- latex_rm(COORDINATES_OP)
@@ -241,9 +251,15 @@ latex_transp <- function(x) {
 #   latex(x, '^', transp_sym, .sep = NO_SEP)
 # }
 
-latex_innerprod <- function(x, y) {
+latex_innerprod <- function(x     = EMPTY_OPERAND,
+                            y     = EMPTY_OPERAND,
+                            basis = NULL) {
   
-  latex(INNER_PROD_LEFT, x, INNER_PROD_SEP, y, INNER_PROD_RIGHT)
+  result <- latex(INNER_PROD_LEFT, x, INNER_PROD_SEP, y, INNER_PROD_RIGHT)
+  
+  if (!is.null(basis)) return(latex_sub(result, basis))
+  
+  result
 }
 
 
@@ -256,7 +272,18 @@ latex_in <- function(element, set) latex(element, set, .sep = IN_SIGN)
 ### Enclosing functions: ----
 
 latex_enclose     <- function(...) latex("{", ..., "}", .sep = NO_SEP)
-latex_norm        <- function(...) latex("\\left\\|", ..., "\\right\\|")
+
+latex_norm        <- function(..., basis = NULL) {
+  
+  result <- latex("\\left\\|", ..., "\\right\\|")
+  
+  if (!is.null(basis)) return(latex_sub(result, basis))
+  
+  result
+}
+
 latex_parentheses <- function(...) latex("\\left(", ..., "\\right)")
+
 latex_sqbrackets  <- function(...) latex("\\left[", ..., "\\right]")
+
 latex_curlybraces <- function(...) latex("\\left\\{", ..., "\\right\\}")

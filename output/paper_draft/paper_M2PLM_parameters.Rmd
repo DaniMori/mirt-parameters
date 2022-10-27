@@ -235,12 +235,12 @@ reparameterize Equation \@ref(eq:M2PL-formulation) in polar coordinates,
 because the slope is dependent on the direction considered.
 However, Reckase's Equation 3 implicitly assumes orthogonality.
 In order to contemplate the general case,
-we need to introduce a few linear algebra results before proceeding futher.
+we need to introduce a few linear algebra results before proceeding further.
 
 ## Linear algebra of non-orthogonal coordinates
 
 Let's consider the standard basis $`r LS_STD_BASIS_EQ`$ in $`r LATENT_SPACE`$.
-TODO: Incomplete in Mario's version, is it correct to say "in the latent space"?
+<!-- TODO: Incomplete in Mario's version, is it correct to say "in the latent space"? -->
 We can write all $`r TRAIT_VEC_IN_LS`$ as a linear combination of each baseis.
 Therefore, we have both representations: $`r TRAIT_VECTOR_DEF_BASIS_EQ`$, and
 $`r TRAIT_VECTOR_DEF_STD_BASIS_EQ`$, where $`r TRAIT_COORDS_EQ`$ and
@@ -252,31 +252,31 @@ Let $`r BASIS_CHANGE_DEF`$ be the change of basis matrix; then, we have that
   `r BASIS_CHANGE`.                                          (\#eq:change-basis)
 \end{equation}
 
-The $`r DIM_INDEX`$-th column of $`r TRANSFORM_MATRIX`$
-
-with $`r TRAIT_VECTOR_STD`$ the coordinates
-of $`r TRAIT_VECTOR`$ in $`r LATENT_SPACE_STD`$ and $`r TRANSFORM_MATRIX_EQ`$
-(being $`r BASIS_VECTOR_ANY_TRANSF`$ the coordinates of
-$`r BASIS_VECTOR_ANY`$ in $`r LATENT_SPACE_STD`$
-for any dimension $`r DIM_INDEX`$).
-This new space can be defined as a Euclidean space with standard inner product
-(i.e. dot product), such that the norm $`r NORM_EQ`$ of $`r TRAIT_VECTOR`$
-in $`r LATENT_SPACE_STD`$ is given by<!-- # TODO: Reference needed? -->
+The $`r DIM_INDEX`$-th column of $`r TRANSFORM_MATRIX`$ is given by the
+coordinates of $`r BASIS_VECTOR_ANY`$ in basis $`r LS_STD_BASIS`$.
+<!-- # TODO: For all k? -->
+If $`r BASIS_VECTOR_ANY_TRANSF_EQ`$, then
 
 \begin{equation}
-  `r TRAIT_MODULE`^2 = `r TRAIT_VECTOR_STD_SQ` =
-    `r TRANSF_TRAIT_SQUARED` =
-    `r TRAIT_TRANSF_TRAIT`.                                 (\#eq:inner-product)
+  `r TRANSFORM_MATRIX_EQ`.                           (\#eq:transform-matrix-def)
 \end{equation}
 
-Thus, the inner product matrix $`r INNER_PROD_MATRIX`$ in $`r LATENT_SPACE`$
-is consistently defined as
+With the standard basis in $`r LATENT_SPACE`$ we have the usual scalar product<!-- (i.e. dot product) -->.
+With basis $`r LS_BASIS`$ in $`r LATENT_SPACE`$ we define an inner product
+$`r LS_BASIS_INNER_PROD`$, such that the norm of $`r TRAIT_VECTOR`$ is
+invariant, i.e., $`r TRAIT_NORM_EQ`$. Therefore,
 
 \begin{equation}
-  `r INNER_PROD_MAT_EQ`.                            (\#eq:inner-prod-matrix-def)
+  `r TRAIT_NORM_STD_SQ_EQ`.                             (\#eq:inner-product-def)
 \end{equation}
 
-### Direction cosines
+Thus, we must define the inner product $`r LS_BASIS_INNER_PROD`$ with Gram
+matrix $`r INNER_PROD_MAT_EQ`$. That is, $`r INNER_PROD_EQ`$, which keeps the
+norm invariant.
+
+The Gram matrix has $`r INNER_PROD_MAT_ELEMENT_EQ`$ as element. As
+$`r TRANSFORM_MATRIX`$ (and consequently $`r TRANSFORM_MATRIX_TRANSP`$) is
+invertible, so $`r INNER_PROD_MATRIX`$ is, and $`r INNER_PROD_MATRIX_INV_EQ`$.
 
 The cosines between two vectors follow the usual definition,
 <!-- # TODO: Is this true?? See Harman 1970 (eq. 4.43, p. 60 to check) -->
@@ -295,6 +295,24 @@ the corresponding basis vector $`r BASIS_VECTOR_ANY`$:
   `r DIR_COSINE_EQ`.                                     (\#eq:direction-cosine)
 \end{equation}
 
+Let's consider now the vectors $`r DIR_COS_VEC`$ and $`r DIR_COS_VEC_STD`$, made
+up by the $`r N_DIMS`$ direction cosines of $`r TRAIT_VECTOR`$ with the basis
+vectors of $`r LS_BASIS`$ and $`r LS_STD_BASIS`$, respectively.
+
+::: {#prp-cosines-equivalence}
+
+**Proposition 1.** Under the previously defined conditions, for all
+$`r TRAIT_VEC_IN_LS`$,
+
+\begin{equation}
+  `r DIR_COS_VEC_EQ`.                             (\#eq:direction-cosine-vector)
+\end{equation}
+
+with
+
+:::
+
+
 By Equation \@ref(eq:inner-prod-matrix-def) it is clear that
 $`r DIAG_INNER_PROD_MATRIX_EQ`$
 (but note that the basis vectors are not necessarily unitary).
@@ -305,10 +323,6 @@ Not sure if it’s necessary to explain this further.
 There may be a certain “inferential leap” assuming that D^(-1/2) is
 the matrix form equivalent to 1/u_k,
 (but I “know” intuitively that the generalization holds) -->
-
-\begin{equation}
-  `r DIR_COS_VEC_EQ`.                             (\#eq:direction-cosine-vector)
-\end{equation}
 
 ## Model recasting into polar coordinates
 
