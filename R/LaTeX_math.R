@@ -15,6 +15,7 @@
 ## ---- INCLUDES: --------------------------------------------------------------
 
 library(glue)
+library(rlang)
 
 
 # source("R/<File_name>.R")
@@ -36,18 +37,32 @@ DEF_SIGN   <- ' \\coloneq '
 SIM_SIGN   <- ' \\sim '
 IN_SIGN    <- ' \\in '
 NO_SEP     <- EMPTY_STRING
+SEP_SPACE  <- '\\,'
 SEP_COMMA  <- ', '
 UNDERSCORE <- '_'
-ELLIPSIS   <- '...'
+
+ELLIPSIS      <- '...'
+DIAG_ELLIPSIS <- '\\ddots'
 
 INNER_PROD_LEFT  <- "\\langle"
 INNER_PROD_RIGHT <- "\\rangle"
-INNER_PROD_SEP   <- ",\\,"
+INNER_PROD_SEP   <- paste0(SEP_COMMA, SEP_SPACE)
 
 SUMMATION_OP   <- "\\sum"
 COORDINATES_OP <- "coord"
 
 LATEX_CLASS <- "laTeR"
+
+ENCLOSING_VALUES <- c(
+  "parentheses",
+  "sqbrackets",
+  "curlybraces",
+  "pipes",
+  "doublepipes"
+)
+
+COLUMN_SEP <- " & "
+LINE_BREAK <- "\\\\\\n"
 
 
 ## ---- FUNCTIONS: -------------------------------------------------------------
@@ -234,6 +249,74 @@ latex_coords <- function(vector, basis) {
   )
 }
 
+latex_norm <- function(..., basis = NULL) {
+  
+  result <- latex_doublepipes(...)
+  
+  if (!is.null(basis)) return(latex_sub(result, basis))
+  
+  result
+}
+
+
+### Matrices: ----
+
+latex_matrix <- function(elements,
+                         enclosing = ENCLOSING_VALUES,
+                         small     = FALSE) {
+  
+  if (!is.matrix(elements)) stop("`elements` is not a matrix.")
+
+  enclosing_func <- paste0("latex_", match.arg(enclosing))
+  
+  result <- list()
+  
+  for (row in seq_len(nrow(elements))) {
+    
+    result[[row]] <- do.call(
+      latex,
+      args = append(elements[row, ], list(.sep = COLUMN_SEP))
+    )
+  }
+
+  result <- do.call(
+    latex,
+    args = append(result, list(.sep = LINE_BREAK))
+  )
+  
+  envir <- if (small) "smallmatrix" else "matrix"
+  
+  result <- latex("\\begin{$envir$}\n$result$\n\\end{$envir$}")
+  
+  do.call(enclosing_func, args = list(result))
+}
+
+latex_diagmatrix <- function(elements,
+                             enclosing = ENCLOSING_VALUES,
+                             small     = FALSE) {
+  
+  n      <- length(elements)
+  mode   <- if (is.list(elements)) "character" else mode(elements)
+  
+  matrix <- vector(mode = mode, length = n^2)
+  if (is.list(elements)) {
+    
+    matrix <- as.list(matrix)
+    matrix[matrix == ''] <- SEP_SPACE
+  }
+  
+  dim(matrix) <- rep(n, 2)
+  diag(matrix) <- elements
+  
+  latex_matrix(matrix, enclosing = enclosing, small = small)
+}
+
+latex_enum_diagmatrix <- function(init, end,
+                                  enclosing = ENCLOSING_VALUES,
+                                  small     = FALSE) {
+  
+  latex_diagmatrix(list(init, DIAG_ELLIPSIS, end))
+}
 
 ### Matrix algebra: ----
 
@@ -273,14 +356,7 @@ latex_in <- function(element, set) latex(element, set, .sep = IN_SIGN)
 
 latex_enclose     <- function(...) latex("{", ..., "}", .sep = NO_SEP)
 
-latex_norm        <- function(..., basis = NULL) {
-  
-  result <- latex("\\left\\|", ..., "\\right\\|")
-  
-  if (!is.null(basis)) return(latex_sub(result, basis))
-  
-  result
-}
+latex_doublepipes <- function(...) latex("\\left\\|", ..., "\\right\\|")
 
 latex_parentheses <- function(...) latex("\\left(", ..., "\\right)")
 
