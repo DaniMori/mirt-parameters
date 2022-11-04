@@ -310,6 +310,10 @@ $`r TRAIT_VEC_IN_LS`$,
 
 with
 
+\begin{equation}
+  `r DIAG_MATRIX_INNER_PROD_EQ`. <!-- # TODO: Continue here -->
+\end{equation}
+
 :::
 
 

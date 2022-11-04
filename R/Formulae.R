@@ -247,6 +247,24 @@ INNER_PROD_MATRIX_INV_EQ    <- latex_eq(
   INNER_PROD_MATRIX_INV_DEF
 )
 
+### Proposition 1 ----
+
+BASIS_VECTOR_FIRST_NORM <- latex_norm(BASIS_VECTOR_FIRST)
+BASIS_VECTOR_LAST_NORM  <- latex_norm(BASIS_VECTOR_LAST)
+
+BASIS_VECTOR_FIRST_NORM_SQ <- latex_squared(BASIS_VECTOR_FIRST_NORM)
+BASIS_VECTOR_LAST_NORM_SQ  <- latex_squared(BASIS_VECTOR_LAST_NORM)
+
+DIAG_MATRIX_INNER_PROD     <- latex_bf('D')
+DIAG_MATRIX_INNER_PROD_DEF <- latex_enum_diagmatrix(
+  BASIS_VECTOR_FIRST_NORM_SQ,
+  BASIS_VECTOR_LAST_NORM_SQ
+)
+DIAG_MATRIX_INNER_PROD_EQ <- latex_eq(
+  DIAG_MATRIX_INNER_PROD,
+  DIAG_MATRIX_INNER_PROD_DEF
+)
+
 ### Direction cosines ----
 
 # Cosine of the angle between two verctors:
@@ -290,7 +308,6 @@ DIR_ANGLE_VEC_STD <- latex_prime(DIR_ANGLE_VEC)
 DIR_COS_VEC_STD   <- latex_cos(DIR_ANGLE_VEC_STD)
 
 # Direction cosine vector in original space (proposition):
-DIAG_MATRIX_INNER_PROD        <- latex_bf('D')
 DIAG_MATRIX_INNER_PROD_INV_SQ <- latex_raised_to(
   DIAG_MATRIX_INNER_PROD,
   exp = latex("-$FRAC_1_2$")
