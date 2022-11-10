@@ -27,7 +27,6 @@ EMPTY_STRING      <- ''
 
 TRANSPOSED_SUFFIX <- '^T'
 PRIME_SUFFIX      <- "'"
-EMPTY_OPERAND     <- EMPTY_STRING
 
 DELIMITER  <- '$'
 SEP        <- ' '
@@ -61,9 +60,13 @@ ENCLOSING_VALUES <- c(
   "doublepipes"
 )
 
-COLUMN_SEP <- " & "
-LINE_BREAK <- "\\\\\\n"
+COLUMN_SEP    <- " & "
+LINE_BREAK    <- "\\\\"
+EMPTY_OPERAND <- SEP
 
+END_OF_PROOF <- "\\blacksquare"
+# TODO: Maybe change by `\rule{2mm}{2mm}`
+#       (see https://tex.stackexchange.com/a/302260 )
 
 ## ---- FUNCTIONS: -------------------------------------------------------------
 
@@ -239,14 +242,15 @@ latex_basis_change <- function(init_basis, end_basis) {
   )
 }
 
-latex_coords <- function(vector, basis) {
+latex_coords <- function(vector, basis, transpose = FALSE) {
   
   COORDINATES_OP <- latex_rm(COORDINATES_OP)
-  latex(
-    latex_sub(COORDINATES_OP, LS_BASIS, .abbr = TRUE),
-    latex_parentheses(vector, .sep = NO_SEP),
-    .sep = NO_SEP
-  )
+  
+  result <- latex_sub(COORDINATES_OP, LS_BASIS, .abbr = TRUE)
+  
+  if (transpose) result <- latex_transp(result)
+  
+  latex(result, latex_parentheses(vector, .sep = NO_SEP), .sep = NO_SEP)
 }
 
 latex_norm <- function(..., basis = NULL) {
@@ -302,7 +306,7 @@ latex_diagmatrix <- function(elements,
   if (is.list(elements)) {
     
     matrix <- as.list(matrix)
-    matrix[matrix == ''] <- SEP_SPACE
+    matrix[matrix == ''] <- EMPTY_OPERAND
   }
   
   dim(matrix) <- rep(n, 2)

@@ -52,7 +52,7 @@ write_bib(
 ```
 
 ```{r sources, cache=FALSE, include=FALSE}
-source("R/Formulae.R",                encoding = 'UTF-8')
+source("R/Formulae.R", encoding = 'UTF-8')
 ```
 
 # Introduction
@@ -299,43 +299,49 @@ Let's consider now the vectors $`r DIR_COS_VEC`$ and $`r DIR_COS_VEC_STD`$, made
 up by the $`r N_DIMS`$ direction cosines of $`r TRAIT_VECTOR`$ with the basis
 vectors of $`r LS_BASIS`$ and $`r LS_STD_BASIS`$, respectively.
 
-::: {#prp-cosines-equivalence}
+::: {#prp-dir-cosines-generalized-basis}
 
 **Proposition 1.** Under the previously defined conditions, for all
 $`r TRAIT_VEC_IN_LS`$,
 
 \begin{equation}
-  `r DIR_COS_VEC_EQ`.                             (\#eq:direction-cosine-vector)
+  `r DIR_COS_VEC_EQ`                              (\#eq:direction-cosine-vector)
 \end{equation}
 
 with
 
 \begin{equation}
-  `r DIAG_MATRIX_INNER_PROD_EQ`. <!-- # TODO: Continue here -->
+  `r DIAG_MATRIX_INNER_PROD_EQ`.
 \end{equation}
 
+Therefore,
+
+\begin{equation}
+  `r TRAIT_VECTOR_POLAR_EQ`.                           (\#eq:trait-vector-polar)
+\end{equation}
+
+::: {.proof}
+*Proof.*
+
+For every $`r DIM_INDEX`$; $`r DIM_ENUM_EQ`$,
+
+\begin{equation}
+  `r DIR_COSINE_PROOF_EQ`,                        (\#eq:dir-cosine-proof-prop-1)
+\end{equation}
+
+with $`r INNER_PROD_MATRIX_ROW`$ the $`r DIM_INDEX`$-th row of
+$`r INNER_PROD_MATRIX`$.
+
+Therefore, $`r DIR_COS_VEC_EQ`$ and $`r TRAIT_VECTOR_POLAR_EQ`$.
+$`r END_OF_PROOF`$
 :::
 
-
-By Equation \@ref(eq:inner-prod-matrix-def) it is clear that
-$`r DIAG_INNER_PROD_MATRIX_EQ`$
-(but note that the basis vectors are not necessarily unitary).
-By defining $`r DIAG_MATRIX_INNER_PROD`$ as
-the diagonal matrix with the same diagonal as $`r INNER_PROD_MATRIX`$,
-Equation \@ref(eq:direction-cosine) in matrix notation is<!-- # TODO:
-Not sure if it’s necessary to explain this further.
-There may be a certain “inferential leap” assuming that D^(-1/2) is
-the matrix form equivalent to 1/u_k,
-(but I “know” intuitively that the generalization holds) -->
+:::
 
 ## Model recasting into polar coordinates
 
 From Equation \@ref(eq:direction-cosine-vector),
 any trait vector $`r TRAIT_VECTOR`$ is expressed in polar coordinates as
-
-\begin{equation}
-  `r TRAIT_VECTOR_POLAR_EQ`.                           (\#eq:trait-vector-polar)
-\end{equation}
 
 Thus, the M2PL model is expressed in polar coordinates as
 
