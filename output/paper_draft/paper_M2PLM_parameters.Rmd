@@ -359,7 +359,7 @@ already assumes the orthogonality of the latent space.
 Following the procedure outlined by @reckase_difficulty_1985
 [@reckase_discriminating_1991],
 we first compute the point of maximum slope by finding the root(s) of
-the second derivative with respect to $`r TRAIT_MODULE`$.
+the second derivative with respect to $`r TRAIT_NORM`$.
 
 \begin{equation}
   `r IRF_2ND_DIFF_EQ`,                                      (\#eq:M2PL-2nd-diff)
@@ -367,7 +367,7 @@ the second derivative with respect to $`r TRAIT_MODULE`$.
 
 The root we are interested in is found for $`r IRF_MAX_SLOPE_EQ`$
 (the other ones occur when $`r IRF_ABBR`$ equals 0 and 1,
-which result in improper values of $`r TRAIT_MODULE`$).
+which result in improper values of $`r TRAIT_NORM`$).
 The slope in direction $`r DIR_ANGLE_VEC`$ is given by
 
 \begin{equation}
