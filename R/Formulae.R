@@ -139,8 +139,8 @@ TRAIT_VECTOR_DEF_STD_BASIS_EQ <- latex_eq(
 # Trait coordinates in both original and standard bases:
 TRAIT_COORDS_DEF     <- latex_coords(TRAIT_VECTOR, LS_BASIS)
 TRAIT_COORDS_EQ      <- latex_eq(TRAIT_VECTOR, TRAIT_COORDS_DEF)
-TRAIT_COORDS_STD_DEF <- latex_coords(TRAIT_VECTOR_STD, LS_STD_BASIS)
-TRAIT_COORDS_STD_EQ  <- latex_eq(TRAIT_VECTOR, TRAIT_COORDS_STD_DEF)
+TRAIT_COORDS_STD_DEF <- latex_coords(TRAIT_VECTOR, LS_STD_BASIS)
+TRAIT_COORDS_STD_EQ  <- latex_eq(TRAIT_VECTOR_STD, TRAIT_COORDS_STD_DEF)
 
 # Change of basis matrix:
 TRANSFORM_MATRIX <- latex_bf('P')
