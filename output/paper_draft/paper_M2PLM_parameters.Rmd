@@ -301,7 +301,7 @@ vectors of $`r LS_BASIS`$ and $`r LS_STD_BASIS`$, respectively.
 
 ::: {#prp-dir-cosines-generalized-basis}
 
-**Proposition 1.** Under the previously defined conditions, for all
+**Proposition 1** Under the previously defined conditions, for all
 $`r TRAIT_VEC_IN_LS`$,
 
 \begin{equation}
@@ -313,6 +313,7 @@ with
 \begin{equation}
   `r DIAG_MATRIX_INNER_PROD_EQ`.
 \end{equation}
+<!-- # TODO: I have changed here $D^{-1/2}$ by $D$; discuss with Mario -->
 
 Therefore,
 
@@ -334,6 +335,89 @@ $`r INNER_PROD_MATRIX`$.
 
 Therefore, $`r DIR_COS_VEC_EQ`$ and $`r TRAIT_VECTOR_POLAR_EQ`$.
 $`r END_OF_PROOF`$
+:::
+
+:::
+
+We can also obtain a result that relates the direction cosines of any two bases.
+
+::: {#prp-dir-cosines-bases-relationship}
+
+**Proposition 2** Let's consider another basis $`r ALT_BASIS_EQ`$ in
+$`r LATENT_SPACE`$ and the inner product $`r ALT_BASIS_INNER_PROD`$ that keeps
+the norm of the Euclidean space invariant.
+
+Let $`r DIR_COS_VEC_ALT`$ be the vector of direction cosines of
+$`r TRAIT_VECTOR`$ in $`r ALT_BASIS`$ (i.e., the cosines with the elements of
+$`r ALT_BASIS`$).
+
+Then,
+
+\begin{equation}
+  `r DIR_COS_VEC_ALT_EQ`,                      (\#eq:dir-cosines-transformation)
+\end{equation}
+
+where
+
+\begin{equation}
+  `r DIAG_MATRIX_INNER_PROD_ALT_EQ`
+\end{equation}
+
+and $`r TRANSFORM_MATRIX_ALT_EQ`$.
+<!-- TODO: Comment with Mario (order of terms inverted here) -->
+
+::: {.proof}
+*Proof.*
+
+Let's call $`r TRAIT_COORDS_ALT_EQ`$ and let $`r TRANSFORM_MATRIX_ALT_EQ`$
+be the change of basis matrix, such that $`r TRAIT_TRANSFORM_ALT_EQ`$.
+
+Then, we have that $`r BASIS_CHANGE_ORG_ALT_EQ`$.
+
+The inner product $`r ALT_BASIS_INNER_PROD`$ that keeps the norm invariant is
+defined by $`r INNER_PROD_TRAIT_ALT_EQ`$, and we define
+$`r INNER_PROD_MATRIX_ALT_EQ`$.
+
+By proposition 1, for each case we have:
+
+1. $`r TRAIT_VEC_STD_POLAR_EQ`$
+
+1. $`r TRAIT_VECTOR_POLAR_EQ`$
+
+1. $`r TRAIT_VEC_ALT_POLAR_EQ`$
+
+Given (1),
+
+\begin{equation}
+  `r TRAIT_VEC_STD_POLAR_EQ_XPAND`
+\end{equation}
+
+and
+
+\begin{equation}
+  `r TRAIT_VEC_ALT_POLAR_ALT_EQ`.
+\end{equation}
+
+Using (2) and (3) we get that
+
+\begin{equation}
+  `r TRAIT_VEC_STD_POLAR_ORG_EQ`
+\end{equation}
+
+and
+
+\begin{equation}
+  `r TRAIT_VEC_STD_POLAR_ALT_EQ`.
+\end{equation}
+
+Therefore,
+
+\begin{equation}
+  `r TRAIT_VEC_POLAR_ORG_ALT_COEFF_EQ`,
+\end{equation}
+
+and thus $`r DIR_COS_VEC_ALT_EQ`$.$`r END_OF_PROOF`$
+
 :::
 
 :::

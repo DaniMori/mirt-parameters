@@ -365,7 +365,6 @@ DIR_COS_DEF_COORDS <- latex_frac(
   latex(TRAIT_NORM, BASIS_VECTOR_ANY_NORM)                    # Denominator
 )
 
-
 # Inner product (defined with standard basis vector):
 STD_BASIS_VECTOR_ANY_TRANSP <- latex_transp(STD_BASIS_VECTOR_ANY)
 DIR_COS_DEF_BASIS_VEC       <- latex_frac(
@@ -389,19 +388,171 @@ DIR_COSINE_PROOF_EQ <- latex_eq(
   DIR_COS_DEF_IPM_ROW
 )
 
-### Polar coordinates ----
+### Proposition 2 ----
 
-DIAG_MATRIX_INNER_PROD_SQ   <- latex_raised_to(
-  DIAG_MATRIX_INNER_PROD,
+# New latent space basis:
+ALT_BASIS              <- latex_cal('A')
+ALT_BASIS_VECTOR_EL    <- latex('v')
+ALT_BASIS_VECTOR       <- latex_bf(ALT_BASIS_VECTOR_EL)
+ALT_BASIS_VECTOR_FIRST <- latex_sub(ALT_BASIS_VECTOR, 1)
+ALT_BASIS_VECTOR_LAST  <- latex_sub(ALT_BASIS_VECTOR, N_DIMS)
+ALT_BASIS_ELEMENTS     <- latex_enum(
+  ALT_BASIS_VECTOR_FIRST,
+  ELLIPSIS,
+  ALT_BASIS_VECTOR_LAST
+)
+ALT_BASIS_SET       <- latex_curlybraces(ALT_BASIS_ELEMENTS)
+ALT_BASIS_EQ        <- latex_eq(ALT_BASIS, ALT_BASIS_SET)
+
+# Inner product in new basis :
+ALT_BASIS_INNER_PROD <- latex_innerprod(basis = ALT_BASIS)
+
+# Direction cosine vectors equivalence (new and original bases):
+DIR_ANGLE_VEC_ALT                 <- latex_prime(latex_prime(DIR_ANGLE_VEC))
+DIR_COS_VEC_ALT                   <- latex_cos(DIR_ANGLE_VEC_ALT)
+DIAG_MATRIX_INNER_PROD_ALT        <- latex_bf('H')
+DIAG_MATRIX_INNER_PROD_ALT_INV_SQ <- latex_raised_to(
+  DIAG_MATRIX_INNER_PROD_ALT,
+  exp = latex("-$FRAC_1_2$")
+)
+TRANSFORM_MATRIX_ALT              <- latex_bf('L')
+TRANSFORM_MATRICES_PROD     <- latex(TRANSFORM_MATRIX_INV, TRANSFORM_MATRIX_ALT)
+DIR_COS_VEC_ALT_DEF               <- latex(
+  DIAG_MATRIX_INNER_PROD_ALT_INV_SQ,
+  latex_transp(latex_parentheses(TRANSFORM_MATRICES_PROD)),
+  DIAG_MATRIX_INNER_PROD_SQ,
+  DIR_COS_VEC
+)
+DIR_COS_VEC_ALT_EQ             <- latex_eq(DIR_COS_VEC_ALT, DIR_COS_VEC_ALT_DEF)
+
+# New basis vector norms:
+ALT_BASIS_VECTOR_FIRST_NORM    <- latex_norm(ALT_BASIS_VECTOR_FIRST)
+ALT_BASIS_VECTOR_LAST_NORM     <- latex_norm(ALT_BASIS_VECTOR_LAST)
+ALT_BASIS_VECTOR_FIRST_NORM_SQ <- latex_squared(ALT_BASIS_VECTOR_FIRST_NORM)
+ALT_BASIS_VECTOR_LAST_NORM_SQ  <- latex_squared(ALT_BASIS_VECTOR_LAST_NORM)
+
+# Diagonal matrix (with the diagonal of the inner product matrix) definition:
+DIAG_MATRIX_INNER_PROD_ALT_DEF <- latex_enum_diagmatrix(
+  ALT_BASIS_VECTOR_FIRST_NORM_SQ,
+  ALT_BASIS_VECTOR_LAST_NORM_SQ
+)
+DIAG_MATRIX_INNER_PROD_ALT_EQ  <- latex_eq(
+  DIAG_MATRIX_INNER_PROD_ALT,
+  DIAG_MATRIX_INNER_PROD_ALT_DEF
+)
+
+# Transform matrix definition (from the standard basis to the new basis):
+BASIS_CHANGE_ALT        <- latex_basis_change(ALT_BASIS, LS_STD_BASIS)
+TRANSFORM_MATRIX_ALT_EQ <- latex_eq(TRANSFORM_MATRIX_ALT, BASIS_CHANGE_ALT)
+
+#### Proof ----
+
+# Latent trait vector coordinates:
+TRAIT_VECTOR_ALT     <- latex_prime(latex_prime(TRAIT_VECTOR))
+TRAIT_COORDS_ALT_DEF <- latex_coords(TRAIT_VECTOR, ALT_BASIS)
+TRAIT_COORDS_ALT_EQ  <- latex_eq(TRAIT_VECTOR_ALT, TRAIT_COORDS_ALT_DEF)
+
+# Transform matrix definition (from the original to the new basis):
+BASIS_CHANGE_ORG_ALT     <- latex_basis_change(ALT_BASIS, LS_BASIS)
+BASIS_CHANGE_INV         <- latex_basis_change(LS_STD_BASIS, LS_BASIS)
+BASIS_CHANGE_ORG_ALT_DEF <- latex(BASIS_CHANGE_INV, BASIS_CHANGE_ALT)
+BASIS_CHANGE_ORG_ALT_EQ  <- latex_eq(
+  BASIS_CHANGE_ORG_ALT,
+  BASIS_CHANGE_DEF,
+  TRANSFORM_MATRICES_PROD
+)
+
+# Latent trait vector transformation from standard to new basis:
+TRAIT_TRANSFORM_ALT    <- latex(TRANSFORM_MATRIX_ALT, TRAIT_VECTOR_ALT)
+TRAIT_TRANSFORM_ALT_EQ <- latex_eq(TRAIT_VECTOR_STD, TRAIT_TRANSFORM_ALT)
+
+# Inner product in new basis:
+TRAIT_VECTOR_J_COORDS_ALT_TRANSP <- latex_coords(
+  TRAIT_VECTOR_J,
+  basis     = ALT_BASIS,
+  transpose = TRUE
+)
+TRANSFORM_MATRIX_ALT_TRANSP      <- latex_transp(TRANSFORM_MATRIX_ALT)
+INNER_PROD_MATRIX_ALT_DEF        <- latex(
+  TRANSFORM_MATRIX_ALT_TRANSP,
+  TRANSFORM_MATRIX_ALT
+)
+TRAIT_VECTOR_K_COORDS_ALT     <- latex_coords(TRAIT_VECTOR_K, basis = ALT_BASIS)
+INNER_PROD_ALT_DEF               <- latex(
+  TRAIT_VECTOR_J_COORDS_ALT_TRANSP,
+  INNER_PROD_MATRIX_ALT_DEF,
+  TRAIT_VECTOR_K_COORDS_ALT
+)
+INNER_PROD_TRAIT_ALT_EQ        <- latex_eq(INNER_PROD_TRAIT, INNER_PROD_ALT_DEF)
+
+# Inner product matrix in new basis:
+INNER_PROD_MATRIX_ALT    <- latex_bf('K')
+INNER_PROD_MATRIX_ALT_EQ <- latex_eq(
+  INNER_PROD_MATRIX_ALT,
+  INNER_PROD_MATRIX_ALT_DEF
+)
+
+# Polar coordinates in standard basis:
+TRAIT_VEC_STD_POLAR_DEF <- latex(DIR_COS_VEC_STD, TRAIT_NORM)
+TRAIT_VEC_STD_POLAR_EQ  <- latex_eq(TRAIT_VECTOR_STD, TRAIT_VEC_STD_POLAR_DEF)
+
+# Polar coordinates in new basis:
+DIAG_MATRIX_INNER_PROD_ALT_SQ   <- latex_raised_to(
+  DIAG_MATRIX_INNER_PROD_ALT,
   exp = FRAC_1_2
 )
-INNER_PROD_INV_DIAG_SQ_PROD <- latex(
-  INNER_PROD_MATRIX_INV,
-  DIAG_MATRIX_INNER_PROD_SQ
+INNER_PROD_MATRIX_INV_ALT       <- latex_inverse(INNER_PROD_MATRIX_ALT)
+INNER_PROD_INV_DIAG_ALT_SQ_PROD <- latex(
+  INNER_PROD_MATRIX_INV_ALT,
+  DIAG_MATRIX_INNER_PROD_ALT_SQ
 )
-TRAIT_VECTOR_POLAR_COEFF    <- latex(INNER_PROD_INV_DIAG_SQ_PROD, DIR_COS_VEC)
-TRAIT_VECTOR_POLAR_DEF      <- latex(TRAIT_VECTOR_POLAR_COEFF, TRAIT_NORM)
-TRAIT_VECTOR_POLAR_EQ       <- latex_eq(TRAIT_VECTOR, TRAIT_VECTOR_POLAR_DEF)
+TRAIT_VEC_ALT_POLAR_COEFF       <- latex(
+  INNER_PROD_INV_DIAG_ALT_SQ_PROD,
+  DIR_COS_VEC_ALT
+)
+TRAIT_VEC_ALT_POLAR_DEF         <- latex(TRAIT_VEC_ALT_POLAR_COEFF, TRAIT_NORM)
+TRAIT_VEC_ALT_POLAR_EQ    <- latex_eq(TRAIT_VECTOR_ALT, TRAIT_VEC_ALT_POLAR_DEF)
+
+# Trait coordinate equivalences:
+TRAIT_VEC_STD_POLAR_EQ_XPAND     <- latex_eq(
+  BASIS_CHANGE,
+  TRAIT_VEC_STD_POLAR_DEF
+)
+TRAIT_VEC_ALT_POLAR_ALT_EQ       <- latex_eq(
+  TRAIT_TRANSFORM_ALT_EQ,
+  TRAIT_VEC_STD_POLAR_DEF
+)
+TRANSF_TRAIT_VECTOR_POLAR        <- latex(
+  TRANSFORM_MATRIX,
+  TRAIT_VECTOR_POLAR_DEF
+)
+TRANSF_TRAIT_VEC_ALT_POLAR       <- latex(
+  TRANSFORM_MATRIX_ALT,
+  TRAIT_VEC_ALT_POLAR_DEF
+)
+TRAIT_VEC_STD_POLAR_ORG_EQ       <- latex_eq(
+  TRANSF_TRAIT_VECTOR_POLAR,
+  TRAIT_VEC_STD_POLAR_DEF
+)
+TRAIT_VEC_STD_POLAR_ALT_EQ       <- latex_eq(
+  TRANSF_TRAIT_VEC_ALT_POLAR,
+  TRAIT_VEC_STD_POLAR_DEF
+)
+TRANSF_TRAIT_VEC_POLAR_COEFF     <- latex(
+  TRANSFORM_MATRIX,
+  TRAIT_VECTOR_POLAR_COEFF
+)
+TRANSF_TRAIT_VEC_ALT_POLAR_COEFF <- latex(
+  TRANSFORM_MATRIX_ALT,
+  TRAIT_VEC_ALT_POLAR_COEFF
+)
+TRAIT_VEC_POLAR_ORG_ALT_COEFF_EQ <- latex_eq(
+  TRANSF_TRAIT_VEC_POLAR_COEFF,
+  TRANSF_TRAIT_VEC_ALT_POLAR_COEFF
+)
+
+
+### M2PL IRT model in polar coordinates ----
 
 LOGIT_M2PL_POLAR     <- latex_parentheses(
   "$DISCR_VECTOR_TRANSP$ $TRAIT_VECTOR_POLAR_DEF$ + $INTERCEPT_PARAM$"
