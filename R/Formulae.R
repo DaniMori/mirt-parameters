@@ -124,8 +124,7 @@ TRAIT_VECTOR_DEF_BASIS <- latex_summation(
 TRAIT_VECTOR_DEF_BASIS_EQ <- latex_eq(TRAIT_VECTOR, TRAIT_VECTOR_DEF_BASIS)
 
 # Vector definition in standard basis:
-TRAIT_VEC_STD_MOD             <- latex_prime(TRAIT_SYMBOL)
-TRAIT_VEC_STD_COMP            <- latex_sub(TRAIT_VEC_STD_MOD, DIM_INDEX)
+TRAIT_VEC_STD_COMP            <- latex_prime(TRAIT_COMPONENT)
 STD_BASIS_VECTOR_ANY          <- latex_sub(STD_BASIS_VECTOR, DIM_INDEX)
 TRAIT_VECTOR_DEF_STD_BASIS    <- latex_summation(
   TRAIT_VEC_STD_COMP, STD_BASIS_VECTOR_ANY,
