@@ -327,7 +327,7 @@ Therefore,
 For every $`r DIM_INDEX`$; $`r DIM_ENUM_EQ`$,
 
 \begin{equation}
-  `r DIR_COSINE_PROOF_EQ`,                        (\#eq:dir-cosine-proof-prop-1)
+  `r DIR_COSINE_PROOF_EQ`,
 \end{equation}
 
 with $`r INNER_PROD_MATRIX_ROW`$ the $`r DIM_INDEX`$-th row of
@@ -424,10 +424,15 @@ and thus $`r DIR_COS_VEC_ALT_EQ`$.$`r END_OF_PROOF`$
 
 ## Model recasting into polar coordinates
 
-From Equation \@ref(eq:direction-cosine-vector),
+From Proposition 1,
 any trait vector $`r TRAIT_VECTOR`$ is expressed in polar coordinates as
 
+\begin{equation}
+  `r TRAIT_VECTOR_POLAR_EQ`.                      (\#eq:trait-equivalence-polar)
+\end{equation}
+
 Thus, the M2PL model is expressed in polar coordinates as
+<!-- # TODO: Use the "module" symbol instead of the "norm"? -->
 
 \begin{equation}
   `r IRF_POLAR_EQ`.                                    (\#eq:M2PL-formula-polar)
@@ -444,6 +449,15 @@ Following the procedure outlined by @reckase_difficulty_1985
 [@reckase_discriminating_1991],
 we first compute the point of maximum slope by finding the root(s) of
 the second derivative with respect to $`r TRAIT_NORM`$.
+<!-- # TODO: Use the "module" symbol instead of the "norm"? -->
+
+The slope in direction $`r DIR_ANGLE_VEC`$ is given by
+
+\begin{equation}
+  `r IRF_1ST_DIFF_EQ`,                                      (\#eq:M2PL-1st-diff)
+\end{equation}
+
+and
 
 \begin{equation}
   `r IRF_2ND_DIFF_EQ`,                                      (\#eq:M2PL-2nd-diff)
@@ -452,13 +466,9 @@ the second derivative with respect to $`r TRAIT_NORM`$.
 The root we are interested in is found for $`r IRF_MAX_SLOPE_EQ`$
 (the other ones occur when $`r IRF_ABBR`$ equals 0 and 1,
 which result in improper values of $`r TRAIT_NORM`$).
-The slope in direction $`r DIR_ANGLE_VEC`$ is given by
 
-\begin{equation}
-  `r IRF_1ST_DIFF_EQ`.                                      (\#eq:M2PL-1st-diff)
-\end{equation}
-
-When $`r IRF_MAX_SLOPE_EQ`$,
+The slope in direction $`r DIR_ANGLE_VEC`$ when $`r IRF_MAX_SLOPE_EQ`$ is given
+by
 
 \begin{equation}
   `r SLOPE_MAX_EQ`.                                             (\#eq:slope-max)
@@ -467,57 +477,54 @@ When $`r IRF_MAX_SLOPE_EQ`$,
 Notation aside, these equations differ from
 Reckase's [-@reckase_difficulty_1985] Equations 3 through 6
 only in the term $`r INNER_PROD_INV_DIAG_SQ_PROD`$.
-When $`r LS_BASIS`$ is the standard basis,
-this term simplifies to an identity matrix
-(which results in Equation \@ref(eq:M2PL-formula-polar) through
-\@ref(eq:slope-max) simplyfing to rectangular Cartesian coordinates,
-i.e. the equations outlined by Reckase).
+
 To compute the direction of the maximum slope,
 Reckase leverages on the property that the squared direction cosines sum up to 1
 (see Equation 7 therein).
 However, this assertion implicitly assumes orthogonal coordinates,
-so it does not apply in general to $`r DIR_COS_VEC`$.<!-- # TODO: To appendix the following, or maybe give for granted? -->
-Instead, we may consider the direction cosine vector in $`r LATENT_SPACE_STD`$:
-
-\begin{equation}
-  `r DIR_COS_VEC_STD_EQ`.                     (\#eq:direction-cosine-vector-std)
-\end{equation}
-
-Operating on Equation \@ref(eq:trait-vector-polar),
+so it does not apply in general to $`r DIR_COS_VEC`$.
+Instead, we may consider the direction cosine vector with the standard basis
+$`r LS_STD_BASIS`$.<!-- # TODO: Mario wrote "\mathcal{B}", I think he refers to "\mathcal{E}", the standard basis -->
+Now, applying Proposition 2 (with $`r ALT_MATRIX_AS_ID`$) we obtain
 
 \begin{equation}
   \begin{split}
     `r DIR_COS_AS_DIR_COS_STD_EQ` \\
-    `r TRAIT_POLAR_COEFF_COS_STD_EQ`
+    `r TRAIT_POLAR_COEFF_COS_STD_EQ`.
   \end{split}                                 (\#eq:direction-cosine-vectors-eq)
 \end{equation}
 
-and, substituting in \@ref(eq:slope-max),
+Therefore, substituting in \@ref(eq:slope-max),
 
 \begin{equation}
   `r SLOPE_MAX_STD_COSINES_EQ`.                     (\#eq:slope-max-std-cosines)
 \end{equation}
 
-We can define
+We can then define
 
 \begin{equation}
-  `r DISCR_VECTOR_STD_EQ`.                               (\#eq:discr-vector-std)
+  `r DISCR_VECTOR_STD_EQ`                                (\#eq:discr-vector-std)
 \end{equation}
 
-such that Equation \@ref(eq:slope-max-std-cosines) is similar
-(in vectorial form) to Reckase's [-@reckase_difficulty_1985] Equation 6,
-and thus can be solved by the same procedure
-applying their Equations 7 through 9.
-The resulting equivalent to their Equation 9, in vectorial form
-and solving for $`r DIR_ANGLE_STD_SUBSTITUTE`$ is
+so
 
 \begin{equation}
-  `r DIR_COS_STD_ITEM_VEC_EQ`.                            (\#eq:dir-cos-vec-std)
+  `r SLOPE_MAX_STD_EQ`.                                     (\#eq:slope-max-std)
 \end{equation}
 
-Substituting $`r DIR_COS_STD_ITEM_VEC`$ and $`r DISCR_VECTOR_STD`$
-by their respective expressions results in the expression for
-the direction cosine vector of item $i$ in $`r LATENT_SPACE`$,
+We are thus considering the direction cosines with respect to the orthogonal
+axes, so we can just apply @reckase_difficulty_1985's results, obtaining
+
+\begin{equation}
+  `r DIR_COS_VEC_STD_EQ`.                                 (\#eq:dir-cos-vec-std)
+\end{equation}
+
+Substituting $`r DIR_COS_VEC_STD`$
+(Equation \@ref(eq:direction-cosine-vectors-eq)) and
+$`r DISCR_VECTOR_STD`$ (Equation \@ref(eq:discr-vector-std))
+by their respective expressions results in the
+expression for the direction cosine vector of item $i$ in $`r LATENT_SPACE`$,
+<!-- # TODO: with basis \mathcal{B}? -->
 
 \begin{equation}
   `r DIR_COS_ITEM_VEC_EQ`,                                    (\#eq:dir-cos-vec)
@@ -527,11 +534,9 @@ which gives the direction from the origin to the point where
 the slope is maximum.
 Finally, to determine the signed distance $`r DISTANCE_PARAM`$
 from the origin to that point,
-we solve Equation \@ref(eq:M2PL-formula-polar) for $`r IRF_MAX_SLOPE_EQ`$,
-$`r DIR_COS_SUBSTITUTE`$ and
-$`r DISTANCE_SUBSTITUTE`$,
-and then substitute Equation \@ref(eq:dir-cos-vec) for $`r DIR_COS_ITEM_VEC`$.
-The result, solving for $`r DISTANCE_PARAM`$, is
+we solve Equation \@ref(eq:M2PL-formula-polar) for $`r IRF_MAX_SLOPE_EQ`$ to get
+$`r TRAIT_NORM_SOLVED_EQ`$. Using equation \@ref(eq:dir-cos-vec), then
+<!-- # TODO: Verify that it's equation 20, not 18 -->
 
 \begin{equation}
   `r DISTANCE_PARAM_EQ`,                                   (\#eq:distance-param)
@@ -540,8 +545,7 @@ The result, solving for $`r DISTANCE_PARAM`$, is
 The slope $`r SLOPE_MAX_PARAM`$ at the point defined by Equations
 \@ref(eq:dir-cos-vec) and \@ref(eq:distance-param)
 is given by Equation \@ref(eq:slope-max).
-Solving for $`r DIR_COS_SUBSTITUTE`$
-and substituting Equation \@ref(eq:dir-cos-vec) for $`r DIR_COS_ITEM_VEC`$
+Substituting Equation \@ref(eq:dir-cos-vec) in Equation \@ref(eq:slope-max),
 [@reckase_discriminating_1991],
 
 \begin{equation}

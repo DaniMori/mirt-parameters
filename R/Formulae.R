@@ -565,19 +565,7 @@ IRF_POLAR_EQ         <- latex_eq(IRF_ABBR, LOGISTIC_M2PL_POLAR)
 ### Point and direction of maximum slope ----
 
 # Terms:
-IRF_SQUARED           <- latex_squared(IRF_ABBR)
 DISCR_VEC_TRAIT_COEFF <- latex(DISCR_VECTOR_TRANSP, TRAIT_VECTOR_POLAR_COEFF)
-
-# Second derivative:
-IRF_2ND_DIFF     <- latex_seconddiff(IRF_ABBR, TRAIT_SYMBOL)
-IRF_2ND_DIFF_DEF <- latex(
-  latex_squared(DISCR_VEC_TRAIT_COEFF, .par = TRUE),
-  IRF_ABBR,
-  latex_parentheses("1 - 3$IRF_ABBR$ + 2$IRF_SQUARED$")
-)
-IRF_2ND_DIFF_EQ  <- latex_eq(IRF_2ND_DIFF, IRF_2ND_DIFF_DEF)
-IRF_MAX_SLOPE    <- '.5' ## TODO: Format prop-like!!
-IRF_MAX_SLOPE_EQ <- latex_eq(IRF_ABBR, IRF_MAX_SLOPE)
 
 # First derivative:
 IRF_1ST_DIFF     <- latex_firstdiff(IRF_ABBR, TRAIT_SYMBOL)
@@ -588,18 +576,24 @@ IRF_1ST_DIFF_DEF <- latex(
 )
 IRF_1ST_DIFF_EQ  <- latex_eq(IRF_1ST_DIFF, IRF_1ST_DIFF_DEF)
 
-# Maximum slope:
-SLOPE_MAX     <- latex_sub("\\left. $IRF_1ST_DIFF$ \\right|", IRF_MAX_SLOPE_EQ)
-SLOPE_MAX_DEF <- latex(FRAC_1_4, DISCR_VEC_TRAIT_COEFF)
-SLOPE_MAX_EQ  <- latex_eq(SLOPE_MAX, SLOPE_MAX_DEF)
+# Second derivative:
+IRF_2ND_DIFF     <- latex_seconddiff(IRF_ABBR, TRAIT_SYMBOL)
+IRF_2ND_DIFF_DEF <- latex(
+  latex_squared(DISCR_VEC_TRAIT_COEFF, .par = TRUE),
+  IRF_ABBR,
+  latex_parentheses("1 -  $IRF_ABBR$"),
+  latex_parentheses("1 - 2$IRF_ABBR$")
+)
+IRF_2ND_DIFF_EQ  <- latex_eq(IRF_2ND_DIFF, IRF_2ND_DIFF_DEF)
+IRF_MAX_SLOPE    <- '.5' ## TODO: Format prop-like!!
+IRF_MAX_SLOPE_EQ <- latex_eq(IRF_ABBR, IRF_MAX_SLOPE)
 
-# Standardized direction cosines:
-DIR_COS_VEC_STD_DEFF     <- latex_frac(TRAIT_VECTOR_STD, TRAIT_NORM)
-DIR_COS_VEC_STD_DEFF_INV <- latex_frac(TRAIT_TRANSFORM, TRAIT_NORM)
-DIR_COS_VEC_STD_EQ       <- latex_eq(
-  DIR_COS_VEC_STD,
-  DIR_COS_VEC_STD_DEFF,
-  DIR_COS_VEC_STD_DEFF_INV
+# Condition for trasnformation to standard basis:
+ID_MATRIX        <- latex_bf('I')
+ALT_MATRIX_AS_ID <- latex_eq(
+  TRANSFORM_MATRIX_ALT,
+  DIAG_MATRIX_INNER_PROD_ALT,
+  ID_MATRIX
 )
 
 # Director cosines and standardized direction cosines equivalence:
@@ -609,15 +603,40 @@ DIR_COS_AS_DIR_COS_STD         <- latex(
   DIR_COS_VEC,
 )
 DIR_COS_AS_DIR_COS_STD_EQ      <- latex_eq(
-  DIR_COS_VEC_STD_DEFF_INV,
-  DIR_COS_AS_DIR_COS_STD,
-  DIR_COS_VEC_STD
+  DIR_COS_VEC_STD,
+  DIR_COS_AS_DIR_COS_STD
 )
 TRANF_MATRIX_INV_DIR_COS_STD   <- latex(TRANSFORM_MATRIX_INV, DIR_COS_VEC_STD)
 TRAIT_POLAR_COEFF_COS_STD_EQ   <- latex_eq(
-  TRAIT_VECTOR_POLAR_COEFF,
-  TRANF_MATRIX_INV_DIR_COS_STD
+  TRANF_MATRIX_INV_DIR_COS_STD,
+  TRAIT_VECTOR_POLAR_COEFF
 )
+
+# Maximum slope:
+SLOPE_MAX     <- latex_sub("\\left. $IRF_1ST_DIFF$ \\right|", IRF_MAX_SLOPE_EQ)
+SLOPE_MAX_DEF <- latex(FRAC_1_4, DISCR_VEC_TRAIT_COEFF)
+SLOPE_MAX_EQ  <- latex_eq(SLOPE_MAX, SLOPE_MAX_DEF)
+
+# Standardized discrimination vector:
+DISCR_VECTOR_STD     <- latex_prime(DISCR_VECTOR)
+DISCR_VECTOR_STD_DEF <- latex(TRANSFORM_MATRIX_TRANSP_INV, DISCR_VECTOR)
+DISCR_VECTOR_STD_EQ  <- latex_def(DISCR_VECTOR_STD, DISCR_VECTOR_STD_DEF)
+
+# Maximum slope as a function of standardized discrimination vectors:
+DISCR_VECTOR_STD_TRANSP   <- latex_transp(DISCR_VECTOR_STD)
+DISCR_VEC_TRAIT_STD_COEFF <- latex(DISCR_VECTOR_STD_TRANSP, DIR_COS_VEC_STD)
+SLOPE_MAX_STD_DEF         <- latex(FRAC_1_4, DISCR_VEC_TRAIT_STD_COEFF)
+SLOPE_MAX_STD_EQ          <- latex_eq(SLOPE_MAX, SLOPE_MAX_STD_DEF)
+
+# Standardized direction cosines:
+## TODO: Review (and possibly delete)
+# DIR_COS_VEC_STD_DEFF     <- latex_frac(TRAIT_VECTOR_STD, TRAIT_NORM)
+# DIR_COS_VEC_STD_DEFF_INV <- latex_frac(TRAIT_TRANSFORM, TRAIT_NORM)
+# DIR_COS_VEC_STD_EQ       <- latex_eq(
+#   DIR_COS_VEC_STD,
+#   DIR_COS_VEC_STD_DEFF,
+#   DIR_COS_VEC_STD_DEFF_INV
+# )
 
 # Maximum slope as function of standardized direction cosines:
 TRAIT_VECTOR_POLAR_COEFF_COS_STD <- latex(TRANSFORM_MATRIX_INV, DIR_COS_VEC_STD)
@@ -628,31 +647,24 @@ SLOPE_MAX_STD_COSINES_DEF        <- latex(
 )
 SLOPE_MAX_STD_COSINES_EQ       <- latex_eq(SLOPE_MAX, SLOPE_MAX_STD_COSINES_DEF)
 
-# Standardized discrimination vector:
-DISCR_VECTOR_STD            <- latex_prime(DISCR_VECTOR)
-DISCR_VECTOR_STD_DEF        <- latex(TRANSFORM_MATRIX_TRANSP_INV, DISCR_VECTOR)
-DISCR_VECTOR_STD_EQ         <- latex_def(DISCR_VECTOR_STD, DISCR_VECTOR_STD_DEF)
+## TODO: Review (and possibly delete)
+# DIR_ANGLE_STD_ITEM_VEC     <- latex_prime(DIR_ANGLE_ITEM_VEC)
+# DIR_ANGLE_STD_SUBSTITUTE   <- latex_eq(
+#   DIR_ANGLE_STD_ITEM_VEC,
+#   DIR_ANGLE_VEC_STD
+# )
+# DIR_COS_STD_ITEM_VEC     <- latex_cos(DIR_ANGLE_STD_ITEM_VEC)
 
 # Item direction cosines (in satandardized space):
-DIR_ANGLE_ITEM_VEC         <- latex_sub(DIR_ANGLE_VEC, ITEM_INDEX)
-DIR_ANGLE_STD_ITEM_VEC     <- latex_prime(DIR_ANGLE_ITEM_VEC)
-DIR_ANGLE_STD_SUBSTITUTE   <- latex_eq(
-  DIR_ANGLE_STD_ITEM_VEC,
-  DIR_ANGLE_VEC_STD
-)
-DISCR_VECTOR_STD_TRANSP    <- latex_transp(DISCR_VECTOR_STD)
-DIR_COS_STD_ITEM_VEC_DEF   <- latex_frac(
+DIR_COS_STD_ITEM_VEC_DEF <- latex_frac(
   DISCR_VECTOR_STD,
   latex_sqrt("$DISCR_VECTOR_STD_TRANSP$ $DISCR_VECTOR_STD$")
 )
-DIR_COS_STD_ITEM_VEC       <- latex_cos(DIR_ANGLE_STD_ITEM_VEC)
-DIR_COS_STD_ITEM_VEC_EQ    <- latex_eq(
-  DIR_COS_STD_ITEM_VEC,
-  DIR_COS_STD_ITEM_VEC_DEF
-)
+DIR_COS_VEC_STD_EQ       <- latex_eq(DIR_COS_VEC_STD, DIR_COS_STD_ITEM_VEC_DEF)
 
 # Item direction cosines:
-DIR_COS_ITEM_VEC        <- latex_cos(DIR_ANGLE_ITEM_VEC)
+DIR_ANGLE_ITEM_VEC      <- latex_sub(DIR_ANGLE_VEC, ITEM_INDEX)# TODO: Maybe delete?
+DIR_COS_ITEM_VEC        <- latex_cos(DIR_ANGLE_ITEM_VEC)# TODO: Maybe delete?
 DISCR_VECTOR_INNER_PROD <- latex(
   DISCR_VECTOR_TRANSP,
   INNER_PROD_MATRIX_INV,
@@ -663,10 +675,15 @@ DIR_COS_ITEM_VEC_DEF    <- latex_frac(
   "$DIAG_MATRIX_INNER_PROD_INV_SQ$ $DISCR_VECTOR$",
   DISCR_VECTOR_MODULE_DEF
 )
-DIR_COS_ITEM_VEC_EQ     <- latex_eq(DIR_COS_ITEM_VEC, DIR_COS_ITEM_VEC_DEF)
+DIR_COS_ITEM_VEC_EQ     <- latex_eq(DIR_COS_VEC, DIR_COS_ITEM_VEC_DEF)
 
 # Item signed distance:
-DIR_COS_SUBSTITUTE  <- latex_eq(DIR_COS_VEC, DIR_COS_ITEM_VEC)
+TRAIT_NORM_SOLVED <- latex(
+  "-$INTERCEPT_PARAM$",
+  latex_inverse(DISCR_VEC_TRAIT_COEFF, .par = TRUE)
+)
+TRAIT_NORM_SOLVED_EQ <- latex_eq(TRAIT_NORM, TRAIT_NORM_SOLVED)
+# DIR_COS_SUBSTITUTE  <- latex_eq(DIR_COS_VEC, DIR_COS_VEC_STD)
 DISTANCE_SYM        <- latex('D')
 DISTANCE_PARAM      <- latex_sub(DISTANCE_SYM, ITEM_INDEX)
 DISTANCE_SUBSTITUTE <- latex_eq(TRAIT_NORM, DISTANCE_PARAM)
@@ -766,7 +783,6 @@ MIL_PARAM   <- latex("MIL")
 
 # Condition to meet:
 BASIS_EQ              <- latex_equiv(LS_BASIS, LS_STD_BASIS)
-ID_MATRIX             <- latex_bf('I')
 INNER_PROD_MAT_STD_EQ <- latex_eq(INNER_PROD_MAT_EQ, ID_MATRIX)
 
 # MDISC:
