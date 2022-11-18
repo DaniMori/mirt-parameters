@@ -288,27 +288,6 @@ DIR_COS_VEC       <- latex_cos(DIR_ANGLE_VEC)
 DIR_ANGLE_VEC_STD <- latex_prime(DIR_ANGLE_VEC)
 DIR_COS_VEC_STD   <- latex_cos(DIR_ANGLE_VEC_STD)
 
-## TODO: Delete this block?
-# DIAG_INNER_PROD_MATRIX     <- latex(
-#   latex_rm("diag"),
-#   latex_parentheses(INNER_PROD_MATRIX)
-# )
-# BASIS_VECTOR_FIRST_MOD     <- latex_sub(BASIS_VECTOR_EL, 1)
-# BASIS_VECTOR_LAST_MOD      <- latex_sub(BASIS_VECTOR_EL, N_DIMS)
-# DIAG_INNER_PROD_MATRIX_DEF <- latex_transp(
-#   latex_sqbrackets(
-#     latex_enum(
-#       latex_squared(BASIS_VECTOR_FIRST_MOD),
-#       ELLIPSIS,
-#       latex_squared(BASIS_VECTOR_LAST_MOD)
-#     )
-#   )
-# )
-# DIAG_INNER_PROD_MATRIX_EQ  <- latex_eq(
-#   DIAG_INNER_PROD_MATRIX,
-#   DIAG_INNER_PROD_MATRIX_DEF
-# )
-
 ### Proposition 1 ----
 
 # Basis vectors:
@@ -628,16 +607,6 @@ DISCR_VEC_TRAIT_STD_COEFF <- latex(DISCR_VECTOR_STD_TRANSP, DIR_COS_VEC_STD)
 SLOPE_MAX_STD_DEF         <- latex(FRAC_1_4, DISCR_VEC_TRAIT_STD_COEFF)
 SLOPE_MAX_STD_EQ          <- latex_eq(SLOPE_MAX, SLOPE_MAX_STD_DEF)
 
-# Standardized direction cosines:
-## TODO: Review (and possibly delete)
-# DIR_COS_VEC_STD_DEFF     <- latex_frac(TRAIT_VECTOR_STD, TRAIT_NORM)
-# DIR_COS_VEC_STD_DEFF_INV <- latex_frac(TRAIT_TRANSFORM, TRAIT_NORM)
-# DIR_COS_VEC_STD_EQ       <- latex_eq(
-#   DIR_COS_VEC_STD,
-#   DIR_COS_VEC_STD_DEFF,
-#   DIR_COS_VEC_STD_DEFF_INV
-# )
-
 # Maximum slope as function of standardized direction cosines:
 TRAIT_VECTOR_POLAR_COEFF_COS_STD <- latex(TRANSFORM_MATRIX_INV, DIR_COS_VEC_STD)
 SLOPE_MAX_STD_COSINES_DEF        <- latex(
@@ -646,14 +615,6 @@ SLOPE_MAX_STD_COSINES_DEF        <- latex(
   TRAIT_VECTOR_POLAR_COEFF_COS_STD
 )
 SLOPE_MAX_STD_COSINES_EQ       <- latex_eq(SLOPE_MAX, SLOPE_MAX_STD_COSINES_DEF)
-
-## TODO: Review (and possibly delete)
-# DIR_ANGLE_STD_ITEM_VEC     <- latex_prime(DIR_ANGLE_ITEM_VEC)
-# DIR_ANGLE_STD_SUBSTITUTE   <- latex_eq(
-#   DIR_ANGLE_STD_ITEM_VEC,
-#   DIR_ANGLE_VEC_STD
-# )
-# DIR_COS_STD_ITEM_VEC     <- latex_cos(DIR_ANGLE_STD_ITEM_VEC)
 
 # Item direction cosines (in satandardized space):
 DIR_COS_STD_ITEM_VEC_DEF <- latex_frac(
@@ -683,14 +644,13 @@ TRAIT_NORM_SOLVED <- latex(
   latex_inverse(DISCR_VEC_TRAIT_COEFF, .par = TRUE)
 )
 TRAIT_NORM_SOLVED_EQ <- latex_eq(TRAIT_NORM, TRAIT_NORM_SOLVED)
-# DIR_COS_SUBSTITUTE  <- latex_eq(DIR_COS_VEC, DIR_COS_VEC_STD)
 DISTANCE_SYM        <- latex('D')
 DISTANCE_PARAM      <- latex_sub(DISTANCE_SYM, ITEM_INDEX)
 DISTANCE_SUBSTITUTE <- latex_eq(TRAIT_NORM, DISTANCE_PARAM)
 DISTANCE_PARAM_DEF  <- latex_frac("-$INTERCEPT_PARAM$", DISCR_VECTOR_MODULE_DEF)
 DISTANCE_PARAM_EQ   <- latex_eq(DISTANCE_PARAM, DISTANCE_PARAM_DEF)
 
-### Maximum slope ----
+# Maximum slope:
 
 SLOPE_MAX_PARAM     <- latex_sub('S', ITEM_INDEX)
 SLOPE_MAX_PARAM_DEF <- latex(FRAC_1_4, DISCR_VECTOR_MODULE_DEF)
@@ -698,25 +658,8 @@ SLOPE_MAX_PARAM_EQ  <- latex_eq(SLOPE_MAX_PARAM, SLOPE_MAX_PARAM_DEF)
 
 ### Test space ----
 
+# Test space:
 TEST_SPACE <- latex_bf("\\upAlpha")
-
-# Inner product:
-DISCR_VECTOR_K       <- latex_sub(DISCR_VECTOR_ANY, DIM_INDEX)
-DISCR_VECTOR_TRANSP  <- latex_transp(DISCR_VECTOR)
-INNER_PROD_DISCR     <- latex_innerprod(DISCR_VECTOR, DISCR_VECTOR_K)
-INNER_PROD_DISCR_DEF <- latex(
-  DISCR_VECTOR_TRANSP,
-  INNER_PROD_MATRIX_INV,
-  DISCR_VECTOR_K
-)
-INNER_PROD_DISCR_EQ  <- latex_eq(INNER_PROD_DISCR, INNER_PROD_DISCR_DEF)
-
-# Discrimination vector module:
-DISCR_VECTOR_MODULE    <- latex_norm(DISCR_VECTOR)
-DISCR_VECTOR_MODULE_EQ <- latex_eq(
-  latex_squared(DISCR_VECTOR_MODULE),
-  DISCR_VECTOR_INNER_PROD
-)
 
 # Test space basis:
 ITEM_BASIS_VECTOR_EL      <- latex('v')
@@ -731,6 +674,69 @@ ITEM_SPACE_BASIS_ELEMENTS <- latex_enum(
 )
 ITEM_SPACE_BASIS_SET      <- latex_curlybraces(ITEM_SPACE_BASIS_ELEMENTS)
 ITEM_SPACE_BASIS_EQ       <- latex_eq(ITEM_SPACE_BASIS, ITEM_SPACE_BASIS_SET)
+
+# Inner product:
+DISCR_VECTOR_K       <- latex_sub(DISCR_VECTOR_ANY, DIM_INDEX)
+DISCR_VECTOR_TRANSP  <- latex_transp(DISCR_VECTOR)
+INNER_PROD_DISCR     <- latex_innerprod(DISCR_VECTOR, DISCR_VECTOR_K)
+INNER_PROD_DISCR_DEF <- latex(
+  DISCR_VECTOR_TRANSP,
+  INNER_PROD_MATRIX_INV,
+  DISCR_VECTOR_K
+)
+INNER_PROD_DISCR_EQ  <- latex_eq(INNER_PROD_DISCR, INNER_PROD_DISCR_DEF)
+
+# Discrimination vector module:
+DISCR_VECTOR_MODULE    <- latex_norm(DISCR_VECTOR)
+DISCR_VECTOR_MODULE_SQ <- latex_squared(DISCR_VECTOR_MODULE)
+DISCR_VECTOR_MODULE_EQ <- latex_eq(
+  DISCR_VECTOR_MODULE_SQ,
+  DISCR_VECTOR_INNER_PROD
+)
+
+# Maximum slope (and location) as a function of item discrimination norm:
+
+## Item direction cosines:
+DIR_COS_ITEM_VEC_NORM_DEF    <- latex_frac(
+  "$DIAG_MATRIX_INNER_PROD_INV_SQ$ $DISCR_VECTOR$",
+  DISCR_VECTOR_MODULE
+)
+DIR_COS_ITEM_VEC_NORM_EQ     <- latex_eq(DIR_COS_VEC, DIR_COS_ITEM_VEC_NORM_DEF)
+
+## Item signed distance:
+DISTANCE_PARAM_NORM_DEF <- latex_frac("-$INTERCEPT_PARAM$", DISCR_VECTOR_MODULE)
+DISTANCE_PARAM_NORM_EQ  <- latex_eq(DISTANCE_PARAM, DISTANCE_PARAM_NORM_DEF)
+
+## Maximum slope:
+SLOPE_MAX_PARAM_NORM_DEF <- latex(FRAC_1_4, DISCR_VECTOR_MODULE)
+SLOPE_MAX_PARAM_NORM_EQ  <- latex_eq(SLOPE_MAX_PARAM, SLOPE_MAX_PARAM_NORM_DEF)
+
+# Inner product matrix elements:
+ITEM_BASIS_VECTOR_ANY         <- latex_sub(ITEM_BASIS_VECTOR, ITEM_INDEX)
+ITEM_BASIS_VECTOR_AUX         <- latex_sub(ITEM_BASIS_VECTOR, DIM_INDEX)
+ITEM_BASIS_VECTORS_INNER_PROD <- latex_innerprod(
+  ITEM_BASIS_VECTOR_ANY,
+  ITEM_BASIS_VECTOR_AUX
+)
+INNER_PROD_INV_MAT_SUBINDEX   <- latex(ITEM_INDEX, DIM_INDEX, .sep = NO_SEP)
+INNER_PROD_INV_MAT_ELEMENT    <- latex_sub('m', INNER_PROD_INV_MAT_SUBINDEX) |>
+  latex_inverse()
+INNER_PROD_INV_MAT_ELEMENT_EQ <- latex_eq(
+  ITEM_BASIS_VECTORS_INNER_PROD,
+  INNER_PROD_INV_MAT_ELEMENT
+)
+
+DISCR_VECTOR_K       <- latex_sub(DISCR_VECTOR_ANY, DIM_INDEX)
+DISCR_VECTOR_TRANSP  <- latex_transp(DISCR_VECTOR)
+INNER_PROD_DISCR     <- latex_innerprod(DISCR_VECTOR, DISCR_VECTOR_K)
+INNER_PROD_DISCR_DEF <- latex(
+  DISCR_VECTOR_TRANSP,
+  INNER_PROD_MATRIX_INV,
+  DISCR_VECTOR_K
+)
+INNER_PROD_DISCR_EQ  <- latex_eq(INNER_PROD_DISCR, INNER_PROD_DISCR_DEF)
+
+
 
 # Transform matrix:
 ITEM_BASIS_VECTOR_FIRST_TRANSF   <- latex_prime(ITEM_BASIS_VECTOR_FIRST)

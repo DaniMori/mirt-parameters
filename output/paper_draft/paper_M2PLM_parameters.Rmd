@@ -559,7 +559,8 @@ Substituting Equation \@ref(eq:dir-cos-vec) in Equation \@ref(eq:slope-max),
 Before defining the multidimensional parameters, we need to make a clarification
 regarding the representation of the items in the latent space.
 Equation \@ref(eq:slope-param) makes it clear that a space $`r TEST_SPACE`$
-with inner product matrix $`r INNER_PROD_MATRIX_INV`$ can be defined,
+with basis $`r ITEM_SPACE_BASIS_EQ`$ and inner product matrix
+$`r INNER_PROD_MATRIX_INV`$ can be defined,
 such that $`r INNER_PROD_DISCR_EQ`$ and, subsequently,
 $`r DISCR_VECTOR_MODULE_EQ`$.
 We call $`r TEST_SPACE`$ the *test space* [@zhang_theoretical_1999] of the
@@ -568,6 +569,23 @@ This space is where the item vectors can be properly represented.
 It is in general different from the latent space $`r LATENT_SPACE`$,
 although there is a bijective relationship between the two sets of spaces,
 as their inner product matrices are inverse of one another.
+
+With this definition we have that
+
+\begin{equation}
+  \begin{split}
+    `r DIR_COS_ITEM_VEC_NORM_EQ` \\
+    `r DISTANCE_PARAM_NORM_EQ`   \\
+    `r SLOPE_MAX_PARAM_NORM_EQ`.
+  \end{split}                             (\#eq:item-params-discrimination-norm)
+\end{equation}
+<!-- # TODO: Three equations collapsed into one altogether -->
+
+It is clear that $`r INNER_PROD_INV_MAT_ELEMENT_EQ`$ were
+$`r INNER_PROD_INV_MAT_ELEMENT`$ is the $`r INNER_PROD_INV_MAT_SUBINDEX`$-th
+element of $`r INNER_PROD_MATRIX_INV`$.
+<!-- # TODO: Error here? Mario means product of the basis elements? -->
+
 
 The basis $`r ITEM_SPACE_BASIS_EQ`$ of $`r TEST_SPACE`$ is such that
 $`r ITEM_TRANSF_MATRIX_EQ`$ (see Equation \@ref(eq:discr-vector-std)).
