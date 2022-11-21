@@ -586,12 +586,13 @@ $`r INNER_PROD_INV_MAT_ELEMENT`$ is the $`r INNER_PROD_INV_MAT_SUBINDEX`$-th
 element of $`r INNER_PROD_MATRIX_INV`$.
 <!-- # TODO: Error here? Mario means product of the basis elements? -->
 
+Let $`r LS_STD_BASIS`$ be the standard basis of $`r TEST_SPACE`$.
+<!-- # TODO: Can the standard basis of \Alpha be also \mathcal{E}? Otherwise, may I use \mathcal{E} instead? -->
+Then, $`r BASIS_CHANGE_TS_EQ`$ is the change of basis matrix and
+<!-- # TODO: Result pending of demonstration? -->
+$`r DISCR_VECTOR_STD_MOD_EQ`$.
 
-The basis $`r ITEM_SPACE_BASIS_EQ`$ of $`r TEST_SPACE`$ is such that
-$`r ITEM_TRANSF_MATRIX_EQ`$ (see Equation \@ref(eq:discr-vector-std)).
-Thus, similarly to equation \@ref(eq:dir-cos-vec),
-the vector of direction cosines of a vector in $`r TEST_SPACE`$
-can be defined as
+Applying propositon 1,
 
 \begin{equation}
   `r DIR_COS_ITEM_VEC_TS_EQ`,                      (\#eq:dir-cos-vec-test-space)
