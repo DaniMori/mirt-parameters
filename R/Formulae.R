@@ -738,21 +738,6 @@ DISCR_VECTOR_STD_MOD_EQ <- latex_eq(
   DISCR_VECTOR_STD_MODULE
 )
 
-# Transform matrix:
-ITEM_BASIS_VECTOR_FIRST_TRANSF   <- latex_prime(ITEM_BASIS_VECTOR_FIRST)
-ITEM_BASIS_VECTOR_LAST_TRANSF    <- latex_prime(ITEM_BASIS_VECTOR_LAST)
-ITEM_SPACE_BASIS_ELEMENTS_TRANSF <- latex_enum(
-  ITEM_BASIS_VECTOR_FIRST_TRANSF,
-  ELLIPSIS,
-  ITEM_BASIS_VECTOR_LAST_TRANSF
-)
-ITEM_TRANSF_MATRIX_DEF           <-
-  latex_sqbrackets(ITEM_SPACE_BASIS_ELEMENTS_TRANSF)
-ITEM_TRANSF_MATRIX_EQ  <- latex_eq(
-  TRANSFORM_MATRIX_TRANSP_INV,
-  ITEM_TRANSF_MATRIX_DEF
-)
-
 # Item direction cosines (in test space):
 ANGLE_TS                          <- latex("\\alpha")
 DIR_ANGLE_VEC_TS                  <- latex_bf(ANGLE_TS)
