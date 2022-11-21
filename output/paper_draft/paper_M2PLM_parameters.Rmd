@@ -593,6 +593,7 @@ Then, $`r BASIS_CHANGE_TS_EQ`$ is the change of basis matrix and
 $`r DISCR_VECTOR_STD_MOD_EQ`$.
 
 Applying propositon 1,
+<!-- # TODO: Mario did not include item subindes, should I? -->
 
 \begin{equation}
   `r DIR_COS_ITEM_VEC_TS_EQ`,                      (\#eq:dir-cos-vec-test-space)

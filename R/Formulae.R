@@ -757,7 +757,7 @@ DIAG_M_DISCR_PROD                 <- latex(
 )
 DIR_COS_ITEM_VEC_TS_DEF           <- latex_frac(
   DIAG_M_DISCR_PROD,
-  DISCR_VECTOR_MODULE_DEF
+  DISCR_VECTOR_MODULE
 )
 DIR_COS_ITEM_VEC_TS_EQ            <- latex_eq(
   DIR_COS_ITEM_VEC_TS,
