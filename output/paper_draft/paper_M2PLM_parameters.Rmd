@@ -240,7 +240,6 @@ we need to introduce a few linear algebra results before proceeding further.
 ## Linear algebra of non-orthogonal coordinates
 
 Let's consider the standard basis $`r LS_STD_BASIS_EQ`$ in $`r LATENT_SPACE`$.
-<!-- TODO: Incomplete in Mario's version, is it correct to say "in the latent space"? -->
 We can write all $`r TRAIT_VEC_IN_LS`$ as a linear combination of each baseis.
 Therefore, we have both representations: $`r TRAIT_VECTOR_DEF_BASIS_EQ`$, and
 $`r TRAIT_VECTOR_DEF_STD_BASIS_EQ`$, where $`r TRAIT_COORDS_EQ`$ and
@@ -254,14 +253,13 @@ Let $`r BASIS_CHANGE_DEF`$ be the change of basis matrix; then, we have that
 
 The $`r DIM_INDEX`$-th column of $`r TRANSFORM_MATRIX`$ is given by the
 coordinates of $`r BASIS_VECTOR_ANY`$ in basis $`r LS_STD_BASIS`$.
-<!-- # TODO: For all k? -->
 If $`r BASIS_VECTOR_ANY_TRANSF_EQ`$, then
 
 \begin{equation}
   `r TRANSFORM_MATRIX_EQ`.                           (\#eq:transform-matrix-def)
 \end{equation}
 
-With the standard basis in $`r LATENT_SPACE`$ we have the usual scalar product<!-- (i.e. dot product) -->.
+With the standard basis in $`r LATENT_SPACE`$ we have the usual scalar product.
 With basis $`r LS_BASIS`$ in $`r LATENT_SPACE`$ we define an inner product
 $`r LS_BASIS_INNER_PROD`$, such that the norm of $`r TRAIT_VECTOR`$ is
 invariant, i.e., $`r TRAIT_NORM_EQ`$. Therefore,
@@ -279,7 +277,6 @@ $`r TRANSFORM_MATRIX`$ (and consequently $`r TRANSFORM_MATRIX_TRANSP`$) is
 invertible, so $`r INNER_PROD_MATRIX`$ is, and $`r INNER_PROD_MATRIX_INV_EQ`$.
 
 The cosines between two vectors follow the usual definition,
-<!-- # TODO: Is this true?? See Harman 1970 (eq. 4.43, p. 60 to check) -->
 
 \begin{equation}
   `r COS_VECTORS_EQ`,                                         (\#eq:cos-vectors)
@@ -313,7 +310,6 @@ with
 \begin{equation}
   `r DIAG_MATRIX_INNER_PROD_EQ`.
 \end{equation}
-<!-- # TODO: I have changed here $D^{-1/2}$ by $D$; discuss with Mario -->
 
 Therefore,
 
@@ -364,7 +360,6 @@ where
 \end{equation}
 
 and $`r TRANSFORM_MATRIX_ALT_EQ`$.
-<!-- TODO: Comment with Mario (order of terms inverted here) -->
 
 ::: {.proof}
 *Proof.*
@@ -432,7 +427,6 @@ any trait vector $`r TRAIT_VECTOR`$ is expressed in polar coordinates as
 \end{equation}
 
 Thus, the M2PL model is expressed in polar coordinates as
-<!-- # TODO: Use the "module" symbol instead of the "norm"? -->
 
 \begin{equation}
   `r IRF_POLAR_EQ`.                                    (\#eq:M2PL-formula-polar)
@@ -449,7 +443,6 @@ Following the procedure outlined by @reckase_difficulty_1985
 [@reckase_discriminating_1991],
 we first compute the point of maximum slope by finding the root(s) of
 the second derivative with respect to $`r TRAIT_NORM`$.
-<!-- # TODO: Use the "module" symbol instead of the "norm"? -->
 
 The slope in direction $`r DIR_ANGLE_VEC`$ is given by
 
@@ -484,7 +477,7 @@ Reckase leverages on the property that the squared direction cosines sum up to 1
 However, this assertion implicitly assumes orthogonal coordinates,
 so it does not apply in general to $`r DIR_COS_VEC`$.
 Instead, we may consider the direction cosine vector with the standard basis
-$`r LS_STD_BASIS`$.<!-- # TODO: Mario wrote "\mathcal{B}", I think he refers to "\mathcal{E}", the standard basis -->
+$`r LS_STD_BASIS`$.
 Now, applying Proposition 2 (with $`r ALT_MATRIX_AS_ID`$) we obtain
 
 \begin{equation}
@@ -524,7 +517,6 @@ Substituting $`r DIR_COS_VEC_STD`$
 $`r DISCR_VECTOR_STD`$ (Equation \@ref(eq:discr-vector-std))
 by their respective expressions results in the
 expression for the direction cosine vector of item $i$ in $`r LATENT_SPACE`$,
-<!-- # TODO: with basis \mathcal{B}? -->
 
 \begin{equation}
   `r DIR_COS_ITEM_VEC_EQ`,                                    (\#eq:dir-cos-vec)
@@ -536,7 +528,6 @@ Finally, to determine the signed distance $`r DISTANCE_PARAM`$
 from the origin to that point,
 we solve Equation \@ref(eq:M2PL-formula-polar) for $`r IRF_MAX_SLOPE_EQ`$ to get
 $`r TRAIT_NORM_SOLVED_EQ`$. Using equation \@ref(eq:dir-cos-vec), then
-<!-- # TODO: Verify that it's equation 20, not 18 -->
 
 \begin{equation}
   `r DISTANCE_PARAM_EQ`,                                   (\#eq:distance-param)
@@ -579,21 +570,16 @@ With this definition we have that
     `r SLOPE_MAX_PARAM_NORM_EQ`.
   \end{split}                             (\#eq:item-params-discrimination-norm)
 \end{equation}
-<!-- # TODO: Three equations collapsed into one altogether -->
 
 It is clear that $`r INNER_PROD_INV_MAT_ELEMENT_EQ`$ were
 $`r INNER_PROD_INV_MAT_ELEMENT`$ is the $`r INNER_PROD_INV_MAT_SUBINDEX`$-th
 element of $`r INNER_PROD_MATRIX_INV`$.
-<!-- # TODO: Error here? Mario means product of the basis elements? -->
 
 Let $`r LS_STD_BASIS`$ be the standard basis of $`r TEST_SPACE`$.
-<!-- # TODO: Can the standard basis of \Alpha be also \mathcal{E}? Otherwise, may I use \mathcal{E} instead? -->
 Then, $`r BASIS_CHANGE_TS_EQ`$ is the change of basis matrix and
-<!-- # TODO: Result pending of demonstration? -->
 $`r DISCR_VECTOR_STD_MOD_EQ`$.
 
 Applying propositon 1,
-<!-- # TODO: Mario did not include item subindes, should I? -->
 
 \begin{equation}
   `r DIR_COS_ITEM_VEC_TS_EQ`,                      (\#eq:dir-cos-vec-test-space)
