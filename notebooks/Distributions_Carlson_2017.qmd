@@ -154,10 +154,6 @@ Coincidence is exact (up to the second decimal).
 We will compute now the multidimensional parameters using these distribution
 parameters:
 
-```{r simulate}
-params |> slice(1) |> get_cov_mat()
-```
-
 # Latent trait distributions
 
 These distributions are taken from @carlson_unidimensional_2017's Table 2.
@@ -218,7 +214,7 @@ sim_responses <- sim_traits |>
     by = c(level = "Level admin.")
   )        |>
   mutate(
-    prob     = V1 * a_1 + V2 * a_2 + d,
+    prob     = (1 + exp(- (V1 * a_1 + V2 * a_2 + d)))^(-1),
     response = prob |> rbinom(n = n(), size = 1)
   )
 ```
