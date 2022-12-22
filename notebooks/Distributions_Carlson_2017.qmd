@@ -5,33 +5,221 @@ editor: visual
 bibliography: ../www/Multidimensional-parameters-MCLM.bib
 ---
 
-# Introduction
+```{r setup}
+#| message: false
+library(tidyverse)
+library(waldo)
+library(mnormt)
+```
 
-These distributions are taken from @carlson_unidimensional_2017's Table 2.
-
-```{r table-2}
-covs <- c(
-  0.496, 0.138, 0.678,
-  0.496, 0.223, 0.870,
-  0.507, 0.328, 0.902,
-  0.295, 0.428, 0.928,
-  0.085, 0.383, 0.808,
-  0.069, 0.546, 0.380
-) |>
-  matrix(ncol = 3, byrow = TRUE)
-
-get_corr_mat <- function(vals) {
+```{r functions}
+get_cov_mat <- function(vals) {
   
-  cov <- vals[3] |> matrix(2, 2)
-  diag(cov) <- vals[1:2]
+  vals <- vals                 |>
+    pivot_longer(everything()) |>
+    deframe()
   
-  cov2cor(cov)
+  corr_matrix <- diag(2)
+  corr_matrix[1, 2] <- corr_matrix[2, 1] <- vals["r"]
+  
+  vars <- vals['sd_' |> paste0(1:2)]
+  
+  diag(vars) %*% corr_matrix %*% diag(vars)
 }
 
-get_corr_mat(covs[1, ])
-get_corr_mat(covs[2, ])
-get_corr_mat(covs[3, ])
-get_corr_mat(covs[4, ])
-get_corr_mat(covs[5, ])
-get_corr_mat(covs[6, ])
+get_mean_vec <- function(vals) {
+  
+  vals                               |>
+    pivot_longer(everything())       |>
+    filter(name |> str_detect("^m_")) |>
+    deframe()
+}
+
+simulate <- function(params, N = 2000) {
+  
+  covs  <- params |> get_cov_mat()
+  means <- params |> get_mean_vec()
+  
+  rmnorm(N, mean = means, varcov = covs)
+}
 ```
+
+# Item parameters
+
+The item parameters are taken from the Appendix, and are as follows:
+
+```{r table-appendix}
+items_table <- read_delim(
+  "../dat/Table_Appendix_Carlson_2017.csv", 
+  delim         = ";",
+  escape_double = FALSE,
+  trim_ws       = TRUE,
+  col_types     = cols(
+    Item           = col_character(),
+    `Level admin.` = col_character(),
+    .default       = col_double()
+  )
+)
+
+# Set apart items and their descriptives:
+suppressWarnings(
+  items_table <- items_table |> mutate(
+    is_descriptive = Item |>
+      as.numeric()        |>
+      is.na()
+  )
+)
+
+item_parameters <- items_table |>
+  filter(!is_descriptive)      |>
+  select(-is_descriptive)      |>
+  mutate(
+    `Level admin.` = `Level admin.` |>
+      str_split(", ")               |>
+      map(parse_integer)
+  )
+```
+
+We check that the items follow the specifications stated:
+
+```{r check-items}
+item_parameters          |>
+  count(`Level admin.`)  |>
+  unnest(`Level admin.`) |>
+  count(`Level admin.`, wt = n)
+
+item_parameters |>
+  ggplot(aes(b_1, b_2, color = `Level admin.`)) +
+  geom_point()
+```
+
+The number of items per level are as specified (but they are not coincident
+with Table 1; there seems to be a mistake in that table). Also, the graphical
+representation seems to be equivalent to @carlson_unidimensional_2017's Figure
+5.
+
+Now, we check whether the rectangular parameters are properly computed from the
+polar parameters provided. In order to that, we apply Equations 23, 24, and 25
+in @carlson_unidimensional_2017 to compute the rectangular parameters
+(`d`, `b_m` `a_m`, respectively, for $m = {1, 2}$).
+
+```{r check-item-parameters-rectangular}
+computed_item_params <- item_parameters |> transmute(
+  Item,
+  b_1 =  `b*` * cospi(omega_1 / 180),
+  b_2 =  `b*` * sinpi(omega_1 / 180),
+  d   = -`b*` / `a*`,
+  a_1 =  `a*` * cospi(omega_1 / 180),
+  a_2 =  `a*` * sinpi(omega_1 / 180)
+)
+
+item_parameters |> select(Item, b_1:a_2) |>
+  compare(computed_item_params, tolerance = 5e-3)
+```
+
+The values of `d` seem to be miscalculated.
+
+We extract the descriptive statistics of the parameters and compare them with
+the ones provided in the appendix table:
+
+```{r check-item-descriptives}
+items_descriptives <- items_table                                     |>
+  filter(is_descriptive)                                              |>
+  select(stat = Item, everything(), -is_descriptive, -`Level admin.`) |>
+  pivot_longer(-stat, names_to = "parameter")                         |>
+  mutate(across(-value, parse_factor))
+
+# Check item descriptives:
+computed_item_desc <- item_parameters                                      |>
+  summarize(
+    across(omega_1:a_2, .fns = lst(mean, sd, min, max))
+  )                                                                        |>
+  pivot_longer(everything())                                               |>
+  separate(col = name, into = c("parameter", "stat"), sep = "_(?=[^_]+$)") |>
+  mutate(
+    across(-value, parse_factor),
+    stat = stat                    |>
+      fct_relabel(str_to_sentence) |>
+      fct_recode(SD = "Sd")
+  )                                                                        |>
+  select(stat, parameter, value)                                           |>
+  arrange(stat)
+
+compare(items_descriptives, computed_item_desc, tolerance = 5e-3)
+compare(items_descriptives, computed_item_desc, tolerance = 1e-3)
+```
+
+Coincidence is exact (up to the second decimal).
+
+We will compute now the multidimensional parameters using these distribution
+parameters:
+
+```{r simulate}
+params |> slice(1) |> get_cov_mat()
+```
+
+# Latent trait distributions
+
+These distributions are taken from @carlson_unidimensional_2017's Table 2.
+They are all bivariate normal with the following parameters:
+
+```{r table-2}
+params <- tribble(
+  ~m_1,   ~m_2,   ~sd_1,  ~sd_2,  ~r,
+  -3.228, -1.093,  0.496,  0.138,  0.678,
+  -1.528, -0.779,  0.496,  0.223,  0.870,
+  -0.265, -0.101,  0.507,  0.328,  0.902,
+   0.598,  0.801,  0.295,  0.428,  0.928,
+   1.100,  1.893,  0.085,  0.383,  0.808,
+   1.330,  3.233,  0.069,  0.546,  0.380
+)
+
+params
+```
+
+# Simulations
+
+2,000 latent trait values are drawn from bivariate normal distributions with the
+parameters given above.
+
+```{r simulate-traits}
+set.seed(1325498132)
+
+sim_traits <- params |>
+  nrow()             |>
+  seq_len()          |>
+  map_df(
+    ~params      |>
+      slice(.x)  |>
+      simulate() |>
+      as_tibble(),
+    .id = "level"
+  )                  |>
+  mutate(level = level |> parse_integer())
+
+sim_traits                                |>
+  mutate(level = level |> as.character()) |>
+  ggplot(aes(V1, V2, color = level)) +
+  geom_point(alpha = .1)
+```
+
+The resulting distributions quite resemble @carlson_unidimensional_2017's Figure
+6.
+
+With these values, item responses are first simulated to the items that
+correspond to each level.
+
+```{r simulate-responses}
+sim_responses <- sim_traits |>
+  full_join(
+    item_parameters          |>
+      unnest(`Level admin.`) |>
+      select(Item, `Level admin.`, d:a_2),
+    by = c(level = "Level admin.")
+  )        |>
+  mutate(
+    prob     = V1 * a_1 + V2 * a_2 + d,
+    response = prob |> rbinom(n = n(), size = 1)
+  )
+```
+
