@@ -34,11 +34,12 @@ DOC_DIR <- getwd()
 opts_knit$set(root.dir = ROOT_DIR)
 opts_chunk$set(
   echo     = FALSE,
+  message  = FALSE,
   cache    = FALSE,
   dev      = "png",
   dpi      =   300,
   dev.args = list(type = "cairo-png"),
-  fig.pos = "!H"
+  fig.pos  = "!H"
 )
 
 # Output configuration options:
@@ -675,11 +676,9 @@ read_chunk("src/Graphical_example_paper.R")
 ```
 
 ```{r libraries}
-#| message: false
 ```
 
 ```{r sources}
-#| message: false
 ```
 
 ```{r constants}
