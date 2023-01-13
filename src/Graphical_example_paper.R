@@ -38,7 +38,7 @@ VECTOR_WIDTH <- .3
 PALETTE      <- c("darkred", "darkgoldenrod3", "green3", "cyan3", "blue3")
 
 # Item parameters:
-items_MCLM <- tribble(
+items_M2PL <- tribble(
   ~a_1, ~a_2, ~l  ,
    2  ,  2  ,  0  ,
    2  , -1  ,  1  ,
@@ -76,10 +76,10 @@ theme_set( # `ggplot` output configuration
 ## ----compute-example-items----
 
 # Item parameters:
-items_MCLM <- items_MCLM |> rownames_to_column(var = "item")
+items_M2PL <- items_M2PL |> rownames_to_column(var = "item")
 
 # Orthogonal case:
-items_orth <- items_MCLM |> compute_mirt_params(l, starts_with('a_'))
+items_orth <- items_M2PL |> compute_mirt_params(l, starts_with('a_'))
 items_orth <- items_orth |>
   select(-(rad_1:rad_2)) |>
   full_join(
@@ -105,7 +105,7 @@ corr_matrix                 <- solve(inner_prod_matrix)
 sqrt_diag_inner_prod_matrix <- diag(inner_prod_matrix) |> diag() |> sqrt()
 
 ## Compute parameters and coordinates:
-items_oblique <- items_MCLM |>
+items_oblique <- items_M2PL |>
   compute_mirt_params(l, starts_with('a_'), cov_matrix = corr_matrix)
 items_oblique <- items_oblique |>
   select(-(rad_1:rad_2))       |>
@@ -126,7 +126,7 @@ item_params <- full_join(
   suffix = c("_orth", "_ob")
 )
 
-item_params <- full_join(items_MCLM, item_params, by = "item")
+item_params <- full_join(items_M2PL, item_params, by = "item")
 
 
 ## ----compose-example-items-table----
@@ -147,7 +147,7 @@ item_headers <- tibble(
   ),
   corr     = c(
     "Item",
-    "MCLM"       |> rep(3),
+    "M2PL"       |> rep(3),
     " ",
     latex_eq(CORR, 0L) |> rep(4),
     " ",
