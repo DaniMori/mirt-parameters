@@ -206,16 +206,14 @@ With these values, item responses are first simulated to the items that
 correspond to each level.
 
 ```{r simulate-responses}
-sim_responses <- sim_traits |>
-  full_join(
-    item_parameters          |>
-      unnest(`Level admin.`) |>
-      select(Item, `Level admin.`, d:a_2),
-    by = c(level = "Level admin.")
-  )        |>
+item_params_by_level <- item_parameters |>
+      unnest(`Level admin.`)            |>
+      select(Item, level = `Level admin.`, d:a_2)
+
+sim_responses <- sim_traits                     |>
+  full_join(item_params_by_level, by = "level") |>
   mutate(
     prob     = (1 + exp(- (V1 * a_1 + V2 * a_2 + d)))^(-1),
     response = prob |> rbinom(n = n(), size = 1)
   )
 ```
-
