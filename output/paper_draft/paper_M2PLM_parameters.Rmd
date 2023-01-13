@@ -790,31 +790,9 @@ opts_knit$set(root.dir = ROOT_DIR)
 ```
 
 ```{r read-chunks-empirical-example}
-read_chunk("src/Empirical_example.R")
+source("src/Empirical_example_Reckase2009.R", encoding = 'UTF-8')
 ```
 
-```{r libraries, message=FALSE}
-```
-
-```{r sources, message=FALSE}
-```
-
-```{r read-items, message=FALSE}
-```
-
-```{r orthogonal-params}
-```
-
-```{r oblique-params}
-```
-
-```{r params-table}
-```
-
-```{r compose-empirical-items-table}
-```
-
-```{r set-flextable-wd, cache=FALSE}
 ```{r set-flextable-wd}
 #| cache: false
 ```

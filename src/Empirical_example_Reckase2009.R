@@ -28,7 +28,15 @@ source("R/Mirt_toolbox.R")
 ## ---- CONSTANTS: -------------------------------------------------------------
 
 ## ----constants----
-
+COV_MATRIX <- matrix(
+  c(
+    1.210, .297, 1.232,
+     .297, .810,  .252,
+    1.232, .252, 1.960
+  ),
+  nrow = 3
+)
+# Version in Reckase, 2009, p. 153 (see also p. 183 for the close to 1D case)
 
 ## ---- CONFIGURATION: ---------------------------------------------------------
 
@@ -60,32 +68,10 @@ items                                            |>
 
 ## ----oblique-params----
 
-# ## Compute the covariance matrix:
-
-# cov_matrix <- matrix(
-#   c(
-#     .1670, .2361, .2892,
-#     .2361, .3340, .4090,
-#     .2892, .4090, .5010
-#   ),
-#   nrow = 3
-# )
-# # See Reckase, 2009, p. 183
-cov_matrix <- matrix(
-  c(
-    1.210, .297, 1.232,
-     .297, .810,  .252,
-    1.232, .252, 1.960
-  ),
-  nrow = 3
-)
-# See Reckase, 2009, p. 183
-
-
 ## Compute the parameters:
 items_oblique <- items |> compute_mirt_params(
   d, matches('^a\\d$'),
-  cov_matrix = cov_matrix,
+  cov_matrix = COV_MATRIX,
   dir_out = "deg"
 )
 
