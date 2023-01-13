@@ -20,7 +20,9 @@ editor_options:
   chunk_output_type: console
 ---
 
-```{r setup, include=FALSE}
+```{r setup}
+#| include: false
+
 # Includes:
 
 library(knitr)
@@ -43,7 +45,9 @@ opts_chunk$set(
 options(digits = 3)
 ```
 
-```{r write-bib, cache=TRUE}
+```{r write-bib}
+#| cache: true
+
 # automatically create a bib database for R packages
 write_bib(
   c(.packages(), 'bookdown', 'knitr', 'rmarkdown'),
@@ -51,8 +55,10 @@ write_bib(
 )
 ```
 
-```{r sources, cache=FALSE, include=FALSE}
-source("R/Formulae.R",                encoding = 'UTF-8')
+```{r sources}
+#| cache:   false
+#| include: false
+source("R/Formulae.R", encoding = 'UTF-8')
 ```
 
 # Introduction
@@ -668,10 +674,12 @@ the following steps:
 read_chunk("src/Graphical_example_paper.R")
 ```
 
-```{r libraries, message=FALSE}
+```{r libraries}
+#| message: false
 ```
 
-```{r sources, message=FALSE}
+```{r sources}
+#| message: false
 ```
 
 ```{r constants}
@@ -706,12 +714,17 @@ are shown in Table \@ref(tab:example-items-table-out).
 ```{r compose-example-items-table}
 ```
 
-```{r set-flextable-wd, cache=FALSE}
+```{r set-flextable-wd}
+#| cache: false
+
 # Necessary for officedown to find the template file:
 opts_knit$set(root.dir = DOC_DIR)
 ```
 
-```{r example-items-table-out, cache=FALSE, tab.id="example-items-table-out", tab.cap="Item parameters for the graphical example"}
+```{r example-items-table-out}
+#| cache:   false
+#| tab_id:  example-items-table-out
+#| tab.cap: Item parameters for the graphical example
 item_params_output
 ```
 
@@ -723,7 +736,11 @@ item_params_output
 ```{r compose-orthogonal-plot}
 ```
 
-```{r item-plot-out, cache=FALSE, fig.cap="Item plots in an orthogonal (left) and oblique (right) test space.", fig.height=3.1, fig.width=6.65}
+```{r item-plot-out}
+#| cache:      false
+#| fig.cap:   Item plots in an orthogonal (left) and oblique (right) test space.
+#| fig.height: 3.1
+#| fig.width:  6.65
 plot_orth + plot_oblique
 ```
 
@@ -798,11 +815,16 @@ read_chunk("src/Empirical_example.R")
 ```
 
 ```{r set-flextable-wd, cache=FALSE}
+```{r set-flextable-wd}
+#| cache: false
 ```
 
 <!---BLOCK_LANDSCAPE_START--->
 
-```{r empirical-items-table-out, cache=FALSE, tab.id="empirical-items-table-out", tab.cap="Item parameters for the empirical example"}
+```{r empirical-items-table-out}
+#| cache:   false
+#| tab.id:  empirical-items-table-out
+#| tab.cap: Item parameters for the empirical example
 item_params_output
 ```
 
