@@ -17,6 +17,7 @@
 ## ----libraries----
 library(tidyverse)
 library(flextable)
+library(officer)
 library(assertive.numbers)
 
 ## ----sources----
@@ -67,7 +68,8 @@ items                                            |>
   pull(MDIFF)                                    |>
   is_equal_to(items_orth |> pull(D), tol = 5e-3) |>
   all()
-
+# Both multidimensional parameters are equal for all items, up to the tolerance
+#   level.
 
 ## ----oblique-params----
 
@@ -103,46 +105,41 @@ item_params <- item_params                   |>
 
 # Table header (for flextable object):
 item_headers <- tibble(
-  col_keys = item_params |> colnames(),
-  metric   = col_keys %>% {
+  col_keys     = item_params |> colnames(),
+  metric       = col_keys %>% {
     case_when(
-      . == "item"                         ~ "Item",
+                 . == "item"              ~ "Item",
+                 . == 'l'                 ~ "M2PL",
       str_detect(., DISCR_PARAMS_PATTERN) ~ "M2PL",
-      . == 'l'                            ~ "M2PL",
       str_detect(., "sep1")               ~ ' ',
       TRUE                                ~ "Multidimensional parameters"
     )
   },
-  param    = col_keys %>% {
+  metric_param = col_keys %>% {
     case_when(
-      . == "item"                         ~ "Item",
-      str_detect(., DISCR_PARAMS_PATTERN) ~ "a_i",
-      . == 'l'                            ~ "l_i",
-      str_detect(., "sep\\d+")            ~ ' ',
-      str_detect(., "MDISC_")             ~ "MDISC_i",
-      str_detect(., "D_")                 ~ "D_i",
-      str_detect(., "deg_")               ~ "\\alpha_i",
+      str_detect(., "MDISC_") ~ "MDISC_i",
+      str_detect(., "D_")     ~ "D_i",
+      str_detect(., "deg_")   ~ paste0(
+                                  "\\alpha_{i",
+                                  str_extract(., "\\d+"),
+                                  '}'
+                                ),
+      str_detect(., "sep")    ~ ' ',
+      TRUE                    ~ metric
     )
   },
-  dim      = col_keys %>% {
+  param_space  = col_keys %>% {
     case_when(
-      . == "item"                         ~ "Item",
-      . == 'l'                            ~ "l_i",
-      str_detect(., DISCR_PARAMS_PATTERN) ~ "(dimension)",
-      str_detect(., "sep\\d+")            ~ ' ',
-      str_detect(., "\\d+")               ~ str_extract(., "\\d+"),
-      str_detect(., "MDISC_")             ~ "MDISC_i",
-      str_detect(., "D_")                 ~ "D_i"
-    )
-  },
-  space    = col_keys %>% {
-    case_when(
-      . == "item"              ~ "Item",
-      . == 'l'                 ~ "l_i",
+                 . == "item"   ~ "Item",
+                 . == 'l'      ~ "l_i",
+      str_detect(., DISCR_PARAMS_PATTERN) ~ paste0(
+                                              "a_{i",
+                                              str_extract(., "\\d+"),
+                                              '}'
+                                            ),
       str_detect(., "_orth")   ~ "orth.",
       str_detect(., "_ob")     ~ "obl.",
-      str_detect(., "sep\\d+") ~ ' ',
-      str_detect(., "\\d+")    ~ str_extract(., "\\d+")
+      str_detect(., "sep\\d+") ~ ' '
     )
   }
 )
@@ -154,15 +151,40 @@ item_params_output <- item_params            |>
   merge_v(part = "header")                   |>
   merge_h(part = "header", i = 1:3)          |>
   mk_par(
-    i = 2, j = item_headers$col_keys |> str_detect("(item|sep)", negate = TRUE),
+    i = 2,
+    j = item_headers |> mutate(metric |> str_detect("parameters")) |> pull(),
     part    = "header",
     value   = as_paragraph(as_equation(.)),
     use_dot = TRUE
   )                                          |>
-  colformat_double(j = -1, digits = 2)       |>
-  theme_vanilla()                            |>
-  align(align = "center", part = "header")   |>
+  mk_par(
+    i = 3,
+    j = item_headers |> mutate(metric |> str_detect("M2PL")) |> pull(),
+    part    = "header",
+    value   = as_paragraph(as_equation(.)),
+    use_dot = TRUE
+  )                                          |>
+  style(
+    i    = 1:2, j = c(2:5, 7:8, 10:11, 13:18),
+    pr_c = fp_cell(border.bottom = fp_border(width = .5)),
+    part = "header"
+  )                                          |>
+  theme_apa()                                |>
+  colformat_double(j =     1, digits = 0)    |>
+  colformat_double(j =  7:11, digits = 3)    |>
+  colformat_double(j = 13:18, digits = 1)    |>
+  style(
+    pr_p = fp_par(
+      padding.bottom = 2,
+      padding.top    = 2,
+      padding.left   = 4,
+      padding.right  = 4
+    ),
+    part = "all"
+  )                                          |>
   valign(valign = "bottom", part = "header") |>
-  set_table_properties(layout = "autofit")   |>
-  fontsize(size = 10, part = "all")          |>
-  font(part = "all", fontname = "Times New Roman")
+  align(align = "center",   part = "header") |>
+  align(align = "right",    part = "body")   |>
+  fontsize(size = 12,       part = "header") |>
+  fontsize(size = 10,       part = "body")   |>
+  set_table_properties(layout = "autofit")

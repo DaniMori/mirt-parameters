@@ -18,6 +18,7 @@
 ## ----libraries----
 library(tidyverse)
 library(flextable)
+library(officer)
 library(scales)
 
 ## ----sources----
@@ -94,7 +95,7 @@ items_orth <- items_orth |>
 
 ## Compute the transformation matrix P and the correlation matrix R:
 u_1_transf                  <- c(1, - CORR_VALUE / CORR_ARC_SIN)
-u_2_transf                  <- c(0,      1 / CORR_ARC_SIN)
+u_2_transf                  <- c(0,            1 / CORR_ARC_SIN)
 transform_matrix            <- cbind(u_1_transf, u_2_transf) |> unname()
 transform_matrix_inv        <- solve(transform_matrix)
 transform_matrix_transp     <- t(transform_matrix)
@@ -107,6 +108,7 @@ sqrt_diag_inner_prod_matrix <- diag(inner_prod_matrix) |> diag() |> sqrt()
 ## Compute parameters and coordinates:
 items_oblique <- items_M2PL |>
   compute_mirt_params(l, starts_with('a_'), cov_matrix = corr_matrix)
+
 items_oblique <- items_oblique |>
   select(-(rad_1:rad_2))       |>
   full_join(
@@ -138,16 +140,16 @@ item_params <- item_params            |>
 
 # Table header (for flextable object):
 item_headers <- tibble(
-  col_keys = item_params %>% colnames(),
+  col_keys = item_params |> colnames(),
   metric   = c(
     "Item",
-    "M2PL"                        |> rep(3),
+    "M2PL" |> rep(3),
     " ",
     "Multidimensional parameters" |> rep(9)
   ),
   corr     = c(
     "Item",
-    "M2PL"       |> rep(3),
+    "M2PL" |> rep(3),
     " ",
     latex_eq(CORR, 0L) |> rep(4),
     " ",
@@ -174,13 +176,28 @@ item_params_output <- item_params                 |>
     value   = as_paragraph(as_equation(.)),
     use_dot = TRUE
   )                                               |>
-  colformat_double(j = -(1:4), digits = 3)        |>
+  style(
+    i    = 1:2, j = c(2:4, 6:9, 11:14),
+    pr_c = fp_cell(border.bottom = fp_border(width = .5)),
+    part = "header"
+  )                                               |>
+  theme_apa()                                     |>
+  colformat_double(j = -(1:4),        digits = 3) |>
   colformat_double(j = c(8:9, 13:14), digits = 1) |>
-  theme_vanilla()                                 |>
-  align(align = "center", part = "header")        |>
-  set_table_properties(layout = "autofit")        |>
-  fontsize(size = 12, part = "all")               |>
-  font(part = "all", fontname = "Times New Roman")
+  style(
+    pr_p = fp_par(
+      padding.bottom = 3,
+      padding.top    = 3,
+      padding.left   = 4,
+      padding.right  = 4
+    ),
+    part = "all"
+  )                                               |>
+  valign(valign = "bottom", part = "header")      |>
+  align(align = "center",   part = "header")      |>
+  align(align = "right",    part = "body")        |>
+  fontsize(size = 12,       part = "all")         |>
+  set_table_properties(layout = "autofit")
 
 ## ----compose-oblique-plot----
 plot_oblique <- items_oblique |>
@@ -194,7 +211,7 @@ plot_oblique <- items_oblique |>
   )                                                         +
   geom_abline(slope = CORR_ARC_TAN, linewidth = LINE_WIDTH) +
   geom_abline(
-    slope     = CORR_ARC_TAN,
+    slope     =  CORR_ARC_TAN,
     intercept = -CORR_ARC_TAN * (-4:4),
     linewidth = LINE_WIDTH,
     linetype  = "17"

@@ -796,16 +796,12 @@ source("src/Empirical_example_Reckase2009.R", encoding = 'UTF-8')
 #| cache: false
 ```
 
-<!---BLOCK_LANDSCAPE_START--->
-
 ```{r empirical-items-table-out}
 #| cache:   false
 #| tab.id:  empirical-items-table-out
 #| tab.cap: Item parameters for the empirical example
 item_params_output
 ```
-
-<!---BLOCK_LANDSCAPE_STOP--->
 
 <!-- # TODO: Complete? -->
 
