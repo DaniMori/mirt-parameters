@@ -38,6 +38,9 @@ COV_MATRIX <- matrix(
 )
 # Version in Reckase, 2009, p. 153 (see also p. 183 for the close to 1D case)
 
+DISCR_PARAMS_PATTERN   <- '^a\\d+$'
+DISCR_PARAMS_SELECTION <- quo(matches(DISCR_PARAMS_PATTERN))
+
 ## ---- CONFIGURATION: ---------------------------------------------------------
 
 ## ----graphical-output-conf----
@@ -51,7 +54,7 @@ items <- read_csv2("dat/Table_6.1_Reckase_2009.csv")
 
 ## ----orthogonal-params----
 items_orth <- items |>
-  compute_mirt_params(d, matches('^a\\d$'), dir_out = "deg")
+  compute_mirt_params(d, !!DISCR_PARAMS_SELECTION, dir_out = "deg")
 
 ## ----compare-orthogonal-params----
 
@@ -70,7 +73,7 @@ items                                            |>
 
 ## Compute the parameters:
 items_oblique <- items |> compute_mirt_params(
-  d, matches('^a\\d$'),
+  d, !!DISCR_PARAMS_SELECTION,
   cov_matrix = COV_MATRIX,
   dir_out = "deg"
 )
@@ -78,14 +81,14 @@ items_oblique <- items |> compute_mirt_params(
 ## ----params-table----
 
 # Collapse parameters:
-item_params <- items                    |>
-  select(item, starts_with('a'), l = d) |>
-  full_join(items_orth,    by = "item") |>
+item_params <- items                            |>
+  select(item, !!DISCR_PARAMS_SELECTION, l = d) |>
+  full_join(items_orth,    by = "item")         |>
   full_join(items_oblique, by = "item", suffix = c("_orth", "_ob"))
 
 # Reorder parameters:
 item_params <- item_params |> select(
-  item, starts_with('a'), l,                         # Linear MIRT parameters
+  item, !!DISCR_PARAMS_SELECTION, l,                 # Linear MIRT parameters
   starts_with(c("MDISC", "D"), ignore.case = FALSE), # MDISC and D
   starts_with('deg_' |> paste0(1:4))                 # direction angles
 )
@@ -103,33 +106,33 @@ item_headers <- tibble(
   col_keys = item_params |> colnames(),
   metric   = col_keys %>% {
     case_when(
-      . == "item"            ~ "Item",
-      str_detect(., "a\\d+") ~ "M2PL",
-      . == 'l'               ~ "M2PL",
-      str_detect(., "sep1")  ~ ' ',
-      TRUE                   ~ "Multidimensional parameters"
+      . == "item"                         ~ "Item",
+      str_detect(., DISCR_PARAMS_PATTERN) ~ "M2PL",
+      . == 'l'                            ~ "M2PL",
+      str_detect(., "sep1")               ~ ' ',
+      TRUE                                ~ "Multidimensional parameters"
     )
   },
   param    = col_keys %>% {
     case_when(
-      . == "item"              ~ "Item",
-      str_detect(., "a\\d+")   ~ "a_i",
-      . == 'l'                 ~ "l_i",
-      str_detect(., "sep\\d+") ~ ' ',
-      str_detect(., "MDISC_")  ~ "MDISC_i",
-      str_detect(., "D_")      ~ "D_i",
-      str_detect(., "deg_")    ~ "\\alpha_i",
+      . == "item"                         ~ "Item",
+      str_detect(., DISCR_PARAMS_PATTERN) ~ "a_i",
+      . == 'l'                            ~ "l_i",
+      str_detect(., "sep\\d+")            ~ ' ',
+      str_detect(., "MDISC_")             ~ "MDISC_i",
+      str_detect(., "D_")                 ~ "D_i",
+      str_detect(., "deg_")               ~ "\\alpha_i",
     )
   },
   dim      = col_keys %>% {
     case_when(
-      . == "item"              ~ "Item",
-      . == 'l'                 ~ "l_i",
-      str_detect(., "a\\d+")   ~ "(dimension)",
-      str_detect(., "sep\\d+") ~ ' ',
-      str_detect(., "\\d+")    ~ str_extract(., "\\d+"),
-      str_detect(., "MDISC_")  ~ "MDISC_i",
-      str_detect(., "D_")      ~ "D_i"
+      . == "item"                         ~ "Item",
+      . == 'l'                            ~ "l_i",
+      str_detect(., DISCR_PARAMS_PATTERN) ~ "(dimension)",
+      str_detect(., "sep\\d+")            ~ ' ',
+      str_detect(., "\\d+")               ~ str_extract(., "\\d+"),
+      str_detect(., "MDISC_")             ~ "MDISC_i",
+      str_detect(., "D_")                 ~ "D_i"
     )
   },
   space    = col_keys %>% {
