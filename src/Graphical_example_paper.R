@@ -189,21 +189,21 @@ plot_oblique <- items_oblique |>
     aes(
       origin_transf_1, origin_transf_2,
       xend  = end_transf_1, yend = end_transf_2,
-      size  = I(VECTOR_WIDTH),
       color = item, fill = item
     ),
   )                                                         +
-  geom_abline(slope = CORR_ARC_TAN, size = LINE_WIDTH) +
+  geom_abline(slope = CORR_ARC_TAN, linewidth = LINE_WIDTH) +
   geom_abline(
     slope     = CORR_ARC_TAN,
     intercept = -CORR_ARC_TAN * (-4:4),
-    size      = LINE_WIDTH,
+    linewidth = LINE_WIDTH,
     linetype  = "17"
   )                                                         +
-  geom_hline(yintercept = 0, size = LINE_WIDTH)             +
+  geom_hline(yintercept = 0, linewidth = LINE_WIDTH)        +
   geom_segment(
-    arrow    = arrow(angle = 20, length = unit(10, "points"), type = "closed"),
-    linejoin = "mitre"
+    arrow     = arrow(angle = 20, length = unit(10, "points"), type = "closed"),
+    linejoin  = "mitre",
+    linewidth = LINE_WIDTH
   )                                                         +
   scale_x_continuous(
     limits       = c(-2, 3),
@@ -226,9 +226,9 @@ plot_oblique <- items_oblique |>
   theme(
     axis.line          = element_blank(),
     panel.grid.major.y = element_line(
-      color    = "black",
-      size     = LINE_WIDTH,
-      linetype = "17"
+      color     = "black",
+      linewidth = LINE_WIDTH,
+      linetype  = "17"
     )
   )
 
@@ -240,15 +240,15 @@ plot_orth <- items_orth |>
     aes(
       origin_transf_1, origin_transf_2,
       xend  = end_transf_1, yend = end_transf_2,
-      size  = I(VECTOR_WIDTH),
       color = item, fill = item
     ),
-  ) +
-  geom_vline(xintercept = 0, size = LINE_WIDTH) +
-  geom_hline(yintercept = 0, size = LINE_WIDTH) +
+  )                                                  +
+  geom_vline(xintercept = 0, linewidth = LINE_WIDTH) +
+  geom_hline(yintercept = 0, linewidth = LINE_WIDTH) +
   geom_segment(
-    arrow    = arrow(angle = 20, length = unit(10, "points"), type = "closed"),
-    linejoin = "mitre"
+    arrow     = arrow(angle = 20, length = unit(10, "points"), type = "closed"),
+    linejoin  = "mitre",
+    linewidth = LINE_WIDTH
   ) +
   scale_x_continuous(
     limits       = c(-2.5, 2.5),
@@ -263,13 +263,13 @@ plot_orth <- items_orth |>
     name         = NULL,
     oob          = oob_keep
   ) +
-  scale_color_manual(values = PALETTE)          +
-  coord_fixed(expand = FALSE, clip = "on")      +
+  scale_color_manual(values = PALETTE)               +
+  coord_fixed(expand = FALSE, clip = "on")           +
   theme(
     axis.line        = element_blank(),
     panel.grid.major = element_line(
-      color    = "black",
-      size     = LINE_WIDTH,
-      linetype = "17"
+      color     = "black",
+      linewidth = LINE_WIDTH,
+      linetype  = "17"
     )
   )
