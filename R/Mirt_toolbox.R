@@ -80,12 +80,14 @@ compute_mirt_params <- function(items,
   items                                                                      |>
     tidyr::pivot_longer(!!discrimination, names_to = "par", values_to = "a") |>
     dplyr::group_by(!!item_id)                                               |>
+    # This renaming is necessary for accessing the variable in `transmute`:
+    dplyr::rename(d = !!intercept)                                           |>
     dplyr::transmute(
       !!item_id,
       ## Compute the multidimensional parameters:
       dim   = par |> stringr::str_extract("\\d+"),
       MDISC = (t(a) %*% cov_matrix %*% a) |> drop() |> sqrt(),
-      D     = - !!intercept / MDISC,
+      D     = - d / MDISC,
       cos   = (inv_sd_matrix %*% cov_matrix %*% a / MDISC)  |> drop(),
       rad   = acos(cos),
       deg   = rad * RAD_DEG_FACTOR

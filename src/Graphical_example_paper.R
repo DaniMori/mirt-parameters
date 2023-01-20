@@ -26,6 +26,7 @@ source("R/Mirt_toolbox.R")
 source("R/Formulae.R")
 source("R/LaTeX_math.R")
 source("R/Output.R")
+source("R/Constants.R")
 
 ## ---- CONSTANTS: -------------------------------------------------------------
 
@@ -40,7 +41,7 @@ PALETTE      <- c("darkred", "darkgoldenrod3", "green3", "cyan3", "blue3")
 
 # Item parameters:
 items_M2PL <- tribble(
-  ~a_1, ~a_2, ~l  ,
+  ~a_1, ~a_2, ~d  ,
    2  ,  2  ,  0  ,
    2  , -1  ,  1  ,
   -0.5,  1  , -0.5,
@@ -54,7 +55,10 @@ CORR_ARC     <- acos(CORR_VALUE)
 CORR_ARC_SIN <- sin(CORR_ARC)
 CORR_ARC_TAN <- tan(CORR_ARC)
 
-corr_out <- latex_eq(CORR, CORR_VALUE |> format_prop_like(sig = 1))
+# Table output objects:
+CORR_VALUE_OUT <- CORR_VALUE |> format_prop_like(sig = 1)
+CORR_OBL_OUT   <- latex_eq(CORR, CORR_VALUE_OUT) |> as.character()
+CORR_ORTH_OUT  <- latex_eq(CORR, 0)              |> as.character()
 
 
 ## ---- CONFIGURATION: ---------------------------------------------------------
@@ -77,19 +81,19 @@ theme_set( # `ggplot` output configuration
 ## ----compute-example-items----
 
 # Item parameters:
-items_M2PL <- items_M2PL |> rownames_to_column(var = "item")
+items_M2PL <- items_M2PL |> rownames_to_column(var = ITEM_COLKEY)
 
 # Orthogonal case:
-items_orth <- items_M2PL |> compute_mirt_params(l, starts_with('a_'))
-items_orth <- items_orth |>
-  select(-(rad_1:rad_2)) |>
-  full_join(
-    items_orth |> compute_mirt_coords(
-      D, MDISC, starts_with('cos_'),
-      original_coords = FALSE
-    ),
-    by = "item"
-  )
+items_orth_params <- items_M2PL |> compute_mirt_params(
+  all_of(INTERCEPT_COLKEY), starts_with(DISCR_PREFFIX), # Input parameters
+  dir_out = c(COSINE_DIRTYPE, DEGREE_DIRTYPE)           # Output configuration
+)
+items_orth_coords <- items_orth_params |> compute_mirt_coords(
+  D, MDISC, starts_with(COSINE_DIRTYPE),
+  original_coords = FALSE
+)
+items_orth  <- full_join(items_orth_params, items_orth_coords, by = ITEM_COLKEY)
+
 
 # Oblique case:
 
@@ -106,63 +110,87 @@ corr_matrix                 <- solve(inner_prod_matrix)
 sqrt_diag_inner_prod_matrix <- diag(inner_prod_matrix) |> diag() |> sqrt()
 
 ## Compute parameters and coordinates:
-items_oblique <- items_M2PL |>
-  compute_mirt_params(l, starts_with('a_'), cov_matrix = corr_matrix)
-
-items_oblique <- items_oblique |>
-  select(-(rad_1:rad_2))       |>
-  full_join(
-    items_oblique |> compute_mirt_coords(
-      D, MDISC, starts_with('cos_'),
-      transform       = transform_matrix,
-      original_coords = FALSE
-    ),
-    by = "item"
-  )
-
-
-item_params <- full_join(
-  items_orth    |> select(item:deg_2, -starts_with("cos")),
-  items_oblique |> select(item:deg_2, -starts_with("cos")),
-  by     = "item",
-  suffix = c("_orth", "_ob")
+items_oblique_params <- items_M2PL |> compute_mirt_params(
+  all_of(INTERCEPT_COLKEY), starts_with(DISCR_PREFFIX), # Input parameters
+  cov_matrix = corr_matrix,                             # Input correlations
+  dir_out    = c(COSINE_DIRTYPE, DEGREE_DIRTYPE)        # Output configuration
+)
+items_oblique_coords <- items_oblique_params |> compute_mirt_coords(
+  D, MDISC, starts_with(COSINE_DIRTYPE),
+  transform       = transform_matrix,
+  original_coords = FALSE
+)
+items_oblique        <- full_join(
+  items_oblique_params, items_oblique_coords,
+  by = ITEM_COLKEY
 )
 
-item_params <- full_join(items_M2PL, item_params, by = "item")
+item_params <- full_join(
+  items_orth    |> select(item:deg_2, -starts_with(COSINE_DIRTYPE)),
+  items_oblique |> select(item:deg_2, -starts_with(COSINE_DIRTYPE)),
+  by     = ITEM_COLKEY,
+  suffix = paste0('_', c(ORTH_SUFFIX, OBL_SUFFIX))
+)
+
+item_params <- full_join(items_M2PL, item_params, by = ITEM_COLKEY)
 
 
 ## ----compose-example-items-table----
 
 # Add blank columns to format table (separate different types of parameters)
-item_params <- item_params            |>
-  add_column(sep1 = NA, .after = "l") |>
-  add_column(sep2 = NA, .after = "deg_2_orth")
+item_params <- item_params                          |>
+  add_column(sep_1 = NA, .after = INTERCEPT_COLKEY) |>
+  add_column(
+    sep_2  = NA,
+    .after = DEGREE_DIRTYPE |> paste(2, ORTH_SUFFIX, sep = '_')
+  )
 
 # Table header (for flextable object):
 item_headers <- tibble(
   col_keys = item_params |> colnames(),
-  metric   = c(
-    "Item",
-    "M2PL" |> rep(3),
-    " ",
-    "Multidimensional parameters" |> rep(9)
-  ),
-  corr     = c(
-    "Item",
-    "M2PL" |> rep(3),
-    " ",
-    latex_eq(CORR, 0L) |> rep(4),
-    " ",
-    corr_out |> rep(4)
-  ),
-  param    = c(
-    "Item",
-    "a_{i1}",
-    "a_{i2}",
-    INTERCEPT_PARAM,
-    c(" ", "MDISC_i", DISTANCE_PARAM, "\\alpha_{i1}", "\\alpha_{i2}") |> rep(2)
-  )
+  metric   = col_keys %>% {
+    case_when(
+                 . == ITEM_COLKEY                        ~ ITEM_TABLE_TITLE,
+                 . == SEP_PREFFIX |> paste(1, sep = '_') ~ ' ',
+                 . == INTERCEPT_COLKEY                   ~ MODEL_ACRONYM,
+      str_detect(.,   DISCR_PREFFIX)                     ~ MODEL_ACRONYM,
+      TRUE                                               ~ MULTIDIM_PARAMS_TITLE
+    )
+  },
+  corr     = col_keys %>% {
+    case_when(
+      str_detect(., SEP_PREFFIX) ~ ' ',
+      str_detect(., ORTH_SUFFIX) ~ CORR_ORTH_OUT,
+      str_detect(., OBL_SUFFIX ) ~ CORR_OBL_OUT,
+      TRUE                       ~ metric
+    )
+  },
+  param    = col_keys %>% {
+    case_when(
+                 . == ITEM_COLKEY      ~ ITEM_TABLE_TITLE,
+                 . == INTERCEPT_COLKEY ~ as.character(INTERCEPT_PARAM),
+      str_detect(., SEP_PREFFIX  )     ~ ' ',
+      str_detect(., MDISC_SYM    )     ~ as.character(MDISC_ITEM),
+      str_detect(., DISTANCE_SYM )     ~ as.character(DISTANCE_PARAM),
+      str_detect(., DISCR_PREFFIX)     ~ DISCR_PARAM |> str_replace(
+                                           DIM_INDEX,
+                                           str_extract(., DIGIT_PATTERN)
+                                         ),
+      TRUE                             ~ ANGLE_TS_ITEM |> str_replace(
+                                           DIM_INDEX,
+                                           str_extract(., DIGIT_PATTERN)
+                                         )
+    )
+  }
 )
+
+# c(
+#   ITEM_TABLE_TITLE,
+#   "a_{i1}",
+#   "a_{i2}",
+#   INTERCEPT_PARAM,
+#   c(" ", MDISC_ITEM, DISTANCE_PARAM, "\\alpha_{i1}", "\\alpha_{i2}") |> rep(2)
+# )
 
 # Table formatted as a `flextable` object:
 item_params_output <- item_params                 |>
@@ -194,8 +222,8 @@ item_params_output <- item_params                 |>
     part = "all"
   )                                               |>
   valign(valign = "bottom", part = "header")      |>
-  align(align = "center",   part = "header")      |>
-  align(align = "right",    part = "body")        |>
+  align(align   = "center", part = "header")      |>
+  align(align   = "right",  part = "body")        |>
   fontsize(size = 12,       part = "all")         |>
   set_table_properties(layout = "autofit")
 
