@@ -162,10 +162,9 @@ item_headers <- tibble(
                                               DIM_INDEX,
                                               str_extract(., DIGIT_PATTERN)
                                             ),
-      str_detect(., ORTH_SUFFIX)          ~ glue("{ORTH_SUFFIX}{DOT}") |>
+      str_detect(., ORTH_SUFFIX)          ~ glue("{AGNOSTIC_SUBINDEX}{DOT}") |>
                                               as.character(),
-      str_detect(., OBL_SUFFIX)           ~ glue("{OBL_SUFFIX}{DOT}") |>
-                                              as.character(),
+      str_detect(., OBL_SUFFIX)           ~ COV_MATRIX |> as.character(),
       TRUE                                ~ metric_param
     )
   }
@@ -175,6 +174,10 @@ item_headers <- tibble(
 m2pl_params_index        <- item_headers |>
   transmute(metric == MODEL_ACRONYM)     |>
   pull()
+cov_based_index          <- item_headers        |>
+  transmute(col_keys |> str_detect(OBL_SUFFIX)) |>
+  pull()
+param_space_eq_index     <- m2pl_params_index | cov_based_index
 multidim_scalars_index   <- item_headers                                  |>
   transmute(col_keys |> str_detect(glue("({MDISC_SYM}|{DISTANCE_SYM})"))) |>
   pull()
@@ -203,7 +206,7 @@ item_params_output <- item_params                          |>
     use_dot = TRUE
   )                                                        |>
   mk_par(
-    i = 3, j = m2pl_params_index,
+    i = 3, j = param_space_eq_index,
     part    = "header",
     value   = as_paragraph(as_equation(.)),
     use_dot = TRUE
