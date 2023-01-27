@@ -36,12 +36,15 @@ DISCR_PARAMS_SELECTION <- quo(matches(DISCR_PARAMS_PATTERN))
 # Numerical constants for computations:
 TOL_LEVEL <- 5e-3 # for comparing computed and given multidimensional parameters
 
+# The original "\\mathbf{\\upSigma}" raises an error in flextable (KaTeX):
+COV_MATRIX <- "\\mathbf{\\Sigma}"
+
 ## ----set-cov-matrix----
 # Version in Reckase, 2009, p. 183; this represents a "close-to-1D case";
 #   dimension 2 covariance was changed by +.0001 (.3341 instead of .3340) to
 #   avoid negative definiteness of the matrix, which would cause errors
 #   computing the multidimensional parameters.
-COV_MATRIX <- matrix(
+COV_MATRIX_VALUE <- matrix(
   c(
     .1670, .2362, .2892,
     .2362, .3341, .4091,
@@ -50,10 +53,6 @@ COV_MATRIX <- matrix(
   nrow = 3
 )
 # (see also Reckase, 2009, p. 153 for the more common 3D case)
-
-# # TODO: Delete
-# COV_MATRIX <- diag(4)
-# COV_MATRIX[1, 4] <- COV_MATRIX[4, 1] <- .4
 
 ## ---- CONFIGURATION: ---------------------------------------------------------
 
@@ -96,7 +95,7 @@ items                                                 |>
 ## Compute the parameters:
 items_oblique <- items |> compute_mirt_params(
   d, !!DISCR_PARAMS_SELECTION,
-  cov_matrix = COV_MATRIX,
+  cov_matrix = COV_MATRIX_VALUE,
   dir_out    = DEGREE_DIRTYPE
 )
 

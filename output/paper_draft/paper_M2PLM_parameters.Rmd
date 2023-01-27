@@ -808,7 +808,7 @@ read_chunk("src/Empirical_example.R")
 
 ```{r set-cov-matrix-Reckase2009}
 # Version in Reckase, 2009, p. 153; this represents a usual 3D case
-COV_MATRIX <- matrix(
+COV_MATRIX_VALUE <- matrix(
   c(
     1.210, .297, 1.232,
      .297, .810,  .252,
@@ -849,8 +849,8 @@ item_params_output
 # See Tezza et al., 2018, p. 927:
 # > No presente estudo, a correlação entre a dimensão 1 e a dimensão 4
 # > foi de aproximadamente 0,4.
-COV_MATRIX <- diag(4)
-COV_MATRIX[1, 4] <- COV_MATRIX[4, 1] <- .4
+COV_MATRIX_VALUE <- diag(4)
+COV_MATRIX_VALUE[1, 4] <- COV_MATRIX_VALUE[4, 1] <- .4
 ```
 
 ```{r reset-root-wd}
