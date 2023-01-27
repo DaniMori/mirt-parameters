@@ -31,8 +31,9 @@ compute_mirt_params <- function(items,
                                 intercept,
                                 discrimination,
                                 cov_matrix,
-                                item_id = item,
-                                dir_out = c("cos", "rad", "deg")) {
+                                item_id    = item,
+                                dir_out    = c("cos", "rad", "deg"),
+                                zero_round = TRUE) {
   ## Argument checking and formatting: ----
   
   # Enquote column selections:
@@ -70,14 +71,16 @@ compute_mirt_params <- function(items,
   # Direction options:
   dir_out <- dir_out |> match.arg(several.ok = TRUE)
 
-
+  # Zero rounding:
+  assertive.types::assert_is_a_bool(zero_round)
+  
   ## Main: ----
   
   # Compute inverse s.d. matrix:
   var_matrix    <- cov_matrix |> diag() |> diag()
   inv_sd_matrix <- var_matrix |> sqrt() |> solve()
   
-  items                                                                      |>
+  result <- items                                                            |>
     tidyr::pivot_longer(!!discrimination, names_to = "par", values_to = "a") |>
     dplyr::group_by(!!item_id)                                               |>
     # This renaming is necessary for accessing the variable in `transmute`:
@@ -101,6 +104,18 @@ compute_mirt_params <- function(items,
         assertive.properties::is_of_length(1) |>
         if_else('{.value}_{.name}', '{.name}')
     )
+  
+  if (zero_round) {
+    
+    # Avoids "negative zeroes" in rounded figures with
+    #   flextable::colformat_double():
+    return(
+      result |>
+        mutate(across(where(is.double), ~if_else(. == 0, 0, .)))
+    )
+  }
+  
+  result
 }
 
 compute_mirt_coords <- function(items,
