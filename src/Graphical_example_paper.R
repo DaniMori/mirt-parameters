@@ -128,7 +128,7 @@ item_params <- full_join(
   items_orth    |> select(item:deg_2, -starts_with(COSINE_DIRTYPE)),
   items_oblique |> select(item:deg_2, -starts_with(COSINE_DIRTYPE)),
   by     = ITEM_COLKEY,
-  suffix = paste0('_', c(ORTH_SUFFIX, OBL_SUFFIX))
+  suffix = paste0(UNDERSCORE, c(ORTH_SUFFIX, OBL_SUFFIX))
 )
 
 item_params <- full_join(items_M2PL, item_params, by = ITEM_COLKEY)
@@ -141,7 +141,7 @@ item_params <- item_params                          |>
   add_column(sep_1 = NA, .after = INTERCEPT_COLKEY) |>
   add_column(
     sep_2  = NA,
-    .after = DEGREE_DIRTYPE |> paste(2, ORTH_SUFFIX, sep = '_')
+    .after = paste(DEGREE_DIRTYPE, 2, ORTH_SUFFIX, sep = UNDERSCORE)
   )
 
 # Table header (for flextable object):
@@ -150,7 +150,7 @@ item_headers <- tibble(
   metric   = col_keys %>% {
     case_when(
                  . == ITEM_COLKEY                        ~ ITEM_TABLE_TITLE,
-                 . == SEP_PREFFIX |> paste(1, sep = '_') ~ SPACE_SEP,
+                 . == glue("{SEP_PREFFIX}{UNDERSCORE}1") ~ SPACE_SEP,
                  . == INTERCEPT_COLKEY                   ~ MODEL_ACRONYM,
       str_detect(.,   DISCR_PREFFIX)                     ~ MODEL_ACRONYM,
       TRUE                                               ~ MULTIDIM_PARAMS_TITLE
@@ -183,6 +183,7 @@ item_headers <- tibble(
   }
 )
 
+# Column (logical) indices for indexing the flextable output:
 corr_header_index      <- item_headers                 |>
   transmute(!corr %in% c(ITEM_TABLE_TITLE, SPACE_SEP)) |>
   pull()

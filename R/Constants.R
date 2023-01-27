@@ -52,6 +52,8 @@ INTERCEPT_COLKEY     <- 'd'
 ORTH_SUFFIX          <- "orth"
 OBL_SUFFIX           <- "obl"
 DIGIT_PATTERN        <- '\\d'
+UNDERSCORE           <- '_'
+DOT                  <- '.'
 DISCR_PARAMS_PATTERN <- glue('^{DISCR_PREFFIX}{DIGIT_PATTERN}$')
 
 # Output formatting objects:

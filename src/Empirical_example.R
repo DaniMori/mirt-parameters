@@ -102,36 +102,46 @@ items_oblique <- items |> compute_mirt_params(
 
 ## ----create-params-table----
 
-item_params <- items                                                     |>
+item_params <- items                                               |>
   # Collapse parameters:
-  select(item, !!DISCR_PARAMS_SELECTION, all_of(INTERCEPT_COLKEY))       |>
-  full_join(items_orth,    by = ITEM_COLKEY)                             |>
-  full_join(items_oblique, by = ITEM_COLKEY, suffix = c("_orth", "_ob")) |>
+  select(item, !!DISCR_PARAMS_SELECTION, all_of(INTERCEPT_COLKEY)) |>
+  full_join(items_orth,    by = ITEM_COLKEY)                       |>
+  full_join(
+    items_oblique,
+    by     = ITEM_COLKEY,
+    suffix = paste0(UNDERSCORE, c(ORTH_SUFFIX, OBL_SUFFIX))
+  )                                                                |>
   # Reorder parameters:
   select(
-    item, !!DISCR_PARAMS_SELECTION, all_of(INTERCEPT_COLKEY), # M2PL parameters
-    starts_with(c("MDISC", "D"), ignore.case = FALSE),        # MDISC and D
-    starts_with(DEGREE_DIRTYPE |> paste(1:4, sep = '_'))      # Direction angles
+    item, !!DISCR_PARAMS_SELECTION, all_of(INTERCEPT_COLKEY),     # M2PL params
+    starts_with(c(MDISC_SYM, DISTANCE_SYM), ignore.case = FALSE), # MDISC and D
+    starts_with(DEGREE_DIRTYPE |> paste(1:4, sep = UNDERSCORE))   # Dir angles
   )
 
 ## ----compose-output-table----
 
 # Add blank columns to format table (separate different types of parameters)
-item_params <- item_params                         |>
-  add_column(sep1 = NA, .after = INTERCEPT_COLKEY) |>
-  add_column(sep2 = NA, .after = "MDISC_ob")       |>
-  add_column(sep3 = NA, .after = "D_ob")
+item_params <- item_params                          |>
+  add_column(sep_1 = NA, .after = INTERCEPT_COLKEY) |>
+  add_column(
+    sep_2  = NA,
+    .after = glue("{MDISC_SYM}{UNDERSCORE}{OBL_SUFFIX}") |> as.character()
+  )                                                 |>
+  add_column(
+    sep_3  = NA,
+    .after = glue("{DISTANCE_SYM}{UNDERSCORE}{OBL_SUFFIX}") |> as.character()
+  )
 
 # Table header (for flextable object):
 item_headers <- tibble(
   col_keys     = item_params |> colnames(),
   metric       = col_keys %>% {
     case_when(
-                 . == ITEM_COLKEY         ~ ITEM_TABLE_TITLE,
-                 . == INTERCEPT_COLKEY    ~ MODEL_ACRONYM,
-      str_detect(., DISCR_PARAMS_PATTERN) ~ MODEL_ACRONYM,
-      str_detect(., "sep1")               ~ ' ',
-      TRUE                                ~ MULTIDIM_PARAMS_TITLE
+                 . == ITEM_COLKEY                       ~ ITEM_TABLE_TITLE,
+                 . == INTERCEPT_COLKEY                  ~ MODEL_ACRONYM,
+      str_detect(., DISCR_PARAMS_PATTERN)               ~ MODEL_ACRONYM,
+      str_detect(., glue("{SEP_PREFFIX}{UNDERSCORE}1")) ~ SPACE_SEP,
+      TRUE                                              ~ MULTIDIM_PARAMS_TITLE
     )
   },
   metric_param = col_keys %>% {
