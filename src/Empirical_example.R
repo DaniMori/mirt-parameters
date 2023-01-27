@@ -146,62 +146,79 @@ item_headers <- tibble(
   },
   metric_param = col_keys %>% {
     case_when(
-      str_detect(., "MDISC_")       ~ "MDISC_i",
-      str_detect(., "D_")           ~ as.character(DISTANCE_PARAM),
-      str_detect(., DEGREE_DIRTYPE) ~ paste0(
-                                        "\\alpha_{i",
-                                        str_extract(., DIGIT_PATTERN),
-                                        '}'
+      str_detect(., MDISC_SYM)      ~ as.character(MDISC_ITEM),
+      str_detect(., DISTANCE_SYM)   ~ as.character(DISTANCE_PARAM),
+      str_detect(., DEGREE_DIRTYPE) ~ ANGLE_TS_ITEM |> str_replace(
+                                        DIM_INDEX,
+                                        str_extract(., DIGIT_PATTERN)
                                       ),
-      str_detect(., "sep")            ~ ' ',
-      TRUE                            ~ metric
+      str_detect(., SEP_PREFFIX)    ~ SPACE_SEP,
+      TRUE                          ~ metric
     )
   },
   param_space  = col_keys %>% {
     case_when(
                  . == ITEM_COLKEY         ~ ITEM_TABLE_TITLE,
-                 . == INTERCEPT_COLKEY    ~ "l_i",
-      str_detect(., DISCR_PARAMS_PATTERN) ~ paste0(
-                                              "a_{i",
-                                              str_extract(., DIGIT_PATTERN),
-                                              '}'
+                 . == INTERCEPT_COLKEY    ~ as.character(INTERCEPT_PARAM),
+      str_detect(., DISCR_PARAMS_PATTERN) ~ DISCR_PARAM |> str_replace(
+                                              DIM_INDEX,
+                                              str_extract(., DIGIT_PATTERN)
                                             ),
-      str_detect(., "_orth")   ~ "orth.",
-      str_detect(., "_ob")     ~ "obl.",
-      str_detect(., "sep\\d+") ~ ' '
+      str_detect(., ORTH_SUFFIX)          ~ glue("{ORTH_SUFFIX}{DOT}") |>
+                                              as.character(),
+      str_detect(., OBL_SUFFIX)           ~ glue("{OBL_SUFFIX}{DOT}") |>
+                                              as.character(),
+      TRUE                                ~ metric_param
     )
   }
 )
 
+# Column (logical) indices for indexing the flextable output:
+m2pl_params_index        <- item_headers |>
+  transmute(metric == MODEL_ACRONYM)     |>
+  pull()
+multidim_scalars_index   <- item_headers                                  |>
+  transmute(col_keys |> str_detect(glue("({MDISC_SYM}|{DISTANCE_SYM})"))) |>
+  pull()
+multidim_angles_index    <- item_headers            |>
+  transmute(col_keys |> str_detect(DEGREE_DIRTYPE)) |>
+  pull()
+multidim_params_index    <- multidim_scalars_index | multidim_angles_index
+item_num_index           <- item_headers |>
+  transmute(col_keys == ITEM_COLKEY)     |>
+  pull()
+separator_index          <- item_headers |>
+  transmute(metric_param == SPACE_SEP)   |>
+  pull()
+param_space_header_index <- !item_num_index & !separator_index
+
 # Table formatted as a `flextable` object:
-item_params_output <- item_params            |>
-  flextable()                                |>
-  set_header_df(item_headers)                |>
-  merge_v(part = "header")                   |>
-  merge_h(part = "header", i = 1:3)          |>
+item_params_output <- item_params                          |>
+  flextable()                                              |>
+  set_header_df(item_headers)                              |>
+  merge_v(part = "header")                                 |>
+  merge_h(part = "header", i = 1:3)                        |>
   mk_par(
-    i = 2,
-    j = item_headers |> mutate(metric |> str_detect("parameters")) |> pull(),
+    i = 2, j = multidim_params_index,
     part    = "header",
     value   = as_paragraph(as_equation(.)),
     use_dot = TRUE
-  )                                          |>
+  )                                                        |>
   mk_par(
-    i = 3,
-    j = item_headers |> mutate(metric |> str_detect(MODEL_ACRONYM)) |> pull(),
+    i = 3, j = m2pl_params_index,
     part    = "header",
     value   = as_paragraph(as_equation(.)),
     use_dot = TRUE
-  )                                          |>
+  )                                                        |>
   style(
-    i    = 1:2, j = c(2:5, 7:8, 10:11, 13:18),
+    i    = 1:2, j = param_space_header_index,
     pr_c = fp_cell(border.bottom = fp_border(width = .5)),
     part = "header"
-  )                                          |>
-  theme_apa()                                |>
-  colformat_double(j =     1, digits = 0)    |>
-  colformat_double(j =  7:11, digits = 3)    |>
-  colformat_double(j = 13:18, digits = 1)    |>
+  )                                                        |>
+  theme_apa()                                              |>
+  colformat_double(j = item_num_index,         digits = 0) |>
+  colformat_double(j = multidim_scalars_index, digits = 3) |>
+  colformat_double(j = multidim_angles_index,  digits = 1) |>
   style(
     pr_p = fp_par(
       padding.bottom = 2,
@@ -210,10 +227,10 @@ item_params_output <- item_params            |>
       padding.right  = 4
     ),
     part = "all"
-  )                                          |>
-  valign(valign = "bottom", part = "header") |>
-  align(align = "center",   part = "header") |>
-  align(align = "right",    part = "body")   |>
-  fontsize(size = 12,       part = "header") |>
-  fontsize(size = 10,       part = "body")   |>
+  )                                                        |>
+  valign(valign = "bottom", part = "header")               |>
+  align(align = "center",   part = "header")               |>
+  align(align = "right",    part = "body")                 |>
+  fontsize(size = 12,       part = "header")               |>
+  fontsize(size = 10,       part = "body")                 |>
   set_table_properties(layout = "autofit")
