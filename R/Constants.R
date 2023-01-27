@@ -58,3 +58,4 @@ DISCR_PARAMS_PATTERN <- glue('^{DISCR_PREFFIX}{DIGIT_PATTERN}$')
 MULTIDIM_PARAMS_TITLE <- "Multidimensional parameters"
 MODEL_ACRONYM         <- "M2PL"
 ITEM_TABLE_TITLE      <- "Item"
+SPACE_SEP             <- ' '
