@@ -194,10 +194,27 @@ multidim_angles_index  <- item_headers              |>
   transmute(col_keys |> str_detect(DEGREE_DIRTYPE)) |>
   pull()
 
+# Footer composition:
+footer_values <- as_paragraph(
+  list_values = list(
+    FOOTER_PREFFIX
+  ) |>
+    c(
+      MODEL_EXPLANATION,
+      CORR_EXPLANATION,
+      DISCR_EXPLANATION,
+      INTERCEPT_EXPLANATION,
+      MDISC_EXPLANATION,
+      DISTANCE_EXPLANATION,
+      ANGLE_EXPLANATION, DOT
+    )
+)
+
 # Table formatted as a `flextable` object:
 item_params_output <- item_params                          |>
   flextable()                                              |>
   set_header_df(item_headers)                              |>
+  add_footer_lines(values = footer_values)                 |>
   merge_v(part = "header")                                 |>
   merge_h(part = "header", i = 1:2)                        |>
   mk_par(

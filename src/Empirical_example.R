@@ -193,10 +193,28 @@ separator_index          <- item_headers |>
   pull()
 param_space_header_index <- !item_num_index & !separator_index
 
+# Footer composition:
+footer_values <- as_paragraph(
+  list_values = list(
+    FOOTER_PREFFIX
+  ) |>
+    c(
+      MODEL_EXPLANATION,
+      DISCR_EXPLANATION,
+      INTERCEPT_EXPLANATION,
+      MDISC_EXPLANATION,
+      DISTANCE_EXPLANATION,
+      ANGLE_EXPLANATION, "; ",
+      AG_VER_EXPLANATION,
+      COV_VER_EXPLANATION
+    )
+)
+
 # Table formatted as a `flextable` object:
 item_params_output <- item_params                          |>
   flextable()                                              |>
   set_header_df(item_headers)                              |>
+  add_footer_lines(values = footer_values)                 |>
   merge_v(part = "header")                                 |>
   merge_h(part = "header", i = 1:3)                        |>
   mk_par(

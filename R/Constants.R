@@ -13,6 +13,7 @@
 ## ---- INCLUDES: --------------------------------------------------------------
 
 library(glue)
+library(flextable)
 
 source("R/Formulae.R", encoding = 'UTF-8')
 
@@ -58,7 +59,50 @@ DOT                  <- '.'
 DISCR_PARAMS_PATTERN <- glue('^{DISCR_PREFFIX}{DIGIT_PATTERN}$')
 
 # Output formatting objects:
+
+## Title elements:
 MULTIDIM_PARAMS_TITLE <- "Multidimensional parameters"
 MODEL_ACRONYM         <- "M2PL"
 ITEM_TABLE_TITLE      <- "Item"
 SPACE_SEP             <- ' '
+
+## Footer elements:
+FOOTER_PREFFIX        <- as_i("Note. ")
+MODEL_EXPLANATION     <- glue(
+  MODEL_ACRONYM,
+  " = Multidimensional 2-parameter logistic model; "
+)
+CORR_EXPLANATION      <- list(
+  as_equation(as.character(CORR)),
+  " = Correlation; "
+)
+DISCR_EXPLANATION     <- list(
+  as_equation(as.character(DISCR_PARAM)),
+  " = Item discrimination parameter (in dimension ",
+  as_equation(as.character(DIM_INDEX)),
+  "); "
+)
+INTERCEPT_EXPLANATION <- list(
+  as_equation(as.character(INTERCEPT_PARAM)),
+  " = Item intercept parameter; "
+)
+MDISC_EXPLANATION     <- list(
+  as_equation(as.character(MDISC_ITEM)),
+  " = Multidimensional item discrimination parameter; "
+)
+DISTANCE_EXPLANATION  <- list(
+  as_equation(as.character(DISTANCE_PARAM)),
+  " = Distance component of the multidimensional item location parameter; "
+)
+ANGLE_EXPLANATION     <- list(
+  as_equation(as.character(ANGLE_TS_ITEM)),
+  " = Direction component of the multidimensional item location parameter",
+  " (in dimension ", as_equation(as.character(DIM_INDEX)), ")"
+)
+AG_VER_EXPLANATION    <- glue("{AGNOSTIC_SUBINDEX}{DOT} = Agnostic version; ")
+COV_VER_EXPLANATION   <- list(
+  # as_equation(as.character(COV_MATRIX)),
+  # # The original "\\mathbf{\\upSigma}" raises an error in flextable (KaTeX):
+  as_equation(as.character("\\mathbf{\\Sigma}")),
+  " = Covariance-based version."
+)
