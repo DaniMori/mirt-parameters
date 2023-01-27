@@ -237,8 +237,8 @@ item_params_output <- item_params                          |>
   colformat_double(j = multidim_angles_index,  digits = 1) |>
   style(
     pr_p = fp_par(
-      padding.bottom = 2,
-      padding.top    = 2,
+      padding.bottom = 1,
+      padding.top    = 1,
       padding.left   = 4,
       padding.right  = 4
     ),
