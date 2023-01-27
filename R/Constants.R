@@ -101,8 +101,6 @@ ANGLE_EXPLANATION     <- list(
 )
 AG_VER_EXPLANATION    <- glue("{AGNOSTIC_SUBINDEX}{DOT} = Agnostic version; ")
 COV_VER_EXPLANATION   <- list(
-  # as_equation(as.character(COV_MATRIX)),
-  # # The original "\\mathbf{\\upSigma}" raises an error in flextable (KaTeX):
-  as_equation(as.character("\\mathbf{\\Sigma}")),
+  as_equation(as.character(COV_MATRIX)),
   " = Covariance-based version."
 )

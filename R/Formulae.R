@@ -47,7 +47,7 @@ LS_BASIS_EQ        <- latex_eq(LS_BASIS, LS_BASIS_SET)
 TRAIT_VECTOR    <- latex_bf("\\uptheta")
 TRAIT_VEC_IN_LS <- latex_in(TRAIT_VECTOR, LATENT_SPACE)
 MEAN_VECTOR     <- latex_bf("\\upmu")
-COV_MATRIX      <- latex_bf("\\upSigma")
+COV_MATRIX      <- latex_bf("\\Sigma")
 NORMAL_DISTR    <- latex_cal('N')
 MV_DISTRIBUTION <- latex(
   NORMAL_DISTR,

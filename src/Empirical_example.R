@@ -35,9 +35,6 @@ DISCR_PARAMS_SELECTION <- quo(matches(DISCR_PARAMS_PATTERN))
 # Numerical constants for computations:
 TOL_LEVEL <- 5e-3 # for comparing computed and given multidimensional parameters
 
-# The original "\\mathbf{\\upSigma}" raises an error in flextable (KaTeX):
-COV_MATRIX <- "\\mathbf{\\Sigma}"
-
 ## ----set-cov-matrix----
 # Version in Reckase, 2009, p. 183; this represents a "close-to-1D case";
 #   dimension 2 covariance was changed by +.0001 (.3341 instead of .3340) to
