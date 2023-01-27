@@ -865,6 +865,7 @@ items <- read_csv2(ITEM_PARAMS_TEZZA_2018_FILEPATH)
 ```
 
 ```{r compare-orthogonal-params}
+#| results:  hide
 ```
 
 <!-- Computed item parameters in the orthonormal space match the ones in given
