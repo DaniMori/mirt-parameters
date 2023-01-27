@@ -61,7 +61,7 @@ options(digits = 4)
 
 
 ```{r includes, cache=FALSE}
-source("R/Formulas.R")
+source("R/Formulas.R", encoding = 'UTF-8')
 ```
 
 

@@ -22,11 +22,11 @@ library(officer)
 library(scales)
 
 ## ----sources----
-source("R/Mirt_toolbox.R")
-source("R/Formulae.R")
-source("R/LaTeX_math.R")
-source("R/Output.R")
-source("R/Constants.R")
+source("R/Mirt_toolbox.R", encoding = 'UTF-8')
+source("R/Formulae.R",     encoding = 'UTF-8')
+source("R/LaTeX_math.R",   encoding = 'UTF-8')
+source("R/Output.R",       encoding = 'UTF-8')
+source("R/Constants.R",    encoding = 'UTF-8')
 
 ## ---- CONSTANTS: -------------------------------------------------------------
 

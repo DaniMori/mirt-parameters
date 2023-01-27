@@ -22,9 +22,8 @@ library(assertive.numbers)
 
 ## ----sources----
 source("R/Mirt_toolbox.R", encoding = 'UTF-8')
+source("R/Formulae.R",     encoding = 'UTF-8')
 source("R/Constants.R",    encoding = 'UTF-8')
-source("R/Formulae.R")
-# source("R/Output.R")
 
 ## ---- CONSTANTS: -------------------------------------------------------------
 

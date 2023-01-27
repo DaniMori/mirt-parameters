@@ -16,9 +16,7 @@
 
 ## ---- INCLUDES: --------------------------------------------------------------
 
-# p_load(tidyverse, magrittr)
-
-source("R/LaTeX_math.R")
+source("R/LaTeX_math.R", encoding = 'UTF-8')
 
 ## ---- CONSTANTS: -------------------------------------------------------------
 

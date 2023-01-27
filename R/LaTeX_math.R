@@ -17,7 +17,7 @@
 library(glue)
 
 
-# source("R/<File_name>.R")
+# source("R/<File_name>.R", encoding = 'UTF-8')
 
 
 ## ---- CONSTANTS: -------------------------------------------------------------

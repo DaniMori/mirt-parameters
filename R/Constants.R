@@ -14,6 +14,7 @@
 
 library(glue)
 
+source("R/Formulae.R", encoding = 'UTF-8')
 
 ## ---- CONSTANTS: -------------------------------------------------------------
 
