@@ -804,6 +804,8 @@ even when they are not parallel to the other axis.
 
 ## Examples with empirical data
 
+### @reckase_multidimensional_2009
+
 ```{r reset-root-wd}
 #| cache: false
 
@@ -812,7 +814,7 @@ opts_knit$set(root.dir = ROOT_DIR)
 ```
 
 ```{r read-chunks-empirical-example}
-read_chunk("src/Empirical_example_Tezza2018.R")
+read_chunk("src/Empirical_example.R")
 ```
 
 ```{r libraries}
@@ -846,11 +848,60 @@ COV_MATRIX_VALUE <- matrix(
 ```{r compute-oblique-params}
 ```
 
+```{r format-covariance-matrix}
+```
+
 ```{r create-params-table}
 ```
 
 ```{r compose-output-table}
 ```
+
+Table \@ref(tab:empirical-table-Reckase2009-out) draws from a classical example
+by @reckase_multidimensional_2009.
+In this 30-test item, there are three ten-item blocks assumed to approximate
+a simple structure: Items 1-10 measure dimension 1, items 11-20 dimension 3,
+and items 21-30 dimension 2 (see Table 6.1, p. 153 therein).
+In his example, Reckase tests the estimation of these items
+on two simulated datasets: In the first one, the latent trait distribution
+is standard with null correlations; however, the second one has
+(apart from a non-null vector of means) as covariance matrix
+
+\begin{equation}
+  `r cov_matrix_value_out`,
+\end{equation}
+
+which corresponds to a correlation matrix of
+
+\begin{equation}
+  `r cor_matrix_value_out`.
+\end{equation}
+
+As we can see in Table \@ref(tab:empirical-table-Reckase2009-out), the agnostic
+versions of the multidimensional parameters
+(columns labelled _`r AGNOSTIC_ABBR`_)
+coincide with Reckase's columns A, B, and $\alpha_1$ to $\alpha_3$.
+However, when we take into account the latent space structure
+(columns labelled $`r COV_MATRIX`$), we notice several differences.
+First, the $`r MDISC_ITEM`$ parameters tend to be larger
+than their agnostic counterparts.
+This happens because all the discrimination parameters as and the latent space
+correlations are positive; in this respect, these items are similar to item 1
+in Table \@ref(tab:example-items-table-out) and Figure \@ref(fig:item-plot-out).
+However, for the items mostly aligned with dimension 2 (items 21-30), as the
+$`r MDISC_ITEM`$ parameters are also scaled by a standard deviation smaller
+than 1, their values decrease, being some of them smaller than the agnostic
+versions. The $`r DISTANCE_PARAM`$ parametes decrease or increase, consequently,
+(see Equation \@ref(eq:M2PL-formula-polar)), thus being most of them smaller
+than the agnostic ones (again, with the exceptions only happening
+in the items aligned with dimension 2).
+Finally, we see that the direction angles are not as clearly separated as one
+might expect from the agnostic versions. This effect is more pronounced among
+the items aligned with dimensions 1 and 3, which are strongly correlated.
+In this situation, we notice that the angles tend to be much smaller, as the
+high correlation induces an alignment between the two dimensions
+(compare item 1 in the two test spaces in
+Table \@ref(tab:example-items-table-out) and Figure \@ref(fig:item-plot-out)).
 
 ```{r set-flextable-wd}
 #| cache: false
@@ -862,6 +913,18 @@ COV_MATRIX_VALUE <- matrix(
 #| tab.cap: Item parameters for the empirical example
 item_params_output
 ```
+
+The latter effect can be better noticed in another case, in which Reckase
+uses the same item parameters to demonstrate the over-specification of
+dimensions (see p. 183).
+In this example, he uses a covariance matrix that practically has rank 1,
+implying that the (alleged) three dimensions collapse into a single one, being
+thus the test unidimensional. In such a case, the covariance-based version of
+the direction angles are extremely close to 0 for all items, as one would expect
+from a unidimensional test, where all items are strictly aligned with the one
+dimension they measure. The reader interested can check out the parameters
+computed in such case in the Supplementary Table 1.
+<!-- #TODO: Include Supplementary Table -->
 
 ```{r set-cov-matrix-Tezza2018}
 # See Tezza et al., 2018, p. 927:

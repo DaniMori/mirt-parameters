@@ -16,6 +16,7 @@
 
 ## ----libraries----
 library(tidyverse)
+library(scales)
 library(flextable)
 library(officer)
 library(assertive.numbers)
@@ -85,6 +86,19 @@ items                                                 |>
   cat()
 # Both multidimensional parameters are equal for all items, up to the tolerance
 #   level.
+
+## ----format-covariance-matrix----
+
+cov_matrix_value_out      <- COV_MATRIX_VALUE |> number(1e-3)
+dim(cov_matrix_value_out) <- dim(COV_MATRIX_VALUE)
+cov_matrix_value_out      <- latex_matrix(cov_matrix_value_out)
+
+cor_matrix_value_out      <- COV_MATRIX_VALUE |>
+  cov2cor() |>
+  latex_matrix()
+# cor_matrix_value_out      <- COV_MATRIX_VALUE |> cov2cor() |> number(1e-3)
+# dim(cor_matrix_value_out) <- dim(COV_MATRIX_VALUE)
+# cor_matrix_value_out      <- latex_matrix(cor_matrix_value_out)
 
 ## ----compute-oblique-params----
 
@@ -159,8 +173,7 @@ item_headers <- tibble(
                                               DIM_INDEX,
                                               str_extract(., DIGIT_PATTERN)
                                             ),
-      str_detect(., ORTH_SUFFIX)          ~ glue("{AGNOSTIC_SUBINDEX}{DOT}") |>
-                                              as.character(),
+      str_detect(., ORTH_SUFFIX)          ~ AGNOSTIC_ABBR,
       str_detect(., OBL_SUFFIX)           ~ COV_MATRIX |> as.character(),
       TRUE                                ~ metric_param
     )

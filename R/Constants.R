@@ -65,6 +65,7 @@ MULTIDIM_PARAMS_TITLE <- "Multidimensional parameters"
 MODEL_ACRONYM         <- "M2PL"
 ITEM_TABLE_TITLE      <- "Item"
 SPACE_SEP             <- ' '
+AGNOSTIC_ABBR         <- glue("{AGNOSTIC_SUBINDEX}{DOT}") |> as.character()
 
 ## Footer elements:
 FOOTER_PREFFIX        <- as_i("Note. ")
@@ -99,7 +100,7 @@ ANGLE_EXPLANATION     <- list(
   " = Direction component of the multidimensional item location parameter",
   " (in dimension ", as_equation(as.character(DIM_INDEX)), ")"
 )
-AG_VER_EXPLANATION    <- glue("{AGNOSTIC_SUBINDEX}{DOT} = Agnostic version; ")
+AG_VER_EXPLANATION    <- glue("{AGNOSTIC_ABBR} = Agnostic version; ")
 COV_VER_EXPLANATION   <- list(
   as_equation(as.character(COV_MATRIX)),
   " = Covariance-based version."
