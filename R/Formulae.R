@@ -547,7 +547,7 @@ IRF_POLAR_EQ         <- latex_eq(IRF_ABBR, LOGISTIC_M2PL_POLAR)
 DISCR_VEC_TRAIT_COEFF <- latex(DISCR_VECTOR_TRANSP, TRAIT_VECTOR_POLAR_COEFF)
 
 # First derivative:
-IRF_1ST_DIFF     <- latex_firstdiff(IRF_ABBR, TRAIT_SYMBOL)
+IRF_1ST_DIFF     <- latex_firstdiff(IRF_ABBR, TRAIT_NORM)
 IRF_1ST_DIFF_DEF <- latex(
   IRF_ABBR,
   latex_parentheses("1 - $IRF_ABBR$"),
@@ -556,7 +556,7 @@ IRF_1ST_DIFF_DEF <- latex(
 IRF_1ST_DIFF_EQ  <- latex_eq(IRF_1ST_DIFF, IRF_1ST_DIFF_DEF)
 
 # Second derivative:
-IRF_2ND_DIFF     <- latex_seconddiff(IRF_ABBR, TRAIT_SYMBOL)
+IRF_2ND_DIFF     <- latex_seconddiff(IRF_ABBR, TRAIT_NORM)
 IRF_2ND_DIFF_DEF <- latex(
   latex_squared(DISCR_VEC_TRAIT_COEFF, .par = TRUE),
   IRF_ABBR,
