@@ -287,7 +287,36 @@ DIR_COS_VEC       <- latex_cos(DIR_ANGLE_VEC)
 DIR_ANGLE_VEC_STD <- latex_prime(DIR_ANGLE_VEC)
 DIR_COS_VEC_STD   <- latex_cos(DIR_ANGLE_VEC_STD)
 
-# Direction cosine vector in original space (proposition):
+## TODO: Delete this block?
+# DIAG_INNER_PROD_MATRIX     <- latex(
+#   latex_rm("diag"),
+#   latex_parentheses(INNER_PROD_MATRIX)
+# )
+# BASIS_VECTOR_FIRST_MOD     <- latex_sub(BASIS_VECTOR_EL, 1)
+# BASIS_VECTOR_LAST_MOD      <- latex_sub(BASIS_VECTOR_EL, N_DIMS)
+# DIAG_INNER_PROD_MATRIX_DEF <- latex_transp(
+#   latex_sqbrackets(
+#     latex_enum(
+#       latex_squared(BASIS_VECTOR_FIRST_MOD),
+#       ELLIPSIS,
+#       latex_squared(BASIS_VECTOR_LAST_MOD)
+#     )
+#   )
+# )
+# DIAG_INNER_PROD_MATRIX_EQ  <- latex_eq(
+#   DIAG_INNER_PROD_MATRIX,
+#   DIAG_INNER_PROD_MATRIX_DEF
+# )
+
+### Proposition 1 ----
+
+# Basis vectors:
+BASIS_VECTOR_FIRST_NORM    <- latex_norm(BASIS_VECTOR_FIRST)
+BASIS_VECTOR_LAST_NORM     <- latex_norm(BASIS_VECTOR_LAST)
+BASIS_VECTOR_FIRST_NORM_SQ <- latex_squared(BASIS_VECTOR_FIRST_NORM)
+BASIS_VECTOR_LAST_NORM_SQ  <- latex_squared(BASIS_VECTOR_LAST_NORM)
+
+# Direction cosine vector (in original space):
 DIAG_MATRIX_INNER_PROD        <- latex_bf('D')
 DIAG_MATRIX_INNER_PROD_INV_SQ <- latex_raised_to(
   DIAG_MATRIX_INNER_PROD,
@@ -299,25 +328,51 @@ DIR_COS_VEC_DEF               <- latex_frac(
 )
 DIR_COS_VEC_EQ                <- latex_eq(DIR_COS_VEC, DIR_COS_VEC_DEF)
 
+# Diagonal matrix (with the diagonal of the inner product matrix) definition:
+DIAG_MATRIX_INNER_PROD_DEF <- latex_enum_diagmatrix(
+  BASIS_VECTOR_FIRST_NORM_SQ,
+  BASIS_VECTOR_LAST_NORM_SQ
+)
+DIAG_MATRIX_INNER_PROD_EQ  <- latex_eq(
+  DIAG_MATRIX_INNER_PROD,
+  DIAG_MATRIX_INNER_PROD_DEF
+)
 
-DIAG_INNER_PROD_MATRIX     <- latex(
-  latex_rm("diag"),
-  latex_parentheses(INNER_PROD_MATRIX)
+#### Proof ----
+
+# Enumeration of dimensions:
+DIM_ENUM    <- latex_enum(1, ELLIPSIS, N_DIMS)
+DIM_ENUM_EQ <- latex_eq(DIM_INDEX, DIM_ENUM)
+
+# Inner product (defined with coordinates of basis vector):
+BASIS_VECTOR_COORD <- latex_coords(BASIS_VECTOR_ANY, LS_BASIS, transpose = TRUE)
+DIR_COS_DEF_COORDS <- latex_frac(
+  latex(BASIS_VECTOR_COORD, INNER_PROD_MATRIX, TRAIT_VECTOR), # Numerator
+  latex(TRAIT_NORM, BASIS_VECTOR_ANY_NORM)                    # Denominator
 )
-BASIS_VECTOR_FIRST_MOD     <- latex_sub(BASIS_VECTOR_EL, 1)
-BASIS_VECTOR_LAST_MOD      <- latex_sub(BASIS_VECTOR_EL, N_DIMS)
-DIAG_INNER_PROD_MATRIX_DEF <- latex_transp(
-  latex_sqbrackets(
-    latex_enum(
-      latex_squared(BASIS_VECTOR_FIRST_MOD),
-      ELLIPSIS,
-      latex_squared(BASIS_VECTOR_LAST_MOD)
-    )
-  )
+
+
+# Inner product (defined with standard basis vector):
+STD_BASIS_VECTOR_ANY_TRANSP <- latex_transp(STD_BASIS_VECTOR_ANY)
+DIR_COS_DEF_BASIS_VEC       <- latex_frac(
+  latex(STD_BASIS_VECTOR_ANY_TRANSP, INNER_PROD_MATRIX, TRAIT_VECTOR), # Numer.
+  latex(TRAIT_NORM, BASIS_VECTOR_ANY_NORM)                         # Denominator
 )
-DIAG_INNER_PROD_MATRIX_EQ  <- latex_eq(
-  DIAG_INNER_PROD_MATRIX,
-  DIAG_INNER_PROD_MATRIX_DEF
+
+# Inner product (defined with inner product matrix row):
+INNER_PROD_MATRIX_ROW <- latex_sub(INNER_PROD_MATRIX, DIM_INDEX)
+DIR_COS_DEF_IPM_ROW   <- latex_frac(
+  latex(INNER_PROD_MATRIX_ROW, TRAIT_VECTOR), # Numerator
+  latex(TRAIT_NORM, BASIS_VECTOR_ANY_NORM)    # Denominator
+)
+
+# Cosine definition (proof):
+DIR_COSINE_PROOF_EQ <- latex_eq(
+  DIR_COS_ANY,
+  DIR_COSINE_DEF,
+  DIR_COS_DEF_COORDS,
+  DIR_COS_DEF_BASIS_VEC,
+  DIR_COS_DEF_IPM_ROW
 )
 
 ### Polar coordinates ----
