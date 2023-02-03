@@ -926,12 +926,15 @@ dimension they measure. The reader interested can check out the parameters
 computed in such case in the Supplementary Table 1.
 <!-- #TODO: Include Supplementary Table -->
 
+### @tezza_modelo_2018
+
 ```{r set-cov-matrix-Tezza2018}
 # See Tezza et al., 2018, p. 927:
 # > No presente estudo, a correlação entre a dimensão 1 e a dimensão 4
 # > foi de aproximadamente 0,4.
 COV_MATRIX_VALUE <- diag(4)
-COV_MATRIX_VALUE[1, 4] <- COV_MATRIX_VALUE[4, 1] <- .4
+DIMS_CORR        <- .4
+COV_MATRIX_VALUE[1, 4] <- COV_MATRIX_VALUE[4, 1] <- DIMS_CORR
 ```
 
 ```{r reset-root-wd}
@@ -955,17 +958,50 @@ in Tezza 2018, table 5 -->
 ```{r compute-oblique-params}
 ```
 
+```{r format-covariance-matrix}
+```
+
 ```{r create-params-table}
 ```
 
 ```{r compose-output-table}
 ```
 
+@tezza_modelo_2018 provide us with another example that allows showcasing
+the effect of correlated dimensions on negative discrimination parameters.
+In their model, dimensions 1 and 4 are estimated to have a correlation of
+`r DIMS_CORR`.
+With such latent space structure, items that strongly discriminate in any or
+both of these two dimensions change drastically their multidimensional
+parameters from the agnostic to the covariance-based version
+(see Table \@ref(tab:empirical-table-Tezza2018-out)) ---this happens,
+for example, with items 57 and 60. These items also have different-sign
+discrimination parameters in dimensions 1 and 4, so their situation is
+similar to items 2 and 3 in Table \@ref(tab:example-items-table-out) and
+Figure \@ref(fig:item-plot-out),
+thus the decrease in their $`r MDISC_ITEM`$ parameter.
+The effect on the direction is also patent in the angles these items make with
+these dimensions, which change up to almost 20º, compared with at most 7º in the
+other two dimensions, and around 1º in most cases.
+
+On the other hand, in cases such as items 12 or 59, which have
+relatively low discrimination parameters on those two dimensions
+(compared with the ones in dimension 2 and 3, respectively) are barely affected.
+In these cases, we also notice that the angles are barely affected.
+The most extreme change in these two examples occurs in
+the direction of item 12 with respect to dimension 4. We see how the large
+discrimination in dimension 1, when combined with the correlation
+with dimension 4, induces a decrease in the angular direction
+with that dimension.
+In this case, being the discrimination in dimension 4 so low, the situation is
+very similar to item 4 in Table \@ref(tab:example-items-table-out)
+and Figure \@ref(fig:item-plot-out).
+
+<!---BLOCK_LANDSCAPE_START--->
+
 ```{r set-flextable-wd}
 #| cache: false
 ```
-
-<!---BLOCK_LANDSCAPE_START--->
 
 ```{r empirical-table-Tezza2018-out}
 #| cache:   false
