@@ -60,43 +60,44 @@ source("R/Formulae.R", encoding = 'UTF-8')
 Multidimensional item response theory (MIRT) models have been widely used since
 their inception.<!--# Ref. needed? -->
 The so called *Multidimensional 2-Parameter Logistic*
-[M2PL, @mckinley_extension_1983] model is one of the most important and
-widely used multidimensional models,
-partly due to its close relationship to the common factor model
+[M2PL, @mckinley_extension_1983] model is among the most important
+and widely used ones.
+This is partly due to its close relationship to the common factor model
 [@mcdonald_test_1999], but also to the formal tractability of its formulation.<!--# Ref. needed? -->
-The M2PL model is a generalization of the 2-parameter logistic model
+It consists of a generalization of the 2-parameter logistic model
 [@birnbaum_latent_1968] to more than one latent trait
 [@mckinley_extension_1983].
 Its usefulness lies in describing the variability of the population when
 the correct response does not depend on a single trait;
 more specifically, when a deficit in a certain trait
-and a surplus in another one cancel out their effects --thus it is sometimes
-referred to as a *compensatory* model.
+and a surplus in another one cancel out their effects. Because of this property,
+it is sometimes referred to as a *compensatory* model.
 
-@reckase_difficulty_1985 argues in favor of a need to characterize
-the statistical properties of items taking dimensionality into account.
-As such, he outlines a general procedure for determining
-the difficulty of multidimensional items.
+@reckase_difficulty_1985 argues for a need to take dimensionality into account
+when characterizing the statistical properties of multidimensional items.
+As such, he outlines a general procedure for determining their difficulty.
 Following this procedure, he also derives
-a *multidimensional difficulty* parameter (MID) for M2PL items.
+a *multidimensional difficulty* parameter for M2PL items.
 This parameter consists of two parts:
 The first one is a scalar value representing the distance from
 the origin of the multidimensional latent space to
-the maximally discriminating point of the item.
-The second one, the direction of the vector from the origin to that same point.
-Following a similar rationale, @reckase_discriminating_1991 define
-a *multidimensional discrimination* (MDISC) parameter definition for that model.
+the maximally discriminating locus of the item.
+The second one, the direction of the vector from the origin to that same locus.
+Following a similar rationale, @reckase_discriminating_1991 derive a
+*multidimensional discrimination* (`r MDISC_PARAM`) parameter definition
+for that model.
 
 A crucial assumption leading to those formulations is that the axes of the
 latent space are orthogonal
-[@ackerman_using_1994; @ackerman_multidimensional_2005; see also @reckase_difficulty_1985, p. 404 and Equation 7].
+[@ackerman_using_1994; @ackerman_multidimensional_2005; see also
+@reckase_difficulty_1985, p. 404 and Equation 7].
 Of course, orthogonality is a property of a geometrical space instead of a
 latent trait space.
 Thus, nothing prevents a researcher from interpreting an abstraction such as
 a latent trait space, no matter its structure, as an orthogonal space
 --exploratory factor analysis software such as SPSS <!--# Reference needed? -->or
 the R package *psych* <!--# Reference needed? -->graphically represent
-factor loadings on orthogonal axes, even after an oblique rotation.
+factor loadings on orthogonal axes even after an oblique rotation.
 Nevertheless, the assimilation of correlated latent traits to non-orthogonal
 axes is prevalent in the common factor literature
 [see, e.g., @harman_modern_1970].<!--# Thurstone's Multiple Factor Analysis, 1947? -->
@@ -104,14 +105,14 @@ This assumption is not so easily found in the MIRT literature though,
 which mostly deals with uncorrelated dimensions
 [see @reckase_multidimensional_2009 for a comprehensive treatment on the topic].
 This fact is probably due to the different spotlights
-the two theoretical programs put the focus on;
-Factor analysis aims at a clear interpretation of
+these two theoretical programs put the focus on;
+factor analysis aims at a clear interpretation of
 the latent covariance structure, and thus focuses on finding
 a structure matrix as simple as possible. MIRT literature, on the other hand,
 aims at modeling responses to certain stimuli and estimating person scores,
 being the model interpretation secondary in relevance.<!--# Reference needed? -->
 Nevertheless, the confluence of the two theoretical approaches into a common
-modern measurement theory [@mcdonald_test_1999] imposes
+modern measurement theory [@mcdonald_test_1999] requires
 the relaxation of traditional constrains on both approaches.
 It is not uncommon to find recent examples of MIRT models where the
 correlation matrix of the latent dimensions is freely estimated
@@ -119,11 +120,11 @@ correlation matrix of the latent dimensions is freely estimated
 correspondence between correlated latent traits and orthogonal coordinate axes
 is usually implicit in the MIRT literature without further consideration<!--# Exaples? -->
 [see @zhang_theoretical_1999 for a notable exception].
-What is more, disregarding this geometrical interpretation may lead to
+Moreover, disregarding this geometrical interpretation may lead to
 misconceptions that put the measurement and its conclusions into question.<!-- completar?? -->
 
-A latent space where the traits are correlated is easier to represent in
-a geometrical space with non-orthogonal axes,
+A latent space where the traits are correlated is easier to understand as a
+geometrical space with non-orthogonal axes,
 often referred to as *general Cartesian coordinates* [@harman_modern_1970].
 Such a space has the advantage that the cosines of the angles between two axes
 can be interpreted as the correlation of the corresponding latent dimensions.
@@ -131,16 +132,16 @@ can be interpreted as the correlation of the corresponding latent dimensions.
 <!-- Problem here: The latent space is not defined like that, according to
 the results of section "Linear algebra of non-orthogonal coordinates". -->
 The general case of MIRT model estimation implies estimating possibly
-non-standard latent dimensions and non-null covariances among them,
-a more realistic case than an identity matrix.
-Assuming orthogonality among traits is usually unrealistic, be it in the
+non-standard latent dimensions and non-null covariances among them
+(a more realistic case than an identity matrix).
+Assuming orthonormality among traits is usually unrealistic, be it in the
 cognitive [e.g., @reckase_multidimensional_2009] or the non-cognitive domain<!--# Reference to example? -->.
 Moreover, certain applications impose the estimation of
 non-identity latent covariance matrices (e.g. multigroup equating) even when<!-- # Reference needed? -->
 interpreting the latent dimensions as substantive constructs is not a goal.
-As we will argue, the usual definitions of the
-MID and MDISC parameters do not generalize to the non-orthogonal geometry used
-to represent correlated latent spaces.
+As we will argue, the usual definitions of the multidimensional difficulty and
+discrimination parameters do not generalize to the non-orthonormal geometry
+necessary to accurately represent correlated latent spaces.
 
 In the non-cognitive domain, the use of so-called negatively-keyed items
 --items that tap the negative pole of a certain trait, and thus
@@ -167,7 +168,7 @@ that can be soundly applied to the correlated trait case; on the other, to
 items that yield monotonous response probabilities, but in the broader sense of
 unchanging monotony. Additionally, we aim at providing a method for
 graphically representing these items in the fashion of @ackerman_creating_1994,
-but taking into account the non-orthogonality of the coordinate axes.
+but taking the non-orthogonality of the coordinate axes into account.
 In order to pursue these objectives, we first define the generalization of
 the M2PL model and describe its scope of application.
 Then, we follow the method outlined by @reckase_difficulty_1985 and
@@ -178,8 +179,7 @@ showing that either the original or one of the new ones is obtained
 as a function of how we define and interpret the latent space.
 Next we discuss the properties of the indices,
 propose a graphical representation method,
-and present an example of computation<!-- # TODO: Pending -->
-and representation of the items based on these parameters.
+and present two examples of application of our results.
 We round up with a discussion about
 the applicability and generalization of our results.
 
@@ -210,7 +210,7 @@ $`r ITEM_INDEX`$ is
   `r M2PL_FORMULATION`,                                  (\#eq:M2PL-formulation)
 \end{equation}
 
-where $`r DISCR_VECTOR`$ is a $`r N_DIMS`$-dimensional vector of discrimination
+where $`r DISCR_VECTOR`$ is an $`r N_DIMS`$-dimensional vector of discrimination
 parameters, and $`r INTERCEPT_PARAM`$ an intercept parameter related to the
 location of the item in the latent space.
 
@@ -220,7 +220,8 @@ This may imply a correct response, if we are talking about a cognitive test, or
 endorsing an item (or a certain response option) in a non-cognitive domain.
 Second, although not explicitly stated, $`r DISCR_VECTOR`$ is a vector of
 non-negative real numbers in Reckase
-[-@reckase_difficulty_1985, a decrease in the probability of a correct response with an increase in ability makes little sense].
+[-@reckase_difficulty_1985, a decrease in the probability of a correct response
+with an increase in ability makes little sense].
 In our case, $`r DISCR_VECTOR`$ is a vector of real numbers; the value
 of the $`r DIM_INDEX`$-th component $`r DISCR_PARAM`$ can be negative if
 the item is *inverse* for (i.e., taps the negative pole of)
@@ -240,26 +241,29 @@ we need to introduce a few linear algebra results before proceeding further.
 ## Linear algebra of non-orthogonal coordinates
 
 Let's consider the standard basis $`r LS_STD_BASIS_EQ`$ in $`r LATENT_SPACE`$.
-We can write all $`r TRAIT_VEC_IN_LS`$ as a linear combination of each bases.
+We can write all $`r TRAIT_VEC_IN_LS`$ as a linear combination of each basis,
+$`r LS_BASIS`$ or $`r LS_STD_BASIS`$.
 Therefore, we have both representations: $`r TRAIT_VECTOR_DEF_BASIS_EQ`$, and
 $`r TRAIT_VECTOR_DEF_STD_BASIS_EQ`$, where $`r TRAIT_COORDS_EQ`$ and
 $`r TRAIT_COORDS_STD_EQ`$.
 
-Let $`r BASIS_CHANGE_DEF`$ be the change of basis matrix; then, we have that
+Let $`r BASIS_CHANGE_DEF`$ be the change of basis matrix between the two bases;
+then, we have that
 
 \begin{equation}
   `r BASIS_CHANGE`.                                          (\#eq:change-basis)
 \end{equation}
 
 The $`r DIM_INDEX`$-th column of $`r TRANSFORM_MATRIX`$ is given by the
-coordinates of $`r BASIS_VECTOR_ANY`$ in basis $`r LS_STD_BASIS`$.
+coordinates of $`r BASIS_VECTOR_ANY`$ in basis $`r LS_STD_BASIS`$.<!--# Does this need to be justified? -->
 If $`r BASIS_VECTOR_ANY_TRANSF_EQ`$, then
 
 \begin{equation}
   `r TRANSFORM_MATRIX_EQ`.                           (\#eq:transform-matrix-def)
 \end{equation}
 
-With the standard basis in $`r LATENT_SPACE`$ we have the usual scalar product.
+With the standard basis in $`r LATENT_SPACE`$ we have the usual scalar product
+(i.e., dot product).
 With basis $`r LS_BASIS`$ in $`r LATENT_SPACE`$ we define an inner product
 $`r LS_BASIS_INNER_PROD`$, such that the norm of $`r TRAIT_VECTOR`$ is
 invariant, i.e., $`r TRAIT_NORM_EQ`$. Therefore,
@@ -271,7 +275,6 @@ invariant, i.e., $`r TRAIT_NORM_EQ`$. Therefore,
 Thus, we must define the inner product $`r LS_BASIS_INNER_PROD`$ with Gram
 matrix $`r INNER_PROD_MAT_EQ`$. That is, $`r INNER_PROD_EQ`$, which keeps the
 norm invariant.
-
 The Gram matrix has $`r INNER_PROD_MAT_ELEMENT_EQ`$ as element. As
 $`r TRANSFORM_MATRIX`$ (and consequently $`r TRANSFORM_MATRIX_TRANSP`$) is
 invertible, so $`r INNER_PROD_MATRIX`$ is, and $`r INNER_PROD_MATRIX_INV_EQ`$.
@@ -435,7 +438,7 @@ Thus, the M2PL model is expressed in polar coordinates as
 As Equation \@ref(eq:M2PL-formula-polar) shows, the inner product matrix is
 involved in the expression of the model in polar coordinates.
 Importantly, this shows that @reckase_difficulty_1985's Equation 3 (p. 403)
-already assumes the orthogonality of the latent space.
+already assumes the orthonormality of the latent space.
 
 ## Point of maximum slope
 
@@ -505,7 +508,7 @@ so
   `r SLOPE_MAX_STD_EQ`.                                     (\#eq:slope-max-std)
 \end{equation}
 
-We are thus considering the direction cosines with respect to the orthogonal
+We are thus considering the direction cosines with respect to the orthonormal
 axes, so we can just apply @reckase_difficulty_1985's results, obtaining
 
 \begin{equation}
@@ -579,14 +582,14 @@ Let $`r LS_STD_BASIS`$ be the standard basis of $`r TEST_SPACE`$.
 Then, $`r BASIS_CHANGE_TS_EQ`$ is the change of basis matrix and
 $`r DISCR_VECTOR_STD_MOD_EQ`$.
 
-Applying propositon 1,
+Applying Proposition 1,
 
 \begin{equation}
   `r DIR_COS_ITEM_VEC_TS_EQ`,                      (\#eq:dir-cos-vec-test-space)
 \end{equation}
 
-with $`r DIAG_MATRIX_INNER_PROD_INV`$ the diagonal matrix with
-the same diagonal as $`r INNER_PROD_MATRIX_INV`$.
+with $`r DIAG_MATRIX_INNER_PROD_INV`$ a diagonal matrix where
+$`r MATRIX_INNER_PROD_INV_EL_DIAG_EQ`$.
 
 ## Generalized multidimensional parameters
 
