@@ -273,7 +273,7 @@ DIR_COSINE_DEF             <- latex_frac(
 TRAIT_NORM_INV             <- latex_frac(1, TRAIT_NORM, .sep = NO_SEP)
 BASIS_VECTOR_ANY_NORM_INV <- latex_frac(1, BASIS_VECTOR_ANY_NORM, .sep = NO_SEP)
 DIR_COSINE_DEF_EXPANDED    <- latex(
-  TRAIT_NORM_INV, BASIS_VECTOR_ANY_NORM_INV,         # Denominators
+  BASIS_VECTOR_ANY_NORM_INV, TRAIT_NORM_INV,         # Denominators
   BASIS_VECTOR_ANY, INNER_PROD_MATRIX, TRAIT_VECTOR, # Numerators
 )
 DIR_COSINE_EQ              <- latex_eq(
@@ -437,7 +437,7 @@ BASIS_CHANGE_INV         <- latex_basis_change(LS_STD_BASIS, LS_BASIS)
 BASIS_CHANGE_ORG_ALT_DEF <- latex(BASIS_CHANGE_INV, BASIS_CHANGE_ALT)
 BASIS_CHANGE_ORG_ALT_EQ  <- latex_eq(
   BASIS_CHANGE_ORG_ALT,
-  BASIS_CHANGE_DEF,
+  BASIS_CHANGE_ORG_ALT_DEF,
   TRANSFORM_MATRICES_PROD
 )
 
@@ -547,7 +547,7 @@ IRF_POLAR_EQ         <- latex_eq(IRF_ABBR, LOGISTIC_M2PL_POLAR)
 DISCR_VEC_TRAIT_COEFF <- latex(DISCR_VECTOR_TRANSP, TRAIT_VECTOR_POLAR_COEFF)
 
 # First derivative:
-IRF_1ST_DIFF     <- latex_firstdiff(IRF_ABBR, TRAIT_SYMBOL)
+IRF_1ST_DIFF     <- latex_firstdiff(IRF_ABBR, TRAIT_NORM)
 IRF_1ST_DIFF_DEF <- latex(
   IRF_ABBR,
   latex_parentheses("1 - $IRF_ABBR$"),
@@ -556,7 +556,7 @@ IRF_1ST_DIFF_DEF <- latex(
 IRF_1ST_DIFF_EQ  <- latex_eq(IRF_1ST_DIFF, IRF_1ST_DIFF_DEF)
 
 # Second derivative:
-IRF_2ND_DIFF     <- latex_seconddiff(IRF_ABBR, TRAIT_SYMBOL)
+IRF_2ND_DIFF     <- latex_seconddiff(IRF_ABBR, TRAIT_NORM)
 IRF_2ND_DIFF_DEF <- latex(
   latex_squared(DISCR_VEC_TRAIT_COEFF, .par = TRUE),
   IRF_ABBR,
@@ -763,6 +763,27 @@ DIR_COS_ITEM_VEC_TS_EQ            <- latex_eq(
   DIR_COS_ITEM_VEC_TS,
   DIR_COS_ITEM_VEC_TS_DEF
 )
+
+# Elements of the diagonal matrix of the inverse inner product matrix:
+DIAG_MATRIX_INNER_PROD_INV_EL     <- latex_prime('d')
+DIAG_MATRIX_INNER_PROD_INV_EL_ANY <- latex_sub(
+  DIAG_MATRIX_INNER_PROD_INV_EL,
+  DIM_INDEX
+)
+INNER_PROD_INV_MAT_DIAG_EL        <- latex_sub('m', '$DIM_INDEX$$DIM_INDEX$') |>
+  latex_inverse()
+ITEM_BASIS_VECTOR_ANY_NORM        <- latex_norm(ITEM_BASIS_VECTOR_AUX)
+ITEM_BASIS_VECTOR_ANY_NORM_SQ     <- latex_squared(ITEM_BASIS_VECTOR_ANY_NORM)
+MATRIX_INNER_PROD_INV_EL_DIAG     <- latex_sub(
+  DIAG_MATRIX_INNER_PROD_INV_EL,
+  DIM_INDEX
+)
+MATRIX_INNER_PROD_INV_EL_DIAG_EQ  <- latex_eq(
+  DIAG_MATRIX_INNER_PROD_INV_EL_ANY,
+  INNER_PROD_INV_MAT_DIAG_EL,
+  ITEM_BASIS_VECTOR_ANY_NORM_SQ
+)
+
 
 ### Generalized multidimensional parameters ----
 
