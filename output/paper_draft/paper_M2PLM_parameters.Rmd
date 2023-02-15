@@ -367,7 +367,7 @@ and $`r TRANSFORM_MATRIX_ALT_EQ`$.
 Let's call $`r TRAIT_COORDS_ALT_EQ`$ and let $`r TRANSFORM_MATRIX_ALT_EQ`$
 be the change of basis matrix, such that $`r TRAIT_TRANSFORM_ALT_EQ`$.
 
-Then, we have that $`r BASIS_CHANGE_ORG_ALT_EQ`$.
+Then, we have that $`r BASIS_CHANGE_ORG_ALT_EQ`$. (ERROR aca)
 
 The inner product $`r ALT_BASIS_INNER_PROD`$ that keeps the norm invariant is
 defined by $`r INNER_PROD_TRAIT_ALT_EQ`$, and we define
