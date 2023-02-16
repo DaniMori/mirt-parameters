@@ -244,7 +244,7 @@ Let's consider the standard basis $`r LS_STD_BASIS_EQ`$ in $`r LATENT_SPACE`$.
 We can write all $`r TRAIT_VEC_IN_LS`$ as a linear combination of each basis,
 $`r LS_BASIS`$ or $`r LS_STD_BASIS`$.
 Therefore, we have both representations: $`r TRAIT_VECTOR_DEF_BASIS_EQ`$, and
-$`r TRAIT_VECTOR_DEF_STD_BASIS_EQ`$, where $`r TRAIT_COORDS_EQ`$ and
+$`r TRAIT_VECTOR_DEF_STD_BASIS_EQ`$. From now on we  will note  $`r TRAIT_COORDS_EQ`$ and
 $`r TRAIT_COORDS_STD_EQ`$.
 
 Let $`r BASIS_CHANGE_DEF`$ be the change of basis matrix between the two bases;
