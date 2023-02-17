@@ -420,6 +420,108 @@ and thus $`r DIR_COS_VEC_ALT_EQ`$.$`r END_OF_PROOF`$
 
 :::
 
+## Test space and latent space
+
+********************************************************************************
+
+Before defining the multidimensional parameters, we need to make a clarification
+regarding the representation of the items in the latent space.
+
+We call $`r TEST_SPACE`$ the *test space* [@zhang_theoretical_1999] of the
+discrimination vectors.
+This space is where the item vectors can be properly represented.
+It is in general different from the latent space $`r LATENT_SPACE`$,
+although there is a bijective relationship between the two sets of spaces.
+Let us consider the model given by Equation \@ref(eq:M2PL-formulation),
+where the latent traits and the parameters $`r DISCR_VECTOR`$ are expressed
+in the same basis $`r LS_BASIS`$, in their respective spaces.
+<!-- # TODO: Discuss; don't think this is actually true -->
+
+We have  $\theta^{'}=P \theta$ so since the probability is invariant,
+the parameters $a_i$ must also be transformed in $a^{'}_i$.
+
+Equating the probabilities we get $a_1^{'}=P^{-1^T}a_i=M^{-1}Pa_i$ .
+This shows that first a base change to the standard base is performed and then a transformation through $M^{-1}$, so the $a^{'}_i$ are expressed in the standard base.
+
+Then, 
+
+\begin{equation}
+\|a_i^{'} \|=a_i^T P^{-1}P^{-1^T}a_i=a_i^TM^{-1}a_i
+(\#eq:slope-param)
+\end{equation}
+
+
+Therefore, in the test space, a inner product matrix
+$`r INNER_PROD_MATRIX_INV`$ can be defined,
+such that $`r INNER_PROD_DISCR_EQ`$ to keep the norm invariant
+
+
+
+With this definition we have that
+
+\begin{equation}
+  \begin{split}
+    `r DIR_COS_ITEM_VEC_NORM_EQ` \\
+    `r DISTANCE_PARAM_NORM_EQ`   \\
+    `r SLOPE_MAX_PARAM_NORM_EQ`.
+  \end{split}                             (\#eq:item-params-discrimination-norm)
+\end{equation}
+
+
+Applying Proposition 1,
+
+\begin{equation}
+  `r DIR_COS_ITEM_VEC_TS_EQ`,                      (\#eq:dir-cos-vec-test-space)
+\end{equation}
+
+with $`r DIAG_MATRIX_INNER_PROD_INV`$ a diagonal matrix where
+$`r MATRIX_INNER_PROD_INV_EL_DIAG_EQ`$.
+
+Las vk no deben ir
+
+********************************************************************************
+
+Before defining the multidimensional parameters, we need to make a clarification
+regarding the representation of the items in the latent space.
+Equation \@ref(eq:slope-param) makes it clear that a space $`r TEST_SPACE`$
+with basis $`r ITEM_SPACE_BASIS_EQ`$ and inner product matrix
+$`r INNER_PROD_MATRIX_INV`$ can be defined,
+such that $`r INNER_PROD_DISCR_EQ`$ and, subsequently,
+$`r DISCR_VECTOR_MODULE_EQ`$.
+We call $`r TEST_SPACE`$ the *test space* [@zhang_theoretical_1999] of the
+discrimination vectors.
+This space is where the item vectors can be properly represented.
+It is in general different from the latent space $`r LATENT_SPACE`$,
+although there is a bijective relationship between the two sets of spaces,
+as their inner product matrices are inverse of one another.
+
+With this definition we have that
+
+\begin{equation}
+  \begin{split}
+    `r DIR_COS_ITEM_VEC_NORM_EQ` \\
+    `r DISTANCE_PARAM_NORM_EQ`   \\
+    `r SLOPE_MAX_PARAM_NORM_EQ`.
+  \end{split}                             (\#eq:item-params-discrimination-norm)
+\end{equation}
+
+It is clear that $`r INNER_PROD_INV_MAT_ELEMENT_EQ`$ were
+$`r INNER_PROD_INV_MAT_ELEMENT`$ is the $`r INNER_PROD_INV_MAT_SUBINDEX`$-th
+element of $`r INNER_PROD_MATRIX_INV`$.
+
+Let $`r LS_STD_BASIS`$ be the standard basis of $`r TEST_SPACE`$.
+Then, $`r BASIS_CHANGE_TS_EQ`$ is the change of basis matrix and
+$`r DISCR_VECTOR_STD_MOD_EQ`$.
+
+Applying Proposition 1,
+
+\begin{equation}
+  `r DIR_COS_ITEM_VEC_TS_EQ`,                      (\#eq:dir-cos-vec-test-space)
+\end{equation}
+
+with $`r DIAG_MATRIX_INNER_PROD_INV`$ a diagonal matrix where
+$`r MATRIX_INNER_PROD_INV_EL_DIAG_EQ`$.
+
 ## Model recasting into polar coordinates
 
 From Proposition 1,
@@ -547,105 +649,6 @@ Substituting Equation \@ref(eq:dir-cos-vec) in Equation \@ref(eq:slope-max),
 \end{equation}
 
 # Results
-
-## Test space and latent space
-
-AGREGADO
-Aca pongo redacciön alternativa dejo igual la origunal debajo
-
-Before defining the multidimensional parameters, we need to make a clarification
-regarding the representation of the items in the latent space.
-
-We call $`r TEST_SPACE`$ the *test space* [@zhang_theoretical_1999] of the discrimination vectors.
-This space is where the item vectors can be properly represented.
-It is in general different from the latent space $`r LATENT_SPACE`$,
-although there is a bijective relationship between the two sets of spaces
-Let us consider the model given by the equation (1 poner la referencia) where the latent traits and  the parameters $a_i$ are expressed in the same base B in their respective spaces. 
-
-We have  $\theta^{'}=P \theta$ so since the probability is invariant, the parameters $a_i$ must also be transformed in $a^{'}_i$.
-
-Equating the probabilities we get $a_1^{'}=P^{-1^T}a_i=M^{-1}Pa_i$ .
-This shows that first a base change to the standard base is performed and then a transformation through $M^{-1}$, so the $a^{'}_i$ are expressed in the standard base.
-
-Then, 
-
-\begin{equation}
-\|a_i^{'} \|=a_i^T P^{-1}P^{-1^T}a_i=a_i^TM^{-1}a_i
-(\#eq:slope-param)
-\end{equation}
-
-
-Therefore, in the test space, a inner product matrix
-$`r INNER_PROD_MATRIX_INV`$ can be defined,
-such that $`r INNER_PROD_DISCR_EQ`$ to keep the norm invariant
-
-
-
-With this definition we have that
-
-\begin{equation}
-  \begin{split}
-    `r DIR_COS_ITEM_VEC_NORM_EQ` \\
-    `r DISTANCE_PARAM_NORM_EQ`   \\
-    `r SLOPE_MAX_PARAM_NORM_EQ`.
-  \end{split}                             (\#eq:item-params-discrimination-norm)
-\end{equation}
-
-
-Applying Proposition 1,
-
-\begin{equation}
-  `r DIR_COS_ITEM_VEC_TS_EQ`,                      (\#eq:dir-cos-vec-test-space)
-\end{equation}
-
-with $`r DIAG_MATRIX_INNER_PROD_INV`$ a diagonal matrix where
-$`r MATRIX_INNER_PROD_INV_EL_DIAG_EQ`$.
-
-Las vk no deben ir
-
-
-Esta es la original
-
-Before defining the multidimensional parameters, we need to make a clarification
-regarding the representation of the items in the latent space.
-Equation \@ref(eq:slope-param) makes it clear that a space $`r TEST_SPACE`$
-with basis $`r ITEM_SPACE_BASIS_EQ`$ and inner product matrix
-$`r INNER_PROD_MATRIX_INV`$ can be defined,
-such that $`r INNER_PROD_DISCR_EQ`$ and, subsequently,
-$`r DISCR_VECTOR_MODULE_EQ`$.
-We call $`r TEST_SPACE`$ the *test space* [@zhang_theoretical_1999] of the
-discrimination vectors.
-This space is where the item vectors can be properly represented.
-It is in general different from the latent space $`r LATENT_SPACE`$,
-although there is a bijective relationship between the two sets of spaces,
-as their inner product matrices are inverse of one another.
-
-With this definition we have that
-
-\begin{equation}
-  \begin{split}
-    `r DIR_COS_ITEM_VEC_NORM_EQ` \\
-    `r DISTANCE_PARAM_NORM_EQ`   \\
-    `r SLOPE_MAX_PARAM_NORM_EQ`.
-  \end{split}                             (\#eq:item-params-discrimination-norm)
-\end{equation}
-
-It is clear that $`r INNER_PROD_INV_MAT_ELEMENT_EQ`$ were
-$`r INNER_PROD_INV_MAT_ELEMENT`$ is the $`r INNER_PROD_INV_MAT_SUBINDEX`$-th
-element of $`r INNER_PROD_MATRIX_INV`$.
-
-Let $`r LS_STD_BASIS`$ be the standard basis of $`r TEST_SPACE`$.
-Then, $`r BASIS_CHANGE_TS_EQ`$ is the change of basis matrix and
-$`r DISCR_VECTOR_STD_MOD_EQ`$.
-
-Applying Proposition 1,
-
-\begin{equation}
-  `r DIR_COS_ITEM_VEC_TS_EQ`,                      (\#eq:dir-cos-vec-test-space)
-\end{equation}
-
-with $`r DIAG_MATRIX_INNER_PROD_INV`$ a diagonal matrix where
-$`r MATRIX_INNER_PROD_INV_EL_DIAG_EQ`$.
 
 ## Generalized multidimensional parameters
 
