@@ -244,8 +244,8 @@ Let's consider the standard basis $`r LS_STD_BASIS_EQ`$ in $`r LATENT_SPACE`$.
 We can write all $`r TRAIT_VEC_IN_LS`$ as a linear combination of each basis,
 $`r LS_BASIS`$ or $`r LS_STD_BASIS`$.
 Therefore, we have both representations: $`r TRAIT_VECTOR_DEF_BASIS_EQ`$, and
-$`r TRAIT_VECTOR_DEF_STD_BASIS_EQ`$. From now on we  will note  $`r TRAIT_COORDS_EQ`$ and
-$`r TRAIT_COORDS_STD_EQ`$.
+$`r TRAIT_VECTOR_DEF_STD_BASIS_EQ`$.
+From now on, we denote $`r TRAIT_COORDS_EQ`$ and $`r TRAIT_COORDS_STD_EQ`$.
 
 Let $`r BASIS_CHANGE_DEF`$ be the change of basis matrix between the two bases;
 then, we have that
@@ -291,14 +291,9 @@ of vector $`r TRAIT_VECTOR`$ along dimension $`r DIM_INDEX`$,
 we plug it into Equation \@ref(eq:cos-vectors) along with
 the corresponding basis vector $`r BASIS_VECTOR_ANY`$:
 
-
-OBS. En la ecuación debe estar el producto inteno con el subindice que indique que es en la base B. No se ponen en las normas debido a la invarianza de estas. Como $\theta$ son las coordanadas en B se dejan igual.
-
 \begin{equation}
   `r DIR_COSINE_EQ`.                                     (\#eq:direction-cosine)
 \end{equation}
-
-
 
 Let's consider now the vectors $`r DIR_COS_VEC`$ and $`r DIR_COS_VEC_STD`$, made
 up by the $`r N_DIMS`$ direction cosines of $`r TRAIT_VECTOR`$ with the basis
@@ -329,8 +324,6 @@ Therefore,
 *Proof.*
 
 For every $`r DIM_INDEX`$; $`r DIM_ENUM_EQ`$,
-
-OBS en esta primera ecuación recordar poner el subindice B en el producto interno
 
 \begin{equation}
   `r DIR_COSINE_PROOF_EQ`,

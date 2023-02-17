@@ -264,11 +264,16 @@ COS_VECTORS_EQ  <- latex_eq(COS_VECTORS, COS_VECTORS_DEF)
 DIR_ANGLE_ANY              <- latex_sub(ANGLE, DIM_INDEX)
 DIR_COS_ANY                <- latex_cos(DIR_ANGLE_ANY)
 TRAIT_NORM                 <- latex_norm(TRAIT_VECTOR)
-INNER_PROD_TRAIT_BASIS_VEC <- latex_innerprod(BASIS_VECTOR_ANY, TRAIT_VECTOR)
+INNER_PROD_TRAIT_BASIS_VEC <- latex_innerprod(
+  BASIS_VECTOR_ANY,
+  TRAIT_VECTOR,
+  basis = LS_BASIS
+)
 BASIS_VECTOR_ANY_NORM      <- latex_norm(BASIS_VECTOR_ANY)
+DIR_COS_DEF_DENOMINATOR    <- latex(BASIS_VECTOR_ANY_NORM, TRAIT_NORM)
 DIR_COSINE_DEF             <- latex_frac(
-  INNER_PROD_TRAIT_BASIS_VEC,
-  latex(BASIS_VECTOR_ANY_NORM, TRAIT_NORM)
+  INNER_PROD_TRAIT_BASIS_VEC, # Numerator
+  DIR_COS_DEF_DENOMINATOR
 )
 TRAIT_NORM_INV             <- latex_frac(1, TRAIT_NORM, .sep = NO_SEP)
 BASIS_VECTOR_ANY_NORM_INV <- latex_frac(1, BASIS_VECTOR_ANY_NORM, .sep = NO_SEP)
@@ -341,21 +346,21 @@ DIM_ENUM_EQ <- latex_eq(DIM_INDEX, DIM_ENUM)
 BASIS_VECTOR_COORD <- latex_coords(BASIS_VECTOR_ANY, LS_BASIS, transpose = TRUE)
 DIR_COS_DEF_COORDS <- latex_frac(
   latex(BASIS_VECTOR_COORD, INNER_PROD_MATRIX, TRAIT_VECTOR), # Numerator
-  latex(TRAIT_NORM, BASIS_VECTOR_ANY_NORM)                    # Denominator
+  DIR_COS_DEF_DENOMINATOR
 )
 
 # Inner product (defined with standard basis vector):
 STD_BASIS_VECTOR_ANY_TRANSP <- latex_transp(STD_BASIS_VECTOR_ANY)
 DIR_COS_DEF_BASIS_VEC       <- latex_frac(
   latex(STD_BASIS_VECTOR_ANY_TRANSP, INNER_PROD_MATRIX, TRAIT_VECTOR), # Numer.
-  latex(TRAIT_NORM, BASIS_VECTOR_ANY_NORM)                         # Denominator
+  DIR_COS_DEF_DENOMINATOR
 )
 
 # Inner product (defined with inner product matrix row):
 INNER_PROD_MATRIX_ROW <- latex_sub(INNER_PROD_MATRIX, DIM_INDEX)
 DIR_COS_DEF_IPM_ROW   <- latex_frac(
   latex(INNER_PROD_MATRIX_ROW, TRAIT_VECTOR), # Numerator
-  latex(TRAIT_NORM, BASIS_VECTOR_ANY_NORM)    # Denominator
+  DIR_COS_DEF_DENOMINATOR
 )
 
 # Cosine definition (proof):
