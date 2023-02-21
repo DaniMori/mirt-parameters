@@ -295,9 +295,9 @@ the corresponding basis vector $`r BASIS_VECTOR_ANY`$:
   `r DIR_COSINE_EQ`.                                     (\#eq:direction-cosine)
 \end{equation}
 
-Let's consider now the vectors $`r DIR_COS_VEC`$ and $`r DIR_COS_VEC_STD`$, made
-up by the $`r N_DIMS`$ direction cosines of $`r TRAIT_VECTOR`$ with the basis
-vectors of $`r LS_BASIS`$ and $`r LS_STD_BASIS`$, respectively.
+Let's consider now the vector $`r DIR_COS_VEC`$, made up by the $`r N_DIMS`$
+direction cosines of $`r TRAIT_VECTOR`$ with
+the basis vectors of $`r LS_BASIS`$.
 
 ::: {#prp-dir-cosines-generalized-basis}
 
@@ -346,9 +346,10 @@ We can also obtain a result that relates the direction cosines of any two bases.
 $`r LATENT_SPACE`$ and the inner product $`r ALT_BASIS_INNER_PROD`$ that keeps
 the norm of the Euclidean space invariant.
 
-Let $`r DIR_COS_VEC_ALT`$ be the vector of direction cosines of
-$`r TRAIT_VECTOR`$ in $`r ALT_BASIS`$ (i.e., the cosines with the elements of
-$`r ALT_BASIS`$).
+
+Let $`r DIR_COS_VEC_STD`$ and $`r DIR_COS_VEC_ALT`$ be the vectors of
+direction cosines of $`r TRAIT_VECTOR`$ in $`r LS_STD_BASIS`$ and
+$`r ALT_BASIS`$, respectively.
 
 Then,
 
