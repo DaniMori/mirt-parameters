@@ -145,7 +145,7 @@ TRAIT_COORDS_STD_EQ  <- latex_eq(TRAIT_VECTOR_STD, TRAIT_COORDS_STD_DEF)
 # Change of basis matrix:
 TRANSFORM_MATRIX <- latex_bf('P')
 BASIS_CHANGE_SYM <- latex_basis_change(LS_BASIS, LS_STD_BASIS)
-BASIS_CHANGE_DEF <- latex_eq(BASIS_CHANGE_SYM, TRANSFORM_MATRIX)
+BASIS_CHANGE_DEF <- latex_eq(TRANSFORM_MATRIX, BASIS_CHANGE_SYM)
 
 # Basis vector coordinates in standard basis:
 BASIS_VECTOR_ANY_TRANSF     <- latex_prime(BASIS_VECTOR_ANY)
