@@ -182,7 +182,7 @@ compute_mirt_coords <- function(items,
       ## Transform the coordinates:
       across(
         origin:end,
-        .fns = lst(transf = ~drop(transform %*% .))
+        .fns = list(transf = ~drop(transform %*% .))
       )
     )                                                               |>
     dplyr::ungroup()                                                |>
