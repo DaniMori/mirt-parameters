@@ -116,15 +116,19 @@ LS_STD_BASIS_EQ       <- latex_eq(LS_STD_BASIS, LS_STD_BASIS_SET)
 BASIS_VECTOR_ANY       <- latex_sub(BASIS_VECTOR, DIM_INDEX)
 TRAIT_SYMBOL           <- latex("\\theta")
 TRAIT_COMPONENT        <- latex_sub(TRAIT_SYMBOL, DIM_INDEX)
+TRAIT_VEC_COMP         <- latex_raised_to(TRAIT_COMPONENT, exp = LS_BASIS)
 TRAIT_VECTOR_DEF_BASIS <- latex_summation(
-  TRAIT_COMPONENT, BASIS_VECTOR_ANY,
+  TRAIT_VEC_COMP, BASIS_VECTOR_ANY,
   index = DIM_INDEX, from = 1, to = N_DIMS,
   .par = FALSE
 )
 TRAIT_VECTOR_DEF_BASIS_EQ <- latex_eq(TRAIT_VECTOR, TRAIT_VECTOR_DEF_BASIS)
 
 # Vector definition in standard basis:
-TRAIT_VEC_STD_COMP            <- latex_prime(TRAIT_COMPONENT)
+TRAIT_VEC_STD_COMP            <- latex_raised_to(
+  TRAIT_COMPONENT,
+  exp = LS_STD_BASIS
+)
 STD_BASIS_VECTOR_ANY          <- latex_sub(STD_BASIS_VECTOR, DIM_INDEX)
 TRAIT_VECTOR_DEF_STD_BASIS    <- latex_summation(
   TRAIT_VEC_STD_COMP, STD_BASIS_VECTOR_ANY,
