@@ -240,7 +240,8 @@ we need to introduce a few linear algebra results before proceeding further.
 
 ## Linear algebra of non-orthogonal coordinates
 
-Let's consider the standard basis $`r LS_STD_BASIS_EQ`$ in $`r LATENT_SPACE`$.
+Let's consider an orthonormal basis $`r LS_STD_BASIS_EQ`$ in $`r LATENT_SPACE`$
+with the dot product as inner product.
 We can write all $`r TRAIT_VEC_IN_LS`$ as a linear combination of each basis,
 $`r LS_BASIS`$ or $`r LS_STD_BASIS`$.
 Therefore, we have both representations: $`r TRAIT_VECTOR_DEF_BASIS_EQ`$, and
