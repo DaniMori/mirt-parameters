@@ -69,7 +69,9 @@ compute_mirt_params <- function(items,
   
   # Direction options:
   dir_out <- dir_out |> match.arg(several.ok = TRUE)
-
+  one_dir <- dir_out                      |>
+    assertive.properties::is_of_length(1) |>
+    as.logical()
 
   ## Main: ----
   
@@ -95,9 +97,7 @@ compute_mirt_params <- function(items,
     tidyr::pivot_wider(
       names_from  = dim,
       values_from = all_of(dir_out),
-      names_glue  = dir_out                   |>
-        assertive.properties::is_of_length(1) |>
-        if_else('{.value}_{.name}', '{.name}')
+      names_glue  = one_dir |> if_else('{.value}_{.name}', '{.name}')
     )
 }
 
