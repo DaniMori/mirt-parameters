@@ -122,7 +122,6 @@ TRAIT_VECTOR_DEF_BASIS <- latex_summation(
   index = DIM_INDEX, from = 1, to = N_DIMS,
   .par = FALSE
 )
-TRAIT_VECTOR_DEF_BASIS_EQ <- latex_eq(TRAIT_VECTOR, TRAIT_VECTOR_DEF_BASIS)
 
 # Vector definition in standard basis:
 TRAIT_VEC_STD_COMP            <- latex_raised_to(
@@ -135,16 +134,20 @@ TRAIT_VECTOR_DEF_STD_BASIS    <- latex_summation(
   index = DIM_INDEX, from = 1, to = N_DIMS,
   .par = FALSE
 )
-TRAIT_VECTOR_DEF_STD_BASIS_EQ <- latex_eq(
+
+TRAIT_VECTOR_DEF_EQ <- latex_eq(
   TRAIT_VECTOR,
+  TRAIT_VECTOR_DEF_BASIS,
   TRAIT_VECTOR_DEF_STD_BASIS
 )
 
 # Trait coordinates in both original and standard bases:
+TRAIT_COORDS         <- latex_raised_to(TRAIT_VECTOR, exp = LS_BASIS)
 TRAIT_COORDS_DEF     <- latex_coords(TRAIT_VECTOR, LS_BASIS)
-TRAIT_COORDS_EQ      <- latex_eq(TRAIT_VECTOR, TRAIT_COORDS_DEF)
+TRAIT_COORDS_EQ      <- latex_eq(TRAIT_COORDS, TRAIT_COORDS_DEF)
+TRAIT_STD_COORDS     <- latex_raised_to(TRAIT_VECTOR, exp = LS_STD_BASIS)
 TRAIT_COORDS_STD_DEF <- latex_coords(TRAIT_VECTOR, LS_STD_BASIS)
-TRAIT_COORDS_STD_EQ  <- latex_eq(TRAIT_VECTOR_STD, TRAIT_COORDS_STD_DEF)
+TRAIT_COORDS_STD_EQ  <- latex_eq(TRAIT_STD_COORDS, TRAIT_COORDS_STD_DEF)
 
 # Change of basis matrix:
 TRANSFORM_MATRIX <- latex_bf('P')
@@ -152,22 +155,30 @@ BASIS_CHANGE_SYM <- latex_basis_change(LS_BASIS, LS_STD_BASIS)
 BASIS_CHANGE_DEF <- latex_eq(TRANSFORM_MATRIX, BASIS_CHANGE_SYM)
 
 # Basis vector coordinates in standard basis:
-BASIS_VECTOR_ANY_TRANSF     <- latex_prime(BASIS_VECTOR_ANY)
+BASIS_VEC_ANY_STD_COORDS     <- latex_raised_to(
+  BASIS_VECTOR_ANY,
+  exp = LS_STD_BASIS
+)
 BASIS_VECTOR_ANY_TRANSF_DEF <- latex_coords(BASIS_VECTOR_ANY, LS_STD_BASIS)
 BASIS_VECTOR_ANY_TRANSF_EQ  <- latex_eq(
-  BASIS_VECTOR_ANY_TRANSF,
+  BASIS_VEC_ANY_STD_COORDS,
   BASIS_VECTOR_ANY_TRANSF_DEF
 )
 
 # Latent vector change of basis
-TRAIT_TRANSFORM <- latex(TRANSFORM_MATRIX, TRAIT_VECTOR)
-BASIS_CHANGE    <- latex_eq(TRAIT_VECTOR_STD, TRAIT_TRANSFORM)
+TRAIT_TRANSFORM <- latex(TRANSFORM_MATRIX, TRAIT_COORDS)
+BASIS_CHANGE    <- latex_eq(TRAIT_STD_COORDS, TRAIT_TRANSFORM)
 
 # Change of basis matrix definition:
 TRANSFORM_MATRIX_TRANSP   <- latex_transp(TRANSFORM_MATRIX)
-BASIS_VECTOR_TRANSF       <- latex_prime(BASIS_VECTOR)
-BASIS_VECTOR_FIRST_TRANSF <- latex_prime(BASIS_VECTOR_FIRST)
-BASIS_VECTOR_LAST_TRANSF  <- latex_prime(BASIS_VECTOR_LAST)
+BASIS_VECTOR_FIRST_TRANSF <- latex_raised_to(
+  BASIS_VECTOR_FIRST,
+  exp = LS_STD_BASIS
+)
+BASIS_VECTOR_LAST_TRANSF  <- latex_raised_to(
+  BASIS_VECTOR_LAST,
+  exp = LS_STD_BASIS
+)
 LS_BASIS_ELEMENTS_TRANSF  <- latex_enum(
   BASIS_VECTOR_FIRST_TRANSF,
   ELLIPSIS,
@@ -186,7 +197,8 @@ TRAIT_NORM_EQ           <- latex_eq(
 )
 
 # Latent vector invariance condition:
-TRAIT_NORM_STD_SQ       <- latex_squared(TRAIT_NORM_LS_STD_BASIS)
+TRAIT_NORM              <- latex_norm(TRAIT_VECTOR)
+TRAIT_NORM_SQ           <- latex_squared(TRAIT_NORM)
 TRAIT_VECTOR_STD_TRANSP <- latex_transp(TRAIT_VECTOR_STD)
 TRAIT_VECTOR_STD_SQ     <- latex(TRAIT_VECTOR_STD_TRANSP, TRAIT_VECTOR_STD)
 TRAIT_VECTOR_TRANSP     <- latex_transp(TRAIT_VECTOR)
@@ -196,8 +208,8 @@ TRAIT_TRANSF_TRAIT      <- latex(
   INNER_PROD_TRANSF_DEF,
   TRAIT_VECTOR
 )
-TRAIT_NORM_STD_SQ_EQ    <- latex_eq(
-  TRAIT_NORM_STD_SQ,
+TRAIT_NORM_SQ_EQ    <- latex_eq(
+  TRAIT_NORM_SQ,
   TRAIT_VECTOR_STD_SQ,
   TRAIT_TRANSF_TRAIT
 )
@@ -227,15 +239,19 @@ INNER_PROD_MAT_ELEMENT     <- latex_sub(
   latex(AUX_INDEX, DIM_INDEX, .sep = NO_SEP)
 )
 BASIS_VECTOR_AUX           <- latex_sub(BASIS_VECTOR, AUX_INDEX)
-BASIS_VECTOR_AUX_TRANSF    <- latex_prime(BASIS_VECTOR_AUX)
+BASIS_VEC_AUX_STD_COORDS   <- latex_raised_to(
+  BASIS_VECTOR_AUX,
+  exp = LS_STD_BASIS
+)
 INNER_PROD_MAT_ELEMENT_DEF <- latex_innerprod(
-  BASIS_VECTOR_AUX_TRANSF,
-  BASIS_VECTOR_AUX_TRANSF
+  BASIS_VEC_AUX_STD_COORDS,
+  BASIS_VEC_ANY_STD_COORDS
 )
 INNER_PROD_MAT_ELEMENT_EQ  <- latex_eq(
   INNER_PROD_MAT_ELEMENT,
   INNER_PROD_MAT_ELEMENT_DEF
 )
+INNER_PROD_MATRIX_INDEX    <- latex(AUX_INDEX, DIM_INDEX, .sep = SEP_COMMA)
 
 # Inverse inner product matrix:
 INNER_PROD_MATRIX_INV       <- latex_inverse(INNER_PROD_MATRIX)
@@ -252,7 +268,7 @@ INNER_PROD_MATRIX_INV_EQ    <- latex_eq(
 
 ### Direction cosines ----
 
-# Cosine of the angle between two verctors:
+# Cosine of the angle between two vectors:
 ANGLE           <- latex("\\gamma")
 ANGLE_VECTORS   <- latex_sub(ANGLE, "$AUX_INDEX$$DIM_INDEX$")
 COS_VECTORS     <- latex_cos(ANGLE_VECTORS)
@@ -267,7 +283,6 @@ COS_VECTORS_EQ  <- latex_eq(COS_VECTORS, COS_VECTORS_DEF)
 # Generic direction cosine of a vector:
 DIR_ANGLE_ANY              <- latex_sub(ANGLE, DIM_INDEX)
 DIR_COS_ANY                <- latex_cos(DIR_ANGLE_ANY)
-TRAIT_NORM                 <- latex_norm(TRAIT_VECTOR)
 INNER_PROD_TRAIT_BASIS_VEC <- latex_innerprod(
   BASIS_VECTOR_ANY,
   TRAIT_VECTOR,
@@ -281,9 +296,14 @@ DIR_COSINE_DEF             <- latex_frac(
 )
 TRAIT_NORM_INV             <- latex_frac(1, TRAIT_NORM, .sep = NO_SEP)
 BASIS_VECTOR_ANY_NORM_INV <- latex_frac(1, BASIS_VECTOR_ANY_NORM, .sep = NO_SEP)
+
+BASIS_VECTOR_ANY_COORDS    <- latex_raised_to(
+  BASIS_VECTOR_ANY,
+  exp = LS_STD_BASIS
+)
 DIR_COSINE_DEF_EXPANDED    <- latex(
-  BASIS_VECTOR_ANY_NORM_INV, TRAIT_NORM_INV,         # Denominators
-  BASIS_VECTOR_ANY, INNER_PROD_MATRIX, TRAIT_VECTOR, # Numerators
+  BASIS_VECTOR_ANY_NORM_INV, TRAIT_NORM_INV,                # Denominators
+  BASIS_VECTOR_ANY_COORDS, INNER_PROD_MATRIX, TRAIT_COORDS, # Numerators
 )
 DIR_COSINE_EQ              <- latex_eq(
   DIR_COS_ANY,

@@ -32,7 +32,7 @@ DOC_DIR <- getwd()
 opts_knit$set(root.dir = ROOT_DIR)
 opts_chunk$set(
   echo     = FALSE,
-  cache    = FALSE,
+  cache    = TRUE,
   dev      = "png",
   dpi      =   300,
   dev.args = list(type = "cairo-png"),
@@ -242,11 +242,9 @@ we need to introduce a few linear algebra results before proceeding further.
 
 Let's consider an orthonormal basis $`r LS_STD_BASIS_EQ`$ in $`r LATENT_SPACE`$
 with the dot product as inner product.
-We can write all $`r TRAIT_VEC_IN_LS`$ as a linear combination of each basis,
-$`r LS_BASIS`$ or $`r LS_STD_BASIS`$.
-Therefore, we have both representations: $`r TRAIT_VECTOR_DEF_BASIS_EQ`$, and
-$`r TRAIT_VECTOR_DEF_STD_BASIS_EQ`$.
-From now on, we denote $`r TRAIT_COORDS_EQ`$ and $`r TRAIT_COORDS_STD_EQ`$.
+Let $`r TRAIT_COORDS_EQ`$ and $`r TRAIT_COORDS_STD_EQ`$ be the coordinates of
+any $`r TRAIT_VEC_IN_LS`$ in $`r LS_BASIS`$ and $`r LS_STD_BASIS`$,
+respectively, such that $`r TRAIT_VECTOR_DEF_EQ`$.
 
 Let $`r BASIS_CHANGE_DEF`$ be the change of basis matrix between the two bases;
 then, we have that
@@ -256,37 +254,34 @@ then, we have that
 \end{equation}
 
 The $`r DIM_INDEX`$-th column of $`r TRANSFORM_MATRIX`$ is given by the
-coordinates of $`r BASIS_VECTOR_ANY`$ in basis $`r LS_STD_BASIS`$.<!--# Does this need to be justified? -->
-If $`r BASIS_VECTOR_ANY_TRANSF_EQ`$, then
+coordinates of $`r BASIS_VECTOR_ANY`$ in basis $`r LS_STD_BASIS`$;
+formally, if $`r BASIS_VECTOR_ANY_TRANSF_EQ`$, then
 
 \begin{equation}
   `r TRANSFORM_MATRIX_EQ`.                           (\#eq:transform-matrix-def)
 \end{equation}
 
-With the standard basis in $`r LATENT_SPACE`$ we have the usual scalar product
-(i.e., dot product).
-With basis $`r LS_BASIS`$ in $`r LATENT_SPACE`$ we define an inner product
-$`r LS_BASIS_INNER_PROD`$, such that the norm of $`r TRAIT_VECTOR`$ is
-invariant, i.e., $`r TRAIT_NORM_EQ`$. Therefore,
+As the norm of $`r TRAIT_VECTOR`$ must be invariant (i.e., $`r TRAIT_NORM_EQ`$),
+we need to define $`r LS_BASIS`$ in $`r LATENT_SPACE`$ with inner product
+$`r LS_BASIS_INNER_PROD`$ as
 
 \begin{equation}
-  `r TRAIT_NORM_STD_SQ_EQ`.                             (\#eq:inner-product-def)
+  `r TRAIT_NORM_SQ_EQ`.                                 (\#eq:inner-product-def)
 \end{equation}
 
-Thus, we must define the inner product $`r LS_BASIS_INNER_PROD`$ with Gram
-matrix $`r INNER_PROD_MAT_EQ`$. That is, $`r INNER_PROD_EQ`$, which keeps the
-norm invariant.
-The Gram matrix has $`r INNER_PROD_MAT_ELEMENT_EQ`$ as element. As
+Thus, inner product $`r LS_BASIS_INNER_PROD`$ has $`r INNER_PROD_MAT_EQ`$ as
+Gram matrix, i.e., $`r INNER_PROD_EQ`$, with $`r INNER_PROD_MAT_ELEMENT_EQ`$ as
+the $`r INNER_PROD_MATRIX_INDEX`$-th element of $`r INNER_PROD_MATRIX`$. As
 $`r TRANSFORM_MATRIX`$ (and consequently $`r TRANSFORM_MATRIX_TRANSP`$) is
 invertible, so $`r INNER_PROD_MATRIX`$ is, and $`r INNER_PROD_MATRIX_INV_EQ`$.
 
-The cosines between two vectors follow the usual definition,
+The cosine between two vectors
 
 \begin{equation}
   `r COS_VECTORS_EQ`,                                         (\#eq:cos-vectors)
 \end{equation}
 
-independently of whether the inner product is standard or not.
+is independent of whether the inner product is standard or not.
 Therefore, to compute the direction cosine $`r DIR_COS_ANY`$
 of vector $`r TRAIT_VECTOR`$ along dimension $`r DIM_INDEX`$,
 we plug it into Equation \@ref(eq:cos-vectors) along with
