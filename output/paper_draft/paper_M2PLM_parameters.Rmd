@@ -340,7 +340,7 @@ We can also obtain a result that relates the direction cosines of any two bases.
 
 **Proposition 2** Let's consider another basis $`r ALT_BASIS_EQ`$ in
 $`r LATENT_SPACE`$ and the inner product $`r ALT_BASIS_INNER_PROD`$ that keeps
-the norm of the Euclidean space invariant.
+the norm of the space invariant.
 
 
 Let $`r DIR_COS_VEC_STD`$ and $`r DIR_COS_VEC_ALT`$ be the vectors of
