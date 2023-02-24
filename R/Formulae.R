@@ -102,7 +102,6 @@ M2PL_FORMULATION <- latex_eq(IRF_M2PL, IRF_ABBR, LOGISTIC_M2PL)
 STD_BASIS_VECTOR_EL   <- latex('e')
 STD_BASIS_VECTOR      <- latex_bf(STD_BASIS_VECTOR_EL)
 LATENT_SPACE_STD      <- latex_prime(LATENT_SPACE)
-TRAIT_VECTOR_STD      <- latex_prime(TRAIT_VECTOR)
 LS_STD_BASIS          <- latex_cal('E')
 LS_STD_BASIS_ELEMENTS <- latex_enum(
   latex_sub(STD_BASIS_VECTOR, 1),
@@ -199,8 +198,11 @@ TRAIT_NORM_EQ           <- latex_eq(
 # Latent vector invariance condition:
 TRAIT_NORM              <- latex_norm(TRAIT_VECTOR)
 TRAIT_NORM_SQ           <- latex_squared(TRAIT_NORM)
-TRAIT_VECTOR_STD_TRANSP <- latex_transp(TRAIT_VECTOR_STD)
-TRAIT_VECTOR_STD_SQ     <- latex(TRAIT_VECTOR_STD_TRANSP, TRAIT_VECTOR_STD)
+TRAIT_VECTOR_STD_TRANSP <- latex_raised_to(
+  TRAIT_VECTOR, # TODO: Transposing a "vector in basis" may typeset wrongly
+  exp = "{$LS_STD_BASIS$T}"
+)
+TRAIT_VECTOR_STD_SQ     <- latex(TRAIT_VECTOR_STD_TRANSP, TRAIT_STD_COORDS)
 TRAIT_VECTOR_TRANSP     <- latex_transp(TRAIT_VECTOR)
 INNER_PROD_TRANSF_DEF   <- latex(TRANSFORM_MATRIX_TRANSP, TRANSFORM_MATRIX)
 TRAIT_TRANSF_TRAIT      <- latex(
@@ -282,7 +284,8 @@ COS_VECTORS_EQ  <- latex_eq(COS_VECTORS, COS_VECTORS_DEF)
 
 # Generic direction cosine of a vector:
 DIR_ANGLE_ANY              <- latex_sub(ANGLE, DIM_INDEX)
-DIR_COS_ANY                <- latex_cos(DIR_ANGLE_ANY)
+DIR_ANGLE_ANY_ORG          <- latex_raised_to(DIR_ANGLE_ANY, exp = LS_BASIS)
+DIR_COS_ANY_ORG            <- latex_cos(DIR_ANGLE_ANY_ORG)
 INNER_PROD_TRAIT_BASIS_VEC <- latex_innerprod(
   BASIS_VECTOR_ANY,
   TRAIT_VECTOR,
@@ -299,31 +302,24 @@ BASIS_VECTOR_ANY_NORM_INV <- latex_frac(1, BASIS_VECTOR_ANY_NORM, .sep = NO_SEP)
 
 BASIS_VECTOR_ANY_COORDS    <- latex_raised_to(
   BASIS_VECTOR_ANY,
-  exp = LS_STD_BASIS
+  exp = LS_BASIS
 )
 DIR_COSINE_DEF_EXPANDED    <- latex(
   BASIS_VECTOR_ANY_NORM_INV, TRAIT_NORM_INV,                # Denominators
   BASIS_VECTOR_ANY_COORDS, INNER_PROD_MATRIX, TRAIT_COORDS, # Numerators
 )
 DIR_COSINE_EQ              <- latex_eq(
-  DIR_COS_ANY,
+  DIR_COS_ANY_ORG,
   DIR_COSINE_DEF,
   DIR_COSINE_DEF_EXPANDED
 )
 
-# Direction cosine vectors (in original and standard basis):
+# Direction cosine vectors (in original basis):
 DIR_ANGLE_VEC     <- latex_bf(ANGLE)
-DIR_COS_VEC       <- latex_cos(DIR_ANGLE_VEC)
-DIR_ANGLE_VEC_STD <- latex_prime(DIR_ANGLE_VEC)
-DIR_COS_VEC_STD   <- latex_cos(DIR_ANGLE_VEC_STD)
+DIR_ANGLE_VEC_ORG <- latex_raised_to(DIR_ANGLE_VEC, exp = LS_BASIS)
+DIR_COS_VEC_ORG   <- latex_cos(DIR_ANGLE_VEC_ORG)
 
 ### Proposition 1 ----
-
-# Basis vectors:
-BASIS_VECTOR_FIRST_NORM    <- latex_norm(BASIS_VECTOR_FIRST)
-BASIS_VECTOR_LAST_NORM     <- latex_norm(BASIS_VECTOR_LAST)
-BASIS_VECTOR_FIRST_NORM_SQ <- latex_squared(BASIS_VECTOR_FIRST_NORM)
-BASIS_VECTOR_LAST_NORM_SQ  <- latex_squared(BASIS_VECTOR_LAST_NORM)
 
 # Direction cosine vector (in original space):
 DIAG_MATRIX_INNER_PROD        <- latex_bf('D')
@@ -332,10 +328,16 @@ DIAG_MATRIX_INNER_PROD_INV_SQ <- latex_raised_to(
   exp = latex("-$FRAC_1_2$")
 )
 DIR_COS_VEC_DEF               <- latex_frac(
-  latex(DIAG_MATRIX_INNER_PROD_INV_SQ, INNER_PROD_MATRIX, TRAIT_VECTOR),
+  latex(DIAG_MATRIX_INNER_PROD_INV_SQ, INNER_PROD_MATRIX, TRAIT_COORDS),
   TRAIT_NORM
 )
-DIR_COS_VEC_EQ                <- latex_eq(DIR_COS_VEC, DIR_COS_VEC_DEF)
+DIR_COS_VEC_EQ                <- latex_eq(DIR_COS_VEC_ORG, DIR_COS_VEC_DEF)
+
+# Basis vectors:
+BASIS_VECTOR_FIRST_NORM    <- latex_norm(BASIS_VECTOR_FIRST)
+BASIS_VECTOR_LAST_NORM     <- latex_norm(BASIS_VECTOR_LAST)
+BASIS_VECTOR_FIRST_NORM_SQ <- latex_squared(BASIS_VECTOR_FIRST_NORM)
+BASIS_VECTOR_LAST_NORM_SQ  <- latex_squared(BASIS_VECTOR_LAST_NORM)
 
 # Diagonal matrix (with the diagonal of the inner product matrix) definition:
 DIAG_MATRIX_INNER_PROD_DEF <- latex_enum_diagmatrix(
@@ -356,9 +358,12 @@ INNER_PROD_INV_DIAG_SQ_PROD <- latex(
   INNER_PROD_MATRIX_INV,
   DIAG_MATRIX_INNER_PROD_SQ
 )
-TRAIT_VECTOR_POLAR_COEFF    <- latex(INNER_PROD_INV_DIAG_SQ_PROD, DIR_COS_VEC)
+TRAIT_VECTOR_POLAR_COEFF    <- latex(
+  INNER_PROD_INV_DIAG_SQ_PROD,
+  DIR_COS_VEC_ORG
+)
 TRAIT_VECTOR_POLAR_DEF      <- latex(TRAIT_VECTOR_POLAR_COEFF, TRAIT_NORM)
-TRAIT_VECTOR_POLAR_EQ       <- latex_eq(TRAIT_VECTOR, TRAIT_VECTOR_POLAR_DEF)
+TRAIT_VECTOR_POLAR_EQ       <- latex_eq(TRAIT_COORDS, TRAIT_VECTOR_POLAR_DEF)
 
 #### Proof ----
 
@@ -369,27 +374,27 @@ DIM_ENUM_EQ <- latex_eq(DIM_INDEX, DIM_ENUM)
 # Inner product (defined with coordinates of basis vector):
 BASIS_VECTOR_COORD <- latex_coords(BASIS_VECTOR_ANY, LS_BASIS, transpose = TRUE)
 DIR_COS_DEF_COORDS <- latex_frac(
-  latex(BASIS_VECTOR_COORD, INNER_PROD_MATRIX, TRAIT_VECTOR), # Numerator
+  latex(BASIS_VECTOR_COORD, INNER_PROD_MATRIX, TRAIT_COORDS), # Numerator
   DIR_COS_DEF_DENOMINATOR
 )
 
 # Inner product (defined with standard basis vector):
 STD_BASIS_VECTOR_ANY_TRANSP <- latex_transp(STD_BASIS_VECTOR_ANY)
 DIR_COS_DEF_BASIS_VEC       <- latex_frac(
-  latex(STD_BASIS_VECTOR_ANY_TRANSP, INNER_PROD_MATRIX, TRAIT_VECTOR), # Numer.
+  latex(STD_BASIS_VECTOR_ANY_TRANSP, INNER_PROD_MATRIX, TRAIT_COORDS), # Numer.
   DIR_COS_DEF_DENOMINATOR
 )
 
 # Inner product (defined with inner product matrix row):
 INNER_PROD_MATRIX_ROW <- latex_sub(INNER_PROD_MATRIX, DIM_INDEX)
 DIR_COS_DEF_IPM_ROW   <- latex_frac(
-  latex(INNER_PROD_MATRIX_ROW, TRAIT_VECTOR), # Numerator
+  latex(INNER_PROD_MATRIX_ROW, TRAIT_COORDS), # Numerator
   DIR_COS_DEF_DENOMINATOR
 )
 
 # Cosine definition (proof):
 DIR_COSINE_PROOF_EQ <- latex_eq(
-  DIR_COS_ANY,
+  DIR_COS_ANY_ORG,
   DIR_COSINE_DEF,
   DIR_COS_DEF_COORDS,
   DIR_COS_DEF_BASIS_VEC,
@@ -415,8 +420,15 @@ ALT_BASIS_EQ        <- latex_eq(ALT_BASIS, ALT_BASIS_SET)
 # Inner product in new basis :
 ALT_BASIS_INNER_PROD <- latex_innerprod(basis = ALT_BASIS)
 
+# Direction cosine vectors (in standard basis):
+DIR_ANGLE_VEC_STD <- latex_raised_to(DIR_ANGLE_VEC, exp = LS_STD_BASIS)
+DIR_COS_VEC_STD   <- latex_cos(DIR_ANGLE_VEC_STD)
+
 # Direction cosine vectors equivalence (new and original bases):
-DIR_ANGLE_VEC_ALT                 <- latex_prime(latex_prime(DIR_ANGLE_VEC))
+DIR_ANGLE_VEC_ALT                 <- latex_raised_to(
+  DIR_ANGLE_VEC,
+  exp = ALT_BASIS
+)
 DIR_COS_VEC_ALT                   <- latex_cos(DIR_ANGLE_VEC_ALT)
 DIAG_MATRIX_INNER_PROD_ALT        <- latex_bf('H')
 DIAG_MATRIX_INNER_PROD_ALT_INV_SQ <- latex_raised_to(
@@ -429,7 +441,7 @@ DIR_COS_VEC_ALT_DEF               <- latex(
   DIAG_MATRIX_INNER_PROD_ALT_INV_SQ,
   latex_transp(latex_parentheses(TRANSFORM_MATRICES_PROD)),
   DIAG_MATRIX_INNER_PROD_SQ,
-  DIR_COS_VEC
+  DIR_COS_VEC_ORG
 )
 DIR_COS_VEC_ALT_EQ             <- latex_eq(DIR_COS_VEC_ALT, DIR_COS_VEC_ALT_DEF)
 
@@ -456,7 +468,7 @@ TRANSFORM_MATRIX_ALT_EQ <- latex_eq(TRANSFORM_MATRIX_ALT, BASIS_CHANGE_ALT)
 #### Proof ----
 
 # Latent trait vector coordinates:
-TRAIT_VECTOR_ALT     <- latex_prime(latex_prime(TRAIT_VECTOR))
+TRAIT_VECTOR_ALT     <- latex_raised_to(TRAIT_VECTOR, exp = ALT_BASIS)
 TRAIT_COORDS_ALT_DEF <- latex_coords(TRAIT_VECTOR, ALT_BASIS)
 TRAIT_COORDS_ALT_EQ  <- latex_eq(TRAIT_VECTOR_ALT, TRAIT_COORDS_ALT_DEF)
 
@@ -472,20 +484,18 @@ BASIS_CHANGE_ORG_ALT_EQ  <- latex_eq(
 
 # Latent trait vector transformation from standard to new basis:
 TRAIT_TRANSFORM_ALT    <- latex(TRANSFORM_MATRIX_ALT, TRAIT_VECTOR_ALT)
-TRAIT_TRANSFORM_ALT_EQ <- latex_eq(TRAIT_VECTOR_STD, TRAIT_TRANSFORM_ALT)
+TRAIT_TRANSFORM_ALT_EQ <- latex_eq(TRAIT_STD_COORDS, TRAIT_TRANSFORM_ALT)
 
 # Inner product in new basis:
-TRAIT_VECTOR_J_COORDS_ALT_TRANSP <- latex_coords(
-  TRAIT_VECTOR_J,
-  basis     = ALT_BASIS,
-  transpose = TRUE
-)
+
+TRAIT_VECTOR_J_COORDS_ALT    <- latex_raised_to(TRAIT_VECTOR_J, exp = ALT_BASIS)
+TRAIT_VECTOR_J_COORDS_ALT_TRANSP <- latex_transp(TRAIT_VECTOR_J_COORDS_ALT)
 TRANSFORM_MATRIX_ALT_TRANSP      <- latex_transp(TRANSFORM_MATRIX_ALT)
 INNER_PROD_MATRIX_ALT_DEF        <- latex(
   TRANSFORM_MATRIX_ALT_TRANSP,
   TRANSFORM_MATRIX_ALT
 )
-TRAIT_VECTOR_K_COORDS_ALT     <- latex_coords(TRAIT_VECTOR_K, basis = ALT_BASIS)
+TRAIT_VECTOR_K_COORDS_ALT    <- latex_raised_to(TRAIT_VECTOR_K, exp = ALT_BASIS)
 INNER_PROD_ALT_DEF               <- latex(
   TRAIT_VECTOR_J_COORDS_ALT_TRANSP,
   INNER_PROD_MATRIX_ALT_DEF,
@@ -502,7 +512,7 @@ INNER_PROD_MATRIX_ALT_EQ <- latex_eq(
 
 # Polar coordinates in standard basis:
 TRAIT_VEC_STD_POLAR_DEF <- latex(DIR_COS_VEC_STD, TRAIT_NORM)
-TRAIT_VEC_STD_POLAR_EQ  <- latex_eq(TRAIT_VECTOR_STD, TRAIT_VEC_STD_POLAR_DEF)
+TRAIT_VEC_STD_POLAR_EQ  <- latex_eq(TRAIT_STD_COORDS, TRAIT_VEC_STD_POLAR_DEF)
 
 # Polar coordinates in new basis:
 DIAG_MATRIX_INNER_PROD_ALT_SQ   <- latex_raised_to(
@@ -608,7 +618,7 @@ ALT_MATRIX_AS_ID <- latex_eq(
 DIR_COS_AS_DIR_COS_STD         <- latex(
   TRANSFORM_MATRIX_TRANSP_INV,
   DIAG_MATRIX_INNER_PROD_SQ,
-  DIR_COS_VEC,
+  DIR_COS_VEC_ORG,
 )
 DIR_COS_AS_DIR_COS_STD_EQ      <- latex_eq(
   DIR_COS_VEC_STD,
@@ -665,7 +675,7 @@ DIR_COS_ITEM_VEC_DEF    <- latex_frac(
   "$DIAG_MATRIX_INNER_PROD_INV_SQ$ $DISCR_VECTOR$",
   DISCR_VECTOR_MODULE_DEF
 )
-DIR_COS_ITEM_VEC_EQ     <- latex_eq(DIR_COS_VEC, DIR_COS_ITEM_VEC_DEF)
+DIR_COS_ITEM_VEC_EQ     <- latex_eq(DIR_COS_VEC_ORG, DIR_COS_ITEM_VEC_DEF)
 
 # Item signed distance:
 TRAIT_NORM_SOLVED <- latex(
@@ -730,7 +740,10 @@ DIR_COS_ITEM_VEC_NORM_DEF    <- latex_frac(
   "$DIAG_MATRIX_INNER_PROD_INV_SQ$ $DISCR_VECTOR$",
   DISCR_VECTOR_MODULE
 )
-DIR_COS_ITEM_VEC_NORM_EQ     <- latex_eq(DIR_COS_VEC, DIR_COS_ITEM_VEC_NORM_DEF)
+DIR_COS_ITEM_VEC_NORM_EQ     <- latex_eq(
+  DIR_COS_VEC_ORG,
+  DIR_COS_ITEM_VEC_NORM_DEF
+)
 
 ## Item signed distance:
 DISTANCE_PARAM_NORM_DEF <- latex_frac("-$INTERCEPT_PARAM$", DISCR_VECTOR_MODULE)
@@ -849,14 +862,14 @@ MV_DISTR_STD    <- latex(
   NORMAL_DISTR,
   latex_parentheses("$MEAN_VECTOR_STD$, $COV_MATRIX_STD$")
 )
-TRAIT_MV_STD_EQ <- latex_sim(TRAIT_VECTOR_STD, MV_DISTR_STD)
+TRAIT_MV_STD_EQ <- latex_sim(TRAIT_STD_COORDS, MV_DISTR_STD)
 
 # Transformed latent vector as orthonormal:
 MV_DISTR_STD_NORM    <- latex(
   NORMAL_DISTR,
   latex_parentheses("$MEAN_VECTOR_STD$, $ID_MATRIX$")
 )
-TRAIT_MV_STD_NORM_EQ <- latex_sim(TRAIT_VECTOR_STD, MV_DISTR_STD_NORM)
+TRAIT_MV_STD_NORM_EQ <- latex_sim(TRAIT_STD_COORDS, MV_DISTR_STD_NORM)
 
 #### Correlation-based version of the indices: ----
 

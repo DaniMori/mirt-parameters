@@ -32,7 +32,7 @@ DOC_DIR <- getwd()
 opts_knit$set(root.dir = ROOT_DIR)
 opts_chunk$set(
   echo     = FALSE,
-  cache    = TRUE,
+  cache    = FALSE,
   dev      = "png",
   dpi      =   300,
   dev.args = list(type = "cairo-png"),
@@ -282,7 +282,7 @@ The cosine between two vectors
 \end{equation}
 
 is independent of whether the inner product is standard or not.
-Therefore, to compute the direction cosine $`r DIR_COS_ANY`$
+Therefore, to compute the direction cosine $`r DIR_COS_ANY_ORG`$
 of vector $`r TRAIT_VECTOR`$ along dimension $`r DIM_INDEX`$,
 we plug it into Equation \@ref(eq:cos-vectors) along with
 the corresponding basis vector $`r BASIS_VECTOR_ANY`$:
@@ -291,7 +291,7 @@ the corresponding basis vector $`r BASIS_VECTOR_ANY`$:
   `r DIR_COSINE_EQ`.                                     (\#eq:direction-cosine)
 \end{equation}
 
-Let's consider now the vector $`r DIR_COS_VEC`$, made up by the $`r N_DIMS`$
+Let's consider now the vector $`r DIR_COS_VEC_ORG`$, made up by the $`r N_DIMS`$
 direction cosines of $`r TRAIT_VECTOR`$ with
 the basis vectors of $`r LS_BASIS`$.
 
@@ -475,7 +475,7 @@ To compute the direction of the maximum slope,
 Reckase leverages on the property that the squared direction cosines sum up to 1
 (see Equation 7 therein).
 However, this assertion implicitly assumes orthogonal coordinates,
-so it does not apply in general to $`r DIR_COS_VEC`$.
+so it does not apply in general to $`r DIR_COS_VEC_ORG`$.
 Instead, we may consider the direction cosine vector with the standard basis
 $`r LS_STD_BASIS`$.
 Now, applying Proposition 2 (with $`r ALT_MATRIX_AS_ID`$) we obtain
