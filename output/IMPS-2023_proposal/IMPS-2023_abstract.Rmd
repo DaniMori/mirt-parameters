@@ -1,0 +1,64 @@
+---
+title: A generalization of multidimensional item response theory parameters
+author: "Daniel Morillo, Mario Luzardo"
+date: "2023-02-27"
+output: word_document
+bibliography: ../../www/Multidimensional-parameters-MCLM.bib
+csl:          ../../www/apa-old-doi-prefix.csl
+---
+
+# Abstract
+
+```{r setup}
+#| include: false
+
+# Includes:
+
+library(knitr)
+library(rstudioapi)
+
+ROOT_DIR <- getActiveProject()
+DOC_DIR  <- getwd()
+
+opts_knit$set(root.dir = ROOT_DIR)
+opts_chunk$set(
+  echo     = FALSE,
+  message  = FALSE,
+  cache    = FALSE
+)
+```
+
+```{r sources}
+#| cache:   false
+#| include: false
+source("R/Constants.R", encoding = 'UTF-8')
+```
+
+The Multidimensional 2-Parameter Logistic
+[`r MODEL_ACRONYM`, @mckinley_extension_1983] model is one of the most important
+and widely used models in Multidimensional Item Response Theory (MIRT).
+@reckase_difficulty_1985 and @reckase_discriminating_1991 gave a precise
+definition of a Multidimensional Item Difficulty (MID) and Multidimensional
+Discrimination (MDISC) parameter, respectively, and derived their expressions
+for the M2PL model.
+However, we argue here that (1) their derivations implicitly assume the
+orthonormality of the latent space, and (2) it is straightforwardly extensible
+to applications where the items have marginally unchanging monotony, instead of
+just to monotonously increasing items (which is important for non-cognitive
+applications).
+
+We derive generalized expressions of those parameters, that apply to any item
+with unchanging monotony in any non-orthonormal space, thus allowing to properly
+represent disparate covariance structures.
+We then use these definitions in two applications: to represent M2PL items in
+non-orthogonal spaces, and to compute the multidimensional parameters in various
+applications, showing how they provide better information compared with their
+"covariance-agnostic" counterparts.
+
+These results become increasingly relevant as the modern measurement theory in
+social and behavioral sciences experiences as a convergence between MIRT and the
+common factor model. Nevertheless, we warn against generalizing our results to
+other MIRT models, beyond the M2PL, without carefully considering each
+particular case.
+
+# References
