@@ -714,7 +714,7 @@ SLOPE_MAX_PARAM_EQ  <- latex_eq(SLOPE_MAX_PARAM, SLOPE_MAX_PARAM_DEF)
 ### Test space ----
 
 # Test space:
-TEST_SPACE <- latex_bf("\\upAlpha")
+TEST_SPACE <- latex_bf("A")
 
 # Test space basis:
 ITEM_BASIS_VECTOR_EL      <- latex('v')
