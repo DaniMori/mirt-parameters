@@ -801,6 +801,10 @@ DISCR_VECTOR_STD_MOD_EQ <- latex_eq(
 
 # Item direction cosines (in test space):
 ANGLE_TS                          <- latex("\\alpha")
+ANGLE_TS_ITEM                     <- latex_sub(
+  ANGLE_TS,
+  "$ITEM_INDEX$$DIM_INDEX$"
+)
 DIR_ANGLE_VEC_TS                  <- latex_bf(ANGLE_TS)
 DIR_COS_VEC_TS                    <- latex_cos(DIR_ANGLE_VEC_TS)
 DIR_ANGLE_ITEM_VEC_TS             <- latex_sub(DIR_ANGLE_VEC_TS, ITEM_INDEX)
@@ -849,8 +853,9 @@ MATRIX_INNER_PROD_INV_EL_DIAG_EQ  <- latex_eq(
 ### Generalized multidimensional parameters ----
 
 # Parameters:
-MDISC_PARAM <- latex("MDISC")
-MIL_PARAM   <- latex("MIL")
+MDISC_SYM  <- latex("MDISC")
+MDISC_ITEM <- latex_sub(MDISC_SYM, ITEM_INDEX)
+MIL_PARAM  <- latex("MIL")
 
 #### Agnostic version of the indices: ----
 
@@ -860,7 +865,7 @@ INNER_PROD_MAT_STD_EQ <- latex_eq(INNER_PROD_MAT_EQ, ID_MATRIX)
 
 # MDISC:
 AGNOSTIC_SUBINDEX          <- latex("ag")
-MDISC_AG_PARAM             <- latex_sub(MDISC_PARAM, AGNOSTIC_SUBINDEX)
+MDISC_AG_PARAM             <- latex_sub(MDISC_SYM, AGNOSTIC_SUBINDEX)
 DISCR_VECTOR_AG_INNER_PROD <- latex(DISCR_VECTOR_TRANSP, DISCR_VECTOR)
 DISCR_VECTOR_AG_MODULE     <- latex_sqrt(DISCR_VECTOR_AG_INNER_PROD)
 MDISC_AG_PARAM_EQ          <- latex_def(MDISC_AG_PARAM, DISCR_VECTOR_AG_MODULE)
@@ -903,7 +908,7 @@ DISCR_VECTOR_CORR_INNER_PROD <- latex(
   DISCR_VECTOR
 )
 DISCR_VECTOR_CORR_MODULE     <- latex_sqrt(DISCR_VECTOR_CORR_INNER_PROD)
-MDISC_CORR_PARAM             <- latex_sub(MDISC_PARAM, CORR_MATRIX)
+MDISC_CORR_PARAM             <- latex_sub(MDISC_SYM, CORR_MATRIX)
 MDISC_CORR_PARAM_EQ          <- latex_def(
   MDISC_CORR_PARAM,
   DISCR_VECTOR_CORR_MODULE
@@ -934,7 +939,7 @@ DISCR_VECTOR_COV_INNER_PROD <- latex(
   DISCR_VECTOR
 )
 DISCR_VECTOR_COV_MODULE     <- latex_sqrt(DISCR_VECTOR_COV_INNER_PROD)
-MDISC_COV_PARAM             <- latex_sub(MDISC_PARAM, COV_MATRIX)
+MDISC_COV_PARAM             <- latex_sub(MDISC_SYM, COV_MATRIX)
 MDISC_COV_PARAM_EQ          <- latex_def(
   MDISC_COV_PARAM,
   DISCR_VECTOR_COV_MODULE
@@ -964,10 +969,10 @@ MIL_COV_PARAM_EQ                  <- latex_def(
 ### Parameter properties: ----
 
 # Generalization from unidimensional IRT:
-MDISC_UNIDIM_EQ    <- latex_eq(MDISC_PARAM, DISCR_PARAM)
+MDISC_UNIDIM_EQ    <- latex_eq(MDISC_SYM, DISCR_PARAM)
 DIST_INTERCEPT_REL <- latex_eq(
   INTERCEPT_PARAM,
-  "- $DISTANCE_PARAM$ $MDISC_PARAM$"
+  "- $DISTANCE_PARAM$ $MDISC_SYM$"
 )
 DIAG_KTH_ELEMENT   <- latex(DIM_INDEX, DIM_INDEX, .sep = NO_SEP)
 
@@ -981,7 +986,7 @@ SIGN_COS_VEC_ITEM_EQ <- latex_eq(SIGN_COS_VEC_ITEM, 0)
 
 TRANSF_MATRIX_SQ_CORR_INV_EQ <- latex_eq(INNER_PROD_TRANSF_DEF, CORR_MATRIX_INV)
 MDISC_CORR_PARAM_ITEM        <- latex_sub(
-  MDISC_PARAM,
+  MDISC_SYM,
   "$CORR_MATRIX$$ITEM_INDEX$"
 )
 MIL_CORR_PARAM_ITEM          <- latex_sub(

@@ -18,6 +18,7 @@
 ## ----libraries----
 library(tidyverse)
 library(flextable)
+library(officer)
 library(scales)
 
 ## ----sources----
@@ -25,6 +26,7 @@ source("R/Mirt_toolbox.R")
 source("R/Formulae.R")
 source("R/LaTeX_math.R")
 source("R/Output.R")
+source("R/Constants.R")
 
 ## ---- CONSTANTS: -------------------------------------------------------------
 
@@ -38,8 +40,8 @@ VECTOR_WIDTH <- .3
 PALETTE      <- c("darkred", "darkgoldenrod3", "green3", "cyan3", "blue3")
 
 # Item parameters:
-items_MCLM <- tribble(
-  ~a_1, ~a_2, ~l  ,
+items_M2PL <- tribble(
+  ~a_1, ~a_2, ~d  ,
    2  ,  2  ,  0  ,
    2  , -1  ,  1  ,
   -0.5,  1  , -0.5,
@@ -53,7 +55,10 @@ CORR_ARC     <- acos(CORR_VALUE)
 CORR_ARC_SIN <- sin(CORR_ARC)
 CORR_ARC_TAN <- tan(CORR_ARC)
 
-corr_out <- latex_eq(CORR, CORR_VALUE |> format_prop_like(sig = 1))
+# Table output objects:
+CORR_VALUE_OUT <- CORR_VALUE |> format_prop_like(sig = 1)
+CORR_OBL_OUT   <- latex_eq(CORR, CORR_VALUE_OUT) |> as.character()
+CORR_ORTH_OUT  <- latex_eq(CORR, 0)              |> as.character()
 
 
 ## ---- CONFIGURATION: ---------------------------------------------------------
@@ -76,25 +81,25 @@ theme_set( # `ggplot` output configuration
 ## ----compute-example-items----
 
 # Item parameters:
-items_MCLM <- items_MCLM |> rownames_to_column(var = "item")
+items_M2PL <- items_M2PL |> rownames_to_column(var = ITEM_COLKEY)
 
 # Orthogonal case:
-items_orth <- items_MCLM |> compute_mirt_params(l, starts_with('a_'))
-items_orth <- items_orth |>
-  select(-(rad_1:rad_2)) |>
-  full_join(
-    items_orth |> compute_mirt_coords(
-      D, MDISC, starts_with('cos_'),
-      original_coords = FALSE
-    ),
-    by = "item"
-  )
+items_orth_params <- items_M2PL |> compute_mirt_params(
+  all_of(INTERCEPT_COLKEY), starts_with(DISCR_PREFFIX), # Input parameters
+  dir_out = c(COSINE_DIRTYPE, DEGREE_DIRTYPE)           # Output configuration
+)
+items_orth_coords <- items_orth_params |> compute_mirt_coords(
+  D, MDISC, starts_with(COSINE_DIRTYPE),
+  original_coords = FALSE
+)
+items_orth  <- full_join(items_orth_params, items_orth_coords, by = ITEM_COLKEY)
+
 
 # Oblique case:
 
 ## Compute the transformation matrix P and the correlation matrix R:
 u_1_transf                  <- c(1, - CORR_VALUE / CORR_ARC_SIN)
-u_2_transf                  <- c(0,      1 / CORR_ARC_SIN)
+u_2_transf                  <- c(0,            1 / CORR_ARC_SIN)
 transform_matrix            <- cbind(u_1_transf, u_2_transf) |> unname()
 transform_matrix_inv        <- solve(transform_matrix)
 transform_matrix_transp     <- t(transform_matrix)
@@ -105,62 +110,87 @@ corr_matrix                 <- solve(inner_prod_matrix)
 sqrt_diag_inner_prod_matrix <- diag(inner_prod_matrix) |> diag() |> sqrt()
 
 ## Compute parameters and coordinates:
-items_oblique <- items_MCLM |>
-  compute_mirt_params(l, starts_with('a_'), cov_matrix = corr_matrix)
-items_oblique <- items_oblique |>
-  select(-(rad_1:rad_2))       |>
-  full_join(
-    items_oblique |> compute_mirt_coords(
-      D, MDISC, starts_with('cos_'),
-      transform       = transform_matrix,
-      original_coords = FALSE
-    ),
-    by = "item"
-  )
-
-
-item_params <- full_join(
-  items_orth    |> select(item:deg_2, -starts_with("cos")),
-  items_oblique |> select(item:deg_2, -starts_with("cos")),
-  by     = "item",
-  suffix = c("_orth", "_ob")
+items_oblique_params <- items_M2PL |> compute_mirt_params(
+  all_of(INTERCEPT_COLKEY), starts_with(DISCR_PREFFIX), # Input parameters
+  cov_matrix = corr_matrix,                             # Input correlations
+  dir_out    = c(COSINE_DIRTYPE, DEGREE_DIRTYPE)        # Output configuration
+)
+items_oblique_coords <- items_oblique_params |> compute_mirt_coords(
+  D, MDISC, starts_with(COSINE_DIRTYPE),
+  transform       = transform_matrix,
+  original_coords = FALSE
+)
+items_oblique        <- full_join(
+  items_oblique_params, items_oblique_coords,
+  by = ITEM_COLKEY
 )
 
-item_params <- full_join(items_MCLM, item_params, by = "item")
+item_params <- full_join(
+  items_orth    |> select(item:deg_2, -starts_with(COSINE_DIRTYPE)),
+  items_oblique |> select(item:deg_2, -starts_with(COSINE_DIRTYPE)),
+  by     = ITEM_COLKEY,
+  suffix = paste0('_', c(ORTH_SUFFIX, OBL_SUFFIX))
+)
+
+item_params <- full_join(items_M2PL, item_params, by = ITEM_COLKEY)
 
 
 ## ----compose-example-items-table----
 
 # Add blank columns to format table (separate different types of parameters)
-item_params <- item_params            |>
-  add_column(sep1 = NA, .after = "l") |>
-  add_column(sep2 = NA, .after = "deg_2_orth")
+item_params <- item_params                          |>
+  add_column(sep_1 = NA, .after = INTERCEPT_COLKEY) |>
+  add_column(
+    sep_2  = NA,
+    .after = DEGREE_DIRTYPE |> paste(2, ORTH_SUFFIX, sep = '_')
+  )
 
 # Table header (for flextable object):
 item_headers <- tibble(
-  col_keys = item_params %>% colnames(),
-  metric   = c(
-    "Item",
-    "M2PL"                        |> rep(3),
-    " ",
-    "Multidimensional parameters" |> rep(9)
-  ),
-  corr     = c(
-    "Item",
-    "MCLM"       |> rep(3),
-    " ",
-    latex_eq(CORR, 0L) |> rep(4),
-    " ",
-    corr_out |> rep(4)
-  ),
-  param    = c(
-    "Item",
-    "a_{i1}",
-    "a_{i2}",
-    INTERCEPT_PARAM,
-    c(" ", "MDISC_i", DISTANCE_PARAM, "\\alpha_{i1}", "\\alpha_{i2}") |> rep(2)
-  )
+  col_keys = item_params |> colnames(),
+  metric   = col_keys %>% {
+    case_when(
+                 . == ITEM_COLKEY                        ~ ITEM_TABLE_TITLE,
+                 . == SEP_PREFFIX |> paste(1, sep = '_') ~ ' ',
+                 . == INTERCEPT_COLKEY                   ~ MODEL_ACRONYM,
+      str_detect(.,   DISCR_PREFFIX)                     ~ MODEL_ACRONYM,
+      TRUE                                               ~ MULTIDIM_PARAMS_TITLE
+    )
+  },
+  corr     = col_keys %>% {
+    case_when(
+      str_detect(., SEP_PREFFIX) ~ ' ',
+      str_detect(., ORTH_SUFFIX) ~ CORR_ORTH_OUT,
+      str_detect(., OBL_SUFFIX ) ~ CORR_OBL_OUT,
+      TRUE                       ~ metric
+    )
+  },
+  param    = col_keys %>% {
+    case_when(
+                 . == ITEM_COLKEY      ~ ITEM_TABLE_TITLE,
+                 . == INTERCEPT_COLKEY ~ as.character(INTERCEPT_PARAM),
+      str_detect(., SEP_PREFFIX  )     ~ ' ',
+      str_detect(., MDISC_SYM    )     ~ as.character(MDISC_ITEM),
+      str_detect(., DISTANCE_SYM )     ~ as.character(DISTANCE_PARAM),
+      str_detect(., DISCR_PREFFIX)     ~ DISCR_PARAM |> str_replace(
+                                           DIM_INDEX,
+                                           str_extract(., DIGIT_PATTERN)
+                                         ),
+      TRUE                             ~ ANGLE_TS_ITEM |> str_replace(
+                                           DIM_INDEX,
+                                           str_extract(., DIGIT_PATTERN)
+                                         )
+    )
+  }
 )
+
+# c(
+#   ITEM_TABLE_TITLE,
+#   "a_{i1}",
+#   "a_{i2}",
+#   INTERCEPT_PARAM,
+#   c(" ", MDISC_ITEM, DISTANCE_PARAM, "\\alpha_{i1}", "\\alpha_{i2}") |> rep(2)
+# )
 
 # Table formatted as a `flextable` object:
 item_params_output <- item_params                 |>
@@ -174,13 +204,28 @@ item_params_output <- item_params                 |>
     value   = as_paragraph(as_equation(.)),
     use_dot = TRUE
   )                                               |>
-  colformat_double(j = -(1:4), digits = 3)        |>
+  style(
+    i    = 1:2, j = c(2:4, 6:9, 11:14),
+    pr_c = fp_cell(border.bottom = fp_border(width = .5)),
+    part = "header"
+  )                                               |>
+  theme_apa()                                     |>
+  colformat_double(j = -(1:4),        digits = 3) |>
   colformat_double(j = c(8:9, 13:14), digits = 1) |>
-  theme_vanilla()                                 |>
-  align(align = "center", part = "header")        |>
-  set_table_properties(layout = "autofit")        |>
-  fontsize(size = 12, part = "all")               |>
-  font(part = "all", fontname = "Times New Roman")
+  style(
+    pr_p = fp_par(
+      padding.bottom = 3,
+      padding.top    = 3,
+      padding.left   = 4,
+      padding.right  = 4
+    ),
+    part = "all"
+  )                                               |>
+  valign(valign = "bottom", part = "header")      |>
+  align(align   = "center", part = "header")      |>
+  align(align   = "right",  part = "body")        |>
+  fontsize(size = 12,       part = "all")         |>
+  set_table_properties(layout = "autofit")
 
 ## ----compose-oblique-plot----
 plot_oblique <- items_oblique |>
@@ -189,21 +234,21 @@ plot_oblique <- items_oblique |>
     aes(
       origin_transf_1, origin_transf_2,
       xend  = end_transf_1, yend = end_transf_2,
-      size  = I(VECTOR_WIDTH),
       color = item, fill = item
     ),
   )                                                         +
-  geom_abline(slope = CORR_ARC_TAN, size = LINE_WIDTH) +
+  geom_abline(slope = CORR_ARC_TAN, linewidth = LINE_WIDTH) +
   geom_abline(
-    slope     = CORR_ARC_TAN,
+    slope     =  CORR_ARC_TAN,
     intercept = -CORR_ARC_TAN * (-4:4),
-    size      = LINE_WIDTH,
+    linewidth = LINE_WIDTH,
     linetype  = "17"
   )                                                         +
-  geom_hline(yintercept = 0, size = LINE_WIDTH)             +
+  geom_hline(yintercept = 0, linewidth = LINE_WIDTH)        +
   geom_segment(
-    arrow    = arrow(angle = 20, length = unit(10, "points"), type = "closed"),
-    linejoin = "mitre"
+    arrow     = arrow(angle = 20, length = unit(10, "points"), type = "closed"),
+    linejoin  = "mitre",
+    linewidth = LINE_WIDTH
   )                                                         +
   scale_x_continuous(
     limits       = c(-2, 3),
@@ -226,9 +271,9 @@ plot_oblique <- items_oblique |>
   theme(
     axis.line          = element_blank(),
     panel.grid.major.y = element_line(
-      color    = "black",
-      size     = LINE_WIDTH,
-      linetype = "17"
+      color     = "black",
+      linewidth = LINE_WIDTH,
+      linetype  = "17"
     )
   )
 
@@ -240,15 +285,15 @@ plot_orth <- items_orth |>
     aes(
       origin_transf_1, origin_transf_2,
       xend  = end_transf_1, yend = end_transf_2,
-      size  = I(VECTOR_WIDTH),
       color = item, fill = item
     ),
-  ) +
-  geom_vline(xintercept = 0, size = LINE_WIDTH) +
-  geom_hline(yintercept = 0, size = LINE_WIDTH) +
+  )                                                  +
+  geom_vline(xintercept = 0, linewidth = LINE_WIDTH) +
+  geom_hline(yintercept = 0, linewidth = LINE_WIDTH) +
   geom_segment(
-    arrow    = arrow(angle = 20, length = unit(10, "points"), type = "closed"),
-    linejoin = "mitre"
+    arrow     = arrow(angle = 20, length = unit(10, "points"), type = "closed"),
+    linejoin  = "mitre",
+    linewidth = LINE_WIDTH
   ) +
   scale_x_continuous(
     limits       = c(-2.5, 2.5),
@@ -263,13 +308,13 @@ plot_orth <- items_orth |>
     name         = NULL,
     oob          = oob_keep
   ) +
-  scale_color_manual(values = PALETTE)          +
-  coord_fixed(expand = FALSE, clip = "on")      +
+  scale_color_manual(values = PALETTE)               +
+  coord_fixed(expand = FALSE, clip = "on")           +
   theme(
     axis.line        = element_blank(),
     panel.grid.major = element_line(
-      color    = "black",
-      size     = LINE_WIDTH,
-      linetype = "17"
+      color     = "black",
+      linewidth = LINE_WIDTH,
+      linetype  = "17"
     )
   )
