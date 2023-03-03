@@ -404,8 +404,8 @@ DIR_COSINE_PROOF_EQ <- latex_eq(
 ### Proposition 2 ----
 
 # New latent space basis:
-ALT_BASIS              <- latex_cal('A')
-ALT_BASIS_VECTOR_EL    <- latex('v')
+ALT_BASIS              <- latex_cal('C')
+ALT_BASIS_VECTOR_EL    <- latex('w')
 ALT_BASIS_VECTOR       <- latex_bf(ALT_BASIS_VECTOR_EL)
 ALT_BASIS_VECTOR_FIRST <- latex_sub(ALT_BASIS_VECTOR, 1)
 ALT_BASIS_VECTOR_LAST  <- latex_sub(ALT_BASIS_VECTOR, N_DIMS)
@@ -757,7 +757,7 @@ DIR_COS_ITEM_VEC_NORM_DEF    <- latex_frac(
   DISCR_VECTOR_MODULE
 )
 DIR_COS_ITEM_VEC_NORM_EQ     <- latex_eq(
-  DIR_COS_VEC_ORG,
+  DIR_COS_ITEM_VEC,
   DIR_COS_ITEM_VEC_NORM_DEF
 )
 
