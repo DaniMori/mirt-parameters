@@ -103,7 +103,8 @@ Of course, orthogonality is a property of a geometrical space instead of a
 latent trait space.
 Thus, nothing prevents a researcher from interpreting an abstraction such as
 a latent trait space, no matter its structure, as an orthogonal space
---exploratory factor analysis software such as SPSS <!--# Reference needed? -->or
+[@ackerman_creating_1994]
+---exploratory factor analysis software such as SPSS <!--# Reference needed? -->or
 the R package *psych* <!--# Reference needed? -->graphically represent
 factor loadings on orthogonal axes even after an oblique rotation.
 Nevertheless, the assimilation of correlated latent traits to non-orthogonal
