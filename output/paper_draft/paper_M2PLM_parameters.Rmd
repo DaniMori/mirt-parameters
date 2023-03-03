@@ -564,8 +564,8 @@ This space is where the item vectors can be properly represented.
 It is in general different from the latent space $`r LATENT_SPACE`$,
 although there is a bijective relationship between the two sets of spaces.
 Let's consider the model given by Equation \@ref(eq:M2PL-formulation),
-where the latent traits and the parameters $a_i$ are expressed in the same basis
-$`r LS_BASIS`$ in their respective spaces.
+where the latent traits and the parameters $`r DISCR_VECTOR`$ are expressed
+in the same basis $`r LS_BASIS`$ in their respective spaces.
 
 Since the response probability must be invariant, because of Equation
 \@ref(eq:change-basis), parameter $`r DISCR_VECTOR`$ must also be transformed
