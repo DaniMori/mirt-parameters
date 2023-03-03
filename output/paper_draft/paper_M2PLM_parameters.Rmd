@@ -476,9 +476,10 @@ Reckase leverages on the property that the squared direction cosines sum up to 1
 (see Equation 7 therein).
 However, this assertion implicitly assumes orthogonal coordinates,
 so it does not apply in general to $`r DIR_COS_VEC_ORG`$.
-Instead, we may consider the direction cosine vector with the standard basis
+Instead, we may consider the direction cosine vector with an orthonormal basis
 $`r LS_STD_BASIS`$.
-Now, applying Proposition 2 (with $`r ALT_MATRIX_AS_ID`$) we obtain
+Now, applying Proposition 2 (with $`r TRANSFORM_MATRIX_ALT`$
+an orthonormal matrix and $`r ALT_MATRIX_AS_ID`$) we obtain
 
 \begin{equation}
   \begin{split}

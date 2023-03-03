@@ -608,11 +608,7 @@ IRF_MAX_SLOPE_EQ <- latex_eq(IRF_ABBR, IRF_MAX_SLOPE)
 
 # Condition for trasnformation to standard basis:
 ID_MATRIX        <- latex_bf('I')
-ALT_MATRIX_AS_ID <- latex_eq(
-  TRANSFORM_MATRIX_ALT,
-  DIAG_MATRIX_INNER_PROD_ALT,
-  ID_MATRIX
-)
+ALT_MATRIX_AS_ID <- latex_eq(DIAG_MATRIX_INNER_PROD_ALT, ID_MATRIX)
 
 # Director cosines and standardized direction cosines equivalence:
 DIR_COS_AS_DIR_COS_STD         <- latex(
