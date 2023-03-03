@@ -68,7 +68,7 @@ source("R/Constants.R", encoding = 'UTF-8')
 Multidimensional item response theory (MIRT) models have been widely used since
 their inception.<!--# Ref. needed? -->
 The so called *Multidimensional 2-Parameter Logistic*
-[M2PL, @mckinley_extension_1983] model is among the most important
+[`r MODEL_ACRONYM`, @mckinley_extension_1983] model is among the most important
 and widely used ones.
 This is partly due to its close relationship to the common factor model
 [@mcdonald_test_1999], but also to the formal tractability of its formulation.<!--# Ref. needed? -->
@@ -92,7 +92,7 @@ the origin of the multidimensional latent space to
 the maximally discriminating locus of the item.
 The second one, the direction of the vector from the origin to that same locus.
 Following a similar rationale, @reckase_discriminating_1991 derive a
-*multidimensional discrimination* (`r MDISC_PARAM`) parameter definition
+*multidimensional discrimination* (`r MDISC_SYM`) parameter definition
 for that model.
 
 A crucial assumption leading to those formulations is that the axes of the
@@ -211,8 +211,8 @@ with $`r CORR_MATRIX`$ the corresponding correlation matrix
 (also positive definite) and $`r SD_MATRIX`$ a scaling diagonal matrix
 with $`r VAR_COV_EQ`$ (i.e., the variances).
 
-According to the M2PL model, the probability of a positive response to item
-$`r ITEM_INDEX`$ is
+According to the `r MODEL_ACRONYM` model, the probability of
+a positive response to item $`r ITEM_INDEX`$ is
 
 \begin{equation}
   `r M2PL_FORMULATION`,                                  (\#eq:M2PL-formulation)
@@ -911,7 +911,7 @@ opts_knit$set(root.dir = ROOT_DIR)
 ```
 
 ```{r read-chunks-empirical-example}
-read_chunk("src/Empirical_example_Tezza2018.R")
+read_chunk("src/Empirical_example.R")
 ```
 
 ```{r libraries}
