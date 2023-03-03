@@ -549,18 +549,30 @@ Substituting Equation \@ref(eq:dir-cos-vec) in Equation \@ref(eq:slope-max),
 
 Before defining the multidimensional parameters, we need to make a clarification
 regarding the representation of the items in the latent space.
-Equation \@ref(eq:slope-param) makes it clear that a space $`r TEST_SPACE`$
-with basis $`r ITEM_SPACE_BASIS_EQ`$ and inner product matrix
-$`r INNER_PROD_MATRIX_INV`$ can be defined,
-such that $`r INNER_PROD_DISCR_EQ`$ and, subsequently,
-$`r DISCR_VECTOR_MODULE_EQ`$.
-We call $`r TEST_SPACE`$ the *test space* [@zhang_theoretical_1999] of the
-discrimination vectors.
+We call $`r TEST_SPACE`$ the *test space* [@zhang_theoretical_1999] of
+the discrimination vectors.
 This space is where the item vectors can be properly represented.
 It is in general different from the latent space $`r LATENT_SPACE`$,
-although there is a bijective relationship between the two sets of spaces,
-as their inner product matrices are inverse of one another.
+although there is a bijective relationship between the two sets of spaces.
+Let's consider the model given by Equation \@ref(eq:M2PL-formulation),
+where the latent traits and the parameters $a_i$ are expressed in the same basis
+$`r LS_BASIS`$ in their respective spaces.
 
+Since the response probability must be invariant, because of Equation
+\@ref(eq:change-basis), parameter $`r DISCR_VECTOR`$ must also be transformed
+in $`r DISCR_VECTOR_STD`$.
+Equating the probabilities we get $a_1^{'}=P^{-1^T}a_i=M^{-1}Pa_i$ .
+This shows that first a basis change to the standard base is performed and then
+a transformation through $`r INNER_PROD_MATRIX_INV`$,
+so the $`r DISCR_VECTOR_STD`$ are expressed in the standard basis.
+
+\begin{equation}
+  `r DISCR_VECTOR_MODULE_EQ`                     (\#eq:discr-param-squared-norm)
+\end{equation}
+
+Therefore, in the test space, an inner product matrix
+$`r INNER_PROD_MATRIX_INV`$ can be defined such that $`r INNER_PROD_DISCR_EQ`$,
+to keep the norm invariant.
 With this definition we have that
 
 \begin{equation}
@@ -570,14 +582,6 @@ With this definition we have that
     `r SLOPE_MAX_PARAM_NORM_EQ`.
   \end{split}                             (\#eq:item-params-discrimination-norm)
 \end{equation}
-
-It is clear that $`r INNER_PROD_INV_MAT_ELEMENT_EQ`$ were
-$`r INNER_PROD_INV_MAT_ELEMENT`$ is the $`r INNER_PROD_INV_MAT_SUBINDEX`$-th
-element of $`r INNER_PROD_MATRIX_INV`$.
-
-Let $`r LS_STD_BASIS`$ be the standard basis of $`r TEST_SPACE`$.
-Then, $`r BASIS_CHANGE_TS_EQ`$ is the change of basis matrix and
-$`r DISCR_VECTOR_STD_MOD_EQ`$.
 
 Applying Proposition 1,
 
