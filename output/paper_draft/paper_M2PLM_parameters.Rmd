@@ -127,7 +127,7 @@ It is not uncommon to find recent examples of MIRT models where the
 correlation matrix of the latent dimensions is freely estimated
 [see, e.g., @reckase_multidimensional_2009, pp. 224-228]. Despite this, the
 correspondence between correlated latent traits and orthogonal coordinate axes
-is usually implicit in the MIRT literature without further consideration<!--# Exaples? -->
+is usually implicit in the MIRT literature without further consideration<!--# Examples? -->
 [see @zhang_theoretical_1999 for a notable exception].
 Moreover, disregarding this geometrical interpretation may lead to
 misconceptions that put the measurement and its conclusions into question.<!-- completar?? -->
@@ -141,20 +141,19 @@ can be interpreted as the correlation of the corresponding latent dimensions.
 <!-- Problem here: The latent space is not defined like that, according to
 the results of section "Linear algebra of non-orthogonal coordinates". -->
 The general case of MIRT model estimation implies estimating possibly
-non-standard latent dimensions and non-null covariances among them
-(a more realistic case than an identity matrix).
+non-null covariances among latent dimensions, as well as non-standard scales.
 Assuming orthonormality among traits is usually unrealistic, be it in the
 cognitive [e.g., @reckase_multidimensional_2009] or the non-cognitive domain<!--# Reference to example? -->.
 Moreover, certain applications impose the estimation of
 non-identity latent covariance matrices (e.g. multigroup equating) even when<!-- # Reference needed? -->
 interpreting the latent dimensions as substantive constructs is not a goal.
-As we will argue, the usual definitions of the multidimensional difficulty and
-discrimination parameters do not generalize to the non-orthonormal geometry
+As we will argue, the usual definitions of the MID and MDISC parameters
+do not generalize to the non-orthonormal geometry
 necessary to accurately represent correlated latent spaces.
 
 In the non-cognitive domain, the use of so-called negatively-keyed items
---items that tap the negative pole of a certain trait, and thus
-are usually reverse scored-- is also widespread.<!--# Reference and example? -->
+--items that tap the negative pole of a certain trait,
+usually reverse scored-- is also widespread.<!--# Reference and example? -->
 It is common to find instruments that combine
 positively- and negatively-keyed items.
 Moreover, a complex item may have discrimination parameters with opposite signs
@@ -165,14 +164,15 @@ and consider two response categories tapping a different construct each:
 A positive change in the dimension tapped by one category will inevitably
 lead to a decrease in the probability of response to the other category.
 One can easily note that a monotonically decreasing probability for a certain
-dimension is given by a non-positive discrimination parameter
+dimension is given by a negative discrimination parameter
 (and an unchanging probability by a null discrimination parameter),<!--# Actually, this also applies to the cognitive domain, which may not be very well explained. -->
 contrary to the constrains imposed by @reckase_difficulty_1985 [p. 411].
 However, the multidimensional item parameters can also be defined for
 items with monotonically non-increasing probabilities, as we will see.
 
 The main objective of this paper is thus to provide a generalization of
-the MIRT parameters in two aspects: on one hand, in an oblique coordinate system
+the `r MODEL_ACRONYM` multidimensional parameters in two aspects:
+On one hand, in an oblique coordinate system
 that can be soundly applied to the correlated trait case; on the other, to
 items that yield monotonous response probabilities, but in the broader sense of
 unchanging monotony. Additionally, we aim at providing a method for
@@ -186,9 +186,9 @@ the formulation of the multidimensional parameters.
 We will introduce two versions of these indices,
 showing that either the original or one of the new ones is obtained
 as a function of how we define and interpret the latent space.
-Next we discuss the properties of the indices,
+Next we discuss the properties of these indices,
 propose a graphical representation method,
-and present two examples of application of our results.
+and present two practical examples applying them.
 We round up with a discussion about
 the applicability and generalization of our results.
 
@@ -223,10 +223,12 @@ where $`r DISCR_VECTOR`$ is an $`r N_DIMS`$-dimensional vector of discrimination
 parameters, and $`r INTERCEPT_PARAM`$ an intercept parameter related to the
 location of the item in the latent space.
 
-We must make a few remarks here. First, as we are not constraining ourselves to
-cognitive traits, we speak of _positive_ instead of _correct response_.
-This may imply a correct response, if we are talking about a cognitive test, or
-endorsing an item (or a certain response option) in a non-cognitive domain.
+We must stop here and make a few remarks. First, as we are not constraining
+ourselves to cognitive traits,
+we speak of _positive_ instead of _correct response_. This may imply giving
+a correct response indeed, if we are talking about a cognitive test.
+But it may mean endorsing an item (or a certain response option)
+in a non-cognitive domain.
 Second, although not explicitly stated, $`r DISCR_VECTOR`$ is a vector of
 non-negative real numbers in Reckase
 [-@reckase_difficulty_1985, a decrease in the probability of a correct response
@@ -234,16 +236,16 @@ with an increase in ability makes little sense].
 In our case, $`r DISCR_VECTOR`$ is a vector of real numbers; the value
 of the $`r DIM_INDEX`$-th component $`r DISCR_PARAM`$ can be negative if
 the item is *inverse* for (i.e., taps the negative pole of)
-latent dimension $`r DIM_INDEX`$.
+latent dimension $`r DIM_INDEX`$ (e.g. a negatively-keyed item).
 Finally, as responses are not necessarily interpreted as correct or incorrect,
-parameter $`r INTERCEPT_PARAM`$ is said to be related to the item _location_,
+parameter $`r INTERCEPT_PARAM`$ is said to be related to the item _location_
 instead of the item difficulty.
 
 Our aim is to find the point of maximum slope of $`r IRF_ABBR`$ in
 $`r LATENT_SPACE`$. As in @reckase_difficulty_1985, we need to
 reparameterize Equation \@ref(eq:M2PL-formulation) in polar coordinates,
 because the slope is dependent on the direction considered.
-However, Reckase's Equation 3 implicitly assumes orthogonality.
+However, Reckase's Equation 3 implicitly assumes orthogonality, as we will see.
 In order to contemplate the general case,
 we need to introduce a few linear algebra results before proceeding further.
 
@@ -279,10 +281,10 @@ $`r LS_BASIS_INNER_PROD`$ as
 \end{equation}
 
 Thus, inner product $`r LS_BASIS_INNER_PROD`$ has $`r INNER_PROD_MAT_EQ`$ as
-Gram matrix, i.e., $`r INNER_PROD_EQ`$, with $`r INNER_PROD_MAT_ELEMENT_EQ`$ as
+Gram matrix, i.e. $`r INNER_PROD_EQ`$, with $`r INNER_PROD_MAT_ELEMENT_EQ`$ as
 the $`r INNER_PROD_MATRIX_INDEX`$-th element of $`r INNER_PROD_MATRIX`$. As
 $`r TRANSFORM_MATRIX`$ (and consequently $`r TRANSFORM_MATRIX_TRANSP`$) is
-invertible, so $`r INNER_PROD_MATRIX`$ is, and $`r INNER_PROD_MATRIX_INV_EQ`$.
+invertible, so is $`r INNER_PROD_MATRIX`$, and $`r INNER_PROD_MATRIX_INV_EQ`$.
 
 The cosine between two vectors
 
