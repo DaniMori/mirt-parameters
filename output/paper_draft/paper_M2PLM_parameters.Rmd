@@ -460,8 +460,8 @@ The root we are interested in is found for $`r IRF_MAX_SLOPE_EQ`$
 (the other ones occur when $`r IRF_ABBR`$ equals 0 and 1,
 which result in improper values of $`r TRAIT_NORM`$).
 
-The slope in direction $`r DIR_ANGLE_VEC`$ when $`r IRF_MAX_SLOPE_EQ`$ is given
-by
+The slope in direction $`r DIR_ANGLE_ITEM_VEC_EQ`$ when $`r IRF_MAX_SLOPE_EQ`$
+is given by
 
 \begin{equation}
   `r SLOPE_MAX_EQ`.                                             (\#eq:slope-max)
@@ -512,7 +512,7 @@ axes, so we can just apply @reckase_difficulty_1985's results, obtaining
   `r DIR_COS_VEC_STD_EQ`.                                 (\#eq:dir-cos-vec-std)
 \end{equation}
 
-Substituting $`r DIR_COS_VEC_STD`$
+Substituting $`r DIR_COS_ITEM_VEC_STD`$
 (Equation \@ref(eq:direction-cosine-vectors-eq)) and
 $`r DISCR_VECTOR_STD`$ (Equation \@ref(eq:discr-vector-std))
 by their respective expressions results in the
