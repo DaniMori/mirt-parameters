@@ -495,7 +495,7 @@ Thus, the `r MODEL_ACRONYM` model is expressed in polar coordinates as
 As Equation \@ref(eq:M2PL-formula-polar) shows, the inner product matrix is
 involved in the expression of the model in polar coordinates.
 Importantly, this shows that @reckase_difficulty_1985's Equation 3 (p. 403)
-already assumes the orthonormality of the latent space.
+already assumes the orthonormality of the latent space, as we stated before.
 
 ## Point of maximum slope
 
