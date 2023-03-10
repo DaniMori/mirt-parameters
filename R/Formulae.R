@@ -203,12 +203,15 @@ TRAIT_VECTOR_STD_TRANSP <- latex_raised_to(
   exp = "{$LS_STD_BASIS$T}"
 )
 TRAIT_VECTOR_STD_SQ     <- latex(TRAIT_VECTOR_STD_TRANSP, TRAIT_STD_COORDS)
-TRAIT_VECTOR_TRANSP     <- latex_transp(TRAIT_VECTOR)
+TRAIT_COORDS_TRANSP     <- latex_raised_to(
+  TRAIT_VECTOR, # TODO: Transposing a "vector in basis" may typeset wrongly
+  exp = "{$LS_BASIS$T}"
+)
 INNER_PROD_TRANSF_DEF   <- latex(TRANSFORM_MATRIX_TRANSP, TRANSFORM_MATRIX)
 TRAIT_TRANSF_TRAIT      <- latex(
-  TRAIT_VECTOR_TRANSP,
+  TRAIT_COORDS_TRANSP,
   INNER_PROD_TRANSF_DEF,
-  TRAIT_VECTOR
+  TRAIT_COORDS
 )
 TRAIT_NORM_SQ_EQ    <- latex_eq(
   TRAIT_NORM_SQ,
@@ -223,17 +226,19 @@ INNER_PROD_MAT_EQ <- latex_eq(INNER_PROD_MATRIX, INNER_PROD_TRANSF_DEF)
 # Ancillary latent vectors:
 AUX_INDEX             <- latex('j')
 TRAIT_VECTOR_J        <- latex_sub(TRAIT_VECTOR, AUX_INDEX)
-TRAIT_VECTOR_J_TRANSP <- latex_transp(TRAIT_VECTOR_J)
 TRAIT_VECTOR_K        <- latex_sub(TRAIT_VECTOR, DIM_INDEX)
+TRAIT_COORDS_J        <- latex_sub(TRAIT_COORDS, AUX_INDEX)
+TRAIT_COORDS_J_TRANSP <- latex_transp(TRAIT_COORDS_J)
+TRAIT_COORDS_K        <- latex_sub(TRAIT_COORDS, DIM_INDEX)
 
 # Inner product definition:
 INNER_PROD_TRAIT  <- latex_innerprod(TRAIT_VECTOR_J, TRAIT_VECTOR_K)
 INNER_PROD_TRANSF <- latex(
-  TRAIT_VECTOR_J_TRANSP,
+  TRAIT_COORDS_J_TRANSP,
   INNER_PROD_MATRIX,
-  TRAIT_VECTOR_K
+  TRAIT_COORDS_K
 )
-INNER_PROD_EQ     <- latex_eq(INNER_PROD_TRAIT,  INNER_PROD_TRANSF)
+INNER_PROD_EQ     <- latex_eq(INNER_PROD_TRAIT, INNER_PROD_TRANSF)
 
 # Inner product matrix element:
 INNER_PROD_MAT_ELEMENT     <- latex_sub(
