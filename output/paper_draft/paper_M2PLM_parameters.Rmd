@@ -280,7 +280,7 @@ $`r LS_BASIS_INNER_PROD`$ as
 \end{equation}
 
 Thus, inner product $`r LS_BASIS_INNER_PROD`$ has $`r INNER_PROD_MAT_EQ`$ as
-Gram matrix, i.e., $`r INNER_PROD_EQ`$, with $`r INNER_PROD_MAT_ELEMENT_EQ`$ as
+Gram matrix, i.e.$\langle \theta_j, \theta_k \rangle_B=\theta_j^{BT}M\theta_k^{B}$ with $`r INNER_PROD_MAT_ELEMENT_EQ`$ as
 the $`r INNER_PROD_MATRIX_INDEX`$-th element of $`r INNER_PROD_MATRIX`$. As
 $`r TRANSFORM_MATRIX`$ (and consequently $`r TRANSFORM_MATRIX_TRANSP`$) is
 invertible, so $`r INNER_PROD_MATRIX`$ is, and $`r INNER_PROD_MATRIX_INV_EQ`$.
@@ -334,6 +334,8 @@ For every $`r DIM_INDEX`$; $`r DIM_ENUM_EQ`$,
 \begin{equation}
   `r DIR_COSINE_PROOF_EQ`,
 \end{equation}
+
+BE CAREFUL with $e_k$
 
 with $`r INNER_PROD_MATRIX_ROW`$ the $`r DIM_INDEX`$-th row of
 $`r INNER_PROD_MATRIX`$.
@@ -572,10 +574,9 @@ in the same basis $`r LS_BASIS`$ in their respective spaces.
 Since the response probability must be invariant, because of Equation
 \@ref(eq:change-basis), parameter $`r DISCR_VECTOR`$ must also be transformed
 in $`r DISCR_VECTOR_STD`$.
-Equating the probabilities we get $a_1^{'}=P^{-1^T}a_i=M^{-1}Pa_i$ .
-This shows that first a basis change to the standard base is performed and then
-a transformation through $`r INNER_PROD_MATRIX_INV`$,
-so the $`r DISCR_VECTOR_STD`$ are expressed in the standard basis.
+Equating the probabilities we get $a_1^{'}=P^{-1^T}a_i$ .
+
+JUSTIFY
 
 \begin{equation}
   `r DISCR_VECTOR_MODULE_EQ`                     (\#eq:discr-param-squared-norm)
