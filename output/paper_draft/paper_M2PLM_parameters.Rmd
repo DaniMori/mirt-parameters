@@ -204,6 +204,8 @@ which is assumed to be a multivariate normal random variable:
   `r TRAIT_MV_DEF`,
 \end{equation}
 
+NOT NECESSARY
+
 where $`r MEAN_VECTOR`$ is an $n$-element vector of means and
 $`r COV_MATRIX` = `r SD_MATRIX` `r CORR_MATRIX` `r SD_MATRIX`$
 an $n$-dimensional positive definite covariance matrix,
