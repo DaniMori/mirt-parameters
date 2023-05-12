@@ -195,8 +195,8 @@ the applicability and generalization of our results.
 
 ## Model formulation
 
-Consider a $`r N_DIMS`$-dimensional latent space $`r LATENT_SPACE`$,
-defined by vector space $V$ and basis $`r LS_BASIS_EQ`$.
+Consider a $`r N_DIMS`$-dimensional latent space $`r LATENT_SPACE`$
+in basis $`r LS_BASIS_EQ`$.
 A respondent is represented by vector $`r TRAIT_VEC_IN_LS`$,
 which is assumed to be a multivariate normal random variable:
 
