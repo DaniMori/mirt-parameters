@@ -2,7 +2,10 @@
 title: "Ejemplificando art"
 author: "Mario Luzardo"
 date: "2023-07-13"
-output: word_document
+output:
+  word_document:
+    fig_width:  6
+    fig_height: 6
 editor_options:
   markdown:
     canonical: true
