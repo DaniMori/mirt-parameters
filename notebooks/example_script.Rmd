@@ -45,8 +45,8 @@ Base_C=matrix(cbind(c_v1,c_v2),ncol=2)
 ```{r base no ortogonal, include=FALSE}
 b1_v1=c(1,4)
 b1_v2=c(3,1)
-b1_v1=b1_v1/len(b1_v1)
-b1_v2=b1_v2/len(b1_v2)
+b1_v1=b1_v1/len(b1_v1) # Normalized, but not necessary
+b1_v2=b1_v2/len(b1_v2) # Normalized, but not necessary
 Base_1=matrix(cbind(b1_v1,b1_v2),ncol=2)
 ```
 
