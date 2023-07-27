@@ -1,7 +1,7 @@
 ---
 title: "Ejemplificando art"
 author: "Mario Luzardo"
-date: "2023-05-16"
+date: "2023-07-13"
 output: word_document
 ---
 
@@ -21,8 +21,9 @@ library(matlib)
 library(rgl)
 set.seed(123)
 ```
-En esta simulacion queremos ejemplificar lo habllado hasta la fecha
-Prumeramente se generar'a la base canónica y una base no ortogonal $\mathfrak{B}$
+En esta simulacion queremos ejemplificar lo hallado hasta la fecha
+
+Primeramente se generará a la base canónica (puede no ser la canónica, cualquier base ortonormal sirve) y una base no ortogonal $\mathfrak{B}$
 Para simplifcar la base no ortogonal $\mathfrak{B}$  la normalizamos aunque esto no es necesario 
 
 
@@ -107,7 +108,8 @@ En la base Canónica $\mathfrak{E}$ las coordenadas se obtienen mediante la matr
 $$\theta^{\mathfrak{E}}=P\theta^{\mathfrak{B}}$$
 
 ```{r }
-print(P)
+print("La matriz de cambio de base P es")
+P
 ```
 
 Debemos observar que los puntos quedan fijos en el espacio lo que cambia son las coordenadas dado que P es la transformación identidad expresada en ambas bases.
@@ -115,27 +117,40 @@ Debemos observar que los puntos quedan fijos en el espacio lo que cambia son las
 Para mantener invariante la norma debemos definir en el espacio de la habilidad con la base B un producto interno con matriz de Gramm M
 $$ M= P^T P$$
 ```{r }
-print(M)
+print("M resulta")
+M
 ```
 
-Por lo tanto la norma permanece invariante esto se puede comprobar mediante los comandos que siguen.
-
-Consderamos un caso particular de habilidad
-
-
-```{r norma, echo=TRUE, include=TRUE}
+```{r norma, echo=TRUE, include=FALSE}
 theta_C=coord_C[17,]
-theta_C
+#theta_C
 theta_B=solve(Base_1,theta_C)
 norma_B=as.numeric(sqrt(t(theta_B)%*%M%*%theta_B))
 norma_C=as.numeric(sqrt(t(theta_C)%*%theta_C))
-norma_B
-norma_C
+#norma_B
+#norma_C
 ```
+
+
+
+Por lo tanto la norma permanece invariante esto se puede comprobar mediante un ejemplo particular.
+
+Consderamos un caso particular de habilidad dada sus coordenadas en la base canónica por `r round(theta_C,4) ` y su norma usando el producto punto es `r round(norma_C,4) `
+
+Las coordenadas de este punto expresados en la base B son `r round(theta_B,4) ` y su norma utilizando el producto internos con matriz de Gramm M es  `r round(norma_B,4) `
+
 
 
 Es claro que al existir una transformación lineal sobre las coordenadas esto afectará a las varianzas (no a la distribución ya que partimos de una normal) y también las correlaciones.
 
+La relación viene dada por 
+$$Var(coord_C(\theta))=P Var(coord_B(\theta)) P^T$$
+
+$$Cor(coord_C(\theta))=U P Var(coord_B(\theta)) P^T U=UVar(coord_C(\theta))U$$
+
+siendo 
+
+$$U=diag((Var(coord_C(\theta)))^{-1/2})$$
 Veremos como son estas relaciones en el siguiente código
 
 
@@ -153,6 +168,11 @@ U=diag(diag(sqrt(var(coord_C))^(-1)))
 U%*%P%*%var(coord_B)%*%t(P)%*%U
 ```
 
+
+
+
+## Proposición 1
+
 Veamos  como funciona la proposición 1 que dice que 
 
 $$ cos\gamma^B=\frac{D^{-\frac{1}{2}}M \theta^B}{\| \theta \|}$$
@@ -164,17 +184,17 @@ D_inv=solve(D)
 normaC=apply(coord_C,1,len)
 cosdir_B=NULL
 for(i in 1: length(normaC)){
-  aux=(D_inv^(0.5)%*%M%*%coord_B[i,])/normaC[i]  
+  aux=t((D_inv^(0.5)%*%M%*%coord_B[i,])/normaC[i])  
   cosdir_B=rbind(cosdir_B,aux)
 }
-cosdir_B[1:5]
+cosdir_B[1:5,]
 angulos=r2d(acos(cosdir_B))
-angulos[1:5]
+angulos[1:5,]
 ```
-Observemos que la norma que tomamos en la funci'on es la norma respecto a la base canonica. Si queremos considerar la base no ortogonal debe calcularse la norma con el producto interno con matriz M
+Observemos que la norma que tomamos en la función es la norma respecto a la base canonica. Si queremos considerar la base no ortogonal debe calcularse la norma con el producto interno con matriz M
 
 
-#Modelo
+## Modelo
 
 ```{r modelo,include=FALSE}
 a=c(0.5,1.5)
@@ -203,7 +223,9 @@ Consideremos el modelo expresado en la base no ortogonal B con discriminación `
 Con el cambio 
 
 $$a_i^{'}=(P^{-1})^T a_i$$
-se puede modelizar utilizando las coordenadas en la base can'onica
+se puede modelizar utilizando las coordenadas en la base canónica, es decir la ecuación anterior da la transformación de los a al transformar los $\theta$. Esto imlica que si utilizamos las coordeadas de las habilidades en la base can'onica debemos utilizar la $a'$.
+
+Veamos que coinciden ambas modelizaciones
 
 ```{r comprueba}
 P_theta[1:5]
@@ -211,7 +233,7 @@ P_theta_C[1:5]
 ```
 
 
-#Cálculo de punto de máxima pendiente y pendiente
+## Cálculo de punto de máxima pendiente y pendiente
 
 Los cosenos directores respecto a los ejes de la base canónica de la dirección del punto de máxima pendiente son
 
@@ -220,7 +242,7 @@ o con respecto a la base B
 
 $$cos \gamma_i^B=\frac{D^{-\frac{1}{2}} a_i}{\sqrt{a_i^{T}M^{-1}a_i}}$$
 
-La distencia al origen en esta dirección esta dada por
+La distancia al origen en esta dirección esta dada por
 
 $$D_i=\frac{-d_i}{\sqrt{a_i^{T}M^{-1}a_i}}$$
 y la pendiente
@@ -279,3 +301,195 @@ contour(x,y,z,add=T)
 points(punto_x,punto_y,lwd=4, col=5)
 
 ```
+
+## Función de Representación
+Lo anteriore lo podemos representar para cualesquiera bases mediante la función representa
+
+```{r representa}
+# BaseO es la base oblicua u original
+#BaseC base ortogonal cualesquiera
+#K matriz de cambio de base de O a C
+# a y d parámetros del modelo original
+#coord_O coordenadas del rasgo enla base original
+
+representa=function(BaseO,BaseC,K,a,d,coord_O){
+  K_inv=solve(K)
+  M=t(K)%*%K
+  M_inv=solve(M)
+  D=diag(c(len(K[,1]),len(K[,2])))
+  D_inv=solve(D)
+  coord_C=t(apply(coord_O, 1, function(x) K %*% as.matrix(x)))
+  a_p=t(K_inv)%*%a
+  #cosenos directores entre la base C y a_p
+  cos_gamma_C=a_p/len(a_p)
+  angulo_C=r2d(acos(cos_gamma_C))
+  #cosenos directores entre la base O y a_p
+  cos_gamma_B=(D_inv^(0.5)%*%a)/as.numeric(sqrt(t(a)%*%M_inv%*%a))
+  angulo_B=r2d(acos(cos_gamma_B))
+  dista=-d/as.numeric(sqrt(t(a)%*%M_inv%*%a))
+  slope=as.numeric(sqrt(t(a)%*%M_inv%*%a))/4
+  m=cos_gamma_C[2]/cos_gamma_C[1]
+    if(d==0){
+    punto_x=0
+  }else{
+  punto_x=(dista/abs(dista))*sqrt(dista^2/(1+m^2))}
+  punto_y=m*punto_x
+  #Coordenadas de la BaseO orignal en la BaseC
+  v1= K[,1] # viene de K*c(1,0) pues en la BaseO estas son las coordenadas
+  v2= K[,2] #K * (0,1)
+  plot(coord_C,xlim=c(-4,4),ylim=c(-4,4))
+  arrows(0, 0, v1[1],v1[2] , lwd=3, col=2,code=2)
+  arrows(0, 0, v2[1], v2[2], lwd=3, col=2,code=2)
+  arrows(0, 0, -v1[1],-v1[2] , lwd=3, col=2,code=0)
+  arrows(0, 0, -v2[1], -v2[2], lwd=3, col=2,code=0)
+  arrows(-2, m*(-2), 2, m*2, lwd=3, col=4,code=0)
+  points(punto_x, punto_y,lwd=4, col=5)
+  grid()
+  return(list(direccion=m,D=dista,coord_X=punto_x,coord_Y=punto_y,Slope=slope))  
+}
+
+```
+
+
+Podemos presentar un gráfico de nibel mediante la función repnivel
+
+```{r reprenivel}
+# x, y grilla
+#K matriz de cambio de base de O a C
+# a y d parámetros del modelo original
+#punto_X ,punto_y punto de máximo slope
+
+repnivel<-function(x=seq(-3,3,length=100),y=seq(-3,3,length=100),K,a,d,punto_x,punto_y){
+  a_p=t(solve(K))%*%a
+  ICC=function(x,y){1/(1+exp(-(a_p[1]*x+a_p[2]*y+d)))}  
+  z=outer(x, y, ICC)  
+  image(x,y,z)
+  contour(x,y,z,add=T)
+  points(punto_x,punto_y,lwd=4, col=5)
+}
+```
+
+
+Por ejemplo si usamos nuevamente la base $\mathfrak{B}$ y la canónica pero ahora el ítem tiene a=(0.5,2) y d=1.1
+
+```{r }
+Ej1=representa(Base_1,Base_C,P,c(0.5,2),1.1,coord_B)
+repnivel(seq(-3,3,length=100),seq(-3,3,length=100),P,c(0.5,2),1.1,Ej1$coord_X,Ej1$coord_Y)
+
+```
+
+
+## Test Space
+
+Observemos que el parámetro a ¨vive¨en otro espacio vectorial que $\theta$.
+
+Llamemos a ese espacio vectorial $\mathcal A$.
+
+El modelo de TRI expresa una relación en el espacio de coordenadas de la habilidad y la discriminación y en ese espacio de coordenadas $R^n$ se considera el producto punto.
+En principio el rasgo $\theta$ tiene sus coordenadas expresadas en la base $\mathfrak{B}$ que representa a las reales dimensiones que tiene el rasgo. También las discriminaciones estan expresadas en alguna base que al no tener restricciones previas podemos suponer cualquier base que fijará las transformaciones del espacio.
+En particular supondremos que la base de origen en el espacio $\mathcal A$ tiene como vectores las columnas de $(P^{-1})^T$. La llamaremos $\mathfrak{A}$
+
+Al realizar un cambio de base en el espacio $\Theta$ donde se transforman las coordenadas  de la base $\mathfrak{B}$ a la base $\mathfrak{E}$ (en nuestro caso la canónica) mediante la matriz P a partir de la ecuación de ligadura dada por el modelo observamos que las coordenadas de las dicriminaciones ($a_i$) se trasforman en $a^'_i$ mediante la ecuación 
+
+$$a_i^{'}=(P^{-1})^T a_i$$
+
+Al ser $(P^{-1})^T$ invertible representa una matriz de cambio de base que lleva las coordenasas de $a_i$ expresadas en la base $\mathfrak{A}$ a la base canónica
+
+
+
+Además al tratarse de una transformación identidad la norma de $a_i$ no cambia al expresarse en las diferentes bases. Para mantener esta condición se induce un producto interno en el espacio original con matriz de Gramm $M^{-1}$
+
+$$\parallel a_i^{'} \parallel=a_i^T P^{-1} (P^{-1})^T a_i =a_i^T M^{-1}a_i$$
+
+En nuestro ejemplo la base $\mathfrak{A}$ se puede dibujar
+
+```{r coord3, echo=FALSE, include=TRUE}
+plot(NA,xlim=c(-4,4),ylim=c(-4,4))
+arrows(0, 0, 2*P_invT[1,1],2*P_invT[2,1] , lwd=3, col=2,code=2)
+arrows(0, 0, 2*P_invT[1,2], 2*P_invT[2,2], lwd=3, col=2,code=2)
+grid()
+```
+
+
+## Consideramdo la estructura probabilistica de $\Theta$
+
+Si ahora consideramos la estructura probabilistica de los rasgos por ejemplo
+
+$$\theta \sim N(0, \Sigma)$$
+
+El hecho de que la media sea 0 no hace perder generalidad pies se puede centrar el rasgo.
+
+Suponemos además que la base natural de los rasgos es  $\mathfrak{B}$ que en nuestro ejemplo es 
+
+```{r b1, include=FALSE}
+print(Base_1)
+```
+
+Como ya vimos graficamente tenemos
+
+```{r coord, echo=FALSE, include=TRUE}
+plot(coord_C,xlim=c(-4,4),ylim=c(-4,4))
+arrows(0, 0, 4*Base_1[1,1],4*Base_1[2,1] , lwd=3, col=2,code=2)
+arrows(0, 0, 4*Base_1[1,2], 4*Base_1[2,2], lwd=3, col=2,code=2)
+arrows(0, 0, -3*Base_1[1,1],-3*Base_1[2,1] , lwd=3, col=2,code=0)
+arrows(0, 0, -3*Base_1[1,2], -3*Base_1[2,2], lwd=3, col=2,code=0)
+grid()
+```
+
+La pregunta es cual es la base ortonormal conveniente para tomarnos
+
+```{r DEB, echo=FALSE, include=TRUE}
+aux=eigen(var(coord_B))
+Q=aux$vectors
+Qinv=solve(Q)
+lam=diag(aux$values)
+auxi=Q%*%lam%*%t(Q)
+```
+
+```{r coord2, echo=FALSE, include=TRUE}
+plot(coord_C,xlim=c(-4,4),ylim=c(-4,4))
+arrows(0, 0, 4*Base_1[1,1],4*Base_1[2,1] , lwd=3, col=2,code=2)
+arrows(0, 0, 4*Base_1[1,2], 4*Base_1[2,2], lwd=3, col=2,code=2)
+arrows(0, 0, -3*Base_1[1,1],-3*Base_1[2,1] , lwd=3, col=2,code=0)
+arrows(0, 0, -3*Base_1[1,2], -3*Base_1[2,2], lwd=3, col=2,code=0)
+arrows(0, 0, 4*Q[1,1],4*Q[2,1] , lwd=3, col=3,code=2)
+arrows(0, 0, 4*Q[1,2],4*Q[2,2] , lwd=3, col=3,code=2)
+grid()
+
+```
+ 
+
+El ángulo entre los vectores propios es 1
+
+```{r , echo=FALSE, include=TRUE}
+print(matlib::angle(Q[,1],Q[,2]))
+```
+
+Debemos entonces desarrollar como queda la matriz de cambio de base entre la base $\mathfrak{B}$ y la base de vectores propios $\mathfrak{L}$ de la matriz $\Sigma$
+
+
+Tenemos al descomponer espectralmente a $\Sigma$ que
+
+$$\Sigma=Q \Lambda Q^T$$
+
+con $Q^T=Q^{-1}$
+
+La base $\mathfrak{L}$  tiene como vectores a las columnas de Q 
+
+```{r , echo=FALSE, include=TRUE}
+print(Q)
+```
+
+La matriz de cambio de base entre $\mathfrak{L}$ y $\mathfrak{E}$ es Q por lo tanto la matriz de cambio de base entre $\mathfrak{B}$ y $\mathfrak{L}$ es $$Q^{-1}P$$
+
+Veamos un ejemplo emplendo como base ortogonal los vectores propios de $\Sigma$. El par'ametro a=(0.5,2) y d=1.1
+
+```{r , echo=FALSE, include=TRUE}
+a=c(0.5,2) 
+d=1.1
+Kform1=solve(Q)%*%P
+Ej2=representa(Base_1,Q,Kform1,a,d,coord_B)
+repnivel(seq(-3,3,length=100),seq(-3,3,length=100),Kform1,a,d,Ej2$coord_X,Ej2$coord_Y)
+print(Ej2)
+```
+
