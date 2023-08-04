@@ -98,18 +98,18 @@ M2PL_FORMULATION <- latex_eq(IRF_M2PL, IRF_ABBR, LOGISTIC_M2PL)
 
 ### Change of basis in the latent space ----
 
-# Standard basis definition:
-STD_BASIS_VECTOR_EL   <- latex('e')
-STD_BASIS_VECTOR      <- latex_bf(STD_BASIS_VECTOR_EL)
-LATENT_SPACE_STD      <- latex_prime(LATENT_SPACE)
-LS_STD_BASIS          <- latex_cal('E')
-LS_STD_BASIS_ELEMENTS <- latex_enum(
-  latex_sub(STD_BASIS_VECTOR, 1),
+# Orthonormal basis definition:
+ORTH_BASIS_VECTOR_EL   <- latex('e')
+ORTH_BASIS_VECTOR      <- latex_bf(ORTH_BASIS_VECTOR_EL)
+LATENT_SPACE_STD       <- latex_prime(LATENT_SPACE)
+LS_ORTH_BASIS          <- latex_cal('E')
+LS_ORTH_BASIS_ELEMENTS <- latex_enum(
+  latex_sub(ORTH_BASIS_VECTOR, 1),
   ELLIPSIS,
-  latex_sub(STD_BASIS_VECTOR, N_DIMS)
+  latex_sub(ORTH_BASIS_VECTOR, N_DIMS)
 )
-LS_STD_BASIS_SET      <- latex_curlybraces(LS_STD_BASIS_ELEMENTS)
-LS_STD_BASIS_EQ       <- latex_eq(LS_STD_BASIS, LS_STD_BASIS_SET)
+LS_ORTH_BASIS_SET      <- latex_curlybraces(LS_ORTH_BASIS_ELEMENTS)
+LS_ORTH_BASIS_EQ       <- latex_eq(LS_ORTH_BASIS, LS_ORTH_BASIS_SET)
 
 # Vector definition in original basis:
 BASIS_VECTOR_ANY       <- latex_sub(BASIS_VECTOR, DIM_INDEX)
@@ -122,14 +122,14 @@ TRAIT_VECTOR_DEF_BASIS <- latex_summation(
   .par = FALSE
 )
 
-# Vector definition in standard basis:
-TRAIT_VEC_STD_COMP            <- latex_raised_to(
+# Vector definition in orthonormal basis:
+TRAIT_VEC_ORTH_COMP         <- latex_raised_to(
   TRAIT_COMPONENT,
-  exp = LS_STD_BASIS
+  exp = LS_ORTH_BASIS
 )
-STD_BASIS_VECTOR_ANY          <- latex_sub(STD_BASIS_VECTOR, DIM_INDEX)
-TRAIT_VECTOR_DEF_STD_BASIS    <- latex_summation(
-  TRAIT_VEC_STD_COMP, STD_BASIS_VECTOR_ANY,
+ORTH_BASIS_VECTOR_ANY       <- latex_sub(ORTH_BASIS_VECTOR, DIM_INDEX)
+TRAIT_VECTOR_DEF_ORTH_BASIS <- latex_summation(
+  TRAIT_VEC_ORTH_COMP, ORTH_BASIS_VECTOR_ANY,
   index = DIM_INDEX, from = 1, to = N_DIMS,
   .par = FALSE
 )
@@ -137,46 +137,46 @@ TRAIT_VECTOR_DEF_STD_BASIS    <- latex_summation(
 TRAIT_VECTOR_DEF_EQ <- latex_eq(
   TRAIT_VECTOR,
   TRAIT_VECTOR_DEF_BASIS,
-  TRAIT_VECTOR_DEF_STD_BASIS
+  TRAIT_VECTOR_DEF_ORTH_BASIS
 )
 
-# Trait coordinates in both original and standard bases:
-TRAIT_COORDS         <- latex_raised_to(TRAIT_VECTOR, exp = LS_BASIS)
-TRAIT_COORDS_DEF     <- latex_coords(TRAIT_VECTOR, LS_BASIS)
-TRAIT_COORDS_EQ      <- latex_eq(TRAIT_COORDS, TRAIT_COORDS_DEF)
-TRAIT_STD_COORDS     <- latex_raised_to(TRAIT_VECTOR, exp = LS_STD_BASIS)
-TRAIT_COORDS_STD_DEF <- latex_coords(TRAIT_VECTOR, LS_STD_BASIS)
-TRAIT_COORDS_STD_EQ  <- latex_eq(TRAIT_STD_COORDS, TRAIT_COORDS_STD_DEF)
+# Trait coordinates in both original and orthonormal bases:
+TRAIT_COORDS          <- latex_raised_to(TRAIT_VECTOR, exp = LS_BASIS)
+TRAIT_COORDS_DEF      <- latex_coords(TRAIT_VECTOR, LS_BASIS)
+TRAIT_COORDS_EQ       <- latex_eq(TRAIT_COORDS, TRAIT_COORDS_DEF)
+TRAIT_ORTH_COORDS     <- latex_raised_to(TRAIT_VECTOR, exp = LS_ORTH_BASIS)
+TRAIT_COORDS_ORTH_DEF <- latex_coords(TRAIT_VECTOR, LS_ORTH_BASIS)
+TRAIT_COORDS_ORTH_EQ  <- latex_eq(TRAIT_ORTH_COORDS, TRAIT_COORDS_ORTH_DEF)
 
 # Change of basis matrix:
 TRANSFORM_MATRIX <- latex_bf('P')
-BASIS_CHANGE_SYM <- latex_basis_change(LS_BASIS, LS_STD_BASIS)
+BASIS_CHANGE_SYM <- latex_basis_change(LS_BASIS, LS_ORTH_BASIS)
 BASIS_CHANGE_DEF <- latex_eq(TRANSFORM_MATRIX, BASIS_CHANGE_SYM)
 
-# Basis vector coordinates in standard basis:
-BASIS_VEC_ANY_STD_COORDS     <- latex_raised_to(
+# Basis vector coordinates in orthonormal basis:
+BASIS_VEC_ANY_ORTH_COORDS     <- latex_raised_to(
   BASIS_VECTOR_ANY,
-  exp = LS_STD_BASIS
+  exp = LS_ORTH_BASIS
 )
-BASIS_VECTOR_ANY_TRANSF_DEF <- latex_coords(BASIS_VECTOR_ANY, LS_STD_BASIS)
+BASIS_VECTOR_ANY_TRANSF_DEF <- latex_coords(BASIS_VECTOR_ANY, LS_ORTH_BASIS)
 BASIS_VECTOR_ANY_TRANSF_EQ  <- latex_eq(
-  BASIS_VEC_ANY_STD_COORDS,
+  BASIS_VEC_ANY_ORTH_COORDS,
   BASIS_VECTOR_ANY_TRANSF_DEF
 )
 
 # Latent vector change of basis
 TRAIT_TRANSFORM <- latex(TRANSFORM_MATRIX, TRAIT_COORDS)
-BASIS_CHANGE    <- latex_eq(TRAIT_STD_COORDS, TRAIT_TRANSFORM)
+BASIS_CHANGE    <- latex_eq(TRAIT_ORTH_COORDS, TRAIT_TRANSFORM)
 
 # Change of basis matrix definition:
 TRANSFORM_MATRIX_TRANSP   <- latex_transp(TRANSFORM_MATRIX)
 BASIS_VECTOR_FIRST_TRANSF <- latex_raised_to(
   BASIS_VECTOR_FIRST,
-  exp = LS_STD_BASIS
+  exp = LS_ORTH_BASIS
 )
 BASIS_VECTOR_LAST_TRANSF  <- latex_raised_to(
   BASIS_VECTOR_LAST,
-  exp = LS_STD_BASIS
+  exp = LS_ORTH_BASIS
 )
 LS_BASIS_ELEMENTS_TRANSF  <- latex_enum(
   BASIS_VECTOR_FIRST_TRANSF,
@@ -189,20 +189,20 @@ TRANSFORM_MATRIX_EQ       <- latex_eq(TRANSFORM_MATRIX, TRANSFORM_MATRIX_DEF)
 # Original basis inner product:
 LS_BASIS_INNER_PROD     <- latex_innerprod(basis = LS_BASIS)
 TRAIT_NORM_LS_BASIS     <- latex_norm(TRAIT_VECTOR, basis = LS_BASIS)
-TRAIT_NORM_LS_STD_BASIS <- latex_norm(TRAIT_VECTOR, basis = LS_STD_BASIS)
+TRAIT_NORM_LS_ORTH_BASIS <- latex_norm(TRAIT_VECTOR, basis = LS_ORTH_BASIS)
 TRAIT_NORM_EQ           <- latex_eq(
   TRAIT_NORM_LS_BASIS,
-  TRAIT_NORM_LS_STD_BASIS
+  TRAIT_NORM_LS_ORTH_BASIS
 )
 
 # Latent vector invariance condition:
 TRAIT_NORM              <- latex_norm(TRAIT_VECTOR)
 TRAIT_NORM_SQ           <- latex_squared(TRAIT_NORM)
-TRAIT_VECTOR_STD_TRANSP <- latex_raised_to(
+TRAIT_VECTOR_ORTH_TRANSP <- latex_raised_to(
   TRAIT_VECTOR, # TODO: Transposing a "vector in basis" may typeset wrongly
-  exp = "{$LS_STD_BASIS$T}"
+  exp = "{$LS_ORTH_BASIS$T}"
 )
-TRAIT_VECTOR_STD_SQ     <- latex(TRAIT_VECTOR_STD_TRANSP, TRAIT_STD_COORDS)
+TRAIT_VECTOR_ORTH_SQ     <- latex(TRAIT_VECTOR_ORTH_TRANSP, TRAIT_ORTH_COORDS)
 TRAIT_COORDS_TRANSP     <- latex_raised_to(
   TRAIT_VECTOR, # TODO: Transposing a "vector in basis" may typeset wrongly
   exp = "{$LS_BASIS$T}"
@@ -215,7 +215,7 @@ TRAIT_TRANSF_TRAIT      <- latex(
 )
 TRAIT_NORM_SQ_EQ    <- latex_eq(
   TRAIT_NORM_SQ,
-  TRAIT_VECTOR_STD_SQ,
+  TRAIT_VECTOR_ORTH_SQ,
   TRAIT_TRANSF_TRAIT
 )
 
@@ -384,6 +384,9 @@ DIR_COS_DEF_COORDS <- latex_frac(
 )
 
 # Inner product (defined with standard basis vector):
+STD_BASIS_VECTOR_EL         <- latex('b')
+STD_BASIS_VECTOR            <- latex_bf(STD_BASIS_VECTOR_EL)
+STD_BASIS_VECTOR_ANY        <- latex_sub(STD_BASIS_VECTOR, sub = DIM_INDEX)
 STD_BASIS_VECTOR_ANY_TRANSP <- latex_transp(STD_BASIS_VECTOR_ANY)
 DIR_COS_DEF_BASIS_VEC       <- latex_frac(
   latex(STD_BASIS_VECTOR_ANY_TRANSP, INNER_PROD_MATRIX, TRAIT_COORDS), # Numer.
@@ -425,8 +428,8 @@ ALT_BASIS_EQ        <- latex_eq(ALT_BASIS, ALT_BASIS_SET)
 # Inner product in new basis :
 ALT_BASIS_INNER_PROD <- latex_innerprod(basis = ALT_BASIS)
 
-# Direction cosine vectors (in standard basis):
-DIR_ANGLE_VEC_STD <- latex_raised_to(DIR_ANGLE_VEC, exp = LS_STD_BASIS)
+# Direction cosine vectors (in orthonormal basis):
+DIR_ANGLE_VEC_STD <- latex_raised_to(DIR_ANGLE_VEC, exp = LS_ORTH_BASIS)
 DIR_COS_VEC_STD   <- latex_cos(DIR_ANGLE_VEC_STD)
 
 # Direction cosine vectors equivalence (new and original bases):
@@ -466,8 +469,8 @@ DIAG_MATRIX_INNER_PROD_ALT_EQ  <- latex_eq(
   DIAG_MATRIX_INNER_PROD_ALT_DEF
 )
 
-# Transform matrix definition (from the standard basis to the new basis):
-BASIS_CHANGE_ALT        <- latex_basis_change(ALT_BASIS, LS_STD_BASIS)
+# Transform matrix definition (from the orthonormal basis to the new basis):
+BASIS_CHANGE_ALT        <- latex_basis_change(ALT_BASIS, LS_ORTH_BASIS)
 TRANSFORM_MATRIX_ALT_EQ <- latex_eq(TRANSFORM_MATRIX_ALT, BASIS_CHANGE_ALT)
 
 #### Proof ----
@@ -479,7 +482,7 @@ TRAIT_COORDS_ALT_EQ  <- latex_eq(TRAIT_VECTOR_ALT, TRAIT_COORDS_ALT_DEF)
 
 # Transform matrix definition (from the original to the new basis):
 BASIS_CHANGE_ORG_ALT     <- latex_basis_change(ALT_BASIS, LS_BASIS)
-BASIS_CHANGE_INV         <- latex_basis_change(LS_STD_BASIS, LS_BASIS)
+BASIS_CHANGE_INV         <- latex_basis_change(LS_ORTH_BASIS, LS_BASIS)
 BASIS_CHANGE_ORG_ALT_DEF <- latex(BASIS_CHANGE_INV, BASIS_CHANGE_ALT)
 BASIS_CHANGE_ORG_ALT_EQ  <- latex_eq(
   BASIS_CHANGE_ORG_ALT,
@@ -487,9 +490,9 @@ BASIS_CHANGE_ORG_ALT_EQ  <- latex_eq(
   TRANSFORM_MATRICES_PROD
 )
 
-# Latent trait vector transformation from standard to new basis:
+# Latent trait vector transformation from orthonormal to new basis:
 TRAIT_TRANSFORM_ALT    <- latex(TRANSFORM_MATRIX_ALT, TRAIT_VECTOR_ALT)
-TRAIT_TRANSFORM_ALT_EQ <- latex_eq(TRAIT_STD_COORDS, TRAIT_TRANSFORM_ALT)
+TRAIT_TRANSFORM_ALT_EQ <- latex_eq(TRAIT_ORTH_COORDS, TRAIT_TRANSFORM_ALT)
 
 # Inner product in new basis:
 
@@ -515,9 +518,12 @@ INNER_PROD_MATRIX_ALT_EQ <- latex_eq(
   INNER_PROD_MATRIX_ALT_DEF
 )
 
-# Polar coordinates in standard basis:
-TRAIT_VEC_STD_POLAR_DEF <- latex(DIR_COS_VEC_STD, TRAIT_NORM)
-TRAIT_VEC_STD_POLAR_EQ  <- latex_eq(TRAIT_STD_COORDS, TRAIT_VEC_STD_POLAR_DEF)
+# Polar coordinates in orthonormal basis:
+TRAIT_VEC_ORTH_POLAR_DEF <- latex(DIR_COS_VEC_STD, TRAIT_NORM)
+TRAIT_VEC_ORTH_POLAR_EQ  <- latex_eq(
+  TRAIT_ORTH_COORDS,
+  TRAIT_VEC_ORTH_POLAR_DEF
+)
 
 # Polar coordinates in new basis:
 DIAG_MATRIX_INNER_PROD_ALT_SQ   <- latex_raised_to(
@@ -537,13 +543,13 @@ TRAIT_VEC_ALT_POLAR_DEF         <- latex(TRAIT_VEC_ALT_POLAR_COEFF, TRAIT_NORM)
 TRAIT_VEC_ALT_POLAR_EQ    <- latex_eq(TRAIT_VECTOR_ALT, TRAIT_VEC_ALT_POLAR_DEF)
 
 # Trait coordinate equivalences:
-TRAIT_VEC_STD_POLAR_EQ_XPAND     <- latex_eq(
+TRAIT_VEC_ORTH_POLAR_EQ_XPAND    <- latex_eq(
   BASIS_CHANGE,
-  TRAIT_VEC_STD_POLAR_DEF
+  TRAIT_VEC_ORTH_POLAR_DEF
 )
 TRAIT_VEC_ALT_POLAR_ALT_EQ       <- latex_eq(
   TRAIT_TRANSFORM_ALT_EQ,
-  TRAIT_VEC_STD_POLAR_DEF
+  TRAIT_VEC_ORTH_POLAR_DEF
 )
 TRANSF_TRAIT_VECTOR_POLAR        <- latex(
   TRANSFORM_MATRIX,
@@ -553,13 +559,13 @@ TRANSF_TRAIT_VEC_ALT_POLAR       <- latex(
   TRANSFORM_MATRIX_ALT,
   TRAIT_VEC_ALT_POLAR_DEF
 )
-TRAIT_VEC_STD_POLAR_ORG_EQ       <- latex_eq(
+TRAIT_VEC_ORTH_POLAR_ORG_EQ      <- latex_eq(
   TRANSF_TRAIT_VECTOR_POLAR,
-  TRAIT_VEC_STD_POLAR_DEF
+  TRAIT_VEC_ORTH_POLAR_DEF
 )
-TRAIT_VEC_STD_POLAR_ALT_EQ       <- latex_eq(
+TRAIT_VEC_ORTH_POLAR_ALT_EQ      <- latex_eq(
   TRANSF_TRAIT_VEC_ALT_POLAR,
-  TRAIT_VEC_STD_POLAR_DEF
+  TRAIT_VEC_ORTH_POLAR_DEF
 )
 TRANSF_TRAIT_VEC_POLAR_COEFF     <- latex(
   TRANSFORM_MATRIX,
@@ -611,22 +617,22 @@ IRF_2ND_DIFF_EQ  <- latex_eq(IRF_2ND_DIFF, IRF_2ND_DIFF_DEF)
 IRF_MAX_SLOPE    <- '.5' ## TODO: Format prop-like!!
 IRF_MAX_SLOPE_EQ <- latex_eq(IRF_ABBR, IRF_MAX_SLOPE)
 
-# Condition for trasnformation to standard basis:
+# Condition for transformation to orthonormal basis:
 ID_MATRIX        <- latex_bf('I')
 ALT_MATRIX_AS_ID <- latex_eq(DIAG_MATRIX_INNER_PROD_ALT, ID_MATRIX)
 
-# Director cosines and standardized direction cosines equivalence:
-DIR_COS_AS_DIR_COS_STD         <- latex(
+# Director cosines and orthonormalized direction cosines equivalence:
+DIR_COS_AS_DIR_COS_STD        <- latex(
   TRANSFORM_MATRIX_TRANSP_INV,
   DIAG_MATRIX_INNER_PROD_SQ,
   DIR_COS_VEC_ORG,
 )
-DIR_COS_AS_DIR_COS_STD_EQ      <- latex_eq(
+DIR_COS_AS_DIR_COS_ORTH_EQ    <- latex_eq(
   DIR_COS_VEC_STD,
   DIR_COS_AS_DIR_COS_STD
 )
-TRANF_MATRIX_INV_DIR_COS_STD   <- latex(TRANSFORM_MATRIX_INV, DIR_COS_VEC_STD)
-TRAIT_POLAR_COEFF_COS_STD_EQ   <- latex_eq(
+TRANF_MATRIX_INV_DIR_COS_STD  <- latex(TRANSFORM_MATRIX_INV, DIR_COS_VEC_STD)
+TRAIT_POLAR_COEFF_COS_ORTH_EQ <- latex_eq(
   TRANF_MATRIX_INV_DIR_COS_STD,
   TRAIT_VECTOR_POLAR_COEFF
 )
@@ -793,7 +799,7 @@ INNER_PROD_INV_MAT_ELEMENT_EQ <- latex_eq(
 )
 
 # Change of basis matrix:
-BASIS_CHANGE_TEST_SPACE <- latex_basis_change(ITEM_SPACE_BASIS, LS_STD_BASIS) # TODO: Standard basis OK?
+BASIS_CHANGE_TEST_SPACE <- latex_basis_change(ITEM_SPACE_BASIS, LS_ORTH_BASIS) # TODO: Orthogonal basis OK?
 BASIS_CHANGE_TS_EQ      <- latex_eq(
   BASIS_CHANGE_TEST_SPACE,
   TRANSFORM_MATRIX_TRANSP_INV
@@ -865,7 +871,7 @@ MIL_PARAM  <- latex("MIL")
 #### Agnostic version of the indices: ----
 
 # Condition to meet:
-BASIS_EQ              <- latex_equiv(LS_BASIS, LS_STD_BASIS)
+BASIS_EQ              <- latex_equiv(LS_BASIS, LS_ORTH_BASIS)
 INNER_PROD_MAT_STD_EQ <- latex_eq(INNER_PROD_MAT_EQ, ID_MATRIX)
 
 # MDISC:
@@ -891,14 +897,14 @@ MV_DISTR_STD    <- latex(
   NORMAL_DISTR,
   latex_parentheses("$MEAN_VECTOR_STD$, $COV_MATRIX_STD$")
 )
-TRAIT_MV_STD_EQ <- latex_sim(TRAIT_STD_COORDS, MV_DISTR_STD)
+TRAIT_MV_STD_EQ <- latex_sim(TRAIT_ORTH_COORDS, MV_DISTR_STD)
 
 # Transformed latent vector as orthonormal:
 MV_DISTR_STD_NORM    <- latex(
   NORMAL_DISTR,
   latex_parentheses("$MEAN_VECTOR_STD$, $ID_MATRIX$")
 )
-TRAIT_MV_STD_NORM_EQ <- latex_sim(TRAIT_STD_COORDS, MV_DISTR_STD_NORM)
+TRAIT_MV_STD_NORM_EQ <- latex_sim(TRAIT_ORTH_COORDS, MV_DISTR_STD_NORM)
 
 #### Correlation-based version of the indices: ----
 
