@@ -232,7 +232,11 @@ TRAIT_COORDS_J_TRANSP <- latex_transp(TRAIT_COORDS_J)
 TRAIT_COORDS_K        <- latex_sub(TRAIT_COORDS, DIM_INDEX)
 
 # Inner product definition:
-INNER_PROD_TRAIT  <- latex_innerprod(TRAIT_VECTOR_J, TRAIT_VECTOR_K)
+INNER_PROD_TRAIT  <- latex_innerprod(
+  TRAIT_VECTOR_J,
+  TRAIT_VECTOR_K,
+  basis = LS_BASIS
+)
 INNER_PROD_TRANSF <- latex(
   TRAIT_COORDS_J_TRANSP,
   INNER_PROD_MATRIX,
