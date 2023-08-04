@@ -196,8 +196,8 @@ the applicability and generalization of our results.
 
 ## Model formulation
 
-Consider a $`r N_DIMS`$-dimensional latent space $`r LATENT_SPACE`$,
-defined by vector space $V$ and basis $`r LS_BASIS_EQ`$.
+Consider a $`r N_DIMS`$-dimensional latent space $`r LATENT_SPACE`$
+in basis $`r LS_BASIS_EQ`$.
 A respondent is represented by vector $`r TRAIT_VEC_IN_LS`$,
 which is assumed to be a multivariate normal random variable:
 
@@ -251,10 +251,10 @@ we need to introduce a few linear algebra results before proceeding further.
 
 ## Linear algebra of non-orthogonal coordinates
 
-Let's consider an orthonormal basis $`r LS_STD_BASIS_EQ`$ in $`r LATENT_SPACE`$
+Let's consider an orthonormal basis $`r LS_ORTH_BASIS_EQ`$ in $`r LATENT_SPACE`$
 with the dot product as inner product.
-Let $`r TRAIT_COORDS_EQ`$ and $`r TRAIT_COORDS_STD_EQ`$ be the coordinates of
-any $`r TRAIT_VEC_IN_LS`$ in $`r LS_BASIS`$ and $`r LS_STD_BASIS`$,
+Let $`r TRAIT_COORDS_EQ`$ and $`r TRAIT_COORDS_ORTH_EQ`$ be the coordinates of
+any $`r TRAIT_VEC_IN_LS`$ in $`r LS_BASIS`$ and $`r LS_ORTH_BASIS`$,
 respectively, such that $`r TRAIT_VECTOR_DEF_EQ`$.
 
 Let $`r BASIS_CHANGE_DEF`$ be the change of basis matrix between the two bases;
@@ -265,7 +265,7 @@ then, we have that
 \end{equation}
 
 The $`r DIM_INDEX`$-th column of $`r TRANSFORM_MATRIX`$ is given by the
-coordinates of $`r BASIS_VECTOR_ANY`$ in basis $`r LS_STD_BASIS`$;
+coordinates of $`r BASIS_VECTOR_ANY`$ in basis $`r LS_ORTH_BASIS`$;
 formally, if $`r BASIS_VECTOR_ANY_TRANSF_EQ`$, then
 
 \begin{equation}
@@ -368,7 +368,8 @@ For every $`r DIM_INDEX`$; $`r DIM_ENUM_EQ`$,
   `r DIR_COSINE_PROOF_EQ`,
 \end{equation}
 
-with $`r INNER_PROD_MATRIX_ROW`$ the $`r DIM_INDEX`$-th row of
+with $`r STD_BASIS_VECTOR_ANY`$ the $`r DIM_INDEX`$-th standard unitary vector,
+and $`r INNER_PROD_MATRIX_ROW`$ the $`r DIM_INDEX`$-th row of
 $`r INNER_PROD_MATRIX`$.
 
 Therefore, $`r DIR_COS_VEC_EQ`$ and $`r TRAIT_VECTOR_POLAR_EQ`$.
@@ -387,7 +388,7 @@ the norm of the space invariant.
 
 
 Let $`r DIR_COS_VEC_STD`$ and $`r DIR_COS_VEC_ALT`$ be the vectors of
-direction cosines of $`r TRAIT_VECTOR`$ in $`r LS_STD_BASIS`$ and
+direction cosines of $`r TRAIT_VECTOR`$ in $`r LS_ORTH_BASIS`$ and
 $`r ALT_BASIS`$, respectively.
 
 Then,
@@ -418,7 +419,7 @@ $`r INNER_PROD_MATRIX_ALT_EQ`$.
 
 By proposition 1, for each case we have:
 
-1. $`r TRAIT_VEC_STD_POLAR_EQ`$
+1. $`r TRAIT_VEC_ORTH_POLAR_EQ`$
 
 1. $`r TRAIT_VECTOR_POLAR_EQ`$
 
@@ -427,7 +428,7 @@ By proposition 1, for each case we have:
 Given (1),
 
 \begin{equation}
-  `r TRAIT_VEC_STD_POLAR_EQ_XPAND`
+  `r TRAIT_VEC_ORTH_POLAR_EQ_XPAND`
 \end{equation}
 
 and
@@ -439,13 +440,13 @@ and
 Using (2) and (3) we get that
 
 \begin{equation}
-  `r TRAIT_VEC_STD_POLAR_ORG_EQ`
+  `r TRAIT_VEC_ORTH_POLAR_ORG_EQ`
 \end{equation}
 
 and
 
 \begin{equation}
-  `r TRAIT_VEC_STD_POLAR_ALT_EQ`.
+  `r TRAIT_VEC_ORTH_POLAR_ALT_EQ`.
 \end{equation}
 
 Therefore,
@@ -520,14 +521,14 @@ Reckase leverages on the property that the squared direction cosines sum up to 1
 However, this assertion implicitly assumes orthogonal coordinates,
 so it does not apply in general to $`r DIR_COS_VEC_ORG`$.
 Instead, we may consider the direction cosine vector with an orthonormal basis
-$`r LS_STD_BASIS`$.
+$`r LS_ORTH_BASIS`$.
 Now, applying Proposition 2 (with $`r TRANSFORM_MATRIX_ALT`$
 an orthonormal matrix and $`r ALT_MATRIX_AS_ID`$) we obtain
 
 \begin{equation}
   \begin{split}
-    `r DIR_COS_AS_DIR_COS_STD_EQ` \\
-    `r TRAIT_POLAR_COEFF_COS_STD_EQ`.
+    `r DIR_COS_AS_DIR_COS_ORTH_EQ` \\
+    `r TRAIT_POLAR_COEFF_COS_ORTH_EQ`.
   \end{split}                                 (\#eq:direction-cosine-vectors-eq)
 \end{equation}
 
