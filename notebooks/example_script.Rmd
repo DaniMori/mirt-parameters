@@ -501,24 +501,57 @@ $$\Sigma=Q \Lambda Q^T$$
 
 con $Q^T=Q^{-1}$
 
-La base $\mathfrak{L}$ tiene como vectores a las columnas de Q
+La descomposicion espectral se expresa en la base canónica tanto para los datos
+con coordenadas en la base $\mathfrak{B}$ como en la base $\mathfrak{E}$.
 
-```{r , echo=FALSE, include=TRUE}
-print(Q)
-```
+Si descomponemos $Sigma_E$ (con los datos en la base canónica) entonces
 
-La matriz de cambio de base entre $\mathfrak{L}$ y $\mathfrak{E}$ es Q por lo
-tanto la matriz de cambio de base entre $\mathfrak{B}$ y $\mathfrak{L}$ es
-$$Q^{-1}P$$
+$$
+\Sigma_E = Q_E \Lambda_E Q_E^T
+$$
 
-Veamos un ejemplo emplendo como base ortogonal los vectores propios de $\Sigma$.
-El parámetro a=(0.5,2) y d=1.1
+y lo propio con $\Sigma$ (con las coordenadas oblicuas)
 
-```{r , echo=FALSE, include=TRUE}
-a=c(0.5,2) 
-d=1.1
-Kform1=solve(Q)%*%P
-Ej2=representa(Base_1,Q,Kform1,a,d,coord_B)
-repnivel(seq(-3,3,length=100),seq(-3,3,length=100),Kform1,a,d,Ej2$coord_X,Ej2$coord_Y)
-print(Ej2)
-```
+$$
+\Sigma = Q \Lambda Q^T
+$$
+
+Además
+
+$$
+\Sigma_E=P \Sigma P^T
+$$
+
+de donde
+
+$$
+Q_E \Lambda_E Q_E^T = P Q \Lambda Q^T P^T
+$$
+
+Si tomamos la matriz $L$ definida como la matriz diagonal que contiene el
+cociente de los valores propios de $\Lambda$ entre $\Lambda_E$
+
+Entonces
+
+$$
+Q_E \Lambda_E Q_E^T = P Q L^{1/2} \Lambda_E (P Q L^{1/2} )^T
+$$
+
+o sea se cumple que
+
+$$
+Q_E = P Q L^{1/2}
+$$
+
+Por otro lado la matriz de cambio de base entre $\mathfrak{B}$ y $\mathfrak{L}$
+es $PQ_E^{-1}$ ya que $Q_E$ es la matriz de cambio de base entre $\mathfrak{B}$
+y la base canónica
+
+Luego la matriz de cambio de base queda
+
+$$
+PQ_E^{-1} = P( PQL^{1/2} )^{-1} = L^{-1/2} PQ^{-1} P^{-1}
+$$
+
+Se puede aplicar con esta matriz de cambio de base los resultados anteriores
+hallados.
