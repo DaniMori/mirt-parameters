@@ -270,6 +270,6 @@ item_params_output <- item_params                          |>
   valign(valign = "bottom", part = "header")               |>
   align(align = "center",   part = "header")               |>
   align(align = "right",    part = "body")                 |>
-  fontsize(size = 12,       part = "header")               |>
+  fontsize(size = 12,       part = "all")                  |>
   fontsize(size = 10,       part = "body")                 |>
   set_table_properties(layout = "autofit")
