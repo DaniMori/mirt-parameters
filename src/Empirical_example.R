@@ -257,6 +257,16 @@ item_params_output <- item_params                          |>
     ),
     part = "all"
   )                                                        |>
+  style(
+    j    = separator_index,
+    pr_p = fp_par(
+      padding.bottom = 1,
+      padding.top    = 2,
+      padding.left   = 1,
+      padding.right  = 1
+    ),
+    part = "all"
+  )                                                        |>
   valign(valign = "bottom", part = "header")               |>
   align(align = "center",   part = "header")               |>
   align(align = "right",    part = "body")                 |>
