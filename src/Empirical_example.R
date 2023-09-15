@@ -251,9 +251,9 @@ item_params_output <- item_params                          |>
   style(
     pr_p = fp_par(
       padding.bottom = 1,
-      padding.top    = 1,
-      padding.left   = 4,
-      padding.right  = 4
+      padding.top    = 2,
+      padding.left   = 3,
+      padding.right  = 3
     ),
     part = "all"
   )                                                        |>

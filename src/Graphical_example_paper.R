@@ -235,8 +235,8 @@ item_params_output <- item_params                          |>
     pr_p = fp_par(
       padding.bottom = 3,
       padding.top    = 3,
-      padding.left   = 4,
-      padding.right  = 4
+      padding.left   = 3,
+      padding.right  = 3
     ),
     part = "all"
   )                                                        |>
