@@ -246,7 +246,7 @@ latex_coords <- function(vector, basis, transpose = FALSE) {
   
   COORDINATES_OP <- latex_rm(COORDINATES_OP)
   
-  result <- latex_sub(COORDINATES_OP, LS_BASIS, .abbr = TRUE)
+  result <- latex_sub(COORDINATES_OP, basis, .abbr = TRUE)
   
   if (transpose) result <- latex_transp(result)
   
