@@ -30,11 +30,9 @@ set.seed(123)
 
 En esta simulacion queremos ejemplificar lo hallado hasta la fecha
 
-Primeramente se generará a la base canónica (puede no ser la canónica, cualquier
-base ortonormal sirve) y una base no ortogonal $\mathfrak{B}$
+Primeramente se generará a la base canónica (puede no ser la canónica, cualquier base ortonormal sirve) y una base no ortogonal $\mathfrak{B}$
 
-Para simplifcar la base no ortogonal $\mathfrak{B}$ la normalizamos aunque esto
-no es necesario
+Para simplifcar la base no ortogonal $\mathfrak{B}$ la normalizamos aunque esto no es necesario
 
 ```{r base canonica, include=FALSE}
 c_v1=c(1,0)
@@ -52,11 +50,9 @@ Base_1=matrix(cbind(b1_v1,b1_v2),ncol=2)
 
 La base no ortogonal es:
 
-$\mathfrak{B}$={$v_1$=(`r b1_v1[1]`, `r b1_v1[2]`) ;$v_2$=(`r b1_v2[1]`,
-`r b1_v2[2]`) }
+$\mathfrak{B}$={$v_1$=(`r b1_v1[1]`, `r b1_v1[2]`) ;$v_2$=(`r b1_v2[1]`, `r b1_v2[2]`) }
 
-Estos vectores tienen norma 1 y un ángulo entre ellos de
-`r round(matlib::angle(Base_1[,1],Base_1[,2]),2)` grados
+Estos vectores tienen norma 1 y un ángulo entre ellos de `r round(matlib::angle(Base_1[,1],Base_1[,2]),2)` grados
 
 Gráficamente los vectores de las bases canónica y B quedan
 
@@ -84,9 +80,7 @@ Entre $v_2$ y $e_1$ `r round(alfa_2_1,2)` grados
 
 Entre $v_2$ y $e_2$ `r round(alfa_2_2,2)` grados
 
-Vamos a silular 2000 coordenadas en la base $\mathfrak{B}$. Tomaremos
-habilidades normales bivariadas correlacionadas 0.5 y con marginales normales
-típicas.
+Vamos a silular 2000 coordenadas en la base $\mathfrak{B}$. Tomaremos habilidades normales bivariadas correlacionadas 0.5 y con marginales normales típicas.
 
 ```{r coordenadas en B, include=FALSE}
 CopulaNormal<-normalCopula(0.5, dim = 2, dispstr = "un")
@@ -113,8 +107,7 @@ arrows(0, 0, -3*Base_1[1,2], -3*Base_1[2,2], lwd=3, col=2,code=0)
 grid()
 ```
 
-En la base Canónica $\mathfrak{E}$ las coordenadas se obtienen mediante la
-matriz de cambio de base P
+En la base Canónica $\mathfrak{E}$ las coordenadas se obtienen mediante la matriz de cambio de base P
 
 $$\theta^{\mathfrak{E}}=P\theta^{\mathfrak{B}}$$
 
@@ -123,11 +116,9 @@ print("La matriz de cambio de base P es")
 P
 ```
 
-Debemos observar que los puntos quedan fijos en el espacio lo que cambia son las
-coordenadas dado que P es la transformación identidad expresada en ambas bases.
+Debemos observar que los puntos quedan fijos en el espacio lo que cambia son las coordenadas dado que P es la transformación identidad expresada en ambas bases.
 
-Para mantener invariante la norma debemos definir en el espacio de la habilidad
-con la base B un producto interno con matriz de Gramm M $$ M= P^T P$$
+Para mantener invariante la norma debemos definir en el espacio de la habilidad con la base B un producto interno con matriz de Gramm M $$ M= P^T P$$
 
 ```{r }
 print("M resulta")
@@ -144,20 +135,13 @@ norma_C=as.numeric(sqrt(t(theta_C)%*%theta_C))
 #norma_C
 ```
 
-Por lo tanto la norma permanece invariante esto se puede comprobar mediante un
-ejemplo particular.
+Por lo tanto la norma permanece invariante esto se puede comprobar mediante un ejemplo particular.
 
-Consderamos un caso particular de habilidad dada sus coordenadas en la base
-canónica por `r round(theta_C,4)` y su norma usando el producto punto es
-`r round(norma_C,4)`
+Consderamos un caso particular de habilidad dada sus coordenadas en la base canónica por `r round(theta_C,4)` y su norma usando el producto punto es `r round(norma_C,4)`
 
-Las coordenadas de este punto expresados en la base B son `r round(theta_B,4)` y
-su norma utilizando el producto internos con matriz de Gramm M es
-`r round(norma_B,4)`
+Las coordenadas de este punto expresados en la base B son `r round(theta_B,4)` y su norma utilizando el producto internos con matriz de Gramm M es `r round(norma_B,4)`
 
-Es claro que al existir una transformación lineal sobre las coordenadas esto
-afectará a las varianzas (no a la distribución ya que partimos de una normal) y
-también las correlaciones.
+Es claro que al existir una transformación lineal sobre las coordenadas esto afectará a las varianzas (no a la distribución ya que partimos de una normal) y también las correlaciones.
 
 La relación viene dada por $$Var(coord_C(\theta))=P Var(coord_B(\theta)) P^T$$
 
@@ -165,8 +149,7 @@ $$Cor(coord_C(\theta))=U P Var(coord_B(\theta)) P^T U=UVar(coord_C(\theta))U$$
 
 siendo
 
-$$U=diag((Var(coord_C(\theta)))^{-1/2})$$ Veremos como son estas relaciones en
-el siguiente código
+$$U=diag((Var(coord_C(\theta)))^{-1/2})$$ Veremos como son estas relaciones en el siguiente código
 
 ```{r varianzas,echo=TRUE}
 var(coord_B)
@@ -203,9 +186,7 @@ angulos=r2d(acos(cosdir_B))
 angulos[1:5,]
 ```
 
-Observemos que la norma que tomamos en la función es la norma respecto a la base
-canonica. Si queremos considerar la base no ortogonal debe calcularse la norma
-con el producto interno con matriz M
+Observemos que la norma que tomamos en la función es la norma respecto a la base canonica. Si queremos considerar la base no ortogonal debe calcularse la norma con el producto interno con matriz M
 
 ## Modelo
 
@@ -230,15 +211,11 @@ for(i in 1:dim(coord_C)[1]){
 
 ```
 
-Consideremos el modelo expresado en la base no ortogonal B con discriminación
-`r a` y d=`r d`
+Consideremos el modelo expresado en la base no ortogonal B con discriminación `r a` y d=`r d`
 
 Con el cambio
 
-$$a_i^{'}=(P^{-1})^T a_i$$ se puede modelizar utilizando las coordenadas en la
-base canónica, es decir la ecuación anterior da la transformación de los a al
-transformar los $\theta$. Esto imlica que si utilizamos las coordeadas de las
-habilidades en la base canónica debemos utilizar la $a'$.
+$$a_i^{'}=(P^{-1})^T a_i$$ se puede modelizar utilizando las coordenadas en la base canónica, es decir la ecuación anterior da la transformación de los a al transformar los $\theta$. Esto imlica que si utilizamos las coordeadas de las habilidades en la base canónica debemos utilizar la $a'$.
 
 Veamos que coinciden ambas modelizaciones
 
@@ -249,18 +226,15 @@ P_theta_C[1:5]
 
 ## Cálculo de punto de máxima pendiente y pendiente
 
-Los cosenos directores respecto a los ejes de la base canónica de la dirección
-del punto de máxima pendiente son
+Los cosenos directores respecto a los ejes de la base canónica de la dirección del punto de máxima pendiente son
 
-$$cos \gamma_i^E=\frac{a_i^{'}}{\sqrt{a_i^{'T}a_i^{'}}}$$ o con respecto a la
-base B
+$$cos \gamma_i^E=\frac{a_i^{'}}{\sqrt{a_i^{'T}a_i^{'}}}$$ o con respecto a la base B
 
 $$cos \gamma_i^B=\frac{D^{-\frac{1}{2}} a_i}{\sqrt{a_i^{T}M^{-1}a_i}}$$
 
 La distancia al origen en esta dirección esta dada por
 
-$$D_i=\frac{-d_i}{\sqrt{a_i^{T}M^{-1}a_i}}$$ y la pendiente
-$$ S_i=\frac{\sqrt{a_i^{T}M^{-1}a_i}}{4}$$
+$$D_i=\frac{-d_i}{\sqrt{a_i^{T}M^{-1}a_i}}$$ y la pendiente $$ S_i=\frac{\sqrt{a_i^{T}M^{-1}a_i}}{4}$$
 
 ```{r slope, include=FALSE}
 cos_gamma_C=a_p/len(a_p)
@@ -282,8 +256,7 @@ $S_i$= `r slope`
 
 El ángulo con los ejes de la base canónica es `r r2d(acos(cos_gamma_C))`
 
-Graficamos un vector cuya norma es $S_i$ aplicado sobre el punto donde se da el
-máximo slope
+Graficamos un vector cuya norma es $S_i$ aplicado sobre el punto donde se da el máximo slope
 
 ```{r graslope}
 m=cos_gamma_C[2]/cos_gamma_C[1]
@@ -319,8 +292,7 @@ points(punto_x,punto_y,lwd=4, col=5)
 
 ## Función de Representación
 
-Lo anteriore lo podemos representar para cualesquiera bases mediante la función
-representa
+Lo anteriore lo podemos representar para cualesquiera bases mediante la función representa
 
 ```{r representa}
 # BaseO es la base oblicua u original
@@ -385,8 +357,7 @@ repnivel<-function(x=seq(-3,3,length=100),y=seq(-3,3,length=100),K,a,d,punto_x,p
 }
 ```
 
-Por ejemplo si usamos nuevamente la base $\mathfrak{B}$ y la canónica pero ahora
-el ítem tiene a=(0.5,2) y d=1.1
+Por ejemplo si usamos nuevamente la base $\mathfrak{B}$ y la canónica pero ahora el ítem tiene a=(0.5,2) y d=1.1
 
 ```{r }
 Ej1=representa(Base_1,Base_C,P,c(0.5,2),1.1,coord_B)
@@ -400,30 +371,15 @@ Observemos que el parámetro a "vive" en otro espacio vectorial que $\theta$.
 
 Llamemos a ese espacio vectorial $\mathcal A$.
 
-El modelo de TRI expresa una relación en el espacio de coordenadas de la
-habilidad y la discriminación y en ese espacio de coordenadas $R^n$ se considera
-el producto punto. En principio el rasgo $\theta$ tiene sus coordenadas
-expresadas en la base $\mathfrak{B}$ que representa a las reales dimensiones que
-tiene el rasgo. También las discriminaciones estan expresadas en alguna base que
-al no tener restricciones previas podemos suponer cualquier base que fijará las
-transformaciones del espacio. En particular supondremos que la base de origen en
-el espacio $\mathcal A$ tiene como vectores las columnas de $(P^{-1})^T$. La
-llamaremos $\mathfrak{A}$
+El modelo de TRI expresa una relación en el espacio de coordenadas de la habilidad y la discriminación y en ese espacio de coordenadas $R^n$ se considera el producto punto. En principio el rasgo $\theta$ tiene sus coordenadas expresadas en la base $\mathfrak{B}$ que representa a las reales dimensiones que tiene el rasgo. También las discriminaciones estan expresadas en alguna base que al no tener restricciones previas podemos suponer cualquier base que fijará las transformaciones del espacio. En particular supondremos que la base de origen en el espacio $\mathcal A$ tiene como vectores las columnas de $(P^{-1})^T$. La llamaremos $\mathfrak{A}$
 
-Al realizar un cambio de base en el espacio $\Theta$ donde se transforman las
-coordenadas de la base $\mathfrak{B}$ a la base $\mathfrak{E}$ (en nuestro caso
-la canónica) mediante la matriz P a partir de la ecuación de ligadura dada por
-el modelo observamos que las coordenadas de las dicriminaciones ($a_i$) se
-trasforman en $a^'_i$ mediante la ecuación
+Al realizar un cambio de base en el espacio $\Theta$ donde se transforman las coordenadas de la base $\mathfrak{B}$ a la base $\mathfrak{E}$ (en nuestro caso la canónica) mediante la matriz P a partir de la ecuación de ligadura dada por el modelo observamos que las coordenadas de las dicriminaciones ($a_i$) se trasforman en $a^'_i$ mediante la ecuación
 
 $$a_i^{'}=(P^{-1})^T a_i$$
 
-Al ser $(P^{-1})^T$ invertible representa una matriz de cambio de base que lleva
-las coordenasas de $a_i$ expresadas en la base $\mathfrak{A}$ a la base canónica
+Al ser $(P^{-1})^T$ invertible representa una matriz de cambio de base que lleva las coordenasas de $a_i$ expresadas en la base $\mathfrak{A}$ a la base canónica
 
-Además al tratarse de una transformación identidad la norma de $a_i$ no cambia
-al expresarse en las diferentes bases. Para mantener esta condición se induce un
-producto interno en el espacio original con matriz de Gramm $M^{-1}$
+Además al tratarse de una transformación identidad la norma de $a_i$ no cambia al expresarse en las diferentes bases. Para mantener esta condición se induce un producto interno en el espacio original con matriz de Gramm $M^{-1}$
 
 $$\parallel a_i^{'} \parallel=a_i^T P^{-1} (P^{-1})^T a_i =a_i^T M^{-1}a_i$$
 
@@ -442,11 +398,9 @@ Si ahora consideramos la estructura probabilistica de los rasgos por ejemplo
 
 $$\theta \sim N(0, \Sigma)$$
 
-El hecho de que la media sea 0 no hace perder generalidad pies se puede centrar
-el rasgo.
+El hecho de que la media sea 0 no hace perder generalidad pies se puede centrar el rasgo.
 
-Suponemos además que la base natural de los rasgos es $\mathfrak{B}$ que en
-nuestro ejemplo es
+Suponemos además que la base natural de los rasgos es $\mathfrak{B}$ que en nuestro ejemplo es
 
 ```{r b1, include=FALSE}
 print(Base_1)
@@ -491,9 +445,7 @@ El ángulo entre los vectores propios es 1
 print(matlib::angle(Q[,1],Q[,2]))
 ```
 
-Debemos entonces desarrollar como queda la matriz de cambio de base entre la
-base $\mathfrak{B}$ y la base de vectores propios $\mathfrak{L}$ de la matriz
-$\Sigma$
+Debemos entonces desarrollar como queda la matriz de cambio de base entre la base $\mathfrak{B}$ y la base de vectores propios $\mathfrak{L}$ de la matriz $\Sigma$
 
 Tenemos al descomponer espectralmente a $\Sigma$ que
 
@@ -501,8 +453,7 @@ $$\Sigma=Q \Lambda Q^T$$
 
 con $Q^T=Q^{-1}$
 
-La descomposicion espectral se expresa en la base canónica tanto para los datos
-con coordenadas en la base $\mathfrak{B}$ como en la base $\mathfrak{E}$.
+La descomposicion espectral se expresa en la base canónica tanto para los datos con coordenadas en la base $\mathfrak{B}$ como en la base $\mathfrak{E}$.
 
 Si descomponemos $Sigma_E$ (con los datos en la base canónica) entonces
 
@@ -528,8 +479,7 @@ $$
 Q_E \Lambda_E Q_E^T = P Q \Lambda Q^T P^T
 $$
 
-Si tomamos la matriz $L$ definida como la matriz diagonal que contiene el
-cociente de los valores propios de $\Lambda$ entre $\Lambda_E$
+Si tomamos la matriz $L$ definida como la matriz diagonal que contiene el cociente de los valores propios de $\Lambda$ entre $\Lambda_E$
 
 Entonces
 
@@ -543,9 +493,7 @@ $$
 Q_E = P Q L^{1/2}
 $$
 
-Por otro lado la matriz de cambio de base entre $\mathfrak{B}$ y $\mathfrak{L}$
-es $PQ_E^{-1}$ ya que $Q_E$ es la matriz de cambio de base entre $\mathfrak{B}$
-y la base canónica
+Por otro lado la matriz de cambio de base entre $\mathfrak{B}$ y $\mathfrak{L}$ es $PQ_E^{-1}$ ya que $Q_E$ es la matriz de cambio de base entre $\mathfrak{B}$ y la base canónica
 
 Luego la matriz de cambio de base queda
 
@@ -553,5 +501,4 @@ $$
 PQ_E^{-1} = P( PQL^{1/2} )^{-1} = L^{-1/2} PQ^{-1} P^{-1}
 $$
 
-Se puede aplicar con esta matriz de cambio de base los resultados anteriores
-hallados.
+Se puede aplicar con esta matriz de cambio de base los resultados anteriores hallados.
