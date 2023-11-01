@@ -119,6 +119,24 @@
       ],
       "Hash": "b13489d382536049f19cd7b205fbc12a"
     },
+    "assertive.extra": {
+      "Package": "assertive.extra",
+      "Version": "0.0.0.9008",
+      "Source": "GitHub",
+      "RemoteType": "github",
+      "RemoteHost": "api.github.com",
+      "RemoteRepo": "assertive_extra",
+      "RemoteUsername": "DaniMori",
+      "RemoteRef": "HEAD",
+      "RemoteSha": "1d601ae04627ffbaf9d4b5acb2b875440a913741",
+      "Requirements": [
+        "R",
+        "assertive.base",
+        "assertive.numbers",
+        "psych"
+      ],
+      "Hash": "6827b9515e13f917d2facd536a7858e5"
+    },
     "assertive.numbers": {
       "Package": "assertive.numbers",
       "Version": "0.0-2",
