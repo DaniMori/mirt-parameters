@@ -107,32 +107,6 @@
       ],
       "Hash": "cad6cf7f1d5f6e906700b9d3e718c796"
     },
-    "assertive": {
-      "Package": "assertive",
-      "Version": "0.3-6",
-      "Source": "Repository",
-      "Repository": "CRAN",
-      "Requirements": [
-        "R",
-        "assertive.base",
-        "assertive.code",
-        "assertive.data",
-        "assertive.data.uk",
-        "assertive.data.us",
-        "assertive.datetimes",
-        "assertive.files",
-        "assertive.matrices",
-        "assertive.models",
-        "assertive.numbers",
-        "assertive.properties",
-        "assertive.reflection",
-        "assertive.sets",
-        "assertive.strings",
-        "assertive.types",
-        "knitr"
-      ],
-      "Hash": "03ec33ffb1b1d80deba944f4a6e50610"
-    },
     "assertive.base": {
       "Package": "assertive.base",
       "Version": "0.0-9",
@@ -144,120 +118,6 @@
         "utils"
       ],
       "Hash": "b13489d382536049f19cd7b205fbc12a"
-    },
-    "assertive.code": {
-      "Package": "assertive.code",
-      "Version": "0.0-4",
-      "Source": "Repository",
-      "Repository": "CRAN",
-      "Requirements": [
-        "R",
-        "assertive.base",
-        "assertive.properties",
-        "assertive.types",
-        "methods"
-      ],
-      "Hash": "8b090d27c9cf686ce442e3e480f9e06c"
-    },
-    "assertive.data": {
-      "Package": "assertive.data",
-      "Version": "0.0-3",
-      "Source": "Repository",
-      "Repository": "CRAN",
-      "Requirements": [
-        "R",
-        "assertive.base",
-        "assertive.strings"
-      ],
-      "Hash": "de2b0e46f52103fadb61d9e8468323aa"
-    },
-    "assertive.data.uk": {
-      "Package": "assertive.data.uk",
-      "Version": "0.0-2",
-      "Source": "Repository",
-      "Repository": "CRAN",
-      "Requirements": [
-        "R",
-        "assertive.base",
-        "assertive.strings"
-      ],
-      "Hash": "7a2c08260806e39370aa0b62fd2ab00f"
-    },
-    "assertive.data.us": {
-      "Package": "assertive.data.us",
-      "Version": "0.0-2",
-      "Source": "Repository",
-      "Repository": "CRAN",
-      "Requirements": [
-        "R",
-        "assertive.base",
-        "assertive.strings"
-      ],
-      "Hash": "c694a3bf0c58a6827d58de53710ef889"
-    },
-    "assertive.datetimes": {
-      "Package": "assertive.datetimes",
-      "Version": "0.0-3",
-      "Source": "Repository",
-      "Repository": "CRAN",
-      "Requirements": [
-        "R",
-        "assertive.base",
-        "assertive.types"
-      ],
-      "Hash": "f221ead87778e6081e2767c74d6e0f75"
-    },
-    "assertive.extra": {
-      "Package": "assertive.extra",
-      "Version": "0.0.0.9007",
-      "Source": "GitHub",
-      "RemoteType": "github",
-      "RemoteHost": "api.github.com",
-      "RemoteRepo": "assertive_extra",
-      "RemoteUsername": "CCOMS-UAM",
-      "RemoteRef": "HEAD",
-      "RemoteSha": "c8a3b9ba78550d003c0385213daa819af7fd6579",
-      "Requirements": [
-        "R",
-        "assertive",
-        "psych"
-      ],
-      "Hash": "85b4da7578c1997f37e2c86a5ab2325f"
-    },
-    "assertive.files": {
-      "Package": "assertive.files",
-      "Version": "0.0-2",
-      "Source": "Repository",
-      "Repository": "CRAN",
-      "Requirements": [
-        "R",
-        "assertive.base",
-        "assertive.numbers"
-      ],
-      "Hash": "946a8b6f9951bc8e4931eb5b892ae56e"
-    },
-    "assertive.matrices": {
-      "Package": "assertive.matrices",
-      "Version": "0.0-2",
-      "Source": "Repository",
-      "Repository": "CRAN",
-      "Requirements": [
-        "R",
-        "assertive.base"
-      ],
-      "Hash": "04e0d9bb4e0a89a632c2e89b6e681a95"
-    },
-    "assertive.models": {
-      "Package": "assertive.models",
-      "Version": "0.0-2",
-      "Source": "Repository",
-      "Repository": "CRAN",
-      "Requirements": [
-        "R",
-        "assertive.base",
-        "stats"
-      ],
-      "Hash": "0039faf687147d63758ad0126a0f917c"
     },
     "assertive.numbers": {
       "Package": "assertive.numbers",
@@ -281,29 +141,6 @@
         "methods"
       ],
       "Hash": "78281e9da959f070ee617331ba876fde"
-    },
-    "assertive.reflection": {
-      "Package": "assertive.reflection",
-      "Version": "0.0-5",
-      "Source": "Repository",
-      "Repository": "CRAN",
-      "Requirements": [
-        "R",
-        "assertive.base",
-        "utils"
-      ],
-      "Hash": "4eb9e99fa4cd2b04439f0a080d5a90c9"
-    },
-    "assertive.sets": {
-      "Package": "assertive.sets",
-      "Version": "0.0-3",
-      "Source": "Repository",
-      "Repository": "CRAN",
-      "Requirements": [
-        "R",
-        "assertive.base"
-      ],
-      "Hash": "7e10f191b5d6f423fb0e056096e4cc96"
     },
     "assertive.strings": {
       "Package": "assertive.strings",
@@ -1589,7 +1426,7 @@
     },
     "psych": {
       "Package": "psych",
-      "Version": "2.3.6",
+      "Version": "2.3.9",
       "Source": "Repository",
       "Repository": "CRAN",
       "Requirements": [
@@ -1602,7 +1439,7 @@
         "parallel",
         "stats"
       ],
-      "Hash": "458f21cdb24a71340615df3393e8fab1"
+      "Hash": "4c7165bb5b5342f39bcfdb52db26f163"
     },
     "purrr": {
       "Package": "purrr",
