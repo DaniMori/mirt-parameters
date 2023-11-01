@@ -42,9 +42,9 @@ format_prop_like <- function(values, sig = 3, drop_0 = TRUE) {
   
   ## Argument checking and formatting: ----
   
-  assertive.numbers::assert_is_numeric(values)
+  assertive.types::assert_is_numeric(values)
   assertive.numbers::assert_all_are_in_closed_range(values, -1L, 1L)
-  assertive.types::assert_is_scalar(sig)
+  assertive.properties::assert_is_scalar(sig)
   assertive.numbers::assert_all_are_whole_numbers(sig)
   assertive.types::assert_is_a_bool(drop_0)
   
