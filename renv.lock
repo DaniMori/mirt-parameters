@@ -137,6 +137,11 @@
       ],
       "Hash": "6827b9515e13f917d2facd536a7858e5"
     },
+    "assertive.matrices": {
+      "Package": "assertive.matrices",
+      "Version": "0.0-2",
+      "Source": "Repository"
+    },
     "assertive.numbers": {
       "Package": "assertive.numbers",
       "Version": "0.0-2",
