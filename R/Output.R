@@ -16,7 +16,6 @@
 ## ---- INCLUDES: --------------------------------------------------------------
 
 library(officer)
-library(assertive)
 
 # source("R/<file>")
 
@@ -30,7 +29,7 @@ library(assertive)
 
 insert_anchor <- function(anchor_id, bg_color = "white") {
   
-  assert_is_a_string(anchor_id)
+  assertive.strings::assert_is_a_string(anchor_id)
   
   ftext(
     paste0("{#", anchor_id, "}"), prop = fp_text(color = bg_color))
@@ -43,19 +42,20 @@ format_prop_like <- function(values, sig = 3, drop_0 = TRUE) {
   
   ## Argument checking and formatting: ----
   
-  assert_is_numeric(values)
-  assert_all_are_in_closed_range(values, -1L, 1L)
-  assert_is_scalar(sig)
-  assert_all_are_whole_numbers(sig)
-  assert_is_a_bool(drop_0)
+  assertive.types::assert_is_numeric(values)
+  assertive.numbers::assert_all_are_in_closed_range(values, -1L, 1L)
+  assertive.properties::assert_is_scalar(sig)
+  assertive.numbers::assert_all_are_whole_numbers(sig)
+  assertive.types::assert_is_a_bool(drop_0)
   
   
   ## Main: ----
   
-  result <- values %>% round(digits = sig) %>%
+  result <- values      |>
+    round(digits = sig) |>
     format(digits = sig, nsmall = sig)
   
-  if (drop_0) result <- result %>% str_remove(LEADING_ZERO_PATTERN)
+  if (drop_0) result <- result |> str_remove(LEADING_ZERO_PATTERN)
   
   result
 }
