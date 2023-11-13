@@ -73,10 +73,20 @@ As I say in the draft, my understanding is that the correlation-based version of
 the parameters should be used for the graphical representation, as these are
 scale preserving, and therefore can be interpreted straightforwardly.
 
-The graphical representation, as computed in the draft, is:
+We first compute the original item parameters and coordinates:
 
 ```{r compute-example-items}
 ```
+
+For reference, the MCLM version of the parameters, along with the "orthogonal"
+(i.e. agnostic) ones, are:
+
+```{r example-items-table-out}
+item_params |> select(-ends_with("_obl"))
+```
+
+The graphical representation (only the oblique version is shown), as computed in
+the draft, is:
 
 ```{r compose-oblique-plot}
 ```
@@ -85,18 +95,14 @@ The graphical representation, as computed in the draft, is:
 ```
 
 ```{r item-plot-out}
-#| fig.cap:   Item plots in an orthogonal (left) and oblique (right) test space.
-#| fig.height: 3.1
-#| fig.width:  6.65
-plot_orth + plot_oblique
+#| fig.cap: Item plots in an oblique test space.
+plot_oblique
 ```
 
-And the correlation-based parameters:
+And the correlation-based parameters and coordinates:
 
-```{r example-items-table-out}
-#| cache: false
-#| echo:  false
-item_params |> select(-ends_with("_orth"))
+```{r example-items-obl-out}
+items_oblique
 ```
 
 Let's now compute a covariance-based version of the parameters. In this case,
@@ -133,16 +139,11 @@ items_oblique        <- full_join(
 )
 
 # Create the parameter table again:
-item_params <- items_M2PL |>
-  full_join(
-    items_orth |> select(item:deg_2, -starts_with(COSINE_DIRTYPE)),
-  )                       |>
-  full_join(
-    items_oblique |> select(item:deg_2, -starts_with(COSINE_DIRTYPE)),
-    by     = ITEM_COLKEY,
-    suffix = paste0('_', c(ORTH_SUFFIX, OBL_SUFFIX))
-  )
+item_params <- items_M2PL |> full_join(
+  items_oblique |> select(item:deg_2, -starts_with(COSINE_DIRTYPE)),
+  by = ITEM_COLKEY
+)
 ```
 
-```{r example-items-table-out}
+```{r example-items-obl-out}
 ```
