@@ -1,0 +1,148 @@
+---
+title: 'Graphical representation example: Alternative interpretations'
+output:
+  html_document:
+    df_print: paged
+    code_folding: hide
+---
+
+```{r setup}
+library(knitr)
+library(patchwork)
+library(rstudioapi)
+
+ROOT_DIR <- getActiveProject()
+DOC_DIR  <- getwd()
+
+opts_knit$set(root.dir = ROOT_DIR)
+opts_chunk$set(
+  echo     = TRUE,
+  message  = FALSE,
+  cache    = FALSE,
+  dev      = "png",
+  dpi      =   300,
+  dev.args = list(type = "cairo-png")
+)
+
+# Output configuration options:
+options(digits = 3)
+```
+
+# Introduction
+
+After the 2023/11/02 discussion, there are two issues that remain unclear
+regarding the graphical representation of the items.
+
+1. Whether the correlation-based or the covariance-based matrix should be used
+in the graphical representation, and whether it has an effect on its interpretation.
+
+2. The need to represent the items in the latent vs. the test space.
+
+We have a look at the example changing these two issues to see the effect.
+
+# Preface
+
+```{r read-chunks-graphical-example}
+#| echo: false
+read_chunk("src/Graphical_example_paper.R")
+```
+
+Load libaries:
+
+```{r libraries}
+```
+
+Source R scripts:
+
+```{r sources}
+```
+
+Define constants:
+
+```{r constants}
+```
+
+Configure graphical output:
+
+```{r graphical-output-conf}
+```
+
+# Covariance-based parameters and representation
+
+As I say in the draft, my understanding is that the correlation-based version of
+the parameters should be used for the graphical representation, as these are
+scale preserving, and therefore can be interpreted straightforwardly.
+
+The graphical representation, as computed in the draft, is:
+
+```{r compute-example-items}
+```
+
+```{r compose-oblique-plot}
+```
+
+```{r compose-orthogonal-plot}
+```
+
+```{r item-plot-out}
+#| fig.cap:   Item plots in an orthogonal (left) and oblique (right) test space.
+#| fig.height: 3.1
+#| fig.width:  6.65
+plot_orth + plot_oblique
+```
+
+And the correlation-based parameters:
+
+```{r example-items-table-out}
+#| cache: false
+#| echo:  false
+item_params |> select(-ends_with("_orth"))
+```
+
+Let's now compute a covariance-based version of the parameters. In this case,
+we defined the variances of the two latent dimensions as 1, so the
+covariance-based and the correlation-based versions of the indices are the same.
+In order to solve this, we define a new covariance matrix where the variance are
+different from 1. We set them to $[2, 1.5]$ instead:
+
+```{r}
+variances  <- c(2, 1.5)
+sd_matrix  <- variances |> sqrt() |> diag()
+cov_matrix <- sd_matrix %*% corr_matrix %*% sd_matrix
+```
+
+With this covariance matrix, we compute the item parameters again:
+
+```{r}
+# Oblique case:
+
+## Compute parameters and coordinates:
+items_oblique_params <- items_M2PL |> compute_mirt_params(
+  all_of(INTERCEPT_COLKEY), starts_with(DISCR_PREFFIX), # Input parameters
+  cov_matrix = cov_matrix,                              # Input covariances
+  dir_out    = c(COSINE_DIRTYPE, DEGREE_DIRTYPE)        # Output configuration
+)
+items_oblique_coords <- items_oblique_params |> compute_mirt_coords(
+  D, MDISC, starts_with(COSINE_DIRTYPE),
+  transform       = transform_matrix,
+  original_coords = FALSE
+)
+items_oblique        <- full_join(
+  items_oblique_params, items_oblique_coords,
+  by = ITEM_COLKEY
+)
+
+# Create the parameter table again:
+item_params <- items_M2PL |>
+  full_join(
+    items_orth |> select(item:deg_2, -starts_with(COSINE_DIRTYPE)),
+  )                       |>
+  full_join(
+    items_oblique |> select(item:deg_2, -starts_with(COSINE_DIRTYPE)),
+    by     = ITEM_COLKEY,
+    suffix = paste0('_', c(ORTH_SUFFIX, OBL_SUFFIX))
+  )
+```
+
+```{r example-items-table-out}
+```
