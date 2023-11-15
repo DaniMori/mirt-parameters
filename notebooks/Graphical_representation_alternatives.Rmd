@@ -159,3 +159,33 @@ item_params <- items_M2PL |> full_join(
 
 ```{r example-items-obl-out}
 ```
+
+As can be seen, the directions change, due to the difference in the scale of the
+two dimensions induced by the different variances. The resulting graphical
+representation is:
+
+```{r compose-oblique-plot}
+```
+
+```{r item-plot-cov-out}
+#| fig.cap: |
+#|   Item plots in an oblique test space, with variances [2, 1.5]
+plot_oblique +
+  scale_x_continuous(
+    limits       = c(-2, 4.2),
+    breaks       = (0:4) - 2 / CORR_ARC_TAN,
+    labels       = 0:4,
+    minor_breaks = NULL,
+    name         = NULL,
+    oob          = oob_keep
+  )          +
+  scale_color_manual(values = PALETTE)
+```
+
+### Interpretation
+
+The vectors are "stretched" in both directions, due to the different variances.
+The "length" by which they are scaled depends on the standard deviation of each
+dimension. In this case, we are using variances of 2 and 1.5. Therefore, the
+vectors are stretched more in the first (horizontal) direction than in the
+second (oblique) one.
