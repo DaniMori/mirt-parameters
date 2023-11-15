@@ -189,3 +189,57 @@ The "length" by which they are scaled depends on the standard deviation of each
 dimension. In this case, we are using variances of 2 and 1.5. Therefore, the
 vectors are stretched more in the first (horizontal) direction than in the
 second (oblique) one.
+
+## Case with more predictable results
+
+My expectations were that the representation if the items would be independent
+of the covariance matrix, but this has not been the case. I had not predicted
+that the item vectors would be "stretched" in space, as has happened, although I
+should have expected this because I mention it in the draft, in section 3.3
+(Properties of the parameters). Therefore, I acknowledge this representation is
+the correct one.
+
+In order to test the prediction that the items are scaled by the standard
+deviation, let's test a case that is easier to predict. In order to it, I will
+use variances of 0.25, which result in standard deviations of 0.5. Then, if my
+understanding of the representation of the vectors is correct, all the vectors
+should be scaled by $tfrac{1}{2}$; that is, they should have half the original
+length. Their direction however should not change.
+
+```{r define-cov-matrix-prediction}
+VARIANCES  <- c(.25, .25)
+sd_matrix  <- VARIANCES |> sqrt() |> diag()
+cov_matrix <- sd_matrix %*% corr_matrix %*% sd_matrix
+```
+
+```{r recompute-oblique-items}
+```
+
+```{r example-items-obl-out}
+```
+
+```{r compose-oblique-plot}
+```
+
+```{r item-plot-cov-prediction-out}
+#| fig.cap: |
+#|   Item plots in an oblique test space, with variances [0.25, 0.25]
+plot_oblique + scale_color_manual(values = PALETTE)
+```
+
+### Interpretation
+
+The resulting MIDSC parameters are effectively half the length, as predicted.
+On the other hand, as the MIL is affected by the inverse of the MDICS, the MIL
+values are the double of the original ones. This result in vectors that are not
+only half the length of the originals. Also, their origin is twice as far from
+the origin of the latent space.
+
+## Conclusions
+
+The graphical representation reflects correctly the values of the parameters.
+However, the coordinates of the parameters in the latent space do not reflect
+the values of the original MCLM parameters.
+
+This is the reason why I understand that a correlation-based representation is
+more appropriate.
