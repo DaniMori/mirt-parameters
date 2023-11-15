@@ -132,8 +132,6 @@ cov_matrix <- sd_matrix %*% corr_matrix %*% sd_matrix
 With this covariance matrix, we compute the item parameters again:
 
 ```{r recompute-oblique-items}
-# Oblique case:
-
 ## Compute parameters and coordinates:
 items_oblique_params <- items_M2PL |> compute_mirt_params(
   all_of(INTERCEPT_COLKEY), starts_with(DISCR_PREFFIX), # Input parameters
@@ -243,3 +241,89 @@ the values of the original MCLM parameters.
 
 This is the reason why I understand that a correlation-based representation is
 more appropriate.
+
+## Using the "covariance-based" transformation matrix
+
+After pondering the results in the previous sections, I have realized the
+following: Although the parameters and the coordinates in the original space are
+correctly computed, when I transform the coordinates into the rectangular
+coordinate system the transformation (i.e. mapping?) matrix I am using is not a
+square root of the inverse covariance matrix, as I state in the algorithm for
+computing the graphical representation (section 3.4 in the draft). Instead, what
+I was using was the square root fo the inverse correlation matrix, therefore
+applying a transformation that intends to be "scale invariant". As a result, the
+graphical representation shows the parameters scaled by the standard deviation
+of each dimension.
+
+However, I foresee that the following will happen: If I use the _correct_ square
+root matrix, that is, the square root matrix of the inverse of the covariance
+matrix, the graphical representation will be always the same, independently of
+the variances of the dimensions (it will only depend on the correlations).
+
+Let's try with the previous two examples, computing first the square root
+matrix. Given that $\mathbf{\Sigma} = \mathbf{SRS}$:
+
+$$\mathbf{\Sigma}^{-1} = (\mathbf{SRS})^{-1};$$
+
+$$\mathbf{\Sigma}^{-1} = \mathbf{S}^{-1}\mathbf{R}^{-1}\mathbf{S}^{-1};$$
+
+$$\mathbf{P^TP} = \mathbf{S}^{-1}\mathbf{P^T_RP_R}\mathbf{S}^{-1},$$
+
+where $\mathbf{P_R}$ refers to the (previously used) correlation-based
+transformation matrix. Therefore, we can equate[^mat-eq]
+$\mathbf{P} = \mathbf{P_R}\mathbf{S}^{-1}$.
+
+[^mat-eq]: They are not necessarily the same, but we can define them to be for
+our convenience, as defining it that way allegedly keeps the desired property of
+leaving the horizontal axis unrotated.
+
+With this formula, we compute the new (covariance-based) transformation matrix:
+
+```{r recompute-transform-matrix}
+cb_transform_matrix <- transform_matrix %*% solve(sd_matrix)
+```
+
+Let's verify that this matrix is a square root of the inverse covariance matrix
+
+```{r check-transform-matrix}
+t(cb_transform_matrix) %*%
+  cb_transform_matrix  |>
+  solve()              |>
+  all.equal(cov_matrix)
+```
+
+Both matrices are the same (with double numerical precision).
+
+Let's now try the latter example with this new transform matrix.
+
+```{r recompute-oblique-coords}
+## Compute coordinates:
+items_oblique_coords <- items_oblique_params |> compute_mirt_coords(
+  D, MDISC, starts_with(COSINE_DIRTYPE),
+  transform       = cb_transform_matrix,
+  original_coords = FALSE
+)
+items_oblique        <- full_join(
+  items_oblique_params, items_oblique_coords,
+  by = ITEM_COLKEY
+)
+
+# Create the parameter table again:
+item_params <- items_M2PL |> full_join(
+  items_oblique |> select(item:deg_2, -starts_with(COSINE_DIRTYPE)),
+  by = ITEM_COLKEY
+)
+```
+
+```{r example-items-obl-out}
+```
+
+```{r compose-oblique-plot}
+```
+
+```{r item-plot-cov-based-transform-out}
+#| fig.cap: |
+#|   Item plots in an oblique test space, with variances [0.25, 0.25], and using
+#|   the "covariance-based transformation matrix.
+plot_oblique + scale_color_manual(values = PALETTE)
+```
