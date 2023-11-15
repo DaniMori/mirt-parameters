@@ -327,3 +327,9 @@ item_params <- items_M2PL |> full_join(
 #|   the "covariance-based transformation matrix.
 plot_oblique + scale_color_manual(values = PALETTE)
 ```
+
+### Interpretation
+
+The discrimination parameters are "rescaled" back to their original value.
+However, the shift of the location is even more exaggerated due to being
+scaled again by a factor dependent on the inverse of the variances.
