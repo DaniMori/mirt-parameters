@@ -1,9 +1,13 @@
 ---
 title: 'Graphical representation example: Alternative interpretations'
 output:
-  html_document:
-    df_print: paged
-    code_folding: hide
+  html_document: 
+    df_print:        paged
+    code_folding:    hide
+    toc:             yes
+    toc_float:       yes
+editor_options: 
+  chunk_output_type: console
 ---
 
 ```{r setup}
@@ -78,12 +82,16 @@ We first compute the original item parameters and coordinates:
 ```{r compute-example-items}
 ```
 
+## MCLM parameters
+
 For reference, the MCLM version of the parameters, along with the "orthogonal"
 (i.e. agnostic) ones, are:
 
 ```{r example-items-table-out}
 item_params |> select(-ends_with("_obl"))
 ```
+
+## Parameters and representation in the original oblique space
 
 The graphical representation (only the oblique version is shown), as computed in
 the draft, is:
@@ -95,8 +103,10 @@ the draft, is:
 ```
 
 ```{r item-plot-out}
-#| fig.cap: Item plots in an oblique test space.
-plot_oblique
+#| fig.cap: |
+#|   Item plots in an oblique test space, with original (i.e., standard)
+#|   covariance matrix
+plot_oblique + scale_color_manual(values = PALETTE)
 ```
 
 And the correlation-based parameters and coordinates:
@@ -105,21 +115,23 @@ And the correlation-based parameters and coordinates:
 items_oblique
 ```
 
+## Parameters and representation in oblique space with different variances
+
 Let's now compute a covariance-based version of the parameters. In this case,
 we defined the variances of the two latent dimensions as 1, so the
 covariance-based and the correlation-based versions of the indices are the same.
 In order to solve this, we define a new covariance matrix where the variance are
 different from 1. We set them to $[2, 1.5]$ instead:
 
-```{r}
-variances  <- c(2, 1.5)
-sd_matrix  <- variances |> sqrt() |> diag()
+```{r define-cov-matrix}
+VARIANCES  <- c(2, 1.5)
+sd_matrix  <- VARIANCES |> sqrt() |> diag()
 cov_matrix <- sd_matrix %*% corr_matrix %*% sd_matrix
 ```
 
 With this covariance matrix, we compute the item parameters again:
 
-```{r}
+```{r recompute-oblique-items}
 # Oblique case:
 
 ## Compute parameters and coordinates:
