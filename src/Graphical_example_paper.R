@@ -35,7 +35,7 @@ source("R/Constants.R")
 # Graphical representation parameters:
 GRAPH_FONT   <- "serif"
 LINE_WIDTH   <- .1
-VECTOR_WIDTH <- .3
+VECTOR_WIDTH <- .5
 # POINT_CHAR   <- 19L
 PALETTE      <- c("darkred", "darkgoldenrod3", "green3", "cyan3", "blue3")
 
@@ -248,7 +248,7 @@ plot_oblique <- items_oblique |>
   geom_segment(
     arrow     = arrow(angle = 20, length = unit(10, "points"), type = "closed"),
     linejoin  = "mitre",
-    linewidth = LINE_WIDTH
+    linewidth = VECTOR_WIDTH
   )                                                         +
   scale_x_continuous(
     limits       = c(-2, 3),
@@ -293,7 +293,7 @@ plot_orth <- items_orth |>
   geom_segment(
     arrow     = arrow(angle = 20, length = unit(10, "points"), type = "closed"),
     linejoin  = "mitre",
-    linewidth = LINE_WIDTH
+    linewidth = VECTOR_WIDTH
   ) +
   scale_x_continuous(
     limits       = c(-2.5, 2.5),
