@@ -375,3 +375,96 @@ practice.
 
 Let's try to represent these sample items in the latent space, in order to
 explore this representation.
+
+## Parameters and representation in the oblique space
+
+The MDISC and the distance component of the MIL are the same in both spaces.
+However, in order to represent the item in the latent space, instead of
+[Equation 25][gh-eq-25], we must apply [Equation 20][gh-eq-20] to compute the
+angles with the axes of the latent space. In order to that, we first need to 
+redefine the function [`compute_mirt_params()`][gh-par-fun] to compute the
+latent space angles instead of the test space ones:
+
+[gh-eq-25]: https://github.com/DaniMori/mirt-parameters/blob/8fa41540ff077f07db4b87840f0acc86eb4be2ea/output/paper_draft/paper_M2PLM_parameters.Rmd#L599
+
+[gh-eq-20]: https://github.com/DaniMori/mirt-parameters/blob/8fa41540ff077f07db4b87840f0acc86eb4be2ea/output/paper_draft/paper_M2PLM_parameters.Rmd#L532
+
+[gh-par-fun]: https://github.com/DaniMori/mirt-parameters/blob/8fa41540ff077f07db4b87840f0acc86eb4be2ea/R/Mirt_toolbox.R#L30
+
+```{r redefine-compute-mirt-params}
+compute_mirt_params <- function(items,
+                                intercept,
+                                discrimination,
+                                cov_matrix,
+                                item_id = item,
+                                dir_out = c("cos", "rad", "deg")) {
+  ## Argument checking and formatting: ----
+  
+  # Enquote column selections:
+  item_id        <- rlang::enquo(item_id)
+  intercept      <- rlang::enquo(intercept)
+  discrimination <- rlang::enquo(discrimination)
+  
+  # Check number of columns selected:
+  
+  id_col     <- items |> dplyr::select(!!item_id)
+  intr_col   <- items |> dplyr::select(!!intercept)
+  discr_cols <- items |> dplyr::select(!!discrimination)
+  
+  n_discr_cols <- discr_cols |> ncol()
+  
+  assertive.properties::assert_is_of_length(id_col,   1)
+  assertive.properties::assert_is_of_length(intr_col, 1)
+  
+  assertive.extra::assert_is_greater_than_or_equal_to(n_discr_cols, 1)
+  
+  
+  # Check/format covariance matrix:
+  if (missing(cov_matrix)) {
+    
+    cov_matrix <- n_discr_cols |> diag()
+    
+  } else {
+    
+    dim_cov <- cov_matrix |> ncol()
+    
+    assertive.base::assert_are_identical(dim_cov, n_discr_cols)
+    assertive.extra::assert_is_covariance_matrix(cov_matrix)
+  }
+  
+  # Direction options:
+  dir_out <- dir_out |> match.arg(several.ok = TRUE)
+  one_dir <- dir_out                      |>
+    assertive.properties::is_of_length(1) |>
+    as.logical()
+
+  ## Main: ----
+  
+  # Compute inverse s.d. matrix:
+  var_matrix    <- cov_matrix |> diag() |> diag()
+  inv_sd_matrix <- var_matrix |> sqrt() |> solve()
+  
+  items                                                                      |>
+    tidyr::pivot_longer(!!discrimination, names_to = "par", values_to = "a") |>
+    dplyr::group_by(!!item_id)                                               |>
+    # This renaming is necessary for accessing the variable in `transmute`:
+    dplyr::rename(d = !!intercept)                                           |>
+    dplyr::transmute(
+      !!item_id,
+      ## Compute the multidimensional parameters:
+      dim   = par |> stringr::str_extract("\\d+"),
+      MDISC = (t(a) %*% cov_matrix %*% a) |> drop() |> sqrt(),
+      D     = - d / MDISC,
+      cos   = (inv_sd_matrix %*% cov_matrix %*% a / MDISC)  |> drop(),
+      rad   = acos(cos),
+      deg   = rad * RAD_DEG_FACTOR
+    )                                                                        |>
+    dplyr::ungroup()                                                         |>
+    select(!!item_id, dim, MDISC, D, all_of(dir_out))                        |>
+    tidyr::pivot_wider(
+      names_from  = dim,
+      values_from = all_of(dir_out),
+      names_glue  = one_dir |> if_else('{.value}_{.name}', '{.name}')
+    )
+}
+```
