@@ -228,9 +228,9 @@ plot_oblique + scale_color_manual(values = PALETTE)
 ### Interpretation
 
 The resulting MIDSC parameters are effectively half the length, as predicted.
-On the other hand, as the MIL is affected by the inverse of the MDICS, the MIL
+On the other hand, as the MIL is affected by the inverse of the MDISC, the MIL
 values are the double of the original ones. This result in vectors that are not
-only half the length of the originals. Also, their origin is twice as far from
+only half the length of the originals; their origin is twice as far from
 the origin of the latent space.
 
 ## Conclusions
@@ -332,4 +332,28 @@ plot_oblique + scale_color_manual(values = PALETTE)
 
 The discrimination parameters are "rescaled" back to their original value.
 However, the shift of the location is even more exaggerated due to being
-scaled again by a factor dependent on the inverse of the variances.
+scaled _again_ by a factor dependent on the inverse of the variances. Because of
+this, the new location in the graphic is thus meaningless, in terms of the
+interpretation of the multidimensional parameters.
+
+## Conclusion
+
+There are two ways to represent the item vectors in the bidimensional space:
+
+1. Using the correlation-based definition of the multidimensional parameters.
+
+2. Using the covariance-based definition of the multidimensional parameters.
+
+The first one has the advantage that the items are represented in the original
+scale of the test space, assuming a distribution with the given variances; the
+original MCLM parameters are therefore kept invariant. The second one implies
+that _the items are normalized to a standard distribution_; _the original MCLM
+parameters are thus scaled accordingly_ (see [Section 3.3][gh-section-ref] of
+the current draft), and the representation of the distribution in this case
+would be made with a unitary variance.
+
+[gh-section-ref]: https://github.com/DaniMori/mirt-parameters/blob/8fa41540ff077f07db4b87840f0acc86eb4be2ea/output/paper_draft/paper_M2PLM_parameters.Rmd#L676
+
+In each of these two cases though, the oblique coordinates must be transformed
+back to rectangular coordinates _using a transformation matrix that is a
+square-root matrix of the correlation and **not the covariance matrix**_.
