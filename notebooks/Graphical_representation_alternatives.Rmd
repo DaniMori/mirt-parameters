@@ -38,7 +38,8 @@ After the 2023/11/02 discussion, there are two issues that remain unclear
 regarding the graphical representation of the items.
 
 1. Whether the correlation-based or the covariance-based matrix should be used
-in the graphical representation, and whether it has an effect on its interpretation.
+in the graphical representation, and whether it has an effect on its
+interpretation.
 
 2. The need to represent the items in the latent vs. the test space.
 
@@ -357,3 +358,20 @@ would be made with a unitary variance.
 In each of these two cases though, the oblique coordinates must be transformed
 back to rectangular coordinates _using a transformation matrix that is a
 square-root matrix of the correlation and **not the covariance matrix**_.
+
+# Representation in the latent space instead of the test space
+
+It is a concern that the multidimensional parameters should be defined
+(according to Reckase's, -@reckase_difficulty_1985 definition), in the latent
+space. All the computations (both the ones here and in the draft) assume that
+the representation of the vectors are in the test space, after arguing that this
+should be the correct representation instead of the one in the latent space.
+
+It should be argued (probably more clearly in the draft) that the fact that
+Reckase proposes the representation in the latent space may be due to the
+confusion resulting from considering that both constitute a single entity. This
+is because in the orthogonal case they overlap, making them indistinguishable in
+practice.
+
+Let's try to represent these sample items in the latent space, in order to
+explore this representation.
