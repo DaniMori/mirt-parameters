@@ -107,7 +107,6 @@ transform_matrix_inv_transp <- t(transform_matrix_inv)
 inner_prod_matrix           <- transform_matrix_transp %*% transform_matrix
 corr_matrix                 <- solve(inner_prod_matrix)
                        # == transform_matrix_inv %*% transform_matrix_inv_transp
-sqrt_diag_inner_prod_matrix <- diag(inner_prod_matrix) |> diag() |> sqrt()
 
 ## Compute parameters and coordinates:
 items_oblique_params <- items_M2PL |> compute_mirt_params(
