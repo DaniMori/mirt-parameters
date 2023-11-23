@@ -169,8 +169,15 @@ representation is:
 ```{r item-plot-cov-out}
 #| fig.cap: |
 #|   Item plots in an oblique test space, with variances [2, 1.5]
-plot_oblique    +
-  xlim(-2, 4.2) +
+plot_oblique +
+  scale_x_continuous(
+    limits       = c(-2, 4.2),
+    breaks       = (0:4) - 2 / CORR_ARC_TAN,
+    labels       = 0:4,
+    minor_breaks = NULL,
+    name         = NULL,
+    oob          = oob_keep
+  )          +
   scale_color_manual(values = PALETTE)
 ```
 
