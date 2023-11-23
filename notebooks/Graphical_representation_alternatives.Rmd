@@ -581,3 +581,11 @@ plot_oblique <- items_oblique |>
 #|   Item plots in an oblique, orthonormal latent space (with correlation = .5)
 plot_oblique
 ```
+
+Unless there is a mistake, we can see that the representation is the same. The
+angles seem to be correct, and the computed coordinates seem to be given
+"perpendicular" to the latent space axes[^ls-coords]
+
+[^ls-coords]: This seems odd, there may be a mistake in the computation of the
+latent space grid. Also, it seems like the coordinates are not correct, even if
+they are (apparently) computed perpendicularly to the latent space axes.
