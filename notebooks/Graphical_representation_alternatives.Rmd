@@ -473,6 +473,19 @@ compute_mirt_params <- function(items,
 }
 ```
 
+In the previous function, we have inverted the roles of the covariance matrix
+(i.e., the Gram matrix in the test space) and the "Gram matrix" of the latent
+space, which is the inverse of the covariance matrix. Also, we have computed a
+"scale matrix" that is formed by the square root elements of the diagonal of the
+Gram matrix, inverted (i.e. matrix $\mathbf{D}$ in the manuscript). Note that,
+contrary to what happens in the test space (where the "scale" matrix is the
+inverse of the standard deviation matrix), this scale matrix in the latent space
+is "meaningless" (in terms of interpretation). Finally, in the test pace, the
+covariance matrix was used in the computation of the cosines, but here the Gram
+matrix is not; this makes sense since, as we have seen before, transforming from
+the test to the latent space implies multiplying by the inverse of the
+covariance matrix.
+
 ```{r compute-oblique-items-latent-space}
 ## Compute parameters and coordinates:
 items_oblique_params <- items_M2PL |> compute_mirt_params(
