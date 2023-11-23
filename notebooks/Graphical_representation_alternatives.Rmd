@@ -473,3 +473,26 @@ compute_mirt_params <- function(items,
 }
 ```
 
+```{r compute-oblique-items-latent-space}
+## Compute parameters and coordinates:
+items_oblique_params <- items_M2PL |> compute_mirt_params(
+  all_of(INTERCEPT_COLKEY), starts_with(DISCR_PREFFIX), # Input parameters
+  cov_matrix = corr_matrix,                             # Input covariances
+  dir_out    = c(COSINE_DIRTYPE, DEGREE_DIRTYPE)        # Output configuration
+)
+items_oblique_coords <- items_oblique_params |> compute_mirt_coords(
+  D, MDISC, starts_with(COSINE_DIRTYPE),
+  transform       = transform_matrix,
+  original_coords = FALSE
+)
+items_oblique        <- full_join(
+  items_oblique_params, items_oblique_coords,
+  by = ITEM_COLKEY
+)
+
+# Create the parameter table again:
+item_params <- items_M2PL |> full_join(
+  items_oblique |> select(item:deg_2, -starts_with(COSINE_DIRTYPE)),
+  by = ITEM_COLKEY
+)
+```
