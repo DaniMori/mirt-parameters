@@ -520,3 +520,59 @@ item_params <- items_M2PL |> full_join(
 
 ```{r example-items-obl-out}
 ```
+```{r compose-oblique-plot-latent-space}
+plot_oblique <- items_oblique |>
+  arrange(desc(item))         |> # To plot them in reverse order
+  ggplot(
+    aes(
+      origin_transf_1, origin_transf_2,
+      xend  = end_transf_1, yend = end_transf_2,
+      color = item, fill = item
+    ),
+  )                                                         +
+  geom_segment(
+    arrow     = arrow(angle = 20, length = unit(10, "points"), type = "closed"),
+    linejoin  = "mitre",
+    linewidth = VECTOR_WIDTH
+  )                                                         +
+  scale_x_continuous(
+    limits       = c(-2, 3),
+    breaks       = (0:4) - 2 / CORR_ARC_TAN,
+    labels       = 0:4,
+    minor_breaks = NULL,
+    name         = NULL,
+    oob          = oob_keep
+  )                                                         +
+  scale_y_continuous(
+    limits       = c(-2, 2.8),
+    breaks       = -3:3 * cos(CORR_VALUE),
+    labels       = function(x) x / cos(CORR_VALUE),
+    minor_breaks = 0,
+    name         = NULL,
+    oob          = oob_keep
+  )                                                         +
+  geom_abline(slope = CORR_ARC_TAN, linewidth = LINE_WIDTH) +
+  coord_fixed(expand = FALSE, clip = "on")                  +
+  scale_color_manual(values = PALETTE)                +
+  geom_abline(
+    slope     =  CORR_ARC_TAN,
+    intercept = -CORR_ARC_TAN * (-4:4),
+    linewidth = LINE_WIDTH,
+    linetype  = "17"
+  )                                                         +
+  geom_hline(yintercept = 0, linewidth = LINE_WIDTH)        +
+  theme(
+    axis.line          = element_blank(),
+    panel.grid.major.y = element_line(
+      color     = "black",
+      linewidth = LINE_WIDTH,
+      linetype  = "17"
+    )
+  )
+```
+
+```{r item-plot-latent-space-out}
+#| fig.cap: |
+#|   Item plots in an oblique, orthonormal latent space (with correlation = .5)
+plot_oblique
+```
