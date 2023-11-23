@@ -456,7 +456,11 @@ compute_mirt_params <- function(items,
       MDISC = (t(a) %*% cov_matrix %*% a) |> drop() |> sqrt(),
       D     = - d / MDISC,
       cos   = (scale_matrix %*% a / MDISC) |> drop(),
-      rad   = acos(cos),
+      rad   = dplyr::if_else(
+        assertive.numbers::is_equal_to(cos, 1), # If cos is a "computational 1",
+        0,                                  # then fill in its arc-cos with a 0;
+        suppressWarnings(acos(cos))   # otherwise, compute its arc-cos normally.
+      ),
       deg   = rad * RAD_DEG_FACTOR
     )                                                                        |>
     dplyr::ungroup()                                                         |>
@@ -468,3 +472,4 @@ compute_mirt_params <- function(items,
     )
 }
 ```
+
