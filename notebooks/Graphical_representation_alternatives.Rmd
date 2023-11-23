@@ -486,6 +486,14 @@ matrix is not; this makes sense since, as we have seen before, transforming from
 the test to the latent space implies multiplying by the inverse of the
 covariance matrix.
 
+We now compute the coordinates in the latent space. In order to compute the
+transformed coordinates, instead of the transformation matrix, I understand we
+need its "complementary" with the same role in the latent space. That would be
+the inverse transposed of that transformation matrix.
+
+We return in this case the original coordinates (in the latent space) along with
+the transformed ones (to rectangular coordinates).
+
 ```{r compute-oblique-items-latent-space}
 ## Compute parameters and coordinates:
 items_oblique_params <- items_M2PL |> compute_mirt_params(
@@ -495,8 +503,8 @@ items_oblique_params <- items_M2PL |> compute_mirt_params(
 )
 items_oblique_coords <- items_oblique_params |> compute_mirt_coords(
   D, MDISC, starts_with(COSINE_DIRTYPE),
-  transform       = transform_matrix,
-  original_coords = FALSE
+  transform       = transform_matrix_inv_transp,
+  original_coords = TRUE
 )
 items_oblique        <- full_join(
   items_oblique_params, items_oblique_coords,
