@@ -517,3 +517,6 @@ item_params <- items_M2PL |> full_join(
   by = ITEM_COLKEY
 )
 ```
+
+```{r example-items-obl-out}
+```
