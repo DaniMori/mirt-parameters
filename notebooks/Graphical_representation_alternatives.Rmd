@@ -520,7 +520,14 @@ item_params <- items_M2PL |> full_join(
 
 ```{r example-items-obl-out}
 ```
+
+We now compose the plot in the latent space. Apart from the item representation,
+we need to plot the grid that corresponds to the latent space instead of the
+test space.
+
 ```{r compose-oblique-plot-latent-space}
+TAN_LS <- -CORR_VALUE / CORR_ARC_SIN
+
 plot_oblique <- items_oblique |>
   arrange(desc(item))         |> # To plot them in reverse order
   ggplot(
@@ -529,41 +536,39 @@ plot_oblique <- items_oblique |>
       xend  = end_transf_1, yend = end_transf_2,
       color = item, fill = item
     ),
+  )                                                   +
+  scale_x_continuous(
+    limits       = c(-2, 3),
+    minor_breaks = NULL,
+    name         = NULL,
+    oob          = oob_keep
+  )                                                   +
+  scale_y_continuous(
+    limits       = c(-2, 2.8),
+    breaks       = -3:3 * 2 * TAN_LS,
+    labels       = function(y) 1 + y / (2 * TAN_LS),
+    minor_breaks = 0,
+    name         = NULL,
+    oob          = oob_keep
+  )                                                   +
+  coord_fixed(expand = FALSE, clip = "on")            +
+  scale_color_manual(values = PALETTE)                +
+  geom_abline(slope = TAN_LS, linewidth = LINE_WIDTH) +
+  geom_abline(
+    slope     =  TAN_LS,
+    intercept = -3:3 * 2 * TAN_LS,
+    linewidth = LINE_WIDTH,
+    linetype  = "17"
   )                                                         +
+  geom_vline(xintercept = 0, linewidth = LINE_WIDTH)  +
   geom_segment(
     arrow     = arrow(angle = 20, length = unit(10, "points"), type = "closed"),
     linejoin  = "mitre",
     linewidth = VECTOR_WIDTH
   )                                                         +
-  scale_x_continuous(
-    limits       = c(-2, 3),
-    breaks       = (0:4) - 2 / CORR_ARC_TAN,
-    labels       = 0:4,
-    minor_breaks = NULL,
-    name         = NULL,
-    oob          = oob_keep
-  )                                                         +
-  scale_y_continuous(
-    limits       = c(-2, 2.8),
-    breaks       = -3:3 * cos(CORR_VALUE),
-    labels       = function(x) x / cos(CORR_VALUE),
-    minor_breaks = 0,
-    name         = NULL,
-    oob          = oob_keep
-  )                                                         +
-  geom_abline(slope = CORR_ARC_TAN, linewidth = LINE_WIDTH) +
-  coord_fixed(expand = FALSE, clip = "on")                  +
-  scale_color_manual(values = PALETTE)                +
-  geom_abline(
-    slope     =  CORR_ARC_TAN,
-    intercept = -CORR_ARC_TAN * (-4:4),
-    linewidth = LINE_WIDTH,
-    linetype  = "17"
-  )                                                         +
-  geom_hline(yintercept = 0, linewidth = LINE_WIDTH)        +
   theme(
     axis.line          = element_blank(),
-    panel.grid.major.y = element_line(
+    panel.grid.major.x = element_line(
       color     = "black",
       linewidth = LINE_WIDTH,
       linetype  = "17"
