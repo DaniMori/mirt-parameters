@@ -523,7 +523,80 @@ item_params <- items_M2PL |> full_join(
 
 We now compose the plot in the latent space. Apart from the item representation,
 we need to plot the grid that corresponds to the latent space instead of the
-test space.
+test space. I made a previous version of the grid, but then I realised that I
+didn't quite understand how the grid should be built, apart from the axes.
+
+Therefore, I decide to try to build it following this procedure:
+
+1. First, I try to find the points where the two lines of the grid (one for each
+axis) instersects in the coordinate "1" of the other axis.
+
+2. Then I compute the transformed coordinates of point (1, 1).
+
+3. Tracing a line from this point to each of the intersections of the two axes
+gives the "base" grid lines. Then I only need to translate its coordinates by
+an integer number to get any other grid line.
+
+The points in step 1 must be the end of each of the two basis vectors.
+Therefore, this step implies simply obtaining the coordinates of those basis
+vectors in the orthonormal basis.
+
+Then, step 2 is:
+
+$$
+\begin{pmatrix}
+  1                          & 0 \\
+  - \rho / \sqrt{1 - \rho^2} & 1 / \sqrt{1 - \rho^2}
+\end{pmatrix}
+\begin{pmatrix}
+  1 \\ 1
+\end{pmatrix} = 
+\begin{pmatrix}
+  1 \\ (1 - \rho) / \sqrt{1 - \rho^2}
+\end{pmatrix}
+$$
+
+Finally, step 3:
+
+- The first grid line through axis 2, in point/slope form:
+
+$$
+\begin{pmatrix}
+  1 \\ (1 - \rho) / \sqrt{1 - \rho^2}
+\end{pmatrix} -
+\begin{pmatrix}
+  0 \\ 1 / \sqrt{1 - \rho^2}
+\end{pmatrix} =
+\begin{pmatrix}
+  1 \\ - \rho / \sqrt{1 - \rho^2}
+\end{pmatrix}
+$$
+
+$$
+slope = \frac{- \rho / \sqrt{1 - \rho^2}}{1} =
+  - \frac{\rho}{\sqrt{1 - \rho^2}}
+$$
+
+$$
+intercept = \frac{1}{\sqrt{1 - \rho^2}}
+$$
+
+- The first grid line through axis 1:
+
+$$
+\begin{pmatrix}
+  1 \\ (1 - \rho) / \sqrt{1 - \rho^2}
+\end{pmatrix} -
+\begin{pmatrix}
+  1 \\ - \rho / \sqrt{1 - \rho^2}
+\end{pmatrix} =
+\begin{pmatrix}
+  0 \\ 1 / \sqrt{1 - \rho^2}
+\end{pmatrix}
+$$
+
+It is thus a vertical line through (rectangular) coordinate
+$(1, (1 - \rho) / \sqrt{1 - \rho^2})$.
 
 ```{r compose-oblique-plot-latent-space}
 TAN_LS <- -CORR_VALUE / CORR_ARC_SIN
@@ -539,14 +612,16 @@ plot_oblique <- items_oblique |>
   )                                                   +
   scale_x_continuous(
     limits       = c(-2, 3),
+    breaks       = -2:3,
+    # labels       = function(x) x * CORR_ARC_COSEC,
     minor_breaks = NULL,
     name         = NULL,
     oob          = oob_keep
   )                                                   +
   scale_y_continuous(
     limits       = c(-2, 2.8),
-    breaks       = -3:3 * 2 * TAN_LS,
-    labels       = function(y) 1 + y / (2 * TAN_LS),
+    breaks       = -3:3 / CORR_ARC_SIN,
+    labels       = function(y) y * CORR_ARC_SIN - 2 * CORR_VALUE,
     minor_breaks = 0,
     name         = NULL,
     oob          = oob_keep
@@ -555,8 +630,8 @@ plot_oblique <- items_oblique |>
   scale_color_manual(values = PALETTE)                +
   geom_abline(slope = TAN_LS, linewidth = LINE_WIDTH) +
   geom_abline(
-    slope     =  TAN_LS,
-    intercept = -3:3 * 2 * TAN_LS,
+    slope     = TAN_LS,
+    intercept = -3:3 / CORR_ARC_SIN,
     linewidth = LINE_WIDTH,
     linetype  = "17"
   )                                                         +
@@ -588,4 +663,4 @@ angles seem to be correct, and the computed coordinates seem to be given
 
 [^ls-coords]: This seems odd, there may be a mistake in the computation of the
 latent space grid. Also, it seems like the coordinates are not correct, even if
-they are (apparently) computed perpendicularly to the latent space axes.
+they were computed perpendicularly to the latent space axes.
