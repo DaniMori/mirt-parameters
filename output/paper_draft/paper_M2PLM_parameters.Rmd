@@ -16,7 +16,7 @@ output:
     fig_height:      4
 bibliography: [../../www/Multidimensional-parameters-MCLM.bib, ../../www/packages.bib]
 csl:          ../../www/apa-old-doi-prefix.csl
-editor_options: 
+editor_options:
   chunk_output_type: console
 ---
 
@@ -284,7 +284,7 @@ Thus, inner product $`r LS_BASIS_INNER_PROD`$ has $`r INNER_PROD_MAT_EQ`$ as
 Gram matrix, i.e. $`r INNER_PROD_EQ`$, with $`r INNER_PROD_MAT_ELEMENT_EQ`$ as
 the $`r INNER_PROD_MATRIX_INDEX`$-th element of $`r INNER_PROD_MATRIX`$. As
 $`r TRANSFORM_MATRIX`$ (and consequently $`r TRANSFORM_MATRIX_TRANSP`$) is
-invertible, so is $`r INNER_PROD_MATRIX`$, and $`r INNER_PROD_MATRIX_INV_EQ`$.
+invertible, so $`r INNER_PROD_MATRIX`$ is, and $`r INNER_PROD_MATRIX_INV_EQ`$.
 
 ### Test space and latent space
 
@@ -307,11 +307,11 @@ The norm of $`r DISCR_VECTOR`$ must then fulfill
   `r DISCR_VECTOR_MODULE_EQ`.                    (\#eq:discr-param-squared-norm)
 \end{equation}
 
-Therefore, an inner product $`r ITEM_SPACE_INNER_PROD`$ with Gram matrix
+Therefore, an inner product $`r TEST_SPACE_INNER_PROD`$ with Gram matrix
 $`r INNER_PROD_MATRIX_INV`$ can be defined, such that $`r INNER_PROD_DISCR_EQ`$
 keeps the norm of $`r DISCR_VECTOR`$ invariant.
 The discrimination vectors are thus represented in their own space
-$`r TEST_SPACE`$ with basis $`r ITEM_SPACE_BASIS`$,
+$`r TEST_SPACE`$ with basis $`r TEST_SPACE_BASIS`$,
 which we refer to as the *test space* [@zhang_theoretical_1999].
 The test space is in general different from the latent space $`r LATENT_SPACE`$,
 although there is a bijective relationship between the two sets of spaces.
