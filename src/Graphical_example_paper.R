@@ -251,8 +251,8 @@ plot_oblique <- items_oblique |>
   )                                                         +
   scale_y_continuous(
     limits       = c(-2, 2.8),
-    breaks       = -3:3 * cos(CORR_VALUE),
-    labels       = function(x) x / cos(CORR_VALUE),
+    breaks       = -3:3 * CORR_ARC_SIN,
+    labels       = function(x) x / CORR_ARC_SIN,
     minor_breaks = 0,
     name         = NULL,
     oob          = oob_keep
