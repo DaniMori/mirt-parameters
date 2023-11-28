@@ -183,14 +183,6 @@ item_headers <- tibble(
   }
 )
 
-# c(
-#   ITEM_TABLE_TITLE,
-#   "a_{i1}",
-#   "a_{i2}",
-#   INTERCEPT_PARAM,
-#   c(" ", MDISC_ITEM, DISTANCE_PARAM, "\\alpha_{i1}", "\\alpha_{i2}") |> rep(2)
-# )
-
 # Table formatted as a `flextable` object:
 item_params_output <- item_params                 |>
   flextable()                                     |>
