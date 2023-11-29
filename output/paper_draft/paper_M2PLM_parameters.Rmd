@@ -537,10 +537,10 @@ the slope is maximum.
 Finally, to determine the signed distance $`r DISTANCE_PARAM`$
 from the origin to that point,
 we solve Equation \@ref(eq:M2PL-formula-polar) for $`r IRF_MAX_SLOPE_EQ`$ to get
-$`r TRAIT_NORM_SOLVED_EQ`$. Using equation \@ref(eq:dir-cos-vec), then
+$`r TRAIT_NORM_SOLVED_EQ`$. Using equation \@ref(eq:dir-cos-vec),
 
 \begin{equation}
-  `r DISTANCE_PARAM_EQ`,                                   (\#eq:distance-param)
+  `r DISTANCE_PARAM_EQ`.                                   (\#eq:distance-param)
 \end{equation}
 
 The slope $`r SLOPE_MAX_PARAM`$ at the point defined by Equations
@@ -684,7 +684,7 @@ a valid generalization of the (unidimensional) IRT parameters
 
 2. The distance $`r DISTANCE_PARAM`$ has the same relationship with the
    intercept as $b_i$ in the unidimensional case,
-   i.e. $`r DIST_INTERCEPT_REL`$.
+   i.e., $`r DIST_INTERCEPT_REL`$.
 
 3. $`r MDISC_SYM`$ is four times the maximum slope $`r SLOPE_MAX_PARAM`$.
 
@@ -700,7 +700,7 @@ Nevertheless, it can be interpreted as a *scaled version* of the index,
 with the standard deviation of the corresponding dimension as scaling factor.
 This transformation may be made in the unidimensional case as well,
 thus finding a *standard-metric* discrimination parameter
-(i.e. referred to a unitary variance space).
+(i.e., referred to a unitary variance space).
 
 The (signed) distance to the origin,
 given by the second element of $`r MIL_PARAM`$, has an interesting property:
