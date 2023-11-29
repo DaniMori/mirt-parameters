@@ -281,40 +281,53 @@ $`r LS_BASIS_INNER_PROD`$ as
 \end{equation}
 
 Thus, inner product $`r LS_BASIS_INNER_PROD`$ has $`r INNER_PROD_MAT_EQ`$ as
-Gram matrix, i.e. $`r INNER_PROD_EQ`$, with $`r INNER_PROD_MAT_ELEMENT_EQ`$ as
+Gram matrix, i.e., $`r INNER_PROD_EQ`$, with $`r INNER_PROD_MAT_ELEMENT_EQ`$ as
 the $`r INNER_PROD_MATRIX_INDEX`$-th element of $`r INNER_PROD_MATRIX`$. As
 $`r TRANSFORM_MATRIX`$ (and consequently $`r TRANSFORM_MATRIX_TRANSP`$) is
 invertible, so $`r INNER_PROD_MATRIX`$ is, and $`r INNER_PROD_MATRIX_INV_EQ`$.
 
 ### Test space and latent space
 
-Before proceeding further, we need to make a clarification
-regarding the representation of the items in the latent space.
-Let's consider the model given by Equation \@ref(eq:M2PL-formulation),
-where the latent traits and the parameters $`r DISCR_VECTOR`$ are expressed
-in the same basis $`r LS_BASIS`$ in their respective spaces.
-The coordinates of $`r DISCR_VECTOR`$ are then $`r DISCR_COORDS`$.
+Consider now the M2PL model formulation given by Equation
+\@ref(eq:M2PL-formulation), on one hand, and Equation \@ref(eq:change-basis) on
+the other.
 Since the response probability must be invariant with respect to
-a change of basis, $`r DISCR_COORDS`$ must also be transformed
-into $`r DISCR_STD_COORDS`$, such that $`r INVARIANCE_EQ`$;
-therefore, $`r DISCR_STD_COORDS_EQ`$.
-This shows that first a transformation through $`r INNER_PROD_MATRIX_INV`$
-is performed and then a change to the standard basis,
-so the $`r DISCR_STD_COORDS`$ are expressed in the standard basis.
-The norm of $`r DISCR_VECTOR`$ must then fulfill
+a change of basis,
+we must define the coordinates $`r DISCR_STD_COORDS`$ of the parameter vector
+$`r DISCR_VECTOR`$ in an orthonormal basis $`r TEST_SPACE_STD_BASIS`$,
+such that $`r INVARIANCE_EQ`$.
+If we assume that $`r DISCR_VECTOR`$ exists in vector space $`r TEST_SPACE`$,
+with coordinates $`r DISCR_COORDS`$ in basis $`r TEST_SPACE_BASIS`$,
+then we must define $`r DISCR_COORDS`$ such that
 
 \begin{equation}
-  `r DISCR_VECTOR_MODULE_EQ`.                    (\#eq:discr-param-squared-norm)
+  `r DISCR_STD_COORDS_EQ`                                (\#eq:discr-vector-std)
+\end{equation}
+
+We want @reckase_difficulty_1985's definition of the multidimensional parameters
+in rectangular coordinates to be a particular case of our more general
+definition, so we can conveniently assume that the inner product in
+$`r TEST_SPACE_STD_BASIS`$ is the dot product,
+as we did with $`r LS_ORTH_BASIS`$.
+The norm of $`r DISCR_VECTOR`$ thus fulfills
+
+\begin{equation}
+  `r DISCR_VECTOR_MODULE_EQ`.
 \end{equation}
 
 Therefore, an inner product $`r TEST_SPACE_INNER_PROD`$ with Gram matrix
 $`r INNER_PROD_MATRIX_INV`$ can be defined, such that $`r INNER_PROD_DISCR_EQ`$
 keeps the norm of $`r DISCR_VECTOR`$ invariant.
-The discrimination vectors are thus represented in their own space
-$`r TEST_SPACE`$ with basis $`r TEST_SPACE_BASIS`$,
-which we refer to as the *test space* [@zhang_theoretical_1999].
-The test space is in general different from the latent space $`r LATENT_SPACE`$,
-although there is a bijective relationship between the two sets of spaces.
+
+This shows that discrimination vectors are indeed represented in their own
+vector space $`r TEST_SPACE`$ with basis $`r TEST_SPACE_BASIS`$.
+We shall refer to this new space as the *test space* [@zhang_theoretical_1999].
+Although the inverse relationship between their respective inner product
+Gram matrices induces a bijective relationship between the two sets of spaces,
+it is worth highlighting that test space $`r TEST_SPACE`$
+and latent space $`r LATENT_SPACE`$ are different entities. Only in the
+orthonormal case the two spaces share a common inner product
+(i.e., the dot product), and thus can be mistaken.
 
 ### Direction cosines in the latent space
 
@@ -488,7 +501,7 @@ Following the procedure outlined by @reckase_difficulty_1985
 we first compute the point of maximum slope by finding the root(s) of
 the second derivative with respect to $`r TRAIT_NORM`$.
 
-The slope in direction $`r DIR_ANGLE_VEC`$ is given by
+The slope in direction $`r DIR_ANGLE_VEC_ORG`$ is given by
 
 \begin{equation}
   `r IRF_1ST_DIFF_EQ`,                                      (\#eq:M2PL-1st-diff)
@@ -527,7 +540,7 @@ an orthonormal matrix and $`r ALT_MATRIX_AS_ID`$) we obtain
 
 \begin{equation}
   \begin{split}
-    `r DIR_COS_AS_DIR_COS_ORTH_EQ` \\
+    `r DIR_COS_AS_DIR_COS_ORTH_EQ`, \\
     `r TRAIT_POLAR_COEFF_COS_ORTH_EQ`.
   \end{split}                                 (\#eq:direction-cosine-vectors-eq)
 \end{equation}
@@ -538,13 +551,10 @@ Therefore, substituting in \@ref(eq:slope-max),
   `r SLOPE_MAX_STD_COSINES_EQ`.                     (\#eq:slope-max-std-cosines)
 \end{equation}
 
-We can then define
-
-\begin{equation}
-  `r DISCR_STD_COORDS_EQ`                                (\#eq:discr-vector-std)
-\end{equation}
-
-so
+As $`r DISCR_VECTOR`$ is defined in test space $`r TEST_SPACE`$ with basis
+$`r TEST_SPACE_BASIS`$, its algebraic vector values correspond to its
+coordinates, i.e., $`r DISCR_VECTOR_COORDS_EQ`$. Therefore, by Equation
+\@ref(eq:discr-vector-std),
 
 \begin{equation}
   `r SLOPE_MAX_STD_EQ`.                                     (\#eq:slope-max-std)
