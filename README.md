@@ -33,22 +33,22 @@ It is enough to click on "Yes" in the pop-up window.
 
 ## Manual installation of software components:
 
-- Install [R version 4.2.1][R]:
+- Install [R version 4.3.2][R]:
   In Windows, using the [binary installer][inst] is recommended.
 
-[R]: https://cran.rstudio.com/bin/windows/base/old/4.2.1/
-[inst]: (https://cran.rstudio.com/bin/windows/base/old/4.2.1/R-4.2.1-win.exe)
+[R]: https://cran.rstudio.com/bin/windows/base/old/4.3.2/
+[inst]: (https://cran.rstudio.com/bin/windows/base/old/4.3.2/R-4.3.2-win.exe)
 
 - [Rstudio Desktop][RS]: Although not strictly necessary, it is recommended
   to install the Rstudio IDE; for strict reproducibility, use build
-  [2022.07.1+554 for Windows 10/11][RSv].
+  [2023.12.0+369 for Windows 10/11][RSv].
   However, if Rstudio is not installed,
   then [Pandoc][P] will need to be downloaded and installed
   (Use [v2.18 for Windows][Pv] for strict reproducibility).
 
 [RS]: https://www.rstudio.com/products/rstudio/download/#download
 
-[RSv]: https://download1.rstudio.org/desktop/windows/RStudio-2022.07.1-554.exe
+[RSv]: https://download1.rstudio.org/desktop/windows/RStudio-2023.12.0-369.exe
 
 [P]: https://pandoc.org/installing.html
 
@@ -60,7 +60,7 @@ It is enough to click on "Yes" in the pop-up window.
 
 [G]: https://git-scm.com/download
 
-[GW]: https://github.com/git-for-windows/git/releases/download/v2.37.1.windows.1/Git-2.37.1-64-bit.exe
+[GW]: https://github.com/git-for-windows/git/releases/download/v2.43.0.windows.1/Git-2.43.0-64-bit.exe
 
 - [Node.js][N]: It is necessary for rendering the equations in the table headers
   with the [`flextable` package][FT]. When installing Node.js,
@@ -72,7 +72,7 @@ It is enough to click on "Yes" in the pop-up window.
 
 [FT]: https://cran.r-project.org/package=flextable
 
-[NW]: https://nodejs.org/dist/v16.16.0/node-v16.16.0-x64.msi
+[NW]: https://nodejs.org/dist/latest/node-v21.5.0-x64.msi
 
 ## Installing the project locally
 
@@ -96,7 +96,7 @@ you can do so by double clicking on the file `mapping-initiatives.Rproj`
 that has been created in the project folder when cloning the repository.
 
 **NOTE:** It is common practice to avoid using and versioning `.Rprofile` files.
-Hoever, this project uses [package `renv`][renv]
+However, this project uses [package `renv`][renv]
 to create a reproducible environment,
 which needs the `.Rprofile` file that lives in the root directory of the
 project. **Please DO NOT delete or edit this file**; it will install and
