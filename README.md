@@ -62,18 +62,6 @@ It is enough to click on "Yes" in the pop-up window.
 
 [GW]: https://github.com/git-for-windows/git/releases/download/v2.43.0.windows.1/Git-2.43.0-64-bit.exe
 
-- [Node.js][N]: It is necessary for rendering the equations in the table headers
-  with the [`flextable` package][FT]. When installing Node.js,
-  one of the Windows of the installer will prompt the user to
-  "Automatically install the necessary tools";
-  tick this checkbox to ensure all the necessary tools are installed.
-  For strict reproducibility, install the
-  [64-bit Windows intaller, v16.16.0][NW].
-
-[FT]: https://cran.r-project.org/package=flextable
-
-[NW]: https://nodejs.org/dist/latest/node-v21.5.0-x64.msi
-
 ## Installing the project locally
 
 This project is hosted as a GitHub repository.
