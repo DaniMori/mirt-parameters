@@ -1,0 +1,40 @@
+---
+title: 'Exploration of the MIRT solutions'
+output:
+  html_document: 
+    df_print:        paged
+    code_folding:    hide
+    toc:             yes
+    toc_float:       yes
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r setup}
+library(knitr)
+library(mirt)
+
+ROOT_DIR <- rstudioapi::getActiveProject()
+DOC_DIR  <- getwd()
+
+opts_knit$set(root.dir = ROOT_DIR)
+opts_chunk$set(
+  echo     = TRUE,
+  message  = FALSE,
+  cache    = FALSE
+)
+
+# Output configuration options:
+options(digits = 3)
+```
+
+# Introduction
+
+We want to explore the solutions of package `{mirt}` when computing latent trait
+estimates, given that, apparently, it computes a rotated solution. Rotated
+solutions typically try to find the simplest structure possible, thus performing
+an oblique rotation, if necessary, to find the highest number of null
+discrimination parameters.
+
+However, the MDISC and MID parameters are possibly estimated from the original,
+unrotated solution.
