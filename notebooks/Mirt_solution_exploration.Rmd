@@ -3,7 +3,7 @@ title: 'Exploration of the MIRT solutions'
 output:
   html_document: 
     df_print:        paged
-    code_folding:    hide
+    code_folding:    show
     toc:             yes
     toc_float:       yes
 editor_options: 
@@ -80,6 +80,8 @@ cov_pars <- coefs[['GroupPars']] |>
 
 cov_matrix <- cov_pars[c('COV_11', 'COV_21', 'COV_21', 'COV_22')] |>
   matrix(nrow = 2)
+
+item_pars
 ```
 
 In order to check the result expressed in factor-analytic metric, we turn the
@@ -102,7 +104,7 @@ Factor scores are computed by means of the `fscores()` function. By default,
 We use the original LSAT7 response patterns to compute the factor scores:
 
 ```{r compute-fscores}
-scores <- fscores(mod2, response.pattern = LSAT7[, 1:5])
+fscores(mod2, response.pattern = LSAT7[, 1:5])
 ```
 
 ## Multidimensional IRT parameters
