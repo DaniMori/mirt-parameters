@@ -7,11 +7,11 @@ output:
     toc:             yes
     toc_float:       yes
 editor_options: 
-  chunk_output_type: console
+  chunk_output_type: inline
 ---
 
 ```{r setup}
-#| warning: false
+#| message: false
 library(knitr)
 library(mirt)
 library(tidyverse)
@@ -23,7 +23,8 @@ opts_knit$set(root.dir = ROOT_DIR)
 opts_chunk$set(
   echo     = TRUE,
   message  = FALSE,
-  cache    = FALSE
+  cache    = FALSE,
+  results  = 'hold'
 )
 
 # Output configuration options:
@@ -52,10 +53,11 @@ We start by fitting a model with sample data bundled with the `{mirt}` package
 itself. Let's start by using the first multidimensional example:
 
 ```{r fit-model}
+#| message: false
 data <- expand.table(LSAT7)
 itemstats(data)
 
-mod2 <- mirt(data, 2)
+mod2 <- mirt(data, 2, verbose = FALSE)
 coef(mod2)
 summary(mod2, rotate = 'oblimin') #oblimin rotation
 ```
@@ -92,9 +94,14 @@ factor-analytic parameters into IRT metric to see whether they are coincident:
 
 ```{r param-equivalence}
 sum <- summary(mod2, rotate = 'oblimin') #oblimin rotation
-sum$rotF |> as_tibble() |> mutate(
-  across(everything(), ~1.702 * . / sqrt(1-as.numeric(sum$h2)))
-)
+sum$rotF      |>
+  as_tibble() |>
+  mutate(
+    across(everything(), ~1.702 * . / sqrt(1-as.numeric(sum$h2)))
+  )           |>
+  # Update the column names so they refer correctly to the discrimination
+  #   parameters instead of the factor loadings.
+  rename_with(str_replace, everything(), pattern = 'F', replacement = 'a')
 ```
 
 The equivalence holds.
