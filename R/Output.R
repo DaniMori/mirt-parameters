@@ -17,7 +17,7 @@
 
 library(officer)
 
-# source("R/<file>")
+# source("R/<file>", encoding = 'UTF-8')
 
 
 ## ---- CONSTANTS: -------------------------------------------------------------

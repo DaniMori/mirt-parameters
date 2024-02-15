@@ -72,9 +72,9 @@ theme_set(
 
 
 ```{r includes, cache=FALSE}
-source("R/Formulas.R")
-source("R/Graphical_example_transcriptions_Mario.R")
-source("R/Output.R")
+source("R/Formulas.R", encoding = 'UTF-8')
+source("R/Graphical_example_transcriptions_Mario.R", encoding = 'UTF-8')
+source("R/Output.R", encoding = 'UTF-8')
 ```
 
 

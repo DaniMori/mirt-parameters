@@ -16,9 +16,7 @@
 
 ## ---- INCLUDES: --------------------------------------------------------------
 
-# p_load(tidyverse, magrittr)
-
-source("R/LaTeX_math.R")
+source("R/LaTeX_math.R", encoding = 'UTF-8')
 
 ## ---- CONSTANTS: -------------------------------------------------------------
 
@@ -49,7 +47,7 @@ LS_BASIS_EQ        <- latex_eq(LS_BASIS, LS_BASIS_SET)
 TRAIT_VECTOR    <- latex_bf("\\uptheta")
 TRAIT_VEC_IN_LS <- latex_in(TRAIT_VECTOR, LATENT_SPACE)
 MEAN_VECTOR     <- latex_bf("\\upmu")
-COV_MATRIX      <- latex_bf("\\upSigma")
+COV_MATRIX      <- latex_bf("\\Sigma")
 NORMAL_DISTR    <- latex_cal('N')
 MV_DISTRIBUTION <- latex(
   NORMAL_DISTR,
@@ -259,6 +257,35 @@ INNER_PROD_MAT_ELEMENT_EQ  <- latex_eq(
   INNER_PROD_MAT_ELEMENT_DEF
 )
 INNER_PROD_MATRIX_INDEX    <- latex(AUX_INDEX, DIM_INDEX, .sep = SEP_COMMA)
+
+# Inverse inner product matrix:
+INNER_PROD_MATRIX_INV       <- latex_inverse(INNER_PROD_MATRIX)
+TRANSFORM_MATRIX_INV        <- latex_inverse(TRANSFORM_MATRIX)
+TRANSFORM_MATRIX_TRANSP_INV <- latex_transp("{$TRANSFORM_MATRIX_INV$}")
+INNER_PROD_MATRIX_INV_DEF   <- latex(
+  TRANSFORM_MATRIX_INV,
+  TRANSFORM_MATRIX_TRANSP_INV
+)
+INNER_PROD_MATRIX_INV_EQ    <- latex_eq(
+  INNER_PROD_MATRIX_INV,
+  INNER_PROD_MATRIX_INV_DEF
+)
+
+# Inner product matrix element:
+INNER_PROD_MAT_ELEMENT     <- latex_sub(
+  'm',
+  latex(AUX_INDEX, DIM_INDEX, .sep = NO_SEP)
+)
+BASIS_VECTOR_AUX           <- latex_sub(BASIS_VECTOR, AUX_INDEX)
+BASIS_VECTOR_AUX_TRANSF    <- latex_prime(BASIS_VECTOR_AUX)
+INNER_PROD_MAT_ELEMENT_DEF <- latex_innerprod(
+  BASIS_VECTOR_AUX_TRANSF,
+  BASIS_VECTOR_AUX_TRANSF
+)
+INNER_PROD_MAT_ELEMENT_EQ  <- latex_eq(
+  INNER_PROD_MAT_ELEMENT,
+  INNER_PROD_MAT_ELEMENT_DEF
+)
 
 # Inverse inner product matrix:
 INNER_PROD_MATRIX_INV       <- latex_inverse(INNER_PROD_MATRIX)
