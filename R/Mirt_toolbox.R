@@ -91,7 +91,7 @@ compute_mirt_params <- function(items,
       dim   = par |> stringr::str_extract("\\d+"),
       MDISC = (t(a) %*% cov_matrix %*% a) |> drop() |> sqrt(),
       D     = - d / MDISC,
-      cos   = (inv_sd_matrix %*% cov_matrix %*% a / MDISC)  |> drop(),
+      cos   = (inv_sd_matrix %*% cov_matrix %*% a / MDISC) |> drop(),
       rad   = acos(cos),
       deg   = rad * RAD_DEG_FACTOR
     )                                                                        |>
@@ -167,10 +167,9 @@ compute_mirt_coords <- function(items,
     transf_dim <- transform |> ncol()
     assertive.base::assert_are_identical(transf_dim, n_dir_cols)
     
-    ## Check its squared matrix can be considered a covariance matrix:
+    ## Check its inverse squared matrix can be considered a covariance matrix:
     cov_matrix <- t(transform) %*% transform |> solve()
     assertive.extra::assert_is_covariance_matrix(cov_matrix)
-    
   }
   
   # Direction options:

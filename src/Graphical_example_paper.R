@@ -35,7 +35,8 @@ source("R/Constants.R",    encoding = 'UTF-8')
 # Graphical representation parameters:
 GRAPH_FONT   <- "serif"
 LINE_WIDTH   <- .1
-VECTOR_WIDTH <- .3
+VECTOR_WIDTH <- .5
+# POINT_CHAR   <- 19L
 PALETTE      <- c("darkred", "darkgoldenrod3", "green3", "cyan3", "blue3")
 
 # Item parameters:
@@ -106,7 +107,6 @@ transform_matrix_inv_transp <- t(transform_matrix_inv)
 inner_prod_matrix           <- transform_matrix_transp %*% transform_matrix
 corr_matrix                 <- solve(inner_prod_matrix)
                        # == transform_matrix_inv %*% transform_matrix_inv_transp
-sqrt_diag_inner_prod_matrix <- diag(inner_prod_matrix) |> diag() |> sqrt()
 
 ## Compute parameters and coordinates:
 items_oblique_params <- items_M2PL |> compute_mirt_params(
@@ -267,7 +267,7 @@ plot_oblique <- items_oblique |>
   geom_segment(
     arrow     = arrow(angle = 20, length = unit(10, "points"), type = "closed"),
     linejoin  = "mitre",
-    linewidth = LINE_WIDTH
+    linewidth = VECTOR_WIDTH
   )                                                         +
   scale_x_continuous(
     limits       = c(-2, 3),
@@ -279,8 +279,8 @@ plot_oblique <- items_oblique |>
   )                                                         +
   scale_y_continuous(
     limits       = c(-2, 2.8),
-    breaks       = -3:3 * cos(CORR_VALUE),
-    labels       = function(x) x / cos(CORR_VALUE),
+    breaks       = -3:3 * CORR_ARC_SIN,
+    labels       = function(x) x / CORR_ARC_SIN,
     minor_breaks = 0,
     name         = NULL,
     oob          = oob_keep
@@ -312,7 +312,7 @@ plot_orth <- items_orth |>
   geom_segment(
     arrow     = arrow(angle = 20, length = unit(10, "points"), type = "closed"),
     linejoin  = "mitre",
-    linewidth = LINE_WIDTH
+    linewidth = VECTOR_WIDTH
   ) +
   scale_x_continuous(
     limits       = c(-2.5, 2.5),
