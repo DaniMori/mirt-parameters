@@ -1,7 +1,11 @@
 ---
 title: 'Exploration of the MIRT solutions'
 output:
-  html_document: 
+  word_document:
+    df_print:        kable
+    toc:             yes
+    reference_docx:  ../www/Notebook_template.docx
+  html_document:
     df_print:        paged
     code_folding:    show
     toc:             yes
@@ -11,6 +15,7 @@ editor_options:
 ---
 
 ```{r setup}
+#| echo: !expr 'knitr::is_html_output()'
 #| message: false
 library(knitr)
 library(mirt)
@@ -21,7 +26,7 @@ DOC_DIR  <- getwd()
 
 opts_knit$set(root.dir = ROOT_DIR)
 opts_chunk$set(
-  echo     = TRUE,
+  echo     = is_html_output(),
   message  = FALSE,
   cache    = FALSE,
   results  = 'hold'
