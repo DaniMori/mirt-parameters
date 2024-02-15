@@ -1,0 +1,153 @@
+---
+title: 'Exploration of the MIRT solutions'
+output:
+  html_document: 
+    df_print:        paged
+    code_folding:    show
+    toc:             yes
+    toc_float:       yes
+editor_options: 
+  chunk_output_type: inline
+---
+
+```{r setup}
+#| message: false
+library(knitr)
+library(mirt)
+library(tidyverse)
+
+ROOT_DIR <- rstudioapi::getActiveProject()
+DOC_DIR  <- getwd()
+
+opts_knit$set(root.dir = ROOT_DIR)
+opts_chunk$set(
+  echo     = TRUE,
+  message  = FALSE,
+  cache    = FALSE,
+  results  = 'hold'
+)
+
+# Output configuration options:
+options(digits = 3)
+```
+
+```{r sources}
+source('R/Mirt_toolbox.R', encoding = 'UTF-8')
+```
+
+# Introduction
+
+We want to explore the solutions of package `{mirt}` when computing latent trait
+estimates, given that, apparently, it computes a rotated solution. Rotated
+solutions typically try to find the simplest structure possible, thus performing
+an oblique rotation, if necessary, to find the highest number of null
+discrimination parameters.
+
+However, the MDISC and MID parameters are possibly estimated from the original,
+unrotated solution. Note that the values of these multidimensional parameters
+is invariant to the rotation.
+
+# Model estimation
+
+We start by fitting a model with sample data bundled with the `{mirt}` package
+itself. Let's start by using the first multidimensional example:
+
+```{r fit-model}
+#| message: false
+data <- expand.table(LSAT7)
+itemstats(data)
+
+mod2 <- mirt(data, 2, verbose = FALSE)
+coef(mod2)
+summary(mod2, rotate = 'oblimin') #oblimin rotation
+```
+
+## Parameter computation
+
+The default model is a 2-PL, so the items only have two discrimination
+parameters (one for each dimension), and an intercept parameter. Parameters `g`
+and `u` are restricted to `0` and `1`, respectively.
+
+After applying the `oblimin` rotation, the item parameters and covariances are:
+
+```{r rotated-irt-params}
+coefs <- coef(mod2, rotate = 'oblimin') |> map(as_tibble)
+
+item_pars <- coefs |>
+  bind_rows()      |>
+  slice(1:5)       |>
+  select(a1:d)     |>
+  rownames_to_column(var = "item")
+
+cov_pars <- coefs[['GroupPars']] |>
+  pivot_longer(everything())     |>
+  deframe()
+
+cov_matrix <- cov_pars[c('COV_11', 'COV_21', 'COV_21', 'COV_22')] |>
+  matrix(nrow = 2)
+
+item_pars
+```
+
+In order to check the result expressed in factor-analytic metric, we turn the
+factor-analytic parameters into IRT metric to see whether they are coincident:
+
+```{r param-equivalence}
+sum <- summary(mod2, rotate = 'oblimin') #oblimin rotation
+sum$rotF      |>
+  as_tibble() |>
+  mutate(
+    across(everything(), ~1.702 * . / sqrt(1-as.numeric(sum$h2)))
+  )           |>
+  # Update the column names so they refer correctly to the discrimination
+  #   parameters instead of the factor loadings.
+  rename_with(str_replace, everything(), pattern = 'F', replacement = 'a')
+```
+
+The equivalence holds.
+
+## Factor scores
+
+Factor scores are computed by means of the `fscores()` function. By default,
+`{mirt}` applies an `oblimin` rotation.
+
+We use the original LSAT7 response patterns to compute the factor scores:
+
+```{r compute-fscores}
+fscores(mod2, response.pattern = LSAT7[, 1:5])
+```
+
+## Multidimensional IRT parameters
+
+We compute the multidimensional IRT parameters using the `{mirt}` functions, and
+also the IRT parameters of the rotated solution, and compare them.
+
+```{r multidim-params}
+mod2 |> MDISC()
+mod2 |> MDIFF()
+
+item_pars |>
+  compute_mirt_params(d, a1:a2, cov_matrix = cov_matrix, dir_out = 'cos')
+```
+
+We see that they have the same values. Also, we can use the original, unrotated
+solution:
+
+```{r multidim-params-unrotated}
+coefs_unrot <- coef(mod2) |> map(as_tibble)
+
+item_pars_unrot <- coefs_unrot |>
+  bind_rows()                  |>
+  slice(1:5)                   |>
+  select(a1:d)                 |>
+  rownames_to_column(var = "item")
+
+item_pars_unrot |>
+  compute_mirt_params(d, a1:a2, dir_out = 'cos')
+```
+
+As expected, the MDISC and the location component of the MDIFF are coincident,
+but the direction cosines change.
+
+A visual inspection of the `MDISC()` and `MDIFF()` functions shows that the
+parameters are computed applying Reckase's formulae to the unrotated solution.
