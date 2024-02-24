@@ -4,11 +4,17 @@ author: "Mario Luzardo"
 date: "2023-07-13"
 output:
   word_document:
-    fig_width:  6
-    fig_height: 6
+    fig_width:    6
+    fig_height:   6
+  html_document:
+    fig_width:    6
+    fig_height:   6
+    code_folding: hide
+    toc:          yes
+    toc_float:    yes
 editor_options:
   markdown:
-    canonical: false
+    canonical:    false
 ---
 
 ```{r setup, include=FALSE}
