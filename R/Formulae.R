@@ -48,6 +48,8 @@ LS_BASIS_EQ        <- latex_eq(LS_BASIS, LS_BASIS_SET)
 # Latent vector definition:
 TRAIT_VECTOR    <- latex_bf("\\uptheta")
 TRAIT_VEC_IN_LS <- latex_in(TRAIT_VECTOR, LATENT_SPACE)
+
+# TODO: Move forward this block:
 MEAN_VECTOR     <- latex_bf("\\upmu")
 COV_MATRIX      <- latex_bf("\\upSigma")
 NORMAL_DISTR    <- latex_cal('N')

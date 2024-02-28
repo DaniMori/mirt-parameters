@@ -196,21 +196,8 @@ the applicability and generalization of our results.
 ## Model formulation
 
 Consider a $`r N_DIMS`$-dimensional latent space $`r LATENT_SPACE`$
-in basis $`r LS_BASIS_EQ`$.
-A respondent is represented by vector $`r TRAIT_VEC_IN_LS`$,
-which is assumed to be a multivariate normal random variable:
-
-\begin{equation}
-  `r TRAIT_MV_DEF`,
-\end{equation}
-
-where $`r MEAN_VECTOR`$ is an $n$-element vector of means and
-$`r COV_MATRIX` = `r SD_MATRIX` `r CORR_MATRIX` `r SD_MATRIX`$
-an $n$-dimensional positive definite covariance matrix,
-with $`r CORR_MATRIX`$ the corresponding correlation matrix
-(also positive definite) and $`r SD_MATRIX`$ a scaling diagonal matrix
-with $`r VAR_COV_EQ`$ (i.e., the variances).
-
+in basis $`r LS_BASIS_EQ`$,
+where a respondent is represented by vector $`r TRAIT_VEC_IN_LS`$.
 According to the `r MODEL_ACRONYM` model, the probability of
 a positive response to item $`r ITEM_INDEX`$ is
 
