@@ -66,7 +66,7 @@ source("R/Constants.R", encoding = 'UTF-8')
 # Introduction
 
 Multidimensional item response theory (MIRT) models have been widely used since
-their inception.<!--# Ref. needed? -->
+their inception.
 The so-called *Multidimensional 2-Parameter Logistic*
 [`r MODEL_ACRONYM`, @mckinley_extension_1983] model is among the most important
 and widely used ones.
@@ -108,7 +108,7 @@ the R package *psych*, <!--# Reference needed? -->graphically represents
 factor loadings on orthogonal axes even after an oblique rotation.
 Nevertheless, the assimilation of correlated latent traits to non-orthogonal
 axes is prevalent in the common factor literature
-[see, e.g., @harman_modern_1970].<!--# Thurstone's Multiple Factor Analysis, 1947? -->
+[see, e.g., @harman_modern_1970].
 This assumption is not so easily found in the MIRT literature though,
 which mostly deals with uncorrelated dimensions
 [see @reckase_multidimensional_2009 for a comprehensive treatment of the topic].
@@ -126,7 +126,7 @@ It is not uncommon to find recent examples of MIRT models where the
 correlation matrix of the latent dimensions is freely estimated
 [see, e.g., @reckase_multidimensional_2009, pp. 224-228]. Despite this, the
 correspondence between correlated latent traits and orthogonal coordinate axes
-is usually implicit in the MIRT literature without further consideration<!--# Exaples? -->
+is usually implicit in the MIRT literature without further consideration
 [see @zhang_theoretical_1999 for a notable exception].
 Moreover, disregarding this geometrical interpretation may lead to
 misconceptions that put the measurement and its conclusions into question.<!-- completar?? -->
