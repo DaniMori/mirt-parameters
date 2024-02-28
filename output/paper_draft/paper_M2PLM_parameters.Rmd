@@ -692,7 +692,7 @@ thus finding a *standard-metric* discrimination parameter
 (i.e., referred to a unitary variance space).
 
 The (signed) distance to the origin,
-given by the second element of $`r MIL_PARAM`$, has an interesting property:
+given by the first component of $`r MIL_PARAM`$, has an interesting property:
 By the definition of the inner product,
 $`r MDISC_SYM`$ is strictly positive for non-null vectors.
 Therefore, the sign of $`r DISTANCE_PARAM`$ is equal to
