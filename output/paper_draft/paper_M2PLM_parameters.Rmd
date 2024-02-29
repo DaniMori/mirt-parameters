@@ -437,29 +437,6 @@ any trait vector $`r TRAIT_VECTOR`$ is expressed in polar coordinates as
   `r TRAIT_VECTOR_POLAR_EQ`.                      (\#eq:trait-equivalence-polar)
 \end{equation}
 
-::: {.proof}
-*Proof.*
-
-For every $`r DIM_INDEX`$; $`r DIM_ENUM_EQ`$,
-
-\begin{equation}
-  `r DIR_COSINE_PROOF_EQ`,                        (\#eq:dir-cosine-proof-prop-1)
-\end{equation}
-
-with $`r INNER_PROD_MATRIX_ROW`$ the $`r DIM_INDEX`$-th row of
-$`r INNER_PROD_MATRIX`$.
-
-Therefore, $`r DIR_COS_VEC_EQ`$ and $`r TRAIT_VECTOR_POLAR_EQ`$.
-$`r END_OF_PROOF`$
-:::
-
-:::
-
-## Model recasting into polar coordinates
-
-From Equation \@ref(eq:direction-cosine-vector),
-any trait vector $`r TRAIT_VECTOR`$ is expressed in polar coordinates as
-
 Thus, the M2PL model is expressed in polar coordinates as
 
 \begin{equation}
