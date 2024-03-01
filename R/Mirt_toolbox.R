@@ -33,6 +33,7 @@ compute_mirt_params <- function(items,
                                 cov_matrix,
                                 item_id    = item,
                                 dir_out    = c("cos", "rad", "deg"),
+                                corr_based = FALSE,
                                 zero_round = TRUE) {
   ## Argument checking and formatting: ----
   
@@ -73,12 +74,17 @@ compute_mirt_params <- function(items,
   one_dir <- dir_out                      |>
     assertive.properties::is_of_length(1) |>
     as.logical()
+  
+  # Flags:
+  assertive.types::assert_is_a_bool(corr_based)
+  assertive.types::assert_is_a_bool(zero_round)
 
   ## Main: ----
   
-  # Compute inverse s.d. matrix:
-  var_matrix    <- cov_matrix |> diag() |> diag()
-  inv_sd_matrix <- var_matrix |> sqrt() |> solve()
+  # Compute transform (and ancillary) matrix:
+  innerprod_matrix   <- if (corr_based) cov_matrix |> cov2cor() else cov_matrix
+  diag_matrix        <- innerprod_matrix |> diag() |> diag()
+  inv_sr_diag_matrix <- diag_matrix      |> sqrt() |> solve()
   
   result <- items                                                            |>
     tidyr::pivot_longer(!!discrimination, names_to = "par", values_to = "a") |>
@@ -89,9 +95,9 @@ compute_mirt_params <- function(items,
       !!item_id,
       ## Compute the multidimensional parameters:
       dim   = par |> stringr::str_extract("\\d+"),
-      MDISC = (t(a) %*% cov_matrix %*% a) |> drop() |> sqrt(),
+      MDISC = (t(a) %*% innerprod_matrix %*% a) |> drop() |> sqrt(),
       D     = - d / MDISC,
-      cos   = (inv_sd_matrix %*% cov_matrix %*% a / MDISC) |> drop(),
+      cos   = (inv_sr_diag_matrix %*% innerprod_matrix %*% a / MDISC) |> drop(),
       rad   = acos(cos),
       deg   = rad * RAD_DEG_FACTOR
     )                                                                        |>
