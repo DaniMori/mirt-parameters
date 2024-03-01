@@ -32,7 +32,7 @@ FRAC_1_4 <- latex_frac(1, 4, .sep = NO_SEP)
 # Latent space definition:
 LATENT_SPACE       <- latex_bf("\\upTheta")
 N_DIMS             <- latex('n')
-BASIS_VECTOR_EL    <- latex('u')
+BASIS_VECTOR_EL    <- latex('b')
 BASIS_VECTOR       <- latex_bf(BASIS_VECTOR_EL)
 BASIS_VECTOR_FIRST <- latex_sub(BASIS_VECTOR, 1)
 BASIS_VECTOR_LAST  <- latex_sub(BASIS_VECTOR, N_DIMS)
@@ -101,10 +101,10 @@ M2PL_FORMULATION <- latex_eq(IRF_M2PL, IRF_ABBR, LOGISTIC_M2PL)
 ### Change of basis in the latent space ----
 
 # Orthonormal basis definition:
-ORTH_BASIS_VECTOR_EL   <- latex('e')
+ORTH_BASIS_VECTOR_EL   <- latex('u')
 ORTH_BASIS_VECTOR      <- latex_bf(ORTH_BASIS_VECTOR_EL)
 LATENT_SPACE_STD       <- latex_prime(LATENT_SPACE)
-LS_ORTH_BASIS          <- latex_cal('E')
+LS_ORTH_BASIS          <- latex_cal('U')
 LS_ORTH_BASIS_ELEMENTS <- latex_enum(
   latex_sub(ORTH_BASIS_VECTOR, 1),
   ELLIPSIS,
@@ -386,7 +386,7 @@ DIR_COS_DEF_COORDS <- latex_frac(
 )
 
 # Inner product (defined with standard basis vector):
-STD_BASIS_VECTOR_EL         <- latex('b')
+STD_BASIS_VECTOR_EL         <- latex('e')
 STD_BASIS_VECTOR            <- latex_bf(STD_BASIS_VECTOR_EL)
 STD_BASIS_VECTOR_ANY        <- latex_sub(STD_BASIS_VECTOR, sub = DIM_INDEX)
 STD_BASIS_VECTOR_ANY_TRANSP <- latex_transp(STD_BASIS_VECTOR_ANY)
