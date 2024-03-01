@@ -33,7 +33,7 @@ compute_mirt_params <- function(items,
                                 cov_matrix,
                                 item_id    = item,
                                 dir_out    = c("cos", "rad", "deg"),
-                                corr_based = FALSE,
+                                version    = c("ag", "cov", "corr"),
                                 zero_round = TRUE) {
   ## Argument checking and formatting: ----
   
@@ -55,9 +55,21 @@ compute_mirt_params <- function(items,
   
   assertive.extra::assert_is_greater_than_or_equal_to(n_discr_cols, 1)
   
+  # Parameter version:
+  version <- version |> match.arg()
+  
+  if (missing(cov_matrix)) {
+    # Check if the covariance matrix is missing (compute agnostic version if so)
+    message(
+      "Covariance matrix missing; ",
+      "ignoring argument 'version' and ",
+      "computing the agnostic version of the parameters.",
+      appendLF = TRUE
+    )
+  }
   
   # Check/format covariance matrix:
-  if (missing(cov_matrix)) {
+  if (missing(cov_matrix) | version == "ag") {
     
     cov_matrix <- n_discr_cols |> diag()
     
@@ -76,13 +88,13 @@ compute_mirt_params <- function(items,
     as.logical()
   
   # Flags:
-  assertive.types::assert_is_a_bool(corr_based)
   assertive.types::assert_is_a_bool(zero_round)
 
   ## Main: ----
   
   # Compute transform (and ancillary) matrix:
-  innerprod_matrix   <- if (corr_based) cov_matrix |> cov2cor() else cov_matrix
+  innerprod_matrix   <- if (version == "cov") cov_matrix
+                        else                  cov_matrix |> cov2cor()
   diag_matrix        <- innerprod_matrix |> diag() |> diag()
   inv_sr_diag_matrix <- diag_matrix      |> sqrt() |> solve()
   
