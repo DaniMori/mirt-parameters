@@ -153,7 +153,7 @@ necessary to accurately represent correlated latent spaces.
 
 In the non-cognitive domain, the use of so-called negatively-keyed items
 ---items that tap the negative pole of a certain trait, and thus
-usually reverse scored--- is also widespread.<!--# Reference and example? -->
+usually reverse-scored--- is also widespread.<!--# Reference and example? -->
 It is common to find instruments that combine
 positively- and negatively-keyed items.
 Moreover, a complex item may have discrimination parameters with opposite signs
