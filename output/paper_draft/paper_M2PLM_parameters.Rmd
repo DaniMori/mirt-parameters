@@ -276,9 +276,12 @@ invertible, so $`r INNER_PROD_MATRIX`$ is, and $`r INNER_PROD_MATRIX_INV_EQ`$.
 
 ### Test space and latent space
 
-Consider now the M2PL model formulation given by Equation
-\@ref(eq:M2PL-formulation), on one hand, and Equation \@ref(eq:change-basis) on
-the other.
+Let $`r TEST_SPACE`$ be the vector space made up by
+the set of $`r DISCR_VECTOR`$ vectors,
+with the sum and product by a scalar operations as in $`r REAL_N_SPACE`$.
+Consider also an orthonormal basis $`r TEST_SPACE_STD_BASIS`$
+in $`r TEST_SPACE`$, such that $`r DISCR_STD_COORDS_ALT_EQ`$.
+<!-- #TODO: Continue here -->
 Since the response probability must be invariant with respect to
 a change of basis,
 we must define the coordinates $`r DISCR_STD_COORDS`$ of the parameter vector
