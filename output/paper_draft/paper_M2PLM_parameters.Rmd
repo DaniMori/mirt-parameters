@@ -196,7 +196,7 @@ the applicability and generalization of our results.
 ## Model formulation
 
 Consider a $`r N_DIMS`$-dimensional latent space $`r LATENT_SPACE`$
-in basis $`r LS_BASIS_EQ`$,
+in basis $`r LS_BASIS_EQ`$, being $`r LS_BASIS`$ not necessarily orthonormal,
 where a respondent is represented by vector $`r TRAIT_VEC_IN_LS`$.
 According to the `r MODEL_ACRONYM` model, the probability of
 a positive response to item $`r ITEM_INDEX`$ is
@@ -225,8 +225,8 @@ Finally, as responses are not necessarily interpreted as correct or incorrect,
 parameter $`r INTERCEPT_PARAM`$ is said to be related to the item _location_,
 instead of the item difficulty.
 
-Our aim is to find the point of maximum slope of $`r IRF_ABBR`$ in
-$`r LATENT_SPACE`$.
+Our aim is to find in the first place
+the point of maximum slope of $`r IRF_ABBR`$ in $`r LATENT_SPACE`$.
 Because the slope is dependent on the direction considered,
 we need to reparameterize Equation \@ref(eq:M2PL-formulation)
 in polar coordinates, as in @reckase_difficulty_1985.
