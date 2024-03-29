@@ -281,18 +281,18 @@ the set of $`r DISCR_VECTOR`$ vectors,
 with the sum and product by a scalar operations as in $`r REAL_N_SPACE`$.
 Consider also an orthonormal basis $`r TEST_SPACE_STD_BASIS`$
 in $`r TEST_SPACE`$, such that $`r DISCR_STD_COORDS_ALT_EQ`$.
-<!-- #TODO: Continue here -->
-Since the response probability must be invariant with respect to
-a change of basis,
+Since the response probability to the `r MODEL_ACRONYM`,
+given by \@ref(eq:M2PL-formulation), must be invariant with respect to
+the change of basis expressed in \@ref(eq:change-basis),
 we must define the coordinates $`r DISCR_STD_COORDS`$ of the parameter vector
-$`r DISCR_VECTOR`$ in an orthonormal basis $`r TEST_SPACE_STD_BASIS`$,
+$`r DISCR_VECTOR`$ in the orthonormal basis $`r TEST_SPACE_STD_BASIS`$,
 such that $`r INVARIANCE_EQ`$.
 If we assume that $`r DISCR_VECTOR`$ exists in vector space $`r TEST_SPACE`$,
 with coordinates $`r DISCR_COORDS`$ in basis $`r TEST_SPACE_BASIS`$,
 then we must define $`r DISCR_COORDS`$ such that
 
 \begin{equation}
-  `r DISCR_STD_COORDS_EQ`                                (\#eq:discr-vector-std)
+  `r DISCR_STD_COORDS_EQ`,                               (\#eq:discr-vector-std)
 \end{equation}
 
 We want @reckase_difficulty_1985's definition of the multidimensional parameters
@@ -310,8 +310,6 @@ Therefore, an inner product $`r TEST_SPACE_INNER_PROD`$ with Gram matrix
 $`r INNER_PROD_MATRIX_INV`$ can be defined, such that $`r INNER_PROD_DISCR_EQ`$
 keeps the norm of $`r DISCR_VECTOR`$ invariant.
 
-This shows that discrimination vectors are indeed represented in their own
-vector space $`r TEST_SPACE`$ with basis $`r TEST_SPACE_BASIS`$.
 We shall refer to this new space as the *test space* [@zhang_theoretical_1999].
 Although the inverse relationship between their respective inner product
 Gram matrices induces a bijective relationship between the two sets of spaces,

@@ -358,13 +358,14 @@ DISCR_VECTOR_MODULE_EQ   <- latex_eq(
 ### Direction cosines ----
 
 # Cosine of the angle between two vectors:
-ANGLE           <- latex("\\gamma")
-ANGLE_VECTORS   <- latex_sub(ANGLE, "$AUX_INDEX$$DIM_INDEX$")
-COS_VECTORS     <- latex_cos(ANGLE_VECTORS)
-TRAIT_VC_J_NORM <- latex_norm(TRAIT_VECTOR_J)
-TRAIT_VC_K_NORM <- latex_norm(TRAIT_VECTOR_K)
-COS_VECTORS_DEF <- latex_frac(
-  INNER_PROD_TRAIT,
+ANGLE                     <- latex("\\gamma")
+ANGLE_VECTORS             <- latex_sub(ANGLE, "$AUX_INDEX$$DIM_INDEX$")
+COS_VECTORS               <- latex_cos(ANGLE_VECTORS)
+TRAIT_VC_J_NORM           <- latex_norm(TRAIT_VECTOR_J)
+TRAIT_VC_K_NORM           <- latex_norm(TRAIT_VECTOR_K)
+INNER_PROD_TRAIT_NO_BASIS <- latex_innerprod(TRAIT_VECTOR_J, TRAIT_VECTOR_K)
+COS_VECTORS_DEF           <- latex_frac(
+  INNER_PROD_TRAIT_NO_BASIS,
   "$TRAIT_VC_J_NORM$ $TRAIT_VC_K_NORM$"
 )
 COS_VECTORS_EQ  <- latex_eq(COS_VECTORS, COS_VECTORS_DEF)
