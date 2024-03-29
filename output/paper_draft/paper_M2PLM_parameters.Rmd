@@ -581,7 +581,7 @@ Substituting Equation \@ref(eq:dir-cos-vec) in Equation \@ref(eq:slope-max),
   `r SLOPE_MAX_PARAM_EQ`.                                     (\#eq:slope-param)
 \end{equation}
 
-In the test space we have that
+We have that
 
 \begin{equation}
   \begin{split}
@@ -591,7 +591,7 @@ In the test space we have that
   \end{split}                             (\#eq:item-params-discrimination-norm)
 \end{equation}
 
-Applying Proposition 1,
+Applying Proposition 1, in the test space $`r TEST_SPACE`$, we get
 
 \begin{equation}
   `r DIR_COS_ITEM_VEC_TS_EQ`,                      (\#eq:dir-cos-vec-test-space)
