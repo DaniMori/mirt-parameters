@@ -465,14 +465,8 @@ and thus $`r DIR_COS_VEC_ALT_EQ`$.$`r END_OF_PROOF`$
 
 ## Model recasting into polar coordinates
 
-From Proposition 1,
-any trait vector $`r TRAIT_VECTOR`$ is expressed in polar coordinates as
-
-\begin{equation}
-  `r TRAIT_VECTOR_POLAR_EQ`.                      (\#eq:trait-equivalence-polar)
-\end{equation}
-
-Thus, the `r MODEL_ACRONYM` model is expressed in polar coordinates as
+Applying Proposition 1 to the model formulation in \@ref(eq:M2PL-formulation),
+the `r MODEL_ACRONYM` model is expressed in polar coordinates as
 
 \begin{equation}
   `r IRF_POLAR_EQ`.                                    (\#eq:M2PL-formula-polar)
