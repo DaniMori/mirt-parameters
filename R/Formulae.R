@@ -30,7 +30,7 @@ FRAC_1_4 <- latex_frac(1, 4, .sep = NO_SEP)
 # Latent space definition:
 LATENT_SPACE       <- latex_bf("\\upTheta")
 N_DIMS             <- latex('n')
-BASIS_VECTOR_EL    <- latex('u')
+BASIS_VECTOR_EL    <- latex('b')
 BASIS_VECTOR       <- latex_bf(BASIS_VECTOR_EL)
 BASIS_VECTOR_FIRST <- latex_sub(BASIS_VECTOR, 1)
 BASIS_VECTOR_LAST  <- latex_sub(BASIS_VECTOR, N_DIMS)
@@ -46,6 +46,8 @@ LS_BASIS_EQ        <- latex_eq(LS_BASIS, LS_BASIS_SET)
 # Latent vector definition:
 TRAIT_VECTOR    <- latex_bf("\\uptheta")
 TRAIT_VEC_IN_LS <- latex_in(TRAIT_VECTOR, LATENT_SPACE)
+
+# TODO: Move forward this block:
 MEAN_VECTOR     <- latex_bf("\\upmu")
 COV_MATRIX      <- latex_bf("\\Sigma")
 NORMAL_DISTR    <- latex_cal('N')
@@ -98,10 +100,10 @@ M2PL_FORMULATION <- latex_eq(IRF_M2PL, IRF_ABBR, LOGISTIC_M2PL)
 ### Change of basis in the latent space ----
 
 # Orthonormal basis definition:
-ORTH_BASIS_VECTOR_EL   <- latex('e')
+ORTH_BASIS_VECTOR_EL   <- latex('u')
 ORTH_BASIS_VECTOR      <- latex_bf(ORTH_BASIS_VECTOR_EL)
 LATENT_SPACE_STD       <- latex_prime(LATENT_SPACE)
-LS_ORTH_BASIS          <- latex_cal('E')
+LS_ORTH_BASIS          <- latex_cal('U')
 LS_ORTH_BASIS_ELEMENTS <- latex_enum(
   latex_sub(ORTH_BASIS_VECTOR, 1),
   ELLIPSIS,
@@ -274,11 +276,17 @@ INNER_PROD_MATRIX_INV_EQ    <- latex_eq(
 
 ### Test space ----
 
+# Test space definition:
+TEST_SPACE   <- latex_bf("A")
+REAL_N_SPACE <- latex_raised_to("\\mathbb{R}", exp = N_DIMS)
+
 # Discrimination vector coordinates:
-TEST_SPACE_BASIS     <- latex_cal("B^*")
-DISCR_COORDS         <- latex_raised_to(DISCR_VECTOR, exp = TEST_SPACE_BASIS)
-TEST_SPACE_STD_BASIS <- latex_cal("E^*")
+TEST_SPACE_BASIS        <- latex_cal("B^*")
+DISCR_COORDS            <- latex_raised_to(DISCR_VECTOR, exp = TEST_SPACE_BASIS)
+TEST_SPACE_STD_BASIS    <- latex_cal("E^*")
 DISCR_STD_COORDS    <- latex_raised_to(DISCR_VECTOR, exp = TEST_SPACE_STD_BASIS)
+DISCR_STD_COORDS_ALT <- latex_coords(DISCR_VECTOR, basis = TEST_SPACE_STD_BASIS)
+DISCR_STD_COORDS_ALT_EQ <- latex_eq(DISCR_STD_COORDS, DISCR_STD_COORDS_ALT)
 
 # Invariance assumption:
 DISCR_COORDS_TRANSP         <- latex_transp(DISCR_COORDS)
@@ -298,8 +306,7 @@ DISCR_STD_COORDS_EQ  <- latex_eq(
   DISCR_STD_COORDS_DEF
 )
 
-# Test space and test space basis:
-TEST_SPACE                <- latex_bf("A")
+# Test space basis:
 ITEM_BASIS_VECTOR_EL      <- latex('v')
 ITEM_BASIS_VECTOR         <- latex_bf(ITEM_BASIS_VECTOR_EL)
 ITEM_BASIS_VECTOR_FIRST   <- latex_sub(ITEM_BASIS_VECTOR, 1)
@@ -349,13 +356,14 @@ DISCR_VECTOR_MODULE_EQ   <- latex_eq(
 ### Direction cosines ----
 
 # Cosine of the angle between two vectors:
-ANGLE           <- latex("\\gamma")
-ANGLE_VECTORS   <- latex_sub(ANGLE, "$AUX_INDEX$$DIM_INDEX$")
-COS_VECTORS     <- latex_cos(ANGLE_VECTORS)
-TRAIT_VC_J_NORM <- latex_norm(TRAIT_VECTOR_J)
-TRAIT_VC_K_NORM <- latex_norm(TRAIT_VECTOR_K)
-COS_VECTORS_DEF <- latex_frac(
-  INNER_PROD_TRAIT,
+ANGLE                     <- latex("\\gamma")
+ANGLE_VECTORS             <- latex_sub(ANGLE, "$AUX_INDEX$$DIM_INDEX$")
+COS_VECTORS               <- latex_cos(ANGLE_VECTORS)
+TRAIT_VC_J_NORM           <- latex_norm(TRAIT_VECTOR_J)
+TRAIT_VC_K_NORM           <- latex_norm(TRAIT_VECTOR_K)
+INNER_PROD_TRAIT_NO_BASIS <- latex_innerprod(TRAIT_VECTOR_J, TRAIT_VECTOR_K)
+COS_VECTORS_DEF           <- latex_frac(
+  INNER_PROD_TRAIT_NO_BASIS,
   "$TRAIT_VC_J_NORM$ $TRAIT_VC_K_NORM$"
 )
 COS_VECTORS_EQ  <- latex_eq(COS_VECTORS, COS_VECTORS_DEF)
@@ -457,7 +465,7 @@ DIR_COS_DEF_COORDS <- latex_frac(
 )
 
 # Inner product (defined with standard basis vector):
-STD_BASIS_VECTOR_EL         <- latex('b')
+STD_BASIS_VECTOR_EL         <- latex('e')
 STD_BASIS_VECTOR            <- latex_bf(STD_BASIS_VECTOR_EL)
 STD_BASIS_VECTOR_ANY        <- latex_sub(STD_BASIS_VECTOR, sub = DIM_INDEX)
 STD_BASIS_VECTOR_ANY_TRANSP <- latex_transp(STD_BASIS_VECTOR_ANY)

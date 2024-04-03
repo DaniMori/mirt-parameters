@@ -197,21 +197,8 @@ the applicability and generalization of our results.
 ## Model formulation
 
 Consider a $`r N_DIMS`$-dimensional latent space $`r LATENT_SPACE`$
-in basis $`r LS_BASIS_EQ`$.
-A respondent is represented by vector $`r TRAIT_VEC_IN_LS`$,
-which is assumed to be a multivariate normal random variable:
-
-\begin{equation}
-  `r TRAIT_MV_DEF`,
-\end{equation}
-
-where $`r MEAN_VECTOR`$ is an $n$-element vector of means and
-$`r COV_MATRIX` = `r SD_MATRIX` `r CORR_MATRIX` `r SD_MATRIX`$
-an $n$-dimensional positive definite covariance matrix,
-with $`r CORR_MATRIX`$ the corresponding correlation matrix
-(also positive definite) and $`r SD_MATRIX`$ a scaling diagonal matrix
-with $`r VAR_COV_EQ`$ (i.e., the variances).
-
+in basis $`r LS_BASIS_EQ`$, being $`r LS_BASIS`$ not necessarily orthonormal,
+where a respondent is represented by vector $`r TRAIT_VEC_IN_LS`$.
 According to the `r MODEL_ACRONYM` model, the probability of
 a positive response to item $`r ITEM_INDEX`$ is
 
@@ -241,8 +228,8 @@ Finally, as responses are not necessarily interpreted as correct or incorrect,
 parameter $`r INTERCEPT_PARAM`$ is said to be related to the item _location_
 instead of the item difficulty.
 
-Our aim is to find the point of maximum slope of $`r IRF_ABBR`$ in
-$`r LATENT_SPACE`$.
+Our aim is to find in the first place
+the point of maximum slope of $`r IRF_ABBR`$ in $`r LATENT_SPACE`$.
 Because the slope is dependent on the direction considered,
 we need to reparameterize Equation \@ref(eq:M2PL-formulation)
 in polar coordinates, as in @reckase_difficulty_1985.
@@ -289,20 +276,23 @@ invertible, so $`r INNER_PROD_MATRIX`$ is, and $`r INNER_PROD_MATRIX_INV_EQ`$.
 
 ### Test space and latent space
 
-Consider now the M2PL model formulation given by Equation
-\@ref(eq:M2PL-formulation), on one hand, and Equation \@ref(eq:change-basis) on
-the other.
-Since the response probability must be invariant with respect to
-a change of basis,
+Let $`r TEST_SPACE`$ be the vector space made up by
+the set of $`r DISCR_VECTOR`$ vectors,
+with the sum and product by a scalar operations as in $`r REAL_N_SPACE`$.
+Consider also an orthonormal basis $`r TEST_SPACE_STD_BASIS`$
+in $`r TEST_SPACE`$, such that $`r DISCR_STD_COORDS_ALT_EQ`$.
+Since the response probability to the `r MODEL_ACRONYM`,
+given by \@ref(eq:M2PL-formulation), must be invariant with respect to
+the change of basis expressed in \@ref(eq:change-basis),
 we must define the coordinates $`r DISCR_STD_COORDS`$ of the parameter vector
-$`r DISCR_VECTOR`$ in an orthonormal basis $`r TEST_SPACE_STD_BASIS`$,
+$`r DISCR_VECTOR`$ in the orthonormal basis $`r TEST_SPACE_STD_BASIS`$,
 such that $`r INVARIANCE_EQ`$.
 If we assume that $`r DISCR_VECTOR`$ exists in vector space $`r TEST_SPACE`$,
 with coordinates $`r DISCR_COORDS`$ in basis $`r TEST_SPACE_BASIS`$,
 then we must define $`r DISCR_COORDS`$ such that
 
 \begin{equation}
-  `r DISCR_STD_COORDS_EQ`                                (\#eq:discr-vector-std)
+  `r DISCR_STD_COORDS_EQ`,                               (\#eq:discr-vector-std)
 \end{equation}
 
 We want @reckase_difficulty_1985's definition of the multidimensional parameters
@@ -320,8 +310,6 @@ Therefore, an inner product $`r TEST_SPACE_INNER_PROD`$ with Gram matrix
 $`r INNER_PROD_MATRIX_INV`$ can be defined, such that $`r INNER_PROD_DISCR_EQ`$
 keeps the norm of $`r DISCR_VECTOR`$ invariant.
 
-This shows that discrimination vectors are indeed represented in their own
-vector space $`r TEST_SPACE`$ with basis $`r TEST_SPACE_BASIS`$.
 We shall refer to this new space as the *test space* [@zhang_theoretical_1999].
 Although the inverse relationship between their respective inner product
 Gram matrices induces a bijective relationship between the two sets of spaces,
@@ -477,14 +465,8 @@ and thus $`r DIR_COS_VEC_ALT_EQ`$.$`r END_OF_PROOF`$
 
 ## Model recasting into polar coordinates
 
-From Proposition 1,
-any trait vector $`r TRAIT_VECTOR`$ is expressed in polar coordinates as
-
-\begin{equation}
-  `r TRAIT_VECTOR_POLAR_EQ`.                      (\#eq:trait-equivalence-polar)
-\end{equation}
-
-Thus, the M2PL model is expressed in polar coordinates as
+Applying Proposition 1 to the model formulation in \@ref(eq:M2PL-formulation),
+the `r MODEL_ACRONYM` model is expressed in polar coordinates as
 
 \begin{equation}
   `r IRF_POLAR_EQ`.                                    (\#eq:M2PL-formula-polar)
@@ -599,7 +581,7 @@ Substituting Equation \@ref(eq:dir-cos-vec) in Equation \@ref(eq:slope-max),
   `r SLOPE_MAX_PARAM_EQ`.                                     (\#eq:slope-param)
 \end{equation}
 
-In the test space we have that
+We have that
 
 \begin{equation}
   \begin{split}
@@ -609,7 +591,7 @@ In the test space we have that
   \end{split}                             (\#eq:item-params-discrimination-norm)
 \end{equation}
 
-Applying Proposition 1,
+Applying Proposition 1, in the test space $`r TEST_SPACE`$, we get
 
 \begin{equation}
   `r DIR_COS_ITEM_VEC_TS_EQ`,                      (\#eq:dir-cos-vec-test-space)
@@ -721,7 +703,7 @@ thus finding a *standard-metric* discrimination parameter
 (i.e., referred to a unitary variance space).
 
 The (signed) distance to the origin,
-given by the second element of $`r MIL_PARAM`$, has an interesting property:
+given by the first component of $`r MIL_PARAM`$, has an interesting property:
 By the definition of the inner product,
 $`r MDISC_SYM`$ is strictly positive for non-null vectors.
 Therefore, the sign of $`r DISTANCE_PARAM`$ is equal to
