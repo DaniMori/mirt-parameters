@@ -66,7 +66,7 @@ source("R/Constants.R", encoding = 'UTF-8')
 # Introduction
 
 Multidimensional item response theory (MIRT) models have been widely used since
-their inception.<!--# Ref. needed? -->
+their inception.
 The so-called *Multidimensional 2-Parameter Logistic*
 [`r MODEL_ACRONYM`, @mckinley_extension_1983] model is among the most important
 and widely used ones.
@@ -104,12 +104,12 @@ latent trait space.
 Thus, nothing prevents a researcher from interpreting an abstraction such as
 a latent trait space, no matter its structure, as an orthogonal space
 [@ackerman_creating_1994]
----exploratory factor analysis software, such as SPSS <!--# Reference needed? -->or
-the R package *psych*, <!--# Reference needed? -->graphically represents
+---exploratory factor analysis software, such as SPSS [@ibm_corp_ibm_2022] or
+the R package *psych* [@revelle_psych_2024], graphically represents
 factor loadings on orthogonal axes even after an oblique rotation.
 Nevertheless, the assimilation of correlated latent traits to non-orthogonal
 axes is prevalent in the common factor literature
-[see, e.g., @harman_modern_1970].<!--# Thurstone's Multiple Factor Analysis, 1947? -->
+[see, e.g., @harman_modern_1970].
 This assumption is not so easily found in the MIRT literature though,
 which mostly deals with uncorrelated dimensions
 [see @reckase_multidimensional_2009 for a comprehensive treatment of the topic].
@@ -127,7 +127,7 @@ It is not uncommon to find recent examples of MIRT models where the
 correlation matrix of the latent dimensions is freely estimated
 [see, e.g., @reckase_multidimensional_2009, pp. 224-228]. Despite this, the
 correspondence between correlated latent traits and orthogonal coordinate axes
-is usually implicit in the MIRT literature without further consideration<!--# Examples? -->
+is usually implicit in the MIRT literature without further consideration
 [see @zhang_theoretical_1999 for a notable exception].
 Moreover, disregarding this geometrical interpretation may lead to
 misconceptions that put the measurement and its conclusions into question.<!-- completar?? -->
@@ -152,8 +152,8 @@ do not generalize to the non-orthonormal geometry
 necessary to accurately represent correlated latent spaces.
 
 In the non-cognitive domain, the use of so-called negatively-keyed items
---items that tap the negative pole of a certain trait,
-usually reverse scored-- is also widespread.<!--# Reference and example? -->
+---items that tap the negative pole of a certain trait, and thus
+usually reverse-scored--- is also widespread.<!--# Reference and example? -->
 It is common to find instruments that combine
 positively- and negatively-keyed items.
 Moreover, a complex item may have discrimination parameters with opposite signs
