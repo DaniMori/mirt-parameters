@@ -278,7 +278,7 @@ invertible, so $`r INNER_PROD_MATRIX`$ is, and $`r INNER_PROD_MATRIX_INV_EQ`$.
 
 Let $`r TEST_SPACE`$ be the vector space made up by
 the set of $`r DISCR_VECTOR`$ vectors,
-with the sum and product by a scalar operations as in $`r REAL_N_SPACE`$.
+with the sum and product by a scalar operation as in $`r REAL_N_SPACE`$.
 Consider also an orthonormal basis $`r TEST_SPACE_STD_BASIS`$
 in $`r TEST_SPACE`$, such that $`r DISCR_STD_COORDS_ALT_EQ`$.
 Since the response probability to the `r MODEL_ACRONYM`,
