@@ -285,7 +285,7 @@ REAL_N_SPACE <- latex_raised_to("\\mathbb{R}", exp = N_DIMS)
 # Discrimination vector coordinates:
 TEST_SPACE_BASIS        <- latex_cal("B^*")
 DISCR_COORDS            <- latex_raised_to(DISCR_VECTOR, exp = TEST_SPACE_BASIS)
-TEST_SPACE_STD_BASIS    <- latex_cal("E^*")
+TEST_SPACE_STD_BASIS    <- latex_cal("U^*")
 DISCR_STD_COORDS    <- latex_raised_to(DISCR_VECTOR, exp = TEST_SPACE_STD_BASIS)
 DISCR_STD_COORDS_ALT <- latex_coords(DISCR_VECTOR, basis = TEST_SPACE_STD_BASIS)
 DISCR_STD_COORDS_ALT_EQ <- latex_eq(DISCR_STD_COORDS, DISCR_STD_COORDS_ALT)

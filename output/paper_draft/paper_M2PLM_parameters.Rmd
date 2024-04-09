@@ -228,7 +228,8 @@ Finally, as responses are not necessarily interpreted as correct or incorrect,
 parameter $`r INTERCEPT_PARAM`$ is said to be related to the item _location_
 instead of the item difficulty.
 
-Our aim is to find in the first place
+Following @reckase_difficulty_1985’s procedure,
+we must find in the first place
 the point of maximum slope of $`r IRF_ABBR`$ in $`r LATENT_SPACE`$.
 Because the slope is dependent on the direction considered,
 we need to reparameterize Equation \@ref(eq:M2PL-formulation)
@@ -279,25 +280,28 @@ invertible, so $`r INNER_PROD_MATRIX`$ is, and $`r INNER_PROD_MATRIX_INV_EQ`$.
 Let $`r TEST_SPACE`$ be the vector space made up by
 the set of $`r DISCR_VECTOR`$ vectors,
 with the sum and product by a scalar operation as in $`r REAL_N_SPACE`$.
-Consider also an orthonormal basis $`r TEST_SPACE_STD_BASIS`$
-in $`r TEST_SPACE`$, such that $`r DISCR_STD_COORDS_ALT_EQ`$.
+We want @reckase_difficulty_1985's definition of
+the multidimensional parameters in rectangular coordinates to be
+a particular case of our more general definition;
+we can thus consider an orthonormal basis $`r TEST_SPACE_STD_BASIS`$
+in $`r TEST_SPACE`$ such that $`r DISCR_STD_COORDS_ALT_EQ`$
+corresponds in the model to $`r TRAIT_ORTH_COORDS`$.
 Since the response probability to the `r MODEL_ACRONYM`,
 given by \@ref(eq:M2PL-formulation), must be invariant with respect to
 the change of basis expressed in \@ref(eq:change-basis),
-we must define the coordinates $`r DISCR_STD_COORDS`$ of the parameter vector
-$`r DISCR_VECTOR`$ in the orthonormal basis $`r TEST_SPACE_STD_BASIS`$,
-such that $`r INVARIANCE_EQ`$.
-If we assume that $`r DISCR_VECTOR`$ exists in vector space $`r TEST_SPACE`$,
-with coordinates $`r DISCR_COORDS`$ in basis $`r TEST_SPACE_BASIS`$,
-then we must define $`r DISCR_COORDS`$ such that
+Therefore, we find a basis $`r TEST_SPACE_BASIS`$ in $`r TEST_SPACE`$
+defined by
 
 \begin{equation}
   `r DISCR_STD_COORDS_EQ`,                               (\#eq:discr-vector-std)
 \end{equation}
 
-We want @reckase_difficulty_1985's definition of the multidimensional parameters
-in rectangular coordinates to be a particular case of our more general
-definition, so we can conveniently assume that the inner product in
+with $`r TRANSFORM_MATRIX_TRANSP_INV`$ a change of basis matrix.
+Note that, as $`r TEST_SPACE_STD_BASIS`$ is orthonormal,
+$`r TRANSFORM_MATRIX_TRANSP_INV`$ determines $`r TEST_SPACE_BASIS`$.
+
+To make @reckase_difficulty_1985's definition a particular case of ours
+we can conveniently assume that the inner product in
 $`r TEST_SPACE_STD_BASIS`$ is the dot product,
 as we did with $`r LS_ORTH_BASIS`$.
 The norm of $`r DISCR_VECTOR`$ thus fulfills
@@ -310,7 +314,8 @@ Therefore, an inner product $`r TEST_SPACE_INNER_PROD`$ with Gram matrix
 $`r INNER_PROD_MATRIX_INV`$ can be defined, such that $`r INNER_PROD_DISCR_EQ`$
 keeps the norm of $`r DISCR_VECTOR`$ invariant.
 
-We shall refer to this new space as the *test space* [@zhang_theoretical_1999].
+We shall refer to this new space $`r TEST_SPACE`$ as
+the *test space* [@zhang_theoretical_1999].
 Although the inverse relationship between their respective inner product
 Gram matrices induces a bijective relationship between the two sets of spaces,
 it is worth highlighting that test space $`r TEST_SPACE`$
