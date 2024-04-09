@@ -174,7 +174,7 @@ The main objective of this paper is thus to provide a generalization of
 the MIRT parameters in two aspects: on one hand, in an oblique coordinate system
 that can be soundly applied to the correlated trait case; on the other, to
 items that yield monotonous response probabilities, but in the broader sense of
-unchanging monotony. Additionally, we aim at providing a method for
+unchanging monotony. Additionally, we aim to provide a method for
 graphically representing these items in the fashion of @ackerman_creating_1994
 but taking the non-orthogonality of the coordinate axes into account.
 In order to pursue these objectives, we first define the generalization of
