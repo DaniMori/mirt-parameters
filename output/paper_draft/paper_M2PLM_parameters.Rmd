@@ -143,7 +143,8 @@ The general case of MIRT model estimation implies estimating possibly
 non-standard latent dimensions and non-null covariances among them
 (a more realistic case than an identity matrix).
 Assuming orthonormality among traits is usually unrealistic, be it in the
-cognitive [e.g., @reckase_multidimensional_2009] or the non-cognitive domain<!--# Reference to example? -->.
+cognitive [e.g., @reckase_multidimensional_2009] or the non-cognitive domain
+[e.g., @thielmann_comparability_2022].
 Moreover, certain applications impose the estimation of
 non-identity latent covariance matrices (e.g. multigroup equating) even when<!-- # Reference needed? -->
 interpreting the latent dimensions as substantive constructs is not a goal.
@@ -153,7 +154,9 @@ necessary to accurately represent correlated latent spaces.
 
 In the non-cognitive domain, the use of so-called negatively-keyed items
 ---items that tap the negative pole of a certain trait, and thus
-usually reverse-scored--- is also widespread.<!--# Reference and example? -->
+usually reverse-scored--- is also widespread
+[consider e.g. the statement "Neglect my duties" in the Conscientiousness item
+of the Big-Five Factor Markers, @noauthor_international_nodate].
 It is common to find instruments that combine
 positively- and negatively-keyed items.
 Moreover, a complex item may have discrimination parameters with opposite signs
