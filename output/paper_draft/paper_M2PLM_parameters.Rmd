@@ -279,7 +279,7 @@ invertible, so $`r INNER_PROD_MATRIX`$ is, and $`r INNER_PROD_MATRIX_INV_EQ`$.
 
 Let $`r TEST_SPACE`$ be the vector space made up by
 the set of $`r DISCR_VECTOR`$ vectors,
-with the sum and product by a scalar operation as in $`r REAL_N_SPACE`$.
+with the operations sum and product by a scalar as in $`r REAL_N_SPACE`$.
 We want @reckase_difficulty_1985's definition of
 the multidimensional parameters in rectangular coordinates to be
 a particular case of our more general definition;
@@ -287,9 +287,10 @@ we can thus consider an orthonormal basis $`r TEST_SPACE_STD_BASIS`$
 in $`r TEST_SPACE`$ such that $`r DISCR_STD_COORDS_ALT_EQ`$
 corresponds in the model to $`r TRAIT_ORTH_COORDS`$.
 Since the response probability to the `r MODEL_ACRONYM`,
-given by \@ref(eq:M2PL-formulation), must be invariant with respect to
-the change of basis expressed in \@ref(eq:change-basis),
-Therefore, we find a basis $`r TEST_SPACE_BASIS`$ in $`r TEST_SPACE`$
+given by Equation \@ref(eq:M2PL-formulation), must be invariant with respect to
+the change of basis expressed in Equation \@ref(eq:change-basis),
+$`r INVARIANCE_EQ`$.
+Therefore, we find a basis $`r TEST_SPACE_BASIS_EQ`$ in $`r TEST_SPACE`$
 defined by
 
 \begin{equation}
@@ -297,8 +298,7 @@ defined by
 \end{equation}
 
 with $`r TRANSFORM_MATRIX_TRANSP_INV`$ a change of basis matrix.
-Note that, as $`r TEST_SPACE_STD_BASIS`$ is orthonormal,
-$`r TRANSFORM_MATRIX_TRANSP_INV`$ determines $`r TEST_SPACE_BASIS`$.
+Note that $`r TRANSFORM_MATRIX_TRANSP_INV`$ determines $`r TEST_SPACE_BASIS`$.
 
 To make @reckase_difficulty_1985's definition a particular case of ours
 we can conveniently assume that the inner product in
