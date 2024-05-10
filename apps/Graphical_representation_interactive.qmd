@@ -1,7 +1,9 @@
 ---
 title: "MCLM parameters, interactive example"
 author: "Daniel Morillo"
-format: html
+format:
+  html:
+    fig-asp: 1
 server: shiny
 ---
 
@@ -12,8 +14,33 @@ library(tibble)
 library(mnormt)
 library(dplyr)
 library(stringr)
+library(ggplot2)
+library(scales)
 ```
 
+```{r constants}
+#| context: server
+# Graphical representation parameters:
+GRAPH_FONT   <- "serif"
+LINE_WIDTH   <- .1
+VECTOR_WIDTH <- .5
+PALETTE      <- c("darkred", "darkgoldenrod3", "green3", "cyan3", "blue3")
+```
+
+```{r graphical-output-conf}
+#| context: server
+theme_set( # `ggplot` output configuration
+  theme_classic(
+    base_size      = 12,
+    base_family    = GRAPH_FONT,
+    base_line_size = LINE_WIDTH
+  ) %+replace%
+    theme(
+      axis.title.x = element_text(hjust = 1),
+      axis.title.y = element_text(vjust = 1, angle = 0)
+    )
+)
+```
 
 # Description
 
@@ -231,3 +258,44 @@ output$item <- renderTable(
   item_oblique() |> select(MDISC, D, starts_with('deg'))
 )
 ```
+
+## Plots
+
+```{r plot-outputs}
+#| layout: [[1, 1], [1, 1]]
+plotOutput('ls_original')
+```
+
+```{r render-plots}
+#| context: server
+output$ls_original <- renderPlot({
+  
+  n_subsample() |> ggplot(aes(x = theta_1, y = theta_2)) +
+    geom_vline(xintercept = 0, linewidth = LINE_WIDTH) +
+    geom_hline(yintercept = 0, linewidth = LINE_WIDTH) +
+    geom_point() +
+    scale_x_continuous(
+      limits       = c(-3, 3),
+      breaks       = -2:2,
+      minor_breaks = NULL,
+      name         = NULL,
+      oob          = oob_keep
+    ) +
+    scale_y_continuous(
+      limits       = c(-3, 3),
+      breaks       = -3:3,
+      name         = NULL,
+      oob          = oob_keep
+    ) +
+    coord_fixed(expand = FALSE, clip = "on") +
+    theme(
+      axis.line        = element_blank(),
+      panel.grid.major = element_line(
+        color     = "black",
+        linewidth = LINE_WIDTH,
+        linetype  = "17"
+      )
+    )
+})
+```
+
