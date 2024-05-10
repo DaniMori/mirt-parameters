@@ -264,6 +264,9 @@ output$item <- renderTable(
 ```{r plot-outputs}
 #| layout: [[1, 1], [1, 1]]
 plotOutput('ls_original')
+plotOutput('ts_original')
+plotOutput('ls_transformed')
+plotOutput('ts_transformed')
 ```
 
 ```{r render-plots}
@@ -296,6 +299,12 @@ output$ls_original <- renderPlot({
         linetype  = "17"
       )
     )
+})
+output$ts_original <- renderPlot({
+})
+output$ls_transformed <- renderPlot({
+})
+output$ts_transformed <- renderPlot({
 })
 ```
 
