@@ -1,0 +1,179 @@
+---
+title: "MCLM parameters, interactive example"
+author: "Daniel Morillo"
+format: html
+server: shiny
+---
+
+```{r setup}
+#| warning: false
+library(shinyjs)
+library(tibble)
+library(mnormt)
+library(dplyr)
+library(stringr)
+```
+
+
+# Description
+
+This app show an interactive graphical representation of the
+Multidimensional parameters (location and discrimination) of the Multidimensional
+Compensatory Logistic IRT Model (MCLM).
+
+# Input
+
+## MCLM item parameters
+
+```{r item-params-input}
+#| layout: [[1], [1], [1]]
+numericInput('a_1', label = 'a1', value = 1, step = .1, min = -3, max = 3)
+numericInput('a_2', label = 'a2', value = 1, step = .1, min = -3, max = 3)
+numericInput('d',   label = 'd',  value = 0, step = .1, min = -3, max = 3)
+```
+
+## Latent space structure
+
+### Covariance matrix
+
+```{r cov-input}
+#| layout: [[1, 1], [1, 1]]
+numericInput('var_1', label = 'var1', value = 1, step = .1, min = .1, max = 3)
+textOutput('cov1')
+textOutput('cov2')
+numericInput('var_2', label = 'var2', value = 1, step = .1, min = .1, max = 3)
+```
+
+### Correlation matrix
+
+```{r corr-input}
+#| layout: [[1, 1], [1, 1]]
+h5("1")
+numericInput(
+  'corr',
+  label = 'corr',
+  value = 0,
+  step  =  .05,
+  min   = -.95,
+  max   =  .95
+)
+textOutput('corr_lower')
+h5("1")
+```
+
+```{r compute-ls}
+#| context: server
+
+# Logic for computing & rendering the latent space structure:
+
+## Values and matrices:
+covariance  <- reactiveVal()
+cov_matrix  <- reactiveVal()
+corr_matrix <- reactiveVal()
+
+## Compute covariance:
+observe(
+  covariance(sqrt(input$var_1 * input$var_2) * input$corr)
+)
+
+## Compute covariance matrix:
+observe(
+  cov_matrix(
+    matrix(c(input$var_1, covariance(), covariance(), input$var_2), nrow = 2)
+  )
+)
+
+## Compute correlation matrix:
+observe(
+  corr_matrix(matrix(c(1, input$corr, input$corr, 1), nrow = 2))
+)
+
+## Output correlation and covariance values:
+output$corr_lower <- renderText(input$corr)
+output$cov1       <- renderText(covariance() |> round(2))
+output$cov2       <- renderText(covariance() |> round(2))
+```
+
+## Sample
+
+```{r sample-choice}
+radioButtons(
+  'sample_type',
+  label   = "Plot:",
+  choices = c("unique value", "sample"),
+  inline  = TRUE
+)
+```
+
+```{r single-value}
+#| panel: sidebar
+numericInput(
+  'theta_1',
+  label = 'theta_1',
+  value =  1,
+  step  =   .1,
+  min   = -3,
+  max   =  3
+)
+numericInput(
+  'theta_2',
+  label = 'theta_2',
+  value =  1,
+  step  =   .1,
+  min   = -3,
+  max   =  3
+)
+```
+
+```{r sample-size}
+#| panel: sidebar
+numericInput('N', label = 'N', value = 10, min = 10, max = 1000)
+```
+
+```{r compute-sample}
+#| context: server
+
+# Logic for computing & rendering the sample values:
+
+# Sample values:
+single_lt       <- reactiveVal() # Single latent trait vector
+complete_sample <- reactiveVal() # A N = 1000 sample is pre-computed to save
+                                 #   time (it only changes if the covariance
+                                 #   matrix changes)
+n_subsample     <- reactiveVal() # Subsets the first N cases
+
+# Compute single vector:
+observe(
+  single_lt(tibble(theta_1 = input$theta_1, theta_2 = input$theta_2))
+)
+
+# Compute complete sample:
+observeEvent(
+  cov_matrix(),
+  complete_sample(
+    rmnorm(n = 1000, varcov = cov_matrix()) |>
+    as_tibble(.name_repair = "unique") |>
+    rename_with(str_replace, pattern = "\\.{3}", replacement = "theta_")
+  )
+)
+
+# Compute N subset sample:
+observeEvent(
+  list(input$N, complete_sample()),
+  n_subsample(complete_sample() |> slice_head(n = input$N))
+)
+
+useShinyjs()
+
+observeEvent(
+  input$sample_type == "unique value",
+  disable('N')
+)
+observeEvent(
+  input$sample_type == "sample",
+  {
+    disable('theta_1')
+    disable('theta_2')
+  }
+)
+```
