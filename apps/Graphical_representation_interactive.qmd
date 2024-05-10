@@ -17,9 +17,9 @@ library(stringr)
 
 # Description
 
-This app show an interactive graphical representation of the
-Multidimensional parameters (location and discrimination) of the Multidimensional
-Compensatory Logistic IRT Model (MCLM).
+This app show an interactive graphical representation of the Multidimensional
+parameters (location and discrimination) of the Multidimensional Compensatory
+Logistic IRT Model (MCLM).
 
 # Input
 
@@ -30,6 +30,18 @@ Compensatory Logistic IRT Model (MCLM).
 numericInput('a_1', label = 'a1', value = 1, step = .1, min = -3, max = 3)
 numericInput('a_2', label = 'a2', value = 1, step = .1, min = -3, max = 3)
 numericInput('d',   label = 'd',  value = 0, step = .1, min = -3, max = 3)
+```
+
+```{r compute-item}
+#| context: server
+
+# Logic for computing the item object:
+item_M2PL <- reactiveVal()
+
+observeEvent(
+  list(input$a_1, input$a_2, input$d),
+  item_M2PL(tibble(item = 1, a_1 = input$a_1, a_2 = input$a_2, d = input$d))
+)
 ```
 
 ## Latent space structure
@@ -175,5 +187,47 @@ observeEvent(
     disable('theta_1')
     disable('theta_2')
   }
+)
+```
+
+# Output
+
+# Item multidimensional parameters
+
+```{r item-output}
+tableOutput('item')
+```
+
+```{r compute-multidim-params}
+#| context: server
+#| warning: false
+
+# Multidimensional item parameters logic:
+
+source("../R/Mirt_toolbox.R", encoding = 'UTF-8')
+source("../R/Constants.R",    encoding = 'UTF-8')
+
+item_oblique <- reactiveVal()
+
+observeEvent(
+  list(input$a_1, input$a_2, input$d, cov_matrix()),
+  item_oblique({
+    oblique_params <- item_M2PL() |> compute_mirt_params(
+      all_of(INTERCEPT_COLKEY), starts_with(DISCR_PREFFIX), # Input parameters
+      cov_matrix = corr_matrix(),                           # Input correlations
+      dir_out    = c(COSINE_DIRTYPE, DEGREE_DIRTYPE)        # Output configuration
+    )
+    oblique_coords <- oblique_params |> compute_mirt_coords(
+      D, MDISC, starts_with(COSINE_DIRTYPE),
+      transform       = cov_matrix(),
+      original_coords = TRUE
+    )
+    
+    full_join(oblique_params, oblique_coords, by = 'item')
+  })
+)
+
+output$item <- renderTable(
+  item_oblique() |> select(MDISC, D, starts_with('deg'))
 )
 ```
