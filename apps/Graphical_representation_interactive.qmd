@@ -319,6 +319,13 @@ plotOutput('ts_transformed')
 ```{r render-plots}
 #| context: server
 
+draw_spikes <- reactiveVal() # Flag to indicate whether to draw spikes (for
+                             #   single value plotting only)
+observeEvent( ## TODO: Draw spikes
+  input$sample_type,
+  draw_spikes(input$sample_type == "unique value")
+)
+
 # Render scatter plot in original coordinates:
 output$ls_original <- renderPlot(
   
