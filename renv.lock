@@ -1752,6 +1752,11 @@
       ],
       "Hash": "54b26646816af9960a4c64d8ceec75d6"
     },
+    "shinyjs": {
+      "Package": "shinyjs",
+      "Version": "2.1.0",
+      "Source": "Repository"
+    },
     "sourcetools": {
       "Package": "sourcetools",
       "Version": "0.1.7-1",

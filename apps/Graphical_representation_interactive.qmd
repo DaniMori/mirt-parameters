@@ -237,8 +237,6 @@ observeEvent(
   n_subsample(complete_sample() |> slice_head(n = input$N))
 )
 
-useShinyjs()
-
 # Select sample to plot:
 observeEvent(
   list(input$sample_type, single_lt(), n_subsample()),
@@ -262,6 +260,20 @@ observeEvent(
       pivot_wider()
   })
 )
+
+## FIXME: Disabling inputs does not work
+# useShinyjs()
+# observeEvent(
+#   input$sample_type == "unique value",
+#   disable('N')
+# )
+# observeEvent(
+#   input$sample_type == "sample",
+#   {
+#     disable('theta_1')
+#     disable('theta_2')
+#   }
+# )
 ```
 
 # Output
