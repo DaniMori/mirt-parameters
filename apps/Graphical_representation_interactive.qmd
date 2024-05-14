@@ -352,9 +352,53 @@ output$ls_original <- renderPlot(
     ylab("theta_2")
 )
 
+# Render scatter plot in transformed coordinates:
 output$ts_original <- renderPlot({
 })
 output$ls_transformed <- renderPlot({
+  
+  # Constant objects:
+  BREAKS <- -3:3
+  
+  # Compute grid lines:
+  
+  ## Basis vectors:
+  basis_vec_1 <- transf_matrix()[, 1]
+  basis_vec_2 <- transf_matrix()[, 2]
+  basis_vec_1_norm <- basis_vec_1^2 |> sum() |> sqrt()
+  basis_vec_2_norm <- basis_vec_2^2 |> sum() |> sqrt()
+  
+  ## Oblique grid lines:
+  tan_vec_1 <- basis_vec_1[2] / basis_vec_1[1] # Angle tangent
+  
+
+  lt_sample_transf() |> ggplot(aes(x = theta_1, y = theta_2)) +
+    geom_vline(xintercept = 0, linewidth = LINE_WIDTH) +
+    geom_abline(intercept = 0, slope = tan_vec_1, linewidth = LINE_WIDTH) +
+    geom_point(alpha = .5) +
+    scale_x_continuous(
+      limits       = c(-3, 3),
+      breaks       = -3:3,
+      minor_breaks = NULL,
+      name         = NULL,
+      oob          = oob_keep
+    ) +
+    scale_y_continuous(
+      limits       = c(-3, 3),
+      breaks       = -3:3,
+      name         = NULL,
+      oob          = oob_keep
+    ) +
+    coord_fixed(expand = FALSE, clip = "on") +
+    theme(
+      axis.line          = element_blank(),
+      panel.grid.major.x = element_line(
+        color     = "black",
+        linewidth = LINE_WIDTH,
+        linetype  = "C6"
+     ),
+     axis.line.y = 
+    )
 })
 output$ts_transformed <- renderPlot({
 })
