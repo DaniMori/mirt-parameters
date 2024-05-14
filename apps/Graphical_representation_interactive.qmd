@@ -13,6 +13,7 @@ library(shinyjs)
 library(tibble)
 library(mnormt)
 library(dplyr)
+library(tidyr)
 library(stringr)
 library(ggplot2)
 library(scales)
@@ -106,26 +107,58 @@ h5("1")
 # Logic for computing & rendering the latent space structure:
 
 ## Values and matrices:
-covariance  <- reactiveVal()
-cov_matrix  <- reactiveVal()
-corr_matrix <- reactiveVal()
+covariance        <- reactiveVal() # Covariance value
+cov_matrix        <- reactiveVal() # Covariance matrix
+corr_matrix       <- reactiveVal() # Correlation matrix
+transf_inv_transp <- reactiveVal() # Transpose inverse of the latent space
+                                   #   transform matrix (== Square root of
+                                   #   the correlation matrix scaled by the
+                                   #   standard deviations).
+transf_matrix     <- reactiveVal() # Latent space transform matrix
 
 ## Compute covariance:
-observe(
+observeEvent(
+  list(input$var_1, input$var_2, input$corr),
   covariance(sqrt(input$var_1 * input$var_2) * input$corr)
 )
 
 ## Compute covariance matrix:
-observe(
+observeEvent(
+  list(input$var_1, input$var_2, covariance()),
   cov_matrix(
     matrix(c(input$var_1, covariance(), covariance(), input$var_2), nrow = 2)
   )
 )
 
 ## Compute correlation matrix:
-observe(
+observeEvent(
+  input$corr,
   corr_matrix(matrix(c(1, input$corr, input$corr, 1), nrow = 2))
 )
+
+## Compute (inverse transposed) transform matrix:
+observeEvent(
+  cov_matrix(),
+  transf_inv_transp({
+    
+    # Square root of the correlation matrix (conveniently fixing the X axis):
+    corr_sqrt_matrix <- matrix(
+      c(1, 0, input$corr, sqrt(1 - input$corr^2)),
+      nrow = 2
+    )
+    
+    # Scale matrix (i.e. standard deviations):
+    scale_matrix <- cov_matrix() |> diag() |> diag() |> sqrt()
+    
+    corr_sqrt_matrix %*% scale_matrix
+  })
+)
+# Compute actual (P) transform matrix (such that $P^TP = M = \Sigma^(-1)$):
+observeEvent(
+  transf_inv_transp(),
+  transf_matrix(transf_inv_transp() |> t() |> solve())
+)
+
 
 ## Output correlation and covariance values:
 output$corr_lower <- renderText(input$corr)
@@ -175,11 +208,13 @@ numericInput('N', label = 'N', value = 10, min = 10, max = 1000)
 # Logic for computing & rendering the sample values:
 
 # Sample values:
-single_lt       <- reactiveVal() # Single latent trait vector
-complete_sample <- reactiveVal() # A N = 1000 sample is pre-computed to save
-                                 #   time (it only changes if the covariance
-                                 #   matrix changes)
-n_subsample     <- reactiveVal() # Subsets the first N cases
+single_lt        <- reactiveVal() # Single latent trait vector
+complete_sample  <- reactiveVal() # A N = 1000 sample is pre-computed to save
+                                  #   time (it only changes if the covariance
+                                  #   matrix changes).
+n_subsample      <- reactiveVal() # Subsets the first N cases
+lt_sample        <- reactiveVal() # Sample to plot
+lt_sample_transf <- reactiveVal() # Transformed coordinates of sample to plot
 
 # Compute single vector:
 observe(
@@ -204,16 +239,28 @@ observeEvent(
 
 useShinyjs()
 
+# Select sample to plot:
 observeEvent(
-  input$sample_type == "unique value",
-  disable('N')
+  list(input$sample_type, single_lt(), n_subsample()),
+  lt_sample(if (input$sample_type == "sample") n_subsample() else single_lt())
 )
+
+# Transform sample coordinates to orthonormal space:
 observeEvent(
-  input$sample_type == "sample",
-  {
-    disable('theta_1')
-    disable('theta_2')
-  }
+  list(transf_inv_transp(), lt_sample()),
+  lt_sample_transf({
+    
+    # Compute actual (P) transform matrix (such that $P^TP = M = \Sigma^(-1)$):
+    transf_matrix <- transf_inv_transp() |> t() |> solve()
+    
+    # Compute coordinates in transformed (i.e. orthonormal) space:
+    lt_sample() |>
+      rowid_to_column() |>
+      pivot_longer(-rowid) |>
+      group_by(rowid) |>
+      mutate(value = transf_matrix %*% value |> drop()) |>
+      pivot_wider()
+  })
 )
 ```
 
