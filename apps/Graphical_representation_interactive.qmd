@@ -318,15 +318,17 @@ plotOutput('ts_transformed')
 
 ```{r render-plots}
 #| context: server
-output$ls_original <- renderPlot({
+
+# Render scatter plot in original coordinates:
+output$ls_original <- renderPlot(
   
-  n_subsample() |> ggplot(aes(x = theta_1, y = theta_2)) +
+  lt_sample() |> ggplot(aes(x = theta_1, y = theta_2)) +
     geom_vline(xintercept = 0, linewidth = LINE_WIDTH) +
     geom_hline(yintercept = 0, linewidth = LINE_WIDTH) +
-    geom_point() +
+    geom_point(alpha = .5) +
     scale_x_continuous(
       limits       = c(-3, 3),
-      breaks       = -2:2,
+      breaks       = -3:3,
       minor_breaks = NULL,
       name         = NULL,
       oob          = oob_keep
@@ -343,10 +345,13 @@ output$ls_original <- renderPlot({
       panel.grid.major = element_line(
         color     = "black",
         linewidth = LINE_WIDTH,
-        linetype  = "17"
+        linetype  = "C6"
       )
-    )
-})
+    ) +
+    xlab("theta_1") + ## FIXME: Labels not shown
+    ylab("theta_2")
+)
+
 output$ts_original <- renderPlot({
 })
 output$ls_transformed <- renderPlot({
