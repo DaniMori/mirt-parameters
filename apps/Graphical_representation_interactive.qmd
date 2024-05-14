@@ -288,8 +288,8 @@ observeEvent(
   item_oblique({
     oblique_params <- item_M2PL() |> compute_mirt_params(
       all_of(INTERCEPT_COLKEY), starts_with(DISCR_PREFFIX), # Input parameters
-      cov_matrix = corr_matrix(),                           # Input correlations
-      dir_out    = c(COSINE_DIRTYPE, DEGREE_DIRTYPE)        # Output configuration
+      cov_matrix = cov_matrix(),                            # Input covariance
+      dir_out    = c(COSINE_DIRTYPE, DEGREE_DIRTYPE)        # Output config.
     )
     oblique_coords <- oblique_params |> compute_mirt_coords(
       D, MDISC, starts_with(COSINE_DIRTYPE),
