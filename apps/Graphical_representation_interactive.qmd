@@ -290,8 +290,8 @@ tableOutput('item')
 
 # Multidimensional item parameters logic:
 
-source("../R/Mirt_toolbox.R", encoding = 'UTF-8')
-source("../R/Constants.R",    encoding = 'UTF-8')
+source("R/Mirt_toolbox.R", encoding = 'UTF-8')
+source("R/Constants.R",    encoding = 'UTF-8')
 
 item_oblique <- reactiveVal()
 
