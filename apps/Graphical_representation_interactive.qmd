@@ -245,18 +245,15 @@ observeEvent(
 
 # Transform sample coordinates to orthonormal space:
 observeEvent(
-  list(transf_inv_transp(), lt_sample()),
+  list(transf_matrix(), lt_sample()),
   lt_sample_transf({
-    
-    # Compute actual (P) transform matrix (such that $P^TP = M = \Sigma^(-1)$):
-    transf_matrix <- transf_inv_transp() |> t() |> solve()
     
     # Compute coordinates in transformed (i.e. orthonormal) space:
     lt_sample() |>
       rowid_to_column() |>
       pivot_longer(-rowid) |>
       group_by(rowid) |>
-      mutate(value = transf_matrix %*% value |> drop()) |>
+      mutate(value = transf_matrix() %*% value |> drop()) |>
       pivot_wider()
   })
 )
