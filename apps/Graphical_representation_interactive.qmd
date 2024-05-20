@@ -334,6 +334,11 @@ observeEvent( ## TODO: Draw spikes
   input$sample_type,
   draw_spikes(input$sample_type == "unique value")
 )
+# Constant objects:
+LIM_INF <- -3L
+LIM_SUP <-  3L
+LIMITS  <- c(LIM_INF, LIM_SUP)
+BREAKS  <- LIM_INF:LIM_SUP
 
 # Render scatter plot in original coordinates:
 output$ls_original <- renderPlot(
@@ -343,15 +348,15 @@ output$ls_original <- renderPlot(
     geom_hline(yintercept = 0, linewidth = LINE_WIDTH) +
     geom_point(alpha = .5) +
     scale_x_continuous(
-      limits       = c(-3, 3),
-      breaks       = -3:3,
+      limits       = LIMITS,
+      breaks       = BREAKS,
       minor_breaks = NULL,
       name         = NULL,
       oob          = oob_keep
     ) +
     scale_y_continuous(
-      limits       = c(-3, 3),
-      breaks       = -3:3,
+      limits       = LIMITS,
+      breaks       = BREAKS,
       name         = NULL,
       oob          = oob_keep
     ) +
@@ -373,9 +378,6 @@ output$ts_original <- renderPlot({
 })
 output$ls_transformed <- renderPlot({
   
-  # Constant objects:
-  BREAKS <- -3:3
-  
   # Compute grid lines:
   
   ## Basis vectors:
@@ -396,23 +398,23 @@ output$ls_transformed <- renderPlot({
       linewidth = LINE_WIDTH
     ) +
     geom_abline( # Oblique panel grid lines
-      intercept = -3:3 * basis_vec_2[2],
+      intercept = BREAKS * basis_vec_2[2],
       slope     = tan_vec_1,
       linewidth = LINE_WIDTH,
       linetype  = "C6"
     ) +
     geom_point(alpha = .5) +
     scale_x_continuous(
-      limits       = c(-3, 3),
-      breaks       = -3:3,
+      limits       = LIMITS,
+      breaks       = BREAKS,
       minor_breaks = NULL,
       name         = NULL,
       oob          = oob_keep
     ) +
     scale_y_continuous(
-      limits       = c(-3, 3),
-      breaks       = -3:3 * basis_vec_2[2] -3 * basis_vec_1[2],
-      labels       = -3:3,
+      limits       = LIMITS,
+      breaks       = BREAKS * basis_vec_2[2] + LIM_INF * basis_vec_1[2],
+      labels       = BREAKS,
       name         = NULL,
       oob          = oob_keep
     ) +
