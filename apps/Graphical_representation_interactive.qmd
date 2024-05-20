@@ -414,7 +414,8 @@ output$ls_transformed <- renderPlot({
     ) +
     scale_y_continuous(
       limits       = c(-3, 3),
-      breaks       = -3:3,
+      breaks       = -3:3 * basis_vec_2[2] -3 * basis_vec_1[2],
+      labels       = -3:3,
       name         = NULL,
       oob          = oob_keep
     ) +
