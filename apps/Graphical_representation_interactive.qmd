@@ -36,6 +36,7 @@ theme_set( # `ggplot` output configuration
     base_line_size = LINE_WIDTH
   ) %+replace%
     theme(
+      plot.title   = element_text(hjust = .5),
       axis.title.x = element_text(hjust = 1),
       axis.title.y = element_text(vjust = 1, angle = 0)
     )
@@ -348,8 +349,7 @@ output$ls_original <- renderPlot(
         linetype  = "C6"
       )
     ) +
-    xlab("theta_1") + ## FIXME: Labels not shown
-    ylab("theta_2")
+    ggtitle("Original coordinates")
 )
 
 # Render item in original coordinates:
@@ -395,7 +395,8 @@ output$ts_original <- renderPlot({
         linewidth = LINE_WIDTH,
         linetype  = "C6"
       )
-    )
+    ) +
+    ggtitle("Original coordinates")
 })
 
 # Render scatter plot in transformed coordinates:
@@ -447,7 +448,8 @@ output$ls_transformed <- renderPlot({
         linewidth = LINE_WIDTH,
         linetype  = "C6"
      )
-    )
+    ) +
+    ggtitle("Transformed coordinates")
 })
 
 # Render item in transformed coordinates:
@@ -528,6 +530,7 @@ output$ts_transformed <- renderPlot({
         linewidth = LINE_WIDTH,
         linetype  = "C6"
       )
-    )
+    ) +
+    ggtitle("Transformed coordinates")
 })
 ```
