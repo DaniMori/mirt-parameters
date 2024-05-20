@@ -328,12 +328,6 @@ plotOutput('ts_transformed')
 ```{r render-plots}
 #| context: server
 
-draw_spikes <- reactiveVal() # Flag to indicate whether to draw spikes (for
-                             #   single value plotting only)
-observeEvent( ## TODO: Draw spikes
-  input$sample_type,
-  draw_spikes(input$sample_type == "unique value")
-)
 # Constant objects:
 LIM_INF <- -3L
 LIM_SUP <-  3L
@@ -373,9 +367,10 @@ output$ls_original <- renderPlot(
     ylab("theta_2")
 )
 
-# Render scatter plot in transformed coordinates:
 output$ts_original <- renderPlot({
 })
+
+# Render scatter plot in transformed coordinates:
 output$ls_transformed <- renderPlot({
   
   # Compute grid lines:
@@ -383,16 +378,14 @@ output$ls_transformed <- renderPlot({
   ## Basis vectors:
   basis_vec_1 <- transf_matrix()[, 1]
   basis_vec_2 <- transf_matrix()[, 2]
-  basis_vec_1_norm <- basis_vec_1^2 |> sum() |> sqrt()
-  basis_vec_2_norm <- basis_vec_2^2 |> sum() |> sqrt()
-  
+
   ## Oblique grid lines:
   tan_vec_1 <- basis_vec_1[2] / basis_vec_1[1] # Angle tangent
   
-
+  # Render plot:
   lt_sample_transf() |> ggplot(aes(x = theta_1, y = theta_2)) +
     geom_vline(xintercept = 0, linewidth = LINE_WIDTH) +
-    geom_abline( # Oblique `theta_2` axis
+    geom_abline( # Oblique `theta_1` axis
       intercept = 0,
       slope     = tan_vec_1,
       linewidth = LINE_WIDTH
