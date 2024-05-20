@@ -301,6 +301,16 @@ output$item <- renderTable(
 
 ## Plots
 
+::: columns
+::: {.column style="text-align: center"}
+Latent space:
+:::
+
+::: {.column style="text-align: center"}
+Test space:
+:::
+:::
+
 ```{r plot-outputs}
 #| layout: [[1, 1], [1, 1]]
 plotOutput('ls_original')
