@@ -293,7 +293,7 @@ source("R/Constants.R",    encoding = 'UTF-8')
 item_oblique <- reactiveVal()
 
 observeEvent(
-  list(input$a_1, input$a_2, input$d, cov_matrix()),
+  list(item_M2PL(), cov_matrix()),
   item_oblique({
     oblique_params <- item_M2PL() |> compute_mirt_params(
       all_of(INTERCEPT_COLKEY), starts_with(DISCR_PREFFIX), # Input parameters
@@ -302,7 +302,7 @@ observeEvent(
     )
     oblique_coords <- oblique_params |> compute_mirt_coords(
       D, MDISC, starts_with(COSINE_DIRTYPE),
-      transform       = transf_inv_transp(),
+      transform       = transf_matrix(),
       original_coords = TRUE
     )
     
