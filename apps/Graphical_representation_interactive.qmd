@@ -9,7 +9,6 @@ server: shiny
 
 ```{r setup}
 #| warning: false
-library(shinyjs)
 library(tibble)
 library(mnormt)
 library(dplyr)
@@ -257,20 +256,6 @@ observeEvent(
       pivot_wider()
   })
 )
-
-## FIXME: Disabling inputs does not work
-# useShinyjs()
-# observeEvent(
-#   input$sample_type == "unique value",
-#   disable('N')
-# )
-# observeEvent(
-#   input$sample_type == "sample",
-#   {
-#     disable('theta_1')
-#     disable('theta_2')
-#   }
-# )
 ```
 
 # Output
