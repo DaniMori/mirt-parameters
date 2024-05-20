@@ -302,7 +302,7 @@ observeEvent(
     )
     oblique_coords <- oblique_params |> compute_mirt_coords(
       D, MDISC, starts_with(COSINE_DIRTYPE),
-      transform       = cov_matrix(),
+      transform       = transf_inv_transp(),
       original_coords = TRUE
     )
     
