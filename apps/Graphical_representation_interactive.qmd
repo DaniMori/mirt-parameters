@@ -45,9 +45,7 @@ theme_set( # `ggplot` output configuration
 
 # Description
 
-This app show an interactive graphical representation of the Multidimensional
-parameters (location and discrimination) of the Multidimensional Compensatory
-Logistic IRT Model (MCLM).
+This app show an interactive graphical representation of the Multidimensional parameters (location and discrimination) of the Multidimensional Compensatory Logistic IRT Model (MCLM).
 
 # Input
 
@@ -261,7 +259,7 @@ observeEvent(
 
 # Output
 
-# Item multidimensional parameters
+## Item multidimensional parameters
 
 ```{r item-output}
 tableOutput('item')
