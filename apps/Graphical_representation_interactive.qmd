@@ -367,7 +367,50 @@ output$ls_original <- renderPlot(
     ylab("theta_2")
 )
 
+# Render item in original coordinates:
 output$ts_original <- renderPlot({
+  
+  item_oblique() |>
+    ggplot(
+      aes(
+        origin_1, origin_2,
+        xend  = end_1, yend = end_2,
+        color = I("red"), fill = I("red")
+      ),
+    )                                                  +
+    geom_vline(xintercept = 0, linewidth = LINE_WIDTH) +
+    geom_hline(yintercept = 0, linewidth = LINE_WIDTH) +
+    geom_segment(
+      arrow     = arrow(
+        angle  = 20,
+        length = unit(10, "points"),
+        type   = "closed"
+      ),
+      linejoin  = "mitre",
+      linewidth = VECTOR_WIDTH
+    ) +
+    scale_x_continuous(
+      limits       = LIMITS,
+      breaks       = BREAKS,
+      minor_breaks = NULL,
+      name         = NULL,
+      oob          = oob_keep
+    ) +
+    scale_y_continuous(
+      limits       = LIMITS,
+      breaks       = BREAKS,
+      name         = NULL,
+      oob          = oob_keep
+    ) +
+    coord_fixed(expand = FALSE, clip = "on") +
+    theme(
+      axis.line        = element_blank(),
+      panel.grid.major = element_line(
+        color     = "black",
+        linewidth = LINE_WIDTH,
+        linetype  = "C6"
+      )
+    )
 })
 
 # Render scatter plot in transformed coordinates:
