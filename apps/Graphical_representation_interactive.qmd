@@ -464,7 +464,85 @@ output$ls_transformed <- renderPlot({
      )
     )
 })
+
+# Render item in transformed coordinates:
 output$ts_transformed <- renderPlot({
+
+  # Compute grid lines:
+  
+  ## Basis vectors:
+  basis_vec_1 <- transf_inv_transp()[, 1]
+  basis_vec_2 <- transf_inv_transp()[, 2]
+
+  ## Oblique grid lines:
+  tan_vec_2 <- basis_vec_2[2] / basis_vec_2[1] # Angle tangent
+  
+  # Render plot:
+  output <- item_oblique() |>
+    ggplot(
+      aes(
+        origin_transf_1, origin_transf_2,
+        xend  = end_transf_1, yend = end_transf_2,
+        color = I("red"), fill = I("red")
+      ),
+    ) +
+    geom_hline(yintercept = 0L, linewidth = LINE_WIDTH)
+  
+  output <- if (basis_vec_2[1]) {
+
+    output +
+      geom_abline( # Oblique `theta_2` axis
+        intercept = 0L,
+        slope     = tan_vec_2,
+        linewidth = LINE_WIDTH
+      ) +
+      geom_abline( # Oblique panel grid lines
+        intercept = BREAKS * tan_vec_2,
+        slope     = tan_vec_2,
+        linewidth = LINE_WIDTH,
+        linetype  = "C6"
+      )
+    
+  } else {
+    
+    output + 
+      geom_vline(xintercept = 0L,     linewidth = LINE_WIDTH) +
+      geom_vline(xintercept = BREAKS, linewidth = LINE_WIDTH, linetype  = "C6")
+  }
+    
+  output +
+    geom_segment(
+      arrow     = arrow(
+        angle  = 20,
+        length = unit(10, "points"),
+        type   = "closed"
+      ),
+      linejoin  = "mitre",
+      linewidth = VECTOR_WIDTH
+    ) +
+    scale_x_continuous(
+      limits       = LIMITS,
+      breaks       = BREAKS * basis_vec_1[1] + LIM_INF * basis_vec_2[1],
+      labels       = BREAKS,
+      minor_breaks = NULL,
+      name         = NULL,
+      oob          = oob_keep
+    ) +
+    scale_y_continuous(
+      limits       = LIMITS,
+      breaks       = BREAKS * basis_vec_2[2],
+      labels       = BREAKS,
+      name         = NULL,
+      oob          = oob_keep
+    ) +
+    coord_fixed(expand = FALSE, clip = "on") +
+    theme(
+      axis.line          = element_blank(),
+      panel.grid.major.y = element_line(
+        color     = "black",
+        linewidth = LINE_WIDTH,
+        linetype  = "C6"
+      )
+    )
 })
 ```
-
