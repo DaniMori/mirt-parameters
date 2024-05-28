@@ -630,9 +630,9 @@ also orthonormal and thus $`r INNER_PROD_MAT_STD_EQ`$.
 In such a case the multidimensional item location and discrimination simplify
 to the expressions derived by @reckase_difficulty_1985
 and @reckase_discriminating_1991.
-These expresssions disregard the covariance structure of $`r TRAIT_VECTOR`$ by
-implicitly assuming the orthonormality of $`r LS_BASIS`$.
-Therefore, we shall refer to these as the *agnostic* version of the indices:
+As these expressions implicitly assume the orthonormality of $`r LS_BASIS`$,
+which bears no meaning besides its pure algebraic purpose,
+we shall refer to them as the *agnostic* version of the indices:
 
 \begin{equation}
   \begin{split}
