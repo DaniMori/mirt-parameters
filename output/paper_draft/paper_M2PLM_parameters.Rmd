@@ -168,7 +168,8 @@ A positive change in the dimension tapped by one category will inevitably
 lead to a decrease in the probability of response to the other category.
 One can easily note that a monotonically decreasing probability for a certain
 dimension is given by a non-positive discrimination parameter
-(and an unchanging probability by a null discrimination parameter),<!--# Actually, this also applies to the cognitive domain, which may not be very well explained. -->
+(and an unchanging probability by a null discrimination parameter,
+which also applies to cognitive instruments),
 contrary to the constraints imposed by @reckase_difficulty_1985 [p. 411].
 However, the multidimensional item parameters can also be defined for
 items with monotonically non-increasing probabilities, as we will see.
