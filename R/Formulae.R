@@ -840,14 +840,14 @@ DISCR_STD_COORDS_MOD_EQ <- latex_eq(
 
 # Item direction cosines (in test space):
 ANGLE_TS                          <- latex("\\alpha")
+ANGLE_VEC_TS                      <- latex_bf(ANGLE_TS)
+ANGLE_VEC_TS_ITEM                 <- latex_sub(ANGLE_VEC_TS, ITEM_INDEX)
 ANGLE_TS_ITEM                     <- latex_sub(
   ANGLE_TS,
   "$ITEM_INDEX$$DIM_INDEX$"
 )
-DIR_ANGLE_VEC_TS                  <- latex_bf(ANGLE_TS)
-DIR_COS_VEC_TS                    <- latex_cos(DIR_ANGLE_VEC_TS)
-DIR_ANGLE_ITEM_VEC_TS             <- latex_sub(DIR_ANGLE_VEC_TS, ITEM_INDEX)
-DIR_COS_ITEM_VEC_TS               <- latex_cos(DIR_ANGLE_ITEM_VEC_TS)
+DIR_COS_VEC_TS                    <- latex_cos(ANGLE_VEC_TS)
+DIR_COS_ITEM_VEC_TS               <- latex_cos(ANGLE_VEC_TS_ITEM)
 DIAG_MATRIX_INNER_PROD_INV        <- latex_prime(DIAG_MATRIX_INNER_PROD)
 DIAG_MATRIX_INNER_PROD_INV_SQ_INV <- latex_raised_to(
   DIAG_MATRIX_INNER_PROD_INV,

@@ -596,7 +596,9 @@ We have that
   \end{split}                             (\#eq:item-params-discrimination-norm)
 \end{equation}
 
-Applying Proposition 1, in the test space $`r TEST_SPACE`$, we get
+Applying Proposition 2, if `r ANGLE_VEC_TS_ITEM` is
+the vector of direction angles of `r DISCR_VECTOR`,
+in the test space $`r TEST_SPACE`$ we get
 
 \begin{equation}
   `r DIR_COS_ITEM_VEC_TS_EQ`,                      (\#eq:dir-cos-vec-test-space)
