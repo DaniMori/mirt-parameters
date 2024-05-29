@@ -153,7 +153,7 @@ Vamos a hacer el cambio de base, tal y como viene en el artículo, y
 resultado que obtengo es el mismo.)
 
 ```{r transform-coordinates}
-coords_C <- P %*% t(coord_B) |> t()
+coords_C <- P %*% t(coords_B) |> t()
 
 cov_coords_C <- cov(coords_C)
 cor_coords_C <- cor(coords_C)[2, 1]
