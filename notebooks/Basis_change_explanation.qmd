@@ -1,0 +1,233 @@
+---
+title: "Explicación sobre la representación gráfica y el cambio de base"
+author: "Daniel Morillo"
+format: html
+editor: visual
+---
+
+```{r setup}
+#| warning: false
+library(matlib)
+library(lsa)
+library(mvtnorm)
+
+set.seed(123)
+```
+
+# Introducción
+
+En este notebook voy a intentar dar una explicación lo más detallada posible y
+pormenorizada de una concepción errónea respecto a la interpretación de la base
+oblicua y la distribución de los vectores de rasgo latente.
+
+Es importante aclarar que esta interpretación incorrecta es muy difícil de
+entender; a mí me costó muchísimo darme cuenta de ello y "deshacerme" de ella.
+No obstante, creo que esta concepción errónea es la principal barrera que
+estamos teniendo ahora mismo Mario y yo para entendernos, y por lo tanto para
+hacer avances significativos. Una vez hayamos podido aclarar esto, estoy seguro
+de que habremos superado una barrera muy importante y haremos progresos mayores.
+
+Empezaré por analizar el
+[notebook "Representacion" de Mario](https://github.com/DaniMori/mirt-parameters/blob/experimental/derivations-by-mario/notebooks/Representacion.Rmd),
+fechado el 19 de mayo y enviado por email el 27 de mayo de 2024. Al comienzo del
+mismo se crea una base oblicua en el espacio latente, y después se hace una
+simulación de datos "en esa base" . Aunque dicha simulación no es incorrecta,
+mostraré por qué NO responde al objetivo del artículo. Lo que sí es incorrecto
+es asumir que de esta manera "su correlación [es] el angulo entre los factores
+oblicuos", lo cual mostraré a continuación. Por último, explicaré con dos
+ejemplos distintos cómo debería hacerse de manera esta simulación para que sí
+responda a nuestro objetivo.
+
+# Creación de la base
+
+Mario genera en su notebook
+([ll. 52-64](https://github.com/DaniMori/mirt-parameters/blob/9f0549415219a90d8c45fbce674eeb6d9b0ea425/notebooks/Representacion.Rmd#L52-L64)),
+de manera correcta, una base del espacio latente formada por dos vectores
+normales, oblicuos entre sí. Reproduzco aquí su código (con adaptaciones de
+estilo):
+
+```{r oblique-basis}
+# Crear vectores de "dirección" iniciales:
+b_1 <- c(3, 1)
+b_2 <- c(1, 4)
+
+# Normalizar vectores:
+b_1 <- b_1 / len(b_1)
+b_2 <- b_2 / len(b_2)
+
+```
+
+Este código genera dos vectores, $\mathbf{b}_1$ y $\mathbf{b}_2$, los cuales
+forman la base oblicua o "base original"
+$\mathcal{B} = \{ \mathbf{b}_1, \mathbf{b}_2 \}$. Estos vectores están
+expresados en la base canónica $\mathfrak{E}$, y por lo tanto la matriz $P$ que
+transforma cualquier vector de $\mathfrak{B}$ a la base canónica $\mathfrak{E}$
+es $\mathbf{P} = [ \mathbf{b}_1, \mathbf{b}_2 ]$:
+
+```{r transform-matrix}
+P <- cbind(b_1, b_2)
+```
+
+Al ser la base $\mathfrak{B}$ oblicua, los vectores forman entre sí un ángulo
+dado por:
+
+```{r basis-vectors-angle}
+cos_b1_b2       <- cosine(b_1, b_2)
+angle_deg_b1_b2 <- angle(b_1, b_2)
+```
+
+El ángulo es de `r angle_deg_b1_b2 |> round(2)`º, al cual corresponde un coseno
+de `r cos_b1_b2 |> round(3)`.
+
+# Simulación
+
+A continuación Mario simula los vectores $\mathbf{\theta}$ de rasgo latente
+([ll. 69-89](https://github.com/DaniMori/mirt-parameters/blob/9f0549415219a90d8c45fbce674eeb6d9b0ea425/notebooks/Representacion.Rmd#L69-L89)),
+los cuales *deseamos representar en esta base oblicua* $\mathfrak{B}$. No
+obstante, nótese que los vectores no están necesariamente "en una base" como
+tal, sino que son coordenadas algebraicas. Según yo lo entiendo (y puede que
+aquí sea yo mismo quien tiene una concepción errónea), **los vectores puramente
+algebraicos no necesitan de ninguna base para ser generados, sino solamente para
+ser representados**. Por lo tanto, **los vectores generados en esta simulación
+no necesitarían de la base para ser generados**. Esto es común en TRI
+multidimensional: Simulamos vectores de rasgo latente con una determinada
+distribución (incluyendo su matriz de covarianzas), sin hacer referencia a
+ninguna base.
+
+Además, esto ya lo hemos visto y hecho anteriormente de hecho. En el notebook
+["Ejemplificando art"](https://github.com/DaniMori/mirt-parameters/blob/9f0549415219a90d8c45fbce674eeb6d9b0ea425/notebooks/example_script.Rmd)
+del 13 de septiembre de 2023,
+[Mario genera una base oblicua](https://github.com/DaniMori/mirt-parameters/blob/9f0549415219a90d8c45fbce674eeb6d9b0ea425/notebooks/example_script.Rmd#L43-L53), y después
+[simula una distribución de vectores de rasgo latente que nada tienen que ver con los vectores de esa base](https://github.com/DaniMori/mirt-parameters/blob/9f0549415219a90d8c45fbce674eeb6d9b0ea425/notebooks/example_script.Rmd#L83-L89).
+
+No obstante, lo que vemos en este notebook es que se desea que las coordenadas
+de los vectores de rasgo latente (en $\mathfrak{B}$)
+["representen las habilidades de los sujetos respecto a esos constructos"](https://github.com/DaniMori/mirt-parameters/blob/9f0549415219a90d8c45fbce674eeb6d9b0ea425/notebooks/Representacion.Rmd#L69). Para ello, Mario dice que
+["la correlacion entre los rasgos de los sujetos es la correlacion entre los ejes"](https://github.com/DaniMori/mirt-parameters/blob/9f0549415219a90d8c45fbce674eeb6d9b0ea425/notebooks/Representacion.Rmd#L69).
+**Aquí es donde está la concepción errónea que es necesario corregir**; como
+digo, esto es un concepto muy contraintuitivo, y que solamente resulta después
+de analizar muy en detalle las deducciones y entender adecuadamente la
+representación.
+
+::: callout-warning
+La correlación entre los vectores de la base $\mathfrak{B}$ **NO representa la
+correlación de la distribución de los rasgos latentes**.
+:::
+
+Voy a hacer la simulación tal y como la hace Mario, y después justifico esa
+concepción errónea.
+
+```{r simulate-coordinates}
+cov_matrix <- matrix(c(1, cos_b1_b2, cos_b1_b2, 1), ncol = 2)
+coords_B   <- rmvnorm(3000, sigma = cov_matrix)
+
+cov_coords_B <- cov(coords_B)
+cor_coords_B <- cor(coords_B)[2, 1]
+```
+
+La correlación muestral de los rasgos latentes simulados es
+`r cor_coords_B |> round(3)`.
+
+Ahora bien: Hay que recordar que **el objetivo de proponer una base latente
+$\mathfrak{B}$ es** que las coordenadas de los vectores de rasgo latente
+transformadas a una base ortogonal, tengan una distribución independiente, es
+decir, que su correlación sea 0. Yendo más allá (por aclarar todos los
+conceptos), queremos **que las coordenadas de los vectores de rasgo latente
+transformadas a una base ortonormal** (por simplificar, a la base canónica, en
+este ejemplo), **tengan una matriz de covarianzas identidad**.
+
+::: callout-important
+Las coordenadas de los vectores de rasgo latente, transformadas a la base
+canónica, deben tener una matriz de covarianzas identidad.
+:::
+
+# Transformación a la base canónica
+
+Tal y como indica Mario
+([ll. 91-93](https://github.com/DaniMori/mirt-parameters/blob/9f0549415219a90d8c45fbce674eeb6d9b0ea425/notebooks/Representacion.Rmd#L91-L93)),
+"En la base Canónica $\mathfrak{E}$ las coordenadas se obtienen mediante la
+matriz de cambio de base $\mathbf{P}$".
+
+Vamos a hacer el cambio de base, tal y como viene en el artículo, y
+[como hace Mario en este notebook](https://github.com/DaniMori/mirt-parameters/blob/9f0549415219a90d8c45fbce674eeb6d9b0ea425/notebooks/Representacion.Rmd#L96-L103). (Aunque utilizao un código distinto, el
+resultado que obtengo es el mismo.)
+
+```{r transform-coordinates}
+coords_C <- P %*% t(coord_B) |> t()
+
+cov_coords_C <- cov(coords_C)
+cor_coords_C <- cor(coords_C)[2, 1]
+```
+
+La matriz de covarianzas muestral de las coordenadas en la base canónica es:
+
+`r cov_coords_C |> round(3)`
+
+La correlación entre las coordenadas en la base canónica es
+`r cor_coords_C |> round(3)`.
+
+Sin embargo, tal y como decíamos antes, queremos que la correlación en esta base
+sea 0, pero en su lugar **es una correlación muy alta**, próxima a 1. ¿Por qué
+está ocurriendo esto? Es la concepción errónea a la que me refería antes la que
+lo explica.
+
+## Matriz de covarianzas de las coordenadas de rasgo latente
+
+Este apartado explica por qué la transformación a la base canónica no da el
+resultado que esperamos.
+
+Las coordenadas en la base original se han simulado con una matriz de
+covarianzas igual a:
+
+$$
+\begin{bmatrix}
+             1 & \cos{\alpha} \\
+  \cos{\alpha} &            1
+\end{bmatrix}
+$$
+
+ siendo $\alpha$ el ángulo entre los dos vectores de la base $\mathfrak{B}$.
+ Ahora bien, esta matriz también es igual a
+ $\mathbf{P}^T\mathbf{P} = \mathbf{M}$ (no pongo la justificación matemática
+ porque no creo que sea necesario, pero podemos verlo en el ejemplo):
+ 
+```{r compute-Gram-matrix}
+M <- t(P) %*% P
+M
+cov_matrix
+
+# Dan exactamente igual, salvo por la precisión numérica en el [1, 1]
+cov_matrix == M
+```
+ 
+ Como ya sabemos, si la matriz de covarianzas de las coordenadas originales es
+$\mathbf{\Sigma}$, la matriz de covarianzas de las coordenadas en la base
+canónica $\mathbf{\Sigma}^\mathfrak{B}$ (tras aplicar la pre-multiplicación por
+$\mathbf{P}$) responde a:
+
+$$
+\mathbf{\Sigma}^\mathfrak{E} = \mathbf{P} \mathbf{\Sigma} \mathbf{P}^T
+$$
+
+Ahora bien, si simulamos las coordenadas originales con
+$\mathbf{\Sigma} = \mathbf{M}$, tenemos que:
+
+$$
+\mathbf{\Sigma}^\mathfrak{E} =
+  \mathbf{P} \mathbf{M} \mathbf{P}^T =
+  \mathbf{P} \mathbf{P} \mathbf{P}^T \mathbf{P}^T
+$$
+
+Lo cual (en general) NO equivale a una matriz identidad.
+
+Es necesario darse cuenta de que hemos llegado a este punto porque **hemos
+simulado los vectores de rasgo latente (originales) con una correlación igual al
+coseno del ángulo entre los vectores de la base $\mathfrak{B}$**, y que hacemos
+esto porque **consideramos que dicho ángulo representa la correlación entre los
+constructos sustantivos que nos interesa representar**. No obstante, vemos que
+**esto NO es así**.
+
+::: callout-warning
+El coseno del ángulo entre los vectores de la base $\mathfrak{B}$ NO representa
+la correlación entre los constructos sustantivos que nos interesa representar.
+:::
