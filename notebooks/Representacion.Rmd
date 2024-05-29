@@ -1,0 +1,611 @@
+---
+title: "Representacion"
+author: "Mario Luzardo"
+date: "2024-05-19"
+output: word_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+rm(list=ls()) 
+library(pspline)
+library(mvtnorm)
+library(sn)
+library(mnormt)
+library(scatterplot3d)
+library(copula)
+library(ggplot2)
+library(fungible)
+library(pracma)
+library(matlib)
+library(rgl)
+library(lsa)
+library(MASS)
+library(mirt)
+library(tidyverse)
+set.seed(123)
+```
+
+Esto intenta generalizar los conceptos considerando que partimos de una base de habilidades que consideramos la que explica realmente el fenómeno.
+
+Me baso en que en el desarrolo de Rackase no se utiliza la normalidad para obtener las f'ormulas simplemente la ortogonalidad del espacio latente.
+
+Me basaré en la relación entre los modelos de TRI y el AF, por ello usare el paquete mirt de R
+
+El método consistira en:
+
+1) Considero un espacio latente oblicuo y alli una base que representa el fenómeno realmente.
+2) Simulo las coordenadas de las habilidades en esa base para que su correlación sea el angulo entre los factores oblicuos. 
+3) Analizo la opción de Daniel y la justifico
+3) Realizo el procedimiento que llamos para calcular los parámetros.
+4) Veo como queda el espacio test
+5) Genero método para calcular P a partir de solucion sin rotar y rotada
+
+
+
+Entonces veremos métodos para
+a) Si conozco P
+b) Si solo se el ángulo entre las habilidades (usamos solucion de Daniel)
+c) Si tenemos solucion sin rotar y rotada como hallar P
+
+
+Supongamos que la base que representa las habilidades verdaderas es:
+```{r base no ortogonal, include=FALSE}
+b1_v1=c(3,1)
+b1_v2=c(1,4)
+b1_v1=b1_v1/len(b1_v1)
+b1_v2=b1_v2/len(b1_v2)
+Base_1=matrix(cbind(b1_v1,b1_v2),ncol=2)
+cosalfa=cosine(b1_v1,b1_v2)
+alfa=acos(cosalfa)
+```
+La base no ortogonal  es: 
+
+$\mathfrak{B}$=\{$v_1$=(`r b1_v1[1] `, `r b1_v1[2] `) ;$v_2$=(`r b1_v2[1] `, `r b1_v2[2] `) \}
+
+Estos vectores tienen norma 1 y un ángulo entre ellos de `r round(matlib::angle(Base_1[,1],Base_1[,2]),2)` grados
+El coseno entre los rasgos latentes es: `r cosalfa `
+
+Ahora simularé las coordenadas de las habilidades en esa base. Estas representan las habilidades de los sujetos respecto a esos constructos por lo tanto deben la correlacion entre los rasgos de los sujetos es la correlacion entre los ejes
+
+Observemos que no es necesario para obtener estos datos saber la base solo el ángulo.
+
+Es decir se puede tomar por ejemplo la base cualquier rotación de esta por ejemplo
+la base 
+
+$\mathfrak{B}$=\{$v_1$= c(1,0)  ;$v_2=c(cos(\alpha),sen(\alpha))$ \} osea
+
+$\mathfrak{B}$=\{$v_1$= c(1,0)  ;$v_2$=(`r c(cosalfa, sin(alfa))` \}
+
+Observemos que lo que se simulan son coordenadas en una base y eso hay que tenerlo en cuenta al transformar
+
+Nosotros seguiremo con la general
+
+```{r simulo datos en B, include=FALSE}
+cov_matrix <- matrix(c(1,cosalfa,cosalfa,1),ncol=2,byrow=T)
+coord_B<- mvtnorm::rmvnorm(3000, sigma = cov_matrix)
+Sigma_B=cor(coord_B)
+```
+La correlacion entre las habilidades es `r print(cor(coord_B)) `
+
+En la base Canónica $\mathfrak{E}$ las coordenadas se obtienen mediante la matriz de cambio de base P
+
+$$\theta^{\mathfrak{E}}=P\theta^{\mathfrak{B}}$$
+
+
+```{r coordenadas en C, include=FALSE}
+P=Base_1
+P_inv=solve(P)
+P_invT=t(P_inv)
+M=t(P)%*%P
+coord_C <- t(apply(coord_B, 1, function(x) P %*% as.matrix(x)))
+Sigma_C=cor(coord_C)
+```
+
+Si voy a los ejes canónicos la corelación entre las habilidades es `r cor(coord_C) `
+
+Debemos observar que los puntos quedan fijos en el espacio lo que cambia son las coordenadas dado que P es la transformación identidad expresada en ambas bases.
+
+Para mantener invariante la norma debemos definir en el espacio de la habilidad con la base B un producto interno con matriz de Gramm M
+$$ M= P^T P$$
+```{r }
+print("M resulta")
+M
+```
+
+```{r norma, echo=TRUE, include=FALSE}
+theta_C=coord_C[17,]
+#theta_C
+theta_B=solve(Base_1,theta_C)
+norma_B=as.numeric(sqrt(t(theta_B)%*%M%*%theta_B))
+norma_C=as.numeric(sqrt(t(theta_C)%*%theta_C))
+#norma_B
+#norma_C
+```
+
+
+
+Por lo tanto la norma permanece invariante esto se puede comprobar mediante un ejemplo particular.
+
+Consderamos un caso particular de habilidad dada sus coordenadas en la base canónica por `r round(theta_C,4) ` y su norma usando el producto punto es `r round(norma_C,4) `
+
+Las coordenadas de este punto expresados en la base B son `r round(theta_B,4) ` y su norma utilizando el producto internos con matriz de Gramm M es  `r round(norma_B,4) `
+
+
+
+Es claro que al existir una transformación lineal sobre las coordenadas esto afectará a las varianzas (no a la distribución ya que partimos de una normal) y también las correlaciones.
+
+Dependera si la correlación aumenta o disminuye entre las coordenadas en una base y la otra de la matriz P y en definitiva del ángulo entre los vectres de la base original  
+
+La relación viene dada por 
+$$Var(coord_C(\theta))=P Var(coord_B(\theta)) P^T$$
+
+$$Cor(coord_C(\theta))=U P Var(coord_B(\theta)) P^T U=UVar(coord_C(\theta))U$$
+
+siendo 
+
+$$U=diag((Var(coord_C(\theta)))^{-1/2})$$
+
+OBSERVACION
+De los infinitas bases podemos tamar dos que llevan en su trnsformaci’on a la matriz identidad e los ejes coordenados
+
+A partir de 
+
+$$Var(coord_C(\theta))=P Var(coord_B(\theta)) P^T$$
+
+si consideramos $$Var(coord_C(\theta))=I$$
+
+obtenemos dos ecuaciones que da  que
+
+  $$I=P Var(coord_B(\theta)) P^T$$
+
+
+Si las resolvemos obtenemos
+
+ $$ P^{-1}(P^T)^{-1}=M^{-1}=Var(coord_B(\theta))$$
+
+o sea
+
+ $$P^TP=M=Var(coord_B(\theta))^{-1}$$
+
+Es claro que estas P se pueden hallar pero pueden no representar el fenómeno 
+
+Igualmente avancemos con esto
+
+
+Notemos por $$Var(coord_B(\theta))=\Sigma_B$$ y $$Var(coord_C(\theta))=\Sigma_C$$
+
+Si realizamosla descomosici'on espectral de $$\Sigma_B$$ obtenemos
+
+$$\Sigma_B=Q \Lambda Q^{-1}$$ con Q ortogonal o sea $Q^{-1}=Q^T$ la matriz de vectores propios y $\Lambda$ la matriz diagonal de valores propios
+luego
+
+$$\Sigma_B^{-1}=Q \Lambda^{-1} Q^{-1}$$
+
+$$P^T P=M=\Sigma_B^{-1}=Q (\Lambda)^{-1/2} Q^{-1} Q  (\Lambda)^{-1/2} Q^{-1}$$
+
+o sea encuentro la matriz raiz cuadrada $$\sqrt{\Sigma_B}^{-1}=Q (\Lambda)^{-1/2} Q^{-1}$$
+
+Es claro que su uso $$P=P^T=Q (\Lambda)^{-1/2} Q^{-1}$$
+
+
+
+
+```{r }
+
+DE=eigen(Sigma_B)
+raizD=diag(sqrt(DE$values)^{-1})
+Q=DE$vectors
+Qinv=solve(Q)
+P_VP=Q%*%raizD%*%Qinv
+coord_VP <- t(apply(coord_B, 1, function(x) P_VP %*% as.matrix(x)))
+cor(coord_VP)
+```
+
+```{r }
+plot(coord_VP)
+```
+
+
+
+
+No es necesario hallar la matriz raiz cuadrada ya que su usamos $$P^T=Q (\Lambda)^{1/2}$$
+también sirve ya que 
+$$\Sigma_B^{-1}=P^TP=Q (\Lambda)^{-1/2}   (\Lambda)^{-1/2} Q^{-1}$$
+
+Observemos que estamos usando en este caso como base los vectores  propios escalados
+Es decir mi base ortogonal es la de vectores propios escalados 
+
+Luego $$P=(\Lambda)^{-1/2} Q^{-1}$$
+
+```{r }
+
+DE=eigen(Sigma_B)
+raizD=diag(sqrt(DE$values)^{-1})
+Qinv=solve(DE$vectors)
+P_VP2=raizD%*%Qinv
+coord_VP2 <- t(apply(coord_B, 1, function(x) P_VP2 %*% as.matrix(x)))
+cor(coord_VP2)
+```
+
+```{r }
+plot(coord_VP2)
+```
+
+
+
+Otra forma de hallar P es usar la descomposición de Cholesqui de M o su inversa
+
+Como $\Sigma_B$ es simétrica y supongamos definida positiva entonces por Cholesky podemos escribir
+
+$$\Sigma_B=L L^t$$
+donde L es una matrz triangular inferior, o sea $P=L^{T}$
+
+Si trabajamos con
+$$\Sigma_B^{-1}=(L^{-1})^T L^{-1}$$
+o sea $P=L^{-1}
+
+
+```{r   echo=FALSE}
+Linv=chol(Sigma_B)
+PChol=solve(Linv)
+coord_Chol <- t(apply(coord_B, 1, function(x) PChol %*% as.matrix(x)))
+cor(coord_VP2)
+```
+
+
+CASO CON MATRIZ DE VARIANZAS COVARIANZAS
+
+
+```{r , include=FALSE}
+cov_matrix <- matrix(c(4,3,3,9),ncol=2,byrow=T)
+coord_B_2<- mvtnorm::rmvnorm(3000, sigma = cov_matrix)
+Sigma_B_2=cov(coord_B_2)
+cor(coord_B_2)
+coord_C_2 <- t(apply(coord_B_2, 1, function(x) P %*% as.matrix(x)))
+Sigma_C_2=cor(coord_C_2)
+cor(coord_C_2)
+```
+Vemos que al utilizar la base normalizada las coordenadas en C tienen varianza 1
+
+
+```{r }
+
+DE=eigen(Sigma_B_2)
+raizD=diag(sqrt(DE$values)^{-1})
+Q=DE$vectors
+Qinv=solve(Q)
+P_VP_2=Q%*%raizD%*%Qinv
+coord_VP_2 <- t(apply(coord_B_2, 1, function(x) P_VP_2 %*% as.matrix(x)))
+cor(coord_VP_2)
+cov(coord_VP_2)
+plot(coord_VP_2)
+```
+
+
+Idéntico resultado da con los otros métodos
+Concluimos que si se trabaja con la matriz de varianza covarianzas o la de correlacion da lo mismo
+
+
+EJEMPLIFICACION
+
+
+Primero ejemplifico el caso donde conozco la P luego cuando solo conozco la correlacion entre las habilidades
+
+
+
+Los cosenos directores respecto a la base en el espacio test es
+
+
+$$cos \alpha_i^{B^*}=\frac{(D')^{-\frac{1}{2}} M^{-1} a_i^{*}}{\sqrt{(a_i^{*})^{T}M^{-1}(a_i^{*})}}$$
+
+La distancia al origen en esta dirección esta dada por
+
+$$D_i=\frac{-d_i}{\sqrt{(a_i^{*})^{T}M^{-1}(a_i^{*})}}$$
+
+y la pendiente
+
+$$ S_i=\frac{\sqrt{(a_i^{*})^{T}M^{-1}(a_i^{*})}}{4}$$
+
+
+```{r slope, include=FALSE}
+repre=function(M,a,d){
+  M_inv=solve(M)
+  norm_a=(sqrt(t(a)%*%M_inv%*%a))[1,1]
+  S=norm_a/4
+  D=-d/norm_a
+  cdiralfa=diag(diag(M_inv)^{-1/2})%*%M_inv%*%a/norm_a 
+  return(list(cosdir=cdiralfa,D=D,Slope=S))
+}
+```
+repre(M,c(0.5,1.5),0.2)
+
+
+## Como determinar P cuando se puede obtener los ejes oblicuos
+
+Este punto para mi es importante pues las secciones anteriores se formulan en base a que conocemos la base oblicua donde el fenómeno es interpretable y tiene las dimensiones "verdaderas".
+
+Entonces si uno tiene las respuestas por ej dicotomicas de los ítems hay una directa relación entre los parámetros y los loadings y comunalidades del análisis factorial 
+
+Por ejemplo en mirt se realiza un analisis factorial (con nfact) donde las variables son los ítems y se calculan los parámetros como
+
+$$a_{ij}=\frac{loading_{ij}}{\sqrt(1-h_j^2)}$$
+
+y si $q_j$ es la normal inversa de la dificultad
+
+$$d_j=\frac{q_j}{\sqrt(1-h_j^2)}$$
+
+Esto esta computado en el test space
+
+
+Si usamos una rotación (por ej oblimin) podemos calcular la base en que estan los parametros comparandola con la solucion sin rotar. 
+
+Vemos un ejemplo simple de como proceder en el caso bidimensional pero facilmente generalizable a cualquier dimensión
+
+Consideremos el espacio test y allí se realiza el analisis factorial
+
+Consideremos primero la solución factorial sin rotar y sea $F_1$ y $F_2$ estos factores ortogonales o sea $r_{F_1F_2}=0$ ysean $T_1$ y $T_2$ los factores oblicuos
+Notemos por $\alpha$ al ángulo de $T_1$ con $F_1$ y $\beta$ al ángulo de $T_2$ también con $F_1$ y sea $\phi$ al ángulo del vector que representa a un ítem genérico (evitamos el sub índice para simplificar) con $F_1$
+
+
+Sea 
+
+$$\begin{equation} L=\begin{bmatrix}
+l_{11} & l_{12} \\
+l_{21} & l_{22} \\ \vdots & \vdots \\
+l_{n1} & l_{n2}
+\end{bmatrix}
+\end{equation}$$
+
+ la matriz que contiene los pesos factoriales en los factores ortogonales $F_1$ y $F_2$
+ 
+ Se cumple que $l_{j1}=h_j \cos(\phi)$ y $l_{j2}=h_j \sin(\phi)$
+ 
+ 
+
+Sea $S$ la matriz que contiene las correlaciones de cada item con los ejere rotados o sea
+
+$$\begin{equation} S=\begin{bmatrix}
+r_{1T_1} & r_{1T_2} \\
+r_{2T_1} & r_{2T_2} \\ \vdots & \vdots \\
+r_{nT_1} & r_{nT_2}
+\end{bmatrix}
+\end{equation}$$
+
+Es facil ver (Harman) que se cumple $$S=LT$$ 
+
+con
+
+
+$$\begin{equation} T=\begin{bmatrix}
+\cos(\alpha) & \cos(\beta)  \\
+\sin(\alpha) & \sin(\beta) 
+\end{bmatrix}
+\end{equation}$$
+
+Sea ahora 
+
+$$\begin{equation} B=\begin{bmatrix}
+b_{11} & b_{12} \\
+b_{21} & b_{22} \\ \vdots & \vdots \\
+b_{n1} & b_{n2}
+\end{bmatrix}
+\end{equation}$$
+
+la matriz de coordenadas de los ítems respecto a los ejes oblicuos $T_1$ y $T_2$
+
+Se cumple que $$S=B \Phi$$
+
+con
+
+
+$$\begin{equation} \Phi=\begin{bmatrix}
+1 & r_{T_1T_2} \\
+r_{T_1T_2} & 1 
+\end{bmatrix}
+\end{equation}$$
+
+Sabemos que $\Phi=T^tT$ entonces a partir de lo anterior
+$$B=S\Phi^{-1}=LT(T^tT)^{-1}$$
+entonces
+
+$$ B=L(T^t)^{-1}$$
+
+
+
+Como $$S=B \Phi$$
+y  $$S=LT$$
+
+Veamos que tanto S como L son matrices  nx2 y T 2x2.
+Entonces la relación debe verificarse para todos (esta sobreidentificada)
+y me alcanza resolverla para dos ítems por ejemplo el j y el k.
+La matriz $(L)_{jk}$ es 2x2 y si el sistema tiene soluci'o invertible
+
+entonces $$T=(L^{-1})_{jk} (B \Phi)_{jk}$$
+
+Nosotros consideramosen el espacio test la base $E^*$ canónica y $B^*$ que se relacionaban mediante 
+
+$$\begin{equation}
+a_i^{E^*}=(P^{-1})^t a_i^{B^*}
+\end{equation}$$
+
+siendo $P$ la matriz de cambio de base en el espacio latente o sea $$\theta^E=P\theta^B$$ siendo E la base ortonormal en el espacio latente y B la base oblicua.
+
+Recordemos que se cumple $$ B=L(T^t)^{-1}$$
+
+de donde
+$$ L=BT^t$$
+
+Matricialmente
+
+$$\begin{equation}
+\begin{bmatrix}
+l_{11} & l_{12} \\
+l_{21} & l_{22} \\ \vdots & \vdots \\
+l_{n1} & l_{n2}
+\end{bmatrix}=
+\begin{bmatrix}
+b_{11} & b_{12} \\
+b_{21} & b_{22} \\ \vdots & \vdots \\
+b_{n1} & b_{n2}
+\end{bmatrix} \begin{bmatrix}
+\cos(\alpha) & \cos(\beta)  \\
+\sin(\alpha) & \sin(\beta) 
+\end{bmatrix}^t
+\end{equation}$$
+
+o sea
+
+$$\begin{equation}
+\begin{bmatrix}
+l_{11} & l_{11} & \vdots & l_{n1} \\
+l_{12} & l_{22} &  \vdots & l_{n2}\\
+\end{bmatrix}=\begin{bmatrix}
+\cos(\alpha) & \cos(\beta)  \\
+\sin(\alpha) & \sin(\beta) 
+\end{bmatrix}
+\begin{bmatrix}
+b_{11} & b_{11} & \vdots & b_{n1} \\
+b_{12} & b_{22} &  \vdots & b_{n2}\\
+\end{bmatrix} 
+\end{equation}$$
+
+O sea T es la matriz de cambio de base en el espacio test.
+Esto facilmente se puede ver también geométricamente sin necesidad de operar. 
+
+Es decir $$T=(P^{-1})^t$$
+
+por lo que $$P=(T^{-1})^t$$
+
+Vemos un ejemplo. Simulemos datos que suponemos no sabemos ni las habilidades ni los par'ametros de los ítems.
+
+```{r}
+#generemos 3000 datos con distribucion bivariada
+S1 <- matrix(c(4.4, 2.5, 2.5, 8), nrow = 2, ncol = 2)
+# Generar datos normales bivariados
+n <- 3000  # Número de observaciones
+mu <- c(0, 0)  # Medias de las variables
+set.seed(1234567)
+data <- mvrnorm(n = n, mu = mu, Sigma = S1)
+
+#generemos un banco de 10 items
+a<-matrix(c(.7471, .1428,.4595, .0097, .0067, .4840,
+ .0470,.5521, .0204, .1482,
+1.3547, .0064, .5362,
+1.3761, .0861, .4676,
+.8525, .0383, .2574,0.87),ncol=2,byrow=T)
+
+d <- matrix(c(.1826,-.1924,-.4656,.5845,-1.0403,
+.6431,.0912,-.8082,-1.8398,.4139),ncol=1)*1.702
+
+dataset1 <- simdata(a, d, itemtype = '2PL',Theta=data)
+
+```
+
+Primero obtenganos la solución sin rotar
+
+```{r}
+#Estimacion de la solución sin rotar
+
+mod2=mirt(dataset1, 2, itemtype='2PL', verbose = FALSE)
+
+
+coefs <- coef(mod2, rotate = 'none') |> map(as_tibble)
+item_pars <- coefs |>
+  bind_rows()      |>
+  slice(1:10)       |>
+  select(a1:d)     |>
+  rownames_to_column(var = "item")
+cov_pars <- coefs[['GroupPars']] |>
+  pivot_longer(everything())     |>
+  deframe()
+cov_matrix <- cov_pars[c('COV_11', 'COV_21', 'COV_21', 'COV_22')] |>
+  matrix(nrow = 2)
+print(item_pars)
+print(cov_matrix)
+```
+
+Si queremos ver la relación entre los factores y los parámetros de los ítems antes mencionada
+
+```{r}
+# Esto muestra la relacion de los factores con los items
+
+sum <- summary(mod2, rotate = 'none')
+sum$rotF      |>
+  as_tibble() |>
+  mutate(
+    across(everything(), ~1.702 * . / sqrt(1-as.numeric(sum$h2)))
+  )           |>
+rename_with(str_replace, everything(), pattern = 'F', replacement = 'a')
+```
+
+
+Sea ahora la solución rotada
+
+```{r}
+#AHORA ROTADA
+
+coefsR <- coef(mod2, rotate = 'oblimin') |> map(as_tibble)
+item_parsR <- coefsR |>
+  bind_rows()      |>
+  slice(1:10)       |>
+  select(a1:d)     |>
+  rownames_to_column(var = "item")
+cov_parsR <- coefsR[['GroupPars']] |>
+  pivot_longer(everything())     |>
+  deframe()
+cov_matrixR <- cov_parsR[c('COV_11', 'COV_21', 'COV_21', 'COV_22')] |>
+  matrix(nrow = 2)
+print(item_parsR)
+print(cov_matrixR)
+```
+
+Se da igual que hoy la relaci'on entre los parámetros de los ítems y los pesos en la solución rotada 
+
+```{r}
+sumR <- summary(mod2, rotate = 'oblimin')
+sumR$rotF      |>
+  as_tibble() |>
+  mutate(
+    across(everything(), ~1.702 * . / sqrt(1-as.numeric(sum$h2)))
+  )           |>
+  rename_with(str_replace, everything(), pattern = 'F', replacement = 'a')
+
+```
+
+
+Calculemos entonces
+
+```{r}
+#parametros solucion ortogonal
+L<-as.matrix(item_pars[,2:3])
+#parametros ejes oblicuos
+B<-as.matrix(item_parsR[,2:3])
+# Matriz de correlacion entre los factores rotados
+PHI<-cov_matrixR
+
+```
+
+```{r}
+#Tomaremos item 1 y 2
+S=B%*%PHI
+T=solve(L[1:2,])%*%S[1:2,]
+print(T)
+```
+
+Verifiquemos ahora que esta solución sirve para las matrices completas 
+
+```{r}
+#Verificacon
+round(L%*%T-S,8)
+```
+
+
+```{r}
+P=t(solve(T))
+print(P)
+```
+
+
+
+
