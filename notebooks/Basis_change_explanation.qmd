@@ -2,7 +2,10 @@
 title: "Explicación sobre la representación gráfica y el cambio de base"
 author: "Daniel Morillo"
 format: html
-editor: visual
+editor:
+  markdown:
+    wrap: 80
+  mode: source
 ---
 
 ```{r setup}
@@ -146,6 +149,30 @@ este ejemplo), **tengan una matriz de covarianzas identidad**.
 ::: callout-important
 Las coordenadas de los vectores de rasgo latente, transformadas a la base
 canónica, deben tener una matriz de covarianzas identidad.
+:::
+
+::: callout-note
+Mario
+[comenta](https://github.com/DaniMori/mirt-parameters/pull/10/files#r1620807302),
+acertadamente, que "el objetivo de proponer una base latente $\mathfrak{B}$ es
+explicar los verdaderos constructos del test, no una base para que al
+transformarse los rasgos sean independientes".
+
+No obstante, para dar una interpretación "sustantiva" a los ejes, nos interesa
+que las $\mathbf{\theta}$s transformadas a una base ortogonal estén "no
+correlacionadas" y, más generalmente, que en una base ortonormal (la canónica,
+sin perder generalidad) tengan covarianza identidad. Esto interesa porque cuando
+se hace un procedimiento de TRI multidimensional, se estiman $\mathbf{\theta}$s
+con covarianza identidad que (de manera implícita) se asume que se representan
+en la base canónica. Una vez que se aplica a ellas una (mal llamada) "rotación
+oblicua", es cuando se obtienen las $\mathbf{\theta}$s en ejes "sustantivos",
+las cuales estarían representadas en la base oblicua a la que llamamos aquí
+$\mathfrak{B}$.
+
+En base a esto, uno pensaría que los vectores de la base $\mathfrak{B}$ son un
+fiel reflejo de la estructura de covarianzas de las $\mathbf{\theta}$s en dichos
+ejes sustantivos. Sin embargo, **esto NO es así**, y vermos por qué. De hecho,
+**esta es la concepción errónea que intento explicar en este notebook**.
 :::
 
 # Transformación a la base canónica
