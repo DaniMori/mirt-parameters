@@ -253,7 +253,14 @@ $$
   \mathbf{P} \mathbf{P} \mathbf{P}^T \mathbf{P}^T
 $$
 
-Lo cual (en general) NO equivale a una matriz identidad.
+Lo cual (en general) NO equivale a una matriz identidad, y lo que **buscamos**
+es **que esto se cumpla para cualquier caso**.
+
+::: callout-important
+Si simulamos las coordenadas originales con
+$\mathbf{\Sigma} = \mathbf{M} = \mathbf{P}^T \mathbf{P}$, **las coordenadas
+transformadas NO van a tener una matriz de covarianzas identidad**.
+:::
 
 Es necesario darse cuenta de que hemos llegado a este punto porque **hemos
 simulado los vectores de rasgo latente (originales) con una correlación igual al
@@ -263,6 +270,9 @@ constructos sustantivos que nos interesa representar**. No obstante, vemos que
 **esto NO es así**.
 
 ::: callout-warning
-El coseno del ángulo entre los vectores de la base $\mathfrak{B}$ NO representa
-la correlación entre los constructos sustantivos que nos interesa representar.
+El coseno del ángulo entre los vectores de la base $\mathfrak{B}$ **NO
+representa la correlación entre los constructos sustantivos que nos interesa
+representar**.
 :::
+
+
