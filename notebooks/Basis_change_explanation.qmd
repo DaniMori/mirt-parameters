@@ -296,3 +296,39 @@ norm_B == norm_C # Mismo resultado con precisión numérica exacta
 No obstante, esto sólo muestra que la transformación es correcta. No implica
 nada respecto a la simulación de las coordenadas o su interpretación sustantiva.
 
+## Deducción de la matriz de covarianzas a partir de las coordenadas transformadas
+
+En las [líneas 149 a
+173](https://github.com/DaniMori/mirt-parameters/blob/9f0549415219a90d8c45fbce674eeb6d9b0ea425/notebooks/Representacion.Rmd#L91-L93)),
+Mario deduce la matriz de covarianzas de las coordenadas originales a partir del
+supuesto de que las coordenadas transformadas a la base canónica tienen matriz
+de covarianzas identidad. A pesar de esta deducción, muestra escepticismo
+respecto de este resultado (["Es claro que estas P se pueden hallar pero pueden
+no representar el
+fenómeno"](https://github.com/DaniMori/mirt-parameters/blob/9f0549415219a90d8c45fbce674eeb6d9b0ea425/notebooks/Representacion.Rmd#L171))
+
+No obstante, hay un error a este respecto. Mario indica que ["De los infinitas
+bases podemos tamar dos que llevan en su trnsformaci’on a la matriz identidad e
+los ejes
+coordenados"](https://github.com/DaniMori/mirt-parameters/blob/9f0549415219a90d8c45fbce674eeb6d9b0ea425/notebooks/Representacion.Rmd#L150").
+Esto parece venir a decir que, "de las infinitas matrices que pueden solucionar
+$\mathbf{M} = \mathbf{P}^T \mathbf{P}$, existe una solución que hace que
+$\mathbf{\Sigma}^{-1} = \mathbf{P}^T \mathbf{P}$. Sin embargo, esto no es
+correcto. Dado que ya hemos simulado los datos con
+$\mathbf{\Sigma} = \mathbf{P}^T \mathbf{P}$, la única posibilidad de que
+$\mathbf{\Sigma}^{-1} = \mathbf{P}^T \mathbf{P}$ es si
+$\mathbf{\Sigma} = \mathbf{\Sigma}^{-1}$. Pero para esto, lo que tiene que
+ocurrir es que $\mathbf{\Sigma} = \mathbf{\Sigma}^{-1} = \mathbf{I}$, es decir,
+que $\mathbf{\Sigma}$ sea una matriz identidad.
+
+Por lo tanto, como podemos ver, en el caso general NO se cumple que, si la
+covarianza de las coordenadas transformadas es $\mathbf{I}$, la varianza de las
+coordenadas originales es $\mathbf{M}$. Sin embargo, sí se cumple siempre que,
+si la covarianza de las coordenadas transformadas es $\mathbf{I}$, la covarianza
+de las coordenadas originales es $\mathbf{M}^{-1}$.
+
+::: callout-important
+Si la covarianza de las coordenadas transformadas es $\mathbf{I}$, **la
+covarianza de las coordenadas originales necesariamente ha de ser
+$\mathbf{M}^{-1}$**.
+:::
