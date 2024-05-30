@@ -36,10 +36,10 @@ fechado el 19 de mayo y enviado por email el 27 de mayo de 2024. Al comienzo del
 mismo se crea una base oblicua en el espacio latente, y después se hace una
 simulación de datos "en esa base" . Aunque dicha simulación no es incorrecta,
 mostraré por qué NO responde al objetivo del artículo. Lo que sí es incorrecto
-es asumir que de esta manera "su correlación \[es\] el angulo entre los factores
+es asumir que de esta manera "su correlación \[es\] el ángulo entre los factores
 oblicuos", lo cual mostraré a continuación. Por último, explicaré con dos
-ejemplos distintos cómo debería hacerse de manera esta simulación para que sí
-responda a nuestro objetivo.
+ejemplos distintos cómo debería hacerse esta simulación para que sí responda a
+nuestro objetivo.
 
 # Creación de la base
 
@@ -148,7 +148,7 @@ este ejemplo), **tengan una matriz de covarianzas identidad**.
 
 ::: callout-important
 Las coordenadas de los vectores de rasgo latente, transformadas a la base
-canónica, deben tener una matriz de covarianzas identidad.
+canónica, **deben tener una matriz de covarianzas identidad**.
 :::
 
 ::: callout-note
@@ -275,4 +275,24 @@ representa la correlación entre los constructos sustantivos que nos interesa
 representar**.
 :::
 
+## Invarianza de la norma
+
+A este respecto coincido con Mario (no hay ninguna objeción). En la base
+original, $\mathbf{M}$ es la matriz de Gramm del producto interno, mientras que
+en la base canónica éste es la matriz identidad. Se cumple por tanto la
+invarianza de la norma, mostrando que la transformación a la base canónica es
+correcta.
+
+```{r norm-invariance-example}
+theta_C <- coord_C[17L, ]
+
+theta_B <- solve(P, theta_C)
+
+norm_B <- t(theta_B) %*% M %*% theta_B |> sqrt() |> drop()
+norm_C <- t(theta_C) %*%       theta_C |> sqrt() |> drop()
+norm_B == norm_C # Mismo resultado con precisión numérica exacta
+```
+
+No obstante, esto sólo muestra que la transformación es correcta. No implica
+nada respecto a la simulación de las coordenadas o su interpretación sustantiva.
 
