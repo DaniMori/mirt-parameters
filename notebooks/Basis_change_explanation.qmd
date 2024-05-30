@@ -196,7 +196,7 @@ cor_coords_C <- cor(coords_C)[2, 1]
 
 La matriz de covarianzas muestral de las coordenadas en la base canónica es:
 
-`r cov_coords_C |> round(3)`
+`r cov_coords_C`
 
 La correlación entre las coordenadas en la base canónica es
 `r cor_coords_C |> round(3)`.
