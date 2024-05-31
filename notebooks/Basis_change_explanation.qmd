@@ -572,3 +572,14 @@ cor(coords_C) # Correlación muestral
 P %*% cov_matrix %*% t(P) # Matriz identidad, salvo por precisión numérica
 ```
 
+# Relación entre esta explicación y el análisis factorial
+
+En el análisis factorial (exploratorio), originalmente se obtiene (usualmente)
+una solución sin rotar, y posteriormente se hace una rotación (oblicua) para
+obtener los ejes que mejor representan el fenómeno sustantivo. Sin embargo,
+nótese que **lo que se obtiene son coordenadas rotadas de los pesos factoriales
+de las variables**. Esto sería **equivalente a rotar los ejes en el espacio test
+y no en el espacio latente** (en realidad, sería lo que Harman denomina factores
+primarios, en contraposición con los ejes de referencia, que representarían el
+espacio latente).
+
