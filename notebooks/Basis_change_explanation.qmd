@@ -57,7 +57,6 @@ b_2 <- c(1, 4)
 # Normalizar vectores:
 b_1 <- b_1 / len(b_1)
 b_2 <- b_2 / len(b_2)
-
 ```
 
 Este código genera dos vectores, $\mathbf{b}_1$ y $\mathbf{b}_2$, los cuales
@@ -284,7 +283,7 @@ invarianza de la norma, mostrando que la transformación a la base canónica es
 correcta.
 
 ```{r norm-invariance-example}
-theta_C <- coord_C[17L, ]
+theta_C <- coords_C[17L, ]
 
 theta_B <- solve(P, theta_C)
 
@@ -299,7 +298,7 @@ nada respecto a la simulación de las coordenadas o su interpretación sustantiv
 ## Deducción de la matriz de covarianzas a partir de las coordenadas transformadas
 
 En las [líneas 149 a
-173](https://github.com/DaniMori/mirt-parameters/blob/9f0549415219a90d8c45fbce674eeb6d9b0ea425/notebooks/Representacion.Rmd#L91-L93)),
+173](https://github.com/DaniMori/mirt-parameters/blob/9f0549415219a90d8c45fbce674eeb6d9b0ea425/notebooks/Representacion.Rmd#L149-L173)),
 Mario deduce la matriz de covarianzas de las coordenadas originales a partir del
 supuesto de que las coordenadas transformadas a la base canónica tienen matriz
 de covarianzas identidad. A pesar de esta deducción, muestra escepticismo
@@ -318,17 +317,24 @@ correcto. Dado que ya hemos simulado los datos con
 $\mathbf{\Sigma} = \mathbf{P}^T \mathbf{P}$, la única posibilidad de que
 $\mathbf{\Sigma}^{-1} = \mathbf{P}^T \mathbf{P}$ es si
 $\mathbf{\Sigma} = \mathbf{\Sigma}^{-1}$. Pero para esto, lo que tiene que
-ocurrir es que $\mathbf{\Sigma} = \mathbf{\Sigma}^{-1} = \mathbf{I}$, es decir,
-que $\mathbf{\Sigma}$ sea una matriz identidad.
+ocurrir es que $\mathbf{\Sigma} = \mathbf{\Sigma}^{-1}$. Esto, hasta donde yo
+sé (y quizá me equivoque[1]) sólo puede ocurrir si $\mathbf{\Sigma} = \mathbf{I}$;
+es decir, que $\mathbf{\Sigma}$ sea una matriz identidad.
+
+[1]: Aunque no sea cierto esto y sólo sea un caso particular, está claro que la
+restricción $\mathbf{\Sigma} = \mathbf{\Sigma}^{-1}$ implica que estas
+deducciones no podrían aplicarse al caso general.
 
 Por lo tanto, como podemos ver, en el caso general NO se cumple que, si la
-covarianza de las coordenadas transformadas es $\mathbf{I}$, la varianza de las
-coordenadas originales es $\mathbf{M}$. Sin embargo, sí se cumple siempre que,
-si la covarianza de las coordenadas transformadas es $\mathbf{I}$, la covarianza
-de las coordenadas originales es $\mathbf{M}^{-1}$.
+covarianza de las coordenadas transformadas es igual a su inversa, la varianza
+de las coordenadas originales es $\mathbf{M}$. Sin embargo, sí se cumple siempre
+que, si la covarianza de las coordenadas transformadas es $\mathbf{I}$, la
+covarianza de las coordenadas originales es $\mathbf{M}^{-1}$. El único problema
+sería, hasta este punto, añadir la restricción de que
+$\mathbf{\Sigma} = \mathbf{M}$ y aplicar esto en la siimulación de los datos.
 
 ::: callout-important
 Si la covarianza de las coordenadas transformadas es $\mathbf{I}$, **la
-covarianza de las coordenadas originales necesariamente ha de ser
-$\mathbf{M}^{-1}$**.
+covarianza de las coordenadas originales necesariamente ha de ser igual a
+$\mathbf{M}^{-1}$ y no igual a $\mathbf{M}$**.
 :::
