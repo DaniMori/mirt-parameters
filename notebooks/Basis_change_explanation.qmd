@@ -37,7 +37,7 @@ mismo se crea una base oblicua en el espacio latente, y después se hace una
 simulación de datos "en esa base" . Aunque dicha simulación no es incorrecta,
 mostraré por qué NO responde al objetivo del artículo. Lo que sí es incorrecto
 es asumir que de esta manera "su correlación \[es\] el ángulo entre los factores
-oblicuos", lo cual mostraré a continuación. Por último, explicaré con dos
+oblicuos", lo cual mostraré a continuación. Por último, explicaré con tres
 ejemplos distintos cómo debería hacerse esta simulación para que sí responda a
 nuestro objetivo.
 
@@ -417,7 +417,7 @@ de $\mathfrak{B}$, es decir, los que forman la nueva matriz $\mathbf{P}$ que
 hemos obtenido por descomposición espectral:
 
 ```{r angle-eigendecomposition-vectors}
-angle_ed_pop <- angle(P_ed_pop[, 1], P_ed_pop[, 2])
+angle_ed_pop <- angle( P_ed_pop[, 1], P_ed_pop[, 2])
 cos_ed_pop   <- cosine(P_ed_pop[, 1], P_ed_pop[, 2])
 
 angle_ed_pop
@@ -438,3 +438,137 @@ casualidad, como veremos.)
 El mismo razonamiento se puede aplicar a la descomposición de Cholesky, pero no
 seguiré con ello porque lo veo innecesario lo que intento explicar aquí: Que la
 **base del espacio latente NO explica realmente el fenómeno**.
+
+# Explicación de la concepción errónea
+
+Tal y como hemos podido ver, **el problema parte de considerar que el coseno
+entre los vectores de la base del espacio latente representa la correlación de
+los constructos latentes**. Ya hemos visto, sin embargo, que **esto no se cumple
+si asumimos que la base canónica representa una distribución independiente**.
+
+No obstante, hemos visto que, aceptando este último supuesto, se cumple que
+$\mathbf{M} = \mathbf{\Sigma}^{-1}$. Veamos ahora cuál es la interpretación
+adecuada del fenómeno.
+
+Sabemos que, si los vectores de la base $\mathfrak{B}$ forman la matriz de
+transformación $\mathbf{P}$, tal que $\mathbf{P}^T \mathbf{P} = \mathbf{M}$,
+para mantener la invarianza del modelo y que los ítems se transformen también a
+un espacio ortonormal, se cumple que los vectores de $\mathfrak{B}*$ forman la
+matriz de transformación $(\mathbf{P}^{-1})^T$, siendo $\mathfrak{B}*$ la base
+original (oblicua) del espacio test.
+
+Pues bien, si esto es así, se cumple que **el ángulo entre los vectores de la
+base $\mathfrak{B}*$ sí representa la correlación entre los constructos latentes
+sustantivos**. Es decir, que no es la base del espacio latente base "la que
+explica realmente el fenómeno", sino la base del espacio test.
+
+::: callout-important
+El estructura latente de los constructos que dan lugar al fenómeno sustantivo
+**están representados por la base del espacio test.**
+:::
+
+## Ejemplo con la base obtenida por descomposición espectral
+
+Vamos a ver lo anteiror con un ejemplo, usando para ello la base obtenida
+mediante descomposición espectral:
+
+```{r eigendecomposition-test-space-basis}
+# Obtenemos la base del espacio test como la inversa traspuesta de la base del
+#   espacio latente:
+P_inv_transp <- P_ed_pop |> solve() |> t()
+
+# Ángulo entre los vectores:
+angle( P_inv_transp[, 1], P_inv_transp[, 2])
+cosine(P_inv_transp[, 1], P_inv_transp[, 2])
+
+# Cálculo de M^{-1}:
+t(P_inv_transp) %*% P_inv_transp
+cov_matrix
+
+# Iguales excepto por la precisión numérica:
+(t(P_inv_transp) %*% P_inv_transp) |> all.equal(cov_matrix)
+```
+
+## Ejemplo obtenido con la base propuesta inicialmente
+
+Veamos ahora qué ocurriría si utilizamos la base propuesta originalmente para
+llevar a cabo la simulación. Para ello, en lugar de obtener una matriz de
+covarianzas usando el coseno de los ángulos de esa base, calculamos primero la
+matriz de transformación del espacio test, y utilizamos dicha matriz para
+obtener la matriz de covarianzas.
+
+La base original da lugar a la siguiente matriz de transformación:
+
+```{r original-test-space-basis}
+# Matriz de transformación del espacio test == vectores de la base del espacio
+#   test como columnas:
+P_inv_transp <- P |> solve() |> t()
+
+cov_matrix <- t(P_inv_transp) %*% P_inv_transp
+cov_matrix # Matriz de covarianzas
+cov_matrix |> cov2cor() # Matriz de correlaciones de la distribución
+
+coords_B <- rmvnorm(3000, sigma = cov_matrix)
+
+cov_coords_B <- cov(coords_B)
+cor_coords_B <- cor(coords_B)[2, 1]
+
+cov_coords_B
+```
+
+La correlación muestral de las coordenadas simuladas ahora es
+`r cor_coords_B |> round(3)`.
+
+También podemos transformar estas coordenadas en el espacio latente, tal y como
+hacíamos antes, y veremos que tanto la covarianza poblacional como la muestral
+se aproximan a una matriz identidad. Para ello, lo que hacemos es
+**pre-multiplicar por la matriz de transformación del espacio latente, no la del
+espacio test**:
+
+```{r transform-coordinates-test-space-basis}
+coords_C <- P %*% t(coords_B) |> t()
+
+cov(coords_C) # Covarianza muestral
+cor(coords_C) # Correlación muestral
+
+# Covarianza poblacional:
+P %*% cov_matrix %*% t(P) # Matriz identidad, salvo por precisión numérica
+```
+
+## Ejemplo asumiendo la base y distribución del ejemplo inicial
+
+Si queremos asumir que la base del ejemplo original de Mario es la que
+representa el fenómeno de estudio, y que dicha base da lugar a la distribución
+de los rasgos latentes que representan dicho fenómeno, lo que tenemos que hacer
+es asumir que dicha base es la del espacio test, y no la del espacio latente.
+
+Es decir, los vectores que propusimos originalmente forman la base
+$\mathfrak{B}*$, y a partir de ellos se obtiene la matriz de transformación en
+el espacio test, a la que llamamos $(\mathbf{P}^{-1})^T$.
+
+```{r original-basis-distribution}
+P_inv_transp <- cbind(b_1, b_2)
+
+# Matriz de transformación del espacio latente:
+P <- P_inv_transp |> solve() |> t()
+P
+
+cov_matrix <- t(P_inv_transp) %*% P_inv_transp
+cov_matrix # MAtriz de covarianzas de la distribución (== correlaciones)
+
+coords_B <- rmvnorm(3000, sigma = cov_matrix)
+
+# Covarianza y correlación de la muestra:
+cov(coords_B)
+cor(coords_B)
+
+# Transformación a base ortonormal (== coordenadas "independientes"):
+coords_C <- P %*% t(coords_B) |> t()
+
+cov(coords_C) # Covarianza muestral
+cor(coords_C) # Correlación muestral
+
+# Covarianza poblacional:
+P %*% cov_matrix %*% t(P) # Matriz identidad, salvo por precisión numérica
+```
+
