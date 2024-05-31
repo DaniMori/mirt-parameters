@@ -583,3 +583,18 @@ y no en el espacio latente** (en realidad, sería lo que Harman denomina factore
 primarios, en contraposición con los ejes de referencia, que representarían el
 espacio latente).
 
+# Interpretación sustantiva de los ejes
+
+Normalmente, los ejes (en análisis factorial y, consecuentemente, en TRI
+multidimensional, tal y como hace `{mirt}`) se rotan para obtener una solución
+sustantiva que satisfaga los objetivos de la investigación. Para ello, se tiende
+a buscar la llamada "estructura simple" de los ítems. No obstante, es importante
+tener en cuenta que, tanto lo que Reckase propone como lo que nosotros
+intentamos hacer, es **aplicar estos resultados a ítems multidimensionales,
+independientemente de su complejidad**. De hecho, en mi opinión, lo más
+interesante son los ítems complejos, y no los ítems simples, ya que en éstos, al
+tener una única discriminación no nula, la solución es trivial. Por este motivo,
+creo que no hay que centrarse demasiado en las relaciones con el análisis
+factorial. Hay que asumir que nuestros resultados, por muchos y muy variados
+motivos, van más allá de esa equiparación. Mi idea es ceñirme a lo puramente
+teórico, tal y como hace Reckase, pero esto se podría debatir por supuesto.
