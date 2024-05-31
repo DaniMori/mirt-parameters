@@ -338,3 +338,103 @@ Si la covarianza de las coordenadas transformadas es $\mathbf{I}$, **la
 covarianza de las coordenadas originales necesariamente ha de ser igual a
 $\mathbf{M}^{-1}$ y no igual a $\mathbf{M}$**.
 :::
+
+## Descomposición espectral de la matriz de covarianzas
+
+En las [líneas 176 a
+233](https://github.com/DaniMori/mirt-parameters/blob/9f0549415219a90d8c45fbce674eeb6d9b0ea425/notebooks/Representacion.Rmd#L176-L273)),
+Mario obtiene la descomposición espectral de la matriz de covarianzas en el
+espacio original (a la cual Mario llama $\Sigma_B$).
+
+Las deducciones que hace Mario de la descomposición espectral me parecen
+correctas. Además, los cálculos con el ejemplo verifican que se cumplen sus
+deducciones:
+
+```{r eigendecomposition-sample-covariance}
+eigendecomposition <- cov_coords_B |> cov2cor() |> eigen()
+
+lambda_root <- eigendecomposition$values^(-1) |> sqrt() |> diag()
+Q           <- eigendecomposition$vectors
+Q_inv       <- Q |> solve()
+
+P_ed <- Q %*% lambda_root %*% Q_inv
+
+coords_VP <- P_ed %*% t(coords_B) |> t()
+
+coords_VP |> cov()
+coords_VP |> cor()
+```
+
+Sólo tengo una objeción, y es que utiliza la matriz de correlación
+(no covarianzas, cuidado) muestral en sus deducciones en lugar de la matriz de
+covarianzas poblacional:
+
+```{r population-covariance}
+# Covarianza poblacional:
+P_ed %*% cov_matrix %*% t(P_ed)
+```
+
+Realizando los mismos cálculos con la matriz de covarianzas poblacional[2], el
+resultado es el siguiente:
+
+[2]: En este caso, matriz de covarianzas y de correlaciones son iguales, puesto
+que ambas covarianzas son iguales a 1.
+
+```{r eigendecomposition-population-covariance}
+eigendecomposition_pop <- cov_matrix |> cov2cor() |> eigen()
+
+lambda_root_pop <- eigendecomposition_pop$values^(-1) |> sqrt() |> diag()
+Q_pop           <- eigendecomposition_pop$vectors
+Q_inv_pop       <- Q |> solve()
+
+P_ed_pop <- Q_pop %*% lambda_root_pop %*% Q_inv_pop
+
+coords_VP <- P_ed_pop %*% t(coords_B) |> t()
+
+coords_VP |> cov()
+coords_VP |> cor()
+
+# Covarianza poblacional:
+P_ed_pop %*% cov_matrix %*% t(P_ed_pop)
+```
+
+Esto muestra que, efectivamente, para una matriz de transformación $\mathbf{P}$
+que cumple que $\mathbf{P}^T \mathbf{P} = \mathbf{M} = \mathbf{\Sigma}^{-1}$,
+las coordenadas transformadas $\mathbf{P} \mathbf{\theta}$ tendrán matriz de
+covarianza identidad. (Además, en este caso se cumple que
+$\mathbf{P}^T = \mathbf{P}$, pero esto es irrelevante para la demostración ya
+que cualquier matriz que cumpla la primera condición cumplirá la segunda).
+
+Sin embargo, hay algo **muy importante** que considerar en este caso: Esta
+descomposición espectral de $\mathbf{\Sigma}^{-1}$ da una matriz de
+transformación que, como en el caso anterior, sería la matriz de vectores de la
+base original (oblicua) expresados en la base transformada (ortonormal).
+Recordemos que al principio se había propuesto la existencia de dos vectores de
+una base oblicua cualquiera $\mathfrak{B}$, y que se había simulado una
+distribución bivariada con una correlación igual al ángulo que formaban los dos
+vectores de esa base. Veamos ahora cuál es el ángulo que forman los dos vectores
+de $\mathfrak{B}$, es decir, los que forman la nueva matriz $\mathbf{P}$ que
+hemos obtenido por descomposición espectral:
+
+```{r angle-eigendecomposition-vectors}
+angle_ed_pop <- angle(P_ed_pop[, 1], P_ed_pop[, 2])
+cos_ed_pop   <- cosine(P_ed_pop[, 1], P_ed_pop[, 2])
+
+angle_ed_pop
+cos_ed_pop
+```
+
+Tal y como vemos, estos dos vectores no forman un ángulo tal que ["la
+correlacion entre los rasgos de los sujetos es la correlacion entre los
+ejes"](https://github.com/DaniMori/mirt-parameters/blob/9f0549415219a90d8c45fbce674eeb6d9b0ea425/notebooks/Representacion.Rmd#L69).
+
+De hecho, pensemos por un momento qué habría pasado si hubiéramos seguido los
+mismos pasos para hacer la simulación que hemos hecho al principio. En lugar de
+simular una distribución cuya correlación es de `r cos_b1_b2 |> round(3)`,
+habríamos simulado una distribución con una correlación de
+`r cos_ed_pop |> round(3)`. (Que estas dos correlaciones sean opuestas no es
+casualidad, como veremos.)
+
+El mismo razonamiento se puede aplicar a la descomposición de Cholesky, pero no
+seguiré con ello porque lo veo innecesario lo que intento explicar aquí: Que la
+**base del espacio latente NO explica realmente el fenómeno**.
