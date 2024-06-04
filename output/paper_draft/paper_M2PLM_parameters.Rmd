@@ -803,6 +803,7 @@ read_chunk("src/Graphical_example_paper.R")
 ```
 
 ```{r libraries}
+#| warning: false
 ```
 
 ```{r sources}
