@@ -641,37 +641,39 @@ we shall refer to them as the *agnostic* version of the indices:
   \end{split}
 \end{equation}
 
-On the other hand, we can account for the covariance structure of
-the latent space letting $`r LATENT_SPACE`$ be its geometrical representation.
-Thus, we must define $`r LS_BASIS`$ in such a way that
+On the other hand, we can let the geometrical representation of
+the latent space $`r LATENT_SPACE`$ account for its covariance structure,
+thus giving $`r LS_BASIS`$ a statistical meaning
+in the context of our MIRT modeling approach.
+To do that, we may assume that $`r TRAIT_COORDS`$ is
+a random vector distributed with covariance $`r COV_MATRIX_EQ`$,
+being $`r COV_MATRIX`$ an $`r N_DIMS`$-dimensional positive definite matrix,
+$`r CORR_MATRIX`$ its corresponding correlation matrix
+(also positive definite) and $`r SD_MATRIX`$ a scaling diagonal matrix
+with $`r VAR_COV_EQ`$ (i.e., the variances).
 
-\begin{equation}
-  `r TRAIT_MV_STD_EQ`,
-\end{equation}
-
-where $`r COV_MATRIX_STD`$ is a diagonal matrix.
-Now we may consider two different possibilities:
-We may define $`r TRANSFORM_MATRIX`$ such that $`r INNER_PROD_CORR_COND`$.
-This results in a *correlation-based* version of the indices
-(note that, in this case, $`r DIAG_MATRIX_INNER_PROD_INV`$ is
-an identity matrix):
+To make the representation of $`r LATENT_SPACE`$ meaningful,
+the axes in $`r LS_BASIS`$ must have
+an interpretation in terms of the latent space structure.
+Although we do not know, in principle, what
+the interpretation of a latent space basis should be, we may assume that
+it must be somewhat related to the covariance structure.
+Therefore, an orthonormal basis should represent independent coordinates;
+formally, if $`r COV_MATRIX_ORTH`$ is the covariance matrix of
+$`r TRAIT_ORTH_COORDS`$, then $`r COV_MATRIX_ORTH_EQ`$.
+Applying Equation \@ref(eq:change-basis), $`r COV_MATRIX_TRANSF_EQ`$, and thus,
 
 \begin{equation}
   \begin{split}
-    `r MDISC_CORR_PARAM_EQ` \\
-    `r MIL_CORR_PARAM_EQ`.
+    `r COV_MATRIX_TRANSF_ID_EQ` \\
+    `r COV_MATRIX_RESULT_EQ`.
   \end{split}
 \end{equation}
 
-However, we may also define $`r TRANSFORM_MATRIX`$ such that
-$`r INNER_PROD_COV_COND`$, so
-
-\begin{equation}
-  `r TRAIT_MV_STD_NORM_EQ`.
-\end{equation}
-
-In this case, $`r DIAG_MATRIX_INNER_PROD_INV_VAR_EQ`$, resulting in the
-following *covariance-based* version of the indices:
+Therefore, we may define $`r TRANSFORM_MATRIX`$ such that
+$`r INNER_PROD_COV_COND`$;
+in this case, $`r DIAG_MATRIX_INNER_PROD_INV_VAR_EQ`$, resulting in a
+*covariance-based* version of the indices:
 
 \begin{equation}
   \begin{split}

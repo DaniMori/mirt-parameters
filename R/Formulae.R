@@ -49,29 +49,11 @@ LS_BASIS_EQ        <- latex_eq(LS_BASIS, LS_BASIS_SET)
 TRAIT_VECTOR    <- latex_bf("\\uptheta")
 TRAIT_VEC_IN_LS <- latex_in(TRAIT_VECTOR, LATENT_SPACE)
 
-# TODO: Move forward this block:
-MEAN_VECTOR     <- latex_bf("\\upmu")
-COV_MATRIX      <- latex_bf("\\upSigma")
-NORMAL_DISTR    <- latex_cal('N')
-MV_DISTRIBUTION <- latex(
-  NORMAL_DISTR,
-  latex_parentheses("$MEAN_VECTOR$, $COV_MATRIX$")
-)
-TRAIT_MV_DEF    <- latex_sim(TRAIT_VECTOR, MV_DISTRIBUTION)
-
-# Covariance matrix definition:
-CORR_MATRIX <- latex_bf('R')
-SD_MATRIX   <- latex_bf('S')
-DIM_INDEX   <- latex('k')
-SD_ELEMENT  <- latex_sub('s', "$DIM_INDEX$$DIM_INDEX$")
-VAR_ELEMENT <- latex_squared(SD_ELEMENT)
-COV_ELEMENT <- latex_squared(latex_sub("\\sigma", "$DIM_INDEX$$DIM_INDEX$"))
-VAR_COV_EQ  <- latex_eq(VAR_ELEMENT, COV_ELEMENT)
-
 ### M2PL model formulation ----
 
 # Model parameters:
 ITEM_INDEX          <- latex('i')
+DIM_INDEX           <- latex('k')
 INTERCEPT_PARAM     <- latex_sub('d', ITEM_INDEX)
 DISCR_VECTOR_ANY    <- latex_bf('a')
 DISCR_VECTOR        <- latex_sub(DISCR_VECTOR_ANY, ITEM_INDEX)
@@ -918,56 +900,40 @@ MIL_AG_PARAM_EQ         <- latex_def(
   latex_curlybraces("$DISTANCE_AG_DEF$, $DIR_COS_ITEM_VEC_AG_DEF$")
 )
 
-# Transformed latent vector as orthogonal:
-MEAN_VECTOR_STD <- latex_prime(MEAN_VECTOR)
-COV_MATRIX_STD  <- latex_prime(COV_MATRIX)
-MV_DISTR_STD    <- latex(
-  NORMAL_DISTR,
-  latex_parentheses("$MEAN_VECTOR_STD$, $COV_MATRIX_STD$")
-)
-TRAIT_MV_STD_EQ <- latex_sim(TRAIT_ORTH_COORDS, MV_DISTR_STD)
+#### Covariance-based version of the indices: ----
 
-# Transformed latent vector as orthonormal:
-MV_DISTR_STD_NORM    <- latex(
-  NORMAL_DISTR,
-  latex_parentheses("$MEAN_VECTOR_STD$, $ID_MATRIX$")
-)
-TRAIT_MV_STD_NORM_EQ <- latex_sim(TRAIT_ORTH_COORDS, MV_DISTR_STD_NORM)
+# Covariance matrix definition:
+COV_MATRIX     <- latex_bf("\\upSigma")
+COV_MATRIX_LS  <- latex_raised_to(COV_MATRIX, exp = LS_BASIS)
+CORR_MATRIX    <- latex_bf('R')
+SD_MATRIX      <- latex_bf('S')
+COV_MATRIX_DEF <- latex(SD_MATRIX, CORR_MATRIX, SD_MATRIX)
+SD_ELEMENT     <- latex_sub('s', "$DIM_INDEX$$DIM_INDEX$")
+VAR_ELEMENT    <- latex_squared(SD_ELEMENT)
+COV_ELEMENT    <- latex_squared(latex_sub("\\sigma", "$DIM_INDEX$$DIM_INDEX$"))
+VAR_COV_EQ     <- latex_eq(VAR_ELEMENT, COV_ELEMENT)
+COV_MATRIX_EQ  <- latex_eq(COV_MATRIX, COV_MATRIX_LS, COV_MATRIX_DEF)
 
-#### Correlation-based version of the indices: ----
+# Covariance matrix in the orthonormal basis:
+COV_MATRIX_ORTH    <- latex_raised_to(COV_MATRIX, exp = LS_ORTH_BASIS)
+IDENTITY_MATRIX    <- latex_bf('I')
+COV_MATRIX_ORTH_EQ <- latex_eq(COV_MATRIX_ORTH, IDENTITY_MATRIX)
 
-# Condition to meet:
-CORR_MATRIX_INV      <- latex_inverse(CORR_MATRIX)
-INNER_PROD_CORR_COND <- latex_eq(INNER_PROD_MATRIX, CORR_MATRIX_INV)
-
-# MDISC:
-DISCR_VECTOR_CORR_INNER_PROD <- latex(
-  DISCR_VECTOR_TRANSP,
-  CORR_MATRIX,
-  DISCR_VECTOR
+# Inner product matrix deduction:
+COV_MATRIX_TRANSF       <- latex(
+  TRANSFORM_MATRIX,
+  COV_MATRIX,
+  TRANSFORM_MATRIX_TRANSP
 )
-DISCR_VECTOR_CORR_MODULE     <- latex_sqrt(DISCR_VECTOR_CORR_INNER_PROD)
-MDISC_CORR_PARAM             <- latex_sub(MDISC_SYM, CORR_MATRIX)
-MDISC_CORR_PARAM_EQ          <- latex_def(
-  MDISC_CORR_PARAM,
-  DISCR_VECTOR_CORR_MODULE
-)
-
-# MIL:
-MIL_CORR_PARAM            <- latex_sub(MIL_PARAM, CORR_MATRIX)
-DISTANCE_CORR_DEF         <- latex_frac("- $INTERCEPT_PARAM$", MDISC_CORR_PARAM)
-DIR_COS_ITEM_VEC_CORR_DEF <- latex_frac(
-  "$CORR_MATRIX$ $DISCR_VECTOR$",
-  MDISC_CORR_PARAM
-)
-MIL_CORR_PARAM_EQ         <- latex_def(
-  MIL_CORR_PARAM,
-  latex_curlybraces("$DISTANCE_CORR_DEF$, $DIR_COS_ITEM_VEC_CORR_DEF$")
+COV_MATRIX_TRANSF_EQ    <- latex_eq(COV_MATRIX_ORTH, COV_MATRIX_TRANSF)
+COV_MATRIX_TRANSF_ID_EQ <- latex_eq(COV_MATRIX_TRANSF, IDENTITY_MATRIX)
+COV_MATRIX_RESULT_EQ    <- latex_eq(
+  COV_MATRIX,
+  INNER_PROD_MATRIX_INV_DEF,
+  INNER_PROD_MATRIX_INV
 )
 
 #### Covariance-based version of the indices: ----
-
-# Condition to meet:
 COV_MATRIX_INV      <- latex_inverse(COV_MATRIX)
 INNER_PROD_COV_COND <- latex_eq(INNER_PROD_MATRIX, COV_MATRIX_INV)
 
@@ -1003,6 +969,39 @@ DIR_COS_ITEM_VEC_COV_DEF          <- latex_frac(
 MIL_COV_PARAM_EQ                  <- latex_def(
   MIL_COV_PARAM,
   latex_curlybraces("$DISTANCE_COV_DEF$, $DIR_COS_ITEM_VEC_COV_DEF$")
+)
+
+#### Correlation-based version of the indices: ----
+
+##TODO: Review (maybe delete) this block
+
+# Condition to meet:
+CORR_MATRIX_INV      <- latex_inverse(CORR_MATRIX)
+INNER_PROD_CORR_COND <- latex_eq(INNER_PROD_MATRIX, CORR_MATRIX_INV)
+
+# MDISC:
+DISCR_VECTOR_CORR_INNER_PROD <- latex(
+  DISCR_VECTOR_TRANSP,
+  CORR_MATRIX,
+  DISCR_VECTOR
+)
+DISCR_VECTOR_CORR_MODULE     <- latex_sqrt(DISCR_VECTOR_CORR_INNER_PROD)
+MDISC_CORR_PARAM             <- latex_sub(MDISC_SYM, CORR_MATRIX)
+MDISC_CORR_PARAM_EQ          <- latex_def(
+  MDISC_CORR_PARAM,
+  DISCR_VECTOR_CORR_MODULE
+)
+
+# MIL:
+MIL_CORR_PARAM            <- latex_sub(MIL_PARAM, CORR_MATRIX)
+DISTANCE_CORR_DEF         <- latex_frac("- $INTERCEPT_PARAM$", MDISC_CORR_PARAM)
+DIR_COS_ITEM_VEC_CORR_DEF <- latex_frac(
+  "$CORR_MATRIX$ $DISCR_VECTOR$",
+  MDISC_CORR_PARAM
+)
+MIL_CORR_PARAM_EQ         <- latex_def(
+  MIL_CORR_PARAM,
+  latex_curlybraces("$DISTANCE_CORR_DEF$, $DIR_COS_ITEM_VEC_CORR_DEF$")
 )
 
 ### Parameter properties: ----
