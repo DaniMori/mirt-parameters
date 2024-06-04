@@ -596,8 +596,8 @@ We have that
   \end{split}                             (\#eq:item-params-discrimination-norm)
 \end{equation}
 
-Applying Proposition 2, if `r ANGLE_VEC_TS_ITEM` is
-the vector of direction angles of `r DISCR_VECTOR`,
+Applying Proposition 2, if $`r ANGLE_VEC_TS_ITEM`$ is
+the vector of direction angles of $`r DISCR_VECTOR`$,
 in the test space $`r TEST_SPACE`$ we get
 
 \begin{equation}
