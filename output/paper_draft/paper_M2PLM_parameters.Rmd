@@ -131,14 +131,13 @@ is usually implicit in the MIRT literature without further consideration
 Moreover, disregarding this geometrical interpretation may lead to
 misconceptions that put the measurement and its conclusions into question.<!-- completar?? -->
 
-A latent space where the traits are correlated is easier to understand as a
-geometrical space with non-orthogonal axes,
-often referred to as *general Cartesian coordinates* [@harman_modern_1970].
-Such a space has the advantage that the cosines of the angles between two axes
-can be interpreted as the correlation of the corresponding latent dimensions.
-<!--# Reference needed? -->
-<!-- Problem here: The latent space is not defined like that, according to
-the results of section "Linear algebra of non-orthogonal coordinates". -->
+The representation of a latent space where the traits are correlated is more
+accurate on a geometrical coordinate system with non-orthogonal axes and
+non-standard units, often referred to as
+*general Cartesian coordinates* [@harman_modern_1970].
+Such a space has the advantage that the basis vectors and the axes they yield
+have a meaningful interpretation (albeit counterintuitive, as we will see)
+in a multivariate statistical sense.
 The general case of MIRT model estimation implies estimating possibly
 non-standard latent dimensions and non-null covariances among them
 (a more realistic case than an identity matrix).
