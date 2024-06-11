@@ -1,0 +1,245 @@
+---
+title: "Parámetros basados en la matriz de correlaciones"
+format: docx
+editor: source
+---
+
+# Introducción
+
+Tal y como Mario ha demostrado anteriormente, la versión "basada en la
+correlación" de los parámetros multidimensionales no sería correcta, pues no
+cumple la premisa de que "la matriz de covarianzas resultante" es diagonal.
+
+No obstante, viendo las derivaciones matemáticas que ha hecho Mario también
+respecto a cómo supuestamente obtener la base "verdadera" del espacio test
+(en base a la descomposición espectral), creo que se puede encontrar una base
+en el espacio test que cumpla esa relación.
+
+# Deducción
+
+## Supuestos iniciales
+
+Como hemos hecho hasta ahora, asumimos un espacio $\mathbf{\Theta}$  con base
+$\mathcal{B}$ en el que se representa el vector de rasgo latente
+$\mathbf{\theta}$. Este vector es una variable aleatoria $n$-variada que se
+distribuye con covarianza $\mathbf{\Sigma} = \mathbf{S} \mathbf{R} \mathbf{S}$,
+siendo $\mathbf{R}$ una matriz de correlaciones, semidefinida positiva y con 1's
+en la diagonal, y $\mathbf{S}$ una matriz diagonal de desviaciones típicas, tal
+que $\sigma^2_{ii} = s^2_{ii}$, para todo $i$ entre 1 y $n$ (i.e., los elementos
+diagonales de $\mathbf{\Sigma}$ y $\mathbf{S}^2$ son iguales).
+
+## Premisa
+
+Es posible encontrar una representación del espacio latente en una base
+ortogonal $\mathcal{U}$ tal que $\mathbf{\Sigma}^\mathcal{U}$ (i.e. la matriz de
+covarianzas de $\mathbf{\theta}$ representado en $\mathcal{U}$,
+$\mathbf{\theta}^\mathcal{U}$) sea una matriz diagonal.
+
+## Demostración
+
+Sea $\mathbf{P}$ la matriz de transformación de la base $\mathcal{B}$ a la base
+$\mathcal{U}$. Como ya sabemos,
+$\mathbf{P} = [\mathbf{b}_1^\mathcal{U}, ..., \mathbf{b}_n^\mathcal{U}]$, es
+decir, los vectores de la base $\mathcal{B}$ representados en la base
+$\mathcal{U}$. Las coordenadas de $\mathbf{\theta}$, exprsadas en la base
+$\mathcal{U}$, vienen dadas por la siguiente relación:
+
+$$
+\mathbf{\theta}^\mathcal{U} = \mathbf{P} \mathbf{\theta}
+$$
+
+La matriz de covarianzas $\mathbf{\Sigma}^\mathcal{U}$ de
+$\mathbf{\theta}^\mathcal{U}$ cumple
+
+$$
+\mathbf{\Sigma}^\mathcal{U} = \mathbf{P} \mathbf{\Sigma} \mathbf{P}^T =
+  \mathbf{P} \mathbf{S} \mathbf{R} \mathbf{S} \mathbf{P}^T
+$$
+
+Supongamos que $\mathbf{P}$ es una raíz cuadrada de $\mathbf{R}^{-1}$; es
+decir, $\mathbf{R}^{-1} = \mathbf{P}^T \mathbf{P}$.
+
+$$
+\mathbf{\Sigma}^\mathcal{U} =
+  \mathbf{P} \mathbf{S} (\mathbf{P}^T \mathbf{P})^{-1} \mathbf{S} \mathbf{P}^T =
+  \mathbf{P} \mathbf{S} \mathbf{P}^{-1} (\mathbf{P}^{-1})^T \mathbf{S} \mathbf{P}^T
+$$
+
+Si $\mathbf{S}$ conmuta con $\mathbf{P}^{-1}$ y $(\mathbf{P}^{-1})^T$, entonces
+la ecuación anterior puede expresarse como
+
+$$
+\mathbf{\Sigma}^\mathcal{U} =
+  \mathbf{P} \mathbf{P}^{-1} \mathbf{S} \mathbf{S} (\mathbf{P}^{-1})^T \mathbf{P}^T =
+  \mathbf{S}^2
+$$
+
+### Contraejemplo
+
+Lo anterior en general no se cumple, por lo que $\mathbf{\Sigma}^\mathcal{U}$ no
+es, en general, una matriz diagonal bajo estos supuestos.
+
+Un contraejemplo de esto es la solución con la base del ejemplo de
+representación gráfica del borrador y varianzas desiguales. Supongamos
+
+$$
+\mathbf{S} = diag(\sigma_1, \sigma_2) \\
+(\mathbf{P}^{-1})^T = \begin{pmatrix}
+    1 & \rho \\
+    0 & \sqrt{1 - \rho^2}
+  \end{pmatrix}.
+$$
+
+Bajo estos supuestos,
+
+$$
+\mathbf{R} = \mathbf{P}^{-1} (\mathbf{P}^{-1})^T = \begin{pmatrix}
+       1 &              0 \\
+    \rho & \sqrt{1 - \rho^2}
+  \end{pmatrix}
+  \begin{pmatrix}
+    1 & \rho \\
+    0 & \sqrt{1 - \rho^2}
+  \end{pmatrix} =
+  \begin{pmatrix}
+       1 & \rho \\
+    \rho &    1
+  \end{pmatrix}
+$$
+
+$$
+\mathbf{\Sigma} = diag(\sigma_1, \sigma_2)
+  \begin{pmatrix}
+       1 & \rho \\
+    \rho &    1
+  \end{pmatrix}
+  diag(\sigma_1, \sigma_2) =
+  \begin{pmatrix}
+    \sigma_1^2             & \sigma_1 \sigma_2 \rho \\
+    \sigma_1 \sigma_2 \rho & \sigma_2^2
+  \end{pmatrix}.
+$$
+
+Veamos que $\mathbf{S}$ No conmuta con $\mathbf{P}^{-1}$ ni con
+$(\mathbf{P}^{-1})^T$:
+
+$$
+\mathbf{S} (\mathbf{P}^{-1})^T = diag(\sigma_1, \sigma_2)
+  \begin{pmatrix}
+    1 & \rho \\
+    0 & \sqrt{1 - \rho^2}
+  \end{pmatrix} =
+  \begin{pmatrix}
+    \sigma_1 & \sigma_1 \rho \\
+    0        & \sigma_2 \sqrt{1 - \rho^2}
+  \end{pmatrix} \\
+
+(\mathbf{P}^{-1})^T \mathbf{S} = \begin{pmatrix}
+    1 & \rho \\
+    0 & \sqrt{1 - \rho^2}
+  \end{pmatrix}
+  diag(\sigma_1, \sigma_2) =
+  \begin{pmatrix}
+    \sigma_1 & \sigma_2 \rho \\
+    0        & \sigma_2 \sqrt{1 - \rho^2}
+  \end{pmatrix} \\
+
+\mathbf{S} \mathbf{P}^{-1} = diag(\sigma_1, \sigma_2)
+  \begin{pmatrix}
+       1 &              0 \\
+    \rho & \sqrt{1 - \rho^2}
+  \end{pmatrix} =
+  \begin{pmatrix}
+    \sigma_1      &              0 \\
+    \sigma_2 \rho & \sigma_2 \sqrt{1 - \rho^2}
+  \end{pmatrix} \\
+
+\mathbf{P}^{-1} \mathbf{S} = \begin{pmatrix}
+       1 &              0 \\
+    \rho & \sqrt{1 - \rho^2}
+  \end{pmatrix}
+  diag(\sigma_1, \sigma_2) =
+  \begin{pmatrix}
+    \sigma_1      &              0 \\
+    \sigma_1 \rho & \sigma_2 \sqrt{1 - \rho^2}
+  \end{pmatrix}
+$$
+
+Estas ecuaciones muestran que la conmutatividad de $\mathbf{S}$ con
+$\mathbf{P}^{-1}$ y $(\mathbf{P}^{-1})^T$ no se cumple, en general (salvo que
+$\sigma_1 = \sigma_2$).
+
+### Condiciones adicionales
+
+A pesar de lo anterior, $\mathbf{S}$ conmuta con cualquier otra matriz que sea
+simultáneamente diagonalizable con ella. En el caso de matrices simétricas, es
+decir, si $\mathbf{P}^{-1} = (\mathbf{P}^{-1})^T$, sabemos que se cumple la
+conmutatividad de $\mathbf{S}$ con $\mathbf{P}^{-1}$ (y por lo tanto también con
+$(\mathbf{P}^{-1})^T$), si
+$\mathbf{S} \mathbf{P}^{-1} = \mathbf{P}^{-1} \mathbf{S}$ es también simétrica.
+
+Intentamos obtener a continuación una solución que haga $\mathbf{P}^{-1}$
+simétrica, y comprobamos si $\mathbf{S} \mathbf{P}^{-1}$ es también simétrica.
+[^diagonalization]
+
+[^diagonalization]: En realidad, la forma idónea de proceder sería encontrar la
+diagonalización simultánea de $\mathbf{S}$ y $\mathbf{P}^{-1}$, ya que si son
+simultáneamente diagonalizables entonces son conmutativas. No obstante, esto es
+más complejo para mí y ahora mismo no tengo claro saber cómo hacerlo, mientras
+que para obtener la $\mathbf{P}^{-1}$ simétrica puedo reaprovechar las
+deducciones de Mario mediante la descomposición espectral.
+
+### Solución mediante descomposición espectral de $\mathbf{R}$
+
+Puesto que $\mathbf{R}$ es semidefinida positiva, existen las matrices
+$\mathbf{Q}$ y $\mathbf{\Lambda}$ tal que
+$\mathbf{R} = \mathbf{Q} \mathbf{\Lambda} \mathbf{Q}^T$, y además:
+
+* $\mathbf{Q}$ es una matriz ortonormal, i.e., $\mathbf{Q}^T = \mathbf{Q}^{-1}$.
+* $\mathbf{\Lambda}$ es una matriz diagonal.
+
+Dado que $\mathbf{\Lambda}$ es diagonal, aplicamos
+$\mathbf{\Lambda} = \mathbf{\Lambda}^{1/2} \mathbf{\Lambda}^{1/2}$ para obtener
+$\mathbf{P}^{-1}$ y $(\mathbf{P}^{-1})^T$:
+
+$$
+\mathbf{R} = \mathbf{P}^{-1} (\mathbf{P}^{-1})^T =
+  \mathbf{Q} \mathbf{\Lambda}^{1/2} \mathbf{\Lambda}^{1/2} \mathbf{Q}^T
+$$
+
+Ahora bien, para obtener una $\mathbf{P}^{-1}$ simétrica, podemos aplicar
+
+$$
+\mathbf{P}^{-1} (\mathbf{P}^{-1})^T =
+  \mathbf{Q} \mathbf{\Lambda}^{1/2} \mathbf{Q}^{-1}
+    \mathbf{Q} \mathbf{\Lambda}^{1/2} \mathbf{Q}^T =
+  \mathbf{Q} \mathbf{\Lambda}^{1/2} \mathbf{Q}^T
+    \mathbf{Q} \mathbf{\Lambda}^{1/2} \mathbf{Q}^T
+$$
+
+Igualando $\mathbf{P}^{-1} = \mathbf{Q} \mathbf{\Lambda}^{1/2} \mathbf{Q}^T$,
+tenemos que
+$(\mathbf{P}^{-1})^T = \mathbf{Q} \mathbf{\Lambda}^{1/2} \mathbf{Q}^T$
+y por tanto $\mathbf{P}^{-1} = (\mathbf{P}^{-1})^T$. Luego 
+$\mathbf{P}^{-1} = \mathbf{Q} \mathbf{\Lambda}^{1/2} \mathbf{Q}^T$ es una
+solución que hace a $\mathbf{P}^{-1}$ simétrica.
+
+### Comprobación de la simetría de $\mathbf{S} \mathbf{P}^{-1}$
+
+Comprobamos si el producto $\mathbf{S} \mathbf{P}^{-1}$ da lugar a una matriz
+simétrica.
+
+$$
+(\mathbf{S} \mathbf{P}^{-1})^T =
+  (\mathbf{P}^{-1})^T \mathbf{S}^T = \mathbf{P}^{-1} \mathbf{S}
+$$
+
+Según este resultado,
+$(\mathbf{S} \mathbf{P}^{-1})^T = \mathbf{S} \mathbf{P}^{-1}$, y por lo tanto
+$\mathbf{S} \mathbf{P}^{-1}$ es simétrica y (tal y como muestra ese mismo
+resultado) $\mathbf{S}$ y $\mathbf{P}^{-1}$ son conmutativas.
+
+Algo no parece encajar en esta deducción, ya que según eso todos los pares de
+matrices simétricas (i.e. para cualesquiera $\mathbf{S}$ y $\mathbf{P}^{-1}$)
+deberían dar lugar a una matriz simétrica y cumplir la propiedad de
+conmutatividad.
