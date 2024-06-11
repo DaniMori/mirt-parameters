@@ -230,16 +230,25 @@ Comprobamos si el producto $\mathbf{S} \mathbf{P}^{-1}$ da lugar a una matriz
 simétrica.
 
 $$
+\mathbf{S} \mathbf{P}^{-1} =
+  \mathbf{S} \mathbf{Q} \mathbf{\Lambda}^{1/2} \mathbf{Q}^T \\
+
 (\mathbf{S} \mathbf{P}^{-1})^T =
-  (\mathbf{P}^{-1})^T \mathbf{S}^T = \mathbf{P}^{-1} \mathbf{S}
+  (\mathbf{P}^{-1})^T \mathbf{S}^T = \mathbf{P}^{-1} \mathbf{S} \\
+
+
+(\mathbf{S} \mathbf{P}^{-1})^T =
+  (\mathbf{S} \mathbf{Q} \mathbf{\Lambda}^{1/2} \mathbf{Q}^T)^T =
+  (\mathbf{Q}^T)^T (\mathbf{\Lambda}^{1/2})^T \mathbf{Q}^T \mathbf{S}^T =
+  \mathbf{Q} \mathbf{\Lambda}^{1/2} \mathbf{Q}^T \mathbf{S} \\
+
+\mathbf{P}^{-1} \mathbf{S} =
+  \mathbf{Q} \mathbf{\Lambda}^{1/2} \mathbf{Q}^T \mathbf{S}
 $$
 
 Según este resultado,
-$(\mathbf{S} \mathbf{P}^{-1})^T = \mathbf{S} \mathbf{P}^{-1}$, y por lo tanto
-$\mathbf{S} \mathbf{P}^{-1}$ es simétrica y (tal y como muestra ese mismo
-resultado) $\mathbf{S}$ y $\mathbf{P}^{-1}$ son conmutativas.
-
-Algo no parece encajar en esta deducción, ya que según eso todos los pares de
-matrices simétricas (i.e. para cualesquiera $\mathbf{S}$ y $\mathbf{P}^{-1}$)
-deberían dar lugar a una matriz simétrica y cumplir la propiedad de
-conmutatividad.
+$(\mathbf{S} \mathbf{P}^{-1})^T = \mathbf{S} \mathbf{P}^{-1}$, pero esto no
+demuestra que $\mathbf{S} \mathbf{P}^{-1}$ sea simétrica ni que $\mathbf{S}$ y
+$\mathbf{P}^{-1}$ sean conmutativas (ver
+[aquí un contraejemplo](https://math.vanderbilt.edu/sapirmv/msapir/jan22.html)
+).
