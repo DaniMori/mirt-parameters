@@ -266,3 +266,66 @@ demuestra que $\mathbf{S} \mathbf{P}^{-1}$ sea simétrica ni que $\mathbf{S}$ y
 $\mathbf{P}^{-1}$ sean conmutativas (ver
 [aquí un contraejemplo](https://math.vanderbilt.edu/sapirmv/msapir/jan22.html)
 ).
+
+Podemos utilizar las siguientes propiedades: Sabemos que $\mathbf{S}$ y
+$\mathbf{P}$ son semidefinidas positivas[^P_SDP]. Dado que $\mathbf{P}$ es
+semidefinida positiva, $\mathbf{P}^{-1}$ también lo es. Según
+[Meensakshi & Rakian, 1999](https://core.ac.uk/download/pdf/82822897.pdf)
+(referenciado en
+[esta respuesta en Math StackExchange](https://math.stackexchange.com/a/483930)
+), la condición para que $\mathbf{S} \mathbf{P}^{-1}$ sea simétrica es que
+$\mathbf{S} \mathbf{P}^{-1}$ sea "normal", es decir, que
+$\mathbf{S} \mathbf{P}^{-1} (\mathbf{S} \mathbf{P}^{-1})^T =
+  (\mathbf{S} \mathbf{P}^{-1})^T \mathbf{S} \mathbf{P}^{-1}$.
+Ahora bien,
+
+[^P_SDP]: Estoy asumiendo que $\mathbf{P}$ es semidefinida positiva porque
+$\mathbf{R}$ lo es, y $\mathbf{P}T \mathbf{P} = \mathbf{R}$. Puede que haya un
+salto inferencial aquí (i.e., que sea necesario demostrar que $\mathbf{P}$ es
+semidefinida positiva).
+
+$$
+\mathbf{S} \mathbf{P}^{-1} (\mathbf{S} \mathbf{P}^{-1})^T =
+  \mathbf{S} \mathbf{P}^{-1} (\mathbf{P}^{-1})^T \mathbf{S}^T =
+  \mathbf{S} \mathbf{P}^{-1} (\mathbf{P}^{-1})^T \mathbf{S} =
+  \mathbf{\Sigma}.
+$$
+
+Como $\mathbf{\Sigma}$ es simétrica (y semidefinida positiva),
+el producto $\mathbf{S} \mathbf{P}^{-1}$ es conmutativo. Comprobamos no obstante
+la propiedad de "normalidad" de $\mathbf{S} \mathbf{P}^{-1}$:
+
+$$
+\mathbf{S} \mathbf{P}^{-1} (\mathbf{S} \mathbf{P}^{-1})^T =
+  \mathbf{S} \mathbf{Q} \mathbf{\Lambda}^{1/2} \mathbf{Q}^T
+    (\mathbf{S} \mathbf{Q} \mathbf{\Lambda}^{1/2} \mathbf{Q}^T)^T =
+  \mathbf{S} \mathbf{Q} \mathbf{\Lambda}^{1/2} \mathbf{Q}^T
+    (\mathbf{Q}^T)^T \mathbf{\Lambda}^{1/2}^T \mathbf{Q}^T \mathbf{S}^T =
+  \mathbf{S} \mathbf{Q} \mathbf{\Lambda}^{1/2} \mathbf{Q}^T
+    \mathbf{Q} \mathbf{\Lambda}^{1/2} \mathbf{Q}^T \mathbf{S} =
+  \mathbf{S} \mathbf{Q} \mathbf{\Lambda} \mathbf{Q}^T \mathbf{S} =
+  \mathbf{S} \mathbf{R} \mathbf{S} =
+  \mathbf{\Sigma}
+$$
+
+$$
+(\mathbf{S} \mathbf{P}^{-1})^T \mathbf{S} \mathbf{P}^{-1} =
+  (\mathbf{S} \mathbf{Q} \mathbf{\Lambda}^{1/2} \mathbf{Q}^T)^T
+    \mathbf{S} \mathbf{Q} \mathbf{\Lambda}^{1/2} \mathbf{Q}^T =
+  (\mathbf{Q}^T)^T \mathbf{\Lambda}^{1/2}^T \mathbf{Q}^T \mathbf{S}^T
+    \mathbf{S} \mathbf{Q} \mathbf{\Lambda}^{1/2} \mathbf{Q}^T =
+  \mathbf{Q} \mathbf{\Lambda}^{1/2} \mathbf{Q}^T \mathbf{S}
+    \mathbf{S} \mathbf{Q} \mathbf{\Lambda}^{1/2} \mathbf{Q}^T =
+  \mathbf{P}^{-1} \mathbf{S}^2 (\mathbf{P}^{-1})^T
+$$
+
+Esto no parece fácil de demostrar, por desgracia. La ecuación anterior, sin
+embargo, nos permite aplicar el resultado al que queríamos llegar, ya que
+obtenemos que la distribución de rasgos latentes transformada,
+$\mathbf{\theta}^\mathcal{E}$, tiene por matriz de covarianzas $\mathbf{S}^2$.
+
+$$
+\mathbf{\Sigma}^\mathcal{E} = \mathbf{P} \mathbf{S}^2 \mathbf{P}^T
+  \mathbf{P} \mathbf{P}^{-1} \mathbf{S}^2 (\mathbf{P}^{-1})^T \mathbf{P}^T =
+  \mathbf{S}^2
+$$
