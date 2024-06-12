@@ -83,7 +83,10 @@ Un contraejemplo de esto es la solución con la base del ejemplo de
 representación gráfica del borrador y varianzas desiguales. Supongamos
 
 $$
-\mathbf{S} = diag(\sigma_1, \sigma_2) \\
+\mathbf{S} = diag(\sigma_1, \sigma_2)
+$$
+
+$$
 (\mathbf{P}^{-1})^T = \begin{pmatrix}
     1 & \rho \\
     0 & \sqrt{1 - \rho^2}
@@ -132,8 +135,10 @@ $$
   \begin{pmatrix}
     \sigma_1 & \sigma_1 \rho \\
     0        & \sigma_2 \sqrt{1 - \rho^2}
-  \end{pmatrix} \\
+  \end{pmatrix}
+$$
 
+$$
 (\mathbf{P}^{-1})^T \mathbf{S} = \begin{pmatrix}
     1 & \rho \\
     0 & \sqrt{1 - \rho^2}
@@ -142,8 +147,10 @@ $$
   \begin{pmatrix}
     \sigma_1 & \sigma_2 \rho \\
     0        & \sigma_2 \sqrt{1 - \rho^2}
-  \end{pmatrix} \\
+  \end{pmatrix}
+$$
 
+$$
 \mathbf{S} \mathbf{P}^{-1} = diag(\sigma_1, \sigma_2)
   \begin{pmatrix}
        1 &              0 \\
@@ -152,8 +159,10 @@ $$
   \begin{pmatrix}
     \sigma_1      &              0 \\
     \sigma_2 \rho & \sigma_2 \sqrt{1 - \rho^2}
-  \end{pmatrix} \\
+  \end{pmatrix}
+$$
 
+$$
 \mathbf{P}^{-1} \mathbf{S} = \begin{pmatrix}
        1 &              0 \\
     \rho & \sqrt{1 - \rho^2}
@@ -166,7 +175,7 @@ $$
 $$
 
 Estas ecuaciones muestran que la conmutatividad de $\mathbf{S}$ con
-$\mathbf{P}^{-1}$ y $(\mathbf{P}^{-1})^T$ no se cumple, en general (salvo que
+$\mathbf{P}^{-1}$ y $(\mathbf{P}^{-1})^T$ no se cumple en general (salvo que
 $\sigma_1 = \sigma_2$).
 
 ### Condiciones adicionales
@@ -231,17 +240,22 @@ simétrica.
 
 $$
 \mathbf{S} \mathbf{P}^{-1} =
-  \mathbf{S} \mathbf{Q} \mathbf{\Lambda}^{1/2} \mathbf{Q}^T \\
+  \mathbf{S} \mathbf{Q} \mathbf{\Lambda}^{1/2} \mathbf{Q}^T
+$$
 
+$$
 (\mathbf{S} \mathbf{P}^{-1})^T =
-  (\mathbf{P}^{-1})^T \mathbf{S}^T = \mathbf{P}^{-1} \mathbf{S} \\
+  (\mathbf{P}^{-1})^T \mathbf{S}^T = \mathbf{P}^{-1} \mathbf{S}
+$$
 
-
+$$
 (\mathbf{S} \mathbf{P}^{-1})^T =
   (\mathbf{S} \mathbf{Q} \mathbf{\Lambda}^{1/2} \mathbf{Q}^T)^T =
   (\mathbf{Q}^T)^T (\mathbf{\Lambda}^{1/2})^T \mathbf{Q}^T \mathbf{S}^T =
-  \mathbf{Q} \mathbf{\Lambda}^{1/2} \mathbf{Q}^T \mathbf{S} \\
+  \mathbf{Q} \mathbf{\Lambda}^{1/2} \mathbf{Q}^T \mathbf{S}
+$$
 
+$$
 \mathbf{P}^{-1} \mathbf{S} =
   \mathbf{Q} \mathbf{\Lambda}^{1/2} \mathbf{Q}^T \mathbf{S}
 $$
