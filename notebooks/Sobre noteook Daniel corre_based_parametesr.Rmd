@@ -1,0 +1,201 @@
+---
+title: "Sobre notebook Daniel corre based parameters"
+author: "Mario Luzardo"
+date: "2024-06-17"
+output: word_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+rm(list=ls()) 
+library(pspline)
+library(mvtnorm)
+library(sn)
+library(mnormt)
+library(scatterplot3d)
+library(copula)
+library(ggplot2)
+library(fungible)
+library(pracma)
+library(matlib)
+library(rgl)
+library(lsa)
+library(MASS)
+library(mirt)
+library(tidyverse)
+set.seed(123)
+```
+
+
+
+## Supuestos iniciales
+
+Como hemos hecho hasta ahora, asumimos un espacio $\mathbf{\Theta}$  con base
+$\mathcal{B}$ en el que se representa el vector de rasgo latente
+$\mathbf{\theta}$. Este vector es una variable aleatoria $n$-variada que se
+distribuye con covarianza $\mathbf{\Sigma} = \mathbf{S} \mathbf{R} \mathbf{S}$,
+siendo $\mathbf{R}$ una matriz de correlaciones, semidefinida positiva y con 1's
+en la diagonal, y $\mathbf{S}$ una matriz diagonal de desviaciones típicas, tal
+que $\sigma^2_{ii} = s^2_{ii}$, para todo $i$ entre 1 y $n$ (i.e., los elementos
+diagonales de $\mathbf{\Sigma}$ y $\mathbf{S}^2$ son iguales).
+
+## Premisa
+
+Es posible encontrar una representación del espacio latente en una base
+ortogonal $\mathcal{U}$ tal que $\mathbf{\Sigma}^\mathcal{U}$ (i.e. la matriz de
+covarianzas de $\mathbf{\theta}$ representado en $\mathcal{U}$,
+$\mathbf{\theta}^\mathcal{U}$) sea una matriz diagonal.
+
+
+Sea $\mathbf{P}$ la matriz de transformación de la base $\mathcal{B}$ a la base
+$\mathcal{U}$. Como ya sabemos,
+$\mathbf{P} = [\mathbf{b}_1^\mathcal{U}, ..., \mathbf{b}_n^\mathcal{U}]$, es
+decir, los vectores de la base $\mathcal{B}$ representados en la base
+$\mathcal{U}$. Las coordenadas de $\mathbf{\theta}$, exprsadas en la base
+$\mathcal{U}$, vienen dadas por la siguiente relación:
+
+$$
+\mathbf{\theta}^\mathcal{U} = \mathbf{P} \mathbf{\theta}
+$$
+
+La matriz de covarianzas $\mathbf{\Sigma}^\mathcal{U}$ de
+$\mathbf{\theta}^\mathcal{U}$ cumple
+
+$$
+\mathbf{\Sigma}^\mathcal{U} = \mathbf{P} \mathbf{\Sigma} \mathbf{P}^T 
+$$
+Queremos que 
+$$
+\mathbf{\Sigma}^\mathcal{U} = S^2 
+$$
+
+Entonces igualemos 
+
+$$
+S^2 = \mathbf{P} \mathbf{\Sigma} \mathbf{P}^T 
+$$
+
+luego si operamos obtenemos
+
+ $$ 
+ P^{-1} S^2(P^T)^{-1}=\mathbf{\Sigma}
+ $$
+ Como S es diagonal
+ 
+$$ 
+ (S^{-1}P)^{-1} ((S^{-1}P)^T)^{-1}=\mathbf{\Sigma}
+$$
+Si llamo $K=S^{-1}P$ entonces
+
+$$ 
+ K^T K=(\mathbf{\Sigma})^{-1}
+$$
+Si realizamosla descomosición espectral de $$\mathbf{\Sigma}$$ obtenemos
+
+$$\mathbf{\Sigma}=Q \Lambda Q^{-1}$$ con Q ortogonal o sea $Q^{-1}=Q^T$ la matriz de vectores propios y $\Lambda$ la matriz diagonal de valores propios
+luego
+
+$$\mathbf{\Sigma}^{-1}=Q \Lambda^{-1} Q^{-1}$$
+o sea
+
+$$K^T K=\mathbf{\Sigma}^{-1}=Q (\Lambda)^{-1/2} Q^{-1} Q  (\Lambda)^{-1/2} Q^{-1}$$
+
+o sea encuentro la matriz raiz cuadrada $$\sqrt{\Sigma^{-1}}=Q (\Lambda)^{-1/2} Q^{-1}$$
+
+Es claro por las propiedades de Q que  
+$$K=K^T=Q (\Lambda)^{-1/2} Q^{-1}$$
+Luego como $K=S^{-1}P$
+
+$$P=S Q (\Lambda)^{-1/2} Q^{-1}$$
+
+No es necesario hallar la matriz raiz cuadrada ya que su usamos 
+$$K^T=Q (\Lambda)^{1/2}$$
+también sirve ya que 
+$$\mathbf{\Sigma}^{-1}=K^TK=Q (\Lambda)^{-1/2}   (\Lambda)^{-1/2} Q^{-1}$$
+Por lo tanto 
+
+$$K= (\Lambda)^{1/2} Q^T=(\Lambda)^{1/2} Q^{-1}$$
+o sea
+
+$$P= S (\Lambda)^{1/2} Q^{-1}$$
+
+Podemos usar ls descomposicion de Cholesky
+
+
+
+Como $\Sigma$ es simétrica y supongamos definida positiva entonces por Cholesky podemos escribir
+
+$$\Sigma=L^T L$$
+donde L es una matrz triangular superior, o sea $K =(L^{T})^{-1}$ de donde
+
+$$
+P=S(L^{T})^{-1}
+$$
+
+
+Veamos un ejemplo en $R^3$ con los tres métodos
+
+```{r   echo=FALSE}
+Sigma <- c(4,5, 4.8, 5, 25, 9, 4.8, 9, 9) |> matrix(ncol = 3)
+S=diag(c(2,5,3))
+R=cov_matrix <- c(1, .5, .8, .5, 1, .6, .8, .6, 1) |> matrix(ncol = 3)
+print("Matriz de varianza covarianza")
+print(Sigma)
+print("Matriz de desviaciones")
+print(S)
+print("Matriz de correlaciones")
+print(R)
+print("Verificacion")
+print(S%*%R%*%S)
+```
+
+
+Calculamos las matrices de cambio de base por los tres métodos
+
+
+```{r   echo=FALSE}
+# descomposición espectral de Sigma_U:
+eigendecomposition <- Sigma |> eigen()
+lambda             <- eigendecomposition$values
+Q                  <- eigendecomposition$vectors
+
+# Base calculada:
+lambda_root <- eigendecomposition$values^(-1) |> sqrt() |> diag()
+Q_inv       <- Q |> solve()
+
+#Calculo de matrices de cambio de base
+#Calculo de P por descomposicion espectral
+P <- S%*%Q %*% lambda_root %*% Q_inv
+#Calculo de P sin raiz cuadrada
+P2<- S%*%lambda_root %*% Q_inv
+#Calculo P cholesky
+PCHOL<-S%*%solve(t(chol(Sigma)))
+
+print("Matriz P por descomposición espectral ")
+print(P)
+print("Matriz P por método simplificado ")
+print(P2)
+print("Matriz P por Cholesky")
+print(PCHOL)
+```
+
+Comprobemos que la matriz obtenida ahora es $S^2$
+
+Comprobacion usando P
+
+```{r   echo=FALSE}
+print(round(P %*% Sigma %*% t(P),3)) 
+```
+Comprobacion usando P2
+```{r   echo=FALSE}
+print(round(P2 %*% Sigma %*% t(P2),3)) 
+```
+Comprobacion usando Cholesky
+```{r   echo=FALSE}
+print(round(PCHOL %*% Sigma %*% t(PCHOL)))
+```
+
+
+
+
+
