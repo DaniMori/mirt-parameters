@@ -275,7 +275,7 @@ the $`r INNER_PROD_MATRIX_INDEX`$-th element of $`r INNER_PROD_MATRIX`$. As
 $`r TRANSFORM_MATRIX`$ (and consequently $`r TRANSFORM_MATRIX_TRANSP`$) is
 invertible, so $`r INNER_PROD_MATRIX`$ is, and $`r INNER_PROD_MATRIX_INV_EQ`$.
 
-### Test space and latent space
+### Item response function invariance
 
 Let $`r TEST_SPACE`$ be the vector space made up by
 the set of $`r DISCR_VECTOR`$ vectors,
@@ -313,15 +313,6 @@ The norm of $`r DISCR_VECTOR`$ thus fulfills
 Therefore, an inner product $`r TEST_SPACE_INNER_PROD`$ with Gram matrix
 $`r INNER_PROD_MATRIX_INV`$ can be defined, such that $`r INNER_PROD_DISCR_EQ`$
 keeps the norm of $`r DISCR_VECTOR`$ invariant.
-
-We shall refer to this new space $`r TEST_SPACE`$ as
-the *test space* [@zhang_theoretical_1999].
-Although the inverse relationship between their respective inner product
-Gram matrices induces a bijective relationship between the two sets of spaces,
-it is worth highlighting that test space $`r TEST_SPACE`$
-and latent space $`r LATENT_SPACE`$ are different entities. Only in the
-orthonormal case the two spaces share a common inner product
-(i.e., the dot product), and thus can be mistaken.
 
 ### Direction cosines in the latent space
 
@@ -583,7 +574,7 @@ Substituting Equation \@ref(eq:dir-cos-vec) in Equation \@ref(eq:slope-max),
 [@reckase_discriminating_1991],
 
 \begin{equation}
-  `r SLOPE_MAX_PARAM_EQ`.                                     (\#eq:slope-param)
+  `r SLOPE_MAX_PARAM_EQ`,                                     (\#eq:slope-param)
 \end{equation}
 
 We have that
@@ -596,8 +587,50 @@ We have that
   \end{split}                             (\#eq:item-params-discrimination-norm)
 \end{equation}
 
-Applying Proposition 2, if $`r ANGLE_VEC_TS_ITEM`$ is
+# Results
+
+## Test space vs. latent space
+
+Before presenting the results about the parameters,
+we must make a few remarks regarding the vector space $`r TEST_SPACE`$.
+As shown before, this space is an entity by itself,
+distinct from the latent space $`r LATENT_SPACE`$.
+Despite this, the dot product in the exponent of Equation
+\@ref(eq:eq:M2PL-formulation) induces a bijective relationship between
+their two sets of respective bases.
+Explicitly, if $`r TRAIT_VECTOR`$ is represented in basis $`r LS_BASIS`$
+with inner product gram matrix $`r INNER_PROD_MATRIX`$,
+$`r DISCR_VECTOR`$ is represented in basis $`r TEST_SPACE_BASIS`$
+with inner product gram matrix $`r INNER_PROD_MATRIX_INV`$,
+for any pair of bases $`r LS_BASIS`$ and $`r TEST_SPACE_BASIS`$.
+Only when the two bases are orthonormal,
+the two spaces share a common inner product (i.e., the dot product),
+and thus can be mistaken.
+However, it is worth noting that, although their representation
+can be superimposed in this case,
+they are still two different spaces. <!-- # TODO: To discussion? -->
+Following @zhang_theoretical_1999, we shall refer to space $`r TEST_SPACE`$ as
+the test space, as it is the space where
+the items (i.e., the test elements) are represented.
+
+We must make a few remarks here.
+First, the transformation to the orthonormal bases of the two spaces allows
+mapping the $`r MODEL_ACRONYM`$ parameters indistinctly in the two spaces,
+by projecting one space onto the other.
+This allows representing the coordinates of the discrimination vectors
+in the latent space and, conversely,
+the coordinates of the latent trait vectors in the test space.
+As we can see, the invariance of the model holds,
+no matter in which space we represent the coordinates.
+<!-- # TODO: Incluir la condición de invarianza de las coordenadas en los dos espacios (Foto pizarra)? -->
+Second, and most importantly, if the test space is
+where the item parameters naturally lie, they must be represented in this space,
+and not in the latent space.
+Therefore, we may find the direction angles of $`r DISCR_VECTOR`$
+in the test space.
+If $`r ANGLE_VEC_TS_ITEM`$ is
 the vector of direction angles of $`r DISCR_VECTOR`$,
+applying Proposition 2
 in the test space $`r TEST_SPACE`$ we get
 
 \begin{equation}
@@ -606,8 +639,12 @@ in the test space $`r TEST_SPACE`$ we get
 
 with $`r DIAG_MATRIX_INNER_PROD_INV`$ a diagonal matrix where
 $`r MATRIX_INNER_PROD_INV_EL_DIAG_EQ`$.
-
-# Results
+<!-- # TODO: Revisar esto bien. Esto sólo aplica correctamente si efectivamente
+"equiparamos" las bases U y U*. Además, en la Proposición 2 estamos asumiendo
+que la "base de enlace" es la canónica, no una base ortonormal cualquiera. -->
+As we will see later, this representation is very convenient, as
+the alignment of the item vectors with the coordinate axes has a direct,
+meaningful interpretation.
 
 ## Generalized multidimensional parameters
 
@@ -616,7 +653,7 @@ from the origin to the point of maximum slope [@reckase_difficulty_1985].
 By analogy with the unidimensional case, $`r MDISC_SYM`$ is defined as
 $4 `r SLOPE_MAX_PARAM`$ [@reckase_discriminating_1991].
 Therefore, we may define the $`r MIL_PARAM`$ and $`r MDISC_SYM`$ using
-equations \@ref(eq:distance-param) through \@ref(eq:dir-cos-vec-test-space).
+Equations \@ref(eq:distance-param) through \@ref(eq:dir-cos-vec-test-space).
 However, as they depend on the inner product matrix $`r INNER_PROD_MATRIX`$,
 the choice we make of this matrix will lead us to different definitions of
 the parameters.
