@@ -19,34 +19,39 @@ en el espacio test que cumpla esa relación.
 
 ## Supuestos iniciales
 
-Como hemos hecho hasta ahora, asumimos un espacio $\mathbf{\Theta}$  con base
-$\mathcal{B}$ en el que se representa el vector de rasgo latente
-$\mathbf{\theta}$. Este vector es una variable aleatoria $n$-variada que se
-distribuye con covarianza $\mathbf{\Sigma} = \mathbf{S} \mathbf{R} \mathbf{S}$,
-siendo $\mathbf{R}$ una matriz de correlaciones, semidefinida positiva y con 1's
-en la diagonal, y $\mathbf{S}$ una matriz diagonal de desviaciones típicas, tal
-que $\sigma^2_{ii} = s^2_{ii}$, para todo $i$ entre 1 y $n$ (i.e., los elementos
+Como hemos hecho hasta ahora, asumimos un espacio $\mathbf{\Theta}$ con base
+$\mathcal{B}$ y matriz Gramiana del producto interno $\mathbf{M}$ en el que se
+representa el vector de rasgo latente $\mathbf{\theta}$. Este vector es una
+variable aleatoria $n$-variada que se distribuye con covarianza
+$\mathbf{\Sigma} = \mathbf{S} \mathbf{R} \mathbf{S}$, siendo $\mathbf{R}$ una
+matriz de correlaciones, semidefinida positiva y con 1's en la diagonal, y
+$\mathbf{S}$ una matriz diagonal de desviaciones típicas, tal que
+$\sigma^2_{ii} = s^2_{ii}$, para todo $i$ entre 1 y $n$ (i.e., los elementos
 diagonales de $\mathbf{\Sigma}$ y $\mathbf{S}^2$ son iguales).
 
-## Premisa
-
-Es posible encontrar una representación del espacio latente en una base
-ortogonal $\mathcal{U}$ tal que $\mathbf{\Sigma}^\mathcal{U}$ (i.e. la matriz de
-covarianzas de $\mathbf{\theta}$ representado en $\mathcal{U}$,
-$\mathbf{\theta}^\mathcal{U}$) sea una matriz diagonal.
-
-## Demostración
-
 Sea $\mathbf{P}$ la matriz de transformación de la base $\mathcal{B}$ a la base
-$\mathcal{U}$. Como ya sabemos,
-$\mathbf{P} = [\mathbf{b}_1^\mathcal{U}, ..., \mathbf{b}_n^\mathcal{U}]$, es
-decir, los vectores de la base $\mathcal{B}$ representados en la base
-$\mathcal{U}$. Las coordenadas de $\mathbf{\theta}$, exprsadas en la base
+$\mathcal{U}$. Las coordenadas de $\mathbf{\theta}$, expresadas en la base
 $\mathcal{U}$, vienen dadas por la siguiente relación:
 
 $$
 \mathbf{\theta}^\mathcal{U} = \mathbf{P} \mathbf{\theta}
 $$
+
+Como ya sabemos,
+$\mathbf{P} = [\mathbf{b}_1^\mathcal{U}, ..., \mathbf{b}_n^\mathcal{U}]$, es
+decir, los vectores de la base $\mathcal{B}$ representados en la base
+$\mathcal{U}$. Asumamos además que $\mathcal{U}$ es una base ortogonal.
+Sabemos entonces que $\mathbf{P}^T \mathbf{P} = \mathbf{M}$.
+
+## Premisa
+
+Es posible encontrar en el espacio latente $\mathbf{\Theta}$ una matriz de
+transformación $\mathbf{P}$ de $\mathcal{B}$ en $\mathcal{U}$ tal
+que $\mathbf{\Sigma}^\mathcal{U}$ (i.e. la matriz de covarianzas de
+$\mathbf{\theta}$ representado en $\mathcal{U}$, $\mathbf{\theta}^\mathcal{U}$)
+sea una matriz diagonal, siendo $\mathbf{M} = \mathbf{R}^{-1}$.
+
+## Demostración
 
 La matriz de covarianzas $\mathbf{\Sigma}^\mathcal{U}$ de
 $\mathbf{\theta}^\mathcal{U}$ cumple
