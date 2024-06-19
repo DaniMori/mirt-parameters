@@ -89,8 +89,8 @@ a *multidimensional difficulty* parameter (MID) for `r MODEL_ACRONYM` items.
 This parameter consists of two parts:
 The first one is a scalar value representing the distance from
 the origin of the multidimensional latent space to
-the maximally discriminating locus of the item.
-The second one, the direction of the vector from the origin to that same locus.
+the maximally discriminating locus of the item;
+the second one, the direction of the vector from the origin to that same locus.
 Following a similar rationale, @reckase_discriminating_1991 derive a
 *multidimensional discrimination* (`r MDISC_SYM`) parameter definition
 for that model.
