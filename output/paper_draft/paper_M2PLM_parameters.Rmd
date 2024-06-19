@@ -423,7 +423,7 @@ By proposition 1, for each case we have:
 
 1. $`r TRAIT_VEC_ALT_POLAR_EQ`$
 
-Given (1),
+Given 1,
 
 \begin{equation}
   `r TRAIT_VEC_ORTH_POLAR_EQ_XPAND`
@@ -435,7 +435,7 @@ and
   `r TRAIT_VEC_ALT_POLAR_ALT_EQ`.
 \end{equation}
 
-Using (2) and (3) we get that
+Using 2 and 3 we get that
 
 \begin{equation}
   `r TRAIT_VEC_ORTH_POLAR_ORG_EQ`
@@ -461,7 +461,8 @@ and thus $`r DIR_COS_VEC_ALT_EQ`$.$`r END_OF_PROOF`$
 
 ## Model recasting into polar coordinates
 
-Applying Proposition 1 to the model formulation in \@ref(eq:M2PL-formulation),
+Applying Proposition 1 to
+the model formulation in Equation \@ref(eq:M2PL-formulation),
 the `r MODEL_ACRONYM` model is expressed in polar coordinates as
 
 \begin{equation}
@@ -577,7 +578,7 @@ Substituting Equation \@ref(eq:dir-cos-vec) in Equation \@ref(eq:slope-max),
   `r SLOPE_MAX_PARAM_EQ`,                                     (\#eq:slope-param)
 \end{equation}
 
-We have that
+and thus, we have that
 
 \begin{equation}
   \begin{split}
@@ -596,12 +597,12 @@ we must make a few remarks regarding the vector space $`r TEST_SPACE`$.
 As shown before, this space is an entity by itself,
 distinct from the latent space $`r LATENT_SPACE`$.
 Despite this, the dot product in the exponent of Equation
-\@ref(eq:eq:M2PL-formulation) induces a bijective relationship between
+\@ref(eq:M2PL-formulation) induces a bijective relationship between
 their two sets of respective bases.
 Explicitly, if $`r TRAIT_VECTOR`$ is represented in basis $`r LS_BASIS`$
-with inner product gram matrix $`r INNER_PROD_MATRIX`$,
+with inner product Gram matrix $`r INNER_PROD_MATRIX`$,
 $`r DISCR_VECTOR`$ is represented in basis $`r TEST_SPACE_BASIS`$
-with inner product gram matrix $`r INNER_PROD_MATRIX_INV`$,
+with inner product Gram matrix $`r INNER_PROD_MATRIX_INV`$,
 for any pair of bases $`r LS_BASIS`$ and $`r TEST_SPACE_BASIS`$.
 Only when the two bases are orthonormal,
 the two spaces share a common inner product (i.e., the dot product),
@@ -610,10 +611,10 @@ However, it is worth noting that, although their representation
 can be superimposed in this case,
 they are still two different spaces. <!-- # TODO: To discussion? -->
 Following @zhang_theoretical_1999, we shall refer to space $`r TEST_SPACE`$ as
-the test space, as it is the space where
+the *test space*, as it is the space where
 the items (i.e., the test elements) are represented.
 
-We must make a few remarks here.
+We must make a few observations here.
 First, the transformation to the orthonormal bases of the two spaces allows
 mapping the $`r MODEL_ACRONYM`$ parameters indistinctly in the two spaces,
 by projecting one space onto the other.
@@ -643,8 +644,8 @@ $`r MATRIX_INNER_PROD_INV_EL_DIAG_EQ`$.
 "equiparamos" las bases U y U*. Además, en la Proposición 2 estamos asumiendo
 que la "base de enlace" es la canónica, no una base ortonormal cualquiera. -->
 As we will see later, this representation is very convenient, as
-the alignment of the item vectors with the coordinate axes has a direct,
-meaningful interpretation.
+the direction of the item vectors with respect to the coordinate axes
+has a direct, meaningful interpretation.
 
 ## Generalized multidimensional parameters
 
@@ -661,8 +662,8 @@ the parameters.
 Up to this point,
 we have derived the maximum slope and its location in the latent space
 $`r LATENT_SPACE`$ independently of its basis $`r LS_BASIS`$.
-If we assume $`r BASIS_EQ`$ or, more generally,
-that $`r LS_BASIS`$ is orthonormal, $`r TRANSFORM_MATRIX`$ will be
+If we assume that $`r BASIS_EQ`$ or, more generally,
+that $`r LS_BASIS`$ is any orthonormal basis, $`r TRANSFORM_MATRIX`$ will be
 also orthonormal and thus $`r INNER_PROD_MAT_STD_EQ`$.
 In such a case the multidimensional item location and discrimination simplify
 to the expressions derived by @reckase_difficulty_1985
@@ -695,7 +696,8 @@ an interpretation in terms of the latent space structure.
 Although we do not know, in principle, what
 the interpretation of a latent space basis should be, we may assume that
 it must be somewhat related to the covariance structure.
-Therefore, an orthonormal basis should represent independent coordinates;
+Therefore, an orthonormal basis should represent independent,
+standard coordinates;
 formally, if $`r COV_MATRIX_ORTH`$ is the covariance matrix of
 $`r TRAIT_ORTH_COORDS`$, then $`r COV_MATRIX_ORTH_EQ`$.
 Applying Equation \@ref(eq:change-basis), $`r COV_MATRIX_TRANSF_EQ`$, and thus,
@@ -721,7 +723,7 @@ in this case, $`r DIAG_MATRIX_INNER_PROD_INV_VAR_EQ`$, resulting in a
 
 ## Properties of the parameters
 
-There are three conditions to meet for regarding these parameters as
+There are three conditions to meet for considering these parameters as
 a valid generalization of the (unidimensional) IRT parameters
 [@reckase_discriminating_1991]:
 
@@ -737,10 +739,10 @@ a valid generalization of the (unidimensional) IRT parameters
 The second property derives straightforwardly from
 Equation \@ref(eq:distance-param),
 and the third one is implicit in the definition of the $`r MDISC_SYM`$.
-Simple arithmetic can show that the first holds true whenever the
+Simple arithmetic can show that the first one holds whenever the
 $`r DIAG_KTH_ELEMENT`$-th element of $`r INNER_PROD_MATRIX_INV`$ equals 1.
 Therefore, both the agnostic and the correlation-based version fulfill it.
-$`r MDISC_COV_PARAM`$ does not though,
+The covariance-based version $`r MDISC_COV_PARAM`$ does not though,
 as $`r COV_ELEMENT`$ is not generally equal to 1.
 Nevertheless, it can be interpreted as a *scaled version* of the index,
 with the standard deviation of the corresponding dimension as scaling factor.
