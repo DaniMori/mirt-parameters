@@ -45,48 +45,12 @@ $\mathcal{U}$. Asumamos además que $\mathcal{U}$ es una base ortonormal,
 con producto interno estándar. Sabemos entonces que
 $\mathbf{P}^T \mathbf{P} = \mathbf{M}$.
 
-::: note
-## Ejemplo
-
-Asumamos las siguientes matrices de desviación típica y varianzas:
-
-```{r 2d-example-matrices}
-corr_matrix <- c(1, .5, .5, 1) |> matrix(ncol = 2)
-std_devs    <- c(2, 3) |> diag()
-cov_matrix  <- std_devs %*% corr_matrix %*% std_devs
-
-corr_matrix
-std_devs
-```
-
-La matriz de covarianzas es:
-
-```{r 2d-example-cov}
-cov_matrix <- std_devs %*% corr_matrix %*% std_devs
-cov_matrix
-```
-:::
-
 ## Premisa
 
 Es posible encontrar en el espacio latente $\mathbf{\Theta}$ una matriz de
 transformación $\mathbf{P}$ de $\mathcal{B}$ en $\mathcal{U}$ tal que
-$\mathbf{\Sigma}^\mathcal{U} = \mathbf{S}^2$, siendo
+$\mathbf{\Sigma}^\mathcal{U}$ sea una matriz diagonal, siendo
 $\mathbf{M} = \mathbf{R}^{-1}$.
-
-Es decir, que esta matriz será "invariante en escala" (conservará las varianzas
-de $\mathbf{\Theta}^\mathcal(U)$ iguales a las de $\mathbf{\Theta}$).
-
-::: note
-## Ejemplo
-
-La matriz de covarianzas de $\mathbf{\Theta}^\mathcal(U)$ que se espera hallar
-es
-
-```{r 2d-example-orthonormal-cov}
-std_devs %*% t(std_devs)
-```
-:::
 
 ## Demostración
 
@@ -94,197 +58,39 @@ La matriz de covarianzas $\mathbf{\Sigma}^\mathcal{U}$ de
 $\mathbf{\theta}^\mathcal{U}$ cumple
 
 $$
-\mathbf{\Sigma}^\mathcal{U} = \mathbf{P} \mathbf{\Sigma} \mathbf{P}^T.
+(\mathbf{S}^\mathcal{U})^2 = \mathbf{P} \mathbf{\Sigma} \mathbf{P}^T,
 $$
 
-Por lo tanto, igualamos
+siendo $\mathbf{S}^\mathcal{U}$ una matriz diagonal de desviaciones típicas de
+$\mathbf{\theta}^\mathcal{U}$.
+
+Puesto que $\mathbf{P}^T \mathbf{P} = \mathbf{R}^{-1}$,
 
 $$
-\mathbf{S}^2 = \mathbf{P} \mathbf{\Sigma} \mathbf{P}^T
+(\mathbf{S}^\mathcal{U})^2 =
+  \mathbf{P} \mathbf{S} (\mathbf{P}^T \mathbf{P})^{-1} \mathbf{S} \mathbf{P}^T.
 $$
 
-::: note
-## Ejemplo
-
-Supongamos una matriz $\mathbf{P}$ hallada siguiendo estos resultados (ver más
-abajo). Vamos a comprobar que las relaciones entre las matrices se cumplen según
-se espera.
-
-```{r basis-computation}
-eigendecomposition <- cov_matrix |> eigen()
-lambda             <- eigendecomposition$values
-Q                  <- eigendecomposition$vectors
-
-# Base calculada:
-lambda_sqrt <- eigendecomposition$values^(-.5) |> diag()
-
-P <- std_devs %*% lambda_sqrt %*% solve(Q)
-```
-
-```{r 2d-example-transform-cov}
-P %*% cov_matrix %*% t(P)
-```
-:::
-
-y, operando, obtenemos
+Operando, tenemos que
 
 $$
-\mathbf{P}^{-1} \mathbf{S} \mathbf{S} (\mathbf{P}^{-1})^T = \mathbf{\Sigma}.
-$$
-
-::: note
-## Ejemplo
-
-```{r 2d-example-original-cov}
-P_inv <- solve(P)
-P_inv %*% std_devs %*% std_devs %*% t(P_inv)
-```
-:::
-
-Como $\mathbf{S}$ es diagonal,
-
-$$
-(\mathbf{S} (\mathbf{P}^{-1})^T)^T \mathbf{S} (\mathbf{P}^{-1})^T =
-  \mathbf{\Sigma},
-$$
-
-::: note
-## Ejemplo
-
-```{r 2d-example-original-transp}
-t(std_devs %*% t(P_inv)) %*% std_devs %*% t(P_inv)
-```
-:::
-
-Llamemos $\mathbf{K} = \mathbf{S} (\mathbf{P}^{-1})^T$, tal que
-$\mathbf{K}^T \mathbf{K} = \mathbf{\Sigma}$. Despejando $\mathbf{P}$, tenemos
-que
-
-$$
-\mathbf{S}^{-1} \mathbf{K} = (\mathbf{P}^{-1})^T
+\mathbf{P}^{-1} (\mathbf{S}^\mathcal{U})^2 (\mathbf{P}^{-1})^T =
+  \mathbf{S} (\mathbf{P}^{-1})^T
+  \mathbf{P}^{-1} \mathbf{S},
 $$
 
 $$
-\mathbf{K}^T \mathbf{S}^{-1} = \mathbf{P}^{-1}
+\mathbf{P}^{-1} \mathbf{S}^\mathcal{U}
+  (\mathbf{P}^{-1} \mathbf{S}^\mathcal{U})^T =
+    (\mathbf{P}^{-1} \mathbf{S})^T
+    \mathbf{P}^{-1} \mathbf{S},
 $$
 
-$$
-\mathbf{P} = \mathbf{S} (\mathbf{K}^{-1})^T
-$$
+Por lo tanto, podemos igualar
+$\mathbf{P}^{-1} \mathbf{S}^\mathcal{U} = (\mathbf{P}^{-1} \mathbf{S})^T$.
 
-::: note
-## Ejemplo
-
-```{r 2d-example-original-transp}
-K <- std_devs %*% t(P_inv)
-
-# Step 1:
-solve(std_devs) %*% K
-t(P_inv)
-
-# Step 2:
-t(K) %*% solve(std_devs)
-P_inv
-
-# Step 3:
-P
-std_devs %*% solve(t(K))
-```
-:::
-
-### Solución mediante descomposición espectral de $\mathbf{\Sigma}$
-
-Puesto que $\mathbf{\Sigma}$ es semidefinida positiva, existen las matrices
-$\mathbf{Q}$ y $\mathbf{\Lambda}$ tal que
-$\mathbf{\Sigma} = \mathbf{Q} \mathbf{\Lambda} \mathbf{Q}^T$, y además:
-
-* $\mathbf{Q}$ es una matriz ortonormal, i.e., $\mathbf{Q}^T = \mathbf{Q}^{-1}$.
-* $\mathbf{\Lambda}$ es una matriz diagonal.
-
-::: note
-## Ejemplo
-
-```{r 2d-example-eigendecomp-sigma}
-eigendecomposition <- cov_matrix |> eigen()
-lambda             <- eigendecomposition$values |> diag()
-Q                  <- eigendecomposition$vectors
-
-Q %*% lambda %*% t(Q)
-```
-:::
-
-Dado que $\mathbf{\Lambda}$ es diagonal, aplicamos
-$\mathbf{\Lambda} = \mathbf{\Lambda}^{1/2} \mathbf{\Lambda}^{1/2}$:
+Operando,
 
 $$
-\mathbf{\Sigma} = \mathbf{K}^T \mathbf{K} =
-  \mathbf{Q} \mathbf{\Lambda}^{1/2} \mathbf{\Lambda}^{1/2} \mathbf{Q}^T
+\mathbf{S}^\mathcal{U} = \mathbf{P} \mathbf{S} (\mathbf{P}^{-1})^T,
 $$
-
-::: note
-## Ejemplo
-
-```{r 2d-example-eigendecomp-sigma}
-lambda_sqsrt <- eigendecomposition$values |> diag()
-```
-:::
-
-Por lo tanto,
-
-$$
-\mathbf{K}^T \mathbf{K} =
-  (\mathbf{\Lambda}^{1/2} \mathbf{Q}^T)^T \mathbf{\Lambda}^{1/2} \mathbf{Q}^T
-$$
-
-$$
-\mathbf{K} = \mathbf{\Lambda}^{1/2} \mathbf{Q}^T,
-$$
-
-y
-
-$$
-\mathbf{P} = \mathbf{S} ((\mathbf{\Lambda}^{1/2} \mathbf{Q}^T)^{-1})^T
-$$
-
-$$
-\mathbf{P} = \mathbf{S} ((\mathbf{Q}^T)^{-1} \mathbf{\Lambda}^{-1/2})^T
-$$
-
-$$
-\mathbf{P} = \mathbf{S} \mathbf{\Lambda}^{-1/2} \mathbf{Q}^{-1}
-$$
-
-# Ejemplos
-
-## Ejemplo en $\mathbb{R}^2$
-
-Usamos el ejemplo con la correlación del borrador, y covarianzas de 2 y 3.
-
-```{r 2-dim-example}
-corr_matrix <- c(1, .5, .5, 1) |> matrix(ncol = 2)
-std_devs    <- c(2, 3) |> sqrt() |> diag()
-cov_matrix  <- std_devs %*% corr_matrix %*% std_devs
-
-## Comprobación:
-cov_matrix |> cov2cor()
-```
-
-
-```{r basis-computation}
-```
-
-## Ejemplo en $\mathbb{R}^3$
-
-Usamos el ejemplo propuesto por Mario.
-
-```{r 3-dim-example}
-corr_matrix <- c(1, .5, .8, .5, 1, .6, .8, .6, 1) |> matrix(ncol = 3)
-std_devs    <- c(2, 5, 3) |> diag()
-cov_matrix  <- std_devs %*% corr_matrix %*% std_devs
-
-## Comprobación:
-cov_matrix |> cov2cor()
-```
-
-```{r basis-computation}
-```
