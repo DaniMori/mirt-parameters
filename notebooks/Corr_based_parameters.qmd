@@ -1,6 +1,7 @@
 ---
 title: "Parámetros basados en la matriz de correlaciones"
 format: docx
+callout-icon: false
 editor: source
 ---
 
@@ -40,23 +41,52 @@ $$
 Como ya sabemos,
 $\mathbf{P} = [\mathbf{b}_1^\mathcal{U}, ..., \mathbf{b}_n^\mathcal{U}]$, es
 decir, los vectores de la base $\mathcal{B}$ representados en la base
-$\mathcal{U}$. Asumamos además que $\mathcal{U}$ es una base ortogonal,
+$\mathcal{U}$. Asumamos además que $\mathcal{U}$ es una base ortonormal,
 con producto interno estándar. Sabemos entonces que
-$\mathbf{P}^T \mathbf{P} = \mathbf{M}$[^orth_basis].
+$\mathbf{P}^T \mathbf{P} = \mathbf{M}$.
 
-[^orth_basis]: Problema: Esto puede **no ser cierto**, ya que para que ello sea
-así, la base $\mathcal{U}$ debe ser ortonormal, y no solamente ortogonal.
+::: note
+## Ejemplo
+
+Asumamos las siguientes matrices de desviación típica y varianzas:
+
+```{r 2d-example-matrices}
+corr_matrix <- c(1, .5, .5, 1) |> matrix(ncol = 2)
+std_devs    <- c(2, 3) |> diag()
+cov_matrix  <- std_devs %*% corr_matrix %*% std_devs
+
+corr_matrix
+std_devs
+```
+
+La matriz de covarianzas es:
+
+```{r 2d-example-cov}
+cov_matrix <- std_devs %*% corr_matrix %*% std_devs
+cov_matrix
+```
+:::
 
 ## Premisa
 
 Es posible encontrar en el espacio latente $\mathbf{\Theta}$ una matriz de
-transformación $\mathbf{P}$ de $\mathcal{B}$ en $\mathcal{U}$ tal
-que $\mathbf{\Sigma}^\mathcal{U}$ (i.e. la matriz de covarianzas de
-$\mathbf{\theta}$ representado en $\mathcal{U}$, $\mathbf{\theta}^\mathcal{U}$)
-sea una matriz diagonal, siendo $\mathbf{M} = \mathbf{R}^{-1}$.
+transformación $\mathbf{P}$ de $\mathcal{B}$ en $\mathcal{U}$ tal que
+$\mathbf{\Sigma}^\mathcal{U} = \mathbf{S}^2$, siendo
+$\mathbf{M} = \mathbf{R}^{-1}$.
 
-Además, esta matriz invariante en "escala"; es decir, conservará las "varianzas"
-de $\mathbf{\Theta}$: $\mathbf{\Sigma}^\mathcal{U} = \mathbf{S}^2$.
+Es decir, que esta matriz será "invariante en escala" (conservará las varianzas
+de $\mathbf{\Theta}^\mathcal(U)$ iguales a las de $\mathbf{\Theta}$).
+
+::: note
+## Ejemplo
+
+La matriz de covarianzas de $\mathbf{\Theta}^\mathcal(U)$ que se espera hallar
+es
+
+```{r 2d-example-orthonormal-cov}
+std_devs %*% t(std_devs)
+```
+:::
 
 ## Demostración
 
@@ -73,63 +103,156 @@ $$
 \mathbf{S}^2 = \mathbf{P} \mathbf{\Sigma} \mathbf{P}^T
 $$
 
+::: note
+## Ejemplo
+
+Supongamos una matriz $\mathbf{P}$ hallada siguiendo estos resultados (ver más
+abajo). Vamos a comprobar que las relaciones entre las matrices se cumplen según
+se espera.
+
+```{r basis-computation}
+eigendecomposition <- cov_matrix |> eigen()
+lambda             <- eigendecomposition$values
+Q                  <- eigendecomposition$vectors
+
+# Base calculada:
+lambda_sqrt <- eigendecomposition$values^(-.5) |> diag()
+
+P <- std_devs %*% lambda_sqrt %*% solve(Q)
+```
+
+```{r 2d-example-transform-cov}
+P %*% cov_matrix %*% t(P)
+```
+:::
+
 y, operando, obtenemos
 
 $$
-\mathbf{P}^{-1} \mathbf{S}^2 (\mathbf{P}^{-1})^T = \mathbf{\Sigma}.
+\mathbf{P}^{-1} \mathbf{S} \mathbf{S} (\mathbf{P}^{-1})^T = \mathbf{\Sigma}.
 $$
+
+::: note
+## Ejemplo
+
+```{r 2d-example-original-cov}
+P_inv <- solve(P)
+P_inv %*% std_devs %*% std_devs %*% t(P_inv)
+```
+:::
 
 Como $\mathbf{S}$ es diagonal,
 
 $$
-\mathbf{S} (\mathbf{P}^T)^{-1} (\mathbf{P}^T)^{-1} \mathbf{S} =
-  \mathbf{\Sigma} =
-  \mathbf{S} \mathbf{R} \mathbf{S},
+(\mathbf{S} (\mathbf{P}^{-1})^T)^T \mathbf{S} (\mathbf{P}^{-1})^T =
+  \mathbf{\Sigma},
 $$
 
-Dado que $\mathbf{P}$ es una raíz cuadrada de $\mathbf{R}^{-1}$,
-$\mathbf{R} = (\mathbf{P}^T \mathbf{P})^{-1}$.
+::: note
+## Ejemplo
 
+```{r 2d-example-original-transp}
+t(std_devs %*% t(P_inv)) %*% std_devs %*% t(P_inv)
+```
+:::
+
+Llamemos $\mathbf{K} = \mathbf{S} (\mathbf{P}^{-1})^T$, tal que
+$\mathbf{K}^T \mathbf{K} = \mathbf{\Sigma}$. Despejando $\mathbf{P}$, tenemos
+que
 
 $$
-(\mathbf{P}^T \mathbf{P}^T)^{-1} = (\mathbf{P}^T \mathbf{P})^{-1}.
+\mathbf{S}^{-1} \mathbf{K} = (\mathbf{P}^{-1})^T
 $$
 
-Es decir, la solución que buscamos es una matriz $\mathbf{P}$, raíz cuadrada de
-$\mathbf{R}^{-1}$, que
-cumpla la condición de simetría (i.e. $\mathbf{P} = \mathbf{P}^T$).
+$$
+\mathbf{K}^T \mathbf{S}^{-1} = \mathbf{P}^{-1}
+$$
 
-### Solución mediante descomposición espectral de $\mathbf{R}$
+$$
+\mathbf{P} = \mathbf{S} (\mathbf{K}^{-1})^T
+$$
 
-Puesto que $\mathbf{R}^{-1}$ es semidefinida positiva, existen las matrices
+::: note
+## Ejemplo
+
+```{r 2d-example-original-transp}
+K <- std_devs %*% t(P_inv)
+
+# Step 1:
+solve(std_devs) %*% K
+t(P_inv)
+
+# Step 2:
+t(K) %*% solve(std_devs)
+P_inv
+
+# Step 3:
+P
+std_devs %*% solve(t(K))
+```
+:::
+
+### Solución mediante descomposición espectral de $\mathbf{\Sigma}$
+
+Puesto que $\mathbf{\Sigma}$ es semidefinida positiva, existen las matrices
 $\mathbf{Q}$ y $\mathbf{\Lambda}$ tal que
-$\mathbf{R}^{-1} = \mathbf{Q} \mathbf{\Lambda} \mathbf{Q}^T$, y además:
+$\mathbf{\Sigma} = \mathbf{Q} \mathbf{\Lambda} \mathbf{Q}^T$, y además:
 
 * $\mathbf{Q}$ es una matriz ortonormal, i.e., $\mathbf{Q}^T = \mathbf{Q}^{-1}$.
 * $\mathbf{\Lambda}$ es una matriz diagonal.
+
+::: note
+## Ejemplo
+
+```{r 2d-example-eigendecomp-sigma}
+eigendecomposition <- cov_matrix |> eigen()
+lambda             <- eigendecomposition$values |> diag()
+Q                  <- eigendecomposition$vectors
+
+Q %*% lambda %*% t(Q)
+```
+:::
 
 Dado que $\mathbf{\Lambda}$ es diagonal, aplicamos
 $\mathbf{\Lambda} = \mathbf{\Lambda}^{1/2} \mathbf{\Lambda}^{1/2}$:
 
 $$
-\mathbf{R}^{-1} = \mathbf{P}^T \mathbf{P} =
+\mathbf{\Sigma} = \mathbf{K}^T \mathbf{K} =
   \mathbf{Q} \mathbf{\Lambda}^{1/2} \mathbf{\Lambda}^{1/2} \mathbf{Q}^T
 $$
 
-Igualmente, aplicamos
+::: note
+## Ejemplo
+
+```{r 2d-example-eigendecomp-sigma}
+lambda_sqsrt <- eigendecomposition$values |> diag()
+```
+:::
+
+Por lo tanto,
 
 $$
-\mathbf{P}^T \mathbf{P} =
-  \mathbf{Q} \mathbf{\Lambda}^{1/2} \mathbf{Q}^{-1}
-    \mathbf{Q} \mathbf{\Lambda}^{1/2} \mathbf{Q}^T =
-  \mathbf{Q} \mathbf{\Lambda}^{1/2} \mathbf{Q}^T
-    \mathbf{Q} \mathbf{\Lambda}^{1/2} \mathbf{Q}^T
+\mathbf{K}^T \mathbf{K} =
+  (\mathbf{\Lambda}^{1/2} \mathbf{Q}^T)^T \mathbf{\Lambda}^{1/2} \mathbf{Q}^T
 $$
 
-Igualando $\mathbf{P} = \mathbf{Q} \mathbf{\Lambda}^{1/2} \mathbf{Q}^T$,
-tenemos que
-$\mathbf{P}^T = \mathbf{Q} \mathbf{\Lambda}^{1/2} \mathbf{Q}^T$,
-y por tanto $\mathbf{P} = \mathbf{P}^T$.
+$$
+\mathbf{K} = \mathbf{\Lambda}^{1/2} \mathbf{Q}^T,
+$$
+
+y
+
+$$
+\mathbf{P} = \mathbf{S} ((\mathbf{\Lambda}^{1/2} \mathbf{Q}^T)^{-1})^T
+$$
+
+$$
+\mathbf{P} = \mathbf{S} ((\mathbf{Q}^T)^{-1} \mathbf{\Lambda}^{-1/2})^T
+$$
+
+$$
+\mathbf{P} = \mathbf{S} \mathbf{\Lambda}^{-1/2} \mathbf{Q}^{-1}
+$$
 
 # Ejemplos
 
@@ -148,25 +271,6 @@ cov_matrix |> cov2cor()
 
 
 ```{r basis-computation}
-# descomposición espectral de Sigma_U:
-eigendecomposition <- corr_matrix |> solve() |> eigen()
-lambda             <- eigendecomposition$values
-Q                  <- eigendecomposition$vectors
-
-# Base calculada:
-lambda_sqrt <- eigendecomposition$values |> sqrt() |> diag()
-Q_inv       <- Q |> t()
-
-# Calculo de P por descomposicion espectral
-P <- Q %*% lambda_sqrt %*% Q_inv
-
-# Comprobación
-
-## Raíz de la inversa de la correlación:
-solve(t(P) %*% P)
-
-## Covarianza en la base transformada:
-P %*% cov_matrix %*% t(P)
 ```
 
 ## Ejemplo en $\mathbb{R}^3$
@@ -177,6 +281,9 @@ Usamos el ejemplo propuesto por Mario.
 corr_matrix <- c(1, .5, .8, .5, 1, .6, .8, .6, 1) |> matrix(ncol = 3)
 std_devs    <- c(2, 5, 3) |> diag()
 cov_matrix  <- std_devs %*% corr_matrix %*% std_devs
+
+## Comprobación:
+cov_matrix |> cov2cor()
 ```
 
 ```{r basis-computation}
