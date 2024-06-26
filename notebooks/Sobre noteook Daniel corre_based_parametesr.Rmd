@@ -111,17 +111,15 @@ $$P=S Q (\Lambda)^{-1/2} Q^{-1}$$
 Veamos un ejemplo en $R^3$ con los tres métodos
 
 ```{r   echo=FALSE}
-Sigma <- c(4,5, 4.8, 5, 25, 9, 4.8, 9, 9) |> matrix(ncol = 3)
-S=diag(c(2,5,3))
-R=cov_matrix <- c(1, .5, .8, .5, 1, .6, .8, .6, 1) |> matrix(ncol = 3)
+S     <- diag(c(2,5,3))
+R     <- c(1, .5, .8, .5, 1, .6, .8, .6, 1) |> matrix(ncol = 3)
+Sigma <- S %*% R %*% S
 print("Matriz de varianza covarianza")
 print(Sigma)
 print("Matriz de desviaciones")
 print(S)
 print("Matriz de correlaciones")
 print(R)
-print("Verificacion")
-print(S%*%R%*%S)
 ```
 
 
@@ -140,7 +138,7 @@ Q_inv       <- Q |> solve()
 
 #Calculo de matrices de cambio de base
 #Calculo de P por descomposicion espectral
-P <- S%*%Q %*% lambda_root %*% Q_inv
+P <- S %*% Q %*% lambda_root %*% Q_inv
 
 print("Matriz P por descomposición espectral ")
 print(P)
