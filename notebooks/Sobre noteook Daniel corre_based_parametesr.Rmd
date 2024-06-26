@@ -152,5 +152,14 @@ Comprobacion usando P
 print(round(P %*% Sigma %*% t(P),3)) 
 ```
 
+```{r}
+# Comprobación de la condición R = M^(-1)
 
+## Usando descomposición espectral:
 
+solve(P %*% t(P)) |> round(3) # Se verifica (asumiendo que P es en realidad P^T)
+#>      [,1] [,2] [,3]
+#> [1,]  1.0  0.5  0.8
+#> [2,]  0.5  1.0  0.6
+#> [3,]  0.8  0.6  1.0
+```
