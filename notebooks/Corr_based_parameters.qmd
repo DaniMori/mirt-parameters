@@ -370,3 +370,33 @@ P_inv %*% std_devs # No es conmutativa
 Vemos que, en general, no se cumplen las condiciones de simetría y
 conmutatividad, por lo que la solución no es correct.
 
+## Demostración de la falta de solución
+
+En general, hay que considerar que estamos partiendo de la premisa de que
+$\mathbf{P} \mathbf{R} \mathbf{P}^T = \mathbf{I}$ y que
+$\mathbf{P} \mathbf{\Sigma} \mathbf{P}^T$ es una matriz diagonal.
+
+Por lo tanto, estamos asumiendo que $\mathbf{\Sigma}$ y $\mathbf{R}$ son
+simultáneamente diagonalizables. Si atendemos a esta respuesta en [Mathematics
+StackExchange](https://math.stackexchange.com/a/1580856) (y asumimos que es
+correcta), vemos que para que dos matrices sean simultáneamente diagonalizables
+han de ser conmutativas.
+
+Dado que $\mathbf{\Sigma} = \mathbf{S} \mathbf{R} \mathbf{S}$,
+
+$$
+\mathbf{\Sigma} \mathbf{R} = \mathbf{S} \mathbf{R} \mathbf{S} \mathbf{R}
+$$
+
+$$
+\mathbf{R} \mathbf{\Sigma} = \mathbf{R} \mathbf{S} \mathbf{R} \mathbf{S}
+$$
+
+Es decir, que $\mathbf{\Sigma}$ y $\mathbf{R}$ son conmutativas si $\mathbf{S}$
+y $\mathbf{R}$ lo son. Pero ya hemos visto varios contraejemplos, e.g.:
+
+```{r non-commutativity-corr-sd}
+corr_matrix %*% std_devs
+std_devs %*% corr_matrix
+```
+
