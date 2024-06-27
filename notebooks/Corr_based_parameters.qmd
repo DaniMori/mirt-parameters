@@ -1,7 +1,6 @@
 ---
 title: "Parámetros basados en la matriz de correlaciones"
 format: docx
-callout-icon: false
 editor: source
 ---
 
@@ -41,52 +40,16 @@ $$
 Como ya sabemos,
 $\mathbf{P} = [\mathbf{b}_1^\mathcal{U}, ..., \mathbf{b}_n^\mathcal{U}]$, es
 decir, los vectores de la base $\mathcal{B}$ representados en la base
-$\mathcal{U}$. Asumamos además que $\mathcal{U}$ es una base ortonormal,
-con producto interno estándar. Sabemos entonces que
-$\mathbf{P}^T \mathbf{P} = \mathbf{M}$.
-
-::: note
-## Ejemplo
-
-Asumamos las siguientes matrices de desviación típica y varianzas:
-
-```{r 2d-example-matrices}
-corr_matrix <- c(1, .5, .5, 1) |> matrix(ncol = 2)
-std_devs    <- c(2, 3) |> diag()
-cov_matrix  <- std_devs %*% corr_matrix %*% std_devs
-
-corr_matrix
-std_devs
-```
-
-La matriz de covarianzas es:
-
-```{r 2d-example-cov}
-cov_matrix <- std_devs %*% corr_matrix %*% std_devs
-cov_matrix
-```
-:::
+$\mathcal{U}$. Asumamos además que $\mathcal{U}$ es una base ortogonal.
+Sabemos entonces que $\mathbf{P}^T \mathbf{P} = \mathbf{M}$.
 
 ## Premisa
 
 Es posible encontrar en el espacio latente $\mathbf{\Theta}$ una matriz de
-transformación $\mathbf{P}$ de $\mathcal{B}$ en $\mathcal{U}$ tal que
-$\mathbf{\Sigma}^\mathcal{U} = \mathbf{S}^2$, siendo
-$\mathbf{M} = \mathbf{R}^{-1}$.
-
-Es decir, que esta matriz será "invariante en escala" (conservará las varianzas
-de $\mathbf{\Theta}^\mathcal(U)$ iguales a las de $\mathbf{\Theta}$).
-
-::: note
-## Ejemplo
-
-La matriz de covarianzas de $\mathbf{\Theta}^\mathcal(U)$ que se espera hallar
-es
-
-```{r 2d-example-orthonormal-cov}
-std_devs %*% t(std_devs)
-```
-:::
+transformación $\mathbf{P}$ de $\mathcal{B}$ en $\mathcal{U}$ tal
+que $\mathbf{\Sigma}^\mathcal{U}$ (i.e. la matriz de covarianzas de
+$\mathbf{\theta}$ representado en $\mathcal{U}$, $\mathbf{\theta}^\mathcal{U}$)
+sea una matriz diagonal, siendo $\mathbf{M} = \mathbf{R}^{-1}$.
 
 ## Demostración
 
@@ -94,197 +57,280 @@ La matriz de covarianzas $\mathbf{\Sigma}^\mathcal{U}$ de
 $\mathbf{\theta}^\mathcal{U}$ cumple
 
 $$
-\mathbf{\Sigma}^\mathcal{U} = \mathbf{P} \mathbf{\Sigma} \mathbf{P}^T.
+\mathbf{\Sigma}^\mathcal{U} = \mathbf{P} \mathbf{\Sigma} \mathbf{P}^T =
+  \mathbf{P} \mathbf{S} \mathbf{R} \mathbf{S} \mathbf{P}^T
 $$
 
-Por lo tanto, igualamos
+Supongamos que $\mathbf{P}$ es una raíz cuadrada de $\mathbf{R}^{-1}$; es
+decir, $\mathbf{R}^{-1} = \mathbf{P}^T \mathbf{P}$.
 
 $$
-\mathbf{S}^2 = \mathbf{P} \mathbf{\Sigma} \mathbf{P}^T
+\mathbf{\Sigma}^\mathcal{U} =
+  \mathbf{P} \mathbf{S} (\mathbf{P}^T \mathbf{P})^{-1} \mathbf{S} \mathbf{P}^T =
+  \mathbf{P} \mathbf{S} \mathbf{P}^{-1} (\mathbf{P}^{-1})^T \mathbf{S} \mathbf{P}^T
 $$
 
-::: note
-## Ejemplo
-
-Supongamos una matriz $\mathbf{P}$ hallada siguiendo estos resultados (ver más
-abajo). Vamos a comprobar que las relaciones entre las matrices se cumplen según
-se espera.
-
-```{r basis-computation}
-eigendecomposition <- cov_matrix |> eigen()
-lambda             <- eigendecomposition$values
-Q                  <- eigendecomposition$vectors
-
-# Base calculada:
-lambda_sqrt <- eigendecomposition$values^(-.5) |> diag()
-
-P <- std_devs %*% lambda_sqrt %*% solve(Q)
-```
-
-```{r 2d-example-transform-cov}
-P %*% cov_matrix %*% t(P)
-```
-:::
-
-y, operando, obtenemos
+Si $\mathbf{S}$ conmuta con $\mathbf{P}^{-1}$ y $(\mathbf{P}^{-1})^T$, entonces
+la ecuación anterior puede expresarse como
 
 $$
-\mathbf{P}^{-1} \mathbf{S} \mathbf{S} (\mathbf{P}^{-1})^T = \mathbf{\Sigma}.
+\mathbf{\Sigma}^\mathcal{U} =
+  \mathbf{P} \mathbf{P}^{-1} \mathbf{S} \mathbf{S} (\mathbf{P}^{-1})^T \mathbf{P}^T =
+  \mathbf{S}^2
 $$
 
-::: note
-## Ejemplo
+### Contraejemplo
 
-```{r 2d-example-original-cov}
-P_inv <- solve(P)
-P_inv %*% std_devs %*% std_devs %*% t(P_inv)
-```
-:::
+Lo anterior en general no se cumple, por lo que $\mathbf{\Sigma}^\mathcal{U}$ no
+es, en general, una matriz diagonal bajo estos supuestos.
 
-Como $\mathbf{S}$ es diagonal,
+Un contraejemplo de esto es la solución con la base del ejemplo de
+representación gráfica del borrador y varianzas desiguales. Supongamos
 
 $$
-(\mathbf{S} (\mathbf{P}^{-1})^T)^T \mathbf{S} (\mathbf{P}^{-1})^T =
-  \mathbf{\Sigma},
-$$
-
-::: note
-## Ejemplo
-
-```{r 2d-example-original-transp}
-t(std_devs %*% t(P_inv)) %*% std_devs %*% t(P_inv)
-```
-:::
-
-Llamemos $\mathbf{K} = \mathbf{S} (\mathbf{P}^{-1})^T$, tal que
-$\mathbf{K}^T \mathbf{K} = \mathbf{\Sigma}$. Despejando $\mathbf{P}$, tenemos
-que
-
-$$
-\mathbf{S}^{-1} \mathbf{K} = (\mathbf{P}^{-1})^T
+\mathbf{S} = diag(\sigma_1, \sigma_2)
 $$
 
 $$
-\mathbf{K}^T \mathbf{S}^{-1} = \mathbf{P}^{-1}
+(\mathbf{P}^{-1})^T = \begin{pmatrix}
+    1 & \rho \\
+    0 & \sqrt{1 - \rho^2}
+  \end{pmatrix}.
+$$
+
+Bajo estos supuestos,
+
+$$
+\mathbf{R} = \mathbf{P}^{-1} (\mathbf{P}^{-1})^T = \begin{pmatrix}
+       1 &              0 \\
+    \rho & \sqrt{1 - \rho^2}
+  \end{pmatrix}
+  \begin{pmatrix}
+    1 & \rho \\
+    0 & \sqrt{1 - \rho^2}
+  \end{pmatrix} =
+  \begin{pmatrix}
+       1 & \rho \\
+    \rho &    1
+  \end{pmatrix}
 $$
 
 $$
-\mathbf{P} = \mathbf{S} (\mathbf{K}^{-1})^T
+\mathbf{\Sigma} = diag(\sigma_1, \sigma_2)
+  \begin{pmatrix}
+       1 & \rho \\
+    \rho &    1
+  \end{pmatrix}
+  diag(\sigma_1, \sigma_2) =
+  \begin{pmatrix}
+    \sigma_1^2             & \sigma_1 \sigma_2 \rho \\
+    \sigma_1 \sigma_2 \rho & \sigma_2^2
+  \end{pmatrix}.
 $$
 
-::: note
-## Ejemplo
+Veamos que $\mathbf{S}$ No conmuta con $\mathbf{P}^{-1}$ ni con
+$(\mathbf{P}^{-1})^T$:
 
-```{r 2d-example-original-transp}
-K <- std_devs %*% t(P_inv)
+$$
+\mathbf{S} (\mathbf{P}^{-1})^T = diag(\sigma_1, \sigma_2)
+  \begin{pmatrix}
+    1 & \rho \\
+    0 & \sqrt{1 - \rho^2}
+  \end{pmatrix} =
+  \begin{pmatrix}
+    \sigma_1 & \sigma_1 \rho \\
+    0        & \sigma_2 \sqrt{1 - \rho^2}
+  \end{pmatrix}
+$$
 
-# Step 1:
-solve(std_devs) %*% K
-t(P_inv)
+$$
+(\mathbf{P}^{-1})^T \mathbf{S} = \begin{pmatrix}
+    1 & \rho \\
+    0 & \sqrt{1 - \rho^2}
+  \end{pmatrix}
+  diag(\sigma_1, \sigma_2) =
+  \begin{pmatrix}
+    \sigma_1 & \sigma_2 \rho \\
+    0        & \sigma_2 \sqrt{1 - \rho^2}
+  \end{pmatrix}
+$$
 
-# Step 2:
-t(K) %*% solve(std_devs)
-P_inv
+$$
+\mathbf{S} \mathbf{P}^{-1} = diag(\sigma_1, \sigma_2)
+  \begin{pmatrix}
+       1 &              0 \\
+    \rho & \sqrt{1 - \rho^2}
+  \end{pmatrix} =
+  \begin{pmatrix}
+    \sigma_1      &              0 \\
+    \sigma_2 \rho & \sigma_2 \sqrt{1 - \rho^2}
+  \end{pmatrix}
+$$
 
-# Step 3:
-P
-std_devs %*% solve(t(K))
-```
-:::
+$$
+\mathbf{P}^{-1} \mathbf{S} = \begin{pmatrix}
+       1 &              0 \\
+    \rho & \sqrt{1 - \rho^2}
+  \end{pmatrix}
+  diag(\sigma_1, \sigma_2) =
+  \begin{pmatrix}
+    \sigma_1      &              0 \\
+    \sigma_1 \rho & \sigma_2 \sqrt{1 - \rho^2}
+  \end{pmatrix}
+$$
 
-### Solución mediante descomposición espectral de $\mathbf{\Sigma}$
+Estas ecuaciones muestran que la conmutatividad de $\mathbf{S}$ con
+$\mathbf{P}^{-1}$ y $(\mathbf{P}^{-1})^T$ no se cumple en general (salvo que
+$\sigma_1 = \sigma_2$).
 
-Puesto que $\mathbf{\Sigma}$ es semidefinida positiva, existen las matrices
+### Condiciones adicionales
+
+A pesar de lo anterior, $\mathbf{S}$ conmuta con cualquier otra matriz que sea
+simultáneamente diagonalizable con ella. En el caso de matrices simétricas, es
+decir, si $\mathbf{P}^{-1} = (\mathbf{P}^{-1})^T$, sabemos que se cumple la
+conmutatividad de $\mathbf{S}$ con $\mathbf{P}^{-1}$ (y por lo tanto también con
+$(\mathbf{P}^{-1})^T$), si
+$\mathbf{S} \mathbf{P}^{-1} = \mathbf{P}^{-1} \mathbf{S}$ es también simétrica.
+
+Intentamos obtener a continuación una solución que haga $\mathbf{P}^{-1}$
+simétrica, y comprobamos si $\mathbf{S} \mathbf{P}^{-1}$ es también simétrica.
+[^diagonalization]
+
+[^diagonalization]: En realidad, la forma idónea de proceder sería encontrar la
+diagonalización simultánea de $\mathbf{S}$ y $\mathbf{P}^{-1}$, ya que si son
+simultáneamente diagonalizables entonces son conmutativas. No obstante, esto es
+más complejo para mí y ahora mismo no tengo claro saber cómo hacerlo, mientras
+que para obtener la $\mathbf{P}^{-1}$ simétrica puedo reaprovechar las
+deducciones de Mario mediante la descomposición espectral.
+
+### Solución mediante descomposición espectral de $\mathbf{R}$
+
+Puesto que $\mathbf{R}$ es semidefinida positiva, existen las matrices
 $\mathbf{Q}$ y $\mathbf{\Lambda}$ tal que
-$\mathbf{\Sigma} = \mathbf{Q} \mathbf{\Lambda} \mathbf{Q}^T$, y además:
+$\mathbf{R} = \mathbf{Q} \mathbf{\Lambda} \mathbf{Q}^T$, y además:
 
 * $\mathbf{Q}$ es una matriz ortonormal, i.e., $\mathbf{Q}^T = \mathbf{Q}^{-1}$.
 * $\mathbf{\Lambda}$ es una matriz diagonal.
 
-::: note
-## Ejemplo
-
-```{r 2d-example-eigendecomp-sigma}
-eigendecomposition <- cov_matrix |> eigen()
-lambda             <- eigendecomposition$values |> diag()
-Q                  <- eigendecomposition$vectors
-
-Q %*% lambda %*% t(Q)
-```
-:::
-
 Dado que $\mathbf{\Lambda}$ es diagonal, aplicamos
-$\mathbf{\Lambda} = \mathbf{\Lambda}^{1/2} \mathbf{\Lambda}^{1/2}$:
+$\mathbf{\Lambda} = \mathbf{\Lambda}^{1/2} \mathbf{\Lambda}^{1/2}$ para obtener
+$\mathbf{P}^{-1}$ y $(\mathbf{P}^{-1})^T$:
 
 $$
-\mathbf{\Sigma} = \mathbf{K}^T \mathbf{K} =
+\mathbf{R} = \mathbf{P}^{-1} (\mathbf{P}^{-1})^T =
   \mathbf{Q} \mathbf{\Lambda}^{1/2} \mathbf{\Lambda}^{1/2} \mathbf{Q}^T
 $$
 
-::: note
-## Ejemplo
-
-```{r 2d-example-eigendecomp-sigma}
-lambda_sqsrt <- eigendecomposition$values |> diag()
-```
-:::
-
-Por lo tanto,
+Ahora bien, para obtener una $\mathbf{P}^{-1}$ simétrica, podemos aplicar
 
 $$
-\mathbf{K}^T \mathbf{K} =
-  (\mathbf{\Lambda}^{1/2} \mathbf{Q}^T)^T \mathbf{\Lambda}^{1/2} \mathbf{Q}^T
+\mathbf{P}^{-1} (\mathbf{P}^{-1})^T =
+  \mathbf{Q} \mathbf{\Lambda}^{1/2} \mathbf{Q}^{-1}
+    \mathbf{Q} \mathbf{\Lambda}^{1/2} \mathbf{Q}^T =
+  \mathbf{Q} \mathbf{\Lambda}^{1/2} \mathbf{Q}^T
+    \mathbf{Q} \mathbf{\Lambda}^{1/2} \mathbf{Q}^T
 $$
 
-$$
-\mathbf{K} = \mathbf{\Lambda}^{1/2} \mathbf{Q}^T,
-$$
+Igualando $\mathbf{P}^{-1} = \mathbf{Q} \mathbf{\Lambda}^{1/2} \mathbf{Q}^T$,
+tenemos que
+$(\mathbf{P}^{-1})^T = \mathbf{Q} \mathbf{\Lambda}^{1/2} \mathbf{Q}^T$
+y por tanto $\mathbf{P}^{-1} = (\mathbf{P}^{-1})^T$. Luego 
+$\mathbf{P}^{-1} = \mathbf{Q} \mathbf{\Lambda}^{1/2} \mathbf{Q}^T$ es una
+solución que hace a $\mathbf{P}^{-1}$ simétrica.
 
-y
+### Comprobación de la simetría de $\mathbf{S} \mathbf{P}^{-1}$
+
+Comprobamos si el producto $\mathbf{S} \mathbf{P}^{-1}$ da lugar a una matriz
+simétrica.
 
 $$
-\mathbf{P} = \mathbf{S} ((\mathbf{\Lambda}^{1/2} \mathbf{Q}^T)^{-1})^T
-$$
-
-$$
-\mathbf{P} = \mathbf{S} ((\mathbf{Q}^T)^{-1} \mathbf{\Lambda}^{-1/2})^T
+\mathbf{S} \mathbf{P}^{-1} =
+  \mathbf{S} \mathbf{Q} \mathbf{\Lambda}^{1/2} \mathbf{Q}^T
 $$
 
 $$
-\mathbf{P} = \mathbf{S} \mathbf{\Lambda}^{-1/2} \mathbf{Q}^{-1}
+(\mathbf{S} \mathbf{P}^{-1})^T =
+  (\mathbf{P}^{-1})^T \mathbf{S}^T = \mathbf{P}^{-1} \mathbf{S}
 $$
 
-# Ejemplos
+$$
+(\mathbf{S} \mathbf{P}^{-1})^T =
+  (\mathbf{S} \mathbf{Q} \mathbf{\Lambda}^{1/2} \mathbf{Q}^T)^T =
+  (\mathbf{Q}^T)^T (\mathbf{\Lambda}^{1/2})^T \mathbf{Q}^T \mathbf{S}^T =
+  \mathbf{Q} \mathbf{\Lambda}^{1/2} \mathbf{Q}^T \mathbf{S}
+$$
 
-## Ejemplo en $\mathbb{R}^2$
+$$
+\mathbf{P}^{-1} \mathbf{S} =
+  \mathbf{Q} \mathbf{\Lambda}^{1/2} \mathbf{Q}^T \mathbf{S}
+$$
 
-Usamos el ejemplo con la correlación del borrador, y covarianzas de 2 y 3.
+Según este resultado,
+$(\mathbf{S} \mathbf{P}^{-1})^T = \mathbf{S} \mathbf{P}^{-1}$, pero esto no
+demuestra que $\mathbf{S} \mathbf{P}^{-1}$ sea simétrica ni que $\mathbf{S}$ y
+$\mathbf{P}^{-1}$ sean conmutativas (ver
+[aquí un contraejemplo](https://math.vanderbilt.edu/sapirmv/msapir/jan22.html)
+).
 
-```{r 2-dim-example}
-corr_matrix <- c(1, .5, .5, 1) |> matrix(ncol = 2)
-std_devs    <- c(2, 3) |> sqrt() |> diag()
-cov_matrix  <- std_devs %*% corr_matrix %*% std_devs
+Podemos utilizar las siguientes propiedades: Sabemos que $\mathbf{S}$ y
+$\mathbf{P}$ son semidefinidas positivas[^P_SDP]. Dado que $\mathbf{P}$ es
+semidefinida positiva, $\mathbf{P}^{-1}$ también lo es. Según
+[Meensakshi & Rakian, 1999](https://core.ac.uk/download/pdf/82822897.pdf)
+(referenciado en
+[esta respuesta en Math StackExchange](https://math.stackexchange.com/a/483930)
+), la condición para que $\mathbf{S} \mathbf{P}^{-1}$ sea simétrica es que
+$\mathbf{S} \mathbf{P}^{-1}$ sea "normal", es decir, que
+$\mathbf{S} \mathbf{P}^{-1} (\mathbf{S} \mathbf{P}^{-1})^T =
+  (\mathbf{S} \mathbf{P}^{-1})^T \mathbf{S} \mathbf{P}^{-1}$.
+Ahora bien,
 
-## Comprobación:
-cov_matrix |> cov2cor()
-```
+[^P_SDP]: Estoy asumiendo que $\mathbf{P}$ es semidefinida positiva porque
+$\mathbf{R}$ lo es, y $\mathbf{P}T \mathbf{P} = \mathbf{R}$. Puede que haya un
+salto inferencial aquí (i.e., que sea necesario demostrar que $\mathbf{P}$ es
+semidefinida positiva).
 
+$$
+\mathbf{S} \mathbf{P}^{-1} (\mathbf{S} \mathbf{P}^{-1})^T =
+  \mathbf{S} \mathbf{P}^{-1} (\mathbf{P}^{-1})^T \mathbf{S}^T =
+  \mathbf{S} \mathbf{P}^{-1} (\mathbf{P}^{-1})^T \mathbf{S} =
+  \mathbf{\Sigma}.
+$$
 
-```{r basis-computation}
-```
+Como $\mathbf{\Sigma}$ es simétrica (y semidefinida positiva),
+el producto $\mathbf{S} \mathbf{P}^{-1}$ es conmutativo. Comprobamos no obstante
+la propiedad de "normalidad" de $\mathbf{S} \mathbf{P}^{-1}$:
 
-## Ejemplo en $\mathbb{R}^3$
+$$
+\mathbf{S} \mathbf{P}^{-1} (\mathbf{S} \mathbf{P}^{-1})^T =
+  \mathbf{S} \mathbf{Q} \mathbf{\Lambda}^{1/2} \mathbf{Q}^T
+    (\mathbf{S} \mathbf{Q} \mathbf{\Lambda}^{1/2} \mathbf{Q}^T)^T =
+  \mathbf{S} \mathbf{Q} \mathbf{\Lambda}^{1/2} \mathbf{Q}^T
+    (\mathbf{Q}^T)^T \mathbf{\Lambda}^{1/2}^T \mathbf{Q}^T \mathbf{S}^T =
+  \mathbf{S} \mathbf{Q} \mathbf{\Lambda}^{1/2} \mathbf{Q}^T
+    \mathbf{Q} \mathbf{\Lambda}^{1/2} \mathbf{Q}^T \mathbf{S} =
+  \mathbf{S} \mathbf{Q} \mathbf{\Lambda} \mathbf{Q}^T \mathbf{S} =
+  \mathbf{S} \mathbf{R} \mathbf{S} =
+  \mathbf{\Sigma}
+$$
 
-Usamos el ejemplo propuesto por Mario.
+$$
+(\mathbf{S} \mathbf{P}^{-1})^T \mathbf{S} \mathbf{P}^{-1} =
+  (\mathbf{S} \mathbf{Q} \mathbf{\Lambda}^{1/2} \mathbf{Q}^T)^T
+    \mathbf{S} \mathbf{Q} \mathbf{\Lambda}^{1/2} \mathbf{Q}^T =
+  (\mathbf{Q}^T)^T \mathbf{\Lambda}^{1/2}^T \mathbf{Q}^T \mathbf{S}^T
+    \mathbf{S} \mathbf{Q} \mathbf{\Lambda}^{1/2} \mathbf{Q}^T =
+  \mathbf{Q} \mathbf{\Lambda}^{1/2} \mathbf{Q}^T \mathbf{S}
+    \mathbf{S} \mathbf{Q} \mathbf{\Lambda}^{1/2} \mathbf{Q}^T =
+  \mathbf{P}^{-1} \mathbf{S}^2 (\mathbf{P}^{-1})^T
+$$
 
-```{r 3-dim-example}
-corr_matrix <- c(1, .5, .8, .5, 1, .6, .8, .6, 1) |> matrix(ncol = 3)
-std_devs    <- c(2, 5, 3) |> diag()
-cov_matrix  <- std_devs %*% corr_matrix %*% std_devs
+Esto no parece fácil de demostrar, por desgracia. La ecuación anterior, sin
+embargo, nos permite aplicar el resultado al que queríamos llegar, ya que
+obtenemos que la distribución de rasgos latentes transformada,
+$\mathbf{\theta}^\mathcal{E}$, tiene por matriz de covarianzas $\mathbf{S}^2$.
 
-## Comprobación:
-cov_matrix |> cov2cor()
-```
-
-```{r basis-computation}
-```
+$$
+\mathbf{\Sigma}^\mathcal{E} = \mathbf{P} \mathbf{S}^2 \mathbf{P}^T
+  \mathbf{P} \mathbf{P}^{-1} \mathbf{S}^2 (\mathbf{P}^{-1})^T \mathbf{P}^T =
+  \mathbf{S}^2
+$$
