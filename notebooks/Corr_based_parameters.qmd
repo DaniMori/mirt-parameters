@@ -400,3 +400,91 @@ corr_matrix %*% std_devs
 std_devs %*% corr_matrix
 ```
 
+# Aproximación alternativa
+
+Tras ver que no hay solución basada en encontrar una matriz $\mathbf{P}$
+simétrica, tal y como esperaba, planteo el siguiente nuevo enfoque para la
+versión basada en la matriz de correlaciones:
+
+La versión de los índices basada en la covarianza tiene el problema de que los
+parámetros de discriminación "marginales" (i.e. los $a_{ik}$) no tienen escala
+invariante. Concretamente, si un ítem mide solamente la dimeensión $k$,
+$MDISC_\mathbf{\Sigma} = \sigma_k a_{ik}$, en lugar de $a_{ik}$.
+
+Se puede justificar el uso de $\mathbf{R}$ buscando una solución que cumpla esa
+propiedad, pero teniendo en cuenta (parcialmente) la estructura del espacio
+latente.
+
+Supongamos una matriz $\mathbf{K}$ tal que
+$\mathbf{K} \mathbf{\Sigma} \mathbf{K}^T = \mathbf{I}$, es decir, llamamos a la
+raíz de $\mathbf{\Sigma}^-1$ $\mathbf{K}$ en lugar de $\mathbf{P}$.
+
+Supongamos que $\mathbf{K} = \mathbf{P} \mathbf{S}^{-1}$. Tenemos entonces que
+
+$$
+\mathbf{P} \mathbf{S}^{-1} \mathbf{\Sigma} \mathbf{S}^{-1} \mathbf{P}^T =
+  \mathbf{P} \mathbf{S}^{-1}
+    \mathbf{S} \mathbf{R} \mathbf{S}
+    \mathbf{S}^{-1} \mathbf{P}^T =
+  \mathbf{P} \mathbf{R} \mathbf{P}^T
+$$
+
+Por lo tanto,
+$\mathbf{R} = (\mathbf{P}^{-1})^T \mathbf{P}^{-1} = \mathbf{M}^{-1}$.
+
+Por otro lado,
+
+$$
+\mathbf{\Sigma} = \mathbf{S} (\mathbf{P}^{-1})^T \mathbf{P}^{-1} \mathbf{S}
+$$
+
+La matriz de covarianzas transformada es, simplemente,
+
+$$
+\mathbf{\Sigma}^\mathcal{U} =
+  \mathbf{P} \mathbf{S}
+    (\mathbf{P}^{-1})^T \mathbf{P}^{-1}
+    \mathbf{S} \mathbf{P}^T
+$$
+
+lo cual no admite simplificación (y tendrá la matriz de correlaciones que le
+corresponda, la cual en general no será una matriz identidad).
+
+En base a esta propuesta, se pueden justificar los parámetros basados en la
+correlación, pero sin llegar a ninguna solución que tenga "propiedades
+deseables" desde el punto de vista del espacio latente. No obstante, sí tiene
+propiedades deseables desde el punto de vista de los parámetros
+multidimensionales, ya que cumple la "propiedad 1" de Reckase. Luego se puede
+justificar a partir del incumplimiento de dicha propiedad por parte de la
+versión "basada en la covarianza".
+
+## Ejemplo
+
+Veamos cómo quedan las matrices en el ejemplo anterior. Al no haber definido
+ninguna propiedad en específico para la matriz de transformación, nos vale
+cualquiera, por lo que utilizaremos el ejemplo calculado anteriormente con la
+descomposición espectral.
+
+```{r 2d-example-correlation}
+# Comprobación: matriz de correlaciones
+
+P_inv %*% t(P_inv) # Raíz de la correlación
+
+P <- P_inv |> solve()
+P %*% corr_matrix %*% t(P) |> round(3) # Matriz identidad
+
+# Comprobación: matriz de covarianzas
+
+K <- P %*% solve(std_devs)
+K_inv <- K |> solve()
+
+K_inv %*% t(K_inv) # Raíz de la covarianza
+
+
+K %*% cov_matrix %*% t(K) |> round(3) # Matriz identidad
+
+# Resultado: rasgos latentes transformados
+cov_transf <- P %*% cov_matrix %*% t(P)
+cov_transf # Covarianza
+cov_transf |> cov2cor() # Correlación
+```
