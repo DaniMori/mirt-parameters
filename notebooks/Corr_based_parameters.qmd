@@ -15,7 +15,7 @@ respecto a cómo supuestamente obtener la base "verdadera" del espacio test
 (en base a la descomposición espectral), creo que se puede encontrar una base
 en el espacio test que cumpla esa relación.
 
-# Deducción
+# Solución basada en matriz simétrica mediante descomposición espectral
 
 ## Supuestos iniciales
 
@@ -334,3 +334,39 @@ $$
   \mathbf{P} \mathbf{P}^{-1} \mathbf{S}^2 (\mathbf{P}^{-1})^T \mathbf{P}^T =
   \mathbf{S}^2
 $$
+
+## Contraejemplo
+
+Lo anterior parece contener razonamientos circulares, por lo que no está claro
+que sea correcto. Vamos a probar con uno de los ejemplos que sabemos que pueden
+ser problemáticos, es decir, cuando las varianzas son desiguales.
+
+```{r 2d-example}
+corr_matrix <- c(1, .5, .5, 1) |> matrix(ncol = 2)
+std_devs    <- c(2, 3) |> diag()
+cov_matrix  <- std_devs %*% corr_matrix %*% std_devs
+
+corr_matrix
+std_devs
+
+cov_matrix <- std_devs %*% corr_matrix %*% std_devs
+cov_matrix
+
+
+eigendecomposition <- corr_matrix |> eigen()
+lambda             <- eigendecomposition$values
+Q                  <- eigendecomposition$vectors
+
+# Base calculada:
+lambda_sqrt <- eigendecomposition$values |> sqrt() |> diag()
+
+P_inv <- Q %*% lambda_sqrt %*% solve(Q)
+
+# Comprobación de la simetría y conmutatividad:
+std_devs %*% P_inv # No es simétrica
+P_inv %*% std_devs # No es conmutativa
+```
+
+Vemos que, en general, no se cumplen las condiciones de simetría y
+conmutatividad, por lo que la solución no es correct.
+
