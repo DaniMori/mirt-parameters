@@ -417,11 +417,11 @@ $`r INNER_PROD_MATRIX_ALT_EQ`$.
 
 By proposition 1, for each case we have:
 
-1. $`r TRAIT_VEC_ORTH_POLAR_EQ`$
+i. $`r TRAIT_VEC_ORTH_POLAR_EQ`$
 
-1. $`r TRAIT_VECTOR_POLAR_EQ`$
+i. $`r TRAIT_VECTOR_POLAR_EQ`$
 
-1. $`r TRAIT_VEC_ALT_POLAR_EQ`$
+i. $`r TRAIT_VEC_ALT_POLAR_EQ`$
 
 Given 1,
 
