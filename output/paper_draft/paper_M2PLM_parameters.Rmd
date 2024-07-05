@@ -532,7 +532,7 @@ Therefore, substituting in \@ref(eq:slope-max),
   `r SLOPE_MAX_STD_COSINES_EQ`.                     (\#eq:slope-max-std-cosines)
 \end{equation}
 
-As $`r DISCR_VECTOR`$ is defined in test space $`r TEST_SPACE`$ with basis
+As $`r DISCR_VECTOR`$ is defined in space $`r TEST_SPACE`$ with basis
 $`r TEST_SPACE_BASIS`$, its algebraic vector values correspond to its
 coordinates, i.e., $`r DISCR_VECTOR_COORDS_EQ`$. Therefore, by Equation
 \@ref(eq:discr-vector-std),
