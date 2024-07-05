@@ -802,6 +802,14 @@ as we will see later.
 
 ## Properties of the parameters
 
+We have seen how the two new versions of the parameters fulfill
+the three conditions proposed by @reckase_discriminating_1991
+for valid generalizations of the IRT parameters to the multidimensional case,
+being the scale invariance of the $`r MDISC_COV_PARAM`$ the only exception.
+We will consider now two more properties,
+related to each of the two components of the $`r MIL_PARAM`$ parameter,
+namely, the distance to the origin, and the measurement direction.
+
 The (signed) distance to the origin,
 given by the first component of $`r MIL_PARAM`$, has an interesting property:
 By the definition of the inner product,
