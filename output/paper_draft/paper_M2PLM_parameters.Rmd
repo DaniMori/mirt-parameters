@@ -187,7 +187,7 @@ Then, we follow the method outlined by @reckase_difficulty_1985 and
 @reckase_discriminating_1991 to obtain
 the formulation of the multidimensional parameters.
 We will introduce three different versions,
-showing that either the original or one of one of the new ones is obtained
+showing that either the original or one of the new ones is obtained
 as a function of how we define and interpret the latent space.
 Next, we discuss their properties,
 propose a graphical representation method based on the new formulation,
