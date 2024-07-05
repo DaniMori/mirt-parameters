@@ -145,7 +145,7 @@ non-null covariances among latent dimensions, as well as non-standard scales.
 Assuming orthonormality among traits is usually unrealistic, be it in the
 cognitive [e.g., @reckase_multidimensional_2009] or the non-cognitive domain<!--# Reference to example? -->.
 Moreover, certain applications impose the estimation of
-non-identity latent covariance matrices (e.g. multigroup equating) even when<!-- # Reference needed? -->
+non-identity latent covariance matrices (e.g., multigroup equating) even when<!-- # Reference needed? -->
 interpreting the latent dimensions as substantive constructs is not a goal.
 As we will argue, the usual definitions of the MID and MDISC parameters
 do not generalize to the non-orthonormal geometry
@@ -223,7 +223,7 @@ with an increase in ability makes little sense].
 In our case, $`r DISCR_VECTOR`$ is a vector of real numbers; the value
 of the $`r DIM_INDEX`$-th component $`r DISCR_PARAM`$ can be negative if
 the item is *inverse* for (i.e., taps the negative pole of)
-latent dimension $`r DIM_INDEX`$ (e.g. a negatively-keyed item).
+latent dimension $`r DIM_INDEX`$ (e.g., a negatively-keyed item).
 Finally, as responses are not necessarily interpreted as correct or incorrect,
 parameter $`r INTERCEPT_PARAM`$ is said to be related to the item _location_
 instead of the item difficulty.
@@ -755,6 +755,51 @@ This transformation may be made in the unidimensional case as well,
 thus finding a *standard-metric* discrimination parameter
 (i.e., referred to a unitary variance space).
 
+### Correlation-based version
+
+Despite $`r MDISC_COV_PARAM`$ not being scale-invariant,
+we have argued that it is still a valid generalization of the IRT parameters.
+However, it may be convenient to find yet another generalization,
+one that accounts for the latent space structure
+while still fulfilling this property.
+To do this, let's assume a matrix $`r TRANSFORM_MATRIX_AUX_EQ`$, such that
+$`r TRANSFORM_MATRIX_AUX_RESULT`$.
+Then, we have that
+
+$$
+  `r CORR_BASED_DERIVATION`.
+$$
+
+That is, defining $`r TRANSFORM_MATRIX`$ as
+$`r TRANSFORM_MATRIX_CORR_BASED_DEF`$ can be interpreted as re-scaling
+the transformed parameter back to its original metric.
+In this case, we get that $`r INNER_PROD_CORR_COND`$.
+Therefore, we can also define a *correlation-based* version of the
+multidimensional parameters as
+
+\begin{equation}
+  \begin{split}
+    `r MDISC_CORR_PARAM_EQ` \\
+    `r MIL_CORR_PARAM_EQ`.
+  \end{split}
+\end{equation}
+
+As we can see, this version also fulfills the scale invariance property,
+as the $`r INNER_PROD_MAT_INV_DIAG_ELEMENT`$ elements are
+the diagonal elements of $`r CORR_MATRIX`$, which are always equal to 1.
+It is important to note though that this transformation does not have
+an also desirable property,
+which we have used to justify the covariance-based version:
+The $`r TRAIT_ORTH_COORDS`$ coordinates resulting from transforming
+$`r TRAIT_COORDS`$ to the orthonormal basis $`r LS_ORTH_BASIS`$
+are not generally uncorrelated, as one would expect
+(save some exceptions, e.g., when all the variances are equal).
+Nevertheless, it is important to note how the $`r MDISC_CORR_PARAM`$ accounts
+for the correlation structure of the latent space
+while still being scale invariant.
+This will be very useful for the purpose of representing the items graphically,
+as we will see later.
+
 ## Properties of the parameters
 
 The (signed) distance to the origin,
@@ -1095,7 +1140,7 @@ substantial effect in the resulting values and interpretation of the parameters,
 something not contemplated by the original
 (hereby referred to as agnostic) version.
 Moreover, in applications where the latent space structure is critical
-(e.g. multi-group IRT, equating, and linking),
+(e.g., multi-group IRT, equating, and linking),
 the agnostic version may overlook relevant differences in
 the values of the multidimensional parameters.
 Thus, the covariance structure of the latent space should be considered
