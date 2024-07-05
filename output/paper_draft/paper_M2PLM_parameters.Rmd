@@ -672,7 +672,7 @@ to the expressions derived by @reckase_difficulty_1985
 and @reckase_discriminating_1991.
 As these expressions implicitly assume the orthonormality of $`r LS_BASIS`$,
 which bears no meaning besides its pure algebraic purpose,
-we shall refer to them as the *agnostic* version of the indices:
+we shall refer to them as the *agnostic* version of the parameters:
 
 \begin{equation}
   \begin{split}
@@ -714,7 +714,7 @@ Applying Equation \@ref(eq:change-basis), $`r COV_MATRIX_TRANSF_EQ`$, and thus,
 Therefore, we may define $`r TRANSFORM_MATRIX`$ such that
 $`r INNER_PROD_COV_COND`$;
 in this case, $`r DIAG_MATRIX_INNER_PROD_INV_VAR_EQ`$, resulting in a
-*covariance-based* version of the indices:
+*covariance-based* version of the parameters:
 
 \begin{equation}
   \begin{split}
@@ -764,7 +764,7 @@ its measurement direction forwards or backwards with respect to the origin.
 The measurement direction is given by the signs of $`r DIR_COS_ITEM_VEC`$ which,
 also due to the strict positivity of $`r MDISC_SYM`$,
 are equal to the signs of $`r DISCR_VECTOR`$.
-This property leads directly to generalizing the indices to the monotonically
+This property leads directly to generalizing the parameters to the monotonically
 non-increasing case: The measurement direction relative to dimension
 $`r DIM_INDEX`$ will be negative when $`r IRF_ABBR`$ is
 monotonically decreasing with respect to variations along $`r TRAIT_COMPONENT`$.
@@ -775,7 +775,7 @@ However, note that this does not necessarily imply that the vector is
 parallel to any other axis or strictly contained in the hyperplane formed
 by other axes; this will always be true for the $`r MIL_AG_PARAM`$ due to the
 orthogonality assumption, but it will depend on the correlation matrix
-$`r CORR_MATRIX`$ for the other two versions of the index.
+$`r CORR_MATRIX`$ for the other two versions of the parameter.
 
 ## Graphical representation
 
@@ -814,7 +814,7 @@ and the items by transforming their coordinates to
 a rectangular Cartesian system.
 However, to facilitate the interpretation,
 we want to avoid changing the scaling of the parameters.
-We will thus prefer the correlation-based over the covariance-based indices.
+We will thus prefer the correlation-based over the covariance-based parameters.
 Thus, we define $`r TRANSFORM_MATRIX`$ such that
 $`r TRANSFORM_MATRIX_TRANSP_INV`$ is a square root matrix of $`r CORR_MATRIX`$.
 
@@ -1099,7 +1099,7 @@ when computing the multidimensional parameters of a MIRT model.
 With that purpose in mind, we have defined two versions of these parameters:
 One that takes into account the whole covariance structure,
 and another one that only considers the correlations among latent dimensions.
-The covariance-based index has the drawback of not fulfilling
+The covariance-based parameter has the drawback of not fulfilling
 the first of @reckase_discriminating_1991's properties, namely,
 that $`r MDISC_UNIDIM_EQ`$ if an item only measures dimension $`r DIM_INDEX`$.
 However, we have provided a rationale for the violation of this property,
