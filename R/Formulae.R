@@ -251,16 +251,13 @@ INNER_PROD_MATRIX_INDEX    <- latex(AUX_INDEX, DIM_INDEX, .sep = SEP_COMMA)
 TEST_SPACE   <- latex_bf("A")
 REAL_N_SPACE <- latex_raised_to("\\mathbb{R}", exp = N_DIMS)
 
-# Discrimination vector coordinates:
-TEST_SPACE_BASIS        <- latex_cal("B^*")
-DISCR_COORDS            <- latex_raised_to(DISCR_VECTOR, exp = TEST_SPACE_BASIS)
+# Discrimination vector coordinates (in transformed basis):
 TEST_SPACE_STD_BASIS    <- latex_cal("U^*")
 DISCR_STD_COORDS    <- latex_raised_to(DISCR_VECTOR, exp = TEST_SPACE_STD_BASIS)
 DISCR_STD_COORDS_ALT <- latex_coords(DISCR_VECTOR, basis = TEST_SPACE_STD_BASIS)
 DISCR_STD_COORDS_ALT_EQ <- latex_eq(DISCR_STD_COORDS, DISCR_STD_COORDS_ALT)
 
 # Invariance assumption:
-DISCR_COORDS_TRANSP         <- latex_transp(DISCR_COORDS)
 DISCR_STD_COORDS_TRANSP     <- latex_transp(DISCR_STD_COORDS)
 DISCR_TRAIT_STD_COORDS_PROD <- latex(DISCR_STD_COORDS_TRANSP, TRAIT_ORTH_COORDS)
 DISCR_STD_TRANSF_TRAIT_PROD <- latex(DISCR_STD_COORDS_TRANSP, TRAIT_TRANSFORM)
@@ -270,14 +267,11 @@ INVARIANCE_EQ               <- latex_eq(
   DISCR_STD_TRANSF_TRAIT_PROD
 )
 
-# Standardized discrimination vector:
-TRANSFORM_MATRIX_INV        <- latex_inverse(TRANSFORM_MATRIX)
-TRANSFORM_MATRIX_TRANSP_INV <- latex_transp("{$TRANSFORM_MATRIX_INV$}")
-DISCR_STD_COORDS_DEF        <- latex(TRANSFORM_MATRIX_TRANSP_INV, DISCR_COORDS)
-DISCR_STD_COORDS_EQ         <- latex_eq(
-  DISCR_STD_COORDS,
-  DISCR_STD_COORDS_DEF
-)
+# Discrimination vector coordinates (in original basis):
+TEST_SPACE_BASIS    <- latex_cal("B^*")
+DISCR_COORDS        <- latex_raised_to(DISCR_VECTOR, exp = TEST_SPACE_BASIS)
+DISCR_COORDS_ALT    <- latex_coords(DISCR_VECTOR, basis = TEST_SPACE_BASIS)
+DISCR_COORDS_ALT_EQ <- latex_eq(DISCR_COORDS, DISCR_COORDS_ALT)
 
 # Test space basis:
 ITEM_BASIS_VECTOR_EL      <- latex('v')
@@ -292,17 +286,14 @@ TEST_SPACE_BASIS_ELEMENTS <- latex_enum(
 TEST_SPACE_BASIS_SET      <- latex_curlybraces(TEST_SPACE_BASIS_ELEMENTS)
 TEST_SPACE_BASIS_EQ       <- latex_eq(TEST_SPACE_BASIS, TEST_SPACE_BASIS_SET)
 
-# Inner product:
-TEST_SPACE_INNER_PROD <- latex_innerprod(basis = TEST_SPACE_BASIS)
-DISCR_VECTOR_AUX      <- latex_sub(DISCR_VECTOR_ANY, DIM_INDEX)
-DISCR_COORDS_AUX    <- latex_raised_to(DISCR_VECTOR_AUX, exp = TEST_SPACE_BASIS)
-INNER_PROD_DISCR      <- latex_innerprod(DISCR_VECTOR, DISCR_VECTOR_AUX)
-INNER_PROD_DISCR_DEF  <- latex(
-  DISCR_COORDS_TRANSP,
-  INNER_PROD_MATRIX_INV,
-  DISCR_COORDS_AUX
+# Standardized discrimination vector:
+TRANSFORM_MATRIX_INV        <- latex_inverse(TRANSFORM_MATRIX)
+TRANSFORM_MATRIX_TRANSP_INV <- latex_transp("{$TRANSFORM_MATRIX_INV$}")
+DISCR_STD_COORDS_DEF        <- latex(TRANSFORM_MATRIX_TRANSP_INV, DISCR_COORDS)
+DISCR_STD_COORDS_EQ         <- latex_eq(
+  DISCR_STD_COORDS,
+  DISCR_STD_COORDS_DEF
 )
-INNER_PROD_DISCR_EQ  <- latex_eq(INNER_PROD_DISCR, INNER_PROD_DISCR_DEF)
 
 # Inverse inner product matrix:
 INNER_PROD_MATRIX_INV       <- latex_inverse(INNER_PROD_MATRIX)
@@ -319,6 +310,7 @@ INNER_PROD_MATRIX_INV_EQ    <- latex_eq(
 DISCR_VECTOR_MODULE      <- latex_norm(DISCR_VECTOR)
 DISCR_VECTOR_MODULE_SQ   <- latex_squared(DISCR_VECTOR_MODULE)
 DISCR_VECTOR_PROD        <- latex(DISCR_STD_COORDS_TRANSP, DISCR_STD_COORDS)
+DISCR_COORDS_TRANSP      <- latex_transp(DISCR_COORDS)
 DISCR_VECTOR_TRANSF_PROD <- latex(
   DISCR_COORDS_TRANSP,
   TRANSFORM_MATRIX_INV,
@@ -336,6 +328,18 @@ DISCR_VECTOR_MODULE_EQ   <- latex_eq(
   DISCR_VECTOR_TRANSF_PROD,
   DISCR_VECTOR_INNER_PROD
 )
+
+# Inner product:
+TEST_SPACE_INNER_PROD <- latex_innerprod(basis = TEST_SPACE_BASIS)
+DISCR_VECTOR_AUX      <- latex_sub(DISCR_VECTOR_ANY, DIM_INDEX)
+DISCR_COORDS_AUX    <- latex_raised_to(DISCR_VECTOR_AUX, exp = TEST_SPACE_BASIS)
+INNER_PROD_DISCR      <- latex_innerprod(DISCR_VECTOR, DISCR_VECTOR_AUX)
+INNER_PROD_DISCR_DEF  <- latex(
+  DISCR_COORDS_TRANSP,
+  INNER_PROD_MATRIX_INV,
+  DISCR_COORDS_AUX
+)
+INNER_PROD_DISCR_EQ  <- latex_eq(INNER_PROD_DISCR, INNER_PROD_DISCR_DEF)
 
 ### Direction cosines ----
 

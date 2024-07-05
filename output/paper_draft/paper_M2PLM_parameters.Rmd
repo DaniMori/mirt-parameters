@@ -295,7 +295,8 @@ defined by
   `r DISCR_STD_COORDS_EQ`,                               (\#eq:discr-vector-std)
 \end{equation}
 
-with $`r TRANSFORM_MATRIX_TRANSP_INV`$ a change of basis matrix.
+with $`r DISCR_COORDS_ALT_EQ`$, and
+$`r TRANSFORM_MATRIX_TRANSP_INV`$ a change of basis matrix.
 Note that $`r TRANSFORM_MATRIX_TRANSP_INV`$ determines $`r TEST_SPACE_BASIS`$.
 
 To make @reckase_difficulty_1985's definition a particular case of ours
