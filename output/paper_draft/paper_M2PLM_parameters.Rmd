@@ -855,6 +855,8 @@ in terms of their multidimensional parameters [@ackerman_graphical_1996]:
 An item vector will be applied at a direction and (signed) distance
 from the origin of the coordinate system given by its $`r MIL_PARAM`$ parameter
 and will have a length equal to its $`r MDISC_SYM`$ parameter.
+Its direction will also be given by the direction component of $`r MIL_PARAM`$,
+so its orientation will always pass through the origin.
 
 As plotting more than two dimensions is difficult on a bidimensional display
 (and hardly possible at all for more than three dimensions with the
@@ -864,31 +866,22 @@ Plotting on a two-dimensional display usually requires providing
 coordinates in a rectangular Cartesian system.
 Therefore, we will need to compute the equivalent rectangular coordinates
 of our general, possibly non-rectangular coordinates.
-However, this implies pre-multiplying by $`r TRANSFORM_MATRIX`$,
-instead of $`r TRANSFORM_MATRIX_TRANSP_INV`$ as would be expected from
-Equation \@ref(eq:discr-vector-std).
-This is because computing the equivalent rectangular coordinates
-of the oblique ones is different from computing the item parameters
-transformed to an orthogonal space.
-While the latter implies rotating the axes to an orthogonal configuration and
-computing the new coordinates in these axes,
-the former implies transforming the space altogether along with the
-axes transformation.
+This implies pre-multiplying its coordinates in basis $`r LS_BASIS`$
+by $`r TRANSFORM_MATRIX_TRANSP_INV`$, to find
+the equivalent, orthonormalized coordinates.
 
-Therefore, we need to define a convenient value for $`r TRANSFORM_MATRIX`$
-that allows us to represent the test space structure
-and the items by transforming their coordinates to
-a rectangular Cartesian system.
+Therefore, we need to define
+a convenient value for $`r TRANSFORM_MATRIX_TRANSP_INV`$
+that allows us to represent the test space structure and the items
+in a rectangular Cartesian system.
 However, to facilitate the interpretation,
-we want to avoid changing the scaling of the parameters.
+we want to avoid changing the scale of the parameters.
 We will thus prefer the correlation-based over the covariance-based parameters.
-Thus, we define $`r TRANSFORM_MATRIX`$ such that
-$`r TRANSFORM_MATRIX_TRANSP_INV`$ is a square root matrix of $`r CORR_MATRIX`$.
+Thus, we define $`r TRANSFORM_MATRIX_TRANSP_INV`$
+to be a square root matrix of $`r CORR_MATRIX`$.
 
 The general procedure for plotting an item $`r ITEM_INDEX`$ consists of
 the following steps:
-
-1. Define $`r TRANSFORM_MATRIX`$ such that $`r TRANSF_MATRIX_SQ_CORR_INV_EQ`$.
 
 1. Compute $`r MDISC_CORR_PARAM_ITEM`$ and $`r MIL_CORR_PARAM_ITEM`$,
    the item $`r MDISC_CORR_PARAM`$ and $`r MIL_CORR_PARAM`$ parameters,
@@ -899,6 +892,9 @@ the following steps:
    component, respectively, of $`r MIL_CORR_PARAM_ITEM`$.
 
 1. Compute the end coordinates $`r END_ITEM_EQ`$.
+
+1. Define $`r TRANSFORM_MATRIX_TRANSP_INV`$ such that
+   $`r TRANSF_MATRIX_INV_SQ_CORR_EQ`$.
 
 1. Compute the rectangular coordinates
    $`r ORIGIN_ITEM_TRANSF`$ and $`r END_ITEM_TRANSF`$ by pre-multiplying

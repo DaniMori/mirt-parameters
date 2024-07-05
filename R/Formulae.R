@@ -1088,35 +1088,46 @@ SIGN_COS_VEC_ITEM_EQ <- latex_eq(SIGN_COS_VEC_ITEM, 0)
 
 ### Graphical representation: ----
 
-CORR_MATRIX_INV              <- latex_inverse(CORR_MATRIX) # TODO: Borrar (modificar rep. gráfica)?
-TRANSF_MATRIX_SQ_CORR_INV_EQ <- latex_eq(INNER_PROD_TRANSF_DEF, CORR_MATRIX_INV)
+# Item parameters:
 MDISC_CORR_PARAM_ITEM        <- latex_sub(
-  MDISC_SYM,
-  "$CORR_MATRIX$$ITEM_INDEX$"
+MDISC_SYM,
+"$CORR_MATRIX$$ITEM_INDEX$"
 )
 MIL_CORR_PARAM_ITEM          <- latex_sub(
   MIL_PARAM,
   "$CORR_MATRIX$$ITEM_INDEX$"
 )
 
+# Origin coordinates:
+CORR_MATRIX_INV     <- latex_inverse(CORR_MATRIX)
 ORIGIN              <- latex_bf('o')
 ORIGIN_ITEM         <- latex_sub(ORIGIN, ITEM_INDEX)
 DISTANCE_CORR_PARAM <- latex_sub(DISTANCE_SYM, "$CORR_MATRIX$$ITEM_INDEX$")
 DIR_CORR_PARAM      <- latex_sub(DIR_COS_VEC_TS,  "$CORR_MATRIX$$ITEM_INDEX$")
-ORIGIN_ITEM_COMP    <- latex(DISTANCE_CORR_PARAM, DIR_CORR_PARAM)
+ORIGIN_ITEM_COMP  <- latex(DISTANCE_CORR_PARAM, CORR_MATRIX_INV, DIR_CORR_PARAM)
 ORIGIN_ITEM_EQ      <- latex_eq(ORIGIN_ITEM, ORIGIN_ITEM_COMP)
 
+# End coordinates:
 END           <- latex_bf('e')
 END_ITEM      <- latex_sub(END, ITEM_INDEX)
-END_ITEM_COMP <- latex(ORIGIN_ITEM, '+', MDISC_CORR_PARAM_ITEM, DIR_CORR_PARAM)
+END_ITEM_COMP <- latex(
+  ORIGIN_ITEM,
+  '+',
+    MDISC_CORR_PARAM_ITEM,
+    CORR_MATRIX_INV,
+    DIR_CORR_PARAM
+)
 END_ITEM_EQ   <- latex_eq(END_ITEM, END_ITEM_COMP)
 
-ORIGIN_ITEM_TRANSF <- latex_prime(ORIGIN_ITEM)
-END_ITEM_TRANSF    <- latex_prime(END_ITEM)
+# Transform matrix:
+TRANSF_MATRIX_INV_SQ_CORR_EQ <- latex_eq(INNER_PROD_MATRIX_INV_DEF, CORR_MATRIX)
 
-ORIGIN_ITEM_TRANSF_DEF <- latex(TRANSFORM_MATRIX, ORIGIN_ITEM)
+# Coordinates transformed to orthogonal coordinates:
+ORIGIN_ITEM_TRANSF     <- latex_prime(ORIGIN_ITEM)
+ORIGIN_ITEM_TRANSF_DEF <- latex(TRANSFORM_MATRIX_TRANSP_INV, ORIGIN_ITEM)
 ORIGIN_ITEM_TRANSF_EQ  <- latex_eq(ORIGIN_ITEM_TRANSF, ORIGIN_ITEM_TRANSF_DEF)
-END_ITEM_TRANSF_DEF    <- latex(TRANSFORM_MATRIX, END_ITEM)
+END_ITEM_TRANSF        <- latex_prime(END_ITEM)
+END_ITEM_TRANSF_DEF    <- latex(TRANSFORM_MATRIX_TRANSP_INV, END_ITEM)
 END_ITEM_TRANSF_EQ     <- latex_eq(END_ITEM_TRANSF, END_ITEM_TRANSF_DEF)
 
 #### Graphical representation example: ----
