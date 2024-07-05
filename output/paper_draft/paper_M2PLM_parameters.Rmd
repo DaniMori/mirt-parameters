@@ -824,20 +824,24 @@ That is, the more discriminating the item is, the further away its location will
 be from the origin.
 
 The measurement direction is given by the signs of $`r DIR_COS_ITEM_VEC`$ which,
-also due to the strict positivity of $`r MDISC_SYM`$,
+also due to the strict positiveness of $`r MDISC_SYM`$,
 are equal to the signs of $`r DISCR_VECTOR`$.
-This property leads directly to generalizing the parameters to the monotonically
-non-increasing case: The measurement direction relative to dimension
-$`r DIM_INDEX`$ will be negative when $`r IRF_ABBR`$ is
-monotonically decreasing with respect to variations along $`r TRAIT_COMPONENT`$.
-When $`r IRF_ABBR`$ is constant with respect to
-variations along $`r TRAIT_COMPONENT`$, $`r SIGN_COS_VEC_ITEM_EQ`$,
+This property leads directly to generalizing
+the parameters to the monotonically non-increasing case:
+The measurement direction relative to dimension $`r DIM_INDEX`$
+will be negative when $`r IRF_ABBR`$ is monotonically decreasing
+with respect to variations along $`r TRAIT_COMPONENT`$.
+When $`r IRF_ABBR`$ is constant
+with respect to variations along $`r TRAIT_COMPONENT`$,
+$`r SIGN_COS_VEC_ITEM_EQ`$,
 which means that $`r MIL_PARAM`$ is orthogonal to the $`r DIM_INDEX`$-th axis.
-However, note that this does not necessarily imply that the vector is
-parallel to any other axis or strictly contained in the hyperplane formed
-by other axes; this will always be true for the $`r MIL_AG_PARAM`$ due to the
-orthogonality assumption, but it will depend on the correlation matrix
-$`r CORR_MATRIX`$ for the other two versions of the parameter.
+However, note that this does not necessarily imply that
+the vector is parallel to any other axis
+(or strictly contained in the hyperplane formed by other axes, for that matter);
+this will always be true for the $`r MIL_AG_PARAM`$ due to
+the orthogonality assumption,
+but it will depend on the correlation matrix $`r CORR_MATRIX`$
+for the other two versions of the parameter.
 
 ## Graphical representation
 
