@@ -230,8 +230,9 @@ INNER_PROD_TRANSF <- latex(
 INNER_PROD_EQ     <- latex_eq(INNER_PROD_TRAIT, INNER_PROD_TRANSF)
 
 # Inner product matrix element:
-INNER_PROD_MAT_ELEMENT     <- latex_sub(
-  'm',
+INNER_PROD_MAT_ELEMENT     <- latex('m')
+INNER_PROD_MAT_ELEMENT_ANY <- latex_sub(
+  INNER_PROD_MAT_ELEMENT,
   latex(AUX_INDEX, DIM_INDEX, .sep = NO_SEP)
 )
 BASIS_VECTOR_AUX           <- latex_sub(BASIS_VECTOR, AUX_INDEX)
@@ -240,7 +241,7 @@ INNER_PROD_MAT_ELEMENT_DEF <- latex_innerprod(
   BASIS_VECTOR_ANY
 )
 INNER_PROD_MAT_ELEMENT_EQ  <- latex_eq(
-  INNER_PROD_MAT_ELEMENT,
+  INNER_PROD_MAT_ELEMENT_ANY,
   INNER_PROD_MAT_ELEMENT_DEF
 )
 INNER_PROD_MATRIX_INDEX    <- latex(AUX_INDEX, DIM_INDEX, .sep = SEP_COMMA)
@@ -914,7 +915,9 @@ SD_MATRIX      <- latex_bf('S')
 COV_MATRIX_DEF <- latex(SD_MATRIX, CORR_MATRIX, SD_MATRIX)
 SD_ELEMENT     <- latex_sub('s', "$DIM_INDEX$$DIM_INDEX$")
 VAR_ELEMENT    <- latex_squared(SD_ELEMENT)
-COV_ELEMENT    <- latex_squared(latex_sub("\\sigma", "$DIM_INDEX$$DIM_INDEX$"))
+COV_SYMBOL     <- latex("\\sigma")
+COV_SYM_DIAG   <- COV_SYMBOL   |> latex_sub("$DIM_INDEX$$DIM_INDEX$")
+COV_ELEMENT    <- COV_SYM_DIAG |> latex_squared()
 VAR_COV_EQ     <- latex_eq(VAR_ELEMENT, COV_ELEMENT)
 COV_MATRIX_EQ  <- latex_eq(COV_MATRIX, COV_MATRIX_LS, COV_MATRIX_DEF)
 
@@ -937,7 +940,7 @@ COV_MATRIX_RESULT_EQ    <- latex_eq(
   INNER_PROD_MATRIX_INV
 )
 
-#### Covariance-based version of the indices: ----
+# Condition to meet:
 COV_MATRIX_INV      <- latex_inverse(COV_MATRIX)
 INNER_PROD_COV_COND <- latex_eq(INNER_PROD_MATRIX, COV_MATRIX_INV)
 
@@ -975,6 +978,30 @@ MIL_COV_PARAM_EQ                  <- latex_def(
   latex_curlybraces("$DISTANCE_COV_DEF$, $DIR_COS_ITEM_VEC_COV_DEF$")
 )
 
+# Covariance-based version properties:
+
+## Generalization from unidimensional IRT:
+MDISC_UNIDIM_EQ    <- latex_eq(MDISC_SYM, DISCR_PARAM)
+DIST_INTERCEPT_REL <- latex_eq(
+  INTERCEPT_PARAM,
+  "- $DISTANCE_PARAM$ $MDISC_SYM$"
+)
+
+# Scale invariance:
+DIAG_KTH_ELEMENT                <- latex(DIM_INDEX, DIM_INDEX, .sep = NO_SEP)
+INNER_PROD_MAT_INV_ELEMENT      <- INNER_PROD_MAT_ELEMENT     |> latex_inverse()
+INNER_PROD_MAT_INV_DIAG_ELEMENT <- INNER_PROD_MAT_INV_ELEMENT |>
+  latex_sub(DIAG_KTH_ELEMENT)
+MDISC_UNIDIM_GENERALIZED        <- latex(
+  INNER_PROD_MAT_INV_DIAG_ELEMENT,
+  DISCR_PARAM
+)
+
+## Scale invariance of the covariance-based MDISC:
+MDISC_UNIDIM_GENERALIZED_EQ <- latex_eq(MDISC_SYM, MDISC_UNIDIM_GENERALIZED)
+MDISC_COV_BASED_UNIDIM      <- latex(COV_SYM_DIAG, DISCR_PARAM)
+MDISC_COV_BASED_UNIDIM_EQ   <- latex_eq(MDISC_COV_PARAM, MDISC_COV_BASED_UNIDIM)
+
 #### Correlation-based version of the indices: ----
 
 ##TODO: Review (maybe delete) this block
@@ -1008,17 +1035,9 @@ MIL_CORR_PARAM_EQ         <- latex_def(
   latex_curlybraces("$DISTANCE_CORR_DEF$, $DIR_COS_ITEM_VEC_CORR_DEF$")
 )
 
-### Parameter properties: ----
+### Properties of the parameters: ----
 
-# Generalization from unidimensional IRT:
-MDISC_UNIDIM_EQ    <- latex_eq(MDISC_SYM, DISCR_PARAM)
-DIST_INTERCEPT_REL <- latex_eq(
-  INTERCEPT_PARAM,
-  "- $DISTANCE_PARAM$ $MDISC_SYM$"
-)
-DIAG_KTH_ELEMENT   <- latex(DIM_INDEX, DIM_INDEX, .sep = NO_SEP)
-
-# Director cosines:
+# Direction cosines:
 ANGLE_VECTORS_ITEM   <- latex_sub(ANGLE, "$ITEM_INDEX$$DIM_INDEX$")
 COS_VECTORS_ITEM     <- latex_cos(ANGLE_VECTORS_ITEM)
 SIGN_COS_VEC_ITEM    <- latex_sign(COS_VECTORS_ITEM, .par = TRUE)

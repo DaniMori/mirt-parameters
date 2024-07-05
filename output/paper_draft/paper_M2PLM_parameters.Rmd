@@ -683,6 +683,8 @@ we shall refer to them as the *agnostic* version of the parameters:
   \end{split}
 \end{equation}
 
+### Covariance-based version
+
 On the other hand, we can let the geometrical representation of
 the latent space $`r LATENT_SPACE`$ account for its covariance structure,
 thus giving $`r LS_BASIS`$ a statistical meaning
@@ -725,11 +727,9 @@ in this case, $`r DIAG_MATRIX_INNER_PROD_INV_VAR_EQ`$, resulting in a
   \end{split}
 \end{equation}
 
-## Properties of the parameters
-
-There are three conditions to meet for considering these parameters as
-a valid generalization of the (unidimensional) IRT parameters
-[@reckase_discriminating_1991]:
+According to @reckase_discriminating_1991, the multidimensional parameters must
+meet three conditions for being regarded as a valid generalization
+of the (unidimensional) IRT parameters:
 
 1. If an item measures only dimension $`r DIM_INDEX`$,
    then $`r MDISC_UNIDIM_EQ`$.
@@ -743,16 +743,19 @@ a valid generalization of the (unidimensional) IRT parameters
 The second property derives straightforwardly from
 Equation \@ref(eq:distance-param),
 and the third one is implicit in the definition of the $`r MDISC_SYM`$.
-Simple arithmetic can show that the first one holds whenever the
-$`r DIAG_KTH_ELEMENT`$-th element of $`r INNER_PROD_MATRIX_INV`$ equals 1.
-Therefore, both the agnostic and the correlation-based version fulfill it.
-The covariance-based version $`r MDISC_COV_PARAM`$ does not though,
-as $`r COV_ELEMENT`$ is not generally equal to 1.
-Nevertheless, it can be interpreted as a *scaled version* of the index,
+However, when an item measures only dimension $`r DIM_INDEX`$,
+simple arithmetic can show that $`r MDISC_UNIDIM_GENERALIZED_EQ`$.
+In the covariance-based case, this means that $`r MDISC_COV_BASED_UNIDIM_EQ`$
+and, as $`r COV_SYM_DIAG`$ is generally different from 1,
+$`r MDISC_COV_PARAM`$ does not fulfill the first property
+(we shall refer to this property as *scale invariance*, from now on).
+Nevertheless, it can be interpreted as a *scaled version* of the parameter,
 with the standard deviation of the corresponding dimension as scaling factor.
 This transformation may be made in the unidimensional case as well,
 thus finding a *standard-metric* discrimination parameter
 (i.e., referred to a unitary variance space).
+
+## Properties of the parameters
 
 The (signed) distance to the origin,
 given by the first component of $`r MIL_PARAM`$, has an interesting property:
