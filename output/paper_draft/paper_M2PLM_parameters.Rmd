@@ -275,7 +275,7 @@ the $`r INNER_PROD_MATRIX_INDEX`$-th element of $`r INNER_PROD_MATRIX`$. As
 $`r TRANSFORM_MATRIX`$ (and consequently $`r TRANSFORM_MATRIX_TRANSP`$) is
 invertible, so $`r INNER_PROD_MATRIX`$ is, and $`r INNER_PROD_MATRIX_INV_EQ`$.
 
-### Item response function invariance
+### Test space definition
 
 Let $`r TEST_SPACE`$ be the vector space made up by
 the set of $`r DISCR_VECTOR`$ vectors,
@@ -590,7 +590,7 @@ and thus, we have that
 
 # Results
 
-## Test space vs. latent space
+## Relationship between test space and latent space
 
 Before presenting the results about the parameters,
 we must make a few remarks regarding the vector space $`r TEST_SPACE`$.
