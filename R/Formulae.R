@@ -245,19 +245,6 @@ INNER_PROD_MAT_ELEMENT_EQ  <- latex_eq(
 )
 INNER_PROD_MATRIX_INDEX    <- latex(AUX_INDEX, DIM_INDEX, .sep = SEP_COMMA)
 
-# Inverse inner product matrix:
-INNER_PROD_MATRIX_INV       <- latex_inverse(INNER_PROD_MATRIX)
-TRANSFORM_MATRIX_INV        <- latex_inverse(TRANSFORM_MATRIX)
-TRANSFORM_MATRIX_TRANSP_INV <- latex_transp("{$TRANSFORM_MATRIX_INV$}")
-INNER_PROD_MATRIX_INV_DEF   <- latex(
-  TRANSFORM_MATRIX_INV,
-  TRANSFORM_MATRIX_TRANSP_INV
-)
-INNER_PROD_MATRIX_INV_EQ    <- latex_eq(
-  INNER_PROD_MATRIX_INV,
-  INNER_PROD_MATRIX_INV_DEF
-)
-
 ### Test space ----
 
 # Test space definition:
@@ -284,8 +271,10 @@ INVARIANCE_EQ               <- latex_eq(
 )
 
 # Standardized discrimination vector:
-DISCR_STD_COORDS_DEF <- latex(TRANSFORM_MATRIX_TRANSP_INV, DISCR_COORDS)
-DISCR_STD_COORDS_EQ  <- latex_eq(
+TRANSFORM_MATRIX_INV        <- latex_inverse(TRANSFORM_MATRIX)
+TRANSFORM_MATRIX_TRANSP_INV <- latex_transp("{$TRANSFORM_MATRIX_INV$}")
+DISCR_STD_COORDS_DEF        <- latex(TRANSFORM_MATRIX_TRANSP_INV, DISCR_COORDS)
+DISCR_STD_COORDS_EQ         <- latex_eq(
   DISCR_STD_COORDS,
   DISCR_STD_COORDS_DEF
 )
@@ -314,6 +303,17 @@ INNER_PROD_DISCR_DEF  <- latex(
   DISCR_COORDS_AUX
 )
 INNER_PROD_DISCR_EQ  <- latex_eq(INNER_PROD_DISCR, INNER_PROD_DISCR_DEF)
+
+# Inverse inner product matrix:
+INNER_PROD_MATRIX_INV       <- latex_inverse(INNER_PROD_MATRIX)
+INNER_PROD_MATRIX_INV_DEF   <- latex(
+  TRANSFORM_MATRIX_INV,
+  TRANSFORM_MATRIX_TRANSP_INV
+)
+INNER_PROD_MATRIX_INV_EQ    <- latex_eq(
+  INNER_PROD_MATRIX_INV,
+  INNER_PROD_MATRIX_INV_DEF
+)
 
 # Discrimination vector module:
 DISCR_VECTOR_MODULE      <- latex_norm(DISCR_VECTOR)

@@ -271,9 +271,7 @@ $`r LS_BASIS_INNER_PROD`$ as
 
 Thus, inner product $`r LS_BASIS_INNER_PROD`$ has $`r INNER_PROD_MAT_EQ`$ as
 Gram matrix, i.e., $`r INNER_PROD_EQ`$, with $`r INNER_PROD_MAT_ELEMENT_EQ`$ as
-the $`r INNER_PROD_MATRIX_INDEX`$-th element of $`r INNER_PROD_MATRIX`$. As
-$`r TRANSFORM_MATRIX`$ (and consequently $`r TRANSFORM_MATRIX_TRANSP`$) is
-invertible, so $`r INNER_PROD_MATRIX`$ is, and $`r INNER_PROD_MATRIX_INV_EQ`$.
+the $`r INNER_PROD_MATRIX_INDEX`$-th element of $`r INNER_PROD_MATRIX`$.
 
 ### Test space definition
 
@@ -304,6 +302,8 @@ To make @reckase_difficulty_1985's definition a particular case of ours
 we can conveniently assume that the inner product in
 $`r TEST_SPACE_STD_BASIS`$ is the dot product,
 as we did with $`r LS_ORTH_BASIS`$.
+As $`r TRANSFORM_MATRIX`$ (and consequently $`r TRANSFORM_MATRIX_TRANSP`$) is
+invertible, so $`r INNER_PROD_MATRIX`$ is, and $`r INNER_PROD_MATRIX_INV_EQ`$.
 The norm of $`r DISCR_VECTOR`$ thus fulfills
 
 \begin{equation}
