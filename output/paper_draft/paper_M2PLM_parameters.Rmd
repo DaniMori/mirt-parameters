@@ -661,12 +661,14 @@ However, as they depend on the inner product matrix $`r INNER_PROD_MATRIX`$,
 the choice we make of this matrix will lead us to different definitions of
 the parameters.
 
+### Agnostic version
+
 Up to this point,
 we have derived the maximum slope and its location in the latent space
 $`r LATENT_SPACE`$ independently of its basis $`r LS_BASIS`$.
-If we assume that $`r BASIS_EQ`$ or, more generally,
-that $`r LS_BASIS`$ is any orthonormal basis, $`r TRANSFORM_MATRIX`$ will be
-also orthonormal and thus $`r INNER_PROD_MAT_STD_EQ`$.
+If we assume that $`r LS_BASIS`$ is orthonormal, i.e., $`r BASIS_EQ`$,
+$`r TRANSFORM_MATRIX`$ will also be orthonormal
+and thus $`r INNER_PROD_MAT_STD_EQ`$.
 In such a case the multidimensional item location and discrimination simplify
 to the expressions derived by @reckase_difficulty_1985
 and @reckase_discriminating_1991.
