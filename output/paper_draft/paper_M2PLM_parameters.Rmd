@@ -818,6 +818,10 @@ Therefore, the sign of $`r DISTANCE_PARAM`$ is equal to
 the sign of $`r INTERCEPT_PARAM`$.
 The implication is that the item is displaced along
 its measurement direction forwards or backwards with respect to the origin.
+As the $`r MDISC_SYM`$ appears in the denominator of $`r DISTANCE_PARAM`$,
+the distance will be inversely proportional to the discrimination of the item.
+That is, the more discriminating the item is, the further away its location will
+be from the origin.
 
 The measurement direction is given by the signs of $`r DIR_COS_ITEM_VEC`$ which,
 also due to the strict positivity of $`r MDISC_SYM`$,
