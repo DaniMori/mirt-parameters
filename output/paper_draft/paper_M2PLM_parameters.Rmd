@@ -181,7 +181,8 @@ unchanging monotony. Additionally, we aim to provide a method for
 graphically representing these items in the fashion of @ackerman_creating_1994
 but taking the non-orthogonality of the coordinate axes into account.
 In order to pursue these objectives, we first define the generalization of
-the `r MODEL_ACRONYM` model and describe its scope of application.
+the `r MODEL_ACRONYM` model and describe its scope of application,
+which will require introducing some linear algebra concepts and results.
 Then, we follow the method outlined by @reckase_difficulty_1985 and
 @reckase_discriminating_1991 to obtain
 the formulation of the multidimensional parameters.
