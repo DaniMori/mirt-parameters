@@ -848,15 +848,32 @@ for the other two versions of the parameter.
 
 The aforementioned properties are easier to apprehend with
 a visual representation of the items.
-A vector plot [@ackerman_creating_1994] is the most appropriate way of
-representing the items graphically;
-it allows one to plot several items altogether and analyze them
+The most appropriate way of representing them graphically is
+a vector plot [@ackerman_creating_1994].
+This kind of plot allows representing several items altogether and analyze them
 in terms of their multidimensional parameters [@ackerman_graphical_1996]:
 An item vector will be applied at a direction and (signed) distance
 from the origin of the coordinate system given by its $`r MIL_PARAM`$ parameter
 and will have a length equal to its $`r MDISC_SYM`$ parameter.
 Its direction will also be given by the direction component of $`r MIL_PARAM`$,
 so its orientation will always pass through the origin.
+On the basis of these conditions, we will need to compute
+the origin and end coordinates of the vector,
+denoted by $`r ORIGIN_ITEM_BASIS`$ and $`r END_ITEM_BASIS`$, respectively.
+
+In an orthogonal basis it is easy to compute the coordinates,
+as they are simply the orthogonal projections on the respective axes.
+In the oblique case it is not so simple though, but we take advantage of the
+orthornormalization introduced above.
+In $`r TEST_SPACE_STD_BASIS`$ , the origin and end coordinates are
+$`r ORIGIN_ITEM_ORTH`$ and $`r END_ITEM_ORTH`$, respectively,
+and they correspond to the coordinates in $`r TEST_SPACE_BASIS`$ transformed
+according to Equation \@ref(eq:discr-vector-std),
+i.e., $`r ORIGIN_ORTH_EQ`$ and $`r END_ORTH_EQ`$.
+Given the mapping of $`r TEST_SPACE_STD_BASIS`$ basis onto $`r LS_ORTH_BASIS`$,
+Equation \@ref(eq:dir-cos-vec-std) gives
+the direction cosines in $`r TEST_SPACE_STD_BASIS`$.
+For the origin coordinates we have that
 
 As plotting more than two dimensions is difficult on a bidimensional display
 (and hardly possible at all for more than three dimensions with the

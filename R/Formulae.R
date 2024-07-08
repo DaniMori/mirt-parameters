@@ -1088,6 +1088,22 @@ SIGN_COS_VEC_ITEM_EQ <- latex_eq(SIGN_COS_VEC_ITEM, 0)
 
 ### Graphical representation: ----
 
+# Item coordinates definition:
+ORIGIN            <- latex_bf('o')
+ORIGIN_ITEM       <- ORIGIN      |> latex_sub(ITEM_INDEX)
+ORIGIN_ITEM_BASIS <- ORIGIN_ITEM |> latex_raised_to(exp = TEST_SPACE_BASIS)
+ORIGIN_ITEM_ORTH  <- ORIGIN_ITEM |> latex_raised_to(exp = TEST_SPACE_STD_BASIS)
+END              <- latex_bf('e')
+END_ITEM         <- END      |> latex_sub(ITEM_INDEX)
+END_ITEM_BASIS   <- END_ITEM |> latex_raised_to(exp = TEST_SPACE_BASIS)
+END_ITEM_ORTH    <- END_ITEM |> latex_raised_to(exp = TEST_SPACE_STD_BASIS)
+
+# Coordinates equivalente:
+ORIGIN_ORTH_DEF <- latex(TRANSFORM_MATRIX_TRANSP_INV, ORIGIN_ITEM_BASIS)
+ORIGIN_ORTH_EQ  <- latex_eq(ORIGIN_ITEM_ORTH, ORIGIN_ORTH_DEF)
+END_ORTH_DEF    <- latex(TRANSFORM_MATRIX_TRANSP_INV, END_ITEM_BASIS)
+END_ORTH_EQ     <- latex_eq(END_ITEM_ORTH, ORIGIN_ORTH_DEF)
+
 # Item parameters:
 MDISC_CORR_PARAM_ITEM        <- latex_sub(
 MDISC_SYM,
@@ -1100,16 +1116,12 @@ MIL_CORR_PARAM_ITEM          <- latex_sub(
 
 # Origin coordinates:
 CORR_MATRIX_INV     <- latex_inverse(CORR_MATRIX)
-ORIGIN              <- latex_bf('o')
-ORIGIN_ITEM         <- latex_sub(ORIGIN, ITEM_INDEX)
 DISTANCE_CORR_PARAM <- latex_sub(DISTANCE_SYM, "$CORR_MATRIX$$ITEM_INDEX$")
 DIR_CORR_PARAM      <- latex_sub(DIR_COS_VEC_TS,  "$CORR_MATRIX$$ITEM_INDEX$")
 ORIGIN_ITEM_COMP  <- latex(DISTANCE_CORR_PARAM, CORR_MATRIX_INV, DIR_CORR_PARAM)
 ORIGIN_ITEM_EQ      <- latex_eq(ORIGIN_ITEM, ORIGIN_ITEM_COMP)
 
 # End coordinates:
-END           <- latex_bf('e')
-END_ITEM      <- latex_sub(END, ITEM_INDEX)
 END_ITEM_COMP <- latex(
   ORIGIN_ITEM,
   '+',
