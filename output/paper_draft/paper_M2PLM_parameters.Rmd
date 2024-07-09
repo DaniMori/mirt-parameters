@@ -800,15 +800,99 @@ while still being scale invariant.
 This will be very useful for the purpose of representing the items graphically,
 as we will see later.
 
-## Properties of the parameters
+## Vector representation
+
+According to @ackerman_creating_1994, the most appropriate way of representing
+multidimensional items is in vector form.
+This allows representing several items altogether and analyzing them
+in terms of their multidimensional parameters [@ackerman_graphical_1996].
+An item vector will be applied at a direction and (signed) distance
+from the origin of the coordinate system given by its $`r MIL_PARAM`$ parameter,
+and will have a length equal to its $`r MDISC_SYM`$ parameter.
+Its direction will also be given by the direction component of $`r MIL_PARAM`$,
+so its orientation will always pass through the origin.
+On the basis of these conditions, we need to compute
+the origin and end coordinates of the vector,
+denoted by $`r ORIGIN_ITEM_BASIS`$ and $`r END_ITEM_BASIS`$, respectively.
+
+In an orthogonal basis it is easy to compute the coordinates,
+as they are simply the orthogonal projections onto the corresponding axis.
+In the oblique case it is not so simple though, but we can take advantage of the
+orthornormalization introduced above.
+In basis $`r TEST_SPACE_STD_BASIS`$, the origin and end coordinates are
+$`r ORIGIN_ITEM_ORTH`$ and $`r END_ITEM_ORTH`$, respectively,
+and they correspond to the coordinates in $`r TEST_SPACE_BASIS`$ transformed
+according to Equation \@ref(eq:discr-vector-std),
+i.e., $`r ORIGIN_TRANSF_EQ`$ and $`r END_TRANSF_EQ`$.
+Given the mapping of $`r TEST_SPACE_STD_BASIS`$ onto $`r LS_ORTH_BASIS`$,
+the direction cosines in $`r TEST_SPACE_STD_BASIS`$
+are $`r DIR_COS_ITEM_VEC_STD`$.
+Therefore,
+
+\begin{align}
+  `r ORIGIN_ORTH_EQ` \\
+  `r END_ORTH_EQ`.
+\end{align}
+
+Applying Equation \@ref(eq:dir-cos-vec-std),
+for the origin coordinates we have that
+
+\begin{equation}
+  `r ORIGIN_ORTH_DISCR_EQ`                              (\#eq:origin-orth-discr)
+\end{equation}
+
+which, operating, results in
+
+\begin{align}
+  `r ORIGIN_ITEM_COORDS_EQ`    \\
+  `r ORIGIN_TRANSF_SQUARED_EQ` \\
+  `r ORIGIN_INNERPROD_EQ`      \\
+  `r ORIGIN_INNERPROD_DIAG_EQ`
+\end{align}
+
+and, finally,
+
+\begin{equation}
+  `r ORIGIN_INNERPROD_DIR_COS_EQ`.                   (\#eq:origin-coords-result)
+\end{equation}
+
+The end coordinates can be computed by a similar procedure, which results in
+
+\begin{equation}
+  `r END_ITEM_COORDS_EQ`.                               (\#eq:end-coords-result)
+\end{equation}
+
+Equations \@ref(eq:origin-coords-result) and \@ref(eq:end-coords-result)
+express the items coordinates in terms of their multidimensional parameters.
+However, it is worth noting that the latent space Gram matrix
+also plays a role in computing these coordinates,
+and will therefore have an effect on the representation.
+Of course,
+from Equations \@ref(eq:origin-orth-discr) and \@ref(eq:end-coords-result)
+it is easy to express the coordinates in terms of the parameters in the original
+model formulation, namely,
+
+\begin{align}
+  `r ORIGIN_ITEM_PARAMS_EQ`                  &(\#eq:origin-from-model-params) \\
+  `r END_ITEM_PARAMS_EQ`.                    &(\#eq:end-from-model-params)
+\end{align}
+
+However, formulating them in terms of the multidimensional parameters allows us
+studying the items in terms of their multidimensional properties.
+In the following, we see how to geometrically interpret
+these multidimensional parameters.
+
+### Geometric properties of the items
 
 We have seen how the two new versions of the parameters fulfill
 the three conditions proposed by @reckase_discriminating_1991
 for valid generalizations of the IRT parameters to the multidimensional case,
 being the scale invariance of the $`r MDISC_COV_PARAM`$ the only exception.
-We will consider now two more properties,
-related to each of the two components of the $`r MIL_PARAM`$ parameter,
-namely, the distance to the origin, and the measurement direction.
+From a geometrical perspective, the item $`r MDISC_PARAM`$ is simply interpreted
+as the length of its corresponding vector.
+Regarding the $`r MIL_PARAM`$ parameter,
+we will consider now two more properties, related to each of its two components:
+the distance to the origin, and the measurement direction.
 
 The (signed) distance to the origin,
 given by the first component of $`r MIL_PARAM`$, has an interesting property:
@@ -848,85 +932,36 @@ for the other two versions of the parameter.
 
 The aforementioned properties are easier to apprehend with
 a visual representation of the items.
-The most appropriate way of representing them graphically is
-a vector plot [@ackerman_creating_1994].
-This kind of plot allows representing several items altogether and analyze them
-in terms of their multidimensional parameters [@ackerman_graphical_1996]:
-An item vector will be applied at a direction and (signed) distance
-from the origin of the coordinate system given by its $`r MIL_PARAM`$ parameter
-and will have a length equal to its $`r MDISC_SYM`$ parameter.
-Its direction will also be given by the direction component of $`r MIL_PARAM`$,
-so its orientation will always pass through the origin.
-On the basis of these conditions, we need to compute
-the origin and end coordinates of the vector,
-denoted by $`r ORIGIN_ITEM_BASIS`$ and $`r END_ITEM_BASIS`$, respectively.
+To do that, we need to chose a version of the parameters
+that yields their most faithful representation.
+We have already seen that
+the agnostic version disregards the latent space structure.
+Therefore, it will only be useful in the unlikely case that
+we have no information of such structure.
+When we have an estimate of the latent space covariances,
+we may use either the covariance-based or the correlation-based version.
+However, we have already seen how
+the distance to the origin depends on the $`r MDISC_SYM`$.
+Also, in the covariance-based,
+the term $`r INNER_PROD_MAT_DIAG_INV_PROD`$ becomes $`r COV_BASED_SCALE_MAT_EQ`$
+which, as we have argued before, implies a change of scale.
+In the case of the correlation-based version however,
+$`r INNER_PROD_MAT_DIAG_INV_PROD`$ is simply $`r CORR_MATRIX_INV`$,
+being the coordinates scale-invariant.
+Therefore, for graphical representation purposes,
+the correlation-based version will be preferred.
 
-In an orthogonal basis it is easy to compute the coordinates,
-as they are simply the orthogonal projections onto the corresponding axis.
-In the oblique case it is not so simple though, but we take advantage of the
-orthornormalization introduced above.
-In basis $`r TEST_SPACE_STD_BASIS`$, the origin and end coordinates are
-$`r ORIGIN_ITEM_ORTH`$ and $`r END_ITEM_ORTH`$, respectively,
-and they correspond to the coordinates in $`r TEST_SPACE_BASIS`$ transformed
-according to Equation \@ref(eq:discr-vector-std),
-i.e., $`r ORIGIN_TRANSF_EQ`$ and $`r END_TRANSF_EQ`$.
-Given the mapping of $`r TEST_SPACE_STD_BASIS`$ onto $`r LS_ORTH_BASIS`$,
-the direction cosines in $`r TEST_SPACE_STD_BASIS`$
-are $`r DIR_COS_ITEM_VEC_STD`$.
-Therefore,
-
-\begin{align}
-  `r ORIGIN_ORTH_EQ` \\
-  `r END_ORTH_EQ`.
-\end{align}
-
-Applying Equation \@ref(eq:dir-cos-vec-std),
-for the origin coordinates we have that
-
-\begin{equation}
-  `r ORIGIN_ORTH_DISCR_EQ`                              (\#eq:origin-orth-discr)
-\end{equation}
-
-which, operating, results in
-
-\begin{align}
-  `r ORIGIN_ITEM_COORDS_EQ`    \\
-  `r ORIGIN_TRANSF_SQUARED_EQ` \\
-  `r ORIGIN_INNERPROD_EQ`      \\
-  `r ORIGIN_INNERPROD_DIAG_EQ`;
-\end{align}
-
-\begin{equation}
-  `r ORIGIN_INNERPROD_DIR_COS_EQ`.                   (\#eq:origin-coords-result)
-\end{equation}
-
-The end coordinates can be computed by a similar procedure, which results in
-
-\begin{equation}
-  `r END_ITEM_COORDS_EQ`.                               (\#eq:end-coords-result)
-\end{equation}
-
-As plotting more than two dimensions is difficult on a bidimensional display
-(and hardly possible at all for more than three dimensions with the
-currently available technology),
-we will limit ourselves to the bidimensional case here.
-Plotting on a two-dimensional display usually requires providing
+Plotting on a display usually requires providing
 coordinates in a rectangular Cartesian system.
 Therefore, we will need to compute the equivalent rectangular coordinates
 of our general, possibly non-rectangular coordinates.
-This implies pre-multiplying its coordinates in basis $`r LS_BASIS`$
+This implies pre-multiplying its coordinates in basis $`r TEST_SPACE_BASIS`$
 by $`r TRANSFORM_MATRIX_TRANSP_INV`$, to find
 the equivalent, orthonormalized coordinates.
-
-Therefore, we need to define
+Therefore, we will need to define
 a convenient value for $`r TRANSFORM_MATRIX_TRANSP_INV`$
 that allows us to represent the test space structure and the items
 in a rectangular Cartesian system.
-However, to facilitate the interpretation,
-we want to avoid changing the scale of the parameters.
-We will thus prefer the correlation-based over the covariance-based parameters.
-Thus, we define $`r TRANSFORM_MATRIX_TRANSP_INV`$
-to be a square root matrix of $`r CORR_MATRIX`$.
 
 The general procedure for plotting an item $`r ITEM_INDEX`$ consists of
 the following steps:
@@ -945,10 +980,17 @@ the following steps:
    $`r TRANSF_MATRIX_INV_SQ_CORR_EQ`$.
 
 1. Compute the rectangular coordinates
-   $`r ORIGIN_ITEM_TRANSF`$ and $`r END_ITEM_TRANSF`$ by pre-multiplying
-   $`r ORIGIN_ITEM`$ and $`r END_ITEM`$, respectively, by
+   $`r ORIGIN_ITEM_ORTH`$ and $`r END_ITEM_ORTH`$ by pre-multiplying
+   $`r ORIGIN_ITEM_BASIS`$ and $`r END_ITEM_BASIS`$, respectively, by
    the transformation matrix $`r TRANSFORM_MATRIX`$
-   ($`r ORIGIN_ITEM_TRANSF_EQ`$; $`r END_ITEM_TRANSF_EQ`$).
+   ($`r ORIGIN_TRANSF_EQ`$; $`r END_TRANSF_EQ`$).
+
+Alternatively,
+one can compute $`r ORIGIN_ITEM_EQ`$ and $`r END_ITEM_EQ`$ directly from
+Equations (\#eq:origin-from-model-params) and (\#eq:end-from-model-params).
+Note though that these equations are not independent of $`r CORR_MATRIX`$,
+as it is used in the computation of $`r DISCR_VECTOR_MODULE`$,
+and thus this matrix is necessary in any case to compute the coordinates.
 
 ### Graphical representation example
 
@@ -971,6 +1013,11 @@ read_chunk("src/Graphical_example_paper.R")
 
 ```{r compute-example-items}
 ```
+
+As plotting more than two dimensions is difficult on a bidimensional display
+(and hardly possible at all for more than three dimensions with the
+currently available technology),
+we will limit ourselves to the bidimensional case here.
 
 The example in Figure \@ref(fig:item-plot-out) showcases a representation of
 a set of items in two different bidimensional spaces.

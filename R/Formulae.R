@@ -1076,15 +1076,7 @@ MIL_CORR_PARAM_EQ         <- latex_def(
   latex_curlybraces("$DISTANCE_CORR_DEF$, $DIR_COS_ITEM_VEC_CORR_DEF$")
 )
 
-### Properties of the parameters: ----
-
-# Direction cosines:
-ANGLE_VECTORS_ITEM   <- latex_sub(ANGLE, "$ITEM_INDEX$$DIM_INDEX$")
-COS_VECTORS_ITEM     <- latex_cos(ANGLE_VECTORS_ITEM)
-SIGN_COS_VEC_ITEM    <- latex_sign(COS_VECTORS_ITEM, .par = TRUE)
-SIGN_COS_VEC_ITEM_EQ <- latex_eq(SIGN_COS_VEC_ITEM, 0)
-
-### Graphical representation: ----
+### Vector representation: ----
 
 # Item coordinates definition:
 ORIGIN            <- latex_bf('o')
@@ -1105,13 +1097,8 @@ END_TRANSF_EQ     <- latex_eq(END_ITEM_ORTH, END_TRANSF_DEF)
 # Coordinates in orthonormal space:
 ORIGIN_ORTH_DEF  <- latex(DISTANCE_PARAM, DIR_COS_VEC_STD)
 ORIGIN_ORTH_EQ   <- latex_eq(ORIGIN_ITEM_ORTH, ORIGIN_ORTH_DEF, .align = TRUE)
-END_ORTH_DIR_DEF <- latex(
-  ORIGIN_ITEM_ORTH,
-  '+',
-  DISCR_VECTOR_MODULE,
-  DIR_COS_VEC_STD
-)
-END_ORTH_EQ  <- latex_eq(END_ITEM_ORTH, END_ORTH_DIR_DEF, .align = TRUE)
+END_ORTH_DIR_DEF <- latex(ORIGIN_ITEM_ORTH, '+', MDISC_ITEM, DIR_COS_VEC_STD)
+END_ORTH_EQ      <- latex_eq(END_ITEM_ORTH, END_ORTH_DIR_DEF, .align = TRUE)
 
 # Origin coordinates:
 ORIGIN_ORTH_DIR_DEF    <- latex(DISTANCE_PARAM, DIR_COS_VEC_STD)
@@ -1140,10 +1127,13 @@ DIAG_MATRIX_INNER_PROD_INV_SR <- latex_raised_to(
   exp   = FRAC_1_2,
   .par  = TRUE
 )
+INNER_PROD_MAT_DIAG_INV_PROD  <- latex(
+  INNER_PROD_MATRIX,
+  DIAG_MATRIX_INNER_PROD_INV_SR
+)
 ORIGIN_INNERPROD_DIAG_DEF     <- latex(
   DISTANCE_PARAM,
-  INNER_PROD_MATRIX,
-  DIAG_MATRIX_INNER_PROD_INV_SR,
+  INNER_PROD_MAT_DIAG_INV_PROD,
   latex_frac(
     "$DIAG_MATRIX_INNER_PROD_INV_SR_INV$ $INNER_PROD_MATRIX_INV$ $DISCR_COORDS$",
     DISCR_VECTOR_MODULE
@@ -1151,8 +1141,7 @@ ORIGIN_INNERPROD_DIAG_DEF     <- latex(
 )
 ORIGIN_INNERPROD_DIR_COS_DEF  <- latex(
   DISTANCE_PARAM,
-  INNER_PROD_MATRIX,
-  DIAG_MATRIX_INNER_PROD_INV_SR,
+  INNER_PROD_MAT_DIAG_INV_PROD,
   DIR_COS_ITEM_VEC_TS
 )
 ORIGIN_ITEM_COORDS_EQ         <- latex_eq(
@@ -1184,19 +1173,50 @@ ORIGIN_INNERPROD_DIR_COS_EQ   <- latex_eq(
 END_ITEM_COORDS_DEF <- latex(
   ORIGIN_ITEM_BASIS,
   '+',
-    DISCR_VECTOR_MODULE,
-    INNER_PROD_MATRIX,
-    DIAG_MATRIX_INNER_PROD_INV_SR,
-    DIR_COS_ITEM_VEC_TS
+  MDISC_ITEM,
+  INNER_PROD_MAT_DIAG_INV_PROD,
+  DIR_COS_ITEM_VEC_TS
 )
 END_ITEM_COORDS_EQ  <- latex_eq(END_ITEM_BASIS, END_ITEM_COORDS_DEF)
 
+# Origin coordinates as original parameters:
+ORIGIN_ITEM_PARAMS_DEF <- latex_frac(
+  "-$INTERCEPT_PARAM$ $DISCR_VECTOR$",
+  DISCR_VECTOR_MODULE |> latex_squared()
+)
+ORIGIN_ITEM_PARAMS_EQ  <- latex_eq(
+  ORIGIN_ITEM_BASIS,
+  ORIGIN_ITEM_PARAMS_DEF,
+  .align = TRUE
+)
+END_ITEM_PARAMS_DEF    <- latex(ORIGIN_ITEM_BASIS, '+', DISCR_VECTOR)
+END_ITEM_PARAMS_EQ     <- latex_eq(
+  END_ITEM_BASIS,
+  END_ITEM_PARAMS_DEF,
+  .align = TRUE
+)
+
+#### Geometric properties of the parameters: ----
+
+# Direction cosines:
+ANGLE_VECTORS_ITEM   <- latex_sub(ANGLE, "$ITEM_INDEX$$DIM_INDEX$")
+COS_VECTORS_ITEM     <- latex_cos(ANGLE_VECTORS_ITEM)
+SIGN_COS_VEC_ITEM    <- latex_sign(COS_VECTORS_ITEM, .par = TRUE)
+SIGN_COS_VEC_ITEM_EQ <- latex_eq(SIGN_COS_VEC_ITEM, 0)
+
+### Graphical representation: ----
+
+# Correlation-based version justification:
+COV_INV_SD_PROD        <- latex(COV_MATRIX_INV, SD_MATRIX)
+CORR_MATRIX_INV        <- latex_inverse(CORR_MATRIX)
+SD_INV_CORR_INV_PROD   <- latex(SD_MATRIX_INV, CORR_MATRIX_INV)
+COV_BASED_SCALE_MAT_EQ <- latex_eq(COV_INV_SD_PROD, SD_INV_CORR_INV_PROD)
+
 ## TODO: Review the following (and maybe delete)
-CORR_MATRIX_INV     <- latex_inverse(CORR_MATRIX)
 DISTANCE_CORR_PARAM <- latex_sub(DISTANCE_SYM, "$CORR_MATRIX$$ITEM_INDEX$")
 DIR_CORR_PARAM      <- latex_sub(DIR_COS_VEC_TS,  "$CORR_MATRIX$$ITEM_INDEX$")
 ORIGIN_ITEM_COMP  <- latex(DISTANCE_CORR_PARAM, CORR_MATRIX_INV, DIR_CORR_PARAM)
-ORIGIN_ITEM_EQ      <- latex_eq(ORIGIN_ITEM, ORIGIN_ITEM_COMP)
+ORIGIN_ITEM_EQ      <- latex_eq(ORIGIN_ITEM_BASIS, ORIGIN_ITEM_COMP)
 
 # Item parameters:
 MDISC_CORR_PARAM_ITEM        <- latex_sub(
@@ -1216,18 +1236,10 @@ END_ITEM_COMP <- latex(
   CORR_MATRIX_INV,
   DIR_CORR_PARAM
 )
-END_ITEM_EQ   <- latex_eq(END_ITEM, END_ITEM_COMP)
+END_ITEM_EQ   <- latex_eq(END_ITEM_BASIS, END_ITEM_COMP)
 
 # Transform matrix:
 TRANSF_MATRIX_INV_SQ_CORR_EQ <- latex_eq(INNER_PROD_MATRIX_INV_DEF, CORR_MATRIX)
-
-# Coordinates transformed to orthogonal coordinates:
-ORIGIN_ITEM_TRANSF     <- latex_prime(ORIGIN_ITEM)
-ORIGIN_ITEM_TRANSF_DEF <- latex(TRANSFORM_MATRIX_TRANSP_INV, ORIGIN_ITEM)
-ORIGIN_ITEM_TRANSF_EQ  <- latex_eq(ORIGIN_ITEM_TRANSF, ORIGIN_ITEM_TRANSF_DEF)
-END_ITEM_TRANSF        <- latex_prime(END_ITEM)
-END_ITEM_TRANSF_DEF    <- latex(TRANSFORM_MATRIX_TRANSP_INV, END_ITEM)
-END_ITEM_TRANSF_EQ     <- latex_eq(END_ITEM_TRANSF, END_ITEM_TRANSF_DEF)
 
 #### Graphical representation example: ----
 
