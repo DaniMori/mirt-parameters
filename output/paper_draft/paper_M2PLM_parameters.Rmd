@@ -857,7 +857,7 @@ from the origin of the coordinate system given by its $`r MIL_PARAM`$ parameter
 and will have a length equal to its $`r MDISC_SYM`$ parameter.
 Its direction will also be given by the direction component of $`r MIL_PARAM`$,
 so its orientation will always pass through the origin.
-On the basis of these conditions, we will need to compute
+On the basis of these conditions, we need to compute
 the origin and end coordinates of the vector,
 denoted by $`r ORIGIN_ITEM_BASIS`$ and $`r END_ITEM_BASIS`$, respectively.
 
@@ -865,15 +865,46 @@ In an orthogonal basis it is easy to compute the coordinates,
 as they are simply the orthogonal projections onto the corresponding axis.
 In the oblique case it is not so simple though, but we take advantage of the
 orthornormalization introduced above.
-In $`r TEST_SPACE_STD_BASIS`$ , the origin and end coordinates are
+In basis $`r TEST_SPACE_STD_BASIS`$, the origin and end coordinates are
 $`r ORIGIN_ITEM_ORTH`$ and $`r END_ITEM_ORTH`$, respectively,
 and they correspond to the coordinates in $`r TEST_SPACE_BASIS`$ transformed
 according to Equation \@ref(eq:discr-vector-std),
-i.e., $`r ORIGIN_ORTH_EQ`$ and $`r END_ORTH_EQ`$.
-Given the mapping of $`r TEST_SPACE_STD_BASIS`$ basis onto $`r LS_ORTH_BASIS`$,
-Equation \@ref(eq:dir-cos-vec-std) gives
-the direction cosines in $`r TEST_SPACE_STD_BASIS`$.
-For the origin coordinates we have that
+i.e., $`r ORIGIN_TRANSF_EQ`$ and $`r END_TRANSF_EQ`$.
+Given the mapping of $`r TEST_SPACE_STD_BASIS`$ onto $`r LS_ORTH_BASIS`$,
+the direction cosines in $`r TEST_SPACE_STD_BASIS`$
+are $`r DIR_COS_ITEM_VEC_STD`$.
+Therefore,
+
+\begin{align}
+  `r ORIGIN_ORTH_EQ` \\
+  `r END_ORTH_EQ`.
+\end{align}
+
+Applying Equation \@ref(eq:dir-cos-vec-std),
+for the origin coordinates we have that
+
+\begin{equation}
+  `r ORIGIN_ORTH_DISCR_EQ`                              (\#eq:origin-orth-discr)
+\end{equation}
+
+which, operating, results in
+
+\begin{align}
+  `r ORIGIN_ITEM_COORDS_EQ`    \\
+  `r ORIGIN_TRANSF_SQUARED_EQ` \\
+  `r ORIGIN_INNERPROD_EQ`      \\
+  `r ORIGIN_INNERPROD_DIAG_EQ`;
+\end{align}
+
+\begin{equation}
+  `r ORIGIN_INNERPROD_DIR_COS_EQ`.                   (\#eq:origin-coords-result)
+\end{equation}
+
+The end coordinates can be computed by a similar procedure, which results in
+
+\begin{equation}
+  `r END_ITEM_COORDS_EQ`.                               (\#eq:end-coords-result)
+\end{equation}
 
 As plotting more than two dimensions is difficult on a bidimensional display
 (and hardly possible at all for more than three dimensions with the
