@@ -888,7 +888,7 @@ We have seen how the two new versions of the parameters fulfill
 the three conditions proposed by @reckase_discriminating_1991
 for valid generalizations of the IRT parameters to the multidimensional case,
 being the scale invariance of the $`r MDISC_COV_PARAM`$ the only exception.
-From a geometrical perspective, the item $`r MDISC_PARAM`$ is simply interpreted
+From a geometrical perspective, the item $`r MDISC_SYM`$ is simply interpreted
 as the length of its corresponding vector.
 Regarding the $`r MIL_PARAM`$ parameter,
 we will consider now two more properties, related to each of its two components:
@@ -905,7 +905,7 @@ its measurement direction forwards or backwards with respect to the origin.
 As the $`r MDISC_SYM`$ appears in the denominator of $`r DISTANCE_PARAM`$,
 that displacement will be inversely proportional
 to the discrimination of the item.
-That is, the more discriminating the item is,
+That is, the less discriminating the item is,
 the further away it will be from the origin.
 
 The measurement direction is given by the signs of $`r DIR_COS_ITEM_VEC`$ which,
@@ -932,7 +932,7 @@ for the other two versions of the parameter.
 
 The aforementioned properties are easier to apprehend with
 a visual representation of the items.
-To do that, we need to chose a version of the parameters
+To do that, we need to choose a version of the parameters
 that yields their most faithful representation.
 We have already seen that
 the agnostic version disregards the latent space structure.
@@ -985,9 +985,10 @@ the following steps:
    the transformation matrix $`r TRANSFORM_MATRIX`$
    ($`r ORIGIN_TRANSF_EQ`$; $`r END_TRANSF_EQ`$).
 
-Alternatively,
-one can compute $`r ORIGIN_ITEM_EQ`$ and $`r END_ITEM_EQ`$ directly from
-Equations (\#eq:origin-from-model-params) and (\#eq:end-from-model-params).
+Instead of steps 1 to 3,
+one can alternatively compute $`r ORIGIN_ITEM_BASIS`$ and $`r END_ITEM_BASIS`$
+directly from Equations \@ref(eq:origin-from-model-params)
+and \@ref(eq:end-from-model-params).
 Note though that these equations are not independent of $`r CORR_MATRIX`$,
 as it is used in the computation of $`r DISCR_VECTOR_MODULE`$,
 and thus this matrix is necessary in any case to compute the coordinates.
