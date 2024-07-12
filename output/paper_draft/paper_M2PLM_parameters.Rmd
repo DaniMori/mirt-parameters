@@ -71,7 +71,7 @@ The so-called *Multidimensional 2-Parameter Logistic*
 [`r MODEL_ACRONYM`, @mckinley_extension_1983] model is among the most important
 and widely used ones.
 This is partly due to its close relationship to the common factor model
-[@mcdonald_test_1999], but also to the formal tractability of its formulation.<!--# Ref. needed? -->
+[@mcdonald_test_1999], but also to the formal tractability of its formulation.
 It consists of a generalization of the 2-parameter logistic model
 [@birnbaum_latent_1968] to more than one latent trait
 [@mckinley_extension_1983].
@@ -132,9 +132,9 @@ Moreover, disregarding this geometrical interpretation may lead to
 critical misconceptions about the measurement model.
 
 The representation of a latent space where the traits are correlated is more
-accurate on a geometrical coordinate system with non-orthogonal axes and
-non-standard units, often referred to as
-*general Cartesian coordinates* [@harman_modern_1970].
+accurate on a geometrical coordinate system with non-orthogonal axes
+[@ackerman_multidimensional_2005-1] and (possibly) non-standard units,
+often referred to as *general Cartesian coordinates* [@harman_modern_1970].
 Such a space has the advantage that the basis vectors and the axes they yield
 have a meaningful interpretation (albeit counterintuitive, as we will see)
 in a multivariate statistical sense.
@@ -145,8 +145,10 @@ Assuming orthonormality among traits is usually unrealistic, be it in the
 cognitive [e.g., @reckase_multidimensional_2009] or the non-cognitive domain
 [e.g., @thielmann_comparability_2022].
 Moreover, certain applications impose the estimation of
-non-identity latent covariance matrices (e.g. multigroup equating) even when<!-- # Reference needed? -->
-interpreting the latent dimensions as substantive constructs is not a goal.
+non-identity latent covariance matrices (e.g., multigroup equating) even when
+interpreting the latent dimensions as substantive constructs is not a goal
+[for for multidimensional linking and equating procedures,
+see @reckase_linking_2009].
 As we will argue, the usual definitions of the multidimensional difficulty and
 discrimination parameters do not generalize to the non-orthonormal geometry
 necessary to accurately represent correlated latent spaces.
