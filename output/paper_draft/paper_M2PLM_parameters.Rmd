@@ -153,25 +153,35 @@ As we will argue, the usual definitions of the multidimensional difficulty and
 discrimination parameters do not generalize to the non-orthonormal geometry
 necessary to accurately represent correlated latent spaces.
 
-In the non-cognitive domain, the use of so-called negatively-keyed items
+On an unrelated basis, negative loadings/discrimination parameters
+are often irrelevant in MIRT applications in the cognitive testing domain.
+It has been argued that discrimination parameters
+"are constrained to be positive" [@ackerman_graphical_1996, p. 315],
+or that “in an [independent-clusters] solution, the loadings can always
+be selected to be positive” [@mcdonald_basis_2000, p. 110].
+However, when such instances appear, they are often
+dismissed as “particularly puzzling” (p. 109),
+or implicitly assuming item malfunctioning without further discussion
+[e.g., @ackerman_multidimensional_2005-1].
+In the non-cognitive domain though, the use of so-called negatively-keyed items
 ---items that tap the negative pole of a certain trait, and thus
-usually reverse-scored--- is also widespread
+usually reverse-scored--- is widespread
 [consider e.g. the statement "Neglect my duties" in the Conscientiousness item
 of the Big-Five Factor Markers, @noauthor_international_nodate].
-It is common to find instruments that combine
-positively- and negatively-keyed items.
-Moreover, a complex item may have discrimination parameters with opposite signs
-for different latent dimensions.<!--# Examples? -->
-Take the multidimensional version of the nominal categories model
-[@thissen_nominal_2010] as an example,
-and consider two response categories tapping a different construct each:
-A positive change in the dimension tapped by one category will inevitably
-lead to a decrease in the probability of response to the other category.
-One can easily note that a monotonically decreasing probability for a certain
-dimension is given by a non-positive discrimination parameter
+Instruments that combine positively- and negatively-keyed items
+are relatively common, and
+complex indicators may have discrimination parameters
+with opposite signs for different latent dimensions
+[see, e.g. @mclarnon_be_2016, for item parcels with
+both positive and negative loadings,
+on method factors in the case of the negative ones].
+Following @ackerman_multidimensional_2005-1, one can easily note that
+a monotonically decreasing probability for a certain dimension
+is given by a non-positive discrimination parameter
 (and an unchanging probability by a null discrimination parameter,
 which also applies to cognitive instruments),
-contrary to the constraints imposed by @reckase_difficulty_1985 [p. 411].
+contrary to the constraints imposed by @reckase_difficulty_1985 [p. 411]
+for determining the multidimensional difficulty.
 However, the multidimensional item parameters can also be defined for
 items with monotonically non-increasing probabilities, as we will see.
 
