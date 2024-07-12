@@ -129,7 +129,7 @@ correspondence between correlated latent traits and orthogonal coordinate axes
 is usually implicit in the MIRT literature without further consideration
 [see @zhang_theoretical_1999 for a notable exception].
 Moreover, disregarding this geometrical interpretation may lead to
-misconceptions that put the measurement and its conclusions into question.<!-- completar?? -->
+critical misconceptions about the measurement model.
 
 The representation of a latent space where the traits are correlated is more
 accurate on a geometrical coordinate system with non-orthogonal axes and
