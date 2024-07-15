@@ -66,12 +66,12 @@ source("R/Constants.R", encoding = 'UTF-8')
 # Introduction
 
 Multidimensional item response theory (MIRT) models have been widely used since
-their inception.<!--# Ref. needed? -->
+their inception.
 The so-called *Multidimensional 2-Parameter Logistic*
 [`r MODEL_ACRONYM`, @mckinley_extension_1983] model is among the most important
 and widely used ones.
 This is partly due to its close relationship to the common factor model
-[@mcdonald_test_1999], but also to the formal tractability of its formulation.<!--# Ref. needed? -->
+[@mcdonald_test_1999], but also to the formal tractability of its formulation.
 It consists of a generalization of the 2-parameter logistic model
 [@birnbaum_latent_1968] to more than one latent trait
 [@mckinley_extension_1983].
@@ -89,8 +89,8 @@ a *multidimensional difficulty* parameter (MID) for `r MODEL_ACRONYM` items.
 This parameter consists of two parts:
 The first one is a scalar value representing the distance from
 the origin of the multidimensional latent space to
-the maximally discriminating locus of the item.
-The second one, the direction of the vector from the origin to that same locus.
+the maximally discriminating locus of the item;
+the second one, the direction of the vector from the origin to that same locus.
 Following a similar rationale, @reckase_discriminating_1991 derive a
 *multidimensional discrimination* (`r MDISC_SYM`) parameter definition
 for that model.
@@ -103,12 +103,12 @@ Of course, orthogonality is a property of a geometrical space instead of a
 latent trait space.
 Thus, nothing prevents a researcher from interpreting an abstraction such as
 a latent trait space, no matter its structure, as an orthogonal space
----exploratory factor analysis software, such as SPSS <!--# Reference needed? -->or
-the R package *psych*, <!--# Reference needed? -->graphically represents
+---exploratory factor analysis software, such as SPSS [@ibm_corp_ibm_2022] or
+the R package *psych* [@revelle_psych_2024], graphically represents
 factor loadings on orthogonal axes even after an oblique rotation.
 Nevertheless, the assimilation of correlated latent traits to non-orthogonal
 axes is prevalent in the common factor literature
-[see, e.g., @harman_modern_1970].<!--# Thurstone's Multiple Factor Analysis, 1947? -->
+[see, e.g., @harman_modern_1970].
 This assumption is not so easily found in the MIRT literature though,
 which mostly deals with uncorrelated dimensions
 [see @reckase_multidimensional_2009 for a comprehensive treatment of the topic].
@@ -126,47 +126,62 @@ It is not uncommon to find recent examples of MIRT models where the
 correlation matrix of the latent dimensions is freely estimated
 [see, e.g., @reckase_multidimensional_2009, pp. 224-228]. Despite this, the
 correspondence between correlated latent traits and orthogonal coordinate axes
-is usually implicit in the MIRT literature without further consideration<!--# Exaples? -->
+is usually implicit in the MIRT literature without further consideration
 [see @zhang_theoretical_1999 for a notable exception].
 Moreover, disregarding this geometrical interpretation may lead to
-misconceptions that put the measurement and its conclusions into question.<!-- completar?? -->
+critical misconceptions about the measurement model.
 
-A latent space where the traits are correlated is easier to understand as a
-geometrical space with non-orthogonal axes,
+The representation of a latent space where the traits are correlated is more
+accurate on a geometrical coordinate system with non-orthogonal axes
+[@ackerman_multidimensional_2005-1] and (possibly) non-standard units,
 often referred to as *general Cartesian coordinates* [@harman_modern_1970].
-Such a space has the advantage that the cosines of the angles between two axes
-can be interpreted as the correlation of the corresponding latent dimensions.
-<!--# Reference needed? -->
-<!-- Problem here: The latent space is not defined like that, according to
-the results of section "Linear algebra of non-orthogonal coordinates". -->
+Such a space has the advantage that the basis vectors and the axes they yield
+have a meaningful interpretation (albeit counterintuitive, as we will see)
+in a multivariate statistical sense.
 The general case of MIRT model estimation implies estimating possibly
 non-standard latent dimensions and non-null covariances among them
 (a more realistic case than an identity matrix).
 Assuming orthonormality among traits is usually unrealistic, be it in the
-cognitive [e.g., @reckase_multidimensional_2009] or the non-cognitive domain<!--# Reference to example? -->.
+cognitive [e.g., @reckase_multidimensional_2009] or the non-cognitive domain
+[e.g., @thielmann_comparability_2022].
 Moreover, certain applications impose the estimation of
-non-identity latent covariance matrices (e.g. multigroup equating) even when<!-- # Reference needed? -->
-interpreting the latent dimensions as substantive constructs is not a goal.
+non-identity latent covariance matrices (e.g., multigroup equating) even when
+interpreting the latent dimensions as substantive constructs is not a goal
+[for for multidimensional linking and equating procedures,
+see @reckase_linking_2009].
 As we will argue, the usual definitions of the multidimensional difficulty and
 discrimination parameters do not generalize to the non-orthonormal geometry
 necessary to accurately represent correlated latent spaces.
 
-In the non-cognitive domain, the use of so-called negatively-keyed items
+On an unrelated basis, negative loadings/discrimination parameters
+are often irrelevant in MIRT applications in the cognitive testing domain.
+It has been argued that discrimination parameters
+"are constrained to be positive" [@ackerman_graphical_1996, p. 315],
+or that “in an [independent-clusters] solution, the loadings can always
+be selected to be positive” [@mcdonald_basis_2000, p. 110].
+However, when such instances appear, they are often
+dismissed as “particularly puzzling” (p. 109),
+or implicitly assuming item malfunctioning without further discussion
+[e.g., @ackerman_multidimensional_2005-1].
+In the non-cognitive domain though, the use of so-called negatively-keyed items
 ---items that tap the negative pole of a certain trait, and thus
-usually reverse scored--- is also widespread.<!--# Reference and example? -->
-It is common to find instruments that combine
-positively- and negatively-keyed items.
-Moreover, a complex item may have discrimination parameters with opposite signs
-for different latent dimensions.<!--# Examples? -->
-Take the multidimensional version of the nominal categories model
-[@thissen_nominal_2010] as an example,
-and consider two response categories tapping a different construct each:
-A positive change in the dimension tapped by one category will inevitably
-lead to a decrease in the probability of response to the other category.
-One can easily note that a monotonically decreasing probability for a certain
-dimension is given by a non-positive discrimination parameter
-(and an unchanging probability by a null discrimination parameter),<!--# Actually, this also applies to the cognitive domain, which may not be very well explained. -->
-contrary to the constraints imposed by @reckase_difficulty_1985 [p. 411].
+usually reverse-scored--- is widespread
+[consider e.g. the statement "Neglect my duties" in the Conscientiousness item
+of the Big-Five Factor Markers, @noauthor_international_nodate].
+Instruments that combine positively- and negatively-keyed items
+are relatively common, and
+complex indicators may have discrimination parameters
+with opposite signs for different latent dimensions
+[see, e.g. @mclarnon_be_2016, for item parcels with
+both positive and negative loadings,
+on method factors in the case of the negative ones].
+Following @ackerman_multidimensional_2005-1, one can easily note that
+a monotonically decreasing probability for a certain dimension
+is given by a non-positive discrimination parameter
+(and an unchanging probability by a null discrimination parameter,
+which also applies to cognitive instruments),
+contrary to the constraints imposed by @reckase_difficulty_1985 [p. 411]
+for determining the multidimensional difficulty.
 However, the multidimensional item parameters can also be defined for
 items with monotonically non-increasing probabilities, as we will see.
 
@@ -174,19 +189,20 @@ The main objective of this paper is thus to provide a generalization of
 the MIRT parameters in two aspects: on one hand, in an oblique coordinate system
 that can be soundly applied to the correlated trait case; on the other, to
 items that yield monotonous response probabilities, but in the broader sense of
-unchanging monotony. Additionally, we aim at providing a method for
+unchanging monotony. Additionally, we aim to provide a method for
 graphically representing these items in the fashion of @ackerman_creating_1994
 but taking the non-orthogonality of the coordinate axes into account.
 In order to pursue these objectives, we first define the generalization of
-the `r MODEL_ACRONYM` model and describe its scope of application.
+the `r MODEL_ACRONYM` model and describe its scope of application,
+which will require introducing some linear algebra concepts and results.
 Then, we follow the method outlined by @reckase_difficulty_1985 and
 @reckase_discriminating_1991 to obtain
 the formulation of the multidimensional parameters.
-We will introduce two versions of these indices,
+We will introduce three different versions,
 showing that either the original or one of the new ones is obtained
 as a function of how we define and interpret the latent space.
-Next, we discuss the properties of the indices,
-propose a graphical representation method,
+Next, we discuss their properties,
+propose a graphical representation method based on the new formulation,
 and present two examples of application of our results.
 We round up with a discussion about
 the applicability and generalization of our results.
