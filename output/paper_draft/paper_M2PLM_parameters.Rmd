@@ -987,13 +987,13 @@ However, when we take into account the latent space structure
 (columns labelled $`r COV_MATRIX`$), we notice several differences.
 First, the $`r MDISC_ITEM`$ parameters tend to be larger
 than their agnostic counterparts.
-This happens because all the discrimination parameters as and the latent space
+This happens because all the discrimination parameters and the latent space
 correlations are positive; in this respect, these items are similar to item 1
 in Table \@ref(tab:example-items-table-out) and Figure \@ref(fig:item-plot-out).
 However, for the items mostly aligned with dimension 2 (items 21-30), as the
 $`r MDISC_ITEM`$ parameters are also scaled by a standard deviation smaller
 than 1, their values decrease, being some of them smaller than the agnostic
-versions. The $`r DISTANCE_PARAM`$ parametes decrease or increase, consequently,
+versions. The $`r DISTANCE_PARAM`$ parameters decrease or increase, consequently
 (see Equation \@ref(eq:M2PL-formula-polar)), thus being most of them smaller
 than the agnostic ones (again, with the exceptions only happening
 in the items aligned with dimension 2).
