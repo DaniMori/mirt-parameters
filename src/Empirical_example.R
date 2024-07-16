@@ -19,6 +19,7 @@ library(tidyverse)
 library(flextable)
 library(officer)
 library(assertive.numbers)
+library(scales)
 
 ## ----sources----
 source("R/Mirt_toolbox.R", encoding = 'UTF-8')
