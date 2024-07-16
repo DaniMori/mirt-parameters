@@ -99,7 +99,7 @@ In order to build the project, simply source the script
 which will render the project output.
 
 ```r
-source("src/Build_project.R")
+source("src/Build_project.R", encoding = 'UTF-8')
 ```
 
 The output file generated will be in the following path:
