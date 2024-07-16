@@ -1012,7 +1012,9 @@ Table \@ref(tab:example-items-table-out) and Figure \@ref(fig:item-plot-out)).
 ```{r empirical-table-Reckase2009-out}
 #| cache:   false
 #| tab.id:  empirical-table-Reckase2009-out
-#| tab.cap: Item parameters for the empirical example
+#| tab.cap: |
+#|   Agnostic and covariance-based multidimensional item parameters in
+#|   Reckase (2009), with a (rank-complete) three-dimensional covariance matrix.
 item_params_output
 ```
 
@@ -1108,7 +1110,9 @@ and Figure \@ref(fig:item-plot-out).
 ```{r empirical-table-Tezza2018-out}
 #| cache:   false
 #| tab.id:  empirical-table-Tezza2018-out
-#| tab.cap: Item parameters for the empirical example
+#| tab.cap: |
+#|   Agnostic and covariance-based multidimensional item parameters in
+#|   Tezza et al. (2018).
 item_params_output
 ```
 
