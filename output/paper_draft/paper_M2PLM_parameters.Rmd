@@ -159,21 +159,21 @@ It has been argued that discrimination parameters
 "are constrained to be positive" [@ackerman_graphical_1996, p. 315],
 or that “in an [independent-clusters] solution, the loadings can always
 be selected to be positive” [@mcdonald_basis_2000, p. 110].
-However, when such instances appear, they are often
-dismissed as “particularly puzzling” (p. 109),
+However, when such instances of negative parameters appear,
+they are often dismissed as “particularly puzzling” (p. 109),
 or implicitly assuming item malfunctioning without further discussion
 [e.g., @ackerman_multidimensional_2005-1].
 In the non-cognitive domain though, the use of so-called negatively-keyed items
 ---items that tap the negative pole of a certain trait, and thus
 usually reverse-scored--- is widespread
-[consider e.g. the statement "Neglect my duties" in the Conscientiousness item
+[consider, e.g., the statement "Neglect my duties" in the Conscientiousness item
 of the Big-Five Factor Markers, @noauthor_international_nodate].
 Instruments that combine positively- and negatively-keyed items
 are relatively common, and
-complex indicators may have discrimination parameters
+complex indicators may even have discrimination parameters
 with opposite signs for different latent dimensions
-[see, e.g. @mclarnon_be_2016, for item parcels with
-both positive and negative loadings,
+[see, e.g., @mclarnon_be_2016,
+for item parcels with both positive and negative loadings,
 on method factors in the case of the negative ones].
 Following @ackerman_multidimensional_2005-1, one can easily note that
 a monotonically decreasing probability for a certain dimension
