@@ -906,7 +906,7 @@ MIL_AG_PARAM_EQ         <- latex_def(
 #### Covariance-based version of the indices: ----
 
 # Covariance matrix definition:
-COV_MATRIX     <- latex_bf("\\upSigma")
+COV_MATRIX     <- latex_bf("\\Sigma")
 COV_MATRIX_LS  <- latex_raised_to(COV_MATRIX, exp = LS_BASIS)
 CORR_MATRIX    <- latex_bf('R')
 SD_MATRIX      <- latex_bf('S')
