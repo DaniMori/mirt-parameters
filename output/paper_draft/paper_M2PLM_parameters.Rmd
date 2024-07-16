@@ -1155,26 +1155,38 @@ One that takes into account the whole covariance structure,
 and another one that only considers the correlations among latent dimensions.
 The covariance-based index has the drawback of not fulfilling
 the first of @reckase_discriminating_1991's properties, namely,
-that $`r MDISC_UNIDIM_EQ`$ if an item only measures dimension $`r DIM_INDEX`$.
+the scale invariance property.
 However, we have provided a rationale for the violation of this property,
 arguing that it is also paralleled in unidimensional IRT.
 Given its equivalence to the inner product definition in a space with
 an identity covariance matrix,
 it also refers the item parameters to an orthonormal metric,
 comparable among different latent spaces.
+More importantly, the covariance-based version
+of the multidimensional parameters is invariant to
+changes of latent-space basis.
 Once again, this is important in applications where
-potentially different latent spaces are involved.
-Given these considerations, we propose to adopt the covariance-based version of
-the multidimensional parameters and refer to them simply as
+potentially different bases are involved.
+Given these considerations,
+we propose to adopt the covariance-based version of
+the multidimensional parameters as the most general definition,
+and refer to them simply as
 the $`r MDISC_SYM`$ and $`r MIL_PARAM`$ parameters.
 The correlation-based version, on the other hand,
-has the advantage of preserving the metric of the parameters,
+has the advantage of being scale-invariant,
 which is convenient for fidelity when representing the items.
-Therefore, we recommend using the correlation-based version of the parameters
-for graphical representation purposes only.
+However, it is worth noting that it has been defined ad-hoc
+to fulfill this specific property.
+Therefore it lacks other desirable properties of the covariance-based version,
+like being invariant to a latent space scaling transformation,
+or yielding a diagonal latent covariance matrix in the corresponding
+orthogonal latent space basis.
+Therefore, we recommend its use for graphical representation purposes only.
+As for the agnostic version, we recommend it only in
+the (unlikely) case of having no information about the latent space structure.
 
-One may consider that the formal derivations presented here are overly
-complicated,
+One may consider that the formal derivations presented here are
+overly complicated,
 when one might simply transform the space to rectangular Cartesian coordinates
 with Equations \@ref(eq:change-basis) and \@ref(eq:discr-vector-std) and
 then compute the parameters in the transformed space using
@@ -1183,11 +1195,17 @@ After all, interpreting the axes of this space as substantive latent traits
 depends on "the distinction between coordinate axes and the constructs that are
 the target of the instrument"
 (Reckase, M.D., personal communication, 28 April 2015).
+Such a procedure will of course yield identical results,
+given the invariance of the parameters to a change of basis.
 However, the computations in the oblique space allow us to obtain
 the direction cosines relative to the original latent dimensions,
 which may give relevant information if these are actual, substantive traits.
-Moreover, strictly following @reckase_difficulty_1985's method in the original,
-oblique space has also provided us with an important insight:
+Computing the parameters in the orthonormalized (or just orthogonalized) space,
+by contrast, would require to compute the cosines in
+the original basis afterwards.
+
+On the other hand, establishing the relationship between the original and
+the orthonormalized basis has provided us with an important insight:
 The distinction between the latent space and the test space.
 Our derivations show that, in order to properly represent the items,
 we need to define a vector space that has
@@ -1196,6 +1214,13 @@ On the other hand, the latent space,
 where the person parameters are represented,
 has the inverse of the covariance (correlation) matrix as
 its inner product matrix.
+This result is both surprising and counterintuitive;
+The MIRT literature suggests in several instances that
+"the angle between the axes [of latent ability space] represents
+the degree of correlation" [@ackerman_multidimensional_2005-1, p. 16].
+We hope our results help shed a clearer light on
+this often missunderstood topic.
+
 It is worth noting that a similar relationship exists in
 the common factor literature
 between the *primary factors* and Thurstone's *reference axes*
@@ -1212,7 +1237,7 @@ to other IRT models without further consideration.
 First, we have only considered the case of dichotomous items,
 whereas non-cognitive applications often (and sometimes cognitive ones as well)
 require modeling several response categories.
-Although models such as the graded-scale [@samejima_estimation_1968] and
+Although proposals such as the graded-scale [@samejima_estimation_1968] and
 the nominal response [@bock_estimating_1972] model are closely related to
 the 2-parameter logistic model, it would be hasty to assume that these
 parameters generalize in any way to
@@ -1222,7 +1247,8 @@ for dichotomous items different from the `r MODEL_ACRONYM` model.
 We expect this work to help set the foundations for investigating those
 generalizations.
 Hopefully, this will contribute to a better understanding
-of the underlying measurement theory, its implications and its interpretation.
+of the underlying multidimensional measurement theory, its implications,
+and its interpretation.
 
 \newpage
 
