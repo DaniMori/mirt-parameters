@@ -42,7 +42,7 @@ TOL_LEVEL <- 5e-3 # for comparing computed and given multidimensional parameters
 #   dimension 2 covariance was changed by +.0001 (.3341 instead of .3340) to
 #   avoid negative definiteness of the matrix, which would cause errors
 #   computing the multidimensional parameters.
-COV_MATRIX <- matrix(
+COV_MATRIX_VALUE <- matrix(
   c(
     .1670, .2362, .2892,
     .2362, .3341, .4091,
