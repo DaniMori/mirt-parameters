@@ -138,7 +138,7 @@ compute_mirt_coords <- function(items,
                                 d,
                                 mdisc,
                                 dir,
-                                transform,
+                                transform, # Test space transform matrix
                                 item_id         = item,
                                 dir_in          = c("cos", "rad", "deg"),
                                 original_coords = TRUE) {
@@ -184,11 +184,15 @@ compute_mirt_coords <- function(items,
     ## Check dimension:
     transf_dim <- transform |> ncol()
     assertive.base::assert_are_identical(transf_dim, n_dir_cols)
-    
-    ## Check its inverse squared matrix can be considered a covariance matrix:
-    cov_matrix <- t(transform) %*% transform |> solve()
-    assertive.extra::assert_is_covariance_matrix(cov_matrix)
   }
+  
+  ## Check its inverse squared matrix can be considered a covariance matrix:
+  cov_matrix <- t(transform) %*% transform
+  assertive.extra::assert_is_covariance_matrix(cov_matrix)
+  
+  # Compute ancyllary matrices:
+  cov_matrix_inv <- cov_matrix |> solve()
+  scaling_matrix <- cov_matrix |> diag() |> diag()
   
   # Direction options:
   dir_in <- dir_in |> match.arg()
@@ -208,9 +212,11 @@ compute_mirt_coords <- function(items,
         rad = cos(dir),
         deg = cos(dir / RAD_DEG_FACTOR)
       ),
+      ## Compute the "direction vector" from the cosines:
+      dir    = cov_matrix_inv %*% scaling_matrix %*% cos,
       ## Compute the coordinates:
-      origin = D * cos,
-      end    = origin + MDISC * cos,
+      origin = D * dir,
+      end    = origin + MDISC * dir,
       ## Transform the coordinates:
       across(
         origin:end,

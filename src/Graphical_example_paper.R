@@ -116,7 +116,7 @@ items_oblique_params <- items_M2PL |> compute_mirt_params(
 )
 items_oblique_coords <- items_oblique_params |> compute_mirt_coords(
   D, MDISC, starts_with(COSINE_DIRTYPE),
-  transform       = transform_matrix,
+  transform       = transform_matrix_inv_transp,
   original_coords = FALSE
 )
 items_oblique        <- full_join(
