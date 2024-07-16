@@ -1095,7 +1095,7 @@ like being invariant to a latent space scaling transformation,
 or yielding a diagonal latent covariance matrix in the corresponding
 orthogonal latent space basis.
 Therefore, we recommend its use for graphical representation purposes only.
-As for the agnostic version, we think it should only be used in
+As for the agnostic version, we recommend it only in
 the (unlikely) case of having no information about the latent space structure.
 
 One may consider that the formal derivations presented here are
