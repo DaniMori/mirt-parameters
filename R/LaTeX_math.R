@@ -267,19 +267,28 @@ latex_norm <- function(..., basis = NULL) {
 
 latex_matrix <- function(elements,
                          enclosing = ENCLOSING_VALUES,
-                         small     = FALSE) {
+                         small     = FALSE,
+                         precision) {
   
   if (!is.matrix(elements)) stop("`elements` is not a matrix.")
 
   enclosing_func <- paste0("latex_", match.arg(enclosing))
   
+  
   result <- list()
   
   for (row in seq_len(nrow(elements))) {
     
+    row_elements <- elements[row, ]
+    
+    if (!missing(precision)) {
+      
+      row_elements <- row_elements |> round(precision)
+    }
+    
     result[[row]] <- do.call(
       latex,
-      args = append(elements[row, ], list(.sep = COLUMN_SEP))
+      args = append(row_elements, list(.sep = COLUMN_SEP))
     )
   }
 

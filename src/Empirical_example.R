@@ -91,6 +91,19 @@ items                                                 |>
 # Both multidimensional parameters are equal for all items, up to the tolerance
 #   level.
 
+## ----format-covariance-matrix----
+
+cov_matrix_value_out      <- COV_MATRIX_VALUE |> number(1e-3)
+dim(cov_matrix_value_out) <- dim(COV_MATRIX_VALUE)
+cov_matrix_value_out      <- latex_matrix(cov_matrix_value_out)
+
+cor_matrix_value_out      <- COV_MATRIX_VALUE |>
+  cov2cor() |>
+  latex_matrix(precision = 4)
+# cor_matrix_value_out      <- COV_MATRIX_VALUE |> cov2cor() |> number(1e-3)
+# dim(cor_matrix_value_out) <- dim(COV_MATRIX_VALUE)
+# cor_matrix_value_out      <- latex_matrix(cor_matrix_value_out)
+
 ## ----compute-oblique-params----
 
 ## Compute the parameters:
