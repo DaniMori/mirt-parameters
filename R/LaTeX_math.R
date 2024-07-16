@@ -31,6 +31,7 @@ PRIME_SUFFIX      <- "'"
 DELIMITER  <- '$'
 SEP        <- ' '
 EQ_SIGN    <- ' = '
+AL_EQ_SIGN <- ' &= '
 EQUIV_SIGN <- ' \\equiv '
 DEF_SIGN   <- ' \\coloneq '
 SIM_SIGN   <- ' \\sim '
@@ -118,7 +119,10 @@ latex_frac <- function(num, den, .inline = FALSE, .sep = SEP) {
 }
 latex_ifrac <- function(num, den) latex_frac(num, den, .inline = TRUE)
 
-latex_eq    <- function(...) latex(..., .sep = EQ_SIGN)
+latex_eq    <- function(..., .align = FALSE) {
+  
+  latex(..., .sep = if (.align) AL_EQ_SIGN else EQ_SIGN)
+}
 latex_equiv <- function(...) latex(..., .sep = EQUIV_SIGN)
 latex_def   <- function(...) latex(..., .sep = DEF_SIGN)
 latex_sim   <- function(...) latex(..., .sep = SIM_SIGN)
