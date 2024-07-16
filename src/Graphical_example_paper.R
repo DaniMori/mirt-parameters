@@ -112,7 +112,8 @@ corr_matrix                 <- solve(inner_prod_matrix)
 items_oblique_params <- items_M2PL |> compute_mirt_params(
   all_of(INTERCEPT_COLKEY), starts_with(DISCR_PREFFIX), # Input parameters
   cov_matrix = corr_matrix,                             # Input correlations
-  dir_out    = c(COSINE_DIRTYPE, DEGREE_DIRTYPE)        # Output configuration
+  dir_out    = c(COSINE_DIRTYPE, DEGREE_DIRTYPE),       # Output configuration
+  version    = "corr"                               # Compute corr-based version
 )
 items_oblique_coords <- items_oblique_params |> compute_mirt_coords(
   D, MDISC, starts_with(COSINE_DIRTYPE),

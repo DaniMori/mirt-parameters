@@ -106,7 +106,8 @@ cor_matrix_value_out      <- COV_MATRIX_VALUE |>
 items_oblique <- items |> compute_mirt_params(
   d, !!DISCR_PARAMS_SELECTION,
   cov_matrix = COV_MATRIX_VALUE,
-  dir_out    = DEGREE_DIRTYPE
+  dir_out    = DEGREE_DIRTYPE,
+  version    = "cov"
 )
 
 ## ----create-params-table----
