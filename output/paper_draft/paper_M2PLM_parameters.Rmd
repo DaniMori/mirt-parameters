@@ -908,11 +908,11 @@ even when they are not parallel to the other axis.
 
 In the following, we apply our results to two instances taken from
 the MIRT literature.
-The first one draws from a classical example by @reckase_multidimensional_2009,
+The first one draws from a classic example by @reckase_multidimensional_2009,
 who presents a three-dimensional instrument made up by 30 items.
 It is supposed to be a cognitive test
 (it is unclear whether the item parameters are estimated from
-actual empirical data or they are a fictional example,
+actual empirical data, or they are a fictional example,
 created ad-hoc for simulation purposes),
 so all the discrimination parameters are positive.
 The second example, taken from @tezza_modelo_2018, is an application of
@@ -929,7 +929,7 @@ and \@ref(tab:empirical-table-Tezza2018-out), respectively.
 Each of these tables shows the original `r MODEL_ACRONYM` parameters
 [the estimation errors in @tezza_modelo_2018 are omitted for clarity],
 along with the agnostic version of the multidimensional parameters;
-it can be seen that the $`r MDISC_AG_PARAM`$ and the $`r DISTANCE_AG_PARAM`$
+the $`r MDISC_AG_PARAM`$ and the $`r DISTANCE_AG_PARAM`$
 are coincident with their respective original sources
 [see Table 6.1 in @reckase_multidimensional_2009, p. 153, and
 Table 5 in @tezza_modelo_2018, p. 926].
@@ -1016,7 +1016,7 @@ As we can see in Table \@ref(tab:empirical-table-Reckase2009-out),
 the agnostic versions of the multidimensional parameters
 (columns labelled _`r AGNOSTIC_ABBR`_)
 coincide with Reckase's columns A, B, and $\alpha_1$ to $\alpha_3$.
-However, when we take into account the latent space structure
+However, when we consider the latent space structure
 (columns labelled $`r COV_MATRIX`$), we notice several differences.
 First, the $`r MDISC_ITEM`$ parameters tend to be larger
 than their agnostic counterparts.
@@ -1057,7 +1057,7 @@ dimensions (see p. 183).
 In that example, he uses a covariance matrix that practically has rank 1,
 implying that the (alleged) three dimensions collapse into a single one, being
 thus the test practically unidimensional.
-In such a case, the covariance-based version of the direction angles
+In such a case, the covariance-based direction angles
 are extremely close to 0 for all items, as one would expect
 from a unidimensional test, where all items are strictly aligned with the one
 dimension they measure. The reader interested can check out the parameters
