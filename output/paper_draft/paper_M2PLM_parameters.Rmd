@@ -904,7 +904,40 @@ Items 2 and 3 especially illustrate this effect,
 as each of them is orthogonal to one of the axes in the oblique space,
 even when they are not parallel to the other axis.
 
-## Examples with empirical data
+## Application to examples from the literature
+
+In the following, we apply our results to two instances taken from
+the MIRT literature.
+The first one draws from a classical example by @reckase_multidimensional_2009,
+who presents a three-dimensional instrument made up by 30 items.
+It is supposed to be a cognitive test
+(it is unclear whether the item parameters are estimated from
+actual empirical data or they are a fictional example,
+created ad-hoc for simulation purposes),
+so all the discrimination parameters are positive.
+The second example, taken from @tezza_modelo_2018, is an application of
+the `r MODEL_ACRONYM` to assess the quality of e-commerce websites.
+Besides being an empirical example, applied to actual test data,
+it pertains to the non-cognitive domain and contains
+items with  negative discrimination parameters.
+This is very convenient for exemplifying our results with
+items with opposite-sign discrimination parameters.
+
+The two examples are represented in Tables
+\@ref(tab:empirical-table-Reckase2009-out)
+and \@ref(tab:empirical-table-Tezza2018-out), respectively.
+Each of these tables shows the original `r MODEL_ACRONYM` parameters
+[the estimation errors in @tezza_modelo_2018 are omitted for clarity],
+along with the agnostic version of the multidimensional parameters;
+it can be seen that the $`r MDISC_AG_PARAM`$ and the $`r DISTANCE_AG_PARAM`$
+are coincident with their respective original sources
+[see Table 6.1 in @reckase_multidimensional_2009, p. 153, and
+Table 5 in @tezza_modelo_2018, p. 926].
+In the first case, the direction angles are also coincident with the values
+provided in the original [@tezza_modelo_2018 do not provide these results].
+In order to facilitate the comparison,
+the covariance-based version of each parameter is provided in
+the column next to its corresponding agnostic version.
 
 ### @reckase_multidimensional_2009
 
