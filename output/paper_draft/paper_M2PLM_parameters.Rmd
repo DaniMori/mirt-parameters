@@ -1090,7 +1090,7 @@ has the advantage of being scale-invariant,
 which is convenient for fidelity when representing the items.
 However, it is worth noting that it has been defined ad-hoc
 to fulfill this specific property.
-Therefore it lacks other desirable properties of the covariance-based version,
+Therefore, it lacks other desirable properties of the covariance-based version,
 like being invariant to a latent space scaling transformation,
 or yielding a diagonal latent covariance matrix in the corresponding
 orthogonal latent space basis.
@@ -1114,7 +1114,7 @@ However, the computations in the oblique space allow us to obtain
 the direction cosines relative to the original latent dimensions,
 which may give relevant information if these are actual, substantive traits.
 Computing the parameters in the orthonormalized (or just orthogonalized) space,
-by contrast, would require to compute the cosines in
+by contrast, would require computing the cosines in
 the original basis afterwards.
 
 On the other hand, establishing the relationship between the original and
@@ -1132,7 +1132,7 @@ The MIRT literature suggests in several instances that
 "the angle between the axes [of latent ability space] represents
 the degree of correlation" [@ackerman_multidimensional_2005-1, p. 16].
 We hope our results help shed a clearer light on
-this often missunderstood topic.
+this often misunderstood topic.
 
 It is worth noting that a similar relationship exists in
 the common factor literature
