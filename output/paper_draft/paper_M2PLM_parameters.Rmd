@@ -1127,7 +1127,40 @@ Items 2 and 3 especially illustrate this effect,
 as each of them is orthogonal to one of the axes in the oblique space,
 even when they are not parallel to the other axis.
 
-## Examples with empirical data
+## Application to examples from the literature
+
+In the following, we apply our results to two instances taken from
+the MIRT literature.
+The first one draws from a classical example by @reckase_multidimensional_2009,
+who presents a three-dimensional instrument made up by 30 items.
+It is supposed to be a cognitive test
+(it is unclear whether the item parameters are estimated from
+actual empirical data or they are a fictional example,
+created ad-hoc for simulation purposes),
+so all the discrimination parameters are positive.
+The second example, taken from @tezza_modelo_2018, is an application of
+the `r MODEL_ACRONYM` to assess the quality of e-commerce websites.
+Besides being an empirical example, applied to actual test data,
+it pertains to the non-cognitive domain and contains
+items with  negative discrimination parameters.
+This is very convenient for exemplifying our results with
+items with opposite-sign discrimination parameters.
+
+The two examples are represented in Tables
+\@ref(tab:empirical-table-Reckase2009-out)
+and \@ref(tab:empirical-table-Tezza2018-out), respectively.
+Each of these tables shows the original `r MODEL_ACRONYM` parameters
+[the estimation errors in @tezza_modelo_2018 are omitted for clarity],
+along with the agnostic version of the multidimensional parameters;
+it can be seen that the $`r MDISC_AG_PARAM`$ and the $`r DISTANCE_AG_PARAM`$
+are coincident with their respective original sources
+[see Table 6.1 in @reckase_multidimensional_2009, p. 153, and
+Table 5 in @tezza_modelo_2018, p. 926].
+In the first case, the direction angles are also coincident with the values
+provided in the original [@tezza_modelo_2018 do not provide these results].
+In order to facilitate the comparison,
+the covariance-based version of each parameter is provided in
+the column next to its corresponding agnostic version.
 
 ### @reckase_multidimensional_2009
 
@@ -1182,28 +1215,28 @@ COV_MATRIX_VALUE <- matrix(
 ```{r compose-output-table}
 ```
 
-Table \@ref(tab:empirical-table-Reckase2009-out) draws from a classical example
-by @reckase_multidimensional_2009.
-In this 30-test item, there are three ten-item blocks assumed to approximate
+Table \@ref(tab:empirical-table-Reckase2009-out) shows the parameters of the
+30-item test in the @reckase_multidimensional_2009 example:
+There are three ten-item blocks assumed to approximate
 a simple structure: Items 1-10 measure dimension 1, items 11-20 dimension 3,
-and items 21-30 dimension 2 (see Table 6.1, p. 153 therein).
+and items 21-30 dimension 2
+[see Table 6.1, p. 153, in @reckase_multidimensional_2009].
 In his example, Reckase tests the estimation of these items
 on two simulated datasets: In the first one, the latent trait distribution
 is standard with null correlations; however, the second one has
-(apart from a non-null vector of means) as covariance matrix
 
 \begin{equation}
   `r cov_matrix_value_out`,
 \end{equation}
 
-which corresponds to a correlation matrix of
+as covariance matrix, which corresponds to a correlation matrix of
 
 \begin{equation}
   `r cor_matrix_value_out`.
 \end{equation}
 
-As we can see in Table \@ref(tab:empirical-table-Reckase2009-out), the agnostic
-versions of the multidimensional parameters
+As we can see in Table \@ref(tab:empirical-table-Reckase2009-out),
+the agnostic versions of the multidimensional parameters
 (columns labelled _`r AGNOSTIC_ABBR`_)
 coincide with Reckase's columns A, B, and $\alpha_1$ to $\alpha_3$.
 However, when we take into account the latent space structure
@@ -1244,14 +1277,14 @@ item_params_output
 The latter effect can be better noticed in another case, in which Reckase
 uses the same item parameters to demonstrate the over-specification of
 dimensions (see p. 183).
-In this example, he uses a covariance matrix that practically has rank 1,
+In that example, he uses a covariance matrix that practically has rank 1,
 implying that the (alleged) three dimensions collapse into a single one, being
-thus the test unidimensional. In such a case, the covariance-based version of
-the direction angles are extremely close to 0 for all items, as one would expect
+thus the test practically unidimensional.
+In such a case, the covariance-based version of the direction angles
+are extremely close to 0 for all items, as one would expect
 from a unidimensional test, where all items are strictly aligned with the one
 dimension they measure. The reader interested can check out the parameters
-computed in such case in the Supplementary Table 1.
-<!-- #TODO: Include Supplementary Table -->
+computed in that case in the table in the Supplementary Material.
 
 ### @tezza_modelo_2018
 
@@ -1314,7 +1347,6 @@ other two dimensions, and around 1º in most cases.
 On the other hand, in cases such as items 12 or 59, which have
 relatively low discrimination parameters on those two dimensions
 (compared with the ones in dimension 2 and 3, respectively) are barely affected.
-In these cases, we also notice that the angles are barely affected.
 The most extreme change in these two examples occurs in
 the direction of item 12 with respect to dimension 4. We see how the large
 discrimination in dimension 1, when combined with the correlation
