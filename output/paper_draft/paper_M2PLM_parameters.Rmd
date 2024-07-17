@@ -1038,11 +1038,11 @@ we will limit ourselves to the bidimensional case here.
 The example in Figure \@ref(fig:item-plot-out) showcases a representation of
 a set of items in two different bidimensional spaces.
 In the first case, the two latent dimensions are independent,
-with $`r TRANSFORM_MATRIX`$ being an identity matrix.
+with $`r TRANSFORM_MATRIX_TRANSP_INV`$ being an identity matrix.
 In the second one, the correlation between the dimensions is $`r CORR_OBL_OUT`$.
 In order to keep the horizontal axis invariant,
-we define $`r TRANSFORM_MATRIX`$ such that it only rotates the vertical axis
-[@harman_modern_1970]:
+we define $`r TRANSFORM_MATRIX_TRANSP_INV`$ such that
+it only rotates the vertical axis [@harman_modern_1970]:
 
 \begin{equation}
   `r TRANSFORM_MATRIX_EXAMPLE_EQ`.
