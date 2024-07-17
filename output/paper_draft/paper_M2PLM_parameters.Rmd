@@ -250,7 +250,7 @@ Because the slope is dependent on the direction considered,
 we need to reparameterize Equation \@ref(eq:M2PL-formulation)
 in polar coordinates, as in @reckase_difficulty_1985.
 However, Reckase's Equation 3 implicitly assumes orthogonality.
-In order to contemplate the general case,
+To contemplate the general case,
 we need to introduce a few linear algebra results before proceeding further.
 
 ## Linear algebra of non-orthogonal coordinates
@@ -826,7 +826,7 @@ from the origin of the coordinate system given by its $`r MIL_PARAM`$ parameter,
 and will have a length equal to its $`r MDISC_SYM`$ parameter.
 Its direction will also be given by the direction component of $`r MIL_PARAM`$,
 so its orientation will always pass through the origin.
-On the basis of these conditions, we need to compute
+Based on these conditions, we need to compute
 the origin and end coordinates of the vector,
 denoted by $`r ORIGIN_ITEM_BASIS`$ and $`r END_ITEM_BASIS`$, respectively.
 
@@ -945,7 +945,7 @@ for the other two versions of the parameter.
 
 ## Graphical representation
 
-The aforementioned properties are easier to apprehend with
+The geometric properties are easier to apprehend with
 a visual representation of the items.
 To do that, we need to choose a version of the parameters
 that yields their most faithful representation.
@@ -1040,7 +1040,7 @@ a set of items in two different bidimensional spaces.
 In the first case, the two latent dimensions are independent,
 with $`r TRANSFORM_MATRIX_TRANSP_INV`$ being an identity matrix.
 In the second one, the correlation between the dimensions is $`r CORR_OBL_OUT`$.
-In order to keep the horizontal axis invariant,
+To keep the horizontal axis invariant,
 we define $`r TRANSFORM_MATRIX_TRANSP_INV`$ such that
 it only rotates the vertical axis [@harman_modern_1970]:
 
@@ -1309,7 +1309,7 @@ which may give relevant information if these are actual, substantive traits.
 Moreover, strictly following @reckase_difficulty_1985's method in the original,
 oblique space has also provided us with an important insight:
 The distinction between the latent space and the test space.
-Our derivations show that, in order to properly represent the items,
+Our derivations show that, to properly represent the items,
 we need to define a vector space that has
 the latent covariance (or correlation) matrix as its inner product matrix.
 On the other hand, the latent space,
