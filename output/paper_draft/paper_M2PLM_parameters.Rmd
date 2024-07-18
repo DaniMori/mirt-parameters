@@ -442,7 +442,7 @@ i. $`r TRAIT_VECTOR_POLAR_EQ`$
 
 i. $`r TRAIT_VEC_ALT_POLAR_EQ`$
 
-Given 1,
+Given i,
 
 \begin{equation}
   `r TRAIT_VEC_ORTH_POLAR_EQ_XPAND`
@@ -454,7 +454,7 @@ and
   `r TRAIT_VEC_ALT_POLAR_ALT_EQ`.
 \end{equation}
 
-Using 2 and 3 we get that
+Using ii and iii we get that
 
 \begin{equation}
   `r TRAIT_VEC_ORTH_POLAR_ORG_EQ`
