@@ -32,7 +32,7 @@ FRAC_1_4 <- latex_frac(1, 4, .sep = NO_SEP)
 # Latent space definition:
 LATENT_SPACE       <- latex_bf("\\upTheta")
 N_DIMS             <- latex('n')
-BASIS_VECTOR_EL    <- latex('u')
+BASIS_VECTOR_EL    <- latex('b')
 BASIS_VECTOR       <- latex_bf(BASIS_VECTOR_EL)
 BASIS_VECTOR_FIRST <- latex_sub(BASIS_VECTOR, 1)
 BASIS_VECTOR_LAST  <- latex_sub(BASIS_VECTOR, N_DIMS)
@@ -48,28 +48,12 @@ LS_BASIS_EQ        <- latex_eq(LS_BASIS, LS_BASIS_SET)
 # Latent vector definition:
 TRAIT_VECTOR    <- latex_bf("\\uptheta")
 TRAIT_VEC_IN_LS <- latex_in(TRAIT_VECTOR, LATENT_SPACE)
-MEAN_VECTOR     <- latex_bf("\\upmu")
-COV_MATRIX      <- latex_bf("\\upSigma")
-NORMAL_DISTR    <- latex_cal('N')
-MV_DISTRIBUTION <- latex(
-  NORMAL_DISTR,
-  latex_parentheses("$MEAN_VECTOR$, $COV_MATRIX$")
-)
-TRAIT_MV_DEF    <- latex_sim(TRAIT_VECTOR, MV_DISTRIBUTION)
-
-# Covariance matrix definition:
-CORR_MATRIX <- latex_bf('R')
-SD_MATRIX   <- latex_bf('S')
-DIM_INDEX   <- latex('k')
-SD_ELEMENT  <- latex_sub('s', "$DIM_INDEX$$DIM_INDEX$")
-VAR_ELEMENT <- latex_squared(SD_ELEMENT)
-COV_ELEMENT <- latex_squared(latex_sub("\\sigma", "$DIM_INDEX$$DIM_INDEX$"))
-VAR_COV_EQ  <- latex_eq(VAR_ELEMENT, COV_ELEMENT)
 
 ### M2PL model formulation ----
 
 # Model parameters:
 ITEM_INDEX          <- latex('i')
+DIM_INDEX           <- latex('k')
 INTERCEPT_PARAM     <- latex_sub('d', ITEM_INDEX)
 DISCR_VECTOR_ANY    <- latex_bf('a')
 DISCR_VECTOR        <- latex_sub(DISCR_VECTOR_ANY, ITEM_INDEX)
@@ -88,8 +72,9 @@ IRF_M2PL <- latex(
 IRF_ABBR <- latex_sub('P', "$ITEM_INDEX$")
 
 # Model formula:
-LOGIT_M2PL    <- latex_parentheses(
-  DISCR_VECTOR_TRANSP, "$TRAIT_VECTOR$ + $INTERCEPT_PARAM$"
+DISCR_TRAIT_PROD <- latex(DISCR_VECTOR_TRANSP, TRAIT_VECTOR)
+LOGIT_M2PL       <- latex_parentheses(
+  "$DISCR_TRAIT_PROD$ + $INTERCEPT_PARAM$"
 )
 EXPFUNC_M2PL     <- latex_exp(latex_sqbrackets("-$LOGIT_M2PL$"))
 LOGISTIC_M2PL    <- latex_logistic(LOGIT_M2PL)
@@ -99,10 +84,10 @@ M2PL_FORMULATION <- latex_eq(IRF_M2PL, IRF_ABBR, LOGISTIC_M2PL)
 ### Change of basis in the latent space ----
 
 # Orthonormal basis definition:
-ORTH_BASIS_VECTOR_EL   <- latex('e')
+ORTH_BASIS_VECTOR_EL   <- latex('u')
 ORTH_BASIS_VECTOR      <- latex_bf(ORTH_BASIS_VECTOR_EL)
 LATENT_SPACE_STD       <- latex_prime(LATENT_SPACE)
-LS_ORTH_BASIS          <- latex_cal('E')
+LS_ORTH_BASIS          <- latex_cal('U')
 LS_ORTH_BASIS_ELEMENTS <- latex_enum(
   latex_sub(ORTH_BASIS_VECTOR, 1),
   ELLIPSIS,
@@ -245,8 +230,9 @@ INNER_PROD_TRANSF <- latex(
 INNER_PROD_EQ     <- latex_eq(INNER_PROD_TRAIT, INNER_PROD_TRANSF)
 
 # Inner product matrix element:
-INNER_PROD_MAT_ELEMENT     <- latex_sub(
-  'm',
+INNER_PROD_MAT_ELEMENT     <- latex('m')
+INNER_PROD_MAT_ELEMENT_ANY <- latex_sub(
+  INNER_PROD_MAT_ELEMENT,
   latex(AUX_INDEX, DIM_INDEX, .sep = NO_SEP)
 )
 BASIS_VECTOR_AUX           <- latex_sub(BASIS_VECTOR, AUX_INDEX)
@@ -255,15 +241,63 @@ INNER_PROD_MAT_ELEMENT_DEF <- latex_innerprod(
   BASIS_VECTOR_ANY
 )
 INNER_PROD_MAT_ELEMENT_EQ  <- latex_eq(
-  INNER_PROD_MAT_ELEMENT,
+  INNER_PROD_MAT_ELEMENT_ANY,
   INNER_PROD_MAT_ELEMENT_DEF
 )
 INNER_PROD_MATRIX_INDEX    <- latex(AUX_INDEX, DIM_INDEX, .sep = SEP_COMMA)
 
-# Inverse inner product matrix:
-INNER_PROD_MATRIX_INV       <- latex_inverse(INNER_PROD_MATRIX)
+### Test space ----
+
+# Test space definition:
+TEST_SPACE   <- latex_bf("A")
+REAL_N_SPACE <- latex_raised_to("\\mathbb{R}", exp = N_DIMS)
+
+# Discrimination vector coordinates (in transformed basis):
+TEST_SPACE_STD_BASIS    <- latex_cal("U^*")
+DISCR_STD_COORDS    <- latex_raised_to(DISCR_VECTOR, exp = TEST_SPACE_STD_BASIS)
+DISCR_STD_COORDS_ALT <- latex_coords(DISCR_VECTOR, basis = TEST_SPACE_STD_BASIS)
+DISCR_STD_COORDS_ALT_EQ <- latex_eq(DISCR_STD_COORDS, DISCR_STD_COORDS_ALT)
+
+# Invariance assumption:
+DISCR_STD_COORDS_TRANSP     <- latex_transp(DISCR_STD_COORDS)
+DISCR_TRAIT_STD_COORDS_PROD <- latex(DISCR_STD_COORDS_TRANSP, TRAIT_ORTH_COORDS)
+DISCR_STD_TRANSF_TRAIT_PROD <- latex(DISCR_STD_COORDS_TRANSP, TRAIT_TRANSFORM)
+INVARIANCE_EQ               <- latex_eq(
+  DISCR_TRAIT_PROD,
+  DISCR_TRAIT_STD_COORDS_PROD,
+  DISCR_STD_TRANSF_TRAIT_PROD
+)
+
+# Discrimination vector coordinates (in original basis):
+TEST_SPACE_BASIS    <- latex_cal("B^*")
+DISCR_COORDS        <- latex_raised_to(DISCR_VECTOR, exp = TEST_SPACE_BASIS)
+DISCR_COORDS_ALT    <- latex_coords(DISCR_VECTOR, basis = TEST_SPACE_BASIS)
+DISCR_COORDS_ALT_EQ <- latex_eq(DISCR_COORDS, DISCR_COORDS_ALT)
+
+# Test space basis:
+ITEM_BASIS_VECTOR_EL      <- latex('v')
+ITEM_BASIS_VECTOR         <- latex_bf(ITEM_BASIS_VECTOR_EL)
+ITEM_BASIS_VECTOR_FIRST   <- latex_sub(ITEM_BASIS_VECTOR, 1)
+ITEM_BASIS_VECTOR_LAST    <- latex_sub(ITEM_BASIS_VECTOR, N_DIMS)
+TEST_SPACE_BASIS_ELEMENTS <- latex_enum(
+  ITEM_BASIS_VECTOR_FIRST,
+  ELLIPSIS,
+  ITEM_BASIS_VECTOR_LAST
+)
+TEST_SPACE_BASIS_SET      <- latex_curlybraces(TEST_SPACE_BASIS_ELEMENTS)
+TEST_SPACE_BASIS_EQ       <- latex_eq(TEST_SPACE_BASIS, TEST_SPACE_BASIS_SET)
+
+# Standardized discrimination vector:
 TRANSFORM_MATRIX_INV        <- latex_inverse(TRANSFORM_MATRIX)
 TRANSFORM_MATRIX_TRANSP_INV <- latex_transp("{$TRANSFORM_MATRIX_INV$}")
+DISCR_STD_COORDS_DEF        <- latex(TRANSFORM_MATRIX_TRANSP_INV, DISCR_COORDS)
+DISCR_STD_COORDS_EQ         <- latex_eq(
+  DISCR_STD_COORDS,
+  DISCR_STD_COORDS_DEF
+)
+
+# Inverse inner product matrix:
+INNER_PROD_MATRIX_INV       <- latex_inverse(INNER_PROD_MATRIX)
 INNER_PROD_MATRIX_INV_DEF   <- latex(
   TRANSFORM_MATRIX_INV,
   TRANSFORM_MATRIX_TRANSP_INV
@@ -273,16 +307,51 @@ INNER_PROD_MATRIX_INV_EQ    <- latex_eq(
   INNER_PROD_MATRIX_INV_DEF
 )
 
+# Discrimination vector module:
+DISCR_VECTOR_MODULE      <- latex_norm(DISCR_VECTOR)
+DISCR_VECTOR_MODULE_SQ   <- latex_squared(DISCR_VECTOR_MODULE)
+DISCR_VECTOR_PROD        <- latex(DISCR_STD_COORDS_TRANSP, DISCR_STD_COORDS)
+DISCR_COORDS_TRANSP      <- latex_transp(DISCR_COORDS)
+DISCR_VECTOR_TRANSF_PROD <- latex(
+  DISCR_COORDS_TRANSP,
+  TRANSFORM_MATRIX_INV,
+  DISCR_STD_COORDS_DEF
+)
+DISCR_VECTOR_INNER_PROD  <- latex(
+  DISCR_COORDS_TRANSP,
+  INNER_PROD_MATRIX_INV,
+  DISCR_COORDS
+)
+DISCR_VECTOR_MODULE_EQ   <- latex_eq(
+  DISCR_VECTOR_MODULE_SQ,
+  DISCR_VECTOR_PROD,
+  DISCR_VECTOR_TRANSF_PROD,
+  DISCR_VECTOR_INNER_PROD
+)
+
+# Inner product:
+TEST_SPACE_INNER_PROD <- latex_innerprod(basis = TEST_SPACE_BASIS)
+DISCR_VECTOR_AUX      <- latex_sub(DISCR_VECTOR_ANY, DIM_INDEX)
+DISCR_COORDS_AUX    <- latex_raised_to(DISCR_VECTOR_AUX, exp = TEST_SPACE_BASIS)
+INNER_PROD_DISCR      <- latex_innerprod(DISCR_VECTOR, DISCR_VECTOR_AUX)
+INNER_PROD_DISCR_DEF  <- latex(
+  DISCR_COORDS_TRANSP,
+  INNER_PROD_MATRIX_INV,
+  DISCR_COORDS_AUX
+)
+INNER_PROD_DISCR_EQ  <- latex_eq(INNER_PROD_DISCR, INNER_PROD_DISCR_DEF)
+
 ### Direction cosines ----
 
 # Cosine of the angle between two vectors:
-ANGLE           <- latex("\\gamma")
-ANGLE_VECTORS   <- latex_sub(ANGLE, "$AUX_INDEX$$DIM_INDEX$")
-COS_VECTORS     <- latex_cos(ANGLE_VECTORS)
-TRAIT_VC_J_NORM <- latex_norm(TRAIT_VECTOR_J)
-TRAIT_VC_K_NORM <- latex_norm(TRAIT_VECTOR_K)
-COS_VECTORS_DEF <- latex_frac(
-  INNER_PROD_TRAIT,
+ANGLE                     <- latex("\\gamma")
+ANGLE_VECTORS             <- latex_sub(ANGLE, "$AUX_INDEX$$DIM_INDEX$")
+COS_VECTORS               <- latex_cos(ANGLE_VECTORS)
+TRAIT_VC_J_NORM           <- latex_norm(TRAIT_VECTOR_J)
+TRAIT_VC_K_NORM           <- latex_norm(TRAIT_VECTOR_K)
+INNER_PROD_TRAIT_NO_BASIS <- latex_innerprod(TRAIT_VECTOR_J, TRAIT_VECTOR_K)
+COS_VECTORS_DEF           <- latex_frac(
+  INNER_PROD_TRAIT_NO_BASIS,
   "$TRAIT_VC_J_NORM$ $TRAIT_VC_K_NORM$"
 )
 COS_VECTORS_EQ  <- latex_eq(COS_VECTORS, COS_VECTORS_DEF)
@@ -310,8 +379,8 @@ BASIS_VECTOR_ANY_COORDS    <- latex_raised_to(
   exp = LS_BASIS
 )
 DIR_COSINE_DEF_EXPANDED    <- latex(
-  BASIS_VECTOR_ANY_NORM_INV, TRAIT_NORM_INV,                # Denominators
-  BASIS_VECTOR_ANY_COORDS, INNER_PROD_MATRIX, TRAIT_COORDS, # Numerators
+  BASIS_VECTOR_ANY_NORM_INV, TRAIT_NORM_INV,               # Denominators
+  BASIS_VECTOR_ANY_COORDS, INNER_PROD_MATRIX, TRAIT_COORDS # Numerators
 )
 DIR_COSINE_EQ              <- latex_eq(
   DIR_COS_ANY_ORG,
@@ -328,12 +397,12 @@ DIR_COS_VEC_ORG   <- latex_cos(DIR_ANGLE_VEC_ORG)
 
 # Direction cosine vector (in original space):
 DIAG_MATRIX_INNER_PROD        <- latex_bf('D')
-DIAG_MATRIX_INNER_PROD_INV_SQ <- latex_raised_to(
+DIAG_MATRIX_INNER_PROD_SR_INV <- latex_raised_to(
   DIAG_MATRIX_INNER_PROD,
   exp = latex("-$FRAC_1_2$")
 )
 DIR_COS_VEC_DEF               <- latex_frac(
-  latex(DIAG_MATRIX_INNER_PROD_INV_SQ, INNER_PROD_MATRIX, TRAIT_COORDS),
+  latex(DIAG_MATRIX_INNER_PROD_SR_INV, INNER_PROD_MATRIX, TRAIT_COORDS),
   TRAIT_NORM
 )
 DIR_COS_VEC_EQ                <- latex_eq(DIR_COS_VEC_ORG, DIR_COS_VEC_DEF)
@@ -384,7 +453,7 @@ DIR_COS_DEF_COORDS <- latex_frac(
 )
 
 # Inner product (defined with standard basis vector):
-STD_BASIS_VECTOR_EL         <- latex('b')
+STD_BASIS_VECTOR_EL         <- latex('e')
 STD_BASIS_VECTOR            <- latex_bf(STD_BASIS_VECTOR_EL)
 STD_BASIS_VECTOR_ANY        <- latex_sub(STD_BASIS_VECTOR, sub = DIM_INDEX)
 STD_BASIS_VECTOR_ANY_TRANSP <- latex_transp(STD_BASIS_VECTOR_ANY)
@@ -625,7 +694,7 @@ ALT_MATRIX_AS_ID <- latex_eq(DIAG_MATRIX_INNER_PROD_ALT, ID_MATRIX)
 DIR_COS_AS_DIR_COS_STD        <- latex(
   TRANSFORM_MATRIX_TRANSP_INV,
   DIAG_MATRIX_INNER_PROD_SQ,
-  DIR_COS_VEC_ORG,
+  DIR_COS_VEC_ORG
 )
 DIR_COS_AS_DIR_COS_ORTH_EQ    <- latex_eq(
   DIR_COS_VEC_STD,
@@ -652,15 +721,9 @@ DISCR_VEC_ITEM_COEFF <- latex(DISCR_VECTOR_TRANSP, ITEM_POLAR_COEFF)
 SLOPE_MAX_DEF        <- latex(FRAC_1_4, DISCR_VEC_ITEM_COEFF)
 SLOPE_MAX_EQ         <- latex_eq(SLOPE_MAX, SLOPE_MAX_DEF)
 
-# Standardized discrimination vector:
-DISCR_VECTOR_STD     <- latex_prime(DISCR_VECTOR)
-DISCR_VECTOR_STD_DEF <- latex(TRANSFORM_MATRIX_TRANSP_INV, DISCR_VECTOR)
-DISCR_VECTOR_STD_EQ  <- latex_def(DISCR_VECTOR_STD, DISCR_VECTOR_STD_DEF)
-
 # Maximum slope as a function of standardized discrimination vectors:
-DISCR_VECTOR_STD_TRANSP  <- latex_transp(DISCR_VECTOR_STD)
 DIR_COS_ITEM_VEC_STD     <- DIR_COS_VEC_STD |> latex_sub(ITEM_INDEX)
-DISCR_VEC_ITEM_STD_COEFF <- latex(DISCR_VECTOR_STD_TRANSP, DIR_COS_ITEM_VEC_STD)
+DISCR_VEC_ITEM_STD_COEFF <- latex(DISCR_STD_COORDS_TRANSP, DIR_COS_ITEM_VEC_STD)
 SLOPE_MAX_STD_DEF        <- latex(FRAC_1_4, DISCR_VEC_ITEM_STD_COEFF)
 SLOPE_MAX_STD_EQ         <- latex_eq(SLOPE_MAX, SLOPE_MAX_STD_DEF)
 
@@ -675,11 +738,12 @@ SLOPE_MAX_STD_COSINES_DEF <- latex(
   ITEM_POLAR_COEFF_COS_STD
 )
 SLOPE_MAX_STD_COSINES_EQ  <- latex_eq(SLOPE_MAX, SLOPE_MAX_STD_COSINES_DEF)
+DISCR_VECTOR_COORDS_EQ    <- latex_eq(DISCR_VECTOR, DISCR_COORDS)
 
 # Item direction cosines (in satandardized space):
 DIR_COS_STD_ITEM_VEC_DEF <- latex_frac(
-  DISCR_VECTOR_STD,
-  latex_sqrt("$DISCR_VECTOR_STD_TRANSP$ $DISCR_VECTOR_STD$")
+  DISCR_STD_COORDS,
+  latex_sqrt("$DISCR_STD_COORDS_TRANSP$ $DISCR_STD_COORDS$")
 )
 DIR_COS_VEC_STD_EQ       <- latex_eq(
   DIR_COS_ITEM_VEC_STD,
@@ -688,14 +752,9 @@ DIR_COS_VEC_STD_EQ       <- latex_eq(
 
 # Item direction cosines:
 DIR_ANGLE_ITEM_VEC_EQ   <- latex_eq(DIR_ANGLE_VEC_ORG, DIR_ANGLE_ITEM_VEC)
-DISCR_VECTOR_INNER_PROD <- latex(
-  DISCR_VECTOR_TRANSP,
-  INNER_PROD_MATRIX_INV,
-  DISCR_VECTOR
-)
 DISCR_VECTOR_MODULE_DEF <- latex_sqrt(DISCR_VECTOR_INNER_PROD)
 DIR_COS_ITEM_VEC_DEF    <- latex_frac(
-  "$DIAG_MATRIX_INNER_PROD_INV_SQ$ $DISCR_VECTOR$",
+  "$DIAG_MATRIX_INNER_PROD_SR_INV$ $DISCR_VECTOR$",
   DISCR_VECTOR_MODULE_DEF
 )
 DIR_COS_ITEM_VEC_EQ     <- latex_eq(DIR_COS_ITEM_VEC, DIR_COS_ITEM_VEC_DEF)
@@ -713,61 +772,15 @@ DISTANCE_PARAM_DEF  <- latex_frac("-$INTERCEPT_PARAM$", DISCR_VECTOR_MODULE_DEF)
 DISTANCE_PARAM_EQ    <- latex_eq(DISTANCE_PARAM, DISTANCE_PARAM_DEF)
 
 # Maximum slope:
-
 SLOPE_MAX_PARAM     <- latex_sub('S', ITEM_INDEX)
 SLOPE_MAX_PARAM_DEF <- latex(FRAC_1_4, DISCR_VECTOR_MODULE_DEF)
 SLOPE_MAX_PARAM_EQ  <- latex_eq(SLOPE_MAX_PARAM, SLOPE_MAX_PARAM_DEF)
-
-### Test space ----
-
-# Test space:
-TEST_SPACE <- latex_bf("A")
-
-# Test space basis:
-ITEM_BASIS_VECTOR_EL      <- latex('v')
-ITEM_BASIS_VECTOR         <- latex_bf(ITEM_BASIS_VECTOR_EL)
-ITEM_BASIS_VECTOR_FIRST   <- latex_sub(ITEM_BASIS_VECTOR, 1)
-ITEM_BASIS_VECTOR_LAST    <- latex_sub(ITEM_BASIS_VECTOR, N_DIMS)
-ITEM_SPACE_BASIS          <- latex_cal("B^*")
-ITEM_SPACE_BASIS_ELEMENTS <- latex_enum(
-  ITEM_BASIS_VECTOR_FIRST,
-  ELLIPSIS,
-  ITEM_BASIS_VECTOR_LAST
-)
-ITEM_SPACE_BASIS_SET      <- latex_curlybraces(ITEM_SPACE_BASIS_ELEMENTS)
-ITEM_SPACE_BASIS_EQ       <- latex_eq(ITEM_SPACE_BASIS, ITEM_SPACE_BASIS_SET)
-
-# Inner product:
-DISCR_VECTOR_K       <- latex_sub(DISCR_VECTOR_ANY, DIM_INDEX)
-DISCR_VECTOR_TRANSP  <- latex_transp(DISCR_VECTOR)
-INNER_PROD_DISCR     <- latex_innerprod(DISCR_VECTOR, DISCR_VECTOR_K)
-INNER_PROD_DISCR_DEF <- latex(
-  DISCR_VECTOR_TRANSP,
-  INNER_PROD_MATRIX_INV,
-  DISCR_VECTOR_K
-)
-INNER_PROD_DISCR_EQ  <- latex_eq(INNER_PROD_DISCR, INNER_PROD_DISCR_DEF)
-
-# Discrimination vector module:
-DISCR_VECTOR_MODULE      <- latex_norm(DISCR_VECTOR)
-DISCR_VECTOR_MODULE_SQ   <- latex_squared(DISCR_VECTOR_MODULE)
-DISCR_VECTOR_TRANSF_PROD <- latex(
-  DISCR_VECTOR_TRANSP,
-  TRANSFORM_MATRIX_INV,
-  TRANSFORM_MATRIX_TRANSP_INV,
-  DISCR_VECTOR
-)
-DISCR_VECTOR_MODULE_EQ   <- latex_eq(
-  DISCR_VECTOR_MODULE_SQ,
-  DISCR_VECTOR_TRANSF_PROD,
-  DISCR_VECTOR_INNER_PROD
-)
 
 # Maximum slope (and location) as a function of item discrimination norm:
 
 ## Item direction cosines:
 DIR_COS_ITEM_VEC_NORM_DEF    <- latex_frac(
-  "$DIAG_MATRIX_INNER_PROD_INV_SQ$ $DISCR_VECTOR$",
+  "$DIAG_MATRIX_INNER_PROD_SR_INV$ $DISCR_VECTOR$",
   DISCR_VECTOR_MODULE
 )
 DIR_COS_ITEM_VEC_NORM_EQ     <- latex_eq(
@@ -799,35 +812,40 @@ INNER_PROD_INV_MAT_ELEMENT_EQ <- latex_eq(
 )
 
 # Change of basis matrix:
-BASIS_CHANGE_TEST_SPACE <- latex_basis_change(ITEM_SPACE_BASIS, LS_ORTH_BASIS) # TODO: Orthogonal basis OK?
+BASIS_CHANGE_TEST_SPACE <- latex_basis_change(TEST_SPACE_BASIS, LS_ORTH_BASIS) # TODO: Orthogonal basis OK?
 BASIS_CHANGE_TS_EQ      <- latex_eq(
   BASIS_CHANGE_TEST_SPACE,
   TRANSFORM_MATRIX_TRANSP_INV
 )
-DISCR_VECTOR_STD_MODULE <- latex_norm(DISCR_VECTOR_STD)
-DISCR_VECTOR_STD_MOD_EQ <- latex_eq(
+DISCR_STD_COORDS_MODULE <- latex_norm(DISCR_STD_COORDS)
+DISCR_STD_COORDS_MOD_EQ <- latex_eq(
   DISCR_VECTOR_MODULE,
-  DISCR_VECTOR_STD_MODULE
+  DISCR_STD_COORDS_MODULE
 )
+
+### Relationship between test space and latent space: ----
+
+# Equating the orthonormal bases:
+BASES_EQ <- latex_eq(LS_ORTH_BASIS, TEST_SPACE_STD_BASIS)
 
 # Item direction cosines (in test space):
 ANGLE_TS                          <- latex("\\alpha")
+ANGLE_VEC_TS                      <- latex_bf(ANGLE_TS)
+ANGLE_VEC_TS_ITEM                 <- latex_sub(ANGLE_VEC_TS, ITEM_INDEX)
 ANGLE_TS_ITEM                     <- latex_sub(
   ANGLE_TS,
   "$ITEM_INDEX$$DIM_INDEX$"
 )
-DIR_ANGLE_VEC_TS                  <- latex_bf(ANGLE_TS)
-DIR_COS_VEC_TS                    <- latex_cos(DIR_ANGLE_VEC_TS)
-DIR_ANGLE_ITEM_VEC_TS             <- latex_sub(DIR_ANGLE_VEC_TS, ITEM_INDEX)
-DIR_COS_ITEM_VEC_TS               <- latex_cos(DIR_ANGLE_ITEM_VEC_TS)
+DIR_COS_VEC_TS                    <- latex_cos(ANGLE_VEC_TS)
+DIR_COS_ITEM_VEC_TS               <- latex_cos(ANGLE_VEC_TS_ITEM)
 DIAG_MATRIX_INNER_PROD_INV        <- latex_prime(DIAG_MATRIX_INNER_PROD)
-DIAG_MATRIX_INNER_PROD_INV_SQ_INV <- latex_raised_to(
+DIAG_MATRIX_INNER_PROD_INV_SR_INV <- latex_raised_to(
   DIAG_MATRIX_INNER_PROD_INV,
   exp   = latex("-$FRAC_1_2$"),
   .par  = TRUE
 )
 DIAG_M_DISCR_PROD                 <- latex(
-  DIAG_MATRIX_INNER_PROD_INV_SQ_INV,
+  DIAG_MATRIX_INNER_PROD_INV_SR_INV,
   INNER_PROD_MATRIX_INV,
   DISCR_VECTOR
 )
@@ -890,54 +908,39 @@ MIL_AG_PARAM_EQ         <- latex_def(
   latex_curlybraces("$DISTANCE_AG_DEF$, $DIR_COS_ITEM_VEC_AG_DEF$")
 )
 
-# Transformed latent vector as orthogonal:
-MEAN_VECTOR_STD <- latex_prime(MEAN_VECTOR)
-COV_MATRIX_STD  <- latex_prime(COV_MATRIX)
-MV_DISTR_STD    <- latex(
-  NORMAL_DISTR,
-  latex_parentheses("$MEAN_VECTOR_STD$, $COV_MATRIX_STD$")
-)
-TRAIT_MV_STD_EQ <- latex_sim(TRAIT_ORTH_COORDS, MV_DISTR_STD)
-
-# Transformed latent vector as orthonormal:
-MV_DISTR_STD_NORM    <- latex(
-  NORMAL_DISTR,
-  latex_parentheses("$MEAN_VECTOR_STD$, $ID_MATRIX$")
-)
-TRAIT_MV_STD_NORM_EQ <- latex_sim(TRAIT_ORTH_COORDS, MV_DISTR_STD_NORM)
-
-#### Correlation-based version of the indices: ----
-
-# Condition to meet:
-CORR_MATRIX_INV      <- latex_inverse(CORR_MATRIX)
-INNER_PROD_CORR_COND <- latex_eq(INNER_PROD_MATRIX, CORR_MATRIX_INV)
-
-# MDISC:
-DISCR_VECTOR_CORR_INNER_PROD <- latex(
-  DISCR_VECTOR_TRANSP,
-  CORR_MATRIX,
-  DISCR_VECTOR
-)
-DISCR_VECTOR_CORR_MODULE     <- latex_sqrt(DISCR_VECTOR_CORR_INNER_PROD)
-MDISC_CORR_PARAM             <- latex_sub(MDISC_SYM, CORR_MATRIX)
-MDISC_CORR_PARAM_EQ          <- latex_def(
-  MDISC_CORR_PARAM,
-  DISCR_VECTOR_CORR_MODULE
-)
-
-# MIL:
-MIL_CORR_PARAM            <- latex_sub(MIL_PARAM, CORR_MATRIX)
-DISTANCE_CORR_DEF         <- latex_frac("- $INTERCEPT_PARAM$", MDISC_CORR_PARAM)
-DIR_COS_ITEM_VEC_CORR_DEF <- latex_frac(
-  "$CORR_MATRIX$ $DISCR_VECTOR$",
-  MDISC_CORR_PARAM
-)
-MIL_CORR_PARAM_EQ         <- latex_def(
-  MIL_CORR_PARAM,
-  latex_curlybraces("$DISTANCE_CORR_DEF$, $DIR_COS_ITEM_VEC_CORR_DEF$")
-)
-
 #### Covariance-based version of the indices: ----
+
+# Covariance matrix definition:
+COV_MATRIX     <- latex_bf("\\Sigma")
+COV_MATRIX_LS  <- latex_raised_to(COV_MATRIX, exp = LS_BASIS)
+CORR_MATRIX    <- latex_bf('R')
+SD_MATRIX      <- latex_bf('S')
+COV_MATRIX_DEF <- latex(SD_MATRIX, CORR_MATRIX, SD_MATRIX)
+SD_ELEMENT     <- latex_sub('s', "$DIM_INDEX$$DIM_INDEX$")
+VAR_ELEMENT    <- latex_squared(SD_ELEMENT)
+COV_SYMBOL     <- latex("\\sigma")
+COV_SYM_DIAG   <- COV_SYMBOL   |> latex_sub("$DIM_INDEX$$DIM_INDEX$")
+COV_ELEMENT    <- COV_SYM_DIAG |> latex_squared()
+VAR_COV_EQ     <- latex_eq(VAR_ELEMENT, COV_ELEMENT)
+COV_MATRIX_EQ  <- latex_eq(COV_MATRIX, COV_MATRIX_LS, COV_MATRIX_DEF)
+
+# Covariance matrix in the orthonormal basis:
+COV_MATRIX_ORTH    <- latex_raised_to(COV_MATRIX, exp = LS_ORTH_BASIS)
+COV_MATRIX_ORTH_EQ <- latex_eq(COV_MATRIX_ORTH, ID_MATRIX)
+
+# Inner product matrix deduction:
+COV_MATRIX_TRANSF       <- latex(
+  TRANSFORM_MATRIX,
+  COV_MATRIX,
+  TRANSFORM_MATRIX_TRANSP
+)
+COV_MATRIX_TRANSF_EQ    <- latex_eq(COV_MATRIX_ORTH, COV_MATRIX_TRANSF)
+COV_MATRIX_TRANSF_ID_EQ <- latex_eq(COV_MATRIX_TRANSF, ID_MATRIX)
+COV_MATRIX_RESULT_EQ    <- latex_eq(
+  COV_MATRIX,
+  INNER_PROD_MATRIX_INV_DEF,
+  INNER_PROD_MATRIX_INV
+)
 
 # Condition to meet:
 COV_MATRIX_INV      <- latex_inverse(COV_MATRIX)
@@ -977,17 +980,230 @@ MIL_COV_PARAM_EQ                  <- latex_def(
   latex_curlybraces("$DISTANCE_COV_DEF$, $DIR_COS_ITEM_VEC_COV_DEF$")
 )
 
-### Parameter properties: ----
+# Covariance-based version properties:
 
-# Generalization from unidimensional IRT:
+## Generalization from unidimensional IRT:
 MDISC_UNIDIM_EQ    <- latex_eq(MDISC_SYM, DISCR_PARAM)
 DIST_INTERCEPT_REL <- latex_eq(
   INTERCEPT_PARAM,
   "- $DISTANCE_PARAM$ $MDISC_SYM$"
 )
-DIAG_KTH_ELEMENT   <- latex(DIM_INDEX, DIM_INDEX, .sep = NO_SEP)
 
-# Director cosines:
+# Scale invariance:
+DIAG_KTH_ELEMENT                <- latex(DIM_INDEX, DIM_INDEX, .sep = NO_SEP)
+INNER_PROD_MAT_INV_ELEMENT      <- INNER_PROD_MAT_ELEMENT     |> latex_inverse()
+INNER_PROD_MAT_INV_DIAG_ELEMENT <- INNER_PROD_MAT_INV_ELEMENT |>
+  latex_sub(DIAG_KTH_ELEMENT)
+MDISC_UNIDIM_GENERALIZED        <- latex(
+  INNER_PROD_MAT_INV_DIAG_ELEMENT,
+  DISCR_PARAM
+)
+
+## Scale invariance of the covariance-based MDISC:
+MDISC_UNIDIM_GENERALIZED_EQ <- latex_eq(MDISC_SYM, MDISC_UNIDIM_GENERALIZED)
+MDISC_COV_BASED_UNIDIM      <- latex(COV_SYM_DIAG, DISCR_PARAM)
+MDISC_COV_BASED_UNIDIM_EQ   <- latex_eq(MDISC_COV_PARAM, MDISC_COV_BASED_UNIDIM)
+
+#### Correlation-based version of the indices: ----
+
+# Ancillary transform matrix:
+TRANSFORM_MATRIX_AUX         <- latex_bf('Q')
+TRANSFORM_MATRIX_AUX_DEF     <- latex(TRANSFORM_MATRIX, SD_MATRIX_INV)
+TRANSFORM_MATRIX_AUX_EQ      <- latex_eq(
+  TRANSFORM_MATRIX_AUX,
+  TRANSFORM_MATRIX_AUX_DEF
+)
+TRANSFORM_MATRIX_AUX_TRANSP  <- TRANSFORM_MATRIX_AUX |> latex_transp()
+TRANSFORM_MATRIX_AUX_APPLIED <- latex(
+  TRANSFORM_MATRIX_AUX,
+  COV_MATRIX,
+  TRANSFORM_MATRIX_AUX_TRANSP
+)
+TRANSFORM_MATRIX_AUX_RESULT <- latex_eq(ID_MATRIX, TRANSFORM_MATRIX_AUX_APPLIED)
+
+# Correlation resulting as inner-product matrix:
+TRANSFORM_MATRIX_AUX_TRANSP_DEF <- latex(SD_MATRIX_INV, TRANSFORM_MATRIX_TRANSP)
+TRANSFORM_MATRIX_AUX_SUBS       <- latex(
+  TRANSFORM_MATRIX_AUX_DEF,
+  COV_MATRIX,
+  TRANSFORM_MATRIX_AUX_TRANSP_DEF
+)
+TRANSFORM_MATRIX_AUX_CORR       <- latex(
+  TRANSFORM_MATRIX_AUX_DEF,
+  SD_MATRIX,
+  CORR_MATRIX,
+  SD_MATRIX,
+  TRANSFORM_MATRIX_AUX_TRANSP_DEF
+)
+TRANSFORM_MATRIX_AUX_FINAL      <- latex(
+  TRANSFORM_MATRIX,
+  CORR_MATRIX,
+  TRANSFORM_MATRIX_TRANSP
+)
+CORR_BASED_DERIVATION           <- latex_eq(
+  TRANSFORM_MATRIX_AUX_SUBS,
+  TRANSFORM_MATRIX_AUX_CORR,
+  TRANSFORM_MATRIX_AUX_FINAL
+)
+
+# Transform matrix equivalence:
+TRANSFORM_MATRIX_CORR_BASED_DEF <- latex(TRANSFORM_MATRIX_AUX, SD_MATRIX)
+
+# Condition to meet:
+INNER_PROD_CORR_COND <- latex_eq(
+  INNER_PROD_MATRIX_INV,
+  INNER_PROD_MATRIX_INV_DEF,
+  CORR_MATRIX
+)
+
+# MDISC:
+DISCR_VECTOR_CORR_INNER_PROD <- latex(
+  DISCR_VECTOR_TRANSP,
+  CORR_MATRIX,
+  DISCR_VECTOR
+)
+DISCR_VECTOR_CORR_MODULE     <- latex_sqrt(DISCR_VECTOR_CORR_INNER_PROD)
+MDISC_CORR_PARAM             <- latex_sub(MDISC_SYM, CORR_MATRIX)
+MDISC_CORR_PARAM_EQ          <- latex_def(
+  MDISC_CORR_PARAM,
+  DISCR_VECTOR_CORR_MODULE
+)
+
+# MIL:
+MIL_CORR_PARAM            <- latex_sub(MIL_PARAM, CORR_MATRIX)
+DISTANCE_CORR_DEF         <- latex_frac("- $INTERCEPT_PARAM$", MDISC_CORR_PARAM)
+DIR_COS_ITEM_VEC_CORR_DEF <- latex_frac(
+  "$CORR_MATRIX$ $DISCR_VECTOR$",
+  MDISC_CORR_PARAM
+)
+MIL_CORR_PARAM_EQ         <- latex_def(
+  MIL_CORR_PARAM,
+  latex_curlybraces("$DISTANCE_CORR_DEF$, $DIR_COS_ITEM_VEC_CORR_DEF$")
+)
+
+### Vector representation: ----
+
+# Item coordinates definition:
+ORIGIN            <- latex_bf('o')
+ORIGIN_ITEM       <- ORIGIN      |> latex_sub(ITEM_INDEX)
+ORIGIN_ITEM_BASIS <- ORIGIN_ITEM |> latex_raised_to(exp = TEST_SPACE_BASIS)
+ORIGIN_ITEM_ORTH  <- ORIGIN_ITEM |> latex_raised_to(exp = TEST_SPACE_STD_BASIS)
+END               <- latex_bf('e')
+END_ITEM          <- END      |> latex_sub(ITEM_INDEX)
+END_ITEM_BASIS    <- END_ITEM |> latex_raised_to(exp = TEST_SPACE_BASIS)
+END_ITEM_ORTH     <- END_ITEM |> latex_raised_to(exp = TEST_SPACE_STD_BASIS)
+
+# Coordinate transformation to orthonormal basis:
+ORIGIN_TRANSF_DEF <- latex(TRANSFORM_MATRIX_TRANSP_INV, ORIGIN_ITEM_BASIS)
+ORIGIN_TRANSF_EQ  <- latex_eq(ORIGIN_ITEM_ORTH, ORIGIN_TRANSF_DEF)
+END_TRANSF_DEF    <- latex(TRANSFORM_MATRIX_TRANSP_INV, END_ITEM_BASIS)
+END_TRANSF_EQ     <- latex_eq(END_ITEM_ORTH, END_TRANSF_DEF)
+
+# Coordinates in orthonormal space:
+ORIGIN_ORTH_DEF  <- latex(DISTANCE_PARAM, DIR_COS_VEC_STD)
+ORIGIN_ORTH_EQ   <- latex_eq(ORIGIN_ITEM_ORTH, ORIGIN_ORTH_DEF, .align = TRUE)
+END_ORTH_DIR_DEF <- latex(ORIGIN_ITEM_ORTH, '+', MDISC_ITEM, DIR_COS_VEC_STD)
+END_ORTH_EQ      <- latex_eq(END_ITEM_ORTH, END_ORTH_DIR_DEF, .align = TRUE)
+
+# Origin coordinates:
+ORIGIN_ORTH_DIR_DEF    <- latex(DISTANCE_PARAM, DIR_COS_VEC_STD)
+DIR_COS_ORTH_DISCR_DEF <- latex_frac(DISCR_STD_COORDS_DEF, DISCR_VECTOR_MODULE)
+ORIGIN_ORTH_DISCR_DEF  <- latex(DISTANCE_PARAM, DIR_COS_ORTH_DISCR_DEF)
+ORIGIN_ORTH_DISCR_EQ   <- latex_eq(ORIGIN_TRANSF_DEF, ORIGIN_ORTH_DISCR_DEF)
+
+# Origin coordinates derivation:
+ORIGIN_TRANSF_DISCR_DEF       <- latex(
+  DISTANCE_PARAM,
+  TRANSFORM_MATRIX_TRANSP,
+  DIR_COS_ORTH_DISCR_DEF
+)
+ORIGIN_TRANSF_SQUARED_DEF     <- latex(
+  DISTANCE_PARAM,
+  INNER_PROD_TRANSF_DEF,
+  latex_frac("$INNER_PROD_MATRIX_INV_DEF$ $DISCR_COORDS$", DISCR_VECTOR_MODULE)
+)
+ORIGIN_INNERPROD_DEF          <- latex(
+  DISTANCE_PARAM,
+  INNER_PROD_MATRIX,
+  latex_frac("$INNER_PROD_MATRIX_INV$ $DISCR_COORDS$", DISCR_VECTOR_MODULE)
+)
+DIAG_MATRIX_INNER_PROD_INV_SR <- latex_raised_to(
+  DIAG_MATRIX_INNER_PROD_INV,
+  exp   = FRAC_1_2,
+  .par  = TRUE
+)
+INNER_PROD_MAT_DIAG_INV_PROD  <- latex(
+  INNER_PROD_MATRIX,
+  DIAG_MATRIX_INNER_PROD_INV_SR
+)
+ORIGIN_INNERPROD_DIAG_DEF     <- latex(
+  DISTANCE_PARAM,
+  INNER_PROD_MAT_DIAG_INV_PROD,
+  latex_frac(
+    "$DIAG_MATRIX_INNER_PROD_INV_SR_INV$ $INNER_PROD_MATRIX_INV$ $DISCR_COORDS$",
+    DISCR_VECTOR_MODULE
+  )
+)
+ORIGIN_INNERPROD_DIR_COS_DEF  <- latex(
+  DISTANCE_PARAM,
+  INNER_PROD_MAT_DIAG_INV_PROD,
+  DIR_COS_ITEM_VEC_TS
+)
+ORIGIN_ITEM_COORDS_EQ         <- latex_eq(
+  ORIGIN_ITEM_BASIS,
+  ORIGIN_TRANSF_DISCR_DEF,
+  .align = TRUE
+)
+ORIGIN_TRANSF_SQUARED_EQ      <- latex_eq(
+  '',
+  ORIGIN_TRANSF_SQUARED_DEF,
+  .align = TRUE
+)
+ORIGIN_INNERPROD_EQ           <- latex_eq(
+  '',
+  ORIGIN_INNERPROD_DEF,
+  .align = TRUE
+)
+ORIGIN_INNERPROD_DIAG_EQ      <- latex_eq(
+  '',
+  ORIGIN_INNERPROD_DIAG_DEF,
+  .align = TRUE
+)
+ORIGIN_INNERPROD_DIR_COS_EQ   <- latex_eq(
+  ORIGIN_ITEM_BASIS,
+  ORIGIN_INNERPROD_DIR_COS_DEF
+)
+
+# End coordinates derivation (by analogy):
+END_ITEM_COORDS_DEF <- latex(
+  ORIGIN_ITEM_BASIS,
+  '+',
+  MDISC_ITEM,
+  INNER_PROD_MAT_DIAG_INV_PROD,
+  DIR_COS_ITEM_VEC_TS
+)
+END_ITEM_COORDS_EQ  <- latex_eq(END_ITEM_BASIS, END_ITEM_COORDS_DEF)
+
+# Origin coordinates as original parameters:
+ORIGIN_ITEM_PARAMS_DEF <- latex_frac(
+  "-$INTERCEPT_PARAM$ $DISCR_VECTOR$",
+  DISCR_VECTOR_MODULE |> latex_squared()
+)
+ORIGIN_ITEM_PARAMS_EQ  <- latex_eq(
+  ORIGIN_ITEM_BASIS,
+  ORIGIN_ITEM_PARAMS_DEF,
+  .align = TRUE
+)
+END_ITEM_PARAMS_DEF    <- latex(ORIGIN_ITEM_BASIS, '+', DISCR_VECTOR)
+END_ITEM_PARAMS_EQ     <- latex_eq(
+  END_ITEM_BASIS,
+  END_ITEM_PARAMS_DEF,
+  .align = TRUE
+)
+
+#### Geometric properties of the parameters: ----
+
+# Direction cosines:
 ANGLE_VECTORS_ITEM   <- latex_sub(ANGLE, "$ITEM_INDEX$$DIM_INDEX$")
 COS_VECTORS_ITEM     <- latex_cos(ANGLE_VECTORS_ITEM)
 SIGN_COS_VEC_ITEM    <- latex_sign(COS_VECTORS_ITEM, .par = TRUE)
@@ -995,35 +1211,40 @@ SIGN_COS_VEC_ITEM_EQ <- latex_eq(SIGN_COS_VEC_ITEM, 0)
 
 ### Graphical representation: ----
 
-TRANSF_MATRIX_SQ_CORR_INV_EQ <- latex_eq(INNER_PROD_TRANSF_DEF, CORR_MATRIX_INV)
+# Correlation-based version justification:
+COV_INV_SD_PROD        <- latex(COV_MATRIX_INV, SD_MATRIX)
+CORR_MATRIX_INV        <- latex_inverse(CORR_MATRIX)
+SD_INV_CORR_INV_PROD   <- latex(SD_MATRIX_INV, CORR_MATRIX_INV)
+COV_BASED_SCALE_MAT_EQ <- latex_eq(COV_INV_SD_PROD, SD_INV_CORR_INV_PROD)
+
+## TODO: Review the following (and maybe delete)
+DISTANCE_CORR_PARAM <- latex_sub(DISTANCE_SYM, "$CORR_MATRIX$$ITEM_INDEX$")
+DIR_CORR_PARAM      <- latex_sub(DIR_COS_VEC_TS,  "$CORR_MATRIX$$ITEM_INDEX$")
+ORIGIN_ITEM_COMP  <- latex(DISTANCE_CORR_PARAM, CORR_MATRIX_INV, DIR_CORR_PARAM)
+ORIGIN_ITEM_EQ      <- latex_eq(ORIGIN_ITEM_BASIS, ORIGIN_ITEM_COMP)
+
+# Item parameters:
 MDISC_CORR_PARAM_ITEM        <- latex_sub(
-  MDISC_SYM,
-  "$CORR_MATRIX$$ITEM_INDEX$"
+MDISC_SYM,
+"$CORR_MATRIX$$ITEM_INDEX$"
 )
 MIL_CORR_PARAM_ITEM          <- latex_sub(
   MIL_PARAM,
   "$CORR_MATRIX$$ITEM_INDEX$"
 )
 
-ORIGIN              <- latex_bf('o')
-ORIGIN_ITEM         <- latex_sub(ORIGIN, ITEM_INDEX)
-DISTANCE_CORR_PARAM <- latex_sub(DISTANCE_SYM, "$CORR_MATRIX$$ITEM_INDEX$")
-DIR_CORR_PARAM      <- latex_sub(DIR_COS_VEC_TS,  "$CORR_MATRIX$$ITEM_INDEX$")
-ORIGIN_ITEM_COMP    <- latex(DISTANCE_CORR_PARAM, DIR_CORR_PARAM)
-ORIGIN_ITEM_EQ      <- latex_eq(ORIGIN_ITEM, ORIGIN_ITEM_COMP)
+# End coordinates:
+END_ITEM_COMP <- latex(
+  ORIGIN_ITEM,
+  '+',
+  MDISC_CORR_PARAM_ITEM,
+  CORR_MATRIX_INV,
+  DIR_CORR_PARAM
+)
+END_ITEM_EQ   <- latex_eq(END_ITEM_BASIS, END_ITEM_COMP)
 
-END           <- latex_bf('e')
-END_ITEM      <- latex_sub(END, ITEM_INDEX)
-END_ITEM_COMP <- latex(ORIGIN_ITEM, '+', MDISC_CORR_PARAM_ITEM, DIR_CORR_PARAM)
-END_ITEM_EQ   <- latex_eq(END_ITEM, END_ITEM_COMP)
-
-ORIGIN_ITEM_TRANSF <- latex_prime(ORIGIN_ITEM)
-END_ITEM_TRANSF    <- latex_prime(END_ITEM)
-
-ORIGIN_ITEM_TRANSF_DEF <- latex(TRANSFORM_MATRIX, ORIGIN_ITEM)
-ORIGIN_ITEM_TRANSF_EQ  <- latex_eq(ORIGIN_ITEM_TRANSF, ORIGIN_ITEM_TRANSF_DEF)
-END_ITEM_TRANSF_DEF    <- latex(TRANSFORM_MATRIX, END_ITEM)
-END_ITEM_TRANSF_EQ     <- latex_eq(END_ITEM_TRANSF, END_ITEM_TRANSF_DEF)
+# Transform matrix:
+TRANSF_MATRIX_INV_SQ_CORR_EQ <- latex_eq(INNER_PROD_MATRIX_INV_DEF, CORR_MATRIX)
 
 #### Graphical representation example: ----
 
@@ -1037,6 +1258,6 @@ TRANSFORM_MATRIX_EXAMPLE    <- latex(
   sep = "\n"
 )
 TRANSFORM_MATRIX_EXAMPLE_EQ <- latex_def(
-  TRANSFORM_MATRIX,
+  TRANSFORM_MATRIX_TRANSP_INV,
   TRANSFORM_MATRIX_EXAMPLE
 )
