@@ -329,6 +329,9 @@ The norm of $`r DISCR_VECTOR`$ thus fulfills
 Therefore, an inner product $`r TEST_SPACE_INNER_PROD`$ with Gram matrix
 $`r INNER_PROD_MATRIX_INV`$ can be defined, such that $`r INNER_PROD_DISCR_EQ`$
 keeps the norm of $`r DISCR_VECTOR`$ invariant.
+Following @zhang_theoretical_1999, we shall refer to space $`r TEST_SPACE`$ as
+the *test space*, as it is the space where
+the items (i.e., the test elements) are represented.
 
 ### Direction cosines in the latent space
 
@@ -626,9 +629,6 @@ and thus can be mistaken.
 However, it is worth noting that, although their representation
 can be superimposed in this case,
 they are still two different spaces. <!-- # TODO: To discussion? -->
-Following @zhang_theoretical_1999, we shall refer to space $`r TEST_SPACE`$ as
-the *test space*, as it is the space where
-the items (i.e., the test elements) are represented.
 
 We must make a few observations here.
 First, the transformation to the orthonormal bases of the two spaces allows
