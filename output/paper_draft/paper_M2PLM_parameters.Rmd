@@ -1333,9 +1333,12 @@ On the other hand, the latent space,
 where the person parameters are represented,
 has the inverse of the covariance (correlation) matrix as
 its inner product matrix.
-This result is both surprising and counterintuitive;
-The MIRT literature suggests in several instances that
-"the angle between the axes [of latent ability space] represents
+This implies that the axes defined by the test space basis,
+and not the latent space basis,
+are a geometrical representation of the covariance structure.
+This result is both surprising and counterintuitive
+---Several instances in the MIRT literature suggest that
+"the angle between the axes [of the latent ability space] represents
 the degree of correlation" [@ackerman_multidimensional_2005-1, p. 16].
 We hope our results help shed a clearer light on
 this often misunderstood topic.
