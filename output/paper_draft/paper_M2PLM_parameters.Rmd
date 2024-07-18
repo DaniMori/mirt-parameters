@@ -329,6 +329,9 @@ The norm of $`r DISCR_VECTOR`$ thus fulfills
 Therefore, an inner product $`r TEST_SPACE_INNER_PROD`$ with Gram matrix
 $`r INNER_PROD_MATRIX_INV`$ can be defined, such that $`r INNER_PROD_DISCR_EQ`$
 keeps the norm of $`r DISCR_VECTOR`$ invariant.
+Following @zhang_theoretical_1999, we shall refer to space $`r TEST_SPACE`$ as
+the *test space*, as it is the space where
+the items (i.e., the test elements) are represented.
 
 ### Direction cosines in the latent space
 
@@ -439,7 +442,7 @@ i. $`r TRAIT_VECTOR_POLAR_EQ`$
 
 i. $`r TRAIT_VEC_ALT_POLAR_EQ`$
 
-Given 1,
+Given i,
 
 \begin{equation}
   `r TRAIT_VEC_ORTH_POLAR_EQ_XPAND`
@@ -451,7 +454,7 @@ and
   `r TRAIT_VEC_ALT_POLAR_ALT_EQ`.
 \end{equation}
 
-Using 2 and 3 we get that
+Using ii and iii we get that
 
 \begin{equation}
   `r TRAIT_VEC_ORTH_POLAR_ORG_EQ`
@@ -626,9 +629,6 @@ and thus can be mistaken.
 However, it is worth noting that, although their representation
 can be superimposed in this case,
 they are still two different spaces. <!-- # TODO: To discussion? -->
-Following @zhang_theoretical_1999, we shall refer to space $`r TEST_SPACE`$ as
-the *test space*, as it is the space where
-the items (i.e., the test elements) are represented.
 
 We must make a few observations here.
 First, the transformation to the orthonormal bases of the two spaces allows
@@ -645,8 +645,10 @@ where the item parameters naturally lie, they must be represented in this space,
 and not in the latent space.
 Therefore, we may find the direction angles of $`r DISCR_VECTOR`$
 in the test space:
-As both $`r LS_ORTH_BASIS`$ and $`r TEST_SPACE_STD_BASIS`$ are orthonormal,
-we can map one directly onto the other. Without loss of generality, we may thus
+As $`r LS_ORTH_BASIS`$ and $`r TEST_SPACE_STD_BASIS`$ are both
+orthonormal in $`r REAL_N_SPACE`$, without loss of generality
+we can consider that $`r BASES_EQ`$ (save for a rotation).
+We can then map the latent space directly onto the test space and
 apply Proposition 2, so if $`r ANGLE_VEC_TS_ITEM`$ is
 the vector of direction angles of $`r DISCR_VECTOR`$,
 in the test space $`r TEST_SPACE`$ we get
@@ -657,9 +659,6 @@ in the test space $`r TEST_SPACE`$ we get
 
 with $`r DIAG_MATRIX_INNER_PROD_INV`$ a diagonal matrix where
 $`r MATRIX_INNER_PROD_INV_EL_DIAG_EQ`$.
-<!-- # TODO: Revisar esto bien. Esto sólo aplica correctamente si efectivamente
-"equiparamos" las bases U y U*. Además, en la Proposición 2 estamos asumiendo
-que la "base de enlace" es la canónica, no una base ortonormal cualquiera. -->
 As we will see later, this representation is very convenient, as
 the direction of the item vectors with respect to the coordinate axes
 has a direct, meaningful interpretation.
