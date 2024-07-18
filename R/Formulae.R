@@ -823,6 +823,11 @@ DISCR_STD_COORDS_MOD_EQ <- latex_eq(
   DISCR_STD_COORDS_MODULE
 )
 
+### Relationship between test space and latent space: ----
+
+# Equating the orthonormal bases:
+BASES_EQ <- latex_eq(LS_ORTH_BASIS, TEST_SPACE_STD_BASIS)
+
 # Item direction cosines (in test space):
 ANGLE_TS                          <- latex("\\alpha")
 ANGLE_VEC_TS                      <- latex_bf(ANGLE_TS)

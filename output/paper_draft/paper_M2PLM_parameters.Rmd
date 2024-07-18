@@ -645,8 +645,10 @@ where the item parameters naturally lie, they must be represented in this space,
 and not in the latent space.
 Therefore, we may find the direction angles of $`r DISCR_VECTOR`$
 in the test space:
-As both $`r LS_ORTH_BASIS`$ and $`r TEST_SPACE_STD_BASIS`$ are orthonormal,
-we can map one directly onto the other. Without loss of generality, we may thus
+As $`r LS_ORTH_BASIS`$ and $`r TEST_SPACE_STD_BASIS`$ are both
+orthonormal in $`r REAL_N_SPACE`$, without loss of generality
+we can consider that $`r BASES_EQ`$ (save for a rotation).
+We can then map the latent space directly onto the test space and
 apply Proposition 2, so if $`r ANGLE_VEC_TS_ITEM`$ is
 the vector of direction angles of $`r DISCR_VECTOR`$,
 in the test space $`r TEST_SPACE`$ we get
@@ -657,9 +659,6 @@ in the test space $`r TEST_SPACE`$ we get
 
 with $`r DIAG_MATRIX_INNER_PROD_INV`$ a diagonal matrix where
 $`r MATRIX_INNER_PROD_INV_EL_DIAG_EQ`$.
-<!-- # TODO: Revisar esto bien. Esto sólo aplica correctamente si efectivamente
-"equiparamos" las bases U y U*. Además, en la Proposición 2 estamos asumiendo
-que la "base de enlace" es la canónica, no una base ortonormal cualquiera. -->
 As we will see later, this representation is very convenient, as
 the direction of the item vectors with respect to the coordinate axes
 has a direct, meaningful interpretation.
