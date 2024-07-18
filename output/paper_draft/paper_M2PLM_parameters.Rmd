@@ -848,29 +848,19 @@ Therefore,
   `r END_ORTH_EQ`.
 \end{align}
 
-Applying Equation \@ref(eq:dir-cos-vec-std),
-for the origin coordinates we have that
+Applying Proposition 2, we have that
 
 \begin{equation}
-  `r ORIGIN_ORTH_DISCR_EQ`                              (\#eq:origin-orth-discr)
+  `r DIR_COS_ITEM_EQ`.
 \end{equation}
 
-which, operating, results in
-
-\begin{align}
-  `r ORIGIN_ITEM_COORDS_EQ`    \\
-  `r ORIGIN_TRANSF_SQUARED_EQ` \\
-  `r ORIGIN_INNERPROD_EQ`      \\
-  `r ORIGIN_INNERPROD_DIAG_EQ`
-\end{align}
-
-and, finally,
+Therefore, the coordinates result in
 
 \begin{equation}
-  `r ORIGIN_INNERPROD_DIR_COS_EQ`.                   (\#eq:origin-coords-result)
+  `r ORIGIN_ITEM_COORDS_EQ`                          (\#eq:origin-coords-result)
 \end{equation}
 
-The end coordinates can be computed by a similar procedure, which results in
+and
 
 \begin{equation}
   `r END_ITEM_COORDS_EQ`.                               (\#eq:end-coords-result)
