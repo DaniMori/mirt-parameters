@@ -649,8 +649,7 @@ where the item parameters naturally lie, they must be represented in this space,
 and not in the latent space.
 Therefore, we may find the direction angles of $`r DISCR_VECTOR`$
 in the test space:
-We can then map the latent space directly onto the test space and
-apply Proposition 2, so if $`r ANGLE_VEC_TS_ITEM`$ is
+Applying Proposition 1, if $`r ANGLE_VEC_TS_ITEM`$ is
 the vector of direction angles of $`r DISCR_VECTOR`$,
 in the test space $`r TEST_SPACE`$ we get
 
@@ -725,7 +724,7 @@ Applying Equation \@ref(eq:change-basis), $`r COV_MATRIX_TRANSF_EQ`$, and thus,
 
 \begin{equation}
   \begin{split}
-    `r COV_MATRIX_TRANSF_ID_EQ` \\
+    `r COV_MATRIX_TRANSF_ID_EQ`, \\
     `r COV_MATRIX_RESULT_EQ`.
   \end{split}
 \end{equation}

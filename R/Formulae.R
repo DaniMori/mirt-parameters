@@ -834,6 +834,10 @@ ANGLE_TS_ITEM                     <- latex_sub(
 )
 DIR_COS_VEC_TS                    <- latex_cos(ANGLE_VEC_TS)
 DIR_COS_ITEM_VEC_TS               <- latex_cos(ANGLE_VEC_TS_ITEM)
+DIR_COS_ITEM_VEC_BASIS_TS         <- latex_raised_to(
+  DIR_COS_ITEM_VEC_TS,
+  exp = TEST_SPACE_BASIS
+)
 DIAG_MATRIX_INNER_PROD_INV        <- latex_prime(DIAG_MATRIX_INNER_PROD)
 DIAG_MATRIX_INNER_PROD_INV_SR_INV <- latex_raised_to(
   DIAG_MATRIX_INNER_PROD_INV,
@@ -843,14 +847,14 @@ DIAG_MATRIX_INNER_PROD_INV_SR_INV <- latex_raised_to(
 DIAG_M_DISCR_PROD                 <- latex(
   DIAG_MATRIX_INNER_PROD_INV_SR_INV,
   INNER_PROD_MATRIX_INV,
-  DISCR_VECTOR
+  DISCR_COORDS
 )
 DIR_COS_ITEM_VEC_TS_DEF           <- latex_frac(
   DIAG_M_DISCR_PROD,
   DISCR_VECTOR_MODULE
 )
 DIR_COS_ITEM_VEC_TS_EQ            <- latex_eq(
-  DIR_COS_ITEM_VEC_TS,
+  DIR_COS_ITEM_VEC_BASIS_TS,
   DIR_COS_ITEM_VEC_TS_DEF
 )
 
