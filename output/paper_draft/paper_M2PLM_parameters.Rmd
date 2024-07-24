@@ -1365,11 +1365,20 @@ we have obtained a set of multidimensional parameters
 that generalize the original results in two aspects:
 (1) to a non-orthonormal space that accounts for the covariance structure of
 the multivariate latent variable, and (2) to any case of unchanging monotony.
-It is worth noting that @zhang_theoretical_1999 already proposed a formulation
+The latter may seem superfluous, given that several examples in the literature
+already make use of this generalization
+[e.g., the one we have used to illustrate it: @tezza_modelo_2018].
+However, this generalization had never been formalized, up to now.
+Therefore, we highlight here the interest of showing how
+the item psychometric properties are paralleled by their geometrical properties,
+and how this holds for any case of unchanging monotony
+of the item response function.
+Regarding the first generalization,
+it is worth noting that @zhang_theoretical_1999 already proposed a formulation
 of the $`r MDISC_SYM`$ equivalent to our covariance-based version,
 but for a more general, semi-parametric formulation
 (although constrained to non-decreasing monotony).
-However, they provided no formal proof for this result.
+However, they provided no formal proof for this result either.
 Our results provide this formal derivation, although only for the specific
 case of the `r MODEL_ACRONYM` model.
 
@@ -1384,7 +1393,7 @@ the values of the multidimensional parameters.
 Thus, the covariance structure of the latent space should be considered
 when computing the multidimensional parameters of a MIRT model.
 
-With that purpose in mind, we have defined two versions of these parameters:
+With that purpose in mind, we have defined two new versions of these parameters:
 One that takes into account the whole covariance structure,
 and another one that only considers the correlations among latent dimensions.
 The covariance-based parameter has the drawback of not fulfilling
@@ -1417,7 +1426,9 @@ or yielding a diagonal latent covariance matrix in the corresponding
 orthogonal latent space basis.
 Therefore, we recommend its use for graphical representation purposes only.
 As for the agnostic version, we recommend it only in
-the (unlikely) case of having no information about the latent space structure.
+the (unlikely) case of having no information about the latent space structure,
+or when such structure is considered irrelevant
+(e.g., plotting the discrimination parameters after an oblique rotation).
 
 One may consider that the formal derivations presented here are
 overly complicated,
