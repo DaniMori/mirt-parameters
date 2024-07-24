@@ -312,12 +312,19 @@ defined by
 
 with $`r DISCR_COORDS_ALT_EQ`$, and
 $`r TRANSFORM_MATRIX_TRANSP_INV`$ a change of basis matrix.
-Note that $`r TRANSFORM_MATRIX_TRANSP_INV`$ determines $`r TEST_SPACE_BASIS`$.
+Note that $`r TRANSFORM_MATRIX_TRANSP_INV`$ determines $`r TEST_SPACE_BASIS`$
+and, as $`r DISCR_VECTOR`$ is expressed in this basis,
+its algebraic vector values correspond to its coordinates, i.e.,
+$`r DISCR_VECTOR_COORDS_EQ`$.
 
-To make @reckase_difficulty_1985's definition a particular case of ours
+As we did with $`r LS_ORTH_BASIS`$ before,
 we can conveniently assume that the inner product in
-$`r TEST_SPACE_STD_BASIS`$ is the dot product,
-as we did with $`r LS_ORTH_BASIS`$.
+$`r TEST_SPACE_STD_BASIS`$ is the dot product.
+Then, as both $`r TEST_SPACE_STD_BASIS`$ and $`r LS_ORTH_BASIS`$ are
+orthonormal in $`r REAL_N_SPACE`$,
+to make @reckase_difficulty_1985's definition a particular case of ours we can,
+without loss of generality  (i.e., appying an arbitrary rotation),
+consider that $`r BASES_EQ`$.
 As $`r TRANSFORM_MATRIX`$ (and consequently $`r TRANSFORM_MATRIX_TRANSP`$) is
 invertible, so $`r INNER_PROD_MATRIX`$ is, and $`r INNER_PROD_MATRIX_INV_EQ`$.
 The norm of $`r DISCR_VECTOR`$ thus fulfills
@@ -534,8 +541,8 @@ However, this assertion implicitly assumes orthogonal coordinates,
 so it does not apply in general to $`r DIR_COS_VEC_ORG`$.
 Instead, we may consider the direction cosine vector with an orthonormal basis
 $`r LS_ORTH_BASIS`$.
-Now, applying Proposition 2 (with $`r TRANSFORM_MATRIX_ALT`$
-an orthonormal matrix and $`r ALT_MATRIX_AS_ID`$) we obtain
+Now, applying Proposition 2 (with both $`r TRANSFORM_MATRIX_ALT`$ and
+$`r DIAG_MATRIX_INNER_PROD_ALT`$ equal to the identity matrix) we obtain
 
 \begin{equation}
   \begin{split}
@@ -547,13 +554,10 @@ an orthonormal matrix and $`r ALT_MATRIX_AS_ID`$) we obtain
 Therefore, substituting in \@ref(eq:slope-max),
 
 \begin{equation}
-  `r SLOPE_MAX_STD_COSINES_EQ`.                     (\#eq:slope-max-std-cosines)
+  `r SLOPE_MAX_STD_COSINES_EQ`                      (\#eq:slope-max-std-cosines)
 \end{equation}
 
-As $`r DISCR_VECTOR`$ is defined in space $`r TEST_SPACE`$ with basis
-$`r TEST_SPACE_BASIS`$, its algebraic vector values correspond to its
-coordinates, i.e., $`r DISCR_VECTOR_COORDS_EQ`$. Therefore, by Equation
-\@ref(eq:discr-vector-std),
+and, by Equation \@ref(eq:discr-vector-std),
 
 \begin{equation}
   `r SLOPE_MAX_STD_EQ`.                                     (\#eq:slope-max-std)
@@ -628,7 +632,7 @@ the two spaces share a common inner product (i.e., the dot product),
 and thus can be mistaken.
 However, it is worth noting that, although their representation
 can be superimposed in this case,
-they are still two different spaces. <!-- # TODO: To discussion? -->
+they are still two different spaces.
 
 We must make a few observations here.
 First, the transformation to the orthonormal bases of the two spaces allows
@@ -645,11 +649,7 @@ where the item parameters naturally lie, they must be represented in this space,
 and not in the latent space.
 Therefore, we may find the direction angles of $`r DISCR_VECTOR`$
 in the test space:
-As $`r LS_ORTH_BASIS`$ and $`r TEST_SPACE_STD_BASIS`$ are both
-orthonormal in $`r REAL_N_SPACE`$, without loss of generality
-we can consider that $`r BASES_EQ`$ (save for a rotation).
-We can then map the latent space directly onto the test space and
-apply Proposition 2, so if $`r ANGLE_VEC_TS_ITEM`$ is
+Applying Proposition 1, if $`r ANGLE_VEC_TS_ITEM`$ is
 the vector of direction angles of $`r DISCR_VECTOR`$,
 in the test space $`r TEST_SPACE`$ we get
 
@@ -724,7 +724,7 @@ Applying Equation \@ref(eq:change-basis), $`r COV_MATRIX_TRANSF_EQ`$, and thus,
 
 \begin{equation}
   \begin{split}
-    `r COV_MATRIX_TRANSF_ID_EQ` \\
+    `r COV_MATRIX_TRANSF_ID_EQ`, \\
     `r COV_MATRIX_RESULT_EQ`.
   \end{split}
 \end{equation}
@@ -834,43 +834,23 @@ as they are simply the orthogonal projections onto the corresponding axis.
 In the oblique case it is not so simple though, but we can take advantage of the
 orthornormalization introduced above.
 In basis $`r TEST_SPACE_STD_BASIS`$, the origin and end coordinates are
-$`r ORIGIN_ITEM_ORTH`$ and $`r END_ITEM_ORTH`$, respectively,
+$`r ORIGIN_ORTH_EQ`$ and $`r END_ORTH_EQ`$, respectively,
 and they correspond to the coordinates in $`r TEST_SPACE_BASIS`$ transformed
 according to Equation \@ref(eq:discr-vector-std),
 i.e., $`r ORIGIN_TRANSF_EQ`$ and $`r END_TRANSF_EQ`$.
-Given the mapping of $`r TEST_SPACE_STD_BASIS`$ onto $`r LS_ORTH_BASIS`$,
-the direction cosines in $`r TEST_SPACE_STD_BASIS`$
-are $`r DIR_COS_ITEM_VEC_STD`$.
-Therefore,
-
-\begin{align}
-  `r ORIGIN_ORTH_EQ` \\
-  `r END_ORTH_EQ`.
-\end{align}
-
-Applying Equation \@ref(eq:dir-cos-vec-std),
-for the origin coordinates we have that
+Applying Proposition 2 in the test space, we have that
 
 \begin{equation}
-  `r ORIGIN_ORTH_DISCR_EQ`                              (\#eq:origin-orth-discr)
+  `r DIR_COS_ITEM_EQ`.
 \end{equation}
 
-which, operating, results in
-
-\begin{align}
-  `r ORIGIN_ITEM_COORDS_EQ`    \\
-  `r ORIGIN_TRANSF_SQUARED_EQ` \\
-  `r ORIGIN_INNERPROD_EQ`      \\
-  `r ORIGIN_INNERPROD_DIAG_EQ`
-\end{align}
-
-and, finally,
+Therefore, the coordinates result in
 
 \begin{equation}
-  `r ORIGIN_INNERPROD_DIR_COS_EQ`.                   (\#eq:origin-coords-result)
+  `r ORIGIN_ITEM_COORDS_EQ`                          (\#eq:origin-coords-result)
 \end{equation}
 
-The end coordinates can be computed by a similar procedure, which results in
+and
 
 \begin{equation}
   `r END_ITEM_COORDS_EQ`.                               (\#eq:end-coords-result)
@@ -882,7 +862,7 @@ However, it is worth noting that the latent space Gram matrix
 also plays a role in computing these coordinates,
 and will therefore have an effect on the representation.
 Of course,
-from Equations \@ref(eq:origin-orth-discr) and \@ref(eq:end-coords-result)
+from Equations \@ref(eq:origin-coords-result) and \@ref(eq:end-coords-result)
 it is easy to express the coordinates in terms of the parameters in the original
 model formulation, namely,
 
@@ -922,7 +902,8 @@ to the discrimination of the item.
 That is, the less discriminating the item is,
 the further away it will be from the origin.
 
-The measurement direction is given by the signs of $`r DIR_COS_ITEM_VEC`$ which,
+The measurement direction is given by
+the signs of $`r DIR_COS_ITEM_VEC_BASIS_TS`$ which,
 also due to the strict positiveness of $`r MDISC_SYM`$,
 are equal to the signs of $`r DISCR_VECTOR`$.
 This property leads directly to generalizing
@@ -1032,8 +1013,7 @@ read_chunk("src/Graphical_example_paper.R")
 As plotting more than two dimensions is difficult on a bidimensional display
 (and hardly possible at all for more than three dimensions with the
 currently available technology),
-we will limit ourselves to the bidimensional case here.
-
+we limit ourselves to the bidimensional case here.
 The example in Figure \@ref(fig:item-plot-out) showcases a representation of
 a set of items in two different bidimensional spaces.
 In the first case, the two latent dimensions are independent,
