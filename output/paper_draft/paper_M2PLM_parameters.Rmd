@@ -312,7 +312,10 @@ defined by
 
 with $`r DISCR_COORDS_ALT_EQ`$, and
 $`r TRANSFORM_MATRIX_TRANSP_INV`$ a change of basis matrix.
-Note that $`r TRANSFORM_MATRIX_TRANSP_INV`$ determines $`r TEST_SPACE_BASIS`$.
+Note that $`r TRANSFORM_MATRIX_TRANSP_INV`$ determines $`r TEST_SPACE_BASIS`$
+and, as $`r DISCR_VECTOR`$ is expressed in this basis,
+its algebraic vector values correspond to its coordinates, i.e.,
+$`r DISCR_VECTOR_COORDS_EQ`$.
 
 As we did with $`r LS_ORTH_BASIS`$ before,
 we can conveniently assume that the inner product in
@@ -551,13 +554,10 @@ $`r DIAG_MATRIX_INNER_PROD_ALT`$ equal to the identity matrix) we obtain
 Therefore, substituting in \@ref(eq:slope-max),
 
 \begin{equation}
-  `r SLOPE_MAX_STD_COSINES_EQ`.                     (\#eq:slope-max-std-cosines)
+  `r SLOPE_MAX_STD_COSINES_EQ`                      (\#eq:slope-max-std-cosines)
 \end{equation}
 
-As $`r DISCR_VECTOR`$ is defined in space $`r TEST_SPACE`$ with basis
-$`r TEST_SPACE_BASIS`$, its algebraic vector values correspond to its
-coordinates, i.e., $`r DISCR_VECTOR_COORDS_EQ`$. Therefore, by Equation
-\@ref(eq:discr-vector-std),
+and, by Equation \@ref(eq:discr-vector-std),
 
 \begin{equation}
   `r SLOPE_MAX_STD_EQ`.                                     (\#eq:slope-max-std)
