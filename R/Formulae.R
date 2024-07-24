@@ -686,10 +686,6 @@ IRF_2ND_DIFF_EQ  <- latex_eq(IRF_2ND_DIFF, IRF_2ND_DIFF_DEF)
 IRF_MAX_SLOPE    <- '.5' ## TODO: Format prop-like!!
 IRF_MAX_SLOPE_EQ <- latex_eq(IRF_ABBR, IRF_MAX_SLOPE)
 
-# Condition for transformation to orthonormal basis:
-ID_MATRIX        <- latex_bf('I')
-ALT_MATRIX_AS_ID <- latex_eq(DIAG_MATRIX_INNER_PROD_ALT, ID_MATRIX)
-
 # Director cosines and orthonormalized direction cosines equivalence:
 DIR_COS_AS_DIR_COS_STD        <- latex(
   TRANSFORM_MATRIX_TRANSP_INV,
@@ -890,6 +886,7 @@ MIL_PARAM  <- latex("MIL")
 
 # Condition to meet:
 BASIS_EQ              <- latex_equiv(LS_BASIS, LS_ORTH_BASIS)
+ID_MATRIX             <- latex_bf('I')
 INNER_PROD_MAT_STD_EQ <- latex_eq(INNER_PROD_MAT_EQ, ID_MATRIX)
 
 # MDISC:
