@@ -632,7 +632,7 @@ the two spaces share a common inner product (i.e., the dot product),
 and thus can be mistaken.
 However, it is worth noting that, although their representation
 can be superimposed in this case,
-they are still two different spaces. <!-- # TODO: To discussion? -->
+they are still two different spaces.
 
 We must make a few observations here.
 First, the transformation to the orthonormal bases of the two spaces allows
@@ -649,9 +649,6 @@ where the item parameters naturally lie, they must be represented in this space,
 and not in the latent space.
 Therefore, we may find the direction angles of $`r DISCR_VECTOR`$
 in the test space:
-As $`r LS_ORTH_BASIS`$ and $`r TEST_SPACE_STD_BASIS`$ are both
-orthonormal in $`r REAL_N_SPACE`$, without loss of generality
-we can consider that $`r BASES_EQ`$ (save for a rotation).
 We can then map the latent space directly onto the test space and
 apply Proposition 2, so if $`r ANGLE_VEC_TS_ITEM`$ is
 the vector of direction angles of $`r DISCR_VECTOR`$,
