@@ -1013,8 +1013,7 @@ read_chunk("src/Graphical_example_paper.R")
 As plotting more than two dimensions is difficult on a bidimensional display
 (and hardly possible at all for more than three dimensions with the
 currently available technology),
-we will limit ourselves to the bidimensional case here.
-
+we limit ourselves to the bidimensional case here.
 The example in Figure \@ref(fig:item-plot-out) showcases a representation of
 a set of items in two different bidimensional spaces.
 In the first case, the two latent dimensions are independent,
