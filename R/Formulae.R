@@ -1163,7 +1163,7 @@ END_ITEM_PARAMS_EQ     <- latex_eq(
 #### Geometric properties of the parameters: ----
 
 # Direction cosines:
-ANGLE_VECTORS_ITEM   <- latex_sub(ANGLE, "$ITEM_INDEX$$DIM_INDEX$")
+ANGLE_VECTORS_ITEM   <- latex_sub(ANGLE_TS, "$ITEM_INDEX$$DIM_INDEX$")
 COS_VECTORS_ITEM     <- latex_cos(ANGLE_VECTORS_ITEM)
 SIGN_COS_VEC_ITEM    <- latex_sign(COS_VECTORS_ITEM, .par = TRUE)
 SIGN_COS_VEC_ITEM_EQ <- latex_eq(SIGN_COS_VEC_ITEM, 0)

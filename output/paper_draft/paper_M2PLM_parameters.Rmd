@@ -902,7 +902,8 @@ to the discrimination of the item.
 That is, the less discriminating the item is,
 the further away it will be from the origin.
 
-The measurement direction is given by the signs of $`r DIR_COS_ITEM_VEC`$ which,
+The measurement direction is given by
+the signs of $`r DIR_COS_ITEM_VEC_BASIS_TS`$ which,
 also due to the strict positiveness of $`r MDISC_SYM`$,
 are equal to the signs of $`r DISCR_VECTOR`$.
 This property leads directly to generalizing
