@@ -1278,7 +1278,7 @@ the values of the multidimensional parameters.
 Thus, the covariance structure of the latent space should be considered
 when computing the multidimensional parameters of a MIRT model.
 
-With that purpose in mind, we have defined two versions of these parameters:
+With that purpose in mind, we have defined two new versions of these parameters:
 One that takes into account the whole covariance structure,
 and another one that only considers the correlations among latent dimensions.
 The covariance-based parameter has the drawback of not fulfilling
@@ -1311,7 +1311,9 @@ or yielding a diagonal latent covariance matrix in the corresponding
 orthogonal latent space basis.
 Therefore, we recommend its use for graphical representation purposes only.
 As for the agnostic version, we recommend it only in
-the (unlikely) case of having no information about the latent space structure.
+the (unlikely) case of having no information about the latent space structure,
+or when such structure is considered irrelevant
+(e.g., plotting the discrimination parameters after an oblique rotation).
 
 One may consider that the formal derivations presented here are
 overly complicated,
