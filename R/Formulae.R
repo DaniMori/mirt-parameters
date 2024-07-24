@@ -1085,14 +1085,26 @@ MIL_CORR_PARAM_EQ         <- latex_def(
 ### Vector representation: ----
 
 # Item coordinates definition:
+
+# Origin coordinates:
 ORIGIN            <- latex_bf('o')
 ORIGIN_ITEM       <- ORIGIN      |> latex_sub(ITEM_INDEX)
 ORIGIN_ITEM_BASIS <- ORIGIN_ITEM |> latex_raised_to(exp = TEST_SPACE_BASIS)
 ORIGIN_ITEM_ORTH  <- ORIGIN_ITEM |> latex_raised_to(exp = TEST_SPACE_STD_BASIS)
+DIR_COS_ORTH_TS   <- latex_raised_to(
+  DIR_COS_ITEM_VEC_TS,
+  exp = TEST_SPACE_STD_BASIS
+)
+ORIGIN_ORTH_DEF   <- latex(DISTANCE_PARAM, DIR_COS_ORTH_TS)
+ORIGIN_ORTH_EQ    <- latex_eq(ORIGIN_ITEM_ORTH, ORIGIN_ORTH_DEF)
+
+# End coordinates:
 END               <- latex_bf('e')
 END_ITEM          <- END      |> latex_sub(ITEM_INDEX)
 END_ITEM_BASIS    <- END_ITEM |> latex_raised_to(exp = TEST_SPACE_BASIS)
 END_ITEM_ORTH     <- END_ITEM |> latex_raised_to(exp = TEST_SPACE_STD_BASIS)
+END_ORTH_DIR_DEF  <- latex(ORIGIN_ITEM_ORTH, '+', MDISC_ITEM, DIR_COS_ORTH_TS)
+END_ORTH_EQ       <- latex_eq(END_ITEM_ORTH, END_ORTH_DIR_DEF)
 
 # Coordinate transformation to orthonormal basis:
 ORIGIN_TRANSF_DEF <- latex(TRANSFORM_MATRIX_TRANSP_INV, ORIGIN_ITEM_BASIS)
@@ -1100,22 +1112,8 @@ ORIGIN_TRANSF_EQ  <- latex_eq(ORIGIN_ITEM_ORTH, ORIGIN_TRANSF_DEF)
 END_TRANSF_DEF    <- latex(TRANSFORM_MATRIX_TRANSP_INV, END_ITEM_BASIS)
 END_TRANSF_EQ     <- latex_eq(END_ITEM_ORTH, END_TRANSF_DEF)
 
-# Coordinates in orthonormal space:
-ORIGIN_ORTH_DEF  <- latex(DISTANCE_PARAM, DIR_COS_ITEM_VEC_STD)
-ORIGIN_ORTH_EQ   <- latex_eq(ORIGIN_ITEM_ORTH, ORIGIN_ORTH_DEF, .align = TRUE)
-END_ORTH_DIR_DEF <- latex(
-  ORIGIN_ITEM_ORTH,
-  '+',
-    MDISC_ITEM,
-    DIR_COS_ITEM_VEC_STD
-)
-END_ORTH_EQ      <- latex_eq(END_ITEM_ORTH, END_ORTH_DIR_DEF, .align = TRUE)
-
-# Origin coordinates:
-DIR_COS_ITEM_TRANSF           <- latex(
-  TRANSFORM_MATRIX_TRANSP,
-  DIR_COS_ITEM_VEC_STD
-)
+# Direction cosines transformation:
+DIR_COS_ITEM_TRANSF           <- latex(TRANSFORM_MATRIX_TRANSP, DIR_COS_ORTH_TS)
 DIAG_MATRIX_INNER_PROD_INV_SR <- latex_raised_to(
   DIAG_MATRIX_INNER_PROD_INV,
   exp   = FRAC_1_2,
@@ -1127,7 +1125,7 @@ INNER_PROD_MAT_DIAG_INV_PROD  <- latex(
 )
 DIR_COS_ITEM_DEF              <- latex(
   INNER_PROD_MAT_DIAG_INV_PROD,
-  DIR_COS_ITEM_VEC_TS
+  DIR_COS_ITEM_VEC_BASIS_TS
 )
 DIR_COS_ITEM_EQ               <- latex_eq(DIR_COS_ITEM_TRANSF, DIR_COS_ITEM_DEF)
 
@@ -1141,7 +1139,7 @@ END_ITEM_COORDS_DEF <- latex(
   '+',
   MDISC_ITEM,
   INNER_PROD_MAT_DIAG_INV_PROD,
-  DIR_COS_ITEM_VEC_TS
+  DIR_COS_ITEM_VEC_BASIS_TS
 )
 END_ITEM_COORDS_EQ  <- latex_eq(END_ITEM_BASIS, END_ITEM_COORDS_DEF)
 

@@ -834,21 +834,11 @@ as they are simply the orthogonal projections onto the corresponding axis.
 In the oblique case it is not so simple though, but we can take advantage of the
 orthornormalization introduced above.
 In basis $`r TEST_SPACE_STD_BASIS`$, the origin and end coordinates are
-$`r ORIGIN_ITEM_ORTH`$ and $`r END_ITEM_ORTH`$, respectively,
+$`r ORIGIN_ORTH_EQ`$ and $`r END_ORTH_EQ`$, respectively,
 and they correspond to the coordinates in $`r TEST_SPACE_BASIS`$ transformed
 according to Equation \@ref(eq:discr-vector-std),
 i.e., $`r ORIGIN_TRANSF_EQ`$ and $`r END_TRANSF_EQ`$.
-Given the mapping of $`r TEST_SPACE_STD_BASIS`$ onto $`r LS_ORTH_BASIS`$,
-the direction cosines in $`r TEST_SPACE_STD_BASIS`$
-are $`r DIR_COS_ITEM_VEC_STD`$.
-Therefore,
-
-\begin{align}
-  `r ORIGIN_ORTH_EQ` \\
-  `r END_ORTH_EQ`.
-\end{align}
-
-Applying Proposition 2, we have that
+Applying Proposition 2 in the test space, we have that
 
 \begin{equation}
   `r DIR_COS_ITEM_EQ`.
@@ -872,7 +862,7 @@ However, it is worth noting that the latent space Gram matrix
 also plays a role in computing these coordinates,
 and will therefore have an effect on the representation.
 Of course,
-from Equations \@ref(eq:origin-orth-discr) and \@ref(eq:end-coords-result)
+from Equations \@ref(eq:origin-coords-result) and \@ref(eq:end-coords-result)
 it is easy to express the coordinates in terms of the parameters in the original
 model formulation, namely,
 
