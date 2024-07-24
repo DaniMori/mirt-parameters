@@ -246,7 +246,7 @@ INNER_PROD_MAT_ELEMENT_EQ  <- latex_eq(
 )
 INNER_PROD_MATRIX_INDEX    <- latex(AUX_INDEX, DIM_INDEX, .sep = SEP_COMMA)
 
-### Test space ----
+### Test space definition ----
 
 # Test space definition:
 TEST_SPACE   <- latex_bf("A")
@@ -295,6 +295,9 @@ DISCR_STD_COORDS_EQ         <- latex_eq(
   DISCR_STD_COORDS,
   DISCR_STD_COORDS_DEF
 )
+
+# Equating the orthonormal bases:
+BASES_EQ <- latex_eq(LS_ORTH_BASIS, TEST_SPACE_STD_BASIS)
 
 # Inverse inner product matrix:
 INNER_PROD_MATRIX_INV       <- latex_inverse(INNER_PROD_MATRIX)
@@ -820,9 +823,6 @@ DISCR_STD_COORDS_MOD_EQ <- latex_eq(
 )
 
 ### Relationship between test space and latent space: ----
-
-# Equating the orthonormal bases:
-BASES_EQ <- latex_eq(LS_ORTH_BASIS, TEST_SPACE_STD_BASIS)
 
 # Item direction cosines (in test space):
 ANGLE_TS                          <- latex("\\alpha")

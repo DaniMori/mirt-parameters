@@ -314,10 +314,14 @@ with $`r DISCR_COORDS_ALT_EQ`$, and
 $`r TRANSFORM_MATRIX_TRANSP_INV`$ a change of basis matrix.
 Note that $`r TRANSFORM_MATRIX_TRANSP_INV`$ determines $`r TEST_SPACE_BASIS`$.
 
-To make @reckase_difficulty_1985's definition a particular case of ours
+As we did with $`r LS_ORTH_BASIS`$ before,
 we can conveniently assume that the inner product in
-$`r TEST_SPACE_STD_BASIS`$ is the dot product,
-as we did with $`r LS_ORTH_BASIS`$.
+$`r TEST_SPACE_STD_BASIS`$ is the dot product.
+Then, as both $`r TEST_SPACE_STD_BASIS`$ and $`r LS_ORTH_BASIS`$ are
+orthonormal in $`r REAL_N_SPACE`$,
+to make @reckase_difficulty_1985's definition a particular case of ours we can,
+without loss of generality  (i.e., appying an arbitrary rotation),
+consider that $`r BASES_EQ`$.
 As $`r TRANSFORM_MATRIX`$ (and consequently $`r TRANSFORM_MATRIX_TRANSP`$) is
 invertible, so $`r INNER_PROD_MATRIX`$ is, and $`r INNER_PROD_MATRIX_INV_EQ`$.
 The norm of $`r DISCR_VECTOR`$ thus fulfills
