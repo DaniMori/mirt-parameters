@@ -1303,17 +1303,16 @@ the $`r MDISC_SYM`$ and $`r MIL_PARAM`$ parameters.
 The correlation-based version, on the other hand,
 has the advantage of being scale-invariant,
 which is convenient for fidelity when representing the items.
-However, it is worth noting that it has been defined ad-hoc
-to fulfill this specific property.
-Therefore, it lacks other desirable properties of the covariance-based version,
-like being invariant to a latent space scaling transformation,
-or yielding a diagonal latent covariance matrix in the corresponding
-orthogonal latent space basis.
-Therefore, we recommend its use for graphical representation purposes only.
+However, as it has been defined ad-hoc to fulfill this specific property,
+it lacks the other desirable ones the covariance-based version has
+(i.e., scale invariance, and yielding a diagonal latent covariance matrix in
+the corresponding orthogonal basis).
+Therefore, we recommend its use for graphical representation purposes only,
+although in many applications both versions will be coincident, fortunately.
 As for the agnostic version, we recommend it only in
 the (unlikely) case of having no information about the latent space structure,
-or when such structure is considered irrelevant
-(e.g., plotting the discrimination parameters after an oblique rotation).
+or when such structure is irrelevant
+(e.g., plotting the discrimination parameters for interpretation purposes).
 
 One may consider that the formal derivations presented here are
 overly complicated,
