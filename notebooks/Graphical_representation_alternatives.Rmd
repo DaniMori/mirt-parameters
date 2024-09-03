@@ -1,16 +1,21 @@
 ---
 title: 'Graphical representation example: Alternative interpretations'
 output:
-  html_document: 
+  word_document:
+    df_print:        kable
+    toc:             yes
+    reference_docx:  ../www/Notebook_template.docx
+  html_document:
     df_print:        paged
     code_folding:    hide
     toc:             yes
     toc_float:       yes
-editor_options: 
+editor_options:
   chunk_output_type: console
 ---
 
 ```{r setup}
+#| echo: !expr 'knitr::is_html_output()'
 library(knitr)
 library(patchwork)
 library(rstudioapi)
@@ -20,7 +25,7 @@ DOC_DIR  <- getwd()
 
 opts_knit$set(root.dir = ROOT_DIR)
 opts_chunk$set(
-  echo     = TRUE,
+  echo     = is_html_output(),
   message  = FALSE,
   cache    = FALSE,
   dev      = "png",
@@ -29,7 +34,7 @@ opts_chunk$set(
 )
 
 # Output configuration options:
-options(digits = 3)
+options(digits = 2)
 ```
 
 # Introduction
