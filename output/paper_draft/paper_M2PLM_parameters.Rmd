@@ -37,7 +37,9 @@ abstract: |
   for graphical representation. Finally, we discuss the implications of this
   generalization for other multidimensional IRT models, and the parallels of our
   results in common factor model theory.
-keywords: "Multidimensional IRT, 2-Parameter Logistic model, multidimensional parameters, item discrimination, item difficulty, item vector representation"
+keywords: |
+  Multidimensional IRT, 2-Parameter Logistic model, multidimensional parameters,
+  item discrimination, item difficulty, item vector representation
 bibliography: [../../www/Multidimensional-parameters-MCLM.bib, ../../www/packages.bib]
 csl:          ../../www/apa-old-doi-prefix.csl
 editor_options: 
