@@ -1,0 +1,15 @@
+---
+title: "Title page"
+---
+
+- Article title
+- The full list of authors including names and affiliations of each
+    - The listed affiliation should be the institution where the research was
+    conducted. If an author has moved to a new institution since completing the
+    research, the new affiliation can be included in a note at the end of the
+    manuscript – please indicate this on the title page.
+    - All persons eligible for authorship must be included at the time of
+    submission (please see the authorship section for more information).
+    - Contact information for the corresponding author: name, institutional
+    address, phone, email
+- Statements and Declarations section  
