@@ -64,7 +64,7 @@ opts_chunk$set(
   message  = FALSE,
   cache    = FALSE,
   dev      = "png",
-  dpi      =   300,
+  dpi      =   900,
   dev.args = list(type = "cairo-png")
 )
 
