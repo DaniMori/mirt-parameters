@@ -1220,3 +1220,7 @@ TRANSFORM_MATRIX_EXAMPLE_EQ <- latex_def(
   TRANSFORM_MATRIX_TRANSP_INV,
   TRANSFORM_MATRIX_EXAMPLE
 )
+
+### Application to examples from the literature: ----
+
+DISTANCE_AG_PARAM <- DISTANCE_SYM |> latex_sub(AGNOSTIC_SUBINDEX)
