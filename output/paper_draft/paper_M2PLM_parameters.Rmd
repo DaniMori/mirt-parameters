@@ -87,6 +87,10 @@ source("R/Formulae.R",  encoding = 'UTF-8')
 source("R/Constants.R", encoding = 'UTF-8')
 ```
 
+**Keywords:** Multidimensional IRT, 2-Parameter Logistic model,
+multidimensional parameters, item discrimination, item difficulty,
+item vector representation
+
 # Introduction
 
 Multidimensional item response theory (MIRT) models have been widely used since
