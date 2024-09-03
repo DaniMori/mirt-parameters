@@ -5,7 +5,7 @@ output:
     tables:
       style: APA_Like_style
     mapstyles:
-      Normal: First Paragraph
+      Body Text: ['First Paragraph', 'Abstract']
     base_format: bookdown::word_document2
     reference_docx: ../../www/Template.docx
     number_sections: no
