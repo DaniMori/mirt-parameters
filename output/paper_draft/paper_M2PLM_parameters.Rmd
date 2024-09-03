@@ -699,7 +699,7 @@ The item location $`r MIL_PARAM`$ is defined as the distance and direction
 from the origin to the point of maximum slope [@reckase_difficulty_1985].
 By analogy with the unidimensional case, $`r MDISC_SYM`$ is defined as
 $4 `r SLOPE_MAX_PARAM`$ [@reckase_discriminating_1991].
-Therefore, we may define the $`r MIL_PARAM`$ and $`r MDISC_SYM`$ using
+Hence we may define the $`r MIL_PARAM`$ and $`r MDISC_SYM`$ using
 Equations \@ref(eq:distance-param) through \@ref(eq:dir-cos-vec-test-space).
 However, as they depend on the inner product matrix $`r INNER_PROD_MATRIX`$,
 the choice we make of this matrix will lead us to different definitions of
@@ -973,18 +973,17 @@ which, as we have argued before, implies a change of scale.
 In the case of the correlation-based version however,
 $`r INNER_PROD_MAT_DIAG_INV_PROD`$ is simply $`r CORR_MATRIX_INV`$,
 being the coordinates scale-invariant.
-Therefore, for graphical representation purposes,
-the correlation-based version will be preferred.
+For graphical representation purposes,
+the correlation-based version will thus be preferred.
 
 Plotting on a display usually requires providing
 coordinates in a rectangular Cartesian system.
-Therefore, we will need to compute the equivalent rectangular coordinates
+Therefore, we must compute the equivalent rectangular coordinates
 of our general, possibly non-rectangular coordinates.
 This implies pre-multiplying its coordinates in basis $`r TEST_SPACE_BASIS`$
 by $`r TRANSFORM_MATRIX_TRANSP_INV`$, to find
 the equivalent, orthonormalized coordinates.
-Therefore, we will need to define
-a convenient value for $`r TRANSFORM_MATRIX_TRANSP_INV`$
+Hence we will need a convenient value for $`r TRANSFORM_MATRIX_TRANSP_INV`$
 that allows us to represent the test space structure and the items
 in a rectangular Cartesian system.
 
