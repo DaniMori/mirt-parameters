@@ -1,0 +1,148 @@
+---
+title: "Supplementary material"
+author: "Daniel Morillo"
+date: "`r format(Sys.Date(), '%d/%m/%Y')`"
+output:
+  officedown::rdocx_document:
+    tables:
+      caption:
+        pre: "Table S."
+      style: APA_Like_style
+    mapstyles:
+      Normal: First Paragraph
+    base_format: bookdown::word_document2
+    reference_docx: ../../www/Template.docx
+    number_sections: no
+    keep_md:         no
+    fig_width:       4
+    fig_height:      4
+bibliography: [../../www/Multidimensional-parameters-MCLM.bib, ../../www/packages.bib]
+csl:          ../../www/apa-old-doi-prefix.csl
+editor_options: 
+  chunk_output_type: console
+---
+  
+```{r setup}
+#| include: false
+
+# Includes:
+
+library(knitr)
+library(patchwork)
+library(rstudioapi)
+
+ROOT_DIR <- getActiveProject()
+DOC_DIR  <- getwd()
+
+opts_knit$set(root.dir = ROOT_DIR)
+opts_chunk$set(
+  echo     = FALSE,
+  message  = FALSE,
+  warning  = FALSE,
+  cache    = FALSE
+)
+
+# Output configuration options:
+options(digits = 3)
+```
+
+```{r reset-root-wd}
+#| cache: false
+
+# Necessary for knitr to find the source file:
+opts_knit$set(root.dir = ROOT_DIR)
+```
+
+```{r read-chunks-empirical-example}
+read_chunk("src/Empirical_example.R")
+```
+
+```{r libraries}
+```
+
+```{r sources}
+```
+
+```{r general-constants}
+```
+
+```{r set-cov-matrix}
+```
+
+```{r read-items}
+```
+
+```{r compute-orthogonal-params}
+```
+
+```{r compute-oblique-params}
+```
+
+```{r format-covariance-matrix}
+```
+
+```{r create-params-table}
+```
+
+```{r compose-output-table}
+```
+
+Table S.\@ref(tab:empirical-table-Reckase2009-out) is similar to Table 2,
+comparing the agnostic version of the multidimensional parameters drawn from
+@reckase_multidimensional_2009 with the covariance-based version.
+In this case though, we use the almost rank-1 covariance matrix Reckase defines
+for representing a *close-to-unidimensional* case, that is,
+
+\begin{equation}
+  `r cov_matrix_value_out`,
+\end{equation}
+
+which yields the correlation matrix
+
+\begin{equation}
+  `r cor_matrix_value_out`.
+\end{equation}
+
+As in Table 2, the agnostic versions (columns labelled _`r AGNOSTIC_ABBR`_)
+coincide with Reckase's columns A, B, and $\alpha_1$ to $\alpha_3$.
+However, the covariance-based versions (columns labelled $`r COV_MATRIX`$)
+have much smaller values for the $`r MDISC_ITEM`$ parameters.
+This is primarily due to the scaling effect induced by the variances,
+which are all smaller than 1.
+Even though the discrimination parameters almost sum up to yield
+the $`r MDISC_ITEM`$ value, due to the very high alignment of the dimensions,
+the scaling effect of the variances has a stronger weight.
+The $`r DISTANCE_PARAM`$ parameter values decrease consequently,
+as we have seen before.
+
+More interesting is the effect on the direction angles:
+We can see how their values are all very close to 0.
+This result is as expected,
+given that all the three dimensions are highly aligned,
+and therefore they almost represent a single dimension.
+The items thus all measure in a direction very closely aligned to the dominant
+dimension made up by those three, being almost parallel to all the three
+dimensions.
+Therefore, we see how computing the more appropriate covariance-based version of
+the multidimensional parameters can help diagnose correctly
+the dimensionality of a test.
+
+```{r set-flextable-wd}
+#| cache: false
+```
+
+# References
+
+::: {#refs}
+:::
+
+\newpage
+
+```{r empirical-table-Reckase2009-out}
+#| cache:   false
+#| tab.id:  empirical-table-Reckase2009-out
+#| tab.cap: |
+#|   Agnostic and covariance-based multidimensional item parameters in
+#|   Reckase (2009), with an almost-rank-1 covariance matrix.
+item_params_output
+```

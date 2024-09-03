@@ -20,6 +20,7 @@ library(scales)
 library(flextable)
 library(officer)
 library(assertive.numbers)
+library(scales)
 
 ## ----sources----
 source("R/Mirt_toolbox.R", encoding = 'UTF-8')
@@ -95,7 +96,7 @@ cov_matrix_value_out      <- latex_matrix(cov_matrix_value_out)
 
 cor_matrix_value_out      <- COV_MATRIX_VALUE |>
   cov2cor() |>
-  latex_matrix()
+  latex_matrix(precision = 4)
 # cor_matrix_value_out      <- COV_MATRIX_VALUE |> cov2cor() |> number(1e-3)
 # dim(cor_matrix_value_out) <- dim(COV_MATRIX_VALUE)
 # cor_matrix_value_out      <- latex_matrix(cor_matrix_value_out)
