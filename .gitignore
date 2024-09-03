@@ -46,6 +46,7 @@ vignettes/*.pdf
 *.pdf
 *.lnk
 *.url
+*.svg
 
 # Specific outputs to ignore
 www/packages.bib

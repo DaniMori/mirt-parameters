@@ -53,6 +53,7 @@ editor_options:
 
 library(knitr)
 library(patchwork)
+library(ggplot2)
 library(rstudioapi)
 
 ROOT_DIR <- getActiveProject()
@@ -1089,6 +1090,8 @@ item_params_output
 #| fig.height: 3.1
 #| fig.width:  6.65
 plot_orth + plot_oblique
+
+ggsave(file.path(DOC_DIR, "Figure_1.svg"))
 ```
 
 Figure \@ref(fig:item-plot-out) illustrates the effect of
