@@ -31,8 +31,10 @@ compute_mirt_params <- function(items,
                                 intercept,
                                 discrimination,
                                 cov_matrix,
-                                item_id = item,
-                                dir_out = c("cos", "rad", "deg")) {
+                                item_id    = item,
+                                dir_out    = c("cos", "rad", "deg"),
+                                version    = c("ag", "cov", "corr"),
+                                zero_round = TRUE) {
   ## Argument checking and formatting: ----
   
   # Enquote column selections:
@@ -53,9 +55,21 @@ compute_mirt_params <- function(items,
   
   assertive.extra::assert_is_greater_than_or_equal_to(n_discr_cols, 1)
   
+  # Parameter version:
+  version <- version |> match.arg()
+  
+  if (missing(cov_matrix)) {
+    # Check if the covariance matrix is missing (compute agnostic version if so)
+    message(
+      "Covariance matrix missing; ",
+      "ignoring argument 'version' and ",
+      "computing the agnostic version of the parameters.",
+      appendLF = TRUE
+    )
+  }
   
   # Check/format covariance matrix:
-  if (missing(cov_matrix)) {
+  if (missing(cov_matrix) | version == "ag") {
     
     cov_matrix <- n_discr_cols |> diag()
     
@@ -72,14 +86,19 @@ compute_mirt_params <- function(items,
   one_dir <- dir_out                      |>
     assertive.properties::is_of_length(1) |>
     as.logical()
+  
+  # Flags:
+  assertive.types::assert_is_a_bool(zero_round)
 
   ## Main: ----
   
-  # Compute inverse s.d. matrix:
-  var_matrix    <- cov_matrix |> diag() |> diag()
-  inv_sd_matrix <- var_matrix |> sqrt() |> solve()
+  # Compute transform (and ancillary) matrix:
+  innerprod_matrix   <- if (version == "cov") cov_matrix
+                        else                  cov_matrix |> cov2cor()
+  diag_matrix        <- innerprod_matrix |> diag() |> diag()
+  inv_sr_diag_matrix <- diag_matrix      |> sqrt() |> solve()
   
-  items                                                                      |>
+  result <- items                                                            |>
     tidyr::pivot_longer(!!discrimination, names_to = "par", values_to = "a") |>
     dplyr::group_by(!!item_id)                                               |>
     # This renaming is necessary for accessing the variable in `transmute`:
@@ -88,9 +107,9 @@ compute_mirt_params <- function(items,
       !!item_id,
       ## Compute the multidimensional parameters:
       dim   = par |> stringr::str_extract("\\d+"),
-      MDISC = (t(a) %*% cov_matrix %*% a) |> drop() |> sqrt(),
+      MDISC = (t(a) %*% innerprod_matrix %*% a) |> drop() |> sqrt(),
       D     = - d / MDISC,
-      cos   = (inv_sd_matrix %*% cov_matrix %*% a / MDISC) |> drop(),
+      cos   = (inv_sr_diag_matrix %*% innerprod_matrix %*% a / MDISC) |> drop(),
       rad   = acos(cos),
       deg   = rad * RAD_DEG_FACTOR
     )                                                                        |>
@@ -101,13 +120,25 @@ compute_mirt_params <- function(items,
       values_from = all_of(dir_out),
       names_glue  = one_dir |> if_else('{.value}_{.name}', '{.name}')
     )
+  
+  if (zero_round) {
+    
+    # Avoids "negative zeroes" in rounded figures with
+    #   flextable::colformat_double():
+    return(
+      result |>
+        mutate(across(where(is.double), ~if_else(. == 0, 0, .)))
+    )
+  }
+  
+  result
 }
 
 compute_mirt_coords <- function(items,
                                 d,
                                 mdisc,
                                 dir,
-                                transform,
+                                transform, # Test space transform matrix
                                 item_id         = item,
                                 dir_in          = c("cos", "rad", "deg"),
                                 original_coords = TRUE) {
@@ -153,11 +184,15 @@ compute_mirt_coords <- function(items,
     ## Check dimension:
     transf_dim <- transform |> ncol()
     assertive.base::assert_are_identical(transf_dim, n_dir_cols)
-    
-    ## Check its inverse squared matrix can be considered a covariance matrix:
-    cov_matrix <- t(transform) %*% transform |> solve()
-    assertive.extra::assert_is_covariance_matrix(cov_matrix)
   }
+  
+  ## Check its inverse squared matrix can be considered a covariance matrix:
+  cov_matrix <- t(transform) %*% transform
+  assertive.extra::assert_is_covariance_matrix(cov_matrix)
+  
+  # Compute ancyllary matrices:
+  cov_matrix_inv <- cov_matrix |> solve()
+  scaling_matrix <- cov_matrix |> diag() |> diag()
   
   # Direction options:
   dir_in <- dir_in |> match.arg()
@@ -177,9 +212,11 @@ compute_mirt_coords <- function(items,
         rad = cos(dir),
         deg = cos(dir / RAD_DEG_FACTOR)
       ),
+      ## Compute the "direction vector" from the cosines:
+      dir    = cov_matrix_inv %*% scaling_matrix %*% cos,
       ## Compute the coordinates:
-      origin = D * cos,
-      end    = origin + MDISC * cos,
+      origin = D * dir,
+      end    = origin + MDISC * dir,
       ## Transform the coordinates:
       across(
         origin:end,

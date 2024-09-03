@@ -22,11 +22,11 @@ library(officer)
 library(scales)
 
 ## ----sources----
-source("R/Mirt_toolbox.R")
-source("R/Formulae.R")
-source("R/LaTeX_math.R")
-source("R/Output.R")
-source("R/Constants.R")
+source("R/Mirt_toolbox.R", encoding = 'UTF-8')
+source("R/Formulae.R",     encoding = 'UTF-8')
+source("R/LaTeX_math.R",   encoding = 'UTF-8')
+source("R/Output.R",       encoding = 'UTF-8')
+source("R/Constants.R",    encoding = 'UTF-8')
 
 ## ---- CONSTANTS: -------------------------------------------------------------
 
@@ -112,11 +112,12 @@ corr_matrix                 <- solve(inner_prod_matrix)
 items_oblique_params <- items_M2PL |> compute_mirt_params(
   all_of(INTERCEPT_COLKEY), starts_with(DISCR_PREFFIX), # Input parameters
   cov_matrix = corr_matrix,                             # Input correlations
-  dir_out    = c(COSINE_DIRTYPE, DEGREE_DIRTYPE)        # Output configuration
+  dir_out    = c(COSINE_DIRTYPE, DEGREE_DIRTYPE),       # Output configuration
+  version    = "corr"                               # Compute corr-based version
 )
 items_oblique_coords <- items_oblique_params |> compute_mirt_coords(
   D, MDISC, starts_with(COSINE_DIRTYPE),
-  transform       = transform_matrix,
+  transform       = transform_matrix_inv_transp,
   original_coords = FALSE
 )
 items_oblique        <- full_join(
@@ -128,7 +129,7 @@ item_params <- full_join(
   items_orth    |> select(item:deg_2, -starts_with(COSINE_DIRTYPE)),
   items_oblique |> select(item:deg_2, -starts_with(COSINE_DIRTYPE)),
   by     = ITEM_COLKEY,
-  suffix = paste0('_', c(ORTH_SUFFIX, OBL_SUFFIX))
+  suffix = paste0(UNDERSCORE, c(ORTH_SUFFIX, OBL_SUFFIX))
 )
 
 item_params <- full_join(items_M2PL, item_params, by = ITEM_COLKEY)
@@ -141,7 +142,7 @@ item_params <- item_params                          |>
   add_column(sep_1 = NA, .after = INTERCEPT_COLKEY) |>
   add_column(
     sep_2  = NA,
-    .after = DEGREE_DIRTYPE |> paste(2, ORTH_SUFFIX, sep = '_')
+    .after = paste(DEGREE_DIRTYPE, 2, ORTH_SUFFIX, sep = UNDERSCORE)
   )
 
 # Table header (for flextable object):
@@ -150,7 +151,7 @@ item_headers <- tibble(
   metric   = col_keys %>% {
     case_when(
                  . == ITEM_COLKEY                        ~ ITEM_TABLE_TITLE,
-                 . == SEP_PREFFIX |> paste(1, sep = '_') ~ ' ',
+                 . == glue("{SEP_PREFFIX}{UNDERSCORE}1") ~ SPACE_SEP,
                  . == INTERCEPT_COLKEY                   ~ MODEL_ACRONYM,
       str_detect(.,   DISCR_PREFFIX)                     ~ MODEL_ACRONYM,
       TRUE                                               ~ MULTIDIM_PARAMS_TITLE
@@ -168,7 +169,7 @@ item_headers <- tibble(
     case_when(
                  . == ITEM_COLKEY      ~ ITEM_TABLE_TITLE,
                  . == INTERCEPT_COLKEY ~ as.character(INTERCEPT_PARAM),
-      str_detect(., SEP_PREFFIX  )     ~ ' ',
+      str_detect(., SEP_PREFFIX  )     ~ SPACE_SEP,
       str_detect(., MDISC_SYM    )     ~ as.character(MDISC_ITEM),
       str_detect(., DISTANCE_SYM )     ~ as.character(DISTANCE_PARAM),
       str_detect(., DISCR_PREFFIX)     ~ DISCR_PARAM |> str_replace(
@@ -183,39 +184,67 @@ item_headers <- tibble(
   }
 )
 
+# Column (logical) indices for indexing the flextable output:
+corr_header_index      <- item_headers                 |>
+  transmute(!corr %in% c(ITEM_TABLE_TITLE, SPACE_SEP)) |>
+  pull()
+multidim_scalars_index <- item_headers                                  |>
+  transmute(param |> str_detect(glue("{MDISC_ITEM}|{DISTANCE_PARAM}"))) |>
+  pull()
+multidim_angles_index  <- item_headers              |>
+  transmute(col_keys |> str_detect(DEGREE_DIRTYPE)) |>
+  pull()
+
+# Footer composition:
+footer_values <- as_paragraph(
+  list_values = list(
+    FOOTER_PREFFIX
+  ) |>
+    c(
+      MODEL_EXPLANATION,
+      CORR_EXPLANATION,
+      DISCR_EXPLANATION,
+      INTERCEPT_EXPLANATION,
+      MDISC_EXPLANATION,
+      DISTANCE_EXPLANATION,
+      ANGLE_EXPLANATION, DOT
+    )
+)
+
 # Table formatted as a `flextable` object:
-item_params_output <- item_params                 |>
-  flextable()                                     |>
-  set_header_df(item_headers)                     |>
-  merge_v(part = "header")                        |>
-  merge_h(part = "header", i = 1:2)               |>
+item_params_output <- item_params                          |>
+  flextable()                                              |>
+  set_header_df(item_headers)                              |>
+  add_footer_lines(values = footer_values)                 |>
+  merge_v(part = "header")                                 |>
+  merge_h(part = "header", i = 1:2)                        |>
   mk_par(
-    i = 2:3, j = c(2:4, 6:9, 11:14),
+    i = 2:3, j = corr_header_index,
     part    = "header",
     value   = as_paragraph(as_equation(.)),
     use_dot = TRUE
-  )                                               |>
+  )                                                        |>
   style(
-    i    = 1:2, j = c(2:4, 6:9, 11:14),
+    i    = 1:2, j = corr_header_index,
     pr_c = fp_cell(border.bottom = fp_border(width = .5)),
     part = "header"
-  )                                               |>
-  theme_apa()                                     |>
-  colformat_double(j = -(1:4),        digits = 3) |>
-  colformat_double(j = c(8:9, 13:14), digits = 1) |>
+  )                                                        |>
+  theme_apa()                                              |>
+  colformat_double(j = multidim_scalars_index, digits = 3) |>
+  colformat_double(j = multidim_angles_index,  digits = 1) |>
   style(
     pr_p = fp_par(
       padding.bottom = 3,
       padding.top    = 3,
-      padding.left   = 4,
-      padding.right  = 4
+      padding.left   = 3,
+      padding.right  = 3
     ),
     part = "all"
-  )                                               |>
-  valign(valign = "bottom", part = "header")      |>
-  align(align   = "center", part = "header")      |>
-  align(align   = "right",  part = "body")        |>
-  fontsize(size = 12,       part = "all")         |>
+  )                                                        |>
+  valign(valign = "bottom", part = "header")               |>
+  align(align   = "center", part = "header")               |>
+  align(align   = "right",  part = "body")                 |>
+  fontsize(size = 12,       part = "all")                  |>
   set_table_properties(layout = "autofit")
 
 ## ----compose-oblique-plot----
