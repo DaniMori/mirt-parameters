@@ -14,6 +14,25 @@ output:
     keep_md:         no
     fig_width:       4
     fig_height:      4
+abstract: |
+  Modern measurement theory demands that Multidimensional Item Response Theory
+  provides an accurate representation of covariate spaces with correlated
+  dimensions and/or non-standard variances. As it is also used in applications
+  in the non-cognitive domain, they also need to model negatively-keyeed items
+  in an accurate and interpretable manner. Henceforth we generalize the
+  multidimensional discrimination [@reckase_discriminating_1991] and
+  difficulty [@reckase_difficulty_1985] parameters to account for those two
+  phenomena. We do so by applying Reckase's [-@reckase_difficulty_1985] method
+  in a strictly algebraic sense to the Multidimensional 2-Parameter Logistic
+  Model, represented in a latent space with an arbitrary basis, and
+  then defining such basis to be a concrete geometrical representation of the
+  phenomena we intend to measure. Following @ackerman_creating_1994, we also
+  provide a geometrical representation based on these parameters, and provide
+  applied examples to illustrate the pertinence of these generalized parameters
+  to accurately represent the measurement properties of the items.
+keywords: |
+  Multidimensional IRT, 2-Parameter Logistic model, multidimensional parameters,
+  discrimination, difficulty, location, item vector representation
 bibliography: [../../www/Multidimensional-parameters-MCLM.bib, ../../www/packages.bib]
 csl:          ../../www/apa-old-doi-prefix.csl
 editor_options: 
