@@ -1,7 +1,5 @@
 ---
 title: "A generalized definition of multidimensional item response theory parameters"
-author: "Daniel Morillo"
-date: "`r format(Sys.Date(), '%d/%m/%Y')`"
 output:
   officedown::rdocx_document:
     tables:
