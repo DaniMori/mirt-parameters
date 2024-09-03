@@ -63,9 +63,7 @@ opts_chunk$set(
   echo     = FALSE,
   message  = FALSE,
   cache    = FALSE,
-  dev      = "png",
-  dpi      =   900,
-  dev.args = list(type = "cairo-png")
+  dev      = "svg"
 )
 
 # Output configuration options:
