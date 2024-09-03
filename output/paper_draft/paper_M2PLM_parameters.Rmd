@@ -16,7 +16,7 @@ abstract: |
   Modern measurement theory demands that Multidimensional Item Response Theory
   accurately represents covariate spaces with correlated dimensions and/or
   non-standard variances. As it is also used in applications in the
-  non-cognitive domain, they also need to model negatively-keyeed items
+  non-cognitive domain, they also need to model negatively-keyed items
   accurately and interpretably. Henceforth we generalize the
   multidimensional discrimination [@reckase_discriminating_1991] and
   difficulty [@reckase_difficulty_1985] parameters to account for those two
@@ -1166,8 +1166,6 @@ In order to facilitate the comparison,
 the covariance-based version of each parameter is provided in
 the column next to its corresponding agnostic version.
 
-## @reckase_multidimensional_2009
-
 ```{r reset-root-wd}
 #| cache: false
 
@@ -1219,6 +1217,21 @@ COV_MATRIX_VALUE <- matrix(
 ```{r compose-output-table}
 ```
 
+```{r set-flextable-wd}
+#| cache: false
+```
+
+```{r empirical-table-Reckase2009-out}
+#| cache:   false
+#| tab.id:  empirical-table-Reckase2009-out
+#| tab.cap: |
+#|   Agnostic and covariance-based multidimensional item parameters in
+#|   Reckase (2009), with a (rank-complete) three-dimensional covariance matrix.
+item_params_output
+```
+
+## @reckase_multidimensional_2009
+
 Table \@ref(tab:empirical-table-Reckase2009-out) shows the parameters of the
 30-item test in the @reckase_multidimensional_2009 example:
 There are three ten-item blocks assumed to approximate
@@ -1264,19 +1277,6 @@ In this situation, we notice that the angles tend to be much smaller, as the
 high correlation induces an alignment between the two dimensions
 (compare item 1 in the two test spaces in
 Table \@ref(tab:example-items-table-out) and Figure \@ref(fig:item-plot-out)).
-
-```{r set-flextable-wd}
-#| cache: false
-```
-
-```{r empirical-table-Reckase2009-out}
-#| cache:   false
-#| tab.id:  empirical-table-Reckase2009-out
-#| tab.cap: |
-#|   Agnostic and covariance-based multidimensional item parameters in
-#|   Reckase (2009), with a (rank-complete) three-dimensional covariance matrix.
-item_params_output
-```
 
 The latter effect can be better noticed in another case, in which Reckase
 uses the same item parameters to demonstrate the over-specification of
@@ -1338,7 +1338,25 @@ In their model, dimensions 1 and 4 are estimated to have a correlation of
 With such latent space structure, items that strongly discriminate in any or
 both of these two dimensions change drastically their multidimensional
 parameters from the agnostic to the covariance-based version
-(see Table \@ref(tab:empirical-table-Tezza2018-out)) ---this happens,
+(see Table \@ref(tab:empirical-table-Tezza2018-out))
+<!---BLOCK_LANDSCAPE_START--->
+
+```{r set-flextable-wd}
+#| cache: false
+```
+
+```{r empirical-table-Tezza2018-out}
+#| cache:   false
+#| tab.id:  empirical-table-Tezza2018-out
+#| tab.cap: |
+#|   Agnostic and covariance-based multidimensional item parameters in
+#|   Tezza et al. (2018).
+item_params_output
+```
+
+<!---BLOCK_LANDSCAPE_STOP--->
+
+---this happens,
 for example, with items 57 and 60. These items also have different-sign
 discrimination parameters in dimensions 1 and 4, so their situation is
 similar to items 2 and 3 in Table \@ref(tab:example-items-table-out) and
@@ -1359,23 +1377,6 @@ with that dimension.
 In this case, being the discrimination in dimension 4 so low, the situation is
 very similar to item 4 in Table \@ref(tab:example-items-table-out)
 and Figure \@ref(fig:item-plot-out).
-
-<!---BLOCK_LANDSCAPE_START--->
-
-```{r set-flextable-wd}
-#| cache: false
-```
-
-```{r empirical-table-Tezza2018-out}
-#| cache:   false
-#| tab.id:  empirical-table-Tezza2018-out
-#| tab.cap: |
-#|   Agnostic and covariance-based multidimensional item parameters in
-#|   Tezza et al. (2018).
-item_params_output
-```
-
-<!---BLOCK_LANDSCAPE_STOP--->
 
 # Discussion
 
