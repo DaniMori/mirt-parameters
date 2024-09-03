@@ -1,0 +1,666 @@
+---
+title: 'Graphical representation example: Alternative interpretations'
+output:
+  html_document: 
+    df_print:        paged
+    code_folding:    hide
+    toc:             yes
+    toc_float:       yes
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r setup}
+library(knitr)
+library(patchwork)
+library(rstudioapi)
+
+ROOT_DIR <- getActiveProject()
+DOC_DIR  <- getwd()
+
+opts_knit$set(root.dir = ROOT_DIR)
+opts_chunk$set(
+  echo     = TRUE,
+  message  = FALSE,
+  cache    = FALSE,
+  dev      = "png",
+  dpi      =   300,
+  dev.args = list(type = "cairo-png")
+)
+
+# Output configuration options:
+options(digits = 3)
+```
+
+# Introduction
+
+After the 2023/11/02 discussion, there are two issues that remain unclear
+regarding the graphical representation of the items.
+
+1. Whether the correlation-based or the covariance-based matrix should be used
+in the graphical representation, and whether it has an effect on its
+interpretation.
+
+2. The need to represent the items in the latent vs. the test space.
+
+We have a look at the example changing these two issues to see the effect.
+
+# Preface
+
+```{r read-chunks-graphical-example}
+#| echo: false
+read_chunk("src/Graphical_example_paper.R")
+```
+
+Load libaries:
+
+```{r libraries}
+```
+
+Source R scripts:
+
+```{r sources}
+```
+
+Define constants:
+
+```{r constants}
+```
+
+Configure graphical output:
+
+```{r graphical-output-conf}
+```
+
+# Covariance-based parameters and representation
+
+As I say in the draft, my understanding is that the correlation-based version of
+the parameters should be used for the graphical representation, as these are
+scale preserving, and therefore can be interpreted straightforwardly.
+
+We first compute the original item parameters and coordinates:
+
+```{r compute-example-items}
+```
+
+## MCLM parameters
+
+For reference, the MCLM version of the parameters, along with the "orthogonal"
+(i.e. agnostic) ones, are:
+
+```{r example-items-table-out}
+item_params |> select(-ends_with("_obl"))
+```
+
+## Parameters and representation in the original oblique space
+
+The graphical representation (only the oblique version is shown), as computed in
+the draft, is:
+
+```{r compose-oblique-plot}
+```
+
+```{r compose-orthogonal-plot}
+```
+
+```{r item-plot-out}
+#| fig.cap: |
+#|   Item plots in an oblique test space, with original (i.e., standard)
+#|   covariance matrix
+plot_oblique + scale_color_manual(values = PALETTE)
+```
+
+And the correlation-based parameters and coordinates:
+
+```{r example-items-obl-out}
+items_oblique
+```
+
+## Parameters and representation in oblique space with different variances
+
+Let's now compute a covariance-based version of the parameters. In this case,
+we defined the variances of the two latent dimensions as 1, so the
+covariance-based and the correlation-based versions of the indices are the same.
+In order to solve this, we define a new covariance matrix where the variance are
+different from 1. We set them to $[2, 1.5]$ instead:
+
+```{r define-cov-matrix}
+VARIANCES  <- c(2, 1.5)
+sd_matrix  <- VARIANCES |> sqrt() |> diag()
+cov_matrix <- sd_matrix %*% corr_matrix %*% sd_matrix
+```
+
+With this covariance matrix, we compute the item parameters again:
+
+```{r recompute-oblique-items}
+## Compute parameters and coordinates:
+items_oblique_params <- items_M2PL |> compute_mirt_params(
+  all_of(INTERCEPT_COLKEY), starts_with(DISCR_PREFFIX), # Input parameters
+  cov_matrix = cov_matrix,                              # Input covariances
+  dir_out    = c(COSINE_DIRTYPE, DEGREE_DIRTYPE)        # Output configuration
+)
+items_oblique_coords <- items_oblique_params |> compute_mirt_coords(
+  D, MDISC, starts_with(COSINE_DIRTYPE),
+  transform       = transform_matrix,
+  original_coords = FALSE
+)
+items_oblique        <- full_join(
+  items_oblique_params, items_oblique_coords,
+  by = ITEM_COLKEY
+)
+
+# Create the parameter table again:
+item_params <- items_M2PL |> full_join(
+  items_oblique |> select(item:deg_2, -starts_with(COSINE_DIRTYPE)),
+  by = ITEM_COLKEY
+)
+```
+
+```{r example-items-obl-out}
+```
+
+As can be seen, the directions change, due to the difference in the scale of the
+two dimensions induced by the different variances. The resulting graphical
+representation is:
+
+```{r compose-oblique-plot}
+```
+
+```{r item-plot-cov-out}
+#| fig.cap: |
+#|   Item plots in an oblique test space, with variances [2, 1.5]
+plot_oblique +
+  scale_x_continuous(
+    limits       = c(-2, 4.2),
+    breaks       = (0:4) - 2 / CORR_ARC_TAN,
+    labels       = 0:4,
+    minor_breaks = NULL,
+    name         = NULL,
+    oob          = oob_keep
+  )          +
+  scale_color_manual(values = PALETTE)
+```
+
+### Interpretation
+
+The vectors are "stretched" in both directions, due to the different variances.
+The "length" by which they are scaled depends on the standard deviation of each
+dimension. In this case, we are using variances of 2 and 1.5. Therefore, the
+vectors are stretched more in the first (horizontal) direction than in the
+second (oblique) one.
+
+## Case with more predictable results
+
+My expectations were that the representation if the items would be independent
+of the covariance matrix, but this has not been the case. I had not predicted
+that the item vectors would be "stretched" in space, as has happened, although I
+should have expected this because I mention it in the draft, in section 3.3
+(Properties of the parameters). Therefore, I acknowledge this representation is
+the correct one.
+
+In order to test the prediction that the items are scaled by the standard
+deviation, let's test a case that is easier to predict. In order to it, I will
+use variances of 0.25, which result in standard deviations of 0.5. Then, if my
+understanding of the representation of the vectors is correct, all the vectors
+should be scaled by $tfrac{1}{2}$; that is, they should have half the original
+length. Their direction however should not change.
+
+```{r define-cov-matrix-prediction}
+VARIANCES  <- c(.25, .25)
+sd_matrix  <- VARIANCES |> sqrt() |> diag()
+cov_matrix <- sd_matrix %*% corr_matrix %*% sd_matrix
+```
+
+```{r recompute-oblique-items}
+```
+
+```{r example-items-obl-out}
+```
+
+```{r compose-oblique-plot}
+```
+
+```{r item-plot-cov-prediction-out}
+#| fig.cap: |
+#|   Item plots in an oblique test space, with variances [0.25, 0.25]
+plot_oblique + scale_color_manual(values = PALETTE)
+```
+
+### Interpretation
+
+The resulting MIDSC parameters are effectively half the length, as predicted.
+On the other hand, as the MIL is affected by the inverse of the MDISC, the MIL
+values are the double of the original ones. This result in vectors that are not
+only half the length of the originals; their origin is twice as far from
+the origin of the latent space.
+
+## Conclusions
+
+The graphical representation reflects correctly the values of the parameters.
+However, the coordinates of the parameters in the latent space do not reflect
+the values of the original MCLM parameters.
+
+This is the reason why I understand that a correlation-based representation is
+more appropriate.
+
+## Using the "covariance-based" transformation matrix
+
+After pondering the results in the previous sections, I have realized the
+following: Although the parameters and the coordinates in the original space are
+correctly computed, when I transform the coordinates into the rectangular
+coordinate system the transformation (i.e. mapping?) matrix I am using is not a
+square root of the inverse covariance matrix, as I state in the algorithm for
+computing the graphical representation (section 3.4 in the draft). Instead, what
+I was using was the square root fo the inverse correlation matrix, therefore
+applying a transformation that intends to be "scale invariant". As a result, the
+graphical representation shows the parameters scaled by the standard deviation
+of each dimension.
+
+However, I foresee that the following will happen: If I use the _correct_ square
+root matrix, that is, the square root matrix of the inverse of the covariance
+matrix, the graphical representation will be always the same, independently of
+the variances of the dimensions (it will only depend on the correlations).
+
+Let's try with the previous two examples, computing first the square root
+matrix. Given that $\mathbf{\Sigma} = \mathbf{SRS}$:
+
+$$\mathbf{\Sigma}^{-1} = (\mathbf{SRS})^{-1};$$
+
+$$\mathbf{\Sigma}^{-1} = \mathbf{S}^{-1}\mathbf{R}^{-1}\mathbf{S}^{-1};$$
+
+$$\mathbf{P^TP} = \mathbf{S}^{-1}\mathbf{P^T_RP_R}\mathbf{S}^{-1},$$
+
+where $\mathbf{P_R}$ refers to the (previously used) correlation-based
+transformation matrix. Therefore, we can equate[^mat-eq]
+$\mathbf{P} = \mathbf{P_R}\mathbf{S}^{-1}$.
+
+[^mat-eq]: They are not necessarily the same, but we can define them to be for
+our convenience, as defining it that way allegedly keeps the desired property of
+leaving the horizontal axis unrotated.
+
+With this formula, we compute the new (covariance-based) transformation matrix:
+
+```{r recompute-transform-matrix}
+cb_transform_matrix <- transform_matrix %*% solve(sd_matrix)
+```
+
+Let's verify that this matrix is a square root of the inverse covariance matrix
+
+```{r check-transform-matrix}
+t(cb_transform_matrix) %*%
+  cb_transform_matrix  |>
+  solve()              |>
+  all.equal(cov_matrix)
+```
+
+Both matrices are the same (with double numerical precision).
+
+Let's now try the latter example with this new transform matrix.
+
+```{r recompute-oblique-coords}
+## Compute coordinates:
+items_oblique_coords <- items_oblique_params |> compute_mirt_coords(
+  D, MDISC, starts_with(COSINE_DIRTYPE),
+  transform       = cb_transform_matrix,
+  original_coords = FALSE
+)
+items_oblique        <- full_join(
+  items_oblique_params, items_oblique_coords,
+  by = ITEM_COLKEY
+)
+
+# Create the parameter table again:
+item_params <- items_M2PL |> full_join(
+  items_oblique |> select(item:deg_2, -starts_with(COSINE_DIRTYPE)),
+  by = ITEM_COLKEY
+)
+```
+
+```{r example-items-obl-out}
+```
+
+```{r compose-oblique-plot}
+```
+
+```{r item-plot-cov-based-transform-out}
+#| fig.cap: |
+#|   Item plots in an oblique test space, with variances [0.25, 0.25], and using
+#|   the "covariance-based transformation matrix.
+plot_oblique + scale_color_manual(values = PALETTE)
+```
+
+### Interpretation
+
+The discrimination parameters are "rescaled" back to their original value.
+However, the shift of the location is even more exaggerated due to being
+scaled _again_ by a factor dependent on the inverse of the variances. Because of
+this, the new location in the graphic is thus meaningless, in terms of the
+interpretation of the multidimensional parameters.
+
+## Conclusion
+
+There are two ways to represent the item vectors in the bidimensional space:
+
+1. Using the correlation-based definition of the multidimensional parameters.
+
+2. Using the covariance-based definition of the multidimensional parameters.
+
+The first one has the advantage that the items are represented in the original
+scale of the test space, assuming a distribution with the given variances; the
+original MCLM parameters are therefore kept invariant. The second one implies
+that _the items are normalized to a standard distribution_; _the original MCLM
+parameters are thus scaled accordingly_ (see [Section 3.3][gh-section-ref] of
+the current draft), and the representation of the distribution in this case
+would be made with a unitary variance.
+
+[gh-section-ref]: https://github.com/DaniMori/mirt-parameters/blob/8fa41540ff077f07db4b87840f0acc86eb4be2ea/output/paper_draft/paper_M2PLM_parameters.Rmd#L676
+
+In each of these two cases though, the oblique coordinates must be transformed
+back to rectangular coordinates _using a transformation matrix that is a
+square-root matrix of the correlation and **not the covariance matrix**_.
+
+# Representation in the latent space instead of the test space
+
+It is a concern that the multidimensional parameters should be defined
+(according to Reckase's, -@reckase_difficulty_1985 definition), in the latent
+space. All the computations (both the ones here and in the draft) assume that
+the representation of the vectors are in the test space, after arguing that this
+should be the correct representation instead of the one in the latent space.
+
+It should be argued (probably more clearly in the draft) that the fact that
+Reckase proposes the representation in the latent space may be due to the
+confusion resulting from considering that both constitute a single entity. This
+is because in the orthogonal case they overlap, making them indistinguishable in
+practice.
+
+Let's try to represent these sample items in the latent space, in order to
+explore this representation.
+
+## Parameters and representation in the oblique space
+
+The MDISC and the distance component of the MIL are the same in both spaces.
+However, in order to represent the item in the latent space, instead of
+[Equation 25][gh-eq-25], we must apply [Equation 20][gh-eq-20] to compute the
+angles with the axes of the latent space. In order to that, we first need to 
+redefine the function [`compute_mirt_params()`][gh-par-fun] to compute the
+latent space angles instead of the test space ones:
+
+[gh-eq-25]: https://github.com/DaniMori/mirt-parameters/blob/8fa41540ff077f07db4b87840f0acc86eb4be2ea/output/paper_draft/paper_M2PLM_parameters.Rmd#L599
+
+[gh-eq-20]: https://github.com/DaniMori/mirt-parameters/blob/8fa41540ff077f07db4b87840f0acc86eb4be2ea/output/paper_draft/paper_M2PLM_parameters.Rmd#L532
+
+[gh-par-fun]: https://github.com/DaniMori/mirt-parameters/blob/8fa41540ff077f07db4b87840f0acc86eb4be2ea/R/Mirt_toolbox.R#L30
+
+```{r redefine-compute-mirt-params}
+compute_mirt_params <- function(items,
+                                intercept,
+                                discrimination,
+                                cov_matrix,
+                                item_id = item,
+                                dir_out = c("cos", "rad", "deg")) {
+  ## Argument checking and formatting: ----
+  
+  # Enquote column selections:
+  item_id        <- rlang::enquo(item_id)
+  intercept      <- rlang::enquo(intercept)
+  discrimination <- rlang::enquo(discrimination)
+  
+  # Check number of columns selected:
+  
+  id_col     <- items |> dplyr::select(!!item_id)
+  intr_col   <- items |> dplyr::select(!!intercept)
+  discr_cols <- items |> dplyr::select(!!discrimination)
+  
+  n_discr_cols <- discr_cols |> ncol()
+  
+  assertive.properties::assert_is_of_length(id_col,   1)
+  assertive.properties::assert_is_of_length(intr_col, 1)
+  
+  assertive.extra::assert_is_greater_than_or_equal_to(n_discr_cols, 1)
+  
+  
+  # Check/format covariance matrix:
+  if (missing(cov_matrix)) {
+    
+    cov_matrix <- n_discr_cols |> diag()
+    
+  } else {
+    
+    dim_cov <- cov_matrix |> ncol()
+    
+    assertive.base::assert_are_identical(dim_cov, n_discr_cols)
+    assertive.extra::assert_is_covariance_matrix(cov_matrix)
+  }
+  
+  # Direction options:
+  dir_out <- dir_out |> match.arg(several.ok = TRUE)
+  one_dir <- dir_out                      |>
+    assertive.properties::is_of_length(1) |>
+    as.logical()
+
+  ## Main: ----
+  
+  # Compute Gram (i.e. inner product) matrix and "scaling" (D) matrix:
+  gram_matrix  <- cov_matrix |> solve()
+  scale_matrix <- gram_matrix |> diag() |> diag() |> sqrt() |> solve()
+
+  items                                                                      |>
+    tidyr::pivot_longer(!!discrimination, names_to = "par", values_to = "a") |>
+    dplyr::group_by(!!item_id)                                               |>
+    # This renaming is necessary for accessing the variable in `transmute`:
+    dplyr::rename(d = !!intercept)                                           |>
+    dplyr::transmute(
+      !!item_id,
+      ## Compute the multidimensional parameters:
+      dim   = par |> stringr::str_extract("\\d+"),
+      MDISC = (t(a) %*% cov_matrix %*% a) |> drop() |> sqrt(),
+      D     = - d / MDISC,
+      cos   = (scale_matrix %*% a / MDISC) |> drop(),
+      rad   = dplyr::if_else(
+        assertive.numbers::is_equal_to(cos, 1), # If cos is a "computational 1",
+        0,                                  # then fill in its arc-cos with a 0;
+        suppressWarnings(acos(cos))   # otherwise, compute its arc-cos normally.
+      ),
+      deg   = rad * RAD_DEG_FACTOR
+    )                                                                        |>
+    dplyr::ungroup()                                                         |>
+    select(!!item_id, dim, MDISC, D, all_of(dir_out))                        |>
+    tidyr::pivot_wider(
+      names_from  = dim,
+      values_from = all_of(dir_out),
+      names_glue  = one_dir |> if_else('{.value}_{.name}', '{.name}')
+    )
+}
+```
+
+In the previous function, we have inverted the roles of the covariance matrix
+(i.e., the Gram matrix in the test space) and the "Gram matrix" of the latent
+space, which is the inverse of the covariance matrix. Also, we have computed a
+"scale matrix" that is formed by the square root elements of the diagonal of the
+Gram matrix, inverted (i.e. matrix $\mathbf{D}$ in the manuscript). Note that,
+contrary to what happens in the test space (where the "scale" matrix is the
+inverse of the standard deviation matrix), this scale matrix in the latent space
+is "meaningless" (in terms of interpretation). Finally, in the test pace, the
+covariance matrix was used in the computation of the cosines, but here the Gram
+matrix is not; this makes sense since, as we have seen before, transforming from
+the test to the latent space implies multiplying by the inverse of the
+covariance matrix.
+
+We now compute the coordinates in the latent space. In order to compute the
+transformed coordinates, instead of the transformation matrix, I understand we
+need its "complementary" with the same role in the latent space. That would be
+the inverse transposed of that transformation matrix.
+
+We return in this case the original coordinates (in the latent space) along with
+the transformed ones (to rectangular coordinates).
+
+```{r compute-oblique-items-latent-space}
+## Compute parameters and coordinates:
+items_oblique_params <- items_M2PL |> compute_mirt_params(
+  all_of(INTERCEPT_COLKEY), starts_with(DISCR_PREFFIX), # Input parameters
+  cov_matrix = corr_matrix,                             # Input covariances
+  dir_out    = c(COSINE_DIRTYPE, DEGREE_DIRTYPE)        # Output configuration
+)
+items_oblique_coords <- items_oblique_params |> compute_mirt_coords(
+  D, MDISC, starts_with(COSINE_DIRTYPE),
+  transform       = transform_matrix_inv_transp,
+  original_coords = TRUE
+)
+items_oblique        <- full_join(
+  items_oblique_params, items_oblique_coords,
+  by = ITEM_COLKEY
+)
+
+# Create the parameter table again:
+item_params <- items_M2PL |> full_join(
+  items_oblique |> select(item:deg_2, -starts_with(COSINE_DIRTYPE)),
+  by = ITEM_COLKEY
+)
+```
+
+```{r example-items-obl-out}
+```
+
+We now compose the plot in the latent space. Apart from the item representation,
+we need to plot the grid that corresponds to the latent space instead of the
+test space. I made a previous version of the grid, but then I realised that I
+didn't quite understand how the grid should be built, apart from the axes.
+
+Therefore, I decide to try to build it following this procedure:
+
+1. First, I try to find the points where the two lines of the grid (one for each
+axis) instersects in the coordinate "1" of the other axis.
+
+2. Then I compute the transformed coordinates of point (1, 1).
+
+3. Tracing a line from this point to each of the intersections of the two axes
+gives the "base" grid lines. Then I only need to translate its coordinates by
+an integer number to get any other grid line.
+
+The points in step 1 must be the end of each of the two basis vectors.
+Therefore, this step implies simply obtaining the coordinates of those basis
+vectors in the orthonormal basis.
+
+Then, step 2 is:
+
+$$
+\begin{pmatrix}
+  1                          & 0 \\
+  - \rho / \sqrt{1 - \rho^2} & 1 / \sqrt{1 - \rho^2}
+\end{pmatrix}
+\begin{pmatrix}
+  1 \\ 1
+\end{pmatrix} = 
+\begin{pmatrix}
+  1 \\ (1 - \rho) / \sqrt{1 - \rho^2}
+\end{pmatrix}
+$$
+
+Finally, step 3:
+
+- The first grid line through axis 2, in point/slope form:
+
+$$
+\begin{pmatrix}
+  1 \\ (1 - \rho) / \sqrt{1 - \rho^2}
+\end{pmatrix} -
+\begin{pmatrix}
+  0 \\ 1 / \sqrt{1 - \rho^2}
+\end{pmatrix} =
+\begin{pmatrix}
+  1 \\ - \rho / \sqrt{1 - \rho^2}
+\end{pmatrix}
+$$
+
+$$
+slope = \frac{- \rho / \sqrt{1 - \rho^2}}{1} =
+  - \frac{\rho}{\sqrt{1 - \rho^2}}
+$$
+
+$$
+intercept = \frac{1}{\sqrt{1 - \rho^2}}
+$$
+
+- The first grid line through axis 1:
+
+$$
+\begin{pmatrix}
+  1 \\ (1 - \rho) / \sqrt{1 - \rho^2}
+\end{pmatrix} -
+\begin{pmatrix}
+  1 \\ - \rho / \sqrt{1 - \rho^2}
+\end{pmatrix} =
+\begin{pmatrix}
+  0 \\ 1 / \sqrt{1 - \rho^2}
+\end{pmatrix}
+$$
+
+It is thus a vertical line through (rectangular) coordinate
+$(1, (1 - \rho) / \sqrt{1 - \rho^2})$.
+
+```{r compose-oblique-plot-latent-space}
+TAN_LS <- -CORR_VALUE / CORR_ARC_SIN
+
+plot_oblique <- items_oblique |>
+  arrange(desc(item))         |> # To plot them in reverse order
+  ggplot(
+    aes(
+      origin_transf_1, origin_transf_2,
+      xend  = end_transf_1, yend = end_transf_2,
+      color = item, fill = item
+    ),
+  )                                                   +
+  scale_x_continuous(
+    limits       = c(-2, 3),
+    breaks       = -2:3,
+    # labels       = function(x) x * CORR_ARC_COSEC,
+    minor_breaks = NULL,
+    name         = NULL,
+    oob          = oob_keep
+  )                                                   +
+  scale_y_continuous(
+    limits       = c(-2, 2.8),
+    breaks       = -3:3 / CORR_ARC_SIN,
+    labels       = function(y) y * CORR_ARC_SIN - 2 * CORR_VALUE,
+    minor_breaks = 0,
+    name         = NULL,
+    oob          = oob_keep
+  )                                                   +
+  coord_fixed(expand = FALSE, clip = "on")            +
+  scale_color_manual(values = PALETTE)                +
+  geom_abline(slope = TAN_LS, linewidth = LINE_WIDTH) +
+  geom_abline(
+    slope     = TAN_LS,
+    intercept = -3:3 / CORR_ARC_SIN,
+    linewidth = LINE_WIDTH,
+    linetype  = "17"
+  )                                                         +
+  geom_vline(xintercept = 0, linewidth = LINE_WIDTH)  +
+  geom_segment(
+    arrow     = arrow(angle = 20, length = unit(10, "points"), type = "closed"),
+    linejoin  = "mitre",
+    linewidth = VECTOR_WIDTH
+  )                                                         +
+  theme(
+    axis.line          = element_blank(),
+    panel.grid.major.x = element_line(
+      color     = "black",
+      linewidth = LINE_WIDTH,
+      linetype  = "17"
+    )
+  )
+```
+
+```{r item-plot-latent-space-out}
+#| fig.cap: |
+#|   Item plots in an oblique, orthonormal latent space (with correlation = .5)
+plot_oblique
+```
+
+Unless there is a mistake, we can see that the representation is the same. The
+angles seem to be correct, and the computed coordinates seem to be given
+"perpendicular" to the latent space axes[^ls-coords]
+
+[^ls-coords]: This seems odd, there may be a mistake in the computation of the
+latent space grid. Also, it seems like the coordinates are not correct, even if
+they were computed perpendicularly to the latent space axes.
