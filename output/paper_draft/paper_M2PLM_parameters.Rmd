@@ -16,23 +16,30 @@ output:
     fig_height:      4
 abstract: |
   Modern measurement theory demands that Multidimensional Item Response Theory
-  provides an accurate representation of covariate spaces with correlated
-  dimensions and/or non-standard variances. As it is also used in applications
-  in the non-cognitive domain, they also need to model negatively-keyeed items
-  in an accurate and interpretable manner. Henceforth we generalize the
+  accurately represents covariate spaces with correlated dimensions and/or
+  non-standard variances. As it is also used in applications in the
+  non-cognitive domain, they also need to model negatively-keyeed items
+  accurately and interpretably. Henceforth we generalize the
   multidimensional discrimination [@reckase_discriminating_1991] and
   difficulty [@reckase_difficulty_1985] parameters to account for those two
   phenomena. We do so by applying Reckase's [-@reckase_difficulty_1985] method
   in a strictly algebraic sense to the Multidimensional 2-Parameter Logistic
   Model, represented in a latent space with an arbitrary basis, and
   then defining such basis to be a concrete geometrical representation of the
-  phenomena we intend to measure. Following @ackerman_creating_1994, we also
-  provide a geometrical representation based on these parameters, and provide
-  applied examples to illustrate the pertinence of these generalized parameters
-  to accurately represent the measurement properties of the items.
-keywords: |
-  Multidimensional IRT, 2-Parameter Logistic model, multidimensional parameters,
-  discrimination, difficulty, location, item vector representation
+  phenomena we intend to measure. This results in three different versions of
+  the multidimensional parameters: The original one, based on the item
+  parameters solely, one that incorporates the covariance structure of the
+  latent space, and a third one that uses the correlation structure instead.
+  Following @ackerman_creating_1994, we also provide a geometrical
+  representation based on these parameters, and provide applied examples to
+  illustrate the pertinence of these generalized parameters to represent the
+  measurement properties of the items accurately. We recommend using the
+  version that uses the latent covariance structure for describing the
+  properties of the parameters, and the one based on the correlation structure
+  for graphical representation. Finally, we discuss the implications of this
+  generalization for other multidimensional IRT models, and the parallels of our
+  results in common factor model theory.
+keywords: "Multidimensional IRT, 2-Parameter Logistic model, multidimensional parameters, item discrimination, item difficulty, item vector representation"
 bibliography: [../../www/Multidimensional-parameters-MCLM.bib, ../../www/packages.bib]
 csl:          ../../www/apa-old-doi-prefix.csl
 editor_options: 
