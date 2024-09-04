@@ -92,6 +92,8 @@ source("R/Constants.R", encoding = 'UTF-8')
 multidimensional parameters, item discrimination, item difficulty,
 item vector representation
 
+\newpage
+
 # Introduction
 
 Multidimensional item response theory (MIRT) models have been widely used since
@@ -176,7 +178,7 @@ cognitive [e.g., @reckase_multidimensional_2009] or the non-cognitive domain
 Moreover, certain applications impose the estimation of
 non-identity latent covariance matrices (e.g., multigroup equating) even when
 interpreting the latent dimensions as substantive constructs is not a goal
-[for for multidimensional linking and equating procedures,
+[for multidimensional linking and equating procedures,
 see @reckase_linking_2009].
 As we will argue, the usual definitions of the multidimensional difficulty and
 discrimination parameters do not generalize to the non-orthonormal geometry
@@ -264,8 +266,7 @@ non-negative real numbers in Reckase
 with an increase in ability makes little sense].
 In our case, $`r DISCR_VECTOR`$ is a vector of real numbers; the value
 of the $`r DIM_INDEX`$-th component $`r DISCR_PARAM`$ can be negative if
-the item is *inverse* for (i.e., taps the negative pole of)
-latent dimension $`r DIM_INDEX`$ (e.g., a negatively-keyed item).
+the item is negatively-keyed for latent dimension $`r DIM_INDEX`$.
 Finally, as responses are not necessarily interpreted as correct or incorrect,
 parameter $`r INTERCEPT_PARAM`$ is said to be related to the item _location_
 instead of the item difficulty.
