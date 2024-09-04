@@ -1524,33 +1524,6 @@ Hopefully, this will contribute to a better understanding
 of the underlying multidimensional measurement theory, its implications,
 and its interpretation.
 
-# Statements and Declarations
-
-## Ethical considerations
-
-Not applicable
-
-## Consent to participate
-
-Not applicable
-
-## Consent for publication
-
-Not applicable
-
-## Declaration of conflicting interest
-
-The author(s) declared no potential conflicts of interest with respect to
-the research, authorship, and/or publication of this article.
-
-## Funding statement
-
-Not applicable
-
-## Data availability statement
-
-Not applicable
-
 \newpage
 
 # References
