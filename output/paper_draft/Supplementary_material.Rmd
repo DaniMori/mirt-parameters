@@ -7,7 +7,7 @@ output:
         pre: "Table S."
       style: APA_Like_style
     mapstyles:
-      Normal: First Paragraph
+      Body Text: First Paragraph
     base_format: bookdown::word_document2
     reference_docx: ../../www/Template.docx
     number_sections: no

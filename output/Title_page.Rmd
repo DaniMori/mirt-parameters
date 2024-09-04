@@ -4,7 +4,7 @@ output:
     mapstyles:
       Body Text: ['First Paragraph', 'Abstract']
     base_format: bookdown::word_document2
-    reference_docx: ../www/Title_page_template.docx
+    reference_docx: ../www/Template.docx
     number_sections: no
     keep_md:         no
     fig_width:       4
