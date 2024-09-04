@@ -25,7 +25,6 @@ abstract: |
   Model, represented in a latent space with an arbitrary basis, and
   then defining such basis to be a concrete geometrical representation of the
   phenomena we intend to measure. This results in three different versions of
-  the multidimensional parameters: The original one, based on the item
   parameters solely, one that incorporates the covariance structure of the
   latent space, and a third one that uses the correlation structure instead.
   Following @ackerman_creating_1994, we also provide a geometrical
@@ -37,6 +36,7 @@ abstract: |
   for graphical representation. Finally, we discuss the implications of this
   generalization for other multidimensional IRT models, and the parallels of our
   results in common factor model theory.
+  the multidimensional parameters: The original one, based on the item
 keywords: |
   Multidimensional IRT, 2-Parameter Logistic model, multidimensional parameters,
   item discrimination, item difficulty, item vector representation
