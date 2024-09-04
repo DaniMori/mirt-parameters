@@ -1,0 +1,90 @@
+---
+output:
+  officedown::rdocx_document:
+    mapstyles:
+      Body Text: ['First Paragraph', 'Abstract']
+    base_format: bookdown::word_document2
+    reference_docx: ../www/Template.docx
+    number_sections: no
+    keep_md:         no
+    fig_width:       4
+    fig_height:      4
+editor_options: 
+  chunk_output_type: console
+---
+
+September 5, 2024.
+
+George A. Marcoulides \
+Editor, *Educational and Psychological Measurement* \
+University of California, Santa Barbara, USA
+
+Dear Dr. Marcoulides:
+
+Please find enclosed the manuscript entitled
+*"A generalized definition of multidimensional item response theory
+parameters"*,
+which I am submitting for exclusive consideration of publication as an article
+in Educational and Psychological Measurement.
+Excluding the title page
+(submitted separately according to Sage's guidelines),
+the manuscript is 24 pages long and includes one figure and three tables.
+
+The authors of this manuscript are myself, Daniel Morillo-Cuadrado,
+and my colleague Mario Luzardo-Verde.
+You can find all the information about our affiliations in
+the title page submitted separately.
+We have both agreed to authorship in the indicated order, and
+none of us have any interest that might be interpreted
+as influencing the research.
+
+Please note that, while all the APA ethical standards were followed in
+the conduction of this study, as
+the manuscript presents the results of purely formal research,
+no ethical considerations were involved,
+therefore the lack of ethical approval or consent from actual participants.
+
+Our manuscript presents a generalization of the multidimensional IRT parameters
+introduced by Reckase and Reckase & McKinley in their articles
+["The difficulty of test items that measure more than one ability" (1985)][1]
+and
+["The discriminating power of items that measure more than one dimension"
+(1991)][2],
+respectively.
+We believe that our results are still
+an important contribution to modern measurement theory,
+despite the long time since the publication of these articles.
+Our generalization helps clarify the interpretation of
+the multidimensional parameters while circumventing several issues
+we have found in the literature regarding those multidimensional parameters,
+due to implicitly applying them to monotonously non-increasing items and,
+more importantly,
+to a misconception of how these parameters should be computed and interpreted.
+In the course of our research we have also found a crucial result regarding
+the interpretation of the latent space and
+its distinction from the so-called *test space*,
+a duality of spaces almost completely overlooked in the literature,
+but critical for understanding Multidimensional IRT and its connection with
+the common factor model theory.
+We also provide a method for accurately representing the items in vector form
+in any test space (regardless of the covariance structure represented),
+to help interpret and understand the multidimensional parameters.
+We sincerely believe and hope you will find
+the results we present in this manuscript interesting and fit for this journal.
+
+[1]: https://doi.org/10.1177/014662168500900409
+
+[2]: https://doi.org/10.1177/014662169101500407
+
+We thank you in advance for your time and effort considering our work.
+Please feel free to correspond with me by email (dvmorillo@psi.uned.es).
+I will assume all responsibility for keeping
+my coauthor and colleague informed of further updates.
+
+Sincerely,
+
+Daniel Morillo, Ph.D.\
+Department of Behavioral Science Methodology \
+Universidad Nacional de Educación a Distancia \
+C. Juan del Rosal 10, Office 2.74 \
+28040 Madrid, Spain
