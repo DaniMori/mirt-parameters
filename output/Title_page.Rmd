@@ -1,15 +1,38 @@
 ---
 title: "Title page"
+output:
+  officedown::rdocx_document:
+    mapstyles:
+      Body Text: ['First Paragraph', 'Abstract']
+    base_format: bookdown::word_document2
+    reference_docx: ../../www/Template.docx
+    number_sections: no
+    keep_md:         no
+    fig_width:       4
+    fig_height:      4
+editor_options: 
+  chunk_output_type: console
 ---
 
-- Article title
-- The full list of authors including names and affiliations of each
-    - The listed affiliation should be the institution where the research was
-    conducted. If an author has moved to a new institution since completing the
-    research, the new affiliation can be included in a note at the end of the
-    manuscript – please indicate this on the title page.
-    - All persons eligible for authorship must be included at the time of
-    submission (please see the authorship section for more information).
-    - Contact information for the corresponding author: name, institutional
-    address, phone, email
-- Statements and Declarations section  
+**Article title:**
+A generalized definition of multidimensional item response theory parameters
+
+**Short title:** Generalized MIRT parameters
+
+**List of authors:**
+
+- Daniel Morillo-Cuadrado. Department of Behavioral Science Methodology,
+  Faculty of Psychology, National Remote Education University (UNED), Spain.
+  
+- Mario Luzardo-Verde. Department of Mathematics and Applications, La República
+  University, Uruguay.
+
+**Corresponding author:**
+
+Daniel Morillo-Cuadrado \\
+Faculty of Psychology, Office 2.74.
+C. de Juan del Rosal 10, 28040 Madrid
+
+Phone nº: +34 91398 6584
+Email address: dvmorillo@psi.uned.es
+
