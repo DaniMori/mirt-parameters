@@ -179,7 +179,7 @@ Moreover, certain applications impose the estimation of
 non-identity latent covariance matrices (e.g., multigroup equating) even when
 interpreting the latent dimensions as substantive constructs is not a goal
 [for multidimensional linking and equating procedures,
-see @reckase_linking_2009].
+see Chapter 9 in @reckase_multidimensional_2009].
 As we will argue, the usual definitions of the multidimensional difficulty and
 discrimination parameters do not generalize to the non-orthonormal geometry
 necessary to accurately represent correlated latent spaces.
