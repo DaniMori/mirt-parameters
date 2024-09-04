@@ -1,0 +1,63 @@
+---
+output:
+  officedown::rdocx_document:
+    mapstyles:
+      Body Text: ['First Paragraph', 'Abstract']
+    base_format: bookdown::word_document2
+    reference_docx: ../www/Template.docx
+    number_sections: no
+    keep_md:         no
+    fig_width:       4
+    fig_height:      4
+editor_options: 
+  chunk_output_type: console
+---
+
+**Article title:**
+A generalized definition of multidimensional item response theory parameters
+
+**Short title:** Generalized MIRT parameters
+
+**List of authors:**
+
+- Daniel Morillo-Cuadrado. Department of Behavioral Science Methodology,
+  Faculty of Psychology, National Remote Education University (UNED), Spain.
+  
+- Mario Luzardo-Verde. Department of Mathematics and Applications, La República
+  University, Uruguay.
+
+**Corresponding author:**
+
+Daniel Morillo-Cuadrado \
+Faculty of Psychology, Office 2.74.
+C. de Juan del Rosal 10, 28040 Madrid
+
+Phone nº: +34 91398 6584 \
+Email address: dvmorillo@psi.uned.es
+
+# Statements and Declarations
+
+## Ethical considerations
+
+Not applicable
+
+## Consent to participate
+
+Not applicable
+
+## Consent for publication
+
+Not applicable
+
+## Declaration of conflicting interest
+
+The author(s) declared no potential conflicts of interest with respect to
+the research, authorship, and/or publication of this article.
+
+## Funding statement
+
+Not applicable
+
+## Data availability statement
+
+Not applicable

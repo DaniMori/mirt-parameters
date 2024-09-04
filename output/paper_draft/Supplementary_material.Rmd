@@ -1,7 +1,5 @@
 ---
 title: "Supplementary material"
-author: "Daniel Morillo"
-date: "`r format(Sys.Date(), '%d/%m/%Y')`"
 output:
   officedown::rdocx_document:
     tables:
@@ -9,7 +7,7 @@ output:
         pre: "Table S."
       style: APA_Like_style
     mapstyles:
-      Normal: First Paragraph
+      Body Text: First Paragraph
     base_format: bookdown::word_document2
     reference_docx: ../../www/Template.docx
     number_sections: no
@@ -89,7 +87,7 @@ read_chunk("src/Empirical_example.R")
 
 Table S.\@ref(tab:empirical-table-Reckase2009-out) is similar to Table 2,
 comparing the agnostic version of the multidimensional parameters drawn from
-@reckase_multidimensional_2009 with the covariance-based version.
+@reckase_multidimensional_2009 [p. 183] with the covariance-based version.
 In this case though, we use the almost rank-1 covariance matrix Reckase defines
 for representing a *close-to-unidimensional* case, that is,
 
