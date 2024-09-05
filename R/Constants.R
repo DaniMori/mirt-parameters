@@ -22,18 +22,23 @@ source("R/Formulae.R", encoding = 'UTF-8')
 ## File system:
 
 ### File names:
-MANUSCRIPT_FILENAME               <- "paper_M2PLM_parameters.Rmd"
+MANUSCRIPT_FILENAME               <- "Main_text.Rmd"
+SUPPLEMENT_FILENAME               <- "Supplementary_material.Rmd"
+TITLEPAGE_FILENAME                <- "Title_page.Rmd"
+COVERLETTER_FILENAME              <- "Cover_letter.Rmd"
 ITEM_PARAMS_RECKASE_2009_FILENAME <- "Table_6.1_Reckase_2009.csv"
 ITEM_PARAMS_TEZZA_2018_FILENAME   <- "Table_5_Tezza_et_al_2018.csv"
 
 ### Project directories:
 DATA_DIR       <- "dat"
 OUTPUT_DIR     <- "output"
-MANUSCRIPT_DIR <- file.path(OUTPUT_DIR, "paper_draft")
 
 ### File paths:
 
-MANUSCRIPT_PATH <- file.path(MANUSCRIPT_DIR, MANUSCRIPT_FILENAME)
+MANUSCRIPT_PATH  <- file.path(OUTPUT_DIR, MANUSCRIPT_FILENAME)
+SUPPLEMENT_PATH  <- file.path(OUTPUT_DIR, SUPPLEMENT_FILENAME)
+TITLEPAGE_PATH   <- file.path(OUTPUT_DIR, TITLEPAGE_FILENAME)
+COVERLETTER_PATH <- file.path(OUTPUT_DIR, COVERLETTER_FILENAME)
 
 ITEM_PARAMS_RECKASE_2009_FILEPATH <- file.path(
   DATA_DIR,

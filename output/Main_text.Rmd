@@ -52,13 +52,14 @@ editor_options:
 
 # Includes:
 
+library(here)
 library(knitr)
 library(patchwork)
 library(ggplot2)
 library(rstudioapi)
 
-ROOT_DIR <- getActiveProject()
-DOC_DIR  <- getwd()
+ROOT_DIR <- here()
+DOC_DIR  <- file.path(ROOT_DIR, "output")
 
 opts_knit$set(root.dir = ROOT_DIR)
 opts_chunk$set(
