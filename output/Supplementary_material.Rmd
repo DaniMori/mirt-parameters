@@ -9,17 +9,17 @@ output:
     mapstyles:
       Body Text: First Paragraph
     base_format: bookdown::word_document2
-    reference_docx: ../../www/Template.docx
+    reference_docx: ../www/Template.docx
     number_sections: no
     keep_md:         no
     fig_width:       4
     fig_height:      4
-bibliography: [../../www/Multidimensional-parameters-MCLM.bib, ../../www/packages.bib]
-csl:          ../../www/apa-old-doi-prefix.csl
+bibliography: [../www/Multidimensional-parameters-MCLM.bib, ../www/packages.bib]
+csl:          ../www/apa-old-doi-prefix.csl
 editor_options: 
   chunk_output_type: console
 ---
-  
+
 ```{r setup}
 #| include: false
 

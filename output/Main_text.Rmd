@@ -7,7 +7,7 @@ output:
     mapstyles:
       Body Text: ['First Paragraph', 'Abstract']
     base_format: bookdown::word_document2
-    reference_docx: ../../www/Template.docx
+    reference_docx: ../www/Template.docx
     number_sections: no
     keep_md:         no
     fig_width:       4
@@ -25,7 +25,6 @@ abstract: |
   Model, represented in a latent space with an arbitrary basis, and
   then defining such basis to be a concrete geometrical representation of the
   phenomena we intend to measure. This results in three different versions of
-  the multidimensional parameters: The original one, based on the item
   parameters solely, one that incorporates the covariance structure of the
   latent space, and a third one that uses the correlation structure instead.
   Following @ackerman_creating_1994, we also provide a geometrical
@@ -37,12 +36,13 @@ abstract: |
   for graphical representation. Finally, we discuss the implications of this
   generalization for other multidimensional IRT models, and the parallels of our
   results in common factor model theory.
+  the multidimensional parameters: The original one, based on the item
 keywords: |
   Multidimensional IRT, 2-Parameter Logistic model,
   multidimensional item discrimination, multidimensional item difficulty,
   item vector representation, test space
-bibliography: [../../www/Multidimensional-parameters-MCLM.bib, ../../www/packages.bib]
-csl:          ../../www/apa-old-doi-prefix.csl
+bibliography: [../www/Multidimensional-parameters-MCLM.bib, ../www/packages.bib]
+csl:          ../www/apa-old-doi-prefix.csl
 editor_options: 
   chunk_output_type: console
 ---
@@ -73,8 +73,6 @@ options(digits = 3)
 ```
 
 ```{r write-bib}
-#| cache: true
-
 # automatically create a bib database for R packages
 write_bib(
   c(.packages(), 'bookdown', 'knitr', 'rmarkdown'),
