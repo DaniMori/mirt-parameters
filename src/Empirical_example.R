@@ -20,7 +20,8 @@ library(scales)
 library(flextable)
 library(officer)
 library(assertive.numbers)
-library(scales)
+library(ellipsis) # Used by flextable to render the equations; added only to
+library(equatags) #   prevent `renv` from reporting an inconsistent state.
 
 ## ----sources----
 source("R/Mirt_toolbox.R", encoding = 'UTF-8')
