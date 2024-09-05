@@ -33,22 +33,24 @@ It is enough to click on "Yes" in the pop-up window.
 
 ## Manual installation of software components:
 
-- Install [R version 4.3.2][R]:
+- Install [R version 4.4.1][R]:
   In Windows, using the [binary installer][inst] is recommended.
 
-[R]: https://cran.rstudio.com/bin/windows/base/old/4.3.2/
-[inst]: (https://cran.rstudio.com/bin/windows/base/old/4.3.2/R-4.3.2-win.exe)
+[R]: https://cran.rstudio.com/bin/windows/base/old/4.4.1/
+[inst]: (https://cran.rstudio.com/bin/windows/base/old/4.4.1/R-4.4.1-win.exe)
+
+Quarto 1.4.555
 
 - [Rstudio Desktop][RS]: Although not strictly necessary, it is recommended
   to install the Rstudio IDE; for strict reproducibility, use build
-  [2023.12.0+369 for Windows 10/11][RSv].
+  [2024.04.2+764 for Windows 10/11][RSv].
   However, if Rstudio is not installed,
   then [Pandoc][P] will need to be downloaded and installed
   (Use [v2.18 for Windows][Pv] for strict reproducibility).
 
 [RS]: https://www.rstudio.com/products/rstudio/download/#download
 
-[RSv]: https://download1.rstudio.org/desktop/windows/RStudio-2023.12.0-369.exe
+[RSv]: https://download1.rstudio.org/electron/windows/RStudio-2024.04.2-764.exe
 
 [P]: https://pandoc.org/installing.html
 
@@ -60,7 +62,7 @@ It is enough to click on "Yes" in the pop-up window.
 
 [G]: https://git-scm.com/download
 
-[GW]: https://github.com/git-for-windows/git/releases/download/v2.43.0.windows.1/Git-2.43.0-64-bit.exe
+[GW]: https://github.com/git-for-windows/git/releases/download/v2.46.0.windows.1/Git-2.46.0-64-bit.exe
 
 ## Installing the project locally
 
@@ -104,7 +106,7 @@ source("src/Build_project.R", encoding = 'UTF-8')
 
 The output file generated will be in the following path:
 
-`output/paper_draft/paper_M2PLM_parameters.docx`
+`output/Main_text.docx`
 
 **NOTE:** Rendering the project may take a while, especially the first time.
 This is due to the `renv` package restoring the environment, which implies

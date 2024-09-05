@@ -9,28 +9,28 @@ output:
     mapstyles:
       Body Text: First Paragraph
     base_format: bookdown::word_document2
-    reference_docx: ../../www/Template.docx
+    reference_docx: ../www/Template.docx
     number_sections: no
     keep_md:         no
     fig_width:       4
     fig_height:      4
-bibliography: [../../www/Multidimensional-parameters-MCLM.bib, ../../www/packages.bib]
-csl:          ../../www/apa-old-doi-prefix.csl
+bibliography: [../www/Multidimensional-parameters-MCLM.bib, ../www/packages.bib]
+csl:          ../www/apa-old-doi-prefix.csl
 editor_options: 
   chunk_output_type: console
 ---
-  
+
 ```{r setup}
 #| include: false
 
 # Includes:
 
+library(here)
 library(knitr)
 library(patchwork)
 library(rstudioapi)
 
-ROOT_DIR <- getActiveProject()
-DOC_DIR  <- getwd()
+ROOT_DIR <- here()
 
 opts_knit$set(root.dir = ROOT_DIR)
 opts_chunk$set(
@@ -124,10 +124,6 @@ dimensions.
 Therefore, we see how computing the more appropriate covariance-based version of
 the multidimensional parameters can help diagnose correctly
 the dimensionality of a test.
-
-```{r set-flextable-wd}
-#| cache: false
-```
 
 # References
 

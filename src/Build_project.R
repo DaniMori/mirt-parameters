@@ -16,7 +16,7 @@ gc()
 rm(list = ls())
 
 # First re-install locally all the project environment:
-#   WARNING: Please use R v4.2.1!!
+#   WARNING: Please use R v4.4.1!!
 renv::restore(prompt = FALSE)
 
 ## ---- INCLUDES: --------------------------------------------------------------
@@ -40,3 +40,6 @@ source("R/Constants.R", encoding = 'UTF-8')
 # Render article:
 
 Rscript_call(render, list(input = MANUSCRIPT_PATH))
+Rscript_call(render, list(input = SUPPLEMENT_PATH))
+Rscript_call(render, list(input = TITLEPAGE_PATH))
+Rscript_call(render, list(input = COVERLETTER_PATH))

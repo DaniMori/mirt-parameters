@@ -1,6 +1,6 @@
 # ==============================================================================
 # 
-# FILE NAME:   Formulas.R
+# FILE NAME:   Formulae.R
 # DESCRIPTION: Constants for facilitating the writing of LaTeX equations
 # 
 # AUTHOR:      Mori (danivmorillo@gmail.com)
