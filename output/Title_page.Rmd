@@ -21,15 +21,16 @@ A generalized definition of multidimensional item response theory parameters
 **List of authors:**
 
 - Daniel Morillo-Cuadrado. Department of Behavioral Science Methodology,
-  Faculty of Psychology, National Remote Education University (UNED), Spain.
+  Faculty of Psychology, Universidad Nacional de Educación a Distancia (UNED),
+  Spain.
   
-- Mario Luzardo-Verde. Department of Mathematics and Applications, La República
-  University, Uruguay.
+- Mario Luzardo-Verde. Department of Mathematics and Applications,
+  Universidad de La República, Uruguay.
 
 **Corresponding author:**
 
 Daniel Morillo-Cuadrado \
-Faculty of Psychology, Office 2.74.
+Faculty of Psychology, Office 2.74. \
 C. de Juan del Rosal 10, 28040 Madrid
 
 Phone nº: +34 91398 6584 \
