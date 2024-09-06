@@ -157,7 +157,7 @@ factor analysis aims at a clear interpretation of
 the latent covariance structure, and thus focuses on finding
 a structure matrix as simple as possible. MIRT literature, on the other hand,
 intends to model responses to certain stimuli and estimate person scores,
-being the model interpretation secondary in relevance.<!--# Reference needed? -->
+being the model interpretation secondary in relevance.
 Nevertheless, the confluence of the two theoretical approaches into a common
 modern measurement theory [@mcdonald_test_1999] requires
 the relaxation of traditional constraints on both approaches.
@@ -677,7 +677,6 @@ in the latent space and, conversely,
 the coordinates of the latent trait vectors in the test space.
 As we can see, the invariance of the model holds,
 no matter in which space we represent the coordinates.
-<!-- # TODO: Incluir la condición de invarianza de las coordenadas en los dos espacios (Foto pizarra)? -->
 Second, and most importantly, if the test space is
 where the item parameters naturally lie, they must be represented in this space,
 and not in the latent space.
