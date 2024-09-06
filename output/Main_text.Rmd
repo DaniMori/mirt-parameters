@@ -1172,10 +1172,10 @@ Each of these tables shows the original `r MODEL_ACRONYM` parameters
 along with the agnostic version of the multidimensional parameters;
 the $`r MDISC_AG_PARAM`$ and the $`r DISTANCE_AG_PARAM`$
 are coincident with their respective original sources
-[see Table 6.1 in @reckase_multidimensional_2009, p. 153, and
+[see Table 6.1 in @reckase_multidimensional_2009, p. 153; and
 Table 5 in @tezza_modelo_2018, p. 926].
 In the first case, the direction angles are also coincident with the values
-provided in the original [@tezza_modelo_2018 do not provide these results].
+provided in the original [@tezza_modelo_2018, do not provide these results].
 In order to facilitate the comparison,
 the covariance-based version of each parameter is provided in
 the column next to its corresponding agnostic version.
@@ -1436,9 +1436,9 @@ when computing the multidimensional parameters of a MIRT model.
 With that purpose in mind, we have defined two new versions of these parameters:
 One that takes into account the whole covariance structure,
 and another one that only considers the correlations among latent dimensions.
-The covariance-based parameter has the drawback of not fulfilling
-the first of @reckase_discriminating_1991's properties, namely,
-the scale invariance property.
+The covariance-based parameters have the drawback of not fulfilling
+the first of Reckase & McKinley's [-@reckase_discriminating_1991] properties,
+namely, the scale invariance property.
 However, we have provided a rationale for the violation of this property,
 arguing that it is also paralleled in unidimensional IRT.
 Given its equivalence to the inner product definition in a space with
@@ -1475,7 +1475,7 @@ when one might simply transform the space to rectangular Cartesian coordinates
 with Equations \@ref(eq:change-basis) and \@ref(eq:discr-vector-std) and
 then compute the parameters in the transformed space using
 Reckase's [-@reckase_difficulty_1985] and
-Reckase and McKinley's [-@reckase_discriminating_1991] procedure.
+Reckase & McKinley's [-@reckase_discriminating_1991] procedure.
 After all, interpreting the axes of this space as substantive latent traits
 depends on "the distinction between coordinate axes and the constructs that are
 the target of the instrument"
