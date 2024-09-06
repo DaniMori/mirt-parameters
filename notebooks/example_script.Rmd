@@ -29,9 +29,10 @@ library(copula)
 library(ggplot2)
 library(fungible)
 library(pracma)
-library(matlib)
 library(rgl)
 set.seed(123)
+
+source("R/Math.R")
 ```
 
 En esta simulacion queremos ejemplificar lo hallado hasta la fecha
@@ -58,7 +59,7 @@ La base no ortogonal es:
 
 $\mathfrak{B}$={$v_1$=(`r b1_v1[1]`, `r b1_v1[2]`) ;$v_2$=(`r b1_v2[1]`, `r b1_v2[2]`) }
 
-Estos vectores tienen norma 1 y un ángulo entre ellos de `r round(matlib::angle(Base_1[,1],Base_1[,2]),2)` grados
+Estos vectores tienen norma 1 y un ángulo entre ellos de `r round(angle(Base_1[,1],Base_1[,2]),2)` grados
 
 Gráficamente los vectores de las bases canónica y B quedan
 
@@ -70,10 +71,10 @@ with(vecs, mapply('text', x=x1[1:2]-.1, y=y1[1:2]+.1,labels=expression(list(a), 
 ```
 
 ```{r angulos, include=FALSE}
-alfa_1_1=matlib::angle(Base_1[,1],Base_C[,1])
-alfa_1_2=matlib::angle(Base_1[,1],Base_C[,2])
-alfa_2_1=matlib::angle(Base_1[,2],Base_C[,1])
-alfa_2_2=matlib::angle(Base_1[,2],Base_C[,2])
+alfa_1_1=angle(Base_1[,1],Base_C[,1])
+alfa_1_2=angle(Base_1[,1],Base_C[,2])
+alfa_2_1=angle(Base_1[,2],Base_C[,1])
+alfa_2_2=angle(Base_1[,2],Base_C[,2])
 ```
 
 Los ángulos con los ejes coordenados son:
@@ -448,7 +449,7 @@ grid()
 El ángulo entre los vectores propios es 1
 
 ```{r , echo=FALSE, include=TRUE}
-print(matlib::angle(Q[,1],Q[,2]))
+print(angle(Q[,1],Q[,2]))
 ```
 
 Debemos entonces desarrollar como queda la matriz de cambio de base entre la base $\mathfrak{B}$ y la base de vectores propios $\mathfrak{L}$ de la matriz $\Sigma$
