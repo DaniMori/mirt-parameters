@@ -2159,7 +2159,12 @@
     "openssl": {
       "Package": "openssl",
       "Version": "2.2.1",
-      "Source": "Repository"
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Requirements": [
+        "askpass"
+      ],
+      "Hash": "c62edf62de70cadf40553e10c739049d"
     },
     "osqp": {
       "Package": "osqp",
@@ -2671,11 +2676,6 @@
       "Repository": "CRAN",
       "Hash": "96710351d642b70e8f02ddeb237c46a7"
     },
-    "rsvg": {
-      "Package": "rsvg",
-      "Version": "2.6.0",
-      "Source": "Repository"
-    },
     "rvest": {
       "Package": "rvest",
       "Version": "1.0.4",
@@ -2912,7 +2912,14 @@
     "svglite": {
       "Package": "svglite",
       "Version": "2.1.3",
-      "Source": "Repository"
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Requirements": [
+        "R",
+        "cpp11",
+        "systemfonts"
+      ],
+      "Hash": "124a41fdfa23e8691cb744c762f10516"
     },
     "sys": {
       "Package": "sys",

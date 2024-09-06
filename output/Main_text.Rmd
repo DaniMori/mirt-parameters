@@ -63,8 +63,8 @@ library(knitr)
 library(patchwork)
 library(ggplot2)
 library(rstudioapi)
-library(rsvg)    # Used by {knitr} and {ggplot2} to render the figure to SVG;
-library(svglite) #   added to prevent {renv} from reporting inconsistent state.
+library(svglite) # Used by {knitr} and {ggplot2} to render the figure to SVG;
+                 #   added to prevent {renv} from reporting inconsistent state.
 
 ROOT_DIR <- here()
 DOC_DIR  <- file.path(ROOT_DIR, "output")
@@ -74,7 +74,9 @@ opts_chunk$set(
   echo     = FALSE,
   message  = FALSE,
   cache    = FALSE,
-  dev      = "svg"
+  dev      = "png",
+  dpi      = 1200L,
+  dev.args = list(type = "cairo-png")
 )
 
 # Output configuration options:
