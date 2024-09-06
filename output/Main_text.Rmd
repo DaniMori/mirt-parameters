@@ -1014,7 +1014,7 @@ the following steps:
 1. Compute the rectangular coordinates
    $`r ORIGIN_ITEM_ORTH`$ and $`r END_ITEM_ORTH`$ by pre-multiplying
    $`r ORIGIN_ITEM_BASIS`$ and $`r END_ITEM_BASIS`$, respectively, by
-   the transformation matrix $`r TRANSFORM_MATRIX`$
+   the transformation matrix $`r TRANSFORM_MATRIX_TRANSP_INV`$
    ($`r ORIGIN_TRANSF_EQ`$; $`r END_TRANSF_EQ`$).
 
 Instead of steps 1 to 3,
@@ -1526,7 +1526,7 @@ First, we have only considered the case of dichotomous items,
 whereas non-cognitive applications often (and sometimes cognitive ones as well)
 require modeling several response categories.
 Although proposals such as the graded-scale [@samejima_estimation_1968] and
-the nominal response [@bock_estimating_1972] model are closely related to
+the nominal response [@bock_estimating_1972] models are closely related to
 the 2-parameter logistic model, it would be hasty to assume that these
 parameters generalize in any way to
 the multidimensional versions of those models without a formal proof.
