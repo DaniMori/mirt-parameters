@@ -63,6 +63,8 @@ library(knitr)
 library(patchwork)
 library(ggplot2)
 library(rstudioapi)
+library(rsvg)    # Used by {knitr} and {ggplot2} to render the figure to SVG;
+library(svglite) #   added to prevent {renv} from reporting inconsistent state.
 
 ROOT_DIR <- here()
 DOC_DIR  <- file.path(ROOT_DIR, "output")

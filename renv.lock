@@ -2159,12 +2159,7 @@
     "openssl": {
       "Package": "openssl",
       "Version": "2.2.1",
-      "Source": "Repository",
-      "Repository": "CRAN",
-      "Requirements": [
-        "askpass"
-      ],
-      "Hash": "c62edf62de70cadf40553e10c739049d"
+      "Source": "Repository"
     },
     "osqp": {
       "Package": "osqp",
@@ -2676,6 +2671,11 @@
       "Repository": "CRAN",
       "Hash": "96710351d642b70e8f02ddeb237c46a7"
     },
+    "rsvg": {
+      "Package": "rsvg",
+      "Version": "2.6.0",
+      "Source": "Repository"
+    },
     "rvest": {
       "Package": "rvest",
       "Version": "1.0.4",
@@ -2908,6 +2908,11 @@
         "utils"
       ],
       "Hash": "e6e3071f471513e4b85f98ca041303c7"
+    },
+    "svglite": {
+      "Package": "svglite",
+      "Version": "2.1.3",
+      "Source": "Repository"
     },
     "sys": {
       "Package": "sys",
