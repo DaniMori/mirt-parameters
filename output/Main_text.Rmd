@@ -156,7 +156,7 @@ these two theoretical programs put the focus on;
 factor analysis aims at a clear interpretation of
 the latent covariance structure, and thus focuses on finding
 a structure matrix as simple as possible. MIRT literature, on the other hand,
-aims at modeling responses to certain stimuli and estimating person scores,
+intends to model responses to certain stimuli and estimate person scores,
 being the model interpretation secondary in relevance.<!--# Reference needed? -->
 Nevertheless, the confluence of the two theoretical approaches into a common
 modern measurement theory [@mcdonald_test_1999] requires
@@ -269,8 +269,8 @@ a correct response indeed, if we are talking about a cognitive test.
 But it may mean endorsing an item (or a certain response option)
 in a non-cognitive domain.
 Second, although not explicitly stated, $`r DISCR_VECTOR`$ is a vector of
-non-negative real numbers in Reckase
-[-@reckase_difficulty_1985, a decrease in the probability of a correct response
+non-negative real numbers in @reckase_difficulty_1985
+---a decrease in the probability of a correct response
 with an increase in ability makes little sense].
 In our case, $`r DISCR_VECTOR`$ is a vector of real numbers; the value
 of the $`r DIM_INDEX`$-th component $`r DISCR_PARAM`$ can be negative if
@@ -359,7 +359,7 @@ $`r TEST_SPACE_STD_BASIS`$ is the dot product.
 Then, as both $`r TEST_SPACE_STD_BASIS`$ and $`r LS_ORTH_BASIS`$ are
 orthonormal in $`r REAL_N_SPACE`$,
 to make @reckase_difficulty_1985's definition a particular case of ours we can,
-without loss of generality  (i.e., appying an arbitrary rotation),
+without loss of generality  (i.e., applying an arbitrary rotation),
 consider that $`r BASES_EQ`$.
 As $`r TRANSFORM_MATRIX`$ (and consequently $`r TRANSFORM_MATRIX_TRANSP`$) is
 invertible, so $`r INNER_PROD_MATRIX`$ is, and $`r INNER_PROD_MATRIX_INV_EQ`$.
