@@ -281,7 +281,7 @@ Finally, as responses are not necessarily interpreted as correct or incorrect,
 parameter $`r INTERCEPT_PARAM`$ is said to be related to the item _location_
 instead of the item difficulty.
 
-Following @reckase_difficulty_1985’s procedure,
+Following Reckase's [-@reckase_difficulty_1985] procedure,
 we must find in the first place
 the point of maximum slope of $`r IRF_ABBR`$ in $`r LATENT_SPACE`$.
 Because the slope is dependent on the direction considered,
@@ -331,7 +331,7 @@ the $`r INNER_PROD_MATRIX_INDEX`$-th element of $`r INNER_PROD_MATRIX`$.
 Let $`r TEST_SPACE`$ be the vector space made up by
 the set of $`r DISCR_VECTOR`$ vectors,
 with the operations sum and product by a scalar as in $`r REAL_N_SPACE`$.
-We want @reckase_difficulty_1985's definition of
+We want Reckase's [-@reckase_difficulty_1985] definition of
 the multidimensional parameters in rectangular coordinates to be
 a particular case of our more general definition;
 we can thus consider an orthonormal basis $`r TEST_SPACE_STD_BASIS`$
@@ -360,7 +360,8 @@ we can conveniently assume that the inner product in
 $`r TEST_SPACE_STD_BASIS`$ is the dot product.
 Then, as both $`r TEST_SPACE_STD_BASIS`$ and $`r LS_ORTH_BASIS`$ are
 orthonormal in $`r REAL_N_SPACE`$,
-to make @reckase_difficulty_1985's definition a particular case of ours we can,
+to make Reckase's [-@reckase_difficulty_1985] definition
+a particular case of ours we can,
 without loss of generality  (i.e., applying an arbitrary rotation),
 consider that $`r BASES_EQ`$.
 As $`r TRANSFORM_MATRIX`$ (and consequently $`r TRANSFORM_MATRIX_TRANSP`$) is
@@ -535,7 +536,8 @@ the `r MODEL_ACRONYM` model is expressed in polar coordinates as
 
 As Equation \@ref(eq:M2PL-formula-polar) shows, the inner product matrix is
 involved in the expression of the model in polar coordinates.
-Importantly, this shows that @reckase_difficulty_1985's Equation 3 (p. 403)
+Importantly, this shows that
+Reckase's [-@reckase_difficulty_1985] Equation 3 (p. 403)
 already assumes the orthonormality of the latent space, as we stated before.
 
 # Point of maximum slope
@@ -602,7 +604,8 @@ and, by Equation \@ref(eq:discr-vector-std),
 \end{equation}
 
 We are thus considering the direction cosines with respect to the orthonormal
-axes, so we can just apply @reckase_difficulty_1985's results, obtaining
+axes, so we can just apply Reckase's [-@reckase_difficulty_1985] results,
+obtaining
 
 \begin{equation}
   `r DIR_COS_VEC_STD_EQ`.                                 (\#eq:dir-cos-vec-std)
@@ -1011,7 +1014,7 @@ the following steps:
 1. Compute the rectangular coordinates
    $`r ORIGIN_ITEM_ORTH`$ and $`r END_ITEM_ORTH`$ by pre-multiplying
    $`r ORIGIN_ITEM_BASIS`$ and $`r END_ITEM_BASIS`$, respectively, by
-   the transformation matrix $`r TRANSFORM_MATRIX`$
+   the transformation matrix $`r TRANSFORM_MATRIX_TRANSP_INV`$
    ($`r ORIGIN_TRANSF_EQ`$; $`r END_TRANSF_EQ`$).
 
 Instead of steps 1 to 3,
@@ -1169,10 +1172,10 @@ Each of these tables shows the original `r MODEL_ACRONYM` parameters
 along with the agnostic version of the multidimensional parameters;
 the $`r MDISC_AG_PARAM`$ and the $`r DISTANCE_AG_PARAM`$
 are coincident with their respective original sources
-[see Table 6.1 in @reckase_multidimensional_2009, p. 153, and
+[see Table 6.1 in @reckase_multidimensional_2009, p. 153; and
 Table 5 in @tezza_modelo_2018, p. 926].
 In the first case, the direction angles are also coincident with the values
-provided in the original [@tezza_modelo_2018 do not provide these results].
+provided in the original [@tezza_modelo_2018, do not provide these results].
 In order to facilitate the comparison,
 the covariance-based version of each parameter is provided in
 the column next to its corresponding agnostic version.
@@ -1433,9 +1436,9 @@ when computing the multidimensional parameters of a MIRT model.
 With that purpose in mind, we have defined two new versions of these parameters:
 One that takes into account the whole covariance structure,
 and another one that only considers the correlations among latent dimensions.
-The covariance-based parameter has the drawback of not fulfilling
-the first of @reckase_discriminating_1991's properties, namely,
-the scale invariance property.
+The covariance-based parameters have the drawback of not fulfilling
+the first of Reckase & McKinley's [-@reckase_discriminating_1991] properties,
+namely, the scale invariance property.
 However, we have provided a rationale for the violation of this property,
 arguing that it is also paralleled in unidimensional IRT.
 Given its equivalence to the inner product definition in a space with
@@ -1471,7 +1474,8 @@ overly complicated,
 when one might simply transform the space to rectangular Cartesian coordinates
 with Equations \@ref(eq:change-basis) and \@ref(eq:discr-vector-std) and
 then compute the parameters in the transformed space using
-@reckase_difficulty_1985's and @reckase_discriminating_1991's procedure.
+Reckase's [-@reckase_difficulty_1985] and
+Reckase & McKinley's [-@reckase_discriminating_1991] procedure.
 After all, interpreting the axes of this space as substantive latent traits
 depends on "the distinction between coordinate axes and the constructs that are
 the target of the instrument"
@@ -1522,7 +1526,7 @@ First, we have only considered the case of dichotomous items,
 whereas non-cognitive applications often (and sometimes cognitive ones as well)
 require modeling several response categories.
 Although proposals such as the graded-scale [@samejima_estimation_1968] and
-the nominal response [@bock_estimating_1972] model are closely related to
+the nominal response [@bock_estimating_1972] models are closely related to
 the 2-parameter logistic model, it would be hasty to assume that these
 parameters generalize in any way to
 the multidimensional versions of those models without a formal proof.
