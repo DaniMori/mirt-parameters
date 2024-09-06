@@ -281,7 +281,7 @@ Finally, as responses are not necessarily interpreted as correct or incorrect,
 parameter $`r INTERCEPT_PARAM`$ is said to be related to the item _location_
 instead of the item difficulty.
 
-Following @reckase_difficulty_1985’s procedure,
+Following Reckase's [-@reckase_difficulty_1985] procedure,
 we must find in the first place
 the point of maximum slope of $`r IRF_ABBR`$ in $`r LATENT_SPACE`$.
 Because the slope is dependent on the direction considered,
@@ -331,7 +331,7 @@ the $`r INNER_PROD_MATRIX_INDEX`$-th element of $`r INNER_PROD_MATRIX`$.
 Let $`r TEST_SPACE`$ be the vector space made up by
 the set of $`r DISCR_VECTOR`$ vectors,
 with the operations sum and product by a scalar as in $`r REAL_N_SPACE`$.
-We want @reckase_difficulty_1985's definition of
+We want Reckase's [-@reckase_difficulty_1985] definition of
 the multidimensional parameters in rectangular coordinates to be
 a particular case of our more general definition;
 we can thus consider an orthonormal basis $`r TEST_SPACE_STD_BASIS`$
@@ -360,7 +360,8 @@ we can conveniently assume that the inner product in
 $`r TEST_SPACE_STD_BASIS`$ is the dot product.
 Then, as both $`r TEST_SPACE_STD_BASIS`$ and $`r LS_ORTH_BASIS`$ are
 orthonormal in $`r REAL_N_SPACE`$,
-to make @reckase_difficulty_1985's definition a particular case of ours we can,
+to make Reckase's [-@reckase_difficulty_1985] definition
+a particular case of ours we can,
 without loss of generality  (i.e., applying an arbitrary rotation),
 consider that $`r BASES_EQ`$.
 As $`r TRANSFORM_MATRIX`$ (and consequently $`r TRANSFORM_MATRIX_TRANSP`$) is
@@ -535,7 +536,8 @@ the `r MODEL_ACRONYM` model is expressed in polar coordinates as
 
 As Equation \@ref(eq:M2PL-formula-polar) shows, the inner product matrix is
 involved in the expression of the model in polar coordinates.
-Importantly, this shows that @reckase_difficulty_1985's Equation 3 (p. 403)
+Importantly, this shows that
+Reckase's [-@reckase_difficulty_1985] Equation 3 (p. 403)
 already assumes the orthonormality of the latent space, as we stated before.
 
 # Point of maximum slope
@@ -602,7 +604,8 @@ and, by Equation \@ref(eq:discr-vector-std),
 \end{equation}
 
 We are thus considering the direction cosines with respect to the orthonormal
-axes, so we can just apply @reckase_difficulty_1985's results, obtaining
+axes, so we can just apply Reckase's [-@reckase_difficulty_1985] results,
+obtaining
 
 \begin{equation}
   `r DIR_COS_VEC_STD_EQ`.                                 (\#eq:dir-cos-vec-std)
@@ -1471,7 +1474,8 @@ overly complicated,
 when one might simply transform the space to rectangular Cartesian coordinates
 with Equations \@ref(eq:change-basis) and \@ref(eq:discr-vector-std) and
 then compute the parameters in the transformed space using
-@reckase_difficulty_1985's and @reckase_discriminating_1991's procedure.
+Reckase's [-@reckase_difficulty_1985] and
+Reckase and McKinley's [-@reckase_discriminating_1991] procedure.
 After all, interpreting the axes of this space as substantive latent traits
 depends on "the distinction between coordinate axes and the constructs that are
 the target of the instrument"
