@@ -267,8 +267,8 @@ a correct response indeed, if we are talking about a cognitive test.
 But it may mean endorsing an item (or a certain response option)
 in a non-cognitive domain.
 Second, although not explicitly stated, $`r DISCR_VECTOR`$ is a vector of
-non-negative real numbers in Reckase
-[-@reckase_difficulty_1985, a decrease in the probability of a correct response
+non-negative real numbers in @reckase_difficulty_1985
+---a decrease in the probability of a correct response
 with an increase in ability makes little sense].
 In our case, $`r DISCR_VECTOR`$ is a vector of real numbers; the value
 of the $`r DIM_INDEX`$-th component $`r DISCR_PARAM`$ can be negative if
