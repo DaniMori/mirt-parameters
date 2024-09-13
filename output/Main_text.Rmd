@@ -13,36 +13,26 @@ output:
     fig_width:       4
     fig_height:      4
 abstract: |
-  Modern measurement theory demands that
-  Multidimensional Item Response Theory models accurately represent
-  covariance spaces with correlated dimensions and/or non-standard variances.
-  As they are applied in the non-cognitive domain as well,
-  they also need to model negatively-keyed items accurately and interpretably.
-  Henceforth we generalize the multidimensional discrimination
-  [@reckase_discriminating_1991] and difficulty [@reckase_difficulty_1985]
-  parameters to account for those two phenomena.
-  We do so by applying Reckase's [-@reckase_difficulty_1985] method
-  in a strictly algebraic sense to the Multidimensional 2-Parameter Logistic
-  Model, represented in a latent space with an arbitrary basis, and
-  then defining such basis to be a concrete geometrical representation of the
-  phenomena we intend to measure. This results in three different versions of
-  the multidimensional parameters: The original one, based on the item
-  parameters solely, one that incorporates the covariance structure of the
-  latent space, and a third one that uses the correlation structure instead.
-  Importantly, we find there is a test space where
-  the items should be properly represented, which must be differentiated from
-  the latent space itself.
-  Following @ackerman_creating_1994, we also provide a geometrical
-  representation based on these parameters in the test space.
-  We apply our results to examples from the literature
-  to illustrate the pertinence of these generalized parameters to get an
-  accurate representation of the measurement properties of the items.
-  We recommend using the version that uses the latent covariance structure
-  for describing the properties of the parameters,
-  and the one based on the correlation structure for graphical representation.
-  Finally, we discuss the implications of this generalization for
-  other multidimensional IRT models
-  and the parallels of our results in common factor model theory.
+  In this paper, we generalize the multidimensional discrimination (MDISC) and
+  difficulty (MID) parameters in the Multidimensional 2-Parameter Logistic model
+  to account for non-identity latent covariances and negatively-keyed items.
+  We apply Reckase's maximum discrimination point method to define them in an
+  algebraic sense in an arbitrary basis, and then defining such basis to be a
+  geometrical representation of the measured construct.
+  This results in three different versions of the parameters: The original one,
+  based on the item parameters solely, one that incorporates the covariance
+  structure of the latent space, and one that uses the correlation structure
+  instead. Importantly, we find that the items should be properly represented in
+  a test space, distinct from the latent space.
+  We also provide a procedure for the geometrical representation of the items in
+  the test space, and apply our results to examples from the literature to get a
+  more accurate representation of the measurement properties of the items.
+  We recommend using the covariance structure version for describing the
+  properties of the parameters, and the correlation structure version for
+  graphical representation.
+  Finally, we discuss the implications of this generalization for other
+  multidimensional IRT models and the parallels of our results in common factor
+  model theory.
 keywords: |
   Multidimensional IRT, 2-Parameter Logistic model,
   multidimensional item discrimination, multidimensional item difficulty,
