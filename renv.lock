@@ -2179,6 +2179,18 @@
       ],
       "Hash": "55feb75aa83a65c19093455766aec088"
     },
+    "pak": {
+      "Package": "pak",
+      "Version": "0.8.0",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Requirements": [
+        "R",
+        "tools",
+        "utils"
+      ],
+      "Hash": "019d4d5634410800a96b69737fb2dbac"
+    },
     "parallelly": {
       "Package": "parallelly",
       "Version": "1.38.0",
