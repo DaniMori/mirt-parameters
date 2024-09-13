@@ -34,7 +34,7 @@ abstract: |
   multidimensional IRT models and the parallels of our results in common factor
   model theory.
 keywords: |
-  Multidimensional IRT, 2-Parameter Logistic model,
+  Multidimensional 2-Parameter Logistic model,
   multidimensional item discrimination, multidimensional item difficulty,
   item vector representation, test space
 bibliography: [../www/Multidimensional-parameters-MCLM.bib, ../www/packages.bib]
