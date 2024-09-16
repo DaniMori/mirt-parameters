@@ -14,7 +14,7 @@ editor_options:
 **Article title:**
 A generalized definition of multidimensional item response theory parameters
 
-**Short title:** Generalized MIRT parameters
+**Running title:** Generalized MIRT parameters
 
 **List of authors:**
 
