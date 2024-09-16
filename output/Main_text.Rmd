@@ -1079,6 +1079,8 @@ are shown in Table \@ref(tab:example-items-table-out).
 opts_knit$set(root.dir = DOC_DIR)
 ```
 
+<br>
+
 ```{r example-items-table-out}
 #| cache:   false
 #| tab_id:  example-items-table-out
@@ -1112,6 +1114,8 @@ so its $`r MDISC_CORR_PARAM_ITEM`$ is unaffected by the correlation.
 
 ```{r compose-orthogonal-plot}
 ```
+
+<br>
 
 ```{r item-plot-out}
 #| cache:          false
