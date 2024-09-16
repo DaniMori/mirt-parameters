@@ -254,7 +254,7 @@ item_params_output <- item_params                          |>
   style(
     pr_p = fp_par(
       padding.bottom = 1,
-      padding.top    = 2,
+      padding.top    = 1,
       padding.left   = 3,
       padding.right  = 3
     ),
@@ -264,15 +264,23 @@ item_params_output <- item_params                          |>
     j    = separator_index,
     pr_p = fp_par(
       padding.bottom = 1,
-      padding.top    = 2,
+      padding.top    = 1,
       padding.left   = 1,
       padding.right  = 1
     ),
     part = "all"
   )                                                        |>
+  style(
+    pr_p = fp_par(
+      line_spacing   = 1.25,
+      padding.top    = 2,
+      padding.bottom = 0
+    ),
+    part = "footer",
+  )                                                        |>
   valign(valign = "bottom", part = "header")               |>
   align(align = "center",   part = "header")               |>
   align(align = "right",    part = "body")                 |>
   fontsize(size = 12,       part = "all")                  |>
-  fontsize(size = 10,       part = "body")                 |>
+  fontsize(size =  9,       part = "body")                 |>
   set_table_properties(layout = "autofit")

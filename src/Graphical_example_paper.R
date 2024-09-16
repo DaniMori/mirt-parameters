@@ -241,6 +241,13 @@ item_params_output <- item_params                          |>
     ),
     part = "all"
   )                                                        |>
+  style(
+    pr_p = fp_par(
+      line_spacing   = 1.25,
+      padding.bottom = 0
+    ),
+    part = "footer",
+  )                                                        |>
   valign(valign = "bottom", part = "header")               |>
   align(align   = "center", part = "header")               |>
   align(align   = "right",  part = "body")                 |>

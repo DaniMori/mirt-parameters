@@ -1283,6 +1283,8 @@ Table \@ref(tab:example-items-table-out) and Figure \@ref(fig:item-plot-out)).
 #| cache: false
 ```
 
+\newpage
+
 ```{r empirical-table-Reckase2009-out}
 #| cache:   false
 #| tab.id:  empirical-table-Reckase2009-out
@@ -1291,6 +1293,8 @@ Table \@ref(tab:example-items-table-out) and Figure \@ref(fig:item-plot-out)).
 #|   Reckase (2009), With a (Rank-Complete) Three-Dimensional Covariance Matrix
 item_params_output
 ```
+
+\newpage
 
 The latter effect can be better noticed in another case, in which Reckase
 uses the same item parameters to demonstrate the over-specification of
