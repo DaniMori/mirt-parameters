@@ -1,50 +1,23 @@
 ---
-title: "A generalized definition of multidimensional item response theory parameters"
+title: Abstract
 output:
   officedown::rdocx_document:
     tables:
       style: APA_Like_style
+      caption:
+        style: Image Caption
+        sep: ' '
+    plots:
+      caption:
+        sep: ' '
     mapstyles:
       Body Text: ['First Paragraph', 'Abstract']
     base_format: bookdown::word_document2
     reference_docx: ../www/Template.docx
     number_sections: no
     keep_md:         no
-    fig_width:       4
-    fig_height:      4
-abstract: |
-  Modern measurement theory demands that
-  Multidimensional Item Response Theory models accurately represent
-  covariance spaces with correlated dimensions and/or non-standard variances.
-  As they are applied in the non-cognitive domain as well,
-  they also need to model negatively-keyed items accurately and interpretably.
-  Henceforth we generalize the multidimensional discrimination
-  [@reckase_discriminating_1991] and difficulty [@reckase_difficulty_1985]
-  parameters to account for those two phenomena.
-  We do so by applying Reckase's [-@reckase_difficulty_1985] method
-  in a strictly algebraic sense to the Multidimensional 2-Parameter Logistic
-  Model, represented in a latent space with an arbitrary basis, and
-  then defining such basis to be a concrete geometrical representation of the
-  phenomena we intend to measure. This results in three different versions of
-  the multidimensional parameters: The original one, based on the item
-  parameters solely, one that incorporates the covariance structure of the
-  latent space, and a third one that uses the correlation structure instead.
-  Importantly, we find there is a test space where
-  the items should be properly represented, which must be differentiated from
-  the latent space itself.
-  Following @ackerman_creating_1994, we also provide a geometrical
-  representation based on these parameters in the test space.
-  We apply our results to examples from the literature
-  to illustrate the pertinence of these generalized parameters to get an
-  accurate representation of the measurement properties of the items.
-  We recommend using the version that uses the latent covariance structure
-  for describing the properties of the parameters,
-  and the one based on the correlation structure for graphical representation.
-  Finally, we discuss the implications of this generalization for
-  other multidimensional IRT models
-  and the parallels of our results in common factor model theory.
 keywords: |
-  Multidimensional IRT, 2-Parameter Logistic model,
+  Multidimensional 2-Parameter Logistic model,
   multidimensional item discrimination, multidimensional item difficulty,
   item vector representation, test space
 bibliography: [../www/Multidimensional-parameters-MCLM.bib, ../www/packages.bib]
@@ -65,6 +38,7 @@ library(ggplot2)
 library(rstudioapi)
 library(svglite) # Used by {knitr} and {ggplot2} to render the figure to SVG;
                  #   added to prevent {renv} from reporting inconsistent state.
+library(officer)
 
 ROOT_DIR <- here()
 DOC_DIR  <- file.path(ROOT_DIR, "output")
@@ -76,7 +50,9 @@ opts_chunk$set(
   cache    = FALSE,
   dev      = "png",
   dpi      = 1200L,
-  dev.args = list(type = "cairo-png")
+  dev.args = list(type = "cairo-png"),
+  tab.cap.fp_text = fp_text_lite(italic = FALSE, bold = TRUE),
+  fig.cap.fp_text = fp_text_lite(italic = FALSE, bold = TRUE)
 )
 
 # Output configuration options:
@@ -98,13 +74,34 @@ source("R/Formulae.R",  encoding = 'UTF-8')
 source("R/Constants.R", encoding = 'UTF-8')
 ```
 
-**Keywords:** Multidimensional IRT, 2-Parameter Logistic model,
+In this paper, we generalize the multidimensional discrimination (MDISC) and
+difficulty (MID) parameters in the Multidimensional 2-Parameter Logistic model
+to account for non-identity latent covariances and negatively-keyed items.
+We apply Reckase's maximum discrimination point method to define them in an
+algebraic sense in an arbitrary basis, and then defining such basis to be a
+geometrical representation of the measured construct.
+This results in three different versions of the parameters: The original one,
+based on the item parameters solely, one that incorporates the covariance
+structure of the latent space, and one that uses the correlation structure
+instead. Importantly, we find that the items should be properly represented in
+a test space, distinct from the latent space.
+We also provide a procedure for the geometrical representation of the items in
+the test space, and apply our results to examples from the literature to get a
+more accurate representation of the measurement properties of the items.
+We recommend using the covariance structure version for describing the
+properties of the parameters, and the correlation structure version for
+graphical representation.
+Finally, we discuss the implications of this generalization for other
+multidimensional IRT models and the parallels of our results in common factor
+model theory.
+
+*Keywords:* Multidimensional 2-Parameter Logistic model,
 multidimensional item discrimination, multidimensional item difficulty,
 item vector representation, test space
 
 \newpage
 
-# Introduction
+# A Generalized Definition of Multidimensional Item Response Theory Parameters
 
 Multidimensional item response theory (MIRT) models have been widely used since
 their inception.
@@ -248,7 +245,7 @@ and present two examples of application of our results.
 We round up with a discussion about
 the applicability and generalization of our results.
 
-# Model formulation
+# Model Formulation
 
 Consider a $`r N_DIMS`$-dimensional latent space $`r LATENT_SPACE`$
 in basis $`r LS_BASIS_EQ`$, being $`r LS_BASIS`$ not necessarily orthonormal,
@@ -291,7 +288,7 @@ However, Reckase's Equation 3 implicitly assumes orthogonality.
 To contemplate the general case,
 we need to introduce a few linear algebra results before proceeding further.
 
-# Linear algebra of non-orthogonal coordinates
+# Linear Algebra of Non-Orthogonal Coordinates
 
 Let's consider an orthonormal basis $`r LS_ORTH_BASIS_EQ`$ in $`r LATENT_SPACE`$
 with the dot product as inner product.
@@ -326,7 +323,7 @@ Thus, inner product $`r LS_BASIS_INNER_PROD`$ has $`r INNER_PROD_MAT_EQ`$ as
 Gram matrix, i.e., $`r INNER_PROD_EQ`$, with $`r INNER_PROD_MAT_ELEMENT_EQ`$ as
 the $`r INNER_PROD_MATRIX_INDEX`$-th element of $`r INNER_PROD_MATRIX`$.
 
-## Test space definition
+## Test Space Definition
 
 Let $`r TEST_SPACE`$ be the vector space made up by
 the set of $`r DISCR_VECTOR`$ vectors,
@@ -379,7 +376,7 @@ Following @zhang_theoretical_1999, we shall refer to space $`r TEST_SPACE`$ as
 the *test space*, as it is the space where
 the items (i.e., the test elements) are represented.
 
-## Direction cosines in the latent space
+## Direction Cosines in the Latent Space
 
 The cosine between two vectors
 
@@ -524,7 +521,7 @@ and thus $`r DIR_COS_VEC_ALT_EQ`$.$`r END_OF_PROOF`$
 
 :::
 
-# Model recasting into polar coordinates
+# Model Recasting Into Polar Coordinates
 
 Applying Proposition 1 to
 the model formulation in Equation \@ref(eq:M2PL-formulation),
@@ -540,7 +537,7 @@ Importantly, this shows that
 Reckase's [-@reckase_difficulty_1985] Equation 3 (p. 403)
 already assumes the orthonormality of the latent space, as we stated before.
 
-# Point of maximum slope
+# Point of Maximum Slope
 
 Following the procedure outlined by @reckase_difficulty_1985
 [@reckase_discriminating_1991],
@@ -652,7 +649,7 @@ and thus, we have that
   \end{split}                             (\#eq:item-params-discrimination-norm)
 \end{equation}
 
-# Relationship between test space and latent space
+# Relationship Between Test Space and Latent Space
 
 Before presenting the results about the parameters,
 we must make a few remarks regarding the vector space $`r TEST_SPACE`$.
@@ -701,7 +698,7 @@ As we will see later, this representation is very convenient, as
 the direction of the item vectors with respect to the coordinate axes
 has a direct, meaningful interpretation.
 
-# Generalized multidimensional parameters
+# Generalized Multidimensional Parameters
 
 The item location $`r MIL_PARAM`$ is defined as the distance and direction
 from the origin to the point of maximum slope [@reckase_difficulty_1985].
@@ -713,7 +710,7 @@ However, as they depend on the inner product matrix $`r INNER_PROD_MATRIX`$,
 the choice we make of this matrix will lead us to different definitions of
 the parameters.
 
-## Agnostic version
+## Agnostic Version
 
 Up to this point,
 we have derived the maximum slope and its location in the latent space
@@ -735,7 +732,7 @@ we shall refer to them as the *agnostic* version of the parameters:
   \end{split}
 \end{equation}
 
-## Covariance-based version
+## Covariance-Based Version
 
 On the other hand, we can let the geometrical representation of
 the latent space $`r LATENT_SPACE`$ account for its covariance structure,
@@ -807,7 +804,7 @@ This transformation may be made in the unidimensional case as well,
 thus finding a *standard-metric* discrimination parameter
 (i.e., referred to a unitary variance space).
 
-## Correlation-based version
+## Correlation-Based Version
 
 Despite $`r MDISC_COV_PARAM`$ not being scale-invariant,
 we have argued that it is still a valid generalization of the IRT parameters.
@@ -852,7 +849,7 @@ while still being scale invariant.
 This will be very useful for the purpose of representing the items graphically,
 as we will see later.
 
-# Vector representation
+# Vector Representation
 
 According to @ackerman_creating_1994, the most appropriate way of representing
 multidimensional items is in vector form.
@@ -914,7 +911,7 @@ studying the items in terms of their multidimensional properties.
 In the following, we see how to geometrically interpret
 these multidimensional parameters.
 
-## Geometric properties of the items
+## Geometric Properties of the Items
 
 We have seen how the two new versions of the parameters fulfill
 the three conditions proposed by @reckase_discriminating_1991
@@ -961,7 +958,7 @@ the orthogonality assumption,
 but it will depend on the correlation matrix $`r CORR_MATRIX`$
 for the other two versions of the parameter.
 
-# Graphical representation
+# Graphical Representation
 
 The geometric properties are easier to apprehend with
 a visual representation of the items.
@@ -1025,7 +1022,7 @@ Note though that these equations are not independent of $`r CORR_MATRIX`$,
 as it is used in the computation of $`r DISCR_VECTOR_MODULE`$,
 and thus this matrix is necessary in any case to compute the coordinates.
 
-## Graphical representation example
+## Graphical Representation Example
 
 ```{r read-chunks-graphical-example}
 read_chunk("src/Graphical_example_paper.R")
@@ -1065,7 +1062,7 @@ it only rotates the vertical axis [@harman_modern_1970]:
 \end{equation}
 
 The sample items have the same `r MODEL_ACRONYM` parameters
-in both latent spaces.
+in both test spaces.
 However, their multidimensional parameters differ due to the correlation among
 the latent dimensions.
 The parameters in both spaces,
@@ -1082,30 +1079,16 @@ are shown in Table \@ref(tab:example-items-table-out).
 opts_knit$set(root.dir = DOC_DIR)
 ```
 
+<br>
+
 ```{r example-items-table-out}
 #| cache:   false
 #| tab_id:  example-items-table-out
-#| tab.cap: Item parameters for the graphical example
+#| tab.cap: Item Parameters for the Graphical Representation Example
 item_params_output
 ```
 
 <br>
-
-```{r compose-oblique-plot}
-```
-
-```{r compose-orthogonal-plot}
-```
-
-```{r item-plot-out}
-#| cache:      false
-#| fig.cap:   Item plots in an orthogonal (left) and oblique (right) test space.
-#| fig.height: 3.1
-#| fig.width:  6.65
-plot_orth + plot_oblique
-
-ggsave(file.path(DOC_DIR, "Figure_1.svg"))
-```
 
 Figure \@ref(fig:item-plot-out) illustrates the effect of
 a positive correlation on the $`r MDISC_CORR_PARAM`$
@@ -1126,6 +1109,25 @@ stretches the latter.
 Finally, note that item 4 has one discrimination parameter equal to 0,
 so its $`r MDISC_CORR_PARAM_ITEM`$ is unaffected by the correlation.
 
+```{r compose-oblique-plot}
+```
+
+```{r compose-orthogonal-plot}
+```
+
+<br>
+
+```{r item-plot-out}
+#| cache:          false
+#| fig.cap:   Item Plots in an Orthogonal (Left) and Oblique (Right) Test Space
+#| fig.topcaption: true
+#| fig.height:     3.1
+#| fig.width:      6.65
+plot_orth + plot_oblique
+
+ggsave(file.path(DOC_DIR, "Figure_1.svg"))
+```
+
 We can also see how the sign of $`r INTERCEPT_PARAM`$ affects
 the distance to the origin:
 The item vector is applied at the origin when its value is null (item 1),
@@ -1145,7 +1147,7 @@ Items 2 and 3 especially illustrate this effect,
 as each of them is orthogonal to one of the axes in the oblique space,
 even when they are not parallel to the other axis.
 
-# Application to examples from the literature
+# Application to Examples From the Literature
 
 In the following, we apply our results to two instances taken from
 the MIRT literature.
@@ -1283,12 +1285,14 @@ Table \@ref(tab:example-items-table-out) and Figure \@ref(fig:item-plot-out)).
 #| cache: false
 ```
 
+\newpage
+
 ```{r empirical-table-Reckase2009-out}
 #| cache:   false
 #| tab.id:  empirical-table-Reckase2009-out
 #| tab.cap: |
-#|   Agnostic and covariance-based multidimensional item parameters in
-#|   Reckase (2009), with a (rank-complete) three-dimensional covariance matrix.
+#|   Agnostic and Covariance-Based Multidimensional Item Parameters in
+#|   Reckase (2009), With a (Rank-Complete) Three-Dimensional Covariance Matrix
 item_params_output
 ```
 
@@ -1302,7 +1306,7 @@ In such a case, the covariance-based direction angles
 are extremely close to 0 for all items, as one would expect
 from a unidimensional test, where all items are strictly aligned with the one
 dimension they measure. The reader interested can check out the parameters
-computed in that case in the table in the Supplementary Material.
+computed in that case in the table in Online Resource 1.
 
 ## @tezza_modelo_2018
 
@@ -1363,6 +1367,23 @@ The effect on the direction is also patent in the angles these items make with
 these dimensions, which change up to almost 20º, compared with at most 7º in the
 other two dimensions, and around 1º in most cases.
 
+<!---BLOCK_LANDSCAPE_START--->
+
+```{r set-flextable-wd}
+#| cache: false
+```
+
+```{r empirical-table-Tezza2018-out}
+#| cache:   false
+#| tab.id:  empirical-table-Tezza2018-out
+#| tab.cap: |
+#|   Agnostic and Covariance-Based Multidimensional Item Parameters in
+#|   Tezza et al. (2018)
+item_params_output
+```
+
+<!---BLOCK_LANDSCAPE_STOP--->
+
 On the other hand, in cases such as items 12 or 59, which have
 relatively low discrimination parameters on those two dimensions
 (compared with the ones in dimension 2 and 3, respectively) are barely affected.
@@ -1374,23 +1395,6 @@ with that dimension.
 In this case, being the discrimination in dimension 4 so low, the situation is
 very similar to item 4 in Table \@ref(tab:example-items-table-out)
 and Figure \@ref(fig:item-plot-out).
-
-<!---BLOCK_LANDSCAPE_START--->
-
-```{r set-flextable-wd}
-#| cache: false
-```
-
-```{r empirical-table-Tezza2018-out}
-#| cache:   false
-#| tab.id:  empirical-table-Tezza2018-out
-#| tab.cap: |
-#|   Agnostic and covariance-based multidimensional item parameters in
-#|   Tezza et al. (2018).
-item_params_output
-```
-
-<!---BLOCK_LANDSCAPE_STOP--->
 
 # Discussion
 

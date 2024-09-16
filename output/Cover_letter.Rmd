@@ -2,33 +2,35 @@
 output:
   officedown::rdocx_document:
     mapstyles:
-      Body Text: ['First Paragraph', 'Abstract']
+      First Paragraph: Body Text
     base_format: bookdown::word_document2
     reference_docx: ../www/Template.docx
     number_sections: no
     keep_md:         no
-    fig_width:       4
-    fig_height:      4
 editor_options: 
   chunk_output_type: console
 ---
 
-September 5, 2024.
+September 16, 2024.
 
-George A. Marcoulides \
-Editor, *Educational and Psychological Measurement* \
-University of California, Santa Barbara, USA
+<br>
 
-Dear Dr. Marcoulides:
+Sandip Sinharay, PhD \
+Editor, *Psychometrika* \
+Educational Testing Service, USA
+
+<br>
+
+Dear Dr. Sinharay:
 
 Please find enclosed the manuscript entitled
 *"A generalized definition of multidimensional item response theory
 parameters"*,
 which I am submitting for exclusive consideration of publication as an article
-in Educational and Psychological Measurement.
+in Psychometrika.
 Excluding the title page
 (submitted separately according to Sage's guidelines),
-the manuscript is 24 pages long and includes one figure and three tables.
+the manuscript is 35 pages long and includes one figure and three tables.
 
 The authors of this manuscript are myself, Daniel Morillo-Cuadrado,
 and my colleague Mario Luzardo-Verde.
@@ -59,7 +61,8 @@ the multidimensional parameters while circumventing several issues
 we have found in the literature regarding those multidimensional parameters,
 due to implicitly applying them to monotonously non-increasing items and,
 more importantly,
-to a misconception of how these parameters should be computed and interpreted.
+to a misconception about their computation and interpretation in applications
+with non-identity covariance latent matrices.
 In the course of our research we have also found a crucial result regarding
 the interpretation of the latent space and
 its distinction from the so-called *test space*,
@@ -81,10 +84,12 @@ Please feel free to correspond with me by email (dvmorillo@psi.uned.es).
 I will assume all responsibility for keeping
 my coauthor and colleague informed of further updates.
 
+<br>
+
 Sincerely,
 
 Daniel Morillo, Ph.D.\
 Department of Behavioral Science Methodology \
-Universidad Nacional de Educación a Distancia \
+Universidad Nacional de Educación a Distancia (UNED) \
 C. Juan del Rosal 10, Office 2.74 \
 28040 Madrid, Spain
