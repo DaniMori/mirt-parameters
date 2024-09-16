@@ -36,29 +36,11 @@ C. de Juan del Rosal 10, 28040 Madrid
 Phone nº: +34 91398 6584 \
 Email address: dvmorillo@psi.uned.es
 
-# Statements and Declarations
+# Financial Support
 
-## Ethical considerations
+This research received no specific grant funding form any funding agency,
+commercial or not-for-profit sectors.
 
-Not applicable
+# Competing Interests Statement
 
-## Consent to participate
-
-Not applicable
-
-## Consent for publication
-
-Not applicable
-
-## Declaration of conflicting interest
-
-The author(s) declared no potential conflicts of interest with respect to
-the research, authorship, and/or publication of this article.
-
-## Funding statement
-
-Not applicable
-
-## Data availability statement
-
-Not applicable
+Competing interests: The author(s) declare none.
