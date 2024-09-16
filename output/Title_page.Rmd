@@ -12,11 +12,11 @@ editor_options:
 ---
 
 **Article title:**
-A generalized definition of multidimensional item response theory parameters
+A Generalized Definition of Multidimensional Item Response Theory Parameters
 
 **Running title:** Generalized MIRT parameters
 
-**List of authors:**
+# List of authors
 
 - Daniel Morillo-Cuadrado. Department of Behavioral Science Methodology,
   Faculty of Psychology, Universidad Nacional de Educación a Distancia (UNED),
@@ -25,7 +25,7 @@ A generalized definition of multidimensional item response theory parameters
 - Mario Luzardo-Verde. Department of Mathematics and Applications,
   Universidad de La República, Uruguay.
 
-**Corresponding author:**
+## Corresponding author:
 
 Daniel Morillo-Cuadrado \
 Faculty of Psychology, Office 2.74. \
