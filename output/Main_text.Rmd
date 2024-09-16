@@ -1,6 +1,5 @@
 ---
-title: |
-  A Generalized Definition of Multidimensional Item Response Theory Parameters
+title: Abstract
 output:
   officedown::rdocx_document:
     tables:
@@ -19,27 +18,6 @@ output:
     keep_md:         no
     fig_width:       4
     fig_height:      4
-abstract: |
-  In this paper, we generalize the multidimensional discrimination (MDISC) and
-  difficulty (MID) parameters in the Multidimensional 2-Parameter Logistic model
-  to account for non-identity latent covariances and negatively-keyed items.
-  We apply Reckase's maximum discrimination point method to define them in an
-  algebraic sense in an arbitrary basis, and then defining such basis to be a
-  geometrical representation of the measured construct.
-  This results in three different versions of the parameters: The original one,
-  based on the item parameters solely, one that incorporates the covariance
-  structure of the latent space, and one that uses the correlation structure
-  instead. Importantly, we find that the items should be properly represented in
-  a test space, distinct from the latent space.
-  We also provide a procedure for the geometrical representation of the items in
-  the test space, and apply our results to examples from the literature to get a
-  more accurate representation of the measurement properties of the items.
-  We recommend using the covariance structure version for describing the
-  properties of the parameters, and the correlation structure version for
-  graphical representation.
-  Finally, we discuss the implications of this generalization for other
-  multidimensional IRT models and the parallels of our results in common factor
-  model theory.
 keywords: |
   Multidimensional 2-Parameter Logistic model,
   multidimensional item discrimination, multidimensional item difficulty,
@@ -98,11 +76,34 @@ source("R/Formulae.R",  encoding = 'UTF-8')
 source("R/Constants.R", encoding = 'UTF-8')
 ```
 
+In this paper, we generalize the multidimensional discrimination (MDISC) and
+difficulty (MID) parameters in the Multidimensional 2-Parameter Logistic model
+to account for non-identity latent covariances and negatively-keyed items.
+We apply Reckase's maximum discrimination point method to define them in an
+algebraic sense in an arbitrary basis, and then defining such basis to be a
+geometrical representation of the measured construct.
+This results in three different versions of the parameters: The original one,
+based on the item parameters solely, one that incorporates the covariance
+structure of the latent space, and one that uses the correlation structure
+instead. Importantly, we find that the items should be properly represented in
+a test space, distinct from the latent space.
+We also provide a procedure for the geometrical representation of the items in
+the test space, and apply our results to examples from the literature to get a
+more accurate representation of the measurement properties of the items.
+We recommend using the covariance structure version for describing the
+properties of the parameters, and the correlation structure version for
+graphical representation.
+Finally, we discuss the implications of this generalization for other
+multidimensional IRT models and the parallels of our results in common factor
+model theory.
+
 **Keywords:** Multidimensional IRT, 2-Parameter Logistic model,
 multidimensional item discrimination, multidimensional item difficulty,
 item vector representation, test space
 
 \newpage
+
+# A Generalized Definition of Multidimensional Item Response Theory Parameters
 
 Multidimensional item response theory (MIRT) models have been widely used since
 their inception.
