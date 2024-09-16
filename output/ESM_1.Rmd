@@ -3,9 +3,11 @@ title: "Online Resource 1"
 output:
   officedown::rdocx_document:
     tables:
-      caption:
-        pre: "Table S."
       style: APA_Like_style
+      caption:
+        style: Image Caption
+        pre: "Table S."
+        sep: ' '
     mapstyles:
       Body Text: First Paragraph
     base_format: bookdown::word_document2
