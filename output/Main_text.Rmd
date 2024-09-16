@@ -1064,7 +1064,7 @@ it only rotates the vertical axis [@harman_modern_1970]:
 \end{equation}
 
 The sample items have the same `r MODEL_ACRONYM` parameters
-in both latent spaces.
+in both test spaces.
 However, their multidimensional parameters differ due to the correlation among
 the latent dimensions.
 The parameters in both spaces,
@@ -1090,23 +1090,6 @@ item_params_output
 
 <br>
 
-```{r compose-oblique-plot}
-```
-
-```{r compose-orthogonal-plot}
-```
-
-```{r item-plot-out}
-#| cache:          false
-#| fig.cap:   Item Plots in an Orthogonal (Left) and Oblique (Right) Test Space
-#| fig.topcaption: true
-#| fig.height:     3.1
-#| fig.width:      6.65
-plot_orth + plot_oblique
-
-ggsave(file.path(DOC_DIR, "Figure_1.svg"))
-```
-
 Figure \@ref(fig:item-plot-out) illustrates the effect of
 a positive correlation on the $`r MDISC_CORR_PARAM`$
 (and consequently the $`r MIL_CORR_PARAM`$) value:
@@ -1125,6 +1108,23 @@ however, the effect of the correlation shrinks the former and
 stretches the latter.
 Finally, note that item 4 has one discrimination parameter equal to 0,
 so its $`r MDISC_CORR_PARAM_ITEM`$ is unaffected by the correlation.
+
+```{r compose-oblique-plot}
+```
+
+```{r compose-orthogonal-plot}
+```
+
+```{r item-plot-out}
+#| cache:          false
+#| fig.cap:   Item Plots in an Orthogonal (Left) and Oblique (Right) Test Space
+#| fig.topcaption: true
+#| fig.height:     3.1
+#| fig.width:      6.65
+plot_orth + plot_oblique
+
+ggsave(file.path(DOC_DIR, "Figure_1.svg"))
+```
 
 We can also see how the sign of $`r INTERCEPT_PARAM`$ affects
 the distance to the origin:
@@ -1294,8 +1294,6 @@ Table \@ref(tab:example-items-table-out) and Figure \@ref(fig:item-plot-out)).
 item_params_output
 ```
 
-\newpage
-
 The latter effect can be better noticed in another case, in which Reckase
 uses the same item parameters to demonstrate the over-specification of
 dimensions (see p. 183).
@@ -1367,18 +1365,6 @@ The effect on the direction is also patent in the angles these items make with
 these dimensions, which change up to almost 20º, compared with at most 7º in the
 other two dimensions, and around 1º in most cases.
 
-On the other hand, in cases such as items 12 or 59, which have
-relatively low discrimination parameters on those two dimensions
-(compared with the ones in dimension 2 and 3, respectively) are barely affected.
-The most extreme change in these two examples occurs in
-the direction of item 12 with respect to dimension 4. We see how the large
-discrimination in dimension 1, when combined with the correlation
-with dimension 4, induces a decrease in the angular direction
-with that dimension.
-In this case, being the discrimination in dimension 4 so low, the situation is
-very similar to item 4 in Table \@ref(tab:example-items-table-out)
-and Figure \@ref(fig:item-plot-out).
-
 <!---BLOCK_LANDSCAPE_START--->
 
 ```{r set-flextable-wd}
@@ -1395,6 +1381,18 @@ item_params_output
 ```
 
 <!---BLOCK_LANDSCAPE_STOP--->
+
+On the other hand, in cases such as items 12 or 59, which have
+relatively low discrimination parameters on those two dimensions
+(compared with the ones in dimension 2 and 3, respectively) are barely affected.
+The most extreme change in these two examples occurs in
+the direction of item 12 with respect to dimension 4. We see how the large
+discrimination in dimension 1, when combined with the correlation
+with dimension 4, induces a decrease in the angular direction
+with that dimension.
+In this case, being the discrimination in dimension 4 so low, the situation is
+very similar to item 4 in Table \@ref(tab:example-items-table-out)
+and Figure \@ref(fig:item-plot-out).
 
 # Discussion
 
