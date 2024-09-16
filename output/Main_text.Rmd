@@ -16,8 +16,6 @@ output:
     reference_docx: ../www/Template.docx
     number_sections: no
     keep_md:         no
-    fig_width:       4
-    fig_height:      4
 keywords: |
   Multidimensional 2-Parameter Logistic model,
   multidimensional item discrimination, multidimensional item difficulty,

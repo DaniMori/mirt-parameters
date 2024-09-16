@@ -7,8 +7,6 @@ output:
     reference_docx: ../www/Template.docx
     number_sections: no
     keep_md:         no
-    fig_width:       4
-    fig_height:      4
 editor_options: 
   chunk_output_type: console
 ---
