@@ -28,7 +28,7 @@ editor_options:
 library(here)
 library(knitr)
 library(patchwork)
-library(rstudioapi)
+library(officer)
 
 ROOT_DIR <- here()
 
@@ -37,7 +37,8 @@ opts_chunk$set(
   echo     = FALSE,
   message  = FALSE,
   warning  = FALSE,
-  cache    = FALSE
+  cache    = FALSE,
+  tab.cap.fp_text = fp_text_lite(italic = FALSE, bold = TRUE)
 )
 
 # Output configuration options:
