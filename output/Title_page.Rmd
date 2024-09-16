@@ -2,7 +2,7 @@
 output:
   officedown::rdocx_document:
     mapstyles:
-      Body Text: ['First Paragraph', 'Abstract']
+      First Paragraph: Body Text
     base_format: bookdown::word_document2
     reference_docx: ../www/Template.docx
     number_sections: no
