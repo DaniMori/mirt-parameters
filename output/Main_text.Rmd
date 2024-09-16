@@ -97,7 +97,7 @@ Finally, we discuss the implications of this generalization for other
 multidimensional IRT models and the parallels of our results in common factor
 model theory.
 
-**Keywords:** Multidimensional IRT, 2-Parameter Logistic model,
+*Keywords:* Multidimensional IRT, 2-Parameter Logistic model,
 multidimensional item discrimination, multidimensional item difficulty,
 item vector representation, test space
 
