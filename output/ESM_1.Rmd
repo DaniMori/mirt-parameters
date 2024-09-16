@@ -128,11 +128,6 @@ Therefore, we see how computing the more appropriate covariance-based version of
 the multidimensional parameters can help diagnose correctly
 the dimensionality of a test.
 
-# References
-
-::: {#refs}
-:::
-
 \newpage
 
 ```{r empirical-table-Reckase2009-out}
@@ -140,6 +135,8 @@ the dimensionality of a test.
 #| tab.id:  empirical-table-Reckase2009-out
 #| tab.cap: |
 #|   Agnostic and covariance-based multidimensional item parameters in
-#|   Reckase (2009), with an almost-rank-1 covariance matrix.
+#|   Reckase (2009), with an almost-rank-1 covariance matrix
 item_params_output
 ```
+
+# References
