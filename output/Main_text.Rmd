@@ -1304,7 +1304,7 @@ In such a case, the covariance-based direction angles
 are extremely close to 0 for all items, as one would expect
 from a unidimensional test, where all items are strictly aligned with the one
 dimension they measure. The reader interested can check out the parameters
-computed in that case in the table in the Supplementary Material.
+computed in that case in the table in Online Resource 1.
 
 ## @tezza_modelo_2018
 
