@@ -1296,6 +1296,8 @@ Table \@ref(tab:example-items-table-out) and Figure \@ref(fig:item-plot-out)).
 item_params_output
 ```
 
+<br>
+
 The latter effect can be better noticed in another case, in which Reckase
 uses the same item parameters to demonstrate the over-specification of
 dimensions (see p. 183).
