@@ -1,0 +1,52 @@
+---
+title:     |
+  Parámetros multidimensionales en Teoría de Respuesta al Ítem:
+  ¡Algo estamos haciendo mal!
+author:    |
+  <table>
+    <tr>
+      <td>Daniel Morillo, Ph.D.</td>
+    </tr>
+    <tr>
+      <td>
+        <center>
+          [![](../www/slideshow-assets/github-logo.png){height="50"}](https://github.com/DaniMori/)&emsp;
+          [![](../www/slideshow-assets/orcid.png){height="50"}](https://orcid.org/0000-0003-3021-3878)
+        </center>
+      </td>
+    </tr>
+  </table>
+institute: |
+  <table>
+    <tr>
+      <td>
+        <center>
+          [![](../www/slideshow-assets/logos_fac_psicologia.svg){height="120"}](https://www.uned.es/universidad/facultades/psicologia.html)
+        </center>
+      </td>
+    </tr>
+  </table>
+date:        "2024-10-21"
+date-meta:   "2024-11-27"
+date-format: long
+editor:      source
+lang:        es
+knitr:
+  opts_knit: 
+    root_dir: here::here()
+format:
+  revealjs:
+    auto-stretch:            true
+    code-annotations:        hover
+    fig-cap-location:        bottom
+    incremental:             false
+    link-external-newwindow: true
+    self-contained:          true
+    slide-number:            false
+    theme:                   ../www/slideshow-assets/extra-styles.scss
+    transition:              none
+    view-distance:           3
+    template-partials:
+      - ../www/slideshow-assets/title-slide.html
+---
+
