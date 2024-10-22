@@ -60,11 +60,29 @@ format:
       - ../www/slideshow-assets/title-slide.html
 ---
 
-```{r setup}
+# Introducción
+
+```{r libraries}
 library(tibble)
 library(dplyr, warn.conflicts = FALSE)
 library(knitr)
 ```
+
+::: notes
+-   Nombre de la presentación: Cero atractivo
+
+-   Nuria me pide un título más llamativo
+
+-   Lo mejor que puedo conseguir
+
+-   ¿Por qué es relevante?
+
+-   TRI muy usada en evaluación e investigación educativa
+
+-   Poco en investigación psicológica (muestras "pequeñas" en comparación)
+
+-   Pero hay un "paralelismo" entre ambas teorías (isomórficas, ante determinados supuestos)
+:::
 
 <!-- Slides "Diferencias AF - TRI" -->
 
