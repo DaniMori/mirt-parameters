@@ -175,7 +175,7 @@ El análisis factorial de ítems (dicotómicos) lo que hace es aplicar ese "mode
 Eso da una "probabilidad" de responder correcta o "afirmativamente" a un ítem.
 :::
 
-## AF: Puntuaciones factoriales latentes
+## AF: Puntuaciones factoriales
 
 Métodos:
 
@@ -187,8 +187,18 @@ Métodos:
 
 -   **Estimación Modal Bayesiana Empírica**
 
+<!--# TODO: Diagrama de CFA y de "CFA inverso" -->
+
 ::: notes
-Si alguna vez habéis ajustado un modelo de AF y habéis calculado las puntuaciones factoriales mediante Máxima Verosimilitud, o mediante esimación Modal Bayesiana (SPSS no lo permite), entonces habéis aplicado la Teoría de Respuesta al Ítem, y a continuación veremos por qué.
+Los dos primeros métodos se aplican en AF lineal y están implementados en SPSS.
+Consisten a grandes rasgos en calcular la puntuación factorial como una suma ponderada de las variables observables.
+Es decir, algo así como "darle la vuelta a las flechas" de causalidad.
+Lo que tiene más sentido, desde el punto de vista estadístico, es "estimar" qué puntuaciones factoriales hacen más probable para una participante dar las respuestas que ha dado.
+
+Eso es lo que hacen los dos métodos de abajo (SPSS no los implementa creo), Máxima Verosimilitud, o esimación Modal Bayesiana.
+Si habéis hecho esto con variables categóricas, entonces habéis aplicado la Teoría de Respuesta al Ítem, y a continuación veremos por qué.
+:::
+
 
 Con variables categóricas, si habéis usado correlaciones policóricas en lugar de correlaciones de Pearson (como se recomienda por ejemplo en escalas de respuesta tipo Likert, si tenéis pocas categorías de respuesta), esto es lo más habitual.
 :::
