@@ -275,10 +275,10 @@ Es posible transformar los parámetros de la métrica del AF a métrica de TRI y
 
 ---@reckase_difficulty_1985
 
+---@reckase_discriminating_1991
+
 ::: notes
 A pesar de este paralelismo, y de estar clara la utilidad de los modelos de TRI, hay un problema con la formulación del modelo que os he planteado, y es que como habéis podido ver los parámetros no son fácilmente interpretables.
 :::
-
-@reckase_discriminating_1991
 
 ## References {.smaller}
