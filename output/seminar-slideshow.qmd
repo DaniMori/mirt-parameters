@@ -34,7 +34,7 @@ date-format:   long
 editor:
   mode:        source
   markdown: 
-    wrap:      none
+    wrap:      sentence
     canonical: true
 lang:          es
 knitr:
@@ -93,7 +93,10 @@ for (slide in af_tri_differences |> nrow() |> seq_len()) {
 <!--# TODO: Ejemplos estructura simple vs. compleja: Path diagram vs. coordenadas -->
 
 ::: notes
-Para darle más sentido al modelo factorial es común buscar la "estructura simple". Es decir, asumimos que la varianza de cada ítem está explicada solamente por un factor latente. Los pesos factoriales en los demás factores son nulos. Si representamos los pesos factoriales como coordenadas, el ítem estará alineado con el eje correspondiente al factor en el que pesa.
+Para darle más sentido al modelo factorial es común buscar la "estructura simple".
+Es decir, asumimos que la varianza de cada ítem está explicada solamente por un factor latente.
+Los pesos factoriales en los demás factores son nulos.
+Si representamos los pesos factoriales como coordenadas, el ítem estará alineado con el eje correspondiente al factor en el que pesa.
 :::
 
 ## AF: Estructura simple
@@ -109,7 +112,9 @@ Para obtener esa estructura simple, muchas veces necesitamos usar una rotación 
 <!--# TODO: Ejemplo con pesos cruzados: Path diagram vs. coordenadas -->
 
 ::: notes
-Sin embargo, en ocasiones no es posible encontrar la estructura simple. Es cuando aparecen lo que llamamos "pesos cruzados". Esto da lugar a una "estructura compleja", que en realidad es más común que la estructura simple, en general.
+Sin embargo, en ocasiones no es posible encontrar la estructura simple.
+Es cuando aparecen lo que llamamos "pesos cruzados".
+Esto da lugar a una "estructura compleja", que en realidad es más común que la estructura simple, en general.
 :::
 
 ## AF: Estructura compleja
@@ -127,11 +132,16 @@ Por ejemplo, si tenemos ítems directos e inversos, podemos modelar lo que llama
 <!--# TODO: Fórmula matricial para una variable observable -->
 
 ::: notes
-Un modelo factorial no es más que una serie de regresiones lineales (una por cada variable observable) con variables latentes. Las variables "respuesta" o "criterio" es la variable observable, y su varianza está explicada o "predicha" por las variables latentes, que son los factores y los términos de error de cada ítem.
+Un modelo factorial no es más que una serie de regresiones lineales (una por cada variable observable) con variables latentes.
+Las variables "respuesta" o "criterio" es la variable observable, y su varianza está explicada o "predicha" por las variables latentes, que son los factores y los términos de error de cada ítem.
 
-Los "coeficientes de regresión" los llamamos "pesos factoriales" y el término error, "unicidad" o "varianza única". Esto se puede expresar en "forma matricial" de esta manera.
+Los "coeficientes de regresión" los llamamos "pesos factoriales" y el término error, "unicidad" o "varianza única".
+Esto se puede expresar en "forma matricial" de esta manera.
 
-Tenemos costumbre de ver el análisis factorial en el contexto de variables cuantitativas (o que asumimos que lo son, por ejemplo en ítems Likert). Sin embargo, se aplica también (e idealmente se debería aplicar) a variables discretas ordinales. En este caso vamos a concretarlo en variables dicotómicas (p.ej. ante un ítem como "Soy muy responsable" las opciones de respuesta son sólo V/F). Esto es una simplificación que rara vez se utiliza en cuestionarios no cognitivos, pero es interesante estudiarlo porque otros modelos pueden considerarse extensiones de este modelo.
+Tenemos costumbre de ver el análisis factorial en el contexto de variables cuantitativas (o que asumimos que lo son, por ejemplo en ítems Likert).
+Sin embargo, se aplica también (e idealmente se debería aplicar) a variables discretas ordinales.
+En este caso vamos a concretarlo en variables dicotómicas (p.ej. ante un ítem como "Soy muy responsable" las opciones de respuesta son sólo V/F).
+Esto es una simplificación que rara vez se utiliza en cuestionarios no cognitivos, pero es interesante estudiarlo porque otros modelos pueden considerarse extensiones de este modelo.
 :::
 
 ## Análisis factorial de ítems
@@ -143,7 +153,8 @@ Tenemos costumbre de ver el análisis factorial en el contexto de variables cuan
 <!--# TODO: Curva Gaussiana y curva normal acumulada -->
 
 ::: notes
-El análisis factorial de ítems (dicotómicos) lo que hace es aplicar ese "modelo lineal general" a variables dicotómicas: Asume una "variable latente" lineal, con la misma fórmula anterior, y aplica una "función de umbral" en 0 (la respuesta es correcta o afirmativa, codificada como 1, si la variable latente es mayor que 0, o incorrecta o negativa, codificada como 0, si es menor). Eso da una "probabilidad" de responder correcta o "afirmativamente" a un ítem.
+El análisis factorial de ítems (dicotómicos) lo que hace es aplicar ese "modelo lineal general" a variables dicotómicas: Asume una "variable latente" lineal, con la misma fórmula anterior, y aplica una "función de umbral" en 0 (la respuesta es correcta o afirmativa, codificada como 1, si la variable latente es mayor que 0, o incorrecta o negativa, codificada como 0, si es menor).
+Eso da una "probabilidad" de responder correcta o "afirmativamente" a un ítem.
 :::
 
 ## AF: Puntuaciones factoriales latentes
@@ -173,11 +184,14 @@ Con variables categóricas, si habéis usado correlaciones policóricas en lugar
 <!--# TODO: Fórmula del parámetro de intersección y del modelo en forma pendiente-intersección -->
 
 ::: notes
-La TRI, por su lado, asume que hay cada persona tiene una puntuación latente, y que su respuesta depende de esa puntuación, con un parámetro de discriminación que determina cómo de bien o mal mide el ítem, y uno de dificultad (aunque aquí prefiero llamarlo "de posición") que determina lo fácil o difícil que será dar una respuesta positiva (afirmativa, correcta, codificada como 1). Esa posición representa el nivel de rasgo latente que da lugar a una probabilidad de .5 de dar la respuesta positiva.
+La TRI, por su lado, asume que hay cada persona tiene una puntuación latente, y que su respuesta depende de esa puntuación, con un parámetro de discriminación que determina cómo de bien o mal mide el ítem, y uno de dificultad (aunque aquí prefiero llamarlo "de posición") que determina lo fácil o difícil que será dar una respuesta positiva (afirmativa, correcta, codificada como 1).
+Esa posición representa el nivel de rasgo latente que da lugar a una probabilidad de .5 de dar la respuesta positiva.
 
 Ahora bien, la posición se puede reformular como un parámetro de intersección.
 
-Como se puede ver, esto también se trata de un "modelo lineal general". En este caso, en lugar de una función probit (normal acumulada), la función de enlace es la función "logit". Es decir, la respuesta a cada ítem se modela como una regresión logistica donde los predictores son las variables latentes.
+Como se puede ver, esto también se trata de un "modelo lineal general".
+En este caso, en lugar de una función probit (normal acumulada), la función de enlace es la función "logit".
+Es decir, la respuesta a cada ítem se modela como una regresión logistica donde los predictores son las variables latentes.
 :::
 
 ## Teoría de respuesta al ítem multidimensional
