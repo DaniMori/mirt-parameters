@@ -34,12 +34,16 @@ lang:        es
 knitr:
   opts_knit: 
     root_dir: here::here()
+  opts_chunk: 
+    results:  asis
 format:
   revealjs:
     auto-stretch:            true
     code-annotations:        hover
+    df-print:                paged
     fig-cap-location:        bottom
     incremental:             false
+    keep-md:                 true
     link-external-newwindow: true
     self-contained:          true
     slide-number:            false
@@ -49,4 +53,37 @@ format:
     template-partials:
       - ../www/slideshow-assets/title-slide.html
 ---
+
+```{r setup}
+library(tibble)
+library(dplyr, warn.conflicts = FALSE)
+library(knitr)
+```
+
+<!-- Slides "Diferencias AF - TRI" -->
+
+```{r irt-fa-table}
+af_tri_differences <- tribble(
+  ~AF,                            ~TRI,
+  "Relaciones entre variables",   "Comparación entre participantes",
+  "Cuestionarios",                "Pruebas (rendimiento)",
+  "Explicación",                  "Medición",
+  "Puntuación compuesta",         "Puntuación latente",
+  "Foco en estructura",           "Foco en diferencias",
+  "Estructura simple",            "Ejes ortogonales"
+)
+
+section_title <- "## Diferencias AF - TRI"
+
+for (slide in af_tri_differences |> nrow() |> seq_len()) {
+  
+  cat( "\n", section_title, sep = '')
+  
+  af_tri_differences |> slice_head(n = slide) |> kable() |> print()
+}
+```
+
+::: notes
+
+:::
 
