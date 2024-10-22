@@ -26,18 +26,22 @@ institute: |
       </td>
     </tr>
   </table>
-bibliography: ../www/Multidimensional-parameters-MCLM.bib
-csl:          ../www/apa-old-doi-prefix.csl
-date:        "2024-10-21"
-date-meta:   "2024-11-27"
-date-format: long
-editor:      source
-lang:        es
+bibliography:  ../www/Multidimensional-parameters-MCLM.bib
+csl:           ../www/apa-old-doi-prefix.csl
+date:          "2024-10-21"
+date-meta:     "2024-11-27"
+date-format:   long
+editor:
+  mode:        source
+  markdown: 
+    wrap:      none
+    canonical: true
+lang:          es
 knitr:
   opts_knit: 
-    root_dir: here::here()
+    root_dir:  here::here()
   opts_chunk: 
-    results:  asis
+    results:   asis
 format:
   revealjs:
     auto-stretch:            true
