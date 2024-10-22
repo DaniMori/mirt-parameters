@@ -69,8 +69,7 @@ af_tri_differences <- tribble(
   "Cuestionarios",                "Pruebas (rendimiento)",
   "Explicación",                  "Medición",
   "Puntuación compuesta",         "Puntuación latente",
-  "Foco en estructura",           "Foco en diferencias",
-  "Estructura simple",            "Ejes ortogonales"
+  "Estructura simple",            "Diferencias individuales"
 )
 
 section_title <- "## Diferencias AF - TRI"
@@ -84,6 +83,84 @@ for (slide in af_tri_differences |> nrow() |> seq_len()) {
 ```
 
 ::: notes
-
 :::
 
+## AF: Estructura simple
+
+<!--# TODO: Ejemplos estructura simple vs. compleja: Path diagram vs. coordenadas -->
+
+::: notes
+Para darle más sentido al modelo factorial es común buscar la "estructura simple". Es decir, asumimos que la varianza de cada ítem está explicada solamente por un factor latente. Los pesos factoriales en los demás factores son nulos. Si representamos los pesos factoriales como coordenadas, el ítem estará alineado con el eje correspondiente al factor en el que pesa.
+:::
+
+## AF: Estructura simple
+
+<!--# TODO: Ejemplo mostrando solución factorial sin rotar y ejes tras rotación oblicua? -->
+
+::: notes
+Para obtener esa estructura simple, muchas veces necesitamos usar una rotación oblicua.
+:::
+
+## AF: Estructura compleja
+
+<!--# TODO: Ejemplo con pesos cruzados: Path diagram vs. coordenadas -->
+
+::: notes
+Sin embargo, en ocasiones no es posible encontrar la estructura simple. Es cuando aparecen lo que llamamos "pesos cruzados". Esto da lugar a una "estructura compleja", que en realidad es más común que la estructura simple, en general.
+:::
+
+## AF: Estructura compleja
+
+<!--# TODO: Ejemplo con factores de método: Path diagram vs. coordenadas -->
+
+::: notes
+Por ejemplo, si tenemos ítems directos e inversos, podemos modelar lo que llamamos "factores de método": Una variable latente para cada factor sustantivo, y una para cada uno de los tipos de ítem.
+:::
+
+## Modelo factorial clásico
+
+<!--# TODO: Fórmula del modelo factorial -->
+
+<!--# TODO: Fórmula matricial para una variable observable -->
+
+::: notes
+Un modelo factorial no es más que una serie de regresiones lineales (una por cada variable observable) con variables latentes. Las variables "respuesta" o "criterio" es la variable observable, y su varianza está explicada o "predicha" por las variables latentes, que son los factores y los términos de error de cada ítem.
+
+Los "coeficientes de regresión" los llamamos "pesos factoriales" y el término error, "unicidad" o "varianza única". Esto se puede expresar en "forma matricial" de esta manera.
+
+Tenemos costumbre de ver el análisis factorial en el contexto de variables cuantitativas (o que asumimos que lo son, por ejemplo en ítems Likert). Sin embargo, se aplica también (e idealmente se debería aplicar) a variables discretas ordinales. En este caso vamos a concretarlo en variables dicotómicas (p.ej. ante un ítem como "Soy muy responsable" las opciones de respuesta son sólo V/F). Esto es una simplificación que rara vez se utiliza en cuestionarios no cognitivos, pero es interesante estudiarlo porque otros modelos pueden considerarse extensiones de este modelo.
+:::
+
+## Análisis factorial de ítems
+
+<!--# TODO: Fórmula del modelo factorial con función de enlace probit -->
+
+<!--# TODO: Función de enlace "normal acumulada" -->
+
+<!--# TODO: Curva Gaussiana y curva normal acumulada -->
+
+::: notes
+El análisis factorial de ítems (dicotómicos) lo que hace es aplicar ese "modelo lineal general" a variables dicotómicas: Asume una "variable latente" lineal, con la misma fórmula anterior, y aplica una "función de umbral" en 0 (la respuesta es correcta o afirmativa, codificada como 1, si la variable latente es mayor que 0, o incorrecta o negativa, codificada como 0, si es menor). Eso da una "probabilidad" de responder correcta o "afirmativamente" a un ítem.
+:::
+
+## Teoría de respuesta al ítem
+
+<!--# TODO: Fórmula de modelo 2PL -->
+
+<!--# TODO: Gráfica de discriminación alta/baja, dificultad alta/baja -->
+
+::: notes
+La TRI, por su lado, asume que hay cada persona tiene una puntuación latente, y que su respuesta depende de esa puntuación, con un parámetro de discriminación, que determina cómo de bien o mal mide el ítem, y uno de dificultad (aunque aquí prefiero llamarlo "de posición"), que determina lo fácil o difícil que será dar una respuesta positiva (afirmativa, correcta, codificada como 1).
+
+Como se puede ver, esto también se trata de un "modelo lineal general". En este caso, en lugar de una función probit (normal acumulada), la función de enlace es la función "logit". Es decir, la respuesta a cada ítem se modela como una regresión logistica donde los predictores son las variables latentes.
+:::
+
+## Teoría de respuesta al ítem multidimensional
+
+<!--# TODO: Fórmula de modelo M2PL -->
+
+<!--# TODO: Gráfica tridimensional de modelo compensatorio -->
+
+::: notes
+Una de las extensiones multidimensionales (más antiguas, y probablemente más obvias) de este modelo consiste simplemente en asumir que la respuesta se modela como una "regresión logística multivariada".
+:::
