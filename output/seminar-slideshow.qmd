@@ -167,8 +167,12 @@ Con variables categóricas, si habéis usado correlaciones policóricas en lugar
 
 <!--# TODO: Gráfica de discriminación alta/baja, dificultad alta/baja -->
 
+<!--# TODO: Fórmula del parámetro de intersección y del modelo en forma pendiente-intersección -->
+
 ::: notes
-La TRI, por su lado, asume que hay cada persona tiene una puntuación latente, y que su respuesta depende de esa puntuación, con un parámetro de discriminación, que determina cómo de bien o mal mide el ítem, y uno de dificultad (aunque aquí prefiero llamarlo "de posición"), que determina lo fácil o difícil que será dar una respuesta positiva (afirmativa, correcta, codificada como 1).
+La TRI, por su lado, asume que hay cada persona tiene una puntuación latente, y que su respuesta depende de esa puntuación, con un parámetro de discriminación que determina cómo de bien o mal mide el ítem, y uno de dificultad (aunque aquí prefiero llamarlo "de posición") que determina lo fácil o difícil que será dar una respuesta positiva (afirmativa, correcta, codificada como 1). Esa posición representa el nivel de rasgo latente que da lugar a una probabilidad de .5 de dar la respuesta positiva.
+
+Ahora bien, la posición se puede reformular como un parámetro de intersección.
 
 Como se puede ver, esto también se trata de un "modelo lineal general". En este caso, en lugar de una función probit (normal acumulada), la función de enlace es la función "logit". Es decir, la respuesta a cada ítem se modela como una regresión logistica donde los predictores son las variables latentes.
 :::
@@ -181,4 +185,10 @@ Como se puede ver, esto también se trata de un "modelo lineal general". En este
 
 ::: notes
 Una de las extensiones multidimensionales (más antiguas, y probablemente más obvias) de este modelo consiste simplemente en asumir que la respuesta se modela como una "regresión logística multivariada".
+
+Esto da lugar a una familia de modelos llamados "compensatorios" en TRI, ya que un nivel bajo en una puntuación latente se compensa con un nivel alto en otra, dando lugar a la misma probabilidad de respuesta.
 :::
+
+@reckase_difficulty_1985
+
+@reckase_discriminating_1991
