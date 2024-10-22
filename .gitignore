@@ -43,10 +43,12 @@ vignettes/*.pdf
 # Rmd outputs formats, other documents and files
 *.docx
 *.html
-*.pdf
 *.lnk
-*.url
+*.md
+*.pdf
 *.svg
+*.url
+!www/slideshow-assets/title-slide.html
 
 # Specific outputs to ignore
 www/packages.bib
