@@ -143,6 +143,24 @@ Tenemos costumbre de ver el análisis factorial en el contexto de variables cuan
 El análisis factorial de ítems (dicotómicos) lo que hace es aplicar ese "modelo lineal general" a variables dicotómicas: Asume una "variable latente" lineal, con la misma fórmula anterior, y aplica una "función de umbral" en 0 (la respuesta es correcta o afirmativa, codificada como 1, si la variable latente es mayor que 0, o incorrecta o negativa, codificada como 0, si es menor). Eso da una "probabilidad" de responder correcta o "afirmativamente" a un ítem.
 :::
 
+## AF: Puntuaciones factoriales latentes
+
+Métodos:
+
+-   Regresión
+
+-   Bartlett
+
+-   **Máxima Verosimilitud**
+
+-   **Estimación Modal Bayesiana Empírica**
+
+::: notes
+Si alguna vez habéis ajustado un modelo de AF y habéis calculado las puntuaciones factoriales mediante Máxima Verosimilitud, o mediante esimación Modal Bayesiana (SPSS no lo permite), entonces habéis aplicado la Teoría de Respuesta al Ítem, y a continuación veremos por qué.
+
+Con variables categóricas, si habéis usado correlaciones policóricas en lugar de correlaciones de Pearson (como se recomienda por ejemplo en escalas de respuesta tipo Likert, si tenéis pocas categorías de respuesta), esto es lo más habitual.
+:::
+
 ## Teoría de respuesta al ítem
 
 <!--# TODO: Fórmula de modelo 2PL -->
