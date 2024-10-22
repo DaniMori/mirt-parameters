@@ -199,9 +199,19 @@ Eso es lo que hacen los dos métodos de abajo (SPSS no los implementa creo), Má
 Si habéis hecho esto con variables categóricas, entonces habéis aplicado la Teoría de Respuesta al Ítem, y a continuación veremos por qué.
 :::
 
+## Paralelismo AF - TRI
 
-Con variables categóricas, si habéis usado correlaciones policóricas en lugar de correlaciones de Pearson (como se recomienda por ejemplo en escalas de respuesta tipo Likert, si tenéis pocas categorías de respuesta), esto es lo más habitual.
+::::: columns
+::: column
+![](../www/slideshow-assets/cover_McDonald-1999.jpg){height="300px"}
+
+[@mcdonald_test_1999]
 :::
+
+::: column
+<!--# TODO: Citation by McDonald -->
+:::
+:::::
 
 ## Teoría de respuesta al ítem
 
@@ -237,3 +247,5 @@ Esto da lugar a una familia de modelos llamados "compensatorios" en TRI, ya que 
 @reckase_difficulty_1985
 
 @reckase_discriminating_1991
+
+## References {.smaller}
