@@ -156,6 +156,8 @@ Las variables "respuesta" o "criterio" es la variable observable, y su varianza 
 Los "coeficientes de regresión" los llamamos "pesos factoriales" y el término error, "unicidad" o "varianza única".
 Esto se puede expresar en "forma matricial" de esta manera.
 
+<!--# TODO: Explicar cómo se calcula en forma matricial? -->
+
 Tenemos costumbre de ver el análisis factorial en el contexto de variables cuantitativas (o que asumimos que lo son, por ejemplo en ítems Likert).
 Sin embargo, se aplica también (e idealmente se debería aplicar) a variables discretas ordinales.
 En este caso vamos a concretarlo en variables dicotómicas (p.ej. ante un ítem como "Soy muy responsable" las opciones de respuesta son sólo V/F).
@@ -236,7 +238,7 @@ Es decir, la respuesta a cada ítem se modela como una regresión logistica dond
 
 <!--# TODO: Fórmula de modelo M2PL -->
 
-<!--# TODO: Gráfica tridimensional de modelo compensatorio -->
+<!--# TODO: Gráfica tridimensional de modelo compensatorio (y "curvas de nivel"?) -->
 
 ::: notes
 Una de las extensiones multidimensionales (más antiguas, y probablemente más obvias) de este modelo consiste simplemente en asumir que la respuesta se modela como una "regresión logística multivariada".
@@ -244,7 +246,16 @@ Una de las extensiones multidimensionales (más antiguas, y probablemente más o
 Esto da lugar a una familia de modelos llamados "compensatorios" en TRI, ya que un nivel bajo en una puntuación latente se compensa con un nivel alto en otra, dando lugar a la misma probabilidad de respuesta.
 :::
 
-@reckase_difficulty_1985
+## TRI multidimensional: Ejemplo
+
+<!--# TODO: Valores, cálculo y gráfica -->
+
+::: notes
+Veamos un ejemplo de cuál sería la probabilidad de respuesta de una persona con puntuaciones de rasgo $\theta_1 = TODO$ y $\theta_2 = TODO$.
+
+(Hacer cálculos matriciales)
+:::
+
 
 @reckase_discriminating_1991
 
