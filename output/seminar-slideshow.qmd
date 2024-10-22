@@ -265,6 +265,19 @@ A partir de las ecuaciones del AF y de TRI, es fácil ver que existe un paraleli
 Es posible transformar los parámetros de la métrica del AF a métrica de TRI y, de hecho, esto es necesario, y se hace así para hacer la estimación máximo-verosimil de la que hablábamos antes.
 :::
 
+## TRI Multidimensional: Parámetros multidimensionales
+
+<!--# TODO: Fórmula de modelo M2PL -->
+
+<!--# TODO: Fórmula del parámetro D_i -->
+
+> The distance can be interpreted much like a $b$ parameter from unidimensional IRT
+
+---@reckase_difficulty_1985
+
+::: notes
+A pesar de este paralelismo, y de estar clara la utilidad de los modelos de TRI, hay un problema con la formulación del modelo que os he planteado, y es que como habéis podido ver los parámetros no son fácilmente interpretables.
+:::
 
 @reckase_discriminating_1991
 
