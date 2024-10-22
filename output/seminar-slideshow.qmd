@@ -26,6 +26,8 @@ institute: |
       </td>
     </tr>
   </table>
+bibliography: ../www/Multidimensional-parameters-MCLM.bib
+csl:          ../www/apa-old-doi-prefix.csl
 date:        "2024-10-21"
 date-meta:   "2024-11-27"
 date-format: long
@@ -81,9 +83,6 @@ for (slide in af_tri_differences |> nrow() |> seq_len()) {
   af_tri_differences |> slice_head(n = slide) |> kable() |> print()
 }
 ```
-
-::: notes
-:::
 
 ## AF: Estructura simple
 
