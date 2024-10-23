@@ -269,11 +269,107 @@ Es posible transformar los parámetros de la métrica del AF a métrica de TRI y
 
 <!--# TODO: Fórmula de modelo M2PL -->
 
+@reckase_difficulty_1985:
+
+> \[...\] means of describing the characteristics of an item that takes into account the dimensionality of the skills \[...\] can then be used to determine how or if it is possible to compare items that measure different combinations of abilities.
+
+## Dificultad multidimensional
+
+> \[...\] the most reasonable point to use in defining the MID for an item in the multidimensional space is the point where the item is most discriminating.
+
+---(p. 402)
+
 <!--# TODO: Fórmula del parámetro D_i -->
 
 > The distance can be interpreted much like a $b$ parameter from unidimensional IRT
 
----@reckase_difficulty_1985
+---(p. 405)
+
+<!--# TODO: Representación de la curva de inflexión y la posición del ítem -->
+
+::: notes
+A pesar de este paralelismo, y de la utilidad de los modelos de TRI, hay un problema con la formulación del modelo que os he planteado, y es que como habéis podido ver los parámetros no son fácilmente interpretables.
+La intersección del modelo no tiene una interpretación clara, al contrario que el parámetro de posición en la TRI unidimensional, que permite comparar ítems entre sí en cuanto a su dificultad.
+
+Esto en AF no es muy habitual (prestamos poca atención a la "intersección" o "umbral"), porque no nos interesa tanto cómo de probable sea dar una respuesta positiva o negativa a un ítem, pero podría ayudarnos por ejemplo a diagnosticar ítems que estén mal diseñados, ya que nos da una idea de si va a haber muchas o pocas respuestas positivas a un ítem.
+
+Por ese motivo Reckase propone en 1985 obtener un parámetro de "dificultad" (lo llama, para nosotro sería de posición) que permita comparar ítems, y que sea de algún modo equivalente a la dificultad en el modelo unidimensional.
+Ese punto es donde la curva (superficie) de probabilidad de respuesta tiene una inflexión (a lo largo de toda ella, el punto más cercano al origen, donde la recta que lo une al origen es perpendicular a la recta de inflexión de la curva).
+
+Este parámetro se puede entender como una "distancia con signo" desde el origen hasta el punto de posición del ítem.
+:::
+
+## Dificultad multidimensional
+
+<!--# TODO: Fórmula de los cosenos directores -->
+
+<!--# TODO: Representación gráfica de los cosenos directores? -->
+
+<!--# TODO: Conjunto del MID -->
+
+::: notes
+Para representar ese punto no basta con la "distancia (con signo)"; hace falta saber en qué dirección mide ese ítem también.
+Eso viene dado por los llamados "cosenos directores".
+
+Por lo tanto, la "dificultad (posición) multidimensional" viene dada por dos elementos, un vector de cosenos que determina la dirección en la que mide un ítem, y un número entero que representa cuánto se desplaza respecto del origen, y en qué sentido, la recta de inflexión del ítem.
+Así se puede interpretar un ítem, o varios, de manera relativamente sencilla: Todos los participantes cuyas coordenadas estén en la "recta de inflexión" (la recta que pasa por la posición del ítem, perpendicular a su dirección) tendrán una probabilidad de dar una respuesta positiva y negativa de .5 (dificultad media; igual probabilidad de acertar o fallar).
+Aquellos que estén pasada la recta, encontrarán el ítem "relativamente fácil" (tendrán una alta probabilidad de dar una respuesta positiva mayor a .5; lo encontrarán "más fácil que difícil").
+Lo contrario pasa para los que estén al otro lado de esa recta, tendrán más probabilidad de responder negativamente (mal), por lo que lo encontrarán difícil.
+
+De lo que este parámetro no informa es de "cómo de fácil o difícil" va a ser el ítem para aquellos participantes que están muy cerca o muy lejos de esta recta.
+Es decir, una vez estoy pasada la recta, aunque esté cerca, ¿es el ítem muy fácil, o más bien tengo que estar "muy lejos" (tener alta puntuación en uno u otro rasgo) para que sea más probable que de una respuesta positiva?
+:::
+
+## Discriminación multidimensional
+
+@reckase_discriminating_1991:
+
+> the discriminating power of an item indicates how quickly the transition takes place from low probability to high probability of a correct response.
+> \[...\] A highly discriminating item divides the regions clearly-having a narrow region of ambiguity, that is, a region where the probabilities are intermediate in magnitude.
+
+<!-- # TODO: Superficies de ítems con alta y baja discriminación -->
+
+::: notes
+Esta característica viene representada por el parámetro de "discriminación", que es una medida de la "calidad general" de un ítem.
+Los ítems "buenos" serán muy discriminativos, lo que indica que distinguen bien entre la gente que tiene nivel de rasgo alto o bajo, mientras que los "malos" tendrán una superficie de respuesta más "plana".
+
+La discriminación se puede entender con una especie de "dardo" que atraviesa de arriba abajo esa superficie perpendicularmente por esa "recta de inflexión" de la que hablábamos antes, y luego cruza el plano origen.
+Si la superficie es "totalmente plana" el dardo entra por un punto y sale por otro que está justo debajo, en las mismas coordenadas de rasgo latente.
+La "proyección" (si ponemos un foco justo encima, la sombra que forma en el plano) es un punto.
+Es decir, la "discriminación" es cero (el vector del ítem tiene longitud "cero").
+Si la pendiente es muy pronunciada (distingue bien entre niveles de rasgo) el dardo atravesará el plano origen muy lejos.
+La sombra será muy larga (es decir, la discriminación muy alta).
+El caso "extremo" es una superficie "vertical" en la recta de inflexión (un escalón; cosa imposible en ítems reales).
+En este caso, el dardo nunca cortaría al plano origen, y la discriminación sería infinita.
+:::
+
+## Parámetros multidimensionales
+
+@reckase_discriminating_1991:
+
+<!-- # TODO: Fórmula de MDISC -->
+
+<!-- # TODO: Gráfico del cálculo de MDISC como teorema de Pitágoras -->
+
+<!-- # TODO: Fórmula de dificultad con MDISC -->
+
+::: notes
+@reckase_discriminating_1991 hacen la deducción de la discriminación multidimensional, y resulta dar lugar a esta fórmula.
+Como veis es simplemente la "longitud" del vector de parámetros de discriminación, resultante simplemente de aplicar el teorema de Pitágoras.
+El vector es un triángulo rectángulo, $a_1$ sería un cateto, el otro cateto sería igual a $a_2$, y la hipotenusa es la longitud (las dos discriminaciones al cuadrado, sumadas, y luego la raíz cuadrada de eso).
+Esto por cierto también vale para cualquier número de dimensiones.
+Aquí estamos representando sólo 2 porque es más fácil, pero podemos calcular la suma de cuadrados estos parámetros de discriminación (sea cual sea su número), y calcular su raíz cuadrada, y eso nos daría igualmente la discriminación multidimensional (la longitud de ese vector de $a$ del ítem).
+:::
+
+## Representación gráfica
+
+@ackerman_graphical_1996:
+
+::: notes
+La propuesta de representación gráfica completa (y consistente) no llega hasta 1996.
+Ackerman propone que el ítem se represente como un vector de longitud dada por la discriminación multidimensional, aplicado en la posición del ítem (y en la dirección dada por esa posición; es decir, todos los ítems "apuntan" siempre en la dirección que pasa por el origen).
+:::
+
 
 ---@reckase_discriminating_1991
 
