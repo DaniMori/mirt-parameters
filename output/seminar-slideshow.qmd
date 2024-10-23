@@ -359,6 +359,12 @@ Como veis es simplemente la "longitud" del vector de parámetros de discriminaci
 El vector es un triángulo rectángulo, $a_1$ sería un cateto, el otro cateto sería igual a $a_2$, y la hipotenusa es la longitud (las dos discriminaciones al cuadrado, sumadas, y luego la raíz cuadrada de eso).
 Esto por cierto también vale para cualquier número de dimensiones.
 Aquí estamos representando sólo 2 porque es más fácil, pero podemos calcular la suma de cuadrados estos parámetros de discriminación (sea cual sea su número), y calcular su raíz cuadrada, y eso nos daría igualmente la discriminación multidimensional (la longitud de ese vector de $a$ del ítem).
+
+Esto es en realidad el producto escalar (o producto punto) de un vector consigo mismo, que consiste en multiplicar una a una las componentes y sumarlos todos.
+En forma matricial se representaría como el vector pre-multiplicado por sí mismo.
+<!-- # TODO: Explicar la multiplicación vectorial (y poner ejemplo?) -->
+
+Esta expresión de la discriminación multidimensional se puede usar para expresar de manera más sencilla la dificultad.
 :::
 
 ## Representación gráfica
@@ -370,7 +376,7 @@ La propuesta de representación gráfica completa (y consistente) no llega hasta
 Ackerman propone que el ítem se represente como un vector de longitud dada por la discriminación multidimensional, aplicado en la posición del ítem (y en la dirección dada por esa posición; es decir, todos los ítems "apuntan" siempre en la dirección que pasa por el origen).
 :::
 
-## Parámetros multidimensionales: Supuestos
+## Supuestos: Monotonía creciente
 
 > the probability of answering an item correctly increases monotonically with an increase in each dimension being measured
 
@@ -410,6 +416,28 @@ La representación de estos ítems sería como se muestra en este gráfico.
 <!-- # TODO: Descripción de los ítems representados -->
 :::
 
+## Ítems "inversos" en la literatura
+
+> the negative relation of Item 15 with geometry achievement is particularly puzzling
+
+---@mcdonald_basis_2000 [p. 109]
+
+> This result occurs because $a_1$ for the item is negative, and thus as an examinee's $\theta_1$ ability increases, the chance of answering the item correctly actually decreases.
+
+---@ackerman_multidimensional_2005-1 [p. 17]
+
+### Generalización: "Monotonía constante"
+
+::: notes
+Esta generalización es bastante evidente, y se puede aplicar sin problema a ítems no cognitivos.
+Sin embargo, hay que tener en cuenta que Reckase explicitaba como condición que los ítems tenían que ser "monotonamente crecientes".
+Pero en la literatura nos encontramos casos como estos, que no lo son, y a los autores no se les ocurre decir que "hay que generalizar esas definiciones".
+Más bien, hacen comentarios como estos, restándole importancia al hecho de que los parámetros de discriminación sean negativos ("particularmente misterioso"), o afirmando lo obvio (el parámetro de discriminación del ítem es negativo para una dimensión, por lo que la probabilidad de respuesta correcta disminuye al incrementarse su habilidad)
+
+En lugar de eso, proponemos que los supuestos de Reckase se "relajen" para considerar ítems con probabilidad "con monotonía constante" (es decir, que no tengan un "pico" u óptimo de rasgo latente para dar una respuesta positiva y luego decrezca), sino que cuanto más extremo sea el nivel de rasgo, más extrema es también la probabilidad (positiva o negativa).
+Este caso general incluye también la probabilidad constante (ya que es monotonía "nula constante", es decir, "el cambio es nulo de manera constante").
+Este tipo de ítems, positivos, negativos, o nulos, se pueden acomodar y modelar fácilmente por un modelo como el logístico de 2 parámetros multidimensional, como hemos visto.
+Ítems que estarían excluidos, por no tener monotonía constante, podrían ser formulaciones como, por ejemplo, "Soy tan extrovertido como la mayoría de mis amigos" (alguien puede decir, "No, soy más introvertido que todos ellos", respuesta negativa con rasgo bajo, o "Qué va, soy el más extrovertido con diferencia", respuesta negativa con rasgo alto).
 
 ::: notes
 A pesar de este paralelismo, y de estar clara la utilidad de los modelos de TRI, hay un problema con la formulación del modelo que os he planteado, y es que como habéis podido ver los parámetros no son fácilmente interpretables.
