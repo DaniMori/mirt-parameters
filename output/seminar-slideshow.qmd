@@ -616,4 +616,17 @@ Como podéis ver, la distribución tiende a "achatarse" aún más, en lugar de h
 El sistema de coordenadas correcto es el tercero, que "compensa" de alguna manera el achatamiento de la nube de puntos, de forma que las coordenadas transformadas que nos quedan (en los ejes ortogonales), los "normales" del gráfico) tienen una distribución "esférica" (con matriz de correlaciones "identidad")
 :::
 
+## Generalización: Coordenadas oblicuas
+
+<!-- # TODO: Fórmula del modelo en coordenadas "transformadas" y equivalencia -->
+
+<!-- # TODO: Expresión de la transformación de la discriminación a coordenadas rectangulares -->
+
+::: notes
+Lo que ocurre es que el espacio en el que se encuentran estas coordenadas de rasgo latente es diferente del espacio en el que se encuentran los ítems.
+Para que el modelo tenga una probabilidad "invariante", los ítems tamibén tienen que transformarse a un sistema de coordenadas ortogonal.
+Pero podemos ver que su matriz de transformación no es la misma que la de las puntuaciones de rasgo latente.
+Es su inversa (inversa traspuesta, más concretamente)
+:::
+
 ## References {.smaller}
