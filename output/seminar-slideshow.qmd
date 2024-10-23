@@ -438,6 +438,85 @@ En lugar de eso, proponemos que los supuestos de Reckase se "relajen" para consi
 Este caso general incluye también la probabilidad constante (ya que es monotonía "nula constante", es decir, "el cambio es nulo de manera constante").
 Este tipo de ítems, positivos, negativos, o nulos, se pueden acomodar y modelar fácilmente por un modelo como el logístico de 2 parámetros multidimensional, como hemos visto.
 Ítems que estarían excluidos, por no tener monotonía constante, podrían ser formulaciones como, por ejemplo, "Soy tan extrovertido como la mayoría de mis amigos" (alguien puede decir, "No, soy más introvertido que todos ellos", respuesta negativa con rasgo bajo, o "Qué va, soy el más extrovertido con diferencia", respuesta negativa con rasgo alto).
+:::
+
+## Supuestos: Ortogonalidad
+
+> before performing the differentiation, the constraint that <!-- # TODO: Sum of cosines^2 = 1 --> is added to the expression for the slope \[...\]
+
+---@reckase_difficulty_1985 [p. 404]
+
+<!-- # TODO: Ejemplo de rotación oblicua con los ejes resultantes oblicuos -->
+
+<!-- # TODO: Coordenadas rectangulares resultantes de una rotación oblicua -->
+
+::: notes
+Otro de los supuestos que hace Reckase originalmente para calcular los parámetros es este: Los cosenos al cuadrado suman 1.
+Es decir, está aplicando el teorema de Pitágoras, pero ello implica de manera implícita que los ejes del espacio latente son "ortogonales" (forman ángulos de 90 grados).
+
+Esto en TRI multidimensional originalmente tenía sentido, ya que no se tenía muy en cuenta la interpretación de los parámetros de rasgo latente.
+O bien no importaba mucho que los ejes se pudieran interpretar como rasgos latentes, o se interpretaban de manera no necesariamente muy precisa.
+
+No obstante, en 1999 llega McDonald, y dice que la TRI y el AF son fundamentalmente la misma cosa.
+Pero en AF tenemos dimensiones correlacionadas la mayoría de las veces, y eso como hemos visto implica hacer rotaciones oblicuas que dan lugar a ejes no ortogonales.
+
+Los pesos factoriales resultantes (o discriminaciones) los podemos representar sin ningún problema en coordenadas rectangulares (las llamadas "coordenadas Cartesianas").
+Pero algo parece fallar cuando generalizamos los parámetros multidimensionales de TRI que hemos mostrado antes a esos espacios de coordenadas no ortogonales.
+Si rotamos los ejes de coordenadas, pero los ítems siguen siendo los mismos, es de esperar que la "longitud" del vector de ese ítem (i.e. su discriminación), no cambie (esta propiedad se llama invarianza).
+Veámoslo con un ejemplo.
+:::
+
+## Supuestos: Ortogonalidad
+
+<!-- # TODO: Ejemplo de item en coordenadas ortogonales (gráfico y vectorial) -->
+
+<!-- # TODO: Ejemplo de rotación oblicua (gráfico de ejes y matriz de rotación) -->
+
+::: notes
+Supongamos este ítem, en coordenadas ortogonales.
+El vector muestra sus parámetros de discriminación en las dos dimensiones de los ejes representados.
+Esto sería la "solución sin rotar" que resulta típicamente de ajustar un modelo de TRI multdimensional, o un AFE exploratorio.
+La discriminación multidimensional de este vector es (explicar paso a paso).
+
+Supongamos que aplicamos una rotación oblicua.
+Hemos identificado dos rasgos latentes sustantivos, correlacionados entre sí.
+Los ejes resultantes son los que se muestran en este gráfico.
+Los nuevos parámetros de discriminación del ítem están representadas cada una por la "proyección" de ese vector sobre cada uno de los ejes (paralela al otro, u otros, si hay más de dos).
+:::
+
+## Supuestos: Ortogonalidad
+
+<!-- # TODO: Ejemplo de item en coordenadas ortogonales (gráfico y vectorial) -->
+
+<!-- # TODO: Ejemplo de item proyectado en los ejes rotados (gráfico y vectorial) -->
+
+<!-- # TODO: Cálculo de la discriminación en los ejes rotados -->
+
+::: notes
+Hacer una rotación supone "multiplicar" las coordenadas de este vector por la matriz de rotación que representa ese nuevo sistema de coordenadas (la transformación del ortogonal a este nuevo, oblicuo).
+En este caso, esta es la matriza de rotación.
+Como los vectores se representan en columnas, se "pre-multiplica" por la matriz de rotación.
+Esto es parecido a multiplicar por un vector; es como si cada fila de la matriz fuese un vector, y los resultados se ponen cada uno en una fila.
+<!-- # TODO: Explicar paso a paso el producto matricial -->
+
+Si ahora calculamos la discriminación del ítem en estos ejes rotados, nos encontramos con este resultado.
+Es decir, ¿que el ítem discrimina mejor o peor en función de qué ejes quiera yo considerar?
+Eso no parece tener sentido, y sin embargo hay muchos ejemplos en la literatura que calculan esta discriminación multidimensional con la fórmula de Reckase (con "rasgos correlacionados") sin preocuparse por "los ejes" que representan esos rasgos de manera fidedigna.
+<!-- # TODO: Ejemplos de la literatura -->
+:::
+
+## Supuestos: Ortogonalidad
+
+> It has been suggested by some researchers that the angle between the axes represents the degree of correlation.
+> However, for sake of clarity, an orthogonal axes system is used in which distance measures and vectors can be easily calculated, understood, and interpreted.
+
+---@ackerman_multidimensional_2005-1 [p. 16]
+
+### Generalización: "Coordenadas oblicuas"
+
+::: notes
+Para la representación gráfica esto puede valer, como dice Ackerman aquí.
+Pero a la hora de calcular los parámetros (y Ackerman lo hace en este capítulo de libro), solamente considerar el caso ortogonal, la información que obtenemos resulta deficiente.
 
 ::: notes
 A pesar de este paralelismo, y de estar clara la utilidad de los modelos de TRI, hay un problema con la formulación del modelo que os he planteado, y es que como habéis podido ver los parámetros no son fácilmente interpretables.
