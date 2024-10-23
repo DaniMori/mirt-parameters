@@ -554,6 +554,66 @@ Lo que podemos hacer es aplicar una "transformación" a los rasgos latentes de f
 Esto es una transformación de las coordenadas, como la que aplicamos antes para calcular las coordenadas del ítem tras aplicar la rotación oblicua, pero aplicada en este caso al vector de rasgo latente.
 
 Estas nuevas coordenadas (transformadas), que ahora están en un espacio ortogonal, queremos que representen una distribución en la que las correlaciones sean nulas, es decir, que la matriz de correlaciones transformada ($R^B$) sea una matriz identidad (unos en la diagonal, ceros en el resto).
+Pero hay que tener en cuenta que esto es un "artefacto matemático".
+Estamos haciendo esto por conveniencia, pero las coordenadas que realmente nos interesan como investigadores, porque son las que verdaderamente representan algo que nos interesa investigar, son esas coordenadas originales, que pueden representar cualquier fenómeno que sea de nuestro interés (rasgos de personalidad, síntomas, actitudes, inteligencia, conocimientos... lo que estemos investigando).
+:::
+
+## Generalización: Coordenadas oblicuas
+
+<!-- # TODO: Ejemplo de \theta (expresión) y coordenadas en espacio oblicuo -->
+
+::: notes
+Mientras tanto, las coordenadas de los "rasgos latentes" originales se van a representar en otros ejes, en general distintos de los "ejes ortogonales" transformados.
+Esto lo que significa es que las puntuaciones de rasgo latente originales van a representar la posición de un participante respecto de esos ejes originales.
+Por ejemplo, en este caso, si el participante tiene un "vector de puntuaciones" \[1, 2\], para representar sus coordenadas tenemos que desplazarnos, primero una unidad en el primer eje, y luego dos unidades en el segundo eje.
+:::
+
+## Generalización: Coordenadas oblicuas
+
+<!-- # TODO: Matriz de correlaciones con correlación muy alta -->
+
+<!-- # TODO: Opciones de elección de bases oblicuas: rectangular, ejes muy alineados, ejes correctos -->
+
+::: notes
+En base a lo planteado anteriormente, me gustaría hacer una prueba con vosotras y vosotros.
+Supongamos una distribución bivariada de rasgos latentes, con una correlación de .8, bastante alta. ¿Cuál de los siguientes sistemas de coordenadas consideráis que representaría adecuadamente los ejes de una distribución bivariada, de forma que al transformarlos a coordenadas rectangulares obtuviésemos una distribución con correlación de 0?
+:::
+
+## Generalización: Coordenadas oblicuas
+
+<!-- # TODO: Matriz de correlaciones con correlación muy alta -->
+
+<!-- # TODO: Distribución en ejes rectangulares -->
+
+::: notes
+El primero ya sabemos que no, de acuerdo, puesto que es la representación habitual, y sabemos que la nube que forma está "achatada".
+No se aplica ninguna transformación (la transformación es una matriz identidad), ya que los que serían los ejes originales y los transformados son los mismos.
+:::
+
+## Generalización: Coordenadas oblicuas
+
+<!-- # TODO: Matriz de correlaciones con correlación muy alta -->
+
+<!-- # TODO: Animación de distribución en ejes rectangulares a ejes alineados -->
+
+::: notes
+Si pensáis igual que yo, habréis elegido el segundo, porque el coseno del ángulo entre los ejes representa la correlación entre las dimensiones.
+Por lo tanto, ejes muy alineados representan una correlación muy alta.
+
+Sin embargo, fijáos lo que ocurre cuando "transformamos" las coordenadas de los puntos de nuestra distribución a ese sistema de coordenadas.
+Como podéis ver, la distribución tiende a "achatarse" aún más, en lugar de hacerse más "esférica".
+:::
+
+## Generalización: Coordenadas oblicuas
+
+<!-- # TODO: Matriz de correlaciones con correlación muy alta -->
+
+<!-- # TODO: Animación de distribución en ejes rectangulares a ejes correctos -->
+
+<!-- # TODO: Matriz de correlaciones transformada "identidad" -->
+
+::: notes
+El sistema de coordenadas correcto es el tercero, que "compensa" de alguna manera el achatamiento de la nube de puntos, de forma que las coordenadas transformadas que nos quedan (en los ejes ortogonales), los "normales" del gráfico) tienen una distribución "esférica" (con matriz de correlaciones "identidad")
 :::
 
 ## References {.smaller}
