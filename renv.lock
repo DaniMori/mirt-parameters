@@ -594,33 +594,17 @@
     },
     "assertive.extra": {
       "Package": "assertive.extra",
-      "Version": "0.0.0.9007",
+      "Version": "0.0.0.9008",
       "Source": "GitHub",
       "RemoteType": "github",
       "RemoteHost": "api.github.com",
       "RemoteRepo": "assertive_extra",
-      "RemoteUsername": "CCOMS-UAM",
-      "RemoteRef": "HEAD",
-      "RemoteSha": "c8a3b9ba78550d003c0385213daa819af7fd6579",
-      "Requirements": [
-        "R",
-        "assertive",
-        "psych"
-      ],
-      "Hash": "85b4da7578c1997f37e2c86a5ab2325f"
-    },
-    "assertive.files": {
-      "Package": "assertive.files",
-      "Version": "0.0-2",
-      "Source": "Repository",
-      "Repository": "RSPM",
+      "RemoteUsername": "DaniMori",
+      "RemotePkgRef": "DaniMori/assertive_extra",
+      "RemoteSha": "1d601ae04627ffbaf9d4b5acb2b875440a913741",
       "Requirements": [
         "R",
         "assertive.base",
-        "assertive.numbers"
-      ],
-      "Hash": "946a8b6f9951bc8e4931eb5b892ae56e"
-    },
     "assertive.matrices": {
       "Package": "assertive.matrices",
       "Version": "0.0-2",
@@ -632,17 +616,10 @@
       ],
       "Hash": "04e0d9bb4e0a89a632c2e89b6e681a95"
     },
-    "assertive.models": {
-      "Package": "assertive.models",
-      "Version": "0.0-2",
-      "Source": "Repository",
-      "Repository": "RSPM",
-      "Requirements": [
-        "R",
-        "assertive.base",
-        "stats"
+        "assertive.numbers",
+        "psych"
       ],
-      "Hash": "0039faf687147d63758ad0126a0f917c"
+      "Hash": "f8fec9fa437f6a563e48c5ccb353ed7e"
     },
     "assertive.numbers": {
       "Package": "assertive.numbers",
