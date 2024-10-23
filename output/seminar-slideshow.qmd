@@ -517,9 +517,45 @@ Eso no parece tener sentido, y sin embargo hay muchos ejemplos en la literatura 
 ::: notes
 Para la representación gráfica esto puede valer, como dice Ackerman aquí.
 Pero a la hora de calcular los parámetros (y Ackerman lo hace en este capítulo de libro), solamente considerar el caso ortogonal, la información que obtenemos resulta deficiente.
+:::
+
+## Generalización: Coordenadas oblicuas
+
+> before performing the differentiation, the constraint that <!-- # TODO: Sum of cosines^2 = 1 --> is added to the expression for the slope \[...\]
+
+---@reckase_difficulty_1985 [p. 404]
+
+<!-- # TODO: Expresión de las \thetas transformadas -->
+
+<!-- # TODO: Distribución de \thetas en ejes ortogonales -->
 
 ::: notes
-A pesar de este paralelismo, y de estar clara la utilidad de los modelos de TRI, hay un problema con la formulación del modelo que os he planteado, y es que como habéis podido ver los parámetros no son fácilmente interpretables.
+Hacer esta generalización no es algo tan directo como ocurría con la probabilidad "monótonamente decreciente".
+Si os acordáis, Reckase aplicaba esta restricción de que la suma de cosenos directores era 1 (que se deriva del teorema de Pitágoras).
+Pero para aplicarla hace falta asumir que esos cosenos directores son todos ortogonales entre sí.
+Si no tenemos ángulos rectos, esa condición no se cumple.
+
+Y lo que nosotros estamos asumiendo que tenemos una distribución de vectores de rasgo latente ($\theta$) con una matriz de correlaciones ($R$, la que sea).
+Normalmente la representamos en coordenadas rectangulares (ejes ortogonales).
+
+, que están representados en un espacio no ortogonal (aquí también hablaría de "unidades no estandarizadas", es decir, que la distancia entre el o y el 1 pueda ser distinta de la base estándar, pero digamos solamente "no ortogonal" por simplificar).
+
+¿Cómo podríamos solucionar esto?
+Lo que podemos hacer es aplicar una "transformación" a los rasgos latentes de forma que pasemos de este espacio oblicuo (el que sea, aún no sabemos cuál es) a un espacio ortogonal.
+:::
+
+## Generalización: Coordenadas oblicuas
+
+<!-- # TODO: Expresión de las \thetas transformadas -->
+
+<!-- # TODO: Expresión de la R transformada -->
+
+<!-- # TODO: Distribución (esférica) de las \thetas transformadas -->
+
+::: notes
+Esto es una transformación de las coordenadas, como la que aplicamos antes para calcular las coordenadas del ítem tras aplicar la rotación oblicua, pero aplicada en este caso al vector de rasgo latente.
+
+Estas nuevas coordenadas (transformadas), que ahora están en un espacio ortogonal, queremos que representen una distribución en la que las correlaciones sean nulas, es decir, que la matriz de correlaciones transformada ($R^B$) sea una matriz identidad (unos en la diagonal, ceros en el resto).
 :::
 
 ## References {.smaller}
