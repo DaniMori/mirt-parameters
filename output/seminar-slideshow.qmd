@@ -38,8 +38,8 @@ editor:
     canonical: true
 lang:          es
 knitr:
-  opts_knit: 
-    root_dir:  here::here()
+  # opts_knit: # Does not work 
+  #   root_dir:  here::here()
   opts_chunk: 
     results:   asis
 format:
@@ -76,8 +76,9 @@ library(lavaan)
 library(semPlot)
 ```
 
-```{r souces}
-source("../R/Output.R", encoding = 'UTF-8')
+```{r setup}
+#| include: false
+opts_knit$set(root.dir = here::here()) # See lines 41-42
 ```
 
 ```{r color-palettes}
@@ -120,10 +121,17 @@ PALETTE_RASPBERRY <- c(
 ```
 
 ```{r read-chunks}
-read_chunk("../src/Graphical_example_paper.R")
+read_chunk("src/Graphical_example_paper.R")
+```
+
+```{r sources}
 ```
 
 ```{r constants}
+```
+
+```{r set-font}
+GRAPH_FONT <- "arial" # Substitute default font to comply with UNED identity
 ```
 
 ```{r graphical-output-conf}

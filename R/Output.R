@@ -55,7 +55,7 @@ format_prop_like <- function(values, sig = 3, drop_0 = TRUE) {
     round(digits = sig) |>
     format(digits = sig, nsmall = sig)
   
-  if (drop_0) result <- result |> str_remove(LEADING_ZERO_PATTERN)
+  if (drop_0) result <- result |> stringr::str_remove(LEADING_ZERO_PATTERN)
   
   result
 }
