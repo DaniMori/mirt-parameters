@@ -505,13 +505,6 @@ Eso no parece tener sentido, y sin embargo hay muchos ejemplos en la literatura 
 <!-- # TODO: Ejemplos de la literatura -->
 :::
 
-## Supuestos: Ortogonalidad
-
-> It has been suggested by some researchers that the angle between the axes represents the degree of correlation.
-> However, for sake of clarity, an orthogonal axes system is used in which distance measures and vectors can be easily calculated, understood, and interpreted.
-
----@ackerman_multidimensional_2005-1 [p. 16]
-
 ### Generalización: "Coordenadas oblicuas"
 
 ::: notes
@@ -613,20 +606,139 @@ Como podéis ver, la distribución tiende a "achatarse" aún más, en lugar de h
 <!-- # TODO: Matriz de correlaciones transformada "identidad" -->
 
 ::: notes
-El sistema de coordenadas correcto es el tercero, que "compensa" de alguna manera el achatamiento de la nube de puntos, de forma que las coordenadas transformadas que nos quedan (en los ejes ortogonales), los "normales" del gráfico) tienen una distribución "esférica" (con matriz de correlaciones "identidad")
+El sistema de coordenadas correcto es el tercero, que "compensa" de alguna manera el achatamiento de la nube de puntos, de forma que las coordenadas transformadas que nos quedan (en los ejes ortogonales), los "normales" del gráfico) tienen una distribución "esférica" (con matriz de correlaciones "identidad").
+
+Esto, que visto así parece ya evidente, es algo que al menos a mí me ha llevado varias decenas (puede que "cientos") de horas entender, durante al menos dos años trabajando en este problema.
 :::
 
-## Generalización: Coordenadas oblicuas
+## Espacio latente vs. espacio test
+
+> It has been suggested by some researchers that the angle between the axes represents the degree of correlation.
+> However, for sake of clarity, an orthogonal axes system is used in which distance measures and vectors can be easily calculated, understood, and interpreted.
+
+---@ackerman_multidimensional_2005-1 [p. 16]
 
 <!-- # TODO: Fórmula del modelo en coordenadas "transformadas" y equivalencia -->
 
 <!-- # TODO: Expresión de la transformación de la discriminación a coordenadas rectangulares -->
 
 ::: notes
-Lo que ocurre es que el espacio en el que se encuentran estas coordenadas de rasgo latente es diferente del espacio en el que se encuentran los ítems.
-Para que el modelo tenga una probabilidad "invariante", los ítems tamibén tienen que transformarse a un sistema de coordenadas ortogonal.
+Viendo que en la literatura hay afirmaciones como esta, no me resulta totalmente descorazonador.
+Parece que no soy el único al que le ha supuesto un esfuerzo entenderlo (resultados de la "encuesta"?)
+
+Lo que ocurre en realidad, y esto es en realidad también un paralelismo con lo que ocurre en análisis factorial, es que para que el modelo sea invariante, los ítems también tienen que transformarse a un sistema de coordenadas ortogonal.
 Pero podemos ver que su matriz de transformación no es la misma que la de las puntuaciones de rasgo latente.
-Es su inversa (inversa traspuesta, más concretamente)
+Es su inversa (inversa traspuesta, más concretamente).
+
+Y esto nos ha permitido "descubrir" (o darnos cuenta, más bien) de que hay dos "espacios vectoriales" distintos, uno en el que se encuentran las coordenadas de las puntuaciones factoriales, y otro distinto, que es el espacio en el que se encuentran las coordenadas de los ítems, y que es donde en realidad hay que representarlos.
+:::
+
+## Espacio latente vs. espacio test
+
+> \[...\] the latent space should be regarded as a general Euclidean space with its *inner product* defined by <!-- # TODO: Inner product -->.
+
+---@zhang_theoretical_1999 [p. 221]
+
+<!-- #TODO: Ref. to Mahalanobis -->
+
+> \[...\] the *inner product* in \[the test space\] is consistently defined by <!-- # TODO: Inner product -->.
+
+---@zhang_theoretical_1999 [p. 221]
+
+::: notes
+Esto, curiosamente, aparece en la literatura como podéis ver; en el año 1999, en un artículo que no tiene nada que ver con esto.
+Lo menciona de soslayo y no profundiza en la deducción de los parámetros, como hemos hecho aquí.S olamente lo utiliza para resolver un problema "parcial" que se encuentra en la deducción de un índice de dimensionalidad, distinto de los parámetros de los que estamos hablando aquí.
+Pero podía haber obviado este problema y haber utilizado coordenadas ortogonales, sin importarle si había o no correlaciones entre los rasgos latentes, como ha hecho todo el mundo.
+
+Así que, todos mis respetos por estos autores.
+Sin embargo claro, ellos estaban hablando de otra cosa, y sólo tocaban este tema de paso.
+Así que al final eso se quedó ahí, y nadie ha hecho caso en 25 años a lo que dijeron Zhang y Stout.
+La gente ha usado los modelos, hecho simulaciones, etc., usando distribuciones correlacionadas, y ha usado las fórmulas de Reckase para transformar entre parámetros multidimensionales y los parámetros "lineales" (podríamos llamarlos, los de la formulación original) del modelo.
+:::
+
+## Parámetros multidimensionales generalizados
+
+<!-- # TODO: Fórmulas de los parámetros multidimensionales -->
+
+::: notes
+Si tenemos en cuenta las correlaciones (más generalmente, covarianzas) de la distribución de puntuaciones factoriales, lo que obtenemos son estas expresiones para los parámetros multidimensionales.
+
+Muy importante, la distancia con signo y la discriminación multidimensional son iguales, no importa en qué espacio queramos obtenerlas y representarlas.
+Pero los cosenos directores es necesario calcularlos en el espacio test, no en el espacio de puntuaciones latentes, como decía Reckase, porque este es el espacio que va a representar en realidad la relación entre las variables latentes.
+:::
+
+## Conclusiones
+
+Parámetros multidimensionales generalizados
+
+-   A ítems con monotonía constante
+
+-   A coordenadas oblicuas
+
+Distinción espacio latente - espacio test
+
+::: notes
+En conclusión, lo que hemos propuesto en este artículo consiste en una generalización:
+
+-   A ítems con monotonía constante, creciente, decreciente o nula.
+    Esto se venía haciendo ya como hemos visto, pero creemos que hacía falta formalizarlo.
+    No basta con hacerlo y punto, si Reckase dijo que las discriminaciones tiene que ser positivas, tenemos que demostrar que también vale para discriminaciones negativas o nulas (monotonía decreciente, o probabilidad constante).
+
+-   A coordenadas oblicuas, las cuales consideramos que son necesarias para representar distribuciones de puntuaciones de rasgo correlacionadas, en general.
+    Hemos visto que esto ya lo mencionaron Zhang y Stout, hace 25 años, pero no proporcionaron una "deducción" de estos parámetros multidimensionales, cosa que nosotros hacemos.
+
+Por último, es imortante recalcar este "descubrimiento" (o "redescubrimiento", más bien) del espacio test, ya que tenemos que ser muy conscientes de que los ítems y las personas están en espacios vectoriales distintos.
+Aunque esto parezca solamente un "artefacto matemático" (y en el fondo lo es), hemos visto que es verdaderamente crucial tenerlo en cuenta para entender bien los modelos que estamos utilizando.
+Además, esta "distinción" se halla también en los modelos factoriales: Existe lo que se denominan "ejes primarios" y "ejes de referencia", propuestos por Thurstone hace años (pero que prácticamente no se utilizan ni tienen en consideración).
+<!-- # TODO: Hace cuántos años? (Thurstone) --> Sin embargo, cuidado con esto, porque no está claro que esos espacios en TRI multidimensional se puedan asimilar directamente a los ejes en un modelo de AF.
+:::
+
+## To be continued...
+
+-   Paralelismo TRI multidimensional - AF
+
+-   Extensiones del modelo M2PL: Escala graduada, respuesta nominal, 3PL...
+
+-   Investigación en otros modelos
+
+::: notes
+Esta de hecho puede ser una futura línea de investigación.
+Puede parecer evidente el paralelismo (o al menos a mí me lo parece), pero si una cosa me ha enseñado el estar trabajando en este problema de los parámetros (y toparme con el problema de los dos espacios), es que no hay que fiarse de las apariencias.
+Por eso aplicamos el método científico (el método puramente deductivo, en este caso)
+
+El modelo multidimensional logístico de 2 parámetros se puede considerar como "anidado", o un caso más simple de varios modelos.
+Así que partiendo de este como base, lo interesante es aplicarlo a otros más complejos, pero más útiles en la práctica.
+Por cierto, que esto también lo hace mucha gente, aplica las fórmulas de Reckase a otros modelos y a correr, se quedan "tan anchos".
+
+El modelo de escala graduada, por ejemplo, sería el equivalente al modelo de AF para respuestas ordinales, con varios umbrales o "posiciones" en TRI.
+
+El de crédito parcial, por ejemplo, puede servir también para formatos con varias opciones de respuesta que miden o pesan en factores diferentes cada una de ella.
+
+El logístico de 3 parámetros es como el de 2, pero añadiendo un parámetro de pseudoazar, para modelar el que un participante acierte un ítem por pura suerte, respondiendo "a ciegas" (esto sólo valdría para ítems cognitivos).
+
+Estos modelos, que son "extensiones" de este más básico, deberían partir de estos parámetros como fundamento.
+Pero un investigador no debería dar los parámetros sin más de ese modelo, sin proporcionar una prueba formal de que se aplica esa fórmula y se cumplen los supuestos.
+:::
+
+## Últimas palabras
+
+<!-- # TODO: Imagen ilustrativa -->
+
+::: notes
+A este respecto, me gustaría terminar recalcando esto último que he mencionado, aplicado no sólo a cuestiones psicométricas, o de TRI.
+Cuando estaba empezando a preparar este seminario, una de mis inquietudes era la complejidad, tanto conceptual como formal de esta investigación.
+Compartiendo estas inquietudes con algunos compañeros, me aconsejaron utilizar digamos este discurso como excusa para lanzar este "mensaje" en general: La idea de que tenemos que ser muy precavidos a la hora de aplicar estos métodos, sean cuales sean (cuantitativos, cualitativos, o del tipo que sean) sin reflexionar sobre si son los más adecuados o no.
+Y bueno, a este respecto comentar que, no sólo yo, sino el departamento de Metodología al completo, hacemos una tipo de investigación que precisamente se encarga de eso, de intentar entender estos métodos, saber si son los más adecuados, y saber cuándo, cómo, y sobre todo, por qué, aplicarlos en la investigación aplicada (aplicada para nosotros, al menos).
+
+Así que bueno, ya lo sabéis, estamos disponibles en el departamento para colaborar en esas investigaciones, si lo consideráis oportuno, para aplicar los métodos más apropiados a los problemas de investigación que tengáis.
+En mi caso en concreto, no sólo puedo proporcionar cierto "expertise" psicométrico.
+También me dedico mucho a cuestiones de ciencia abierta y reproduciblidad, así que si queréis darle a vuestra investigación un giro en ese sentido, para hacerla más sostenible y alineada con los objetivos de los organismos financiadores (y si no queréis, deberíais ir queriendo), podéis contactar conmigo, y podemos plantear líneas de colaboración.
+Eso sí, me gustaría pediros, si necesitáis colaboración, no sólo metodológica, sino de cualquier tipo, por favor no nos llaméis cuando tengáis un lío de datos, y no sepáis bien cómo resolver la papeleta (no digo que sea vuestro caso, pero me he encontrado con muchos casos, que son verdaderas historias de terror).
+Contad por favor con nosotros desde el momento de escribir vuestro proyecto, para solicitar la financiación, porque es en ese punto en el que se pueden prevér problemas y anticiparse a ellos.
+Porque si una investigación no está bien diseñada desde el principio, teniendo en cuenta estos aspectos metodológicos, de reproducibilidad, etc., si tenemos mala suerte pueden surgir problemas que se puedan resolver sólo con muchísimo trabajo, o incluso que ya nunca se puedan resolver, y tengamos que tirar a la basura todo ese esfuerzo de investigación.
+
+Eso es todo, muchas gracias.
+Y espero vuestras preguntas y comentarios.
 :::
 
 ## References {.smaller}
