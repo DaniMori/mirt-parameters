@@ -51,6 +51,7 @@ format:
     df-print:                paged
     fig-cap-location:        bottom
     fig-format:              svg
+    fig-asp:                 1
     fig-height:              6
     fig-width:               6
     incremental:             false
@@ -82,6 +83,7 @@ library(semPlot)
 library(extrafont)
 library(tidyr)
 library(ggplot2)
+library(units)
 ```
 
 ```{r setup}
@@ -140,23 +142,21 @@ PALETTE_RASPBERRY <- c(
 read_chunk("src/Graphical_example_paper.R")
 ```
 
-```{r sources}
-#| cache: false
+```{r sources, cache=FALSE}
 ```
 
-```{r constants}
-#| cache: false
+```{r constants, cache=FALSE}
 ```
 
 ```{r replace-plot-params}
-GRAPH_FONT   <- "Arial" # Replace default font to comply with UNED identity
-FONT_SIZE    <- 24      # Replace default font size for slideshow
-AXIS_LAB_POS <-   .5    # Replace default axis label position for slideshow
-LINE_WIDTH   <-   .75   # Replace default line width for slideshow
+GRAPH_FONT   <- "Arial"    # Replace default font to comply with UNED identity
+FONT_SIZE    <- 24         # Replace default font size for slideshow
+AXIS_LAB_POS <-   .5       # Replace default axis label position for slideshow
+LINE_WIDTH   <-   .75      # Replace default line width for slideshow
+AXIS_COLOR   <- "darkgray" # Replace default grid line color for slideshow
 ```
 
-```{r graphical-output-conf}
-#| cache: false
+```{r graphical-output-conf, cache=FALSE}
 ```
 
 ::: notes
@@ -201,7 +201,7 @@ for (slide in af_tri_differences |> nrow() |> seq_len()) {
 
 ## AF: Estructura simple
 
-<!--# TODO: Ejemplos estructura simple vs. compleja: Path diagram vs. coordenadas -->
+<br>
 
 ```{r simple-complex-structure}
 ITEM_BASE_LOADING <- 1
@@ -286,11 +286,13 @@ axis_pos  <- (-LIM_INF) / lim_range
   
 item_colors <- item_colors |> setNames(c('F1' |> rep(3), 'F2' |> rep(3)))
 
-simple_item_loadings                                      |>
-  group_by(item)                                          |>
-  arrange(desc(loading))                                  |>
-  mutate(main_factor = first(factor))                     |>
-  pivot_wider(names_from = factor, values_from = loading) |>
+simple_item_loadings_wide <- simple_item_loadings |>
+  group_by(item)                                  |>
+  arrange(desc(loading))                          |>
+  mutate(main_factor = first(factor))             |>
+  pivot_wider(names_from = factor, values_from = loading)
+
+simple_item_loadings_wide |>
   ggplot(mapping = aes(F1, F2, color = main_factor, label = item)) +
   geom_point(size = I(4))                                          +
   geom_text(
@@ -332,20 +334,114 @@ simple_item_loadings                                      |>
 ::: notes
 Para darle más sentido al modelo factorial es común buscar la "estructura simple".
 Es decir, asumimos que la varianza de cada ítem está explicada solamente por un factor latente.
-Los pesos factoriales en los demás factores son nulos.
+Los pesos factoriales de un ítem en los demás factores son nulos.
 
 Si representamos los pesos factoriales como coordenadas, el ítem estará alineado con el eje correspondiente al factor en el que pesa.
 :::
 
 ## AF: Estructura simple
 
-<!--# TODO: Ejemplo mostrando solución factorial sin rotar y ejes tras rotación oblicua? -->
+::: r-center
+```{r simple-structure-rotated}
+#| fig-align:  center
+#| fig-height: 8
+#| fig-width:  8
+
+AXIS1_DEGREES <- -25
+AXIS2_DEGREES <-  30
+
+axis1_radians <- AXIS1_DEGREES |> as_units("degrees") |> set_units("radians")
+axis2_radians <- AXIS2_DEGREES |> as_units("degrees") |> set_units("radians")
+
+rot_matrix <- c(
+  cos(axis1_radians), cos(axis2_radians),
+  sin(axis1_radians), sin(axis2_radians)
+) |>
+  matrix(nrow = 2, byrow = TRUE)
+
+simple_item_loadings_rot <- simple_item_loadings |>
+  group_by(item) |>
+  mutate(
+    loading = rot_matrix %*% loading |> drop()
+  ) |>
+  left_join(simple_item_loadings_wide |> select(item, main_factor), by = "item")
+  
+simple_item_loadings_rot_plot <- simple_item_loadings_rot |>
+  group_by(item)                                          |>
+  pivot_wider(names_from = factor, values_from = loading) |>
+  ggplot(mapping = aes(F1, F2, color = main_factor, label = item)) +
+  geom_point(size = I(4))                                          +
+  geom_text(
+    nudge_x = -.12,
+    # nudge_y = -.08,
+    color   = I("black"),
+    size    = I(5)
+  )                                                                +
+  scale_x_continuous(
+    limits = axis_lims,
+    breaks = 0,
+    labels = NULL,
+    name   = "",
+  )                                                                +
+  scale_y_continuous(
+    limits = axis_lims,
+    breaks = 0,
+    labels = NULL,
+    name   = ""
+  )                                                                +
+  scale_color_manual(values = factor_colors, guide = NULL)         +
+  coord_fixed(expand = FALSE, clip = "on")                         +
+  theme(
+    axis.line          = element_blank(),
+    axis.ticks         = element_blank(),
+    axis.title.x       = element_text(hjust = axis_pos),
+    axis.title.y       = element_text(vjust = axis_pos),
+    panel.grid.major   = element_line(
+      color     = "black",
+      linewidth = LINE_WIDTH
+    )
+  )
+
+simple_item_loadings_rot_plot
+```
+:::
 
 ::: notes
-Para obtener esa estructura simple, muchas veces necesitamos usar una rotación oblicua.
+Ahora bien, la mayoría de procedimientos factoriales, exploratorios al menos, arrojan soluciones de este tipo: un primer factor que maximiza toda la varianza posible, el segundo (ortogonal al primeroo) maximiza la varianza restante, y si hay más, hacen lo mismo, dando ejes siempre ortogonales a los anteriores.
+:::
+
+## AF: Estructura simple
+
+::: r-center
+```{r simple-structure-rotated-axes}
+#| fig-align:  center
+#| fig-height: 8
+#| fig-width:  8
+
+rotated_axes <- tibble(
+  slope  = c(axis1_radians, axis2_radians) |> tan() |> drop_units(),
+  factor = c('F1', 'F2')
+)
+
+simple_item_loadings_rot_plot +
+  geom_abline(
+    data    = rotated_axes,
+    mapping = aes(slope = slope, intercept = 0, color = factor)
+  )
+```
+:::
+
+::: notes
+Para obtener esa estructura simple, muchas veces necesitamos usar una rotación oblicua de los ejes.
+Cualquier procedimiento de rotación busca alinearse lo más posible con al menos algunos de los ítems, como vemos aquí.
+Pero esto es una situación ideal.
+Nunca van a quedar, en un modelo exploratorio, los ítems perfectamente alineados con un eje, dando cero exacto en los pesos de los factores que no le corresponden.
+En un modelo confirmatorio sí, forzamos que sea así, pero a costa de perder ajuste claro (y normalmente permitiendo también que los factores correlacionen).
 :::
 
 ## AF: Estructura compleja
+
+<br>
 
 ::::: columns
 ::: column
