@@ -217,13 +217,19 @@ simple_item_loadings <- tribble(
   'I5',  'F2',    ITEM_BASE_LOADING + ITEM_DIST,
   'I6',  'F2',    ITEM_BASE_LOADING + 2 * ITEM_DIST
 )
-complex_item_loadings <- simple_item_loadings                                |>
-  bind_rows(tibble(item = 'I3', factor = 'F2', loading = ITEM_BASE_LOADING)) |>
-  complete(item, factor, fill = list(loading = 0))
+complex_item_loadings <- simple_item_loadings |> bind_rows(
+  tibble(
+    item    = 'I3',
+    factor  = 'F2',
+    loading = ITEM_BASE_LOADING - 2 * ITEM_DIST # Secondary loading smaller
+  )
+)
 
 simple_item_loadings <- simple_item_loadings |>
   complete(item, factor, fill = list(loading = 0))
 
+complex_item_loadings <- complex_item_loadings |>
+  complete(item, factor, fill = list(loading = 0))
 ```
 
 ::::: columns
