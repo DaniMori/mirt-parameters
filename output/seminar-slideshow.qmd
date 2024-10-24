@@ -66,6 +66,45 @@ format:
 library(tibble)
 library(dplyr, warn.conflicts = FALSE)
 library(knitr)
+```{r color-palettes}
+PALETTE_UNED <- c(
+  normal = "#00533e",
+  medium = "#427562",
+  light  = "#86a699",
+  white  = "#cddad5"
+)
+PALETTE_APPLE <- c(
+  normal = "#749f4c",
+  medium = "#8aac5d",
+  light  = "#a2bc7e",
+  white  = "#cddbb8"
+)
+PALETTE_BLUE <- c(
+  normal = "#5c6eb1",
+  medium = "#7683bd",
+  light  = "#929acb",
+  white  = "#d4d6eb"
+)
+PALETTE_TANGERINE <- c(
+  normal = "#d76f47",
+  medium = "#dd8964",
+  light  = "#e4a482",
+  white  = "#f0cfb9"
+)
+PALETTE_STRAWBERRY <- c(
+  normal = "#da5268",
+  medium = "#c87384",
+  light  = "#daa6b1",
+  white  = "#efdbdf"
+)
+PALETTE_RASPBERRY <- c(
+  normal = "#90214a",
+  medium = "#8e4d60",
+  light  = "#af848b",
+  white  = "#dac7c7"
+)
+```
+
 ```
 
 ::: notes
