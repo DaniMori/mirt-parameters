@@ -36,6 +36,7 @@ source("R/Constants.R",    encoding = 'UTF-8')
 GRAPH_FONT   <- "serif"
 FONT_SIZE    <- 12L # Base font size for graphics
 AXIS_LAB_POS <- 1   # Axis label position (right or upper extreme)
+AXIS_COLOR   <- "black"
 LINE_WIDTH   <- .1
 VECTOR_WIDTH <- .5
 # POINT_CHAR   <- 19L
@@ -74,7 +75,8 @@ theme_set( # `ggplot` output configuration
   ) %+replace%
     theme(
       axis.title.x = element_text(hjust = AXIS_LAB_POS),
-      axis.title.y = element_text(vjust = AXIS_LAB_POS, angle = 0)
+      axis.title.y = element_text(vjust = AXIS_LAB_POS, angle = 0),
+      panel.grid   = element_line(color = AXIS_COLOR)
     )
 )
 
