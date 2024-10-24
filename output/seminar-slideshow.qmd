@@ -193,6 +193,8 @@ for (slide in af_tri_differences |> nrow() |> seq_len()) {
   
   cat( "\n", section_title, sep = '')
   
+  cat( "\n", "<br>", sep = '')
+  
   af_tri_differences |> slice_head(n = slide) |> kable() |> print()
 }
 ```
@@ -205,6 +207,7 @@ for (slide in af_tri_differences |> nrow() |> seq_len()) {
 ITEM_BASE_LOADING <- 1
 ITEM_DIST         <- 0.2
 
+# Generate data for simple and complex factorial structures
 simple_item_loadings <- tribble(
   ~item, ~factor, ~loading,
   'I1',  'F1',    ITEM_BASE_LOADING,
@@ -221,6 +224,11 @@ complex_item_loadings <- simple_item_loadings                                |>
 simple_item_loadings <- simple_item_loadings |>
   complete(item, factor, fill = list(loading = 0))
 
+```
+
+::::: columns
+::: column
+```{r path-simple-structure}
 # TODO: Syntax from tibble
 simple_spec <- "
   F1 =~ I1 + I2 + I3
@@ -228,49 +236,98 @@ simple_spec <- "
   
   F1 ~~ F2
 "
-complex_spec <- "
-  F1 =~ I1 + I2 + I3
-  F2 =~ I3 + I4 + I5 + I6
-  
-  F1 ~~ F2
-"
+
+F1_COLOR <- PALETTE_BLUE["normal"]
+F2_COLOR <- PALETTE_RASPBERRY["normal"]
+
+item_colors   <- c(F1_COLOR |> rep(3), F2_COLOR |> rep(3))
+factor_colors <- c('F1' = unname(F1_COLOR), 'F2' = unname(F2_COLOR))
 
 simple_spec      |>
   semPlotModel() |>
   semPaths(
-    edge.color     = "black",
-    residuals      = FALSE,
-    thresholds     = FALSE,
-    intercepts     = FALSE,
-    fixedStyle     = 1,
-    whatLabels     = "std"
-  )
-
-simple_item_loadings |>
-  pivot_wider(names_from = factor, values_from = loading) |>
-  ggplot(mapping = aes(F1, F2)) +
-  geom_point(size = I(4))
-
-complex_spec     |>
-  semPlotModel() |>
-  semPaths(
-    edge.color     = c(
-      "black" |> rep(3),
-      PALETTE_RASPBERRY["normal"], # cross-loading
-      "black" |> rep(3)
+    border.color = c(
+      item_colors,       # Item colors
+      F1_COLOR, F2_COLOR # Factor colors
     ),
-    residuals      = FALSE,
-    thresholds     = FALSE,
-    intercepts     = FALSE,
-    fixedStyle     = 1,
-    whatLabels     = "std",
+    edge.color   = c(
+      item_colors, # Loading colors
+      "black"      # Correlation color
+    ),
+    residuals    = FALSE,
+    thresholds   = FALSE,
+    intercepts   = FALSE,
+    fixedStyle   = 1,
+    curve        = 3,
+    label.cex    = 1.6,
+    sizeMan      = 10,
+    sizeLat      = 14,
+    border.width = 3,
+    edge.width   = 3,
+    mar          = margins
   )
 ```
+:::
+
+::: {.column .fragment}
+```{r scatter-simple-structure}
+LIM_INF <- -1.5
+LIM_SUP <-  2
+
+axis_lims <- c(LIM_INF, LIM_SUP)
+lim_range <- LIM_SUP - LIM_INF
+axis_pos  <- (-LIM_INF) / lim_range
+  
+item_colors <- item_colors |> setNames(c('F1' |> rep(3), 'F2' |> rep(3)))
+
+simple_item_loadings                                      |>
+  group_by(item)                                          |>
+  arrange(desc(loading))                                  |>
+  mutate(main_factor = first(factor))                     |>
+  pivot_wider(names_from = factor, values_from = loading) |>
+  ggplot(mapping = aes(F1, F2, color = main_factor, label = item)) +
+  geom_point(size = I(4))                                          +
+  geom_text(
+    nudge_x =  .1,
+    nudge_y = -.08,
+    color   = I("black"),
+    size    = I(5)
+  )                                                                +
+  scale_x_continuous(
+    limits = axis_lims,
+    breaks = 0,
+    labels = NULL,
+    name   = "F2",
+  )                                                                +
+  scale_y_continuous(
+    limits = axis_lims,
+    breaks = 0,
+    labels = NULL,
+    name   = "F1"
+  )                                                                +
+  scale_color_manual(values = factor_colors, guide = NULL)         +
+  coord_fixed(expand = FALSE, clip = "on")                         +
+  theme(
+    axis.line          = element_blank(),
+    axis.ticks         = element_blank(),
+    axis.title.x       = element_text(hjust = axis_pos),
+    axis.title.y       = element_text(vjust = axis_pos),
+    panel.grid.major   = element_line(
+      color     = "black",
+      linewidth = LINE_WIDTH
+    ),
+    panel.grid.major.x = element_line(color = PALETTE_RASPBERRY["light"]),
+    panel.grid.major.y = element_line(color = PALETTE_BLUE["light"])
+  )
+```
+:::
+:::::
 
 ::: notes
 Para darle más sentido al modelo factorial es común buscar la "estructura simple".
 Es decir, asumimos que la varianza de cada ítem está explicada solamente por un factor latente.
 Los pesos factoriales en los demás factores son nulos.
+
 Si representamos los pesos factoriales como coordenadas, el ítem estará alineado con el eje correspondiente al factor en el que pesa.
 :::
 
