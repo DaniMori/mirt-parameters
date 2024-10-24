@@ -347,11 +347,136 @@ Para obtener esa estructura simple, muchas veces necesitamos usar una rotación 
 
 ## AF: Estructura compleja
 
-<!--# TODO: Ejemplo con pesos cruzados: Path diagram vs. coordenadas -->
+::::: columns
+::: column
+```{r path-complex-structure}
+# TODO: Syntax from tibble
+complex_spec <- "
+  F1 =~ I1 + I2 + I3
+  F2 =~ I3 + I4 + I5 + I6
+  
+  F1 ~~ F2
+"
+
+edge_colors <- c(
+  F1_COLOR |> rep(3),
+  PALETTE_RASPBERRY["light"], # Cross-loading
+  F2_COLOR |> rep(3)
+)
+
+complex_spec     |>
+  semPlotModel() |>
+  semPaths(
+    border.color = c(
+      item_colors,       # Item colors
+      F1_COLOR, F2_COLOR # Factor colors
+    ),
+    edge.color   = c(
+      edge_colors, # Loading colors
+      "black"      # Correlation color
+    ),
+    residuals    = FALSE,
+    thresholds   = FALSE,
+    intercepts   = FALSE,
+    fixedStyle   = 1,
+    curve        = 3,
+    label.cex    = 1.6,
+    sizeMan      = 10,
+    sizeLat      = 14,
+    border.width = 3,
+    edge.width   = 3,
+    mar          = margins
+  )
+```
+:::
+
+::: {.column .fragment}
+```{r scatter-complex-structure}
+LIM_INF <- -1.5
+LIM_SUP <-  2
+
+axis_lims <- c(LIM_INF, LIM_SUP)
+lim_range <- LIM_SUP - LIM_INF
+axis_pos  <- (-LIM_INF) / lim_range
+  
+item_colors <- item_colors |> setNames(c('F1' |> rep(3), 'F2' |> rep(3)))
+
+complex_item_loadings_wide <- complex_item_loadings |>
+  group_by(item)                                    |>
+  arrange(desc(loading))                            |>
+  mutate(main_factor = first(factor))               |>
+  ungroup()                                         |>
+  pivot_wider(names_from = factor, values_from = loading)
+
+item3_spikes <- complex_item_loadings_wide      |>
+  filter(item == 'I3')                          |>
+  select(starts_with('F'))                      |>
+  add_column(type = "end")                      |> 
+  bind_rows(tibble(F1 = 0, F2 = 0))             |>
+  complete(F1, F2, fill = list(type = "start")) |>
+  filter(F1 != 0 | F2 != 0)
+
+item3_spikes <- item3_spikes                         |> 
+  bind_rows(item3_spikes |> slice(3))                |>
+  mutate(n = (row_number() + 1) %% 2 |> as.factor()) |>
+  pivot_wider(names_from = type, values_from = F1:F2)
+
+spike_colors = c(
+  '1' = unname(PALETTE_BLUE['light']),
+  '0' = unname(PALETTE_RASPBERRY['light'])
+)
+
+complex_item_loadings_wide |>
+  ggplot(mapping = aes(F1, F2, color = main_factor, label = item)) +
+  geom_segment(
+    data    = item3_spikes,
+    mapping = aes(F1_start, F2_start, xend = F1_end, yend = F2_end),
+    inherit.aes = FALSE,
+    linewidth = LINE_WIDTH,
+    linetype  = '43',
+    color = spike_colors
+  )                                                                +
+  geom_point(size = I(4))                                          +
+  geom_text(
+    nudge_x =  .1,
+    nudge_y = -.08,
+    color   = I("black"),
+    size    = I(5)
+  )                                                                +
+  scale_x_continuous(
+    limits = axis_lims,
+    breaks = 0,
+    labels = NULL,
+    name   = "F2",
+  )                                                                +
+  scale_y_continuous(
+    limits = axis_lims,
+    breaks = 0,
+    labels = NULL,
+    name   = "F1"
+  )                                                                +
+  scale_color_manual(values = factor_colors, guide = NULL)         +
+  coord_fixed(expand = FALSE, clip = "on")                         +
+  theme(
+    axis.line          = element_blank(),
+    axis.ticks         = element_blank(),
+    axis.title.x       = element_text(hjust = axis_pos),
+    axis.title.y       = element_text(vjust = axis_pos),
+    panel.grid.major   = element_line(
+      color     = "black",
+      linewidth = LINE_WIDTH
+    ),
+    panel.grid.major.x = element_line(color = PALETTE_RASPBERRY["light"]),
+    panel.grid.major.y = element_line(color = PALETTE_BLUE["light"])
+  )
+```
+:::
+:::::
 
 ::: notes
 Sin embargo, en ocasiones no es posible encontrar la estructura simple.
 Es cuando aparecen lo que llamamos "pesos cruzados".
+
 Esto da lugar a una "estructura compleja", que en realidad es más común que la estructura simple, en general.
 :::
 
