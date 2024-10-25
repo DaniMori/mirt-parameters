@@ -84,6 +84,7 @@ library(extrafont)
 library(tidyr)
 library(ggplot2)
 library(units)
+library(ggtext)
 ```
 
 ```{r setup}
@@ -149,6 +150,7 @@ AXIS_COLOR   <- "darkgray" # Replace default grid line color for slideshow
 ```
 
 ```{r graphical-output-conf}
+#| cache: false
 theme_set( # `ggplot` output configuration
   theme_classic(
     base_size      = FONT_SIZE,
@@ -156,9 +158,10 @@ theme_set( # `ggplot` output configuration
     base_line_size = LINE_WIDTH
   ) %+replace%
     theme(
-      axis.title.x = element_text(hjust = AXIS_LAB_POS),
-      axis.title.y = element_text(vjust = AXIS_LAB_POS, angle = 0),
-      panel.grid   = element_line(color = AXIS_COLOR)
+      axis.title.x     = element_text(hjust = AXIS_LAB_POS),
+      axis.title.y     = element_text(vjust = AXIS_LAB_POS, angle = 0),
+      panel.grid       = element_line(color = AXIS_COLOR),
+      panel.grid.minor = element_line(linetype = "17", color = "grey70")
     )
 )
 ```
@@ -416,6 +419,8 @@ Ahora bien, la mayoría de procedimientos factoriales, exploratorios al menos, a
 
 ## AF: Estructura simple
 
+<!-- # TODO: Añadir ángulos? -->
+
 ::: r-center
 ```{r simple-structure-rotated-axes}
 #| fig-align:  center
@@ -516,14 +521,14 @@ item3_spikes <- complex_item_loadings_wide      |>
   complete(F1, F2, fill = list(type = "start")) |>
   filter(F1 != 0 | F2 != 0)
 
-item3_spikes <- item3_spikes                         |> 
-  bind_rows(item3_spikes |> slice(3))                |>
-  mutate(n = (row_number() + 1) %% 2 |> as.factor()) |>
+item3_spikes <- item3_spikes                           |> 
+  bind_rows(item3_spikes |> slice(3))                  |>
+  mutate(n = paste0('F', (row_number() + 1) %% 2 + 1)) |>
   pivot_wider(names_from = type, values_from = F1:F2)
 
 spike_colors = c(
-  '1' = unname(PALETTE_BLUE['light']),
-  '0' = unname(PALETTE_RASPBERRY['light'])
+  'F1' = unname(PALETTE_BLUE['light']),
+  'F2' = unname(PALETTE_RASPBERRY['light'])
 )
 
 complex_item_loadings_wide |>
@@ -685,21 +690,187 @@ Por ejemplo, si tenemos ítems directos e inversos, podemos modelar lo que llama
 
 ## Modelo factorial clásico
 
-<!--# TODO: Fórmula del modelo factorial -->
+<br>
 
-<!--# TODO: Fórmula matricial para una variable observable -->
+$$
+I_1 = \tau_1 + \lambda_{11} F_1^p + \lambda_{21} F_2^p + ... + \lambda_{n1} F_n^p + U_1^p \\
+\vdots                                                                            \\
+I_k = \tau_k + \lambda_{1k} F_1^p + \lambda_{2k} F_2^p + ... + \lambda_{nk} F_n^p + U_k^p
+$$
+
+<br>
+
+::: fragment
+$$
+I_1 = \tau_1 + \mathbf{\lambda}_{1}^T \mathbf{F} + U_1
+$$
+:::
 
 ::: notes
 Un modelo factorial no es más que una serie de regresiones lineales (una por cada variable observable) con variables latentes.
 Las variables "respuesta" o "criterio" es la variable observable, y su varianza está explicada o "predicha" por las variables latentes, que son los factores y los términos de error de cada ítem.
+Lo que ocurre es que aquí a "coeficientes de regresión" los llamamos "pesos factoriales" y al término error, "unicidad" o "varianza única".
 
-Los "coeficientes de regresión" los llamamos "pesos factoriales" y el término error, "unicidad" o "varianza única".
-Esto se puede expresar en "forma matricial" de esta manera.
+El producto de los pesos por las puntuaciones factoriales se puede expresar en "forma vectorial", de esta manera.
+La "T" del vector de pesos factoriales significa que está "traspuesto", es decir, que se pone horizontalmente (esto es una convención en álgebra matricial).
+El producto del vector de pesos por el de puntuaciones factoriales es lo que se llama un "producto vectorial", que consiste simplemente en multiplicar dos a dos los términos de cada vector y sumar todos.
+:::
 
-<!--# TODO: Explicar cómo se calcula en forma matricial? -->
+## Modelo factorial clásico {.smaller}
 
-Tenemos costumbre de ver el análisis factorial en el contexto de variables cuantitativas (o que asumimos que lo son, por ejemplo en ítems Likert).
-Sin embargo, se aplica también (e idealmente se debería aplicar) a variables discretas ordinales.
+::::::: columns
+::::: column
+$$
+  I_1 = \tau_1 + \mathbf{\lambda}_{1}^T \mathbf{F} + U_1
+$$
+
+$$
+  \mathbf{F}^1 =
+    \begin{bmatrix}
+      0.5 \\
+      1
+    \end{bmatrix}
+$$
+
+::: {.fragment fragment-index="1"}
+$$
+  \mathbf{\lambda}_{1} =
+    \begin{bmatrix}
+      -1 \\
+       0.5
+    \end{bmatrix}
+$$
+:::
+
+::: fragment
+$$
+  \begin{align}
+    \tau_1 &=  1 \\
+    U_1^1  &= -0.5
+  \end{align}
+$$
+:::
+:::::
+
+::: {.column .fragment fragment-index="2"}
+```{r fa_example_plot}
+#| cache: false
+AXIS_MINOR <- c(-1, 1, 2)
+
+# Generate data for simple and complex factorial structures
+fa_example <- tribble(
+  ~object, ~factor, ~loading,
+  'I~1~',  'F1',    -1,
+  'I~1~',  'F2',     0.5,
+  'F^1^',  'F1',     0.5,
+  'F^1^',  'F2',     1
+)
+
+fa_example_wide <- fa_example |>
+  pivot_wider(names_from = factor, values_from = loading)
+
+fa_example_spikes <- fa_example_wide |>
+  add_column(type = "end")           |> 
+  bind_rows(
+    tribble(
+      ~object, ~F1,  ~F2, ~type,
+      "I~1~",   0,   0.5, "start",
+      "F^1^",   0,   1,   "start",
+      "I~1~",  -1,   0,   "start",
+      "F^1^",   0.5, 0,   "start",
+    )
+  )
+
+fa_example_spikes <- fa_example_spikes |> slice(1:2)        |>
+  bind_rows(fa_example_spikes)                              |>
+  add_column(factor = paste0('F', 1:2 |> rep(2, each = 2))) |>
+  pivot_wider(names_from = type, values_from = F1:F2)
+
+fa_example_wide |>
+  ggplot(mapping = aes(F1, F2, label = object))            +
+  geom_segment(
+    data        = fa_example_spikes,
+    mapping     = aes(
+      F1_start, F2_start,
+      xend  = F1_end, yend = F2_end
+    ),
+    inherit.aes = FALSE,
+    linewidth   = LINE_WIDTH,
+    linetype    = '43',
+    color       = spike_colors |> rep(each = 2)
+  )                                                        +
+  geom_point(size = I(4))                                  +
+  geom_richtext(
+    nudge_x = .15,
+    nudge_y = .10,
+    color   = I("black"),
+    size    = I(5),
+    lineheight = 1.2,
+    fill = NA,
+    label.color = NA
+  )                                                        +
+  scale_x_continuous(
+    limits       = axis_lims,
+    breaks       = 0,
+    labels       = NULL,
+    name         = "F~2~",
+    minor_breaks = AXIS_MINOR
+  )                                                        +
+  scale_y_continuous(
+    limits       = axis_lims,
+    breaks       = 0,
+    labels       = NULL,
+    name         = "F~1~",
+    minor_breaks = AXIS_MINOR
+  )                                                        +
+  scale_color_manual(values = factor_colors, guide = NULL) +
+  coord_fixed(expand = FALSE, clip = "on")                 +
+  theme(
+    axis.line          = element_blank(),
+    axis.ticks         = element_blank(),
+    axis.title.x       = element_markdown(hjust = axis_pos),
+    axis.title.y       = element_markdown(vjust = axis_pos),
+    panel.grid.major   = element_line(
+      color     = "black",
+      linewidth = LINE_WIDTH
+    ),
+    panel.grid.major.x = element_line(color = PALETTE_RASPBERRY["light"]),
+    panel.grid.major.y = element_line(color = PALETTE_BLUE["light"])
+  )
+```
+:::
+:::::::
+
+::: fragment
+$$
+  I_1 = 1 + \left[ -1, 0.5 \right]
+    \begin{bmatrix}
+      0.5 \\
+      1
+    \end{bmatrix}
+    - 0.5 = 1 + (-0.5 + 0.5) - 0.5 = 0.5
+$$
+:::
+
+::: notes
+Veámoslo con un ejemplo.
+Tenemos el participante 1, en nuestro estudio, que tiene esas puntuaciones factoriales.
+Por ejemplo, en el primer rasgo, tiene un 0.5 (nos da igual la distribución pero supongamos que está estandarizada, luego está media desviación típica por encima de la media).
+En el segundo rasgo, tiene una puntuación que está una desviación típica por encima de la media.
+
+Los pesos factoriales del ítem 1 son estos: -1 para el primer rasgo (por lo cual, cuanto mayor sea la puntuación factorial en el primer factor, menor va a ser la respuesta observada en el ítem 1), y 0.5 para el segundo.
+
+Aquí vemos representados el ítem y la persona, en las mismas coordenadas cartesianas.
+Y luego el ítem tiene una intersección de 1, y la persona 1 tiene un -0.5 en el "error" de esa variable $I_1$.
+
+Su respuesta se calcularía así: (hacer los cálculos).
+Luego esta persona (el particpante 1) tiene la respuesta o valor observado 0.5 en esta variable observada.
+Lo mismo podríamos hacer con el resto de variables y de participantes, pero obviamente nosotros lo que tenemos son estas respuestas observadas, y lo que hacemos con el AF es estimar todos estos parámetros del modelo, en lugar de como lo hemos hecho ahora.
+
+Ahora bien, esta respuesta observada que hemos calculado aquí es cuantitativa.
+Tenemos costumbre de ver el análisis factorial en ese contexto, de variables cuantitativas (o que asumimos que lo son, por ejemplo en ítems Likert).
+Sin embargo, se aplica también a variables discretas ordinales (e idealmente se debería aplicar así a ítems tipo Likert, aunque a veces no se haga, por simplificar).
+
 En este caso vamos a concretarlo en variables dicotómicas (p.ej. ante un ítem como "Soy muy responsable" las opciones de respuesta son sólo V/F).
 Esto es una simplificación que rara vez se utiliza en cuestionarios no cognitivos, pero es interesante estudiarlo porque otros modelos pueden considerarse extensiones de este modelo.
 :::
