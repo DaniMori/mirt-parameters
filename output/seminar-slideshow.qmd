@@ -94,11 +94,16 @@ opts_knit$set(root.dir = here::here()) # See lines 41-42
 # Graphical configuration options:
 loadfonts(device = "win") # Load fonts (if necessary)
 par(family = "Arial", adj = 0.5) # Set graphical device params
+```
 
-margins <- c(12, 1.3, 8, 1.3) # margins for the sem path plots
+```{r sources}
+source("R/LaTeX_math.R", encoding = 'UTF-8')
+source("R/Output.R",     encoding = 'UTF-8')
 ```
 
 ```{r color-palettes}
+MARGINS <- c(12, 1.3, 8, 1.3) # margins for the sem path plots
+
 PALETTE_UNED <- c(
   normal = "#00533e",
   medium = "#427562",
@@ -135,20 +140,7 @@ PALETTE_RASPBERRY <- c(
   light  = "#af848b",
   white  = "#dac7c7"
 )
-```
 
-```{r read-chunks}
-#| cache: false
-read_chunk("src/Graphical_example_paper.R")
-```
-
-```{r sources, cache=FALSE}
-```
-
-```{r constants, cache=FALSE}
-```
-
-```{r replace-plot-params}
 GRAPH_FONT   <- "Arial"    # Replace default font to comply with UNED identity
 FONT_SIZE    <- 24         # Replace default font size for slideshow
 AXIS_LAB_POS <-   .5       # Replace default axis label position for slideshow
@@ -156,7 +148,19 @@ LINE_WIDTH   <-   .75      # Replace default line width for slideshow
 AXIS_COLOR   <- "darkgray" # Replace default grid line color for slideshow
 ```
 
-```{r graphical-output-conf, cache=FALSE}
+```{r graphical-output-conf}
+theme_set( # `ggplot` output configuration
+  theme_classic(
+    base_size      = FONT_SIZE,
+    base_family    = GRAPH_FONT,
+    base_line_size = LINE_WIDTH
+  ) %+replace%
+    theme(
+      axis.title.x = element_text(hjust = AXIS_LAB_POS),
+      axis.title.y = element_text(vjust = AXIS_LAB_POS, angle = 0),
+      panel.grid   = element_line(color = AXIS_COLOR)
+    )
+)
 ```
 
 ::: notes
@@ -270,7 +274,7 @@ simple_spec      |>
     sizeLat      = 14,
     border.width = 3,
     edge.width   = 3,
-    mar          = margins
+    mar          = MARGINS
   )
 ```
 :::
@@ -481,7 +485,7 @@ complex_spec     |>
     sizeLat      = 14,
     border.width = 3,
     edge.width   = 3,
-    mar          = margins
+    mar          = MARGINS
   )
 ```
 :::
@@ -612,7 +616,7 @@ method_spec      |>
     sizeLat      = 14,
     border.width = 3,
     edge.width   = 3,
-    mar          = margins
+    mar          = MARGINS
   )
 ```
 :::
