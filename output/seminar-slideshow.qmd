@@ -85,6 +85,8 @@ library(tidyr)
 library(ggplot2)
 library(units)
 library(ggtext)
+library(ggridges)
+library(patchwork)
 ```
 
 ```{r setup}
@@ -854,7 +856,7 @@ $$
 
 ::: notes
 Veámoslo con un ejemplo.
-Tenemos el participante 1, en nuestro estudio, que tiene esas puntuaciones factoriales.
+Tenemos el participante 1, en nuestro estudio, que tiene esas puntuaciones factoriales; usamos el superíndice para denotar al participante.
 Por ejemplo, en el primer rasgo, tiene un 0.5 (nos da igual la distribución pero supongamos que está estandarizada, luego está media desviación típica por encima de la media).
 En el segundo rasgo, tiene una puntuación que está una desviación típica por encima de la media.
 
@@ -869,23 +871,101 @@ Lo mismo podríamos hacer con el resto de variables y de participantes, pero obv
 
 Ahora bien, esta respuesta observada que hemos calculado aquí es cuantitativa.
 Tenemos costumbre de ver el análisis factorial en ese contexto, de variables cuantitativas (o que asumimos que lo son, por ejemplo en ítems Likert).
-Sin embargo, se aplica también a variables discretas ordinales (e idealmente se debería aplicar así a ítems tipo Likert, aunque a veces no se haga, por simplificar).
-
-En este caso vamos a concretarlo en variables dicotómicas (p.ej. ante un ítem como "Soy muy responsable" las opciones de respuesta son sólo V/F).
-Esto es una simplificación que rara vez se utiliza en cuestionarios no cognitivos, pero es interesante estudiarlo porque otros modelos pueden considerarse extensiones de este modelo.
+Sin embargo, el llamado "AF de ítems" se aplica también a variables discretas ordinales (e idealmente se debería aplicar así a ítems tipo Likert, aunque a veces no se haga, por simplificar).
 :::
 
 ## Análisis factorial de ítems
 
-<!--# TODO: Fórmula del modelo factorial con función de enlace probit -->
+:::::: columns
+:::: column
+$$
+  i_k^* = \tau_k + \mathbf{\lambda}_k^T \mathbf{F} + U_k
+$$
 
-<!--# TODO: Función de enlace "normal acumulada" -->
+<br>
 
-<!--# TODO: Curva Gaussiana y curva normal acumulada -->
+::: fragment
+$$
+  I_k = \left\{ \begin{matrix}
+      1 &si &i_k^* \geq 0\\
+      0 &si &i_k^* <    0
+    \end{matrix} \right.
+$$
+:::
+::::
+
+::: column
+```{r ifa-curve}
+#| fig-height: 9
+
+PROB_AXIS      <- seq(-3, 3, by = .01)
+ERROR_POINTS   <- seq(-3, 3, length.out = 5)
+ITEM_LOADING   <-  0.35
+ITEM_INTERCEPT <- -0.5
+
+item_unique_var <-  1 - sqrt(ITEM_LOADING)
+
+probit_curve_data <- tibble(
+  score    = PROB_AXIS,
+  response = ITEM_INTERCEPT + ITEM_LOADING * score,
+  prob     = pnorm(response, sd = sqrt(item_unique_var))
+)
+
+latent_response <- tibble(
+  point    = ERROR_POINTS |> rep(100000),
+  response = rnorm(
+    length(point),
+    mean = ITEM_INTERCEPT + ITEM_LOADING * point,
+    sd   = sqrt(item_unique_var)
+  )
+)
+
+# Plot: Upper Panel - Linear regression with Gaussian error distributions
+latent_response_plot <- latent_response |>
+  ggplot(aes(x = response, y = factor(point), fill = ..x.. > 0))           +
+  geom_density_ridges_gradient(
+    scale          = .2,
+    rel_min_height = 0.001,
+    color          = PALETTE_BLUE["normal"]
+  )                                                                        +
+  labs(x = "i~k~^*^", y = NULL)                                            +
+  scale_y_discrete(labels = ERROR_POINTS)                                  +
+  scale_x_continuous(breaks = 0)                                           +
+  scale_fill_manual(
+    values = c(`FALSE` = "white", `TRUE` = unname(PALETTE_BLUE["white"]))) +
+  theme(
+    legend.position = "none",
+    axis.title.y = element_markdown(angle = 90),
+    panel.grid.major.y = element_line(linetype = "17")
+  )                                                                        +
+  coord_flip()
+
+# Plot: Lower Panel - Probit curve
+probit_plot <- probit_curve_data |>
+  ggplot(mapping = aes(x = score, y = prob))                          +
+  geom_line(color = PALETTE_BLUE["normal"], linewidth = LINE_WIDTH)   +
+  labs(x = "i~k~^*^", y = "P(I~k = 1)")                               +
+  scale_y_continuous(breaks = 0:1, minor_breaks = NULL, limits = 0:1) +
+  scale_x_continuous(minor_breaks = ERROR_POINTS, breaks = -1:1 * 3)  +
+  theme(
+    axis.title   = element_markdown(),
+    axis.title.y = element_markdown(angle = 90),
+  )
+
+## TODO: Correct error break points
+latent_response_plot / probit_plot
+```
+:::
+::::::
 
 ::: notes
-El análisis factorial de ítems (dicotómicos) lo que hace es aplicar ese "modelo lineal general" a variables dicotómicas: Asume una "variable latente" lineal, con la misma fórmula anterior, y aplica una "función de umbral" en 0 (la respuesta es correcta o afirmativa, codificada como 1, si la variable latente es mayor que 0, o incorrecta o negativa, codificada como 0, si es menor).
-Eso da una "probabilidad" de responder correcta o "afirmativamente" a un ítem.
+Lo que hace el análisis factorial de ítems es aplicar ese "modelo lineal" a variables ordinales, haciendo una generalización.
+(En este caso vamos a simplificarlo a variables dicotómicas; p.ej. ante un ítem como "Soy muy responsable" las opciones de respuesta son sólo V/F).
+Esto es una simplificación que rara vez se utiliza en cuestionarios no cognitivos, pero es interesante estudiarlo porque otros modelos pueden considerarse extensiones de este modelo.
+El AF de ítems asume una nueva "variable latente" lineal ($I_1^*$), con la misma fórmula anterior
+
+Después se aplica una "función de umbral": La respuesta es correcta o afirmativa, codificada como 1, si la variable latente es mayor (o igual) que 0, o incorrecta o negativa, codificada como 0, si es menor.
+Eso lo que da, en lugar de un respuesta observada (cuantitativa), es una "probabilidad" de responder correcta o "afirmativamente" a un ítem.
 :::
 
 ## AF: Puntuaciones factoriales
