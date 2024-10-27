@@ -52,7 +52,6 @@ format:
     fig-cap-location:        bottom
     fig-format:              svg
     fig-asp:                 1
-    fig-height:              6
     fig-width:               6
     incremental:             false
     keep-md:                 true
@@ -878,13 +877,15 @@ Sin embargo, el llamado "AF de ítems" se aplica también a variables discretas 
 
 :::::: columns
 :::: column
+<br>
+
 $$
   i_k^* = \tau_k + \mathbf{\lambda}_k^T \mathbf{F} + U_k
 $$
 
 <br>
 
-::: fragment
+::: {.fragment fragment-index="1"}
 $$
   I_k = \left\{ \begin{matrix}
       1 &si &i_k^* \geq 0\\
@@ -894,9 +895,10 @@ $$
 :::
 ::::
 
-::: column
+::: {.column .fragment fragment-index="1"}
 ```{r ifa-curve}
-#| fig-height: 9
+#| fig-asp: 1.4
+#| cache: false
 
 PROB_AXIS      <- seq(-3, 3, by = .01)
 ERROR_POINTS   <- seq(-3, 3, length.out = 5)
@@ -912,7 +914,7 @@ probit_curve_data <- tibble(
 )
 
 latent_response <- tibble(
-  point    = ERROR_POINTS |> rep(100000),
+  point    = ERROR_POINTS |> rep(500000),
   response = rnorm(
     length(point),
     mean = ITEM_INTERCEPT + ITEM_LOADING * point,
@@ -922,37 +924,59 @@ latent_response <- tibble(
 
 # Plot: Upper Panel - Linear regression with Gaussian error distributions
 latent_response_plot <- latent_response |>
-  ggplot(aes(x = response, y = factor(point), fill = ..x.. > 0))           +
+  ggplot(aes(x = response, y = point, fill = ..x.. > 0, group = point)) +
   geom_density_ridges_gradient(
-    scale          = .2,
+    scale          =  .2,
     rel_min_height = 0.001,
     color          = PALETTE_BLUE["normal"]
-  )                                                                        +
-  labs(x = "i~k~^*^", y = NULL)                                            +
-  scale_y_discrete(labels = ERROR_POINTS)                                  +
-  scale_x_continuous(breaks = 0)                                           +
+  )                                                                     +
+  labs(x = "i~k~^*^", y = NULL)                                         +
+  scale_y_continuous(
+    breaks       = ERROR_POINTS,
+    minor_breaks = NULL,
+    labels       = NULL,
+    limits       = range(ERROR_POINTS) * 1.12,
+    expand       = expansion()
+    )           +
+  scale_x_continuous(breaks = 0)                                        +
   scale_fill_manual(
-    values = c(`FALSE` = "white", `TRUE` = unname(PALETTE_BLUE["white"]))) +
+    values = c(
+      `FALSE` = unname(PALETTE_BLUE["white"]),
+      `TRUE`  = unname(PALETTE_BLUE["normal"])
+    )
+  ) +
   theme(
-    legend.position = "none",
+    axis.ticks.x = element_blank(),
     axis.title.y = element_markdown(angle = 90),
-    panel.grid.major.y = element_line(linetype = "17")
-  )                                                                        +
+    legend.position = "none",
+    panel.grid.major = element_line(linetype = "17")
+  )                                                                     +
   coord_flip()
 
 # Plot: Lower Panel - Probit curve
 probit_plot <- probit_curve_data |>
-  ggplot(mapping = aes(x = score, y = prob))                          +
-  geom_line(color = PALETTE_BLUE["normal"], linewidth = LINE_WIDTH)   +
-  labs(x = "i~k~^*^", y = "P(I~k = 1)")                               +
-  scale_y_continuous(breaks = 0:1, minor_breaks = NULL, limits = 0:1) +
-  scale_x_continuous(minor_breaks = ERROR_POINTS, breaks = -1:1 * 3)  +
+  ggplot(mapping = aes(x = score, y = prob))                        +
+  geom_line(color = PALETTE_BLUE["normal"], linewidth = LINE_WIDTH) +
+  labs(x = "E(*i~k~^*^*)", y = "P(I~k~ = 1)")                       +
+  scale_y_continuous(
+    breaks       = 0:1,
+    minor_breaks = NULL,
+    limits       = 0:1,
+    expand       = expansion(mult = c(0, .05))
+  )  +
+  scale_x_continuous(
+    breaks       = ERROR_POINTS,
+    minor_breaks = NULL,
+    limits = range(ERROR_POINTS) * 1.12,
+    expand = expansion()
+  ) +
   theme(
-    axis.title   = element_markdown(),
-    axis.title.y = element_markdown(angle = 90),
+    axis.title       = element_markdown(),
+    axis.title.y     = element_markdown(angle = 90),
+    panel.grid.major = element_line(linetype = "17"),
   )
 
-## TODO: Correct error break points
+## TODO: Correct error break points and fig height
 latent_response_plot / probit_plot
 ```
 :::
