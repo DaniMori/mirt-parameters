@@ -994,20 +994,104 @@ Eso lo que da, en lugar de un respuesta observada (cuantitativa), es una "probab
 
 ## AF: Puntuaciones factoriales
 
+<br>
+
+:::::: columns
+:::: column
 Métodos:
 
 -   Regresión
 
 -   Bartlett
 
+::: {.fragment fragment-index="2"}
 -   **Máxima Verosimilitud**
 
 -   **Estimación Modal Bayesiana Empírica**
+:::
+::::
+
+::: {.column .fragment fragment-index="1"}
+```{r path-regression-scores}
+# TODO: Syntax from tibble
+simple_spec <- "
+  F1 <~ I1 + I2 + I3
+  F2 <~ I4 + I5 + I6
+  
+  F1 ~~ F2
+"
+
+F1_COLOR <- PALETTE_BLUE["normal"]
+F2_COLOR <- PALETTE_RASPBERRY["normal"]
+
+item_colors   <- c(F1_COLOR |> rep(3), F2_COLOR |> rep(3))
+factor_colors <- c('F1' = unname(F1_COLOR), 'F2' = unname(F2_COLOR))
+
+# TODO: Manual call to qgraph:
+Edgelist <- tribble(
+  ~lhs, ~rhs,
+  7,   1,
+  7,   2,
+  7,   3,
+  8,   4,
+  8,   5,
+  8,   6,
+  7,   8
+)
+nLab <- c("I1", "I2", "I3", "I4", "I5", "I6", "F1", "F2") |> setNames(nm = _)
+Bidir <- FALSE |> rep(6)
+Directed <- TRUE |> rep(6)
+Shape <- c("square", "square", "square", "square", "square", "square", 
+"circle", "circle")
+
+qgraph::qgraph(Edgelist, 
+      labels = nLab, bidirectional = Bidir, directed = Directed, 
+      shape = Shape, layout = Layout, lty = lty, loopRotation = loopRotation, 
+      curve = Curve, edge.labels = eLab, mar = Mar, vsize = vSize, 
+      vsize2 = vSize2, edge.color = eColor, groups = NodeGroups2, 
+      color = Vcolors, residuals = LoopAsResid, residScale = residScale, 
+      residEdge = isResid, edgelist = TRUE, curveDefault = curveDefault, 
+      knots = GroupPars$knot, aspect = layoutSplit, CircleEdgeEnd = CircleEdgeEnd, 
+      curveScale = curveScale, bars = bars, barSide = barSide, 
+      barColor = tColor, barLength = thresholdSize, barsAtSide = ThreshAtSide, 
+      edge.label.cex = edge.label.cex, edgeConnectPoints = ECP, 
+      ...)
+
+# simple_spec      |>
+#   semPlotModel() |>
+#   semPaths(
+#     border.color = c(
+#       item_colors,       # Item colors
+#       F1_COLOR, F2_COLOR # Factor colors
+#     ),
+#     edge.color   = c(
+#       item_colors, # Loading colors
+#       "black"      # Correlation color
+#     ),
+#     residuals    = FALSE,
+#     thresholds   = FALSE,
+#     intercepts   = FALSE,
+#     arrows       = TRUE,
+#     fixedStyle   = 1,
+#     curve        = 3,
+#     label.cex    = 1.6,
+#     sizeMan      = 10,
+#     sizeLat      = 14,
+#     border.width = 3,
+#     edge.width   = 3,
+#     mar          = MARGINS
+#   )
+```
+:::
+::::::
 
 <!--# TODO: Diagrama de CFA y de "CFA inverso" -->
 
 ::: notes
-Los dos primeros métodos se aplican en AF lineal y están implementados en SPSS.
+Una vez tenemos los parámetros del modelo factorial estimado, entre otras cosas, podemos aplicarlo para estimar las puntuaciones factoriales de los participantes.
+Para hacer esto hay varios métodos.
+
+El método de regresión y el de Bartlett se aplican en AF lineal y están implementados en SPSS.
 Consisten a grandes rasgos en calcular la puntuación factorial como una suma ponderada de las variables observables.
 Es decir, algo así como "darle la vuelta a las flechas" de causalidad.
 Lo que tiene más sentido, desde el punto de vista estadístico, es "estimar" qué puntuaciones factoriales hacen más probable para una participante dar las respuestas que ha dado.
