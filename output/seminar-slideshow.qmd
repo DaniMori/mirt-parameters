@@ -89,6 +89,7 @@ library(qgraph)
 library(purrr)
 library(plotly)
 library(metR)
+library(scales)
 ```
 
 ```{r setup}
@@ -152,6 +153,7 @@ FONT_SIZE    <- 24         # Replace default font size for slideshow
 AXIS_LAB_POS <-   .5       # Replace default axis label position for slideshow
 LINE_WIDTH   <-   .75      # Replace default line width for slideshow
 AXIS_COLOR   <- "darkgray" # Replace default grid line color for slideshow
+VECTOR_WIDTH <- 2.5        # Replace default vector width for slideshow
 ```
 
 ```{r graphical-output-conf}
@@ -1599,21 +1601,24 @@ $$
 $$
 :::
 
-::: fragment
+<br>
 
+::: fragment
+$$
+  MID_i = \begin{Bmatrix}
+    \frac{-d_i}{\sqrt{\mathbf{a}_i^T\mathbf{a}_i}} \\
+    \frac{\mathbf{a}_i}{\sqrt{\mathbf{a}_i^T\mathbf{a}_i}}
+  \end{Bmatrix}
+$$
 :::
 :::
 ::::
-
-<!--# TODO: Representación gráfica de los cosenos directores? -->
-
-<!--# TODO: Conjunto del MID -->
 
 ::: notes
 Para representar ese punto no basta con la "distancia (con signo)"; hace falta saber en qué dirección mide ese ítem también.
 Eso viene dado por los llamados "cosenos directores".
 
-Por lo tanto, la "dificultad (posición) multidimensional" viene dada por dos elementos, un vector de cosenos que determina la dirección en la que mide un ítem, y un número entero que representa cuánto se desplaza respecto del origen, y en qué sentido, la recta de inflexión del ítem.
+Por lo tanto, la "dificultad (posición) multidimensional" viene dada por dos elementos, un número real que representa cuánto se desplaza la recta de inflexión del ítem respecto del origen y en qué sentido, y un vector de cosenos que determina la dirección en la que se desplaza.
 Así se puede interpretar un ítem, o varios, de manera relativamente sencilla: Todos los participantes cuyas coordenadas estén en la "recta de inflexión" (la recta que pasa por la posición del ítem, perpendicular a su dirección) tendrán una probabilidad de dar una respuesta positiva y negativa de .5 (dificultad media; igual probabilidad de acertar o fallar).
 Aquellos que estén pasada la recta, encontrarán el ítem "relativamente fácil" (tendrán una alta probabilidad de dar una respuesta positiva mayor a .5; lo encontrarán "más fácil que difícil").
 Lo contrario pasa para los que estén al otro lado de esa recta, tendrán más probabilidad de responder negativamente (mal), por lo que lo encontrarán difícil.
@@ -1622,14 +1627,70 @@ De lo que este parámetro no informa es de "cómo de fácil o difícil" va a ser
 Es decir, una vez estoy pasada la recta, aunque esté cerca, ¿es el ítem muy fácil, o más bien tengo que estar "muy lejos" (tener alta puntuación en uno u otro rasgo) para que sea más probable que de una respuesta positiva?
 :::
 
-## Discriminación multidimensional
+## Discriminación multidimensional {.smaller}
 
 @reckase_discriminating_1991:
 
 > the discriminating power of an item indicates how quickly the transition takes place from low probability to high probability of a correct response.
 > \[...\] A highly discriminating item divides the regions clearly-having a narrow region of ambiguity, that is, a region where the probabilities are intermediate in magnitude.
 
-<!-- # TODO: Superficies de ítems con alta y baja discriminación -->
+:::: {.columns .fragment}
+
+::: column
+<br>
+
+$$
+  MDISC_i = \sqrt{\mathbf{a}_i^T \mathbf{a}_i}
+$$
+:::
+
+::: column
+```{r mdisc-item}
+#| fig-width:  4
+#| fig-height: 4
+mirt_item_coords |>
+  arrange(desc(item))   |> # To plot them in reverse order
+  ggplot(
+    aes(
+      0, 0,
+      xend = end_transf_1 - origin_transf_1,
+      yend = end_transf_2 - origin_transf_2,
+      color = factor(item), fill = factor(item)
+    ),
+  )                                                  +
+  geom_vline(xintercept = 0, linewidth = LINE_WIDTH) +
+  geom_hline(yintercept = 0, linewidth = LINE_WIDTH) +
+  geom_segment(
+    arrow     = arrow(angle = 20, length = unit(10, "points"), type = "closed"),
+    linejoin  = "mitre",
+    linewidth = VECTOR_WIDTH
+  ) +
+  scale_x_continuous(
+    limits       = c(-1, 2),
+    breaks       = -1:2,
+    minor_breaks = NULL,
+    name         = NULL,
+    oob          = oob_keep
+  ) +
+  scale_y_continuous(
+    limits       = c(-1, 2),
+    breaks       = -1:2,
+    minor_breaks = NULL,
+    name         = NULL,
+    oob          = oob_keep
+  ) +
+  scale_color_manual(values = unname(PALETTE_BLUE["normal"]), guide = NULL) +
+  coord_fixed(expand = FALSE, clip = "on")           +
+  theme(
+    axis.line        = element_blank(),
+    panel.grid.major = element_line(
+      linewidth = LINE_WIDTH,
+      linetype  = "17"
+    )
+  )
+```
+:::
+::::
 
 ::: notes
 Esta característica viene representada por el parámetro de "discriminación", que es una medida de la "calidad general" de un ítem.
@@ -1644,6 +1705,10 @@ La sombra será muy larga (es decir, la discriminación muy alta).
 El caso "extremo" es una superficie "vertical" en la recta de inflexión (un escalón; cosa imposible en ítems reales).
 En este caso, el dardo nunca cortaría al plano origen, y la discriminación sería infinita.
 :::
+
+## Discriminación multidimensional {.smaller}
+
+<!-- # TODO: Superficies de ítems con alta y baja discriminación -->
 
 ## Parámetros multidimensionales
 
