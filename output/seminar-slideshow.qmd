@@ -1117,31 +1117,7 @@ En este libro, que se publica en 1999 (fijaos en el subtítulo de "unified treat
 Modelo logístico de 2 parámetros [@birnbaum_latent_1968]:
 
 :::::::::: columns
-::::: {.column width="40%"}
-$$
-  P(I_k = 1) = \Phi_L (a_k (\theta - b_k))
-$$
-
-::: {.fragment fragment-index="1"}
-$$
-  \Phi_L (x) =  \frac{1}{1 + e^{-x}}
-$$
-:::
-
-<br>
-
-::: {.fragment fragment-index="3"}
-
-$$
-  \begin{align}
-    a_k &= 1.7 \frac{\lambda_k}{\sqrt{var(U_k)}} \\
-    a_k b_k &= -\frac{\tau_k}{\lambda}
-  \end{align}
-$$
-:::
-:::::
-
-:::::: {.column .fragment width="60%" fragment-index="2"}
+:::::: {.column width="60%"}
 ```{r irt-curves}
 #| fig-asp:   0.6
 #| fig-width: 8
@@ -1211,7 +1187,7 @@ logit_curve_data_long |>
 ```
 
 ::: r-stack
-[$a_1$ = 1.0; $b_1$ = 1.0]{style="color:#5c6eb1;"}
+[$a_1$ = 1.0; $b_1$ = 0.0]{style="color:#5c6eb1;"}
 :::
 
 ::: r-stack
@@ -1222,6 +1198,36 @@ logit_curve_data_long |>
 [$a_3$ = 2.5; $b_3$ = 0.0]{style="color:#749f4c;"}
 :::
 ::::::
+
+::::: {.column width="40%"}
+::: {.fragment fragment-index="1"}
+$$
+  P(I_k = 1) = \Phi_L (a_k (\theta - b_k))
+$$
+:::
+
+<br>
+
+::: {.fragment fragment-index="2"}
+$$
+  \begin{align}
+    d_k &= -a_k b_k \\
+    P(I_k = 1) &= \Phi_L (a_k \theta + d_k))
+  \end{align}
+$$
+:::
+
+<br>
+
+::: {.fragment fragment-index="3"}
+$$
+  \Phi_L (x) =  \frac{1}{1 + e^{-x}}
+$$
+:::
+
+<br>
+
+:::::
 ::::::::::
 
 ::: notes
