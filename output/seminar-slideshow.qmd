@@ -698,16 +698,16 @@ Por ejemplo, si tenemos ítems directos e inversos, podemos modelar lo que llama
 <br>
 
 $$
-I_1 = \tau_1 + \lambda_{11} F_1^p + \lambda_{21} F_2^p + ... + \lambda_{n1} F_n^p + U_1^p \\
+Y_1 = \tau_1 + \lambda_{11} F_1^p + \lambda_{21} F_2^p + ... + \lambda_{n1} F_n^p + U_1^p \\
 \vdots                                                                            \\
-I_k = \tau_k + \lambda_{1k} F_1^p + \lambda_{2k} F_2^p + ... + \lambda_{nk} F_n^p + U_k^p
+Y_i = \tau_i + \lambda_{1i} F_1^p + \lambda_{2i} F_2^p + ... + \lambda_{ni} F_n^p + U_i^p
 $$
 
 <br>
 
 ::: fragment
 $$
-I_1 = \tau_1 + \mathbf{\lambda}_{1}^T \mathbf{F} + U_1
+Y_i = \tau_i + \mathbf{\lambda}_i^T \mathbf{F} + U_i
 $$
 :::
 
@@ -882,16 +882,16 @@ Sin embargo, el llamado "AF de ítems" se aplica también a variables discretas 
 ::::::::: columns
 ::::: {.column width="40%"}
 $$
-  i_k^* = \tau_k + \mathbf{\lambda}_k^T \mathbf{F} + U_k
+  y_i^* = \tau_i + \mathbf{\lambda}_i^T \mathbf{F} + U_i
 $$
 
 <br>
 
 ::: {.fragment fragment-index="1"}
 $$
-  I_k = \left\{ \begin{matrix}
-      1 &si &i_k^* \geq 0\\
-      0 &si &i_k^* <    0
+  Y_i = \left\{ \begin{matrix}
+      1 &si &y_i^* \geq 0\\
+      0 &si &y_i^* <    0
     \end{matrix} \right.
 $$
 :::
@@ -900,8 +900,8 @@ $$
 
 ::: {.fragment fragment-index="2"}
 $$
-  P(I_k = 1) = \int_{-\infty}^0 \mathcal{N}(i_k^*) \delta i_k^* \\
-             = \Phi_N \left(\frac{\tau_k + \mathbf{\lambda}_k^T \mathbf{F}}{\sqrt{var(U_k)}}\right)
+  P(Y_i = 1) = \int_{-\infty}^0 \mathcal{N}(y_i^*) \delta y_i^* \\
+             = \Phi_N \left(\frac{\tau_i + \mathbf{\lambda}_i^T \mathbf{F}}{\sqrt{var(U_i)}}\right)
 $$
 :::
 :::::
@@ -938,7 +938,7 @@ latent_response |>
     rel_min_height = 0.001,
     color          = PALETTE_BLUE["normal"]
   )                              +
-  labs(x = "i~k~^*^", y = NULL)  +
+  labs(x = "y~i~^*^", y = NULL)  +
   scale_y_continuous(
     breaks       = ERROR_POINTS,
     minor_breaks = NULL,
@@ -978,7 +978,7 @@ probit_curve_data <- tibble(
 probit_curve_data |>
   ggplot(mapping = aes(x = score, y = prob))                        +
   geom_line(color = PALETTE_BLUE["normal"], linewidth = LINE_WIDTH) +
-  labs(x = "E(*i~k~^*^*)", y = "P(I~k~ = 1)")                       +
+  labs(x = "E(*y~i~^*^*)", y = "P(Y~i~ = 1)")                       +
   scale_y_continuous(
     breaks       = 0:1,
     minor_breaks = NULL,
@@ -1167,7 +1167,7 @@ logit_curve_data_long |>
     )
   )                                        +
   geom_line(linewidth = LINE_WIDTH)        +
-  labs(x = "*&theta;*", y = "P(I~k~ = 1)") +
+  labs(x = "*&theta;*", y = "P(Y~i~ = 1)") +
   scale_y_continuous(
     breaks       = 0:1,
     minor_breaks = NULL,
@@ -1204,7 +1204,7 @@ logit_curve_data_long |>
 ::::: {.column width="40%"}
 ::: {.fragment fragment-index="1"}
 $$
-  P(I_k = 1) = \Phi_L (a_k (\theta - b_k))
+  P(Y_i = 1) = \Phi_L (a_i (\theta - b_i))
 $$
 :::
 
@@ -1213,8 +1213,8 @@ $$
 ::: {.fragment fragment-index="2"}
 $$
   \begin{align}
-    d_k &= -a_k b_k \\
-    P(I_k = 1) &= \Phi_L (a_k \theta + d_k))
+    d_i &= -a_i b_i \\
+    P(Y_i = 1) &= \Phi_L (a_i \theta + d_i))
   \end{align}
 $$
 :::
@@ -1246,7 +1246,7 @@ Es decir, la respuesta a cada ítem se modela como una regresión logistica dond
 ## TRI multidimensional
 
 $$
-  P(I_k = 1) = \Phi_L (\mathbf{a}_k^T \mathbf{\theta} + d_k)
+  P(Y_i = 1) = \Phi_L (\mathbf{a}_i^T \mathbf{\theta} + d_i)
 $$
 
 ::: columns
@@ -1289,7 +1289,7 @@ plot_ly(
   z = ~mirt_prob_surface,
   colorscale = list(c(0, 1), PALETTE_BLUE["normal"] |> rep(2)),
   type = 'surface',
-  hovertemplate = 'P(I<sub>k</sub> = 1) = %{z:.2f}<extra></extra>',
+  hovertemplate = 'P(I<sub>i</sub> = 1) = %{z:.2f}<extra></extra>',
   showscale = FALSE,
   hoverinfo = 'Z'
 ) |>
@@ -1297,7 +1297,7 @@ plot_ly(
     scene = list(
       xaxis = list(title = "<i>θ</i><sub>1</sub>"),
       yaxis = list(title = "<i>θ</i><sub>2</sub>"),
-      zaxis = list(title = "P(I<sub>k</sub> = 1)"),
+      zaxis = list(title = "P(I<sub>i</sub> = 1)"),
       camera = list(
         center = list(x = -.1, z = -.2),
         eye = list(x = -.12, y = -1.8, z = 1)
@@ -1353,7 +1353,7 @@ Pertenece a una familia de modelos llamados "compensatorios" en TRI, ya que un n
 ::: columns
 ::: column
 $$
-  P(I_k = 1) = \Phi_L (\mathbf{a}_k^T \mathbf{\theta} + d_k)
+  P(Y_1 = 1) = \Phi_L (\mathbf{a}_1^T \mathbf{\theta} + d_1)
 $$
 
 ```{r mirt-item-response-example}
@@ -1421,7 +1421,7 @@ contour_plot +
 ::: fragment
 $$
   \begin{align}
-    P(I_k = 1) &= \Phi_L \left([1, 0.5]
+    P(Y_1 = 1) &= \Phi_L \left([1, 0.5]
       \begin{bmatrix}
          1 \\
         -1
@@ -1448,10 +1448,10 @@ Veamos un ejemplo de cuál sería la probabilidad de respuesta de una persona co
 
 $$
   \begin{align}
-    P(I_k = 1) &= \Phi_N \left(
-      \frac{\mathbf{\lambda}_k^T \mathbf{F} + \tau_k}{\sqrt{var(U_k)}}
+    P(Y_i = 1) &= \Phi_N \left(
+      \frac{\mathbf{\lambda}_i^T \mathbf{F} + \tau_i}{\sqrt{var(U_i)}}
     \right) \\
-    P(I_k = 1) &= \Phi_L (\mathbf{a}_k^T \mathbf{\theta} + d_k)
+    P(Y_i = 1) &= \Phi_L (\mathbf{a}_i^T \mathbf{\theta} + d_i)
   \end{align}
 $$
 
@@ -1462,8 +1462,8 @@ $$
 
 $$
   \begin{align}
-    \mathbf{a}_k &= \frac{1.7}{\sqrt{var(U_k)}} \mathbf{\lambda}_k \\
-    d_k &= \frac{1.7}{\sqrt{var(U_k)}} \tau_k
+    \mathbf{a}_i &= \frac{1.7}{\sqrt{var(U_i)}} \mathbf{\lambda}_i \\
+    d_i &= \frac{1.7}{\sqrt{var(U_i)}} \tau_i
   \end{align}
 $$
 :::
@@ -1481,12 +1481,12 @@ Y de hecho, esto es necesario y se hace así para hacer la estimación máximo-v
 <br>
 
 $$
-  P(I_k = 1) = \Phi_L (\mathbf{a}_k^T \mathbf{\theta} + d_k)
+  P(Y_i = 1) = \Phi_L (\mathbf{a}_i^T \mathbf{\theta} + d_i)
 $$
 
 ::: fragment
 $$
-  P(I_k = 1) = \Phi_L (a_k (\theta - b_k))
+  P(Y_i = 1) = \Phi_L (a_i (\theta - b_i))
 $$
 :::
 
@@ -1517,7 +1517,7 @@ Además menciona que de esa manera se puede intentar comparar ítems que miden d
 ---(p. 402)
 
 $$
-MID = \frac{-d_k}{\sqrt{\mathbf{a}_k^T\mathbf{a}_k}}
+  MID = \frac{-d_i}{\sqrt{\mathbf{a}_i^T\mathbf{a}_i}}
 $$
 
 ::: fragment
@@ -1535,6 +1535,8 @@ Este parámetro se puede entender como una "distancia **con signo**" desde el or
 
 ## Dificultad multidimensional
 
+:::: columns
+::: column
 ```{r mid-representation}
 #| fig-height: 8
 #| fig-width:  8
@@ -1588,8 +1590,20 @@ contour_plot +
     angle = mirt_item_params |> pull(deg_1)
   )
 ```
+:::
 
-<!--# TODO: Fórmula de los cosenos directores -->
+::: column
+::: fragment
+$$
+  cos \, \mathbf{\alpha}_i = \frac{\mathbf{a}_i}{\sqrt{\mathbf{a}_i^T\mathbf{a}_i}}
+$$
+:::
+
+::: fragment
+
+:::
+:::
+::::
 
 <!--# TODO: Representación gráfica de los cosenos directores? -->
 
