@@ -899,10 +899,8 @@ $$
 
 ::: {.fragment fragment-index="2"}
 $$
-  \begin{align}
-    P(I_k = 1) &= \int_{-\infty}^0 \mathcal{N}(i_k^*) \delta i_k^* \\
-               &= \Phi_N (i_k^*)
-  \end{align}
+  P(I_k = 1) = \int_{-\infty}^0 \mathcal{N}(i_k^*) \delta i_k^* \\
+             = \Phi_N \left(\frac{\tau_k + \mathbf{\lambda}_k^T \mathbf{F}}{\sqrt{var(U_k)}}\right)
 $$
 :::
 :::::
