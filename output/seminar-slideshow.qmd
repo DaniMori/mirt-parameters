@@ -251,11 +251,11 @@ simple_spec <- "
   F1 ~~ F2
 "
 
-F1_COLOR <- PALETTE_BLUE["normal"]
-F2_COLOR <- PALETTE_RASPBERRY["normal"]
+F1_COLOR <- unname(PALETTE_BLUE["normal"])
+F2_COLOR <- unname(PALETTE_RASPBERRY["normal"])
 
 item_colors   <- c(F1_COLOR |> rep(3), F2_COLOR |> rep(3))
-factor_colors <- c('F1' = unname(F1_COLOR), 'F2' = unname(F2_COLOR))
+factor_colors <- c('F1' = F1_COLOR, 'F2' = F2_COLOR)
 
 simple_spec      |>
   semPlotModel() |>
@@ -1007,80 +1007,55 @@ Métodos:
 ::: {.fragment fragment-index="2"}
 -   **Máxima Verosimilitud**
 
--   **Estimación Modal Bayesiana Empírica**
+-   **Empirical Modal Bayes**
 :::
 ::::
 
 ::: {.column .fragment fragment-index="1"}
 ```{r path-regression-scores}
-# TODO: Syntax from tibble
-simple_spec <- "
-  F1 <~ I1 + I2 + I3
-  F2 <~ I4 + I5 + I6
-  
-  F1 ~~ F2
-"
+# item_colors   <- c(F1_COLOR |> rep(3), F2_COLOR |> rep(3))
+# factor_colors <- c('F1' = F1_COLOR, 'F2' = F2_COLOR)
 
-F1_COLOR <- PALETTE_BLUE["normal"]
-F2_COLOR <- PALETTE_RASPBERRY["normal"]
-
-item_colors   <- c(F1_COLOR |> rep(3), F2_COLOR |> rep(3))
-factor_colors <- c('F1' = unname(F1_COLOR), 'F2' = unname(F2_COLOR))
-
-# TODO: Manual call to qgraph:
-Edgelist <- tribble(
-  ~lhs, ~rhs,
-  7,   1,
-  7,   2,
-  7,   3,
-  8,   4,
-  8,   5,
-  8,   6,
-  7,   8
+# NOTE: Manual call to qgraph:
+edge_list <- tribble(
+  ~rhs, ~lhs,
+  7,    1,
+  7,    2,
+  7,    3,
+  8,    4,
+  8,    5,
+  8,    6,
+  7,    8,
+  8,    7
 )
-nLab <- c("I1", "I2", "I3", "I4", "I5", "I6", "F1", "F2") |> setNames(nm = _)
-Bidir <- FALSE |> rep(6)
-Directed <- TRUE |> rep(6)
-Shape <- c("square", "square", "square", "square", "square", "square", 
-"circle", "circle")
+vSize <- c(10 |> rep(6), 14 |> rep(2))
 
-qgraph::qgraph(Edgelist, 
-      labels = nLab, bidirectional = Bidir, directed = Directed, 
-      shape = Shape, layout = Layout, lty = lty, loopRotation = loopRotation, 
-      curve = Curve, edge.labels = eLab, mar = Mar, vsize = vSize, 
-      vsize2 = vSize2, edge.color = eColor, groups = NodeGroups2, 
-      color = Vcolors, residuals = LoopAsResid, residScale = residScale, 
-      residEdge = isResid, edgelist = TRUE, curveDefault = curveDefault, 
-      knots = GroupPars$knot, aspect = layoutSplit, CircleEdgeEnd = CircleEdgeEnd, 
-      curveScale = curveScale, bars = bars, barSide = barSide, 
-      barColor = tColor, barLength = thresholdSize, barsAtSide = ThreshAtSide, 
-      edge.label.cex = edge.label.cex, edgeConnectPoints = ECP, 
-      ...)
-
-# simple_spec      |>
-#   semPlotModel() |>
-#   semPaths(
-#     border.color = c(
-#       item_colors,       # Item colors
-#       F1_COLOR, F2_COLOR # Factor colors
-#     ),
-#     edge.color   = c(
-#       item_colors, # Loading colors
-#       "black"      # Correlation color
-#     ),
-#     residuals    = FALSE,
-#     thresholds   = FALSE,
-#     intercepts   = FALSE,
-#     arrows       = TRUE,
-#     fixedStyle   = 1,
-#     curve        = 3,
-#     label.cex    = 1.6,
-#     sizeMan      = 10,
-#     sizeLat      = 14,
-#     border.width = 3,
-#     edge.width   = 3,
-#     mar          = MARGINS
-#   )
+qgraph::qgraph(
+  edge_list,
+  labels = c("I1", "I2", "I3", "I4", "I5", "I6", "F1", "F2") |>
+    setNames(nm = _),
+  label.cex = 1.6,
+  shape = "square" |> rep(8),
+  vsize = vSize, 
+  vsize2 = vSize,
+  color = "background" |> rep(8),
+  border.color = c(F1_COLOR |> rep(3), F2_COLOR |> rep(3), F1_COLOR, F2_COLOR),
+  border.width = 3,
+  bidirectional = c(FALSE |> rep(6), TRUE, TRUE),
+  directed = TRUE |> rep(8),
+  curve = c(NA |> rep(6), 3, 3),
+  edge.color = c(F1_COLOR |> rep(3), F2_COLOR |> rep(3), "black"),
+  edge.width = 3,
+  lty = 1,
+  layout = matrix(
+    c(
+      -1, -0.6, -0.2, 0.2, 0.6, 1, -0.6, 0.6,
+      -0.5 |> rep(6), 0.5 |> rep(2)
+    ),
+    ncol = 2
+  ),
+  mar = c(12, 1.3, 8, 1.3)
+)
 ```
 :::
 ::::::
