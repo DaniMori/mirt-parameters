@@ -88,6 +88,7 @@ library(ggridges)
 library(qgraph)
 library(purrr)
 library(plotly)
+library(metR)
 ```
 
 ```{r setup}
@@ -1308,13 +1309,15 @@ plot_ly(
 :::
 
 ::: column
-```{r mirt-model-irs-3d}
-#| fig-width:  5
-#| fig-height: 5
-
+```{r mirt-model-irs-contour}
 mirt_item_probs |>
-  ggplot(mapping = aes(trait_1, trait_2, z = prob)) +
-  geom_contour() +
+  ggplot(mapping = aes(trait_1, trait_2, z = prob, label = after_stat(level))) +
+  geom_contour2(
+    color = F1_COLOR,
+    linewidth = LINE_WIDTH,
+    breaks = c(.05, .1, .2, .3, .5, .7, .8, .9, .95),
+    label.placer = label_placer_fraction(frac = .18, rot_adjuster = 0)
+  ) +
   scale_x_continuous(
     minor_breaks = NULL,
     limits = range(PROB_AXIS_2D),
@@ -1332,7 +1335,6 @@ mirt_item_probs |>
     axis.title.y     = element_markdown(angle = 90),
     panel.grid.major = element_line(linetype = "17"),
   )
-
 ```
 :::
 :::
