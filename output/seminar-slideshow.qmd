@@ -1338,7 +1338,12 @@ mirt_item_probs |>
 :::
 
 ::: notes
-Una de las extensiones multidimensionales (más antiguas, y probablemente más obvias) de este modelo consiste simplemente en asumir que la respuesta se modela como una "regresión logística multivariada".
+Esto se puede extender, de manera bastante directa, asumiendo que la respuesta se modela como una "regresión logística multivariada".
+Aquí aparece otra vez la discriminación pero ahora en forma vectorial, que se multiplica por el vector de rasgo latente de la persona, y un parámetro de intersección, como antes (pero no puede haber un parámetro de dificultad simplemente, o uno por cada dimensión, porque serían indistinguibles entre sí).
+Esta es una de las extensiones multidimensionales (más antiguas, y probablemente más obvias) del modelo logístico de 2 parámetros: El modelo logístico de 2 parámetros multidimensional compensatorio.
+Pertenece a una familia de modelos llamados "compensatorios" en TRI, ya que un nivel bajo en una puntuación latente se compensa con un nivel alto en otra, dando lugar a la misma probabilidad de respuesta.
+:::
+
 
 Esto da lugar a una familia de modelos llamados "compensatorios" en TRI, ya que un nivel bajo en una puntuación latente se compensa con un nivel alto en otra, dando lugar a la misma probabilidad de respuesta.
 :::
