@@ -85,7 +85,7 @@ library(ggplot2)
 library(units)
 library(ggtext)
 library(ggridges)
-library(patchwork)
+library(purrr)
 ```
 
 ```{r setup}
@@ -875,8 +875,8 @@ Sin embargo, el llamado "AF de ítems" se aplica también a variables discretas 
 
 ## Análisis factorial de ítems {.smaller}
 
-:::::: columns
-:::: {.column width="40%"}
+::::::::: columns
+::::: {.column width="40%"}
 $$
   i_k^* = \tau_k + \mathbf{\lambda}_k^T \mathbf{F} + U_k
 $$
@@ -902,9 +902,9 @@ $$
   \end{align}
 $$
 :::
-::::
+:::::
 
-:::: {.column width="60%"}
+::::: {.column width="60%"}
 ::: {.fragment fragment-index="1"}
 ```{r ifa-density}
 #| fig-asp:   0.5
@@ -916,12 +916,6 @@ ITEM_LOADING   <-  0.45
 ITEM_INTERCEPT <- -0.3
 
 item_unique_var <-  1 - sqrt(ITEM_LOADING)
-
-probit_curve_data <- tibble(
-  score    = PROB_AXIS,
-  response = ITEM_INTERCEPT + ITEM_LOADING * score,
-  prob     = pnorm(response, sd = sqrt(item_unique_var))
-)
 
 latent_response <- tibble(
   point    = ERROR_POINTS |> rep(500000),
@@ -972,6 +966,12 @@ latent_response |>
 #| fig-asp:   0.5
 #| fig-width: 8
 
+probit_curve_data <- tibble(
+  score    = PROB_AXIS,
+  response = ITEM_INTERCEPT + ITEM_LOADING * score,
+  prob     = pnorm(response, sd = sqrt(item_unique_var))
+)
+
 # Plot: Lower Panel - Probit curve
 probit_curve_data |>
   ggplot(mapping = aes(x = score, y = prob))                        +
@@ -996,8 +996,8 @@ probit_curve_data |>
   )
 ```
 :::
-::::
-::::::
+:::::
+:::::::::
 
 ::: notes
 Lo que hace el análisis factorial de ítems es aplicar ese "modelo lineal" a variables ordinales, haciendo una generalización.
@@ -1094,6 +1094,8 @@ Si habéis hecho esto con variables categóricas, entonces habéis aplicado la T
 
 ## Paralelismo AF - TRI
 
+<br>
+
 ::::: columns
 ::: column
 ![](../www/slideshow-assets/cover_McDonald-1999.jpg){height="300px"}
@@ -1106,13 +1108,121 @@ Si habéis hecho esto con variables categóricas, entonces habéis aplicado la T
 :::
 :::::
 
-## Teoría de respuesta al ítem
+::: notes
+En este libro, que se publica en 1999 (fijaos en el subtítulo de "unified treatment"), McDonald indica que estos modelos, factoriales, TRI, son a fin de cuentas "isomóficos": Sin ser exactamente iguales ni partir de los mismos supuestos, las predicciones que hacen uno y otro son indistinguibles en la práctica.
+:::
 
-<!--# TODO: Fórmula de modelo 2PL -->
+## Teoría de respuesta al ítem {.smaller}
 
-<!--# TODO: Gráfica de discriminación alta/baja, dificultad alta/baja -->
+Modelo logístico de 2 parámetros [@birnbaum_latent_1968]:
 
-<!--# TODO: Fórmula del parámetro de intersección y del modelo en forma pendiente-intersección -->
+:::::::::: columns
+::::: {.column width="40%"}
+$$
+  P(I_k = 1) = \Phi_L (a_k (\theta - b_k))
+$$
+
+::: {.fragment fragment-index="1"}
+$$
+  \Phi_L (x) =  \frac{1}{1 + e^{-x}}
+$$
+:::
+
+<br>
+
+::: {.fragment fragment-index="3"}
+
+$$
+  \begin{align}
+    a_k &= 1.7 \frac{\lambda_k}{\sqrt{var(U_k)}} \\
+    a_k b_k &= -\frac{\tau_k}{\lambda}
+  \end{align}
+$$
+:::
+:::::
+
+:::::: {.column .fragment width="60%" fragment-index="2"}
+```{r irt-curves}
+#| fig-asp:   0.6
+#| fig-width: 8
+
+ITEMS_PALETTE <- c(
+  PALETTE_BLUE["normal"],
+  PALETTE_RASPBERRY["normal"],
+  PALETTE_APPLE["normal"]
+) |>
+  unname() |>
+  setNames("prob" |> paste(1:3, sep = '_'))
+
+ITEMS <- tribble(
+  ~item, ~a,   ~b,
+   1,     1,    0,
+   3,     1,    1.5,
+   2,     2.5,  0
+)
+
+logit <- function(x) 1 / (1 + exp(-x))
+irf   <- function(a, b, theta) logit(a * (theta - b))
+
+logit_curve_data <- tibble(
+  latent_trait = PROB_AXIS,
+  prob         = ITEMS |>
+    select(-item) |>
+    pmap(irf, theta = latent_trait) |>
+    bind_cols()
+) |>
+  unnest(
+    prob,
+    names_sep = '_'
+  ) |>
+  rename_with(stringr::str_remove, pattern = '\\.{3}')
+
+logit_curve_data_long <- logit_curve_data |>
+  pivot_longer(starts_with("prob"), names_to = "item", values_to = "prob")
+
+logit_curve_data_long |>
+  ggplot(
+    mapping = aes(
+      latent_trait, prob,
+      color = item,
+      group = after_scale(color)
+    )
+  )                                        +
+  geom_line(linewidth = LINE_WIDTH)        +
+  labs(x = "*&theta;*", y = "P(I~k~ = 1)") +
+  scale_y_continuous(
+    breaks       = 0:1,
+    minor_breaks = NULL,
+    limits       = 0:1,
+    expand       = expansion(mult = c(0, .05))
+  )                                        +
+  scale_x_continuous(
+    breaks       = ERROR_POINTS,
+    minor_breaks = NULL,
+    limits = range(ERROR_POINTS) * 1.12,
+    expand = expansion()
+  )                                        +
+  scale_color_manual(values = ITEMS_PALETTE, guide = NULL) +
+  theme(
+    axis.title       = element_markdown(),
+    axis.title.y     = element_markdown(angle = 90),
+    panel.grid.major = element_line(linetype = "17"),
+  )
+```
+
+::: r-stack
+[$a_1$ = 1.0; $b_1$ = 1.0]{style="color:#5c6eb1;"}
+:::
+
+::: r-stack
+[$a_2$ = 1.0; $b_2$ = 1.5]{style="color:#90214a;"}
+:::
+
+::: r-stack
+[$a_3$ = 2.5; $b_3$ = 0.0]{style="color:#749f4c;"}
+:::
+::::::
+::::::::::
 
 ::: notes
 La TRI, por su lado, asume que hay cada persona tiene una puntuación latente, y que su respuesta depende de esa puntuación, con un parámetro de discriminación que determina cómo de bien o mal mide el ítem, y uno de dificultad (aunque aquí prefiero llamarlo "de posición") que determina lo fácil o difícil que será dar una respuesta positiva (afirmativa, correcta, codificada como 1).
