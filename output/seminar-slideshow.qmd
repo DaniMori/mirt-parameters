@@ -102,8 +102,9 @@ par(family = "Arial", adj = 0.5) # Set graphical device params
 ```
 
 ```{r sources}
-source("R/LaTeX_math.R", encoding = 'UTF-8')
-source("R/Output.R",     encoding = 'UTF-8')
+source("R/LaTeX_math.R",   encoding = 'UTF-8')
+source("R/Output.R",       encoding = 'UTF-8')
+source("R/Mirt_toolbox.R", encoding = 'UTF-8')
 ```
 
 ```{r color-palettes}
@@ -1233,7 +1234,7 @@ $$
 
 ::: notes
 La TRI, por su lado, asume que hay cada persona tiene una puntuación latente, y que su respuesta depende de esa puntuación, con un parámetro de discriminación que determina cómo de bien o mal mide el ítem, y uno de dificultad (aunque aquí prefiero llamarlo "de posición") que determina lo fácil o difícil que será dar una respuesta positiva (afirmativa, correcta, codificada como 1).
-Esa posición representa el nivel de rasgo latente que da lugar a una probabilidad de .5 de dar la respuesta positiva.
+Esa posición representa el nivel de rasgo latente que da lugar a una probabilidad de .5 de dar la respuesta positiva (en este modelo; en general representa el punto de inflexión de la curva, es decir, donde pasa de hacerse cada vez más pronunciada a empezar a aplanarse).
 
 Ahora bien, la posición se puede reformular como un parámetro de intersección.
 
@@ -1256,8 +1257,8 @@ $$
 PROB_AXIS_2D <- seq(-3, 3, by = .1)
 
 mirt_item <- tribble(
-  ~a_1, ~a_2, ~d,
-  1,    0.5,  -0.5
+  ~item, ~a_1, ~a_2, ~d,
+  1,     1,    0.5,  -0.5
 )
 
 irs2d <- function(a_1, a_2, d, theta_1, theta_2) {
@@ -1271,6 +1272,7 @@ mirt_item_probs <- expand_grid(
 ) |>
   mutate(
     mirt_item |>
+      select(-item) |>
       pmap(irs2d, theta_1 = trait_1, theta_2 = trait_2) |>
       bind_cols()
   ) |>
@@ -1453,6 +1455,8 @@ $$
   \end{align}
 $$
 
+<br>
+
 ::: fragment
 @takane_relationship_1987:
 
@@ -1468,44 +1472,122 @@ $$
 Claro, si ponemos las ecuaciones del AF y de TRI lado a lado, es fácil ver que existe un paralelismo entre ambos modelos.
 
 Pues resulta que estas dos curvas, la normal y la logística, son muy parecidas; tanto, que es posible transformar los parámetros de la métrica del AF a métrica de TRI, obteniendo modelos indistinguibles en la práctica.
+Las dos curvas se diferencian por este factor de 1.7, pero aplicándo ese factor y escalando por la desviación estándar de la unicidad del ítem, obtenemos los mismos parámetros en métrica de TRI mulidimensional con función de respuesta logística.
 Y de hecho, esto es necesario y se hace así para hacer la estimación máximo-verosimil de la que hablábamos antes.
 :::
 
-## TRI Multidimensional: Parámetros multidimensionales
+## Parámetros multidimensionales de TRI {.smaller}
 
-<!--# TODO: Fórmula de modelo M2PL -->
+<br>
 
+$$
+  P(I_k = 1) = \Phi_L (\mathbf{a}_k^T \mathbf{\theta} + d_k)
+$$
+
+::: fragment
+$$
+  P(I_k = 1) = \Phi_L (a_k (\theta - b_k))
+$$
+:::
+
+::: fragment
 @reckase_difficulty_1985:
 
 > \[...\] means of describing the characteristics of an item that takes into account the dimensionality of the skills \[...\] can then be used to determine how or if it is possible to compare items that measure different combinations of abilities.
+:::
 
-## Dificultad multidimensional
+::: notes
+A pesar de este paralelismo que os he mostrado, y de la utilidad de los modelos de TRI, hay un problema con la formulación del modelo que os he planteado, y es que como habéis podido ver los parámetros no son fácilmente interpretables.
 
-> \[...\] the most reasonable point to use in defining the MID for an item in the multidimensional space is the point where the item is most discriminating.
+La intersección del modelo por ejemplo no tiene una interpretación clara.
+Si recordáis en la TRI unidimensional el parámetro de posición permitía comparar ítems entre sí en cuanto a su dificultad (en el caso de items cognitivos).
+Esto en AF no es muy habitual (prestamos poca atención a la "intersección" o "umbral"), porque no nos interesa tanto cómo de probable sea dar una respuesta positiva o negativa a un ítem, pero podría ayudarnos por ejemplo a diagnosticar ítems que estén mal diseñados, ya que nos da una idea de si va a haber muchas o pocas respuestas positivas a un ítem.
+
+Por eso Reckase dice, ya en 1985, que se necesita una forma de describir las características de los ítems que tenga en cuenta la dimensionalidad de las habilidades (los rasgos latentes en general).
+Daos cuenta de que entonces aún no se sabe nada de ese paralelismo con el AF.
+Además menciona que de esa manera se puede intentar comparar ítems que miden diferentes combinaciones de habilidades (fijaos en la importancia que tiene el dónde están los ítems en el continuo, en TRI, en contraste con AF, como comentábamos al principio).
+:::
+
+## Dificultad multidimensional {.smaller}
+
+@reckase_difficulty_1985:
+
+> \[...\] the most reasonable point to use in defining the [multidimensional difficulty] for an item in the multidimensional space is the point where the item is most discriminating.
 
 ---(p. 402)
 
-<!--# TODO: Fórmula del parámetro D_i -->
+$$
+MID = \frac{-d_k}{\sqrt{\mathbf{a}_k^T\mathbf{a}_k}}
+$$
 
+::: fragment
 > The distance can be interpreted much like a $b$ parameter from unidimensional IRT
 
 ---(p. 405)
-
-<!--# TODO: Representación de la curva de inflexión y la posición del ítem -->
+:::
 
 ::: notes
-A pesar de este paralelismo, y de la utilidad de los modelos de TRI, hay un problema con la formulación del modelo que os he planteado, y es que como habéis podido ver los parámetros no son fácilmente interpretables.
-La intersección del modelo no tiene una interpretación clara, al contrario que el parámetro de posición en la TRI unidimensional, que permite comparar ítems entre sí en cuanto a su dificultad.
-
-Esto en AF no es muy habitual (prestamos poca atención a la "intersección" o "umbral"), porque no nos interesa tanto cómo de probable sea dar una respuesta positiva o negativa a un ítem, pero podría ayudarnos por ejemplo a diagnosticar ítems que estén mal diseñados, ya que nos da una idea de si va a haber muchas o pocas respuestas positivas a un ítem.
-
-Por ese motivo Reckase propone en 1985 obtener un parámetro de "dificultad" (lo llama, para nosotro sería de posición) que permita comparar ítems, y que sea de algún modo equivalente a la dificultad en el modelo unidimensional.
+Por ese motivo propone un parámetro de "dificultad" (lo llama, para nosotros sería de posición) que sea de algún modo equivalente a la dificultad en el modelo unidimensional.
 Ese punto es donde la curva (superficie) de probabilidad de respuesta tiene una inflexión (a lo largo de toda ella, el punto más cercano al origen, donde la recta que lo une al origen es perpendicular a la recta de inflexión de la curva).
 
-Este parámetro se puede entender como una "distancia con signo" desde el origen hasta el punto de posición del ítem.
+Este parámetro se puede entender como una "distancia **con signo**" desde el origen hasta el punto de posición del ítem.
 :::
 
 ## Dificultad multidimensional
+
+```{r mid-representation}
+#| fig-height: 8
+#| fig-width:  8
+
+mirt_item_params <- mirt_item |>
+  compute_mirt_params(d, starts_with('a'))
+
+mirt_item_coords <- mirt_item_params |>
+  compute_mirt_coords(D, MDISC, starts_with("cos"), original_coords = FALSE)
+
+mirt_item_spikes <- mirt_item_coords |>
+  select(item, trait_1 = origin_transf_1, trait_2 = origin_transf_2) |>
+  bind_rows(tibble(item = 1, trait_1 = 0, trait_2 = 0)) |>
+  add_column(type = c("end", "start")) |>
+  pivot_wider(names_from = type, values_from = starts_with("trait"))
+
+contour_plot +
+    geom_segment(
+    data    = mirt_item_spikes,
+    mapping = aes(
+      trait_1_start, trait_2_start,
+      xend = trait_1_end,
+      yend = trait_2_end
+    ),
+    inherit.aes = FALSE,
+    linewidth = LINE_WIDTH,
+    linetype  = '43',
+    color = PALETTE_BLUE["light"]
+  ) +
+  geom_point(
+    data = mirt_item_coords,
+    mapping = aes(origin_transf_1, origin_transf_2),
+    inherit.aes = FALSE,
+    size = I(4)
+  ) +
+  scale_x_continuous(
+    breaks = -1:1,
+    minor_breaks = NULL,
+    limits = c(-1.5, 1.5)
+  ) +
+  scale_y_continuous(
+    breaks = -1:1,
+    minor_breaks = NULL,
+    limits = c(-1.5, 1.5)
+  ) +
+  annotate(
+    geom = "text",
+    x = 0.1, y = 0.2,
+    label = "MID",
+    size = 6,
+    angle = mirt_item_params |> pull(deg_1)
+  )
+```
 
 <!--# TODO: Fórmula de los cosenos directores -->
 
