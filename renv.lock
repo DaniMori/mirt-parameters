@@ -1517,6 +1517,12 @@
       ],
       "Hash": "44c6a2f8202d5b7e878ea274b1092426"
     },
+    "ggridges": {
+      "Package": "ggridges",
+      "Version": "0.5.6",
+      "Source": "Repository",
+      "Repository": "CRAN"
+    },
     "glasso": {
       "Package": "glasso",
       "Version": "1.11",
