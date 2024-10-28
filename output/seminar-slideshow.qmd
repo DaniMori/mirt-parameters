@@ -1120,7 +1120,7 @@ En este libro, que se publica en 1999 (fijaos en el subtítulo de "unified treat
 
 Modelo logístico de 2 parámetros [@birnbaum_latent_1968]:
 
-:::::::::: columns
+::::::::::: columns
 :::::: {.column width="60%"}
 ```{r irt-curves}
 #| fig-asp:   0.6
@@ -1203,7 +1203,7 @@ logit_curve_data_long |>
 :::
 ::::::
 
-::::: {.column width="40%"}
+:::::: {.column width="40%"}
 ::: {.fragment fragment-index="1"}
 $$
   P(Y_i = 1) = \Phi_L (a_i (\theta - b_i))
@@ -1230,9 +1230,8 @@ $$
 :::
 
 <br>
-
-:::::
-::::::::::
+::::::
+:::::::::::
 
 ::: notes
 La TRI, por su lado, asume que hay cada persona tiene una puntuación latente, y que su respuesta depende de esa puntuación, con un parámetro de discriminación que determina cómo de bien o mal mide el ítem, y uno de dificultad (aunque aquí prefiero llamarlo "de posición") que determina lo fácil o difícil que será dar una respuesta positiva (afirmativa, correcta, codificada como 1).
@@ -1251,7 +1250,7 @@ $$
   P(Y_i = 1) = \Phi_L (\mathbf{a}_i^T \mathbf{\theta} + d_i)
 $$
 
-::: columns
+::::: columns
 ::: column
 ```{r mirt-model-irs-3d}
 #| fig-width:  4.6
@@ -1341,7 +1340,7 @@ contour_plot <- mirt_item_probs |>
 contour_plot
 ```
 :::
-:::
+:::::
 
 ::: notes
 Esto se puede extender, de manera bastante directa, asumiendo que la respuesta se modela como una "regresión logística multivariada".
@@ -1352,7 +1351,7 @@ Pertenece a una familia de modelos llamados "compensatorios" en TRI, ya que un n
 
 ## TRI multidimensional: Ejemplo {.smaller}
 
-::: columns
+:::::: columns
 ::: column
 $$
   P(Y_1 = 1) = \Phi_L (\mathbf{a}_1^T \mathbf{\theta} + d_1)
@@ -1402,7 +1401,7 @@ contour_plot +
 ```
 :::
 
-::: column
+:::: column
 \begin{matrix}
   \mathbf{\theta} =
     \begin{bmatrix}
@@ -1435,8 +1434,8 @@ $$
   \end{align}
 $$
 :::
-:::
-:::
+::::
+::::::
 
 ::: notes
 Veamos un ejemplo de cuál sería la probabilidad de respuesta de una persona con puntuaciones de rasgo de 1 y -1.
@@ -1514,7 +1513,7 @@ Además menciona que de esa manera se puede intentar comparar ítems que miden d
 
 @reckase_difficulty_1985:
 
-> \[...\] the most reasonable point to use in defining the [multidimensional difficulty] for an item in the multidimensional space is the point where the item is most discriminating.
+> \[...\] the most reasonable point to use in defining the \[multidimensional difficulty\] for an item in the multidimensional space is the point where the item is most discriminating.
 
 ---(p. 402)
 
@@ -1537,7 +1536,7 @@ Este parámetro se puede entender como una "distancia **con signo**" desde el or
 
 ## Dificultad multidimensional
 
-:::: columns
+::::::: columns
 ::: column
 ```{r mid-representation}
 #| fig-height: 8
@@ -1594,7 +1593,7 @@ contour_plot +
 ```
 :::
 
-::: column
+::::: column
 ::: fragment
 $$
   cos \, \mathbf{\alpha}_i = \frac{\mathbf{a}_i}{\sqrt{\mathbf{a}_i^T\mathbf{a}_i}}
@@ -1611,8 +1610,8 @@ $$
   \end{Bmatrix}
 $$
 :::
-:::
-::::
+:::::
+:::::::
 
 ::: notes
 Para representar ese punto no basta con la "distancia (con signo)"; hace falta saber en qué dirección mide ese ítem también.
@@ -1634,8 +1633,7 @@ Es decir, una vez estoy pasada la recta, aunque esté cerca, ¿es el ítem muy f
 > the discriminating power of an item indicates how quickly the transition takes place from low probability to high probability of a correct response.
 > \[...\] A highly discriminating item divides the regions clearly-having a narrow region of ambiguity, that is, a region where the probabilities are intermediate in magnitude.
 
-:::: {.columns .fragment}
-
+::::: {.columns .fragment}
 ::: column
 <br>
 
@@ -1690,7 +1688,7 @@ mirt_item_coords |>
   )
 ```
 :::
-::::
+:::::
 
 ::: notes
 Esta característica viene representada por el parámetro de "discriminación", que es una medida de la "calidad general" de un ítem.
