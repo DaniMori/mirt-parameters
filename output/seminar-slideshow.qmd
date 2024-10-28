@@ -85,7 +85,9 @@ library(ggplot2)
 library(units)
 library(ggtext)
 library(ggridges)
+library(qgraph)
 library(purrr)
+library(plotly)
 ```
 
 ```{r setup}
@@ -1047,7 +1049,7 @@ edge_list <- tribble(
 )
 vSize <- c(10 |> rep(6), 14 |> rep(2))
 
-qgraph::qgraph(
+qgraph(
   edge_list,
   labels = c("I1", "I2", "I3", "I4", "I5", "I6", "F1", "F2") |>
     setNames(nm = _),
@@ -1241,11 +1243,78 @@ En este caso, en lugar de una función probit (normal acumulada), la función de
 Es decir, la respuesta a cada ítem se modela como una regresión logistica donde los predictores son las variables latentes.
 :::
 
-## Teoría de respuesta al ítem multidimensional
+## TRI multidimensional
 
-<!--# TODO: Fórmula de modelo M2PL -->
+$$
+  P(I_k = 1) = \Phi_L (\mathbf{a}_k^T \mathbf{\theta} + d_k)
+$$
 
-<!--# TODO: Gráfica tridimensional de modelo compensatorio (y "curvas de nivel"?) -->
+::: columns
+::: column
+```{r mirt-model}
+#| fig-width:  5
+#| fig-height: 5
+PROB_AXIS_2D <- seq(-3, 3, by = .1)
+
+mirt_item <- tribble(
+  ~a_1, ~a_2, ~d,
+  2,    1,    -1.5
+)
+
+irs2d <- function(a_1, a_2, d, theta_1, theta_2) {
+  
+  logit(a_1 * theta_1 + a_2 * theta_2 + d)
+}
+
+mirt_item_probs <- expand_grid(
+  trait_2 = PROB_AXIS_2D,
+  trait_1 = PROB_AXIS_2D
+) |>
+  mutate(
+    mirt_item |>
+      pmap(irs2d, theta_1 = trait_1, theta_2 = trait_2) |>
+      bind_cols()
+  ) |>
+    rename(prob = `...1`)
+
+mirt_prob_surface <- mirt_item_probs |>
+  pivot_wider(names_from = trait_1, values_from = prob) |>
+    select(-trait_2) |>
+    as.matrix()
+
+mirt_item_probs |>
+  plot_ly(
+    x = ~PROB_AXIS_2D,
+    y = ~PROB_AXIS_2D,
+    z = ~mirt_prob_surface,
+    colorscale = list(c(0, 1), PALETTE_BLUE["normal"] |> rep(2)),
+    type = 'surface',
+    showscale = FALSE,
+    hoverinfo = 'none'
+  ) |>
+  layout(
+    scene = list(
+      xaxis = list(title = "<i>θ</i><sub>1</sub>"),
+      yaxis = list(title = "<i>θ</i><sub>2</sub>"),
+      zaxis = list(title = "P(I<sub>k</sub> = 1)"),
+      camera = list(
+        center = list(z = -.2),
+        eye = list(x = -.12, y = -1.8, z = 1)
+      )
+    )
+  ) |>
+  config(
+    displayModeBar = FALSE,
+    scrollZoom = FALSE,
+    mathjax = 'cdn'
+  )
+```
+
+:::
+
+::: column
+:::
+:::
 
 ::: notes
 Una de las extensiones multidimensionales (más antiguas, y probablemente más obvias) de este modelo consiste simplemente en asumir que la respuesta se modela como una "regresión logística multivariada".
