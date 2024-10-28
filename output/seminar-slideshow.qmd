@@ -1440,13 +1440,35 @@ Veamos un ejemplo de cuál sería la probabilidad de respuesta de una persona co
 (Hacer cálculos matriciales)
 :::
 
-## AF en métrica TRI
+## AF en métrica TRI {.smaller}
 
-<!--# TODO: Fórmulas de los modelos y de transformación de parámetros. -->
+<br>
+
+$$
+  \begin{align}
+    P(I_k = 1) &= \Phi_N \left(
+      \frac{\mathbf{\lambda}_k^T \mathbf{F} + \tau_k}{\sqrt{var(U_k)}}
+    \right) \\
+    P(I_k = 1) &= \Phi_L (\mathbf{a}_k^T \mathbf{\theta} + d_k)
+  \end{align}
+$$
+
+::: fragment
+@takane_relationship_1987:
+
+$$
+  \begin{align}
+    \mathbf{a}_k &= \frac{1.7}{\sqrt{var(U_k)}} \mathbf{\lambda}_k \\
+    d_k &= \frac{1.7}{\sqrt{var(U_k)}} \tau_k
+  \end{align}
+$$
+:::
 
 ::: notes
-A partir de las ecuaciones del AF y de TRI, es fácil ver que existe un paralelismo entre ambos modelos.
-Es posible transformar los parámetros de la métrica del AF a métrica de TRI y, de hecho, esto es necesario, y se hace así para hacer la estimación máximo-verosimil de la que hablábamos antes.
+Claro, si ponemos las ecuaciones del AF y de TRI lado a lado, es fácil ver que existe un paralelismo entre ambos modelos.
+
+Pues resulta que estas dos curvas, la normal y la logística, son muy parecidas; tanto, que es posible transformar los parámetros de la métrica del AF a métrica de TRI, obteniendo modelos indistinguibles en la práctica.
+Y de hecho, esto es necesario y se hace así para hacer la estimación máximo-verosimil de la que hablábamos antes.
 :::
 
 ## TRI Multidimensional: Parámetros multidimensionales
