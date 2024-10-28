@@ -1664,7 +1664,7 @@ mirt_item_coords |>
     linewidth = VECTOR_WIDTH
   ) +
   scale_x_continuous(
-    limits       = c(-1, 2),
+    limits       = c(-1, 2), ## TODO: Change limits
     breaks       = -1:2,
     minor_breaks = NULL,
     name         = NULL,
