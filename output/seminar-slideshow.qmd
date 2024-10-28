@@ -873,12 +873,10 @@ Tenemos costumbre de ver el análisis factorial en ese contexto, de variables cu
 Sin embargo, el llamado "AF de ítems" se aplica también a variables discretas ordinales (e idealmente se debería aplicar así a ítems tipo Likert, aunque a veces no se haga, por simplificar).
 :::
 
-## Análisis factorial de ítems
+## Análisis factorial de ítems {.smaller}
 
 :::::: columns
-:::: column
-<br>
-
+:::: {.column width="40%"}
 $$
   i_k^* = \tau_k + \mathbf{\lambda}_k^T \mathbf{F} + U_k
 $$
@@ -893,17 +891,29 @@ $$
     \end{matrix} \right.
 $$
 :::
+
+<br>
+
+::: {.fragment fragment-index="2"}
+$$
+  \begin{align}
+    P(I_k = 1) &= \int_{-\infty}^0 \mathcal{N}(i_k^*) \delta i_k^* \\
+               &= \Phi_N (i_k^*)
+  \end{align}
+$$
+:::
 ::::
 
-::: {.column .fragment fragment-index="1"}
-```{r ifa-curve}
-#| fig-asp: 1.4
-#| cache: false
+:::: {.column width="60%"}
+::: {.fragment fragment-index="1"}
+```{r ifa-density}
+#| fig-asp:   0.5
+#| fig-width: 8
 
 PROB_AXIS      <- seq(-3, 3, by = .01)
 ERROR_POINTS   <- seq(-3, 3, length.out = 5)
-ITEM_LOADING   <-  0.35
-ITEM_INTERCEPT <- -0.5
+ITEM_LOADING   <-  0.45
+ITEM_INTERCEPT <- -0.3
 
 item_unique_var <-  1 - sqrt(ITEM_LOADING)
 
@@ -923,38 +933,47 @@ latent_response <- tibble(
 )
 
 # Plot: Upper Panel - Linear regression with Gaussian error distributions
-latent_response_plot <- latent_response |>
-  ggplot(aes(x = response, y = point, fill = ..x.. > 0, group = point)) +
+latent_response |>
+  ggplot(
+    aes(x = response, y = point, fill = after_stat(x) > 0, group = point)
+  )                            +
   geom_density_ridges_gradient(
     scale          =  .2,
     rel_min_height = 0.001,
     color          = PALETTE_BLUE["normal"]
-  )                                                                     +
-  labs(x = "i~k~^*^", y = NULL)                                         +
+  )                              +
+  labs(x = "i~k~^*^", y = NULL)  +
   scale_y_continuous(
     breaks       = ERROR_POINTS,
     minor_breaks = NULL,
     labels       = NULL,
     limits       = range(ERROR_POINTS) * 1.12,
     expand       = expansion()
-    )           +
-  scale_x_continuous(breaks = 0)                                        +
+  )           +
+  scale_x_continuous(breaks = 0) +
   scale_fill_manual(
     values = c(
       `FALSE` = unname(PALETTE_BLUE["white"]),
       `TRUE`  = unname(PALETTE_BLUE["normal"])
     )
-  ) +
+  )                              +
   theme(
     axis.ticks.x = element_blank(),
     axis.title.y = element_markdown(angle = 90),
     legend.position = "none",
     panel.grid.major = element_line(linetype = "17")
-  )                                                                     +
+  )                              +
   coord_flip()
+```
+:::
+
+::: {.fragment fragment-index="2"}
+```{r ifa-curve}
+#| fig-asp:   0.5
+#| fig-width: 8
 
 # Plot: Lower Panel - Probit curve
-probit_plot <- probit_curve_data |>
+probit_curve_data |>
   ggplot(mapping = aes(x = score, y = prob))                        +
   geom_line(color = PALETTE_BLUE["normal"], linewidth = LINE_WIDTH) +
   labs(x = "E(*i~k~^*^*)", y = "P(I~k~ = 1)")                       +
@@ -975,11 +994,9 @@ probit_plot <- probit_curve_data |>
     axis.title.y     = element_markdown(angle = 90),
     panel.grid.major = element_line(linetype = "17"),
   )
-
-## TODO: Correct error break points and fig height
-latent_response_plot / probit_plot
 ```
 :::
+::::
 ::::::
 
 ::: notes
