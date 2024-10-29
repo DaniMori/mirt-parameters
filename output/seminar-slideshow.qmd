@@ -902,7 +902,7 @@ $$
 
 ::: {.fragment fragment-index="2"}
 $$
-  P(Y_i = 1) = \int_{-\infty}^0 \mathcal{N}(y_i^*) \delta y_i^* \\
+  P(Y_i = 1) = \int_0^{-\infty} \mathcal{N}(y_i^*) \delta y_i^* \\
              = \Phi_N \left(\frac{\tau_i + \mathbf{\lambda}_i^T \mathbf{F}}{\sqrt{var(U_i)}}\right)
 $$
 :::
