@@ -1437,7 +1437,6 @@ contour_plot +
 :::
 
 :::: column
-
 \begin{matrix}
   \mathbf{\theta} =
     \begin{bmatrix}
@@ -1676,13 +1675,11 @@ Es decir, una vez estoy pasada la recta, aunque esté cerca, ¿es el ítem muy f
 @reckase_discriminating_1991 [p. 362]:
 
 > the discriminating power of an item indicates how quickly the transition takes place from low probability to high probability \[...\].
-> A highly discriminating item divides the regions clearly---having a narrow region  \[...\] where the probabilities are intermediate in magnitude.
+> A highly discriminating item divides the regions clearly---having a narrow region \[...\] where the probabilities are intermediate in magnitude.
 
 ::::: {.columns .fragment}
 ::: column
-<br>
-<br>
-<br>
+<br> <br> <br>
 
 $$
   MDISC_i = \sqrt{\mathbf{a}_i^T \mathbf{a}_i}
