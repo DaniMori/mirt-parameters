@@ -1627,11 +1627,13 @@ contour_plot +
     sec.axis     = dup_axis(name = "*&theta;*~1~", labels = NULL)
   ) +
   annotate(
-    geom = "text",
-    x = 0.18, y = 0.17,
-    label = "MID",
+    geom = "richtext",
+    x = 0.16, y = 0.15,
+    label = "*MID~i~*",
     size = 6,
-    angle = mirt_item_params |> pull(deg_1)
+    angle = mirt_item_params |> pull(deg_1),
+    label.colour  = NA,
+    fill = NA
   )
 ```
 :::
@@ -1745,11 +1747,13 @@ item_vector |>
   ) +
   scale_color_manual(values = unname(PALETTE_BLUE["normal"]), guide = NULL) +
   annotate(
-    "text",
-    x = 0.32, y = 0.3,
-    label = "MDISC",
+    "richtext",
+    x = 0.3, y = 0.27,
+    label = "*MDISC~i~*",
     size  = 5.5,
-    angle = mirt_item_params |> pull(deg_1)
+    angle = mirt_item_params |> pull(deg_1),
+    label.colour  = NA,
+    fill = NA
   ) +
   annotate(
     "richtext",
@@ -1757,7 +1761,8 @@ item_vector |>
     label         = c("*a*~1*i*~", "*a*~2*i*~"),
     size          = 4.5,
     label.colour  = NA,
-    label.padding = unit(0, "lines")
+    label.padding = unit(0, "lines"),
+    fill = NA
   ) +
   coord_fixed(clip = "on") +
   theme(
