@@ -86,6 +86,7 @@ library(units)
 library(ggtext)
 library(ggridges)
 library(qgraph)
+library(stringr)
 library(purrr)
 library(plotly)
 library(metR)
@@ -148,12 +149,13 @@ PALETTE_RASPBERRY <- c(
   white  = "#dac7c7"
 )
 
-GRAPH_FONT   <- "Arial"    # Replace default font to comply with UNED identity
-FONT_SIZE    <- 24         # Replace default font size for slideshow
-AXIS_LAB_POS <-   .5       # Replace default axis label position for slideshow
-LINE_WIDTH   <-   .75      # Replace default line width for slideshow
-AXIS_COLOR   <- "darkgray" # Replace default grid line color for slideshow
-VECTOR_WIDTH <- 2.5        # Replace default vector width for slideshow
+GRAPH_FONT   <- "Arial"  # Replace default font to comply with UNED identity
+FONT_SIZE    <- 24       # Replace default font size for slideshow
+AXIS_LAB_POS <-  0.5     # Replace default axis label position for slideshow
+LINE_WIDTH   <-  0.75    # Replace default line width for slideshow
+GRID_WIDTH   <-  0.5     # Width for grid and axis lines
+AXIS_COLOR   <- "gray70" # Replace default grid line color for slideshow
+VECTOR_WIDTH <- 1.5      # Replace default vector width for slideshow
 ```
 
 ```{r graphical-output-conf}
@@ -165,10 +167,11 @@ theme_set( # `ggplot` output configuration
     base_line_size = LINE_WIDTH
   ) %+replace%
     theme(
-      axis.title.x     = element_text(hjust = AXIS_LAB_POS),
-      axis.title.y     = element_text(vjust = AXIS_LAB_POS, angle = 0),
-      panel.grid       = element_line(color = AXIS_COLOR),
-      panel.grid.minor = element_line(linetype = "17", color = "grey70")
+      axis.title.x       = element_text(hjust = AXIS_LAB_POS),
+      axis.title.y       = element_text(vjust = AXIS_LAB_POS, angle = 0),
+      axis.title.y.right = element_text(vjust = AXIS_LAB_POS, angle = 0),
+      panel.grid         = element_line(color = AXIS_COLOR),
+      panel.grid.minor   = element_line(linetype = "17", color = AXIS_COLOR)
     )
 )
 ```
@@ -316,16 +319,18 @@ simple_item_loadings_wide |>
     size    = I(5)
   )                                                                +
   scale_x_continuous(
-    limits = axis_lims,
-    breaks = 0,
-    labels = NULL,
-    name   = "F2",
+    limits   = axis_lims,
+    breaks   = 0,
+    labels   = NULL,
+    name     = "F2",
+    position = "top"
   )                                                                +
   scale_y_continuous(
-    limits = axis_lims,
-    breaks = 0,
-    labels = NULL,
-    name   = "F1"
+    limits   = axis_lims,
+    breaks   = 0,
+    labels   = NULL,
+    name     = "F1",
+    position = "right"
   )                                                                +
   scale_color_manual(values = factor_colors, guide = NULL)         +
   coord_fixed(expand = FALSE, clip = "on")                         +
@@ -333,10 +338,10 @@ simple_item_loadings_wide |>
     axis.line          = element_blank(),
     axis.ticks         = element_blank(),
     axis.title.x       = element_text(hjust = axis_pos),
-    axis.title.y       = element_text(vjust = axis_pos),
+    axis.title.y.right = element_text(vjust = axis_pos),
     panel.grid.major   = element_line(
       color     = "black",
-      linewidth = LINE_WIDTH
+      linewidth = GRID_WIDTH
     ),
     panel.grid.major.x = element_line(color = PALETTE_RASPBERRY["light"]),
     panel.grid.major.y = element_line(color = PALETTE_BLUE["light"])
@@ -384,10 +389,8 @@ simple_item_loadings_rot_plot <- simple_item_loadings_rot |>
   group_by(item)                                          |>
   pivot_wider(names_from = factor, values_from = loading) |>
   ggplot(mapping = aes(F1, F2, color = main_factor, label = item)) +
-  geom_point(size = I(4))                                          +
   geom_text(
     nudge_x = -.12,
-    # nudge_y = -.08,
     color   = I("black"),
     size    = I(5)
   )                                                                +
@@ -408,15 +411,13 @@ simple_item_loadings_rot_plot <- simple_item_loadings_rot |>
   theme(
     axis.line          = element_blank(),
     axis.ticks         = element_blank(),
-    axis.title.x       = element_text(hjust = axis_pos),
-    axis.title.y       = element_text(vjust = axis_pos),
     panel.grid.major   = element_line(
       color     = "black",
-      linewidth = LINE_WIDTH
+      linewidth = GRID_WIDTH
     )
   )
 
-simple_item_loadings_rot_plot
+simple_item_loadings_rot_plot + geom_point(size = I(4))
 ```
 :::
 
@@ -442,7 +443,16 @@ rotated_axes <- tibble(
 simple_item_loadings_rot_plot +
   geom_abline(
     data    = rotated_axes,
-    mapping = aes(slope = slope, intercept = 0, color = factor)
+    mapping = aes(slope = slope, intercept = 0),
+    color   = c(PALETTE_BLUE["light"], PALETTE_RASPBERRY["light"]),
+    linewidth = LINE_WIDTH
+  ) +
+  geom_point(size = I(4)) +
+  annotate(
+    "text",
+    x = -1.35, y = c(-.62, .78),
+    label = rotated_axes |> pull(factor),
+    size  = 9
   )
 ```
 :::
@@ -560,12 +570,14 @@ complex_item_loadings_wide |>
     breaks = 0,
     labels = NULL,
     name   = "F2",
+    position = "top"
   )                                                                +
   scale_y_continuous(
     limits = axis_lims,
     breaks = 0,
     labels = NULL,
-    name   = "F1"
+    name   = "F1",
+    position = "right"
   )                                                                +
   scale_color_manual(values = factor_colors, guide = NULL)         +
   coord_fixed(expand = FALSE, clip = "on")                         +
@@ -573,10 +585,10 @@ complex_item_loadings_wide |>
     axis.line          = element_blank(),
     axis.ticks         = element_blank(),
     axis.title.x       = element_text(hjust = axis_pos),
-    axis.title.y       = element_text(vjust = axis_pos),
+    axis.title.y.right = element_text(vjust = axis_pos),
     panel.grid.major   = element_line(
       color     = "black",
-      linewidth = LINE_WIDTH
+      linewidth = GRID_WIDTH
     ),
     panel.grid.major.x = element_line(color = PALETTE_RASPBERRY["light"]),
     panel.grid.major.y = element_line(color = PALETTE_BLUE["light"])
@@ -656,7 +668,6 @@ method_item_loadings                                      |>
   ggplot(mapping = aes(F1, M1, label = item))              +
   geom_point(size = I(4), color = F1_COLOR)                +
   geom_text(
-    # nudge_x =  .1,
     nudge_y = -.12,
     color   = I("black"),
     size    = I(5)
@@ -666,12 +677,14 @@ method_item_loadings                                      |>
     breaks = 0,
     labels = NULL,
     name   = "M1",
+    position = "top"
   )                                                        +
   scale_y_continuous(
     limits = axis_lims,
     breaks = 0,
     labels = NULL,
-    name   = "F1"
+    name   = "F1",
+    position = "right"
   )                                                        +
   scale_color_manual(values = factor_colors, guide = NULL) +
   coord_fixed(expand = FALSE, clip = "on")                 +
@@ -679,10 +692,10 @@ method_item_loadings                                      |>
     axis.line          = element_blank(),
     axis.ticks         = element_blank(),
     axis.title.x       = element_text(hjust = axis_pos),
-    axis.title.y       = element_text(vjust = axis_pos),
+    axis.title.y.right = element_text(vjust = axis_pos),
     panel.grid.major   = element_line(
       color     = "black",
-      linewidth = LINE_WIDTH
+      linewidth = GRID_WIDTH
     ),
     panel.grid.major.x = element_line(color = PALETTE_RASPBERRY["light"]),
     panel.grid.major.y = element_line(color = PALETTE_BLUE["light"])
@@ -762,7 +775,7 @@ $$
 ::: {.column .fragment fragment-index="2"}
 ```{r fa_example_plot}
 #| cache: false
-AXIS_MINOR <- c(-1, 1, 2)
+AXIS_GRID <- -1:1
 
 # Generate data for simple and complex factorial structures
 fa_example <- tribble(
@@ -794,7 +807,17 @@ fa_example_spikes <- fa_example_spikes |> slice(1:2)        |>
   pivot_wider(names_from = type, values_from = F1:F2)
 
 fa_example_wide |>
-  ggplot(mapping = aes(F1, F2, label = object))            +
+  ggplot(mapping = aes(F1, F2, label = object))             +
+  geom_hline(
+    yintercept = 0,
+    color      = PALETTE_BLUE["light"],
+    linewidth  = GRID_WIDTH
+  )                                                         +
+  geom_vline(
+    xintercept = 0,
+    color      = PALETTE_RASPBERRY["light"],
+    linewidth  = GRID_WIDTH
+  )                                                         +
   geom_segment(
     data        = fa_example_spikes,
     mapping     = aes(
@@ -818,17 +841,17 @@ fa_example_wide |>
   )                                                        +
   scale_x_continuous(
     limits       = axis_lims,
-    breaks       = 0,
-    labels       = NULL,
-    name         = "F~2~",
-    minor_breaks = AXIS_MINOR
+    breaks       = AXIS_GRID,
+    name         = NULL,
+    minor_breaks = NULL,
+    sec.axis     = dup_axis(name = "F~2~", labels = NULL)
   )                                                        +
   scale_y_continuous(
     limits       = axis_lims,
-    breaks       = 0,
-    labels       = NULL,
-    name         = "F~1~",
-    minor_breaks = AXIS_MINOR
+    breaks       = AXIS_GRID,
+    name         = NULL,
+    minor_breaks = NULL,
+    sec.axis     = dup_axis(name = "F~1~", labels = NULL)
   )                                                        +
   scale_color_manual(values = factor_colors, guide = NULL) +
   coord_fixed(expand = FALSE, clip = "on")                 +
@@ -837,12 +860,11 @@ fa_example_wide |>
     axis.ticks         = element_blank(),
     axis.title.x       = element_markdown(hjust = axis_pos),
     axis.title.y       = element_markdown(vjust = axis_pos),
+    axis.title.y.right = element_text(vjust = axis_pos),
     panel.grid.major   = element_line(
-      color     = "black",
-      linewidth = LINE_WIDTH
-    ),
-    panel.grid.major.x = element_line(color = PALETTE_RASPBERRY["light"]),
-    panel.grid.major.y = element_line(color = PALETTE_BLUE["light"])
+      linewidth = GRID_WIDTH,
+      linetype  = "17"
+    )
   )
 ```
 :::
@@ -882,7 +904,7 @@ Sin embargo, el llamado "AF de ítems" se aplica también a variables discretas 
 ## Análisis factorial de ítems {.smaller}
 
 ::::::::: columns
-::::: {.column width="40%"}
+::::: {.column width="45%"}
 $$
   y_i^* = \tau_i + \mathbf{\lambda}_i^T \mathbf{F} + U_i
 $$
@@ -902,13 +924,18 @@ $$
 
 ::: {.fragment fragment-index="2"}
 $$
-  P(Y_i = 1) = \int_0^{-\infty} \mathcal{N}(y_i^*) \delta y_i^* \\
-             = \Phi_N \left(\frac{\tau_i + \mathbf{\lambda}_i^T \mathbf{F}}{\sqrt{var(U_i)}}\right)
+  \begin{align}
+    P(Y_i = 1) &= \int_0^{-\infty} \mathcal{N}(y_i^*) \delta y_i^* \\
+               &= \Phi_N \left(
+                 \frac{ \tau_i + \mathbf{\lambda}_i^T \mathbf{F} }
+                   { \sqrt{var(U_i)} }
+               \right)
+  \end{align}
 $$
 :::
 :::::
 
-::::: {.column width="60%"}
+::::: {.column width="55%"}
 ::: {.fragment fragment-index="1"}
 ```{r ifa-density}
 #| fig-asp:   0.5
@@ -959,7 +986,7 @@ latent_response |>
     axis.ticks.x = element_blank(),
     axis.title.y = element_markdown(angle = 90),
     legend.position = "none",
-    panel.grid.major = element_line(linetype = "17")
+    panel.grid.major = element_line(linetype = "17", linewidth = GRID_WIDTH)
   )                              +
   coord_flip()
 ```
@@ -985,7 +1012,8 @@ probit_curve_data |>
     breaks       = 0:1,
     minor_breaks = NULL,
     limits       = 0:1,
-    expand       = expansion(mult = c(0, .05))
+    expand       = expansion(mult = c(0, .05)),
+    oob = oob_keep
   )  +
   scale_x_continuous(
     breaks       = ERROR_POINTS,
@@ -996,7 +1024,7 @@ probit_curve_data |>
   theme(
     axis.title       = element_markdown(),
     axis.title.y     = element_markdown(angle = 90),
-    panel.grid.major = element_line(linetype = "17"),
+    panel.grid.major = element_line(linetype = "17", linewidth = GRID_WIDTH),
   )
 ```
 :::
@@ -1155,7 +1183,7 @@ logit_curve_data <- tibble(
     prob,
     names_sep = '_'
   ) |>
-  rename_with(stringr::str_remove, pattern = '\\.{3}')
+  rename_with(str_remove, pattern = '\\.{3}')
 
 logit_curve_data_long <- logit_curve_data |>
   pivot_longer(starts_with("prob"), names_to = "item", values_to = "prob")
@@ -1186,7 +1214,7 @@ logit_curve_data_long |>
   theme(
     axis.title       = element_markdown(),
     axis.title.y     = element_markdown(angle = 90),
-    panel.grid.major = element_line(linetype = "17"),
+    panel.grid.major = element_line(linetype = "17", linewidth = GRID_WIDTH),
   )
 ```
 
@@ -1313,28 +1341,35 @@ plot_ly(
 ```{r mirt-model-irs-contour}
 contour_plot <- mirt_item_probs |>
   ggplot(mapping = aes(trait_1, trait_2, z = prob, label = after_stat(level))) +
+  geom_vline(xintercept = 0, linewidth = GRID_WIDTH) +
+  geom_hline(yintercept = 0, linewidth = GRID_WIDTH) +
   geom_contour2(
     color = F1_COLOR,
     linewidth = LINE_WIDTH,
     breaks = c(.05, .1, .2, .3, .5, .7, .8, .9, .95),
-    label.placer = label_placer_fraction(frac = .18, rot_adjuster = 0)
+    label.placer = label_placer_fraction(frac = .90, rot_adjuster = 0)
   ) +
   scale_x_continuous(
     minor_breaks = NULL,
     limits = range(PROB_AXIS_2D),
-    expand = expansion()
+    expand = expansion(),
+    name   = NULL,
+    sec.axis = dup_axis(name = "*&theta;*~2~", labels = NULL)
   ) +
   scale_y_continuous(
     minor_breaks = NULL,
     limits = range(PROB_AXIS_2D),
-    expand = expansion()
+    expand = expansion(),
+    name   = NULL,
+    sec.axis = dup_axis(name = "*&theta;*~1~", labels = NULL)
   ) +
   coord_fixed() +
-  labs(x = "*&theta;*~1~", y = "*&theta;*~2~") +
   theme(
+    axis.ticks       = element_blank(),
+    axis.line        = element_blank(),
     axis.title       = element_markdown(),
-    axis.title.y     = element_markdown(angle = 90),
-    panel.grid.major = element_line(linetype = "17"),
+    axis.title.y     = element_markdown(),
+    panel.grid.major = element_line(linetype = "17", linewidth = GRID_WIDTH)
   )
 
 contour_plot
@@ -1380,7 +1415,7 @@ mirt_example_spikes <- mirt_example_spikes |>
   pivot_wider(names_from = type, values_from = starts_with("theta"))
 
 contour_plot +
-    geom_segment(
+  geom_segment(
     data    = mirt_example_spikes,
     mapping = aes(
       theta_1_start, theta_2_start,
@@ -1402,13 +1437,14 @@ contour_plot +
 :::
 
 :::: column
+
 \begin{matrix}
   \mathbf{\theta} =
     \begin{bmatrix}
-       1 \\
+      1 \\
       -1
     \end{bmatrix}
-    
+
   &\begin{align}
     \mathbf{a}_1 &=
       \begin{bmatrix}
@@ -1546,16 +1582,17 @@ mirt_item_params <- mirt_item |>
   compute_mirt_params(d, starts_with('a'))
 
 mirt_item_coords <- mirt_item_params |>
-  compute_mirt_coords(D, MDISC, starts_with("cos"), original_coords = FALSE)
+  compute_mirt_coords(D, MDISC, starts_with("cos"), original_coords = FALSE) |>
+    rename_with(str_remove, pattern = "transf_")
 
 mirt_item_spikes <- mirt_item_coords |>
-  select(item, trait_1 = origin_transf_1, trait_2 = origin_transf_2) |>
+  select(item, trait_1 = origin_1, trait_2 = origin_2) |>
   bind_rows(tibble(item = 1, trait_1 = 0, trait_2 = 0)) |>
   add_column(type = c("end", "start")) |>
   pivot_wider(names_from = type, values_from = starts_with("trait"))
 
 contour_plot +
-    geom_segment(
+  geom_segment(
     data    = mirt_item_spikes,
     mapping = aes(
       trait_1_start, trait_2_start,
@@ -1569,23 +1606,29 @@ contour_plot +
   ) +
   geom_point(
     data = mirt_item_coords,
-    mapping = aes(origin_transf_1, origin_transf_2),
+    mapping = aes(origin_1, origin_2),
     inherit.aes = FALSE,
     size = I(4)
   ) +
   scale_x_continuous(
-    breaks = -1:1,
+    breaks       = -1:1,
     minor_breaks = NULL,
-    limits = c(-1.5, 1.5)
+    limits       = c(-1.5, 1.5),
+    expand       = expansion(),
+    name         = NULL,
+    sec.axis     = dup_axis(name = "*&theta;*~2~", labels = NULL)
   ) +
   scale_y_continuous(
-    breaks = -1:1,
+    breaks       = -1:1,
     minor_breaks = NULL,
-    limits = c(-1.5, 1.5)
+    limits       = c(-1.5, 1.5),
+    expand       = expansion(),
+    name         = NULL,
+    sec.axis     = dup_axis(name = "*&theta;*~1~", labels = NULL)
   ) +
   annotate(
     geom = "text",
-    x = 0.1, y = 0.2,
+    x = 0.18, y = 0.17,
     label = "MID",
     size = 6,
     angle = mirt_item_params |> pull(deg_1)
@@ -1628,13 +1671,15 @@ Es decir, una vez estoy pasada la recta, aunque esté cerca, ¿es el ítem muy f
 
 ## Discriminación multidimensional {.smaller}
 
-@reckase_discriminating_1991:
+@reckase_discriminating_1991 [p. 362]:
 
-> the discriminating power of an item indicates how quickly the transition takes place from low probability to high probability of a correct response.
-> \[...\] A highly discriminating item divides the regions clearly-having a narrow region of ambiguity, that is, a region where the probabilities are intermediate in magnitude.
+> the discriminating power of an item indicates how quickly the transition takes place from low probability to high probability \[...\].
+> A highly discriminating item divides the regions clearly---having a narrow region  \[...\] where the probabilities are intermediate in magnitude.
 
 ::::: {.columns .fragment}
 ::: column
+<br>
+<br>
 <br>
 
 $$
@@ -1644,47 +1689,87 @@ $$
 
 ::: column
 ```{r mdisc-item}
-#| fig-width:  4
-#| fig-height: 4
-mirt_item_coords |>
-  arrange(desc(item))   |> # To plot them in reverse order
+#| fig-width:  4.7
+#| fig-height: 4.7
+#| cache: false
+
+item_vector <- mirt_item_coords |> mutate(
+  across(ends_with("1"), ~ . - origin_1),
+  across(ends_with("2"), ~ . - origin_2)
+)
+
+item_spikes <- item_vector             |>
+  slice(1 |> rep(2))                   |>
+  add_column(dim = 'F' |> paste0(1:2)) |>
+  mutate(
+    origin_1 = if_else(dim == 'F1', end_1, origin_1),
+    origin_2 = if_else(dim == 'F2', end_2, origin_2),
+  )
+
+item_vector |>
   ggplot(
     aes(
       0, 0,
-      xend = end_transf_1 - origin_transf_1,
-      yend = end_transf_2 - origin_transf_2,
+      xend = end_1,
+      yend = end_2,
       color = factor(item), fill = factor(item)
     ),
   )                                                  +
-  geom_vline(xintercept = 0, linewidth = LINE_WIDTH) +
-  geom_hline(yintercept = 0, linewidth = LINE_WIDTH) +
+  geom_vline(xintercept = 0, linewidth = GRID_WIDTH) +
+  geom_hline(yintercept = 0, linewidth = GRID_WIDTH) +
+  geom_segment(
+    data = item_spikes,
+    mapping = aes(origin_1, origin_2, xend = end_1, yend = end_2),
+    linewidth = LINE_WIDTH,
+    linetype  = '43',
+    color     = PALETTE_BLUE["light"]
+  ) +
   geom_segment(
     arrow     = arrow(angle = 20, length = unit(10, "points"), type = "closed"),
     linejoin  = "mitre",
     linewidth = VECTOR_WIDTH
   ) +
   scale_x_continuous(
-    limits       = c(-1, 2), ## TODO: Change limits
+    limits       = c(-1, 1.5),
     breaks       = -1:2,
     minor_breaks = NULL,
     name         = NULL,
-    oob          = oob_keep
+    sec.axis     = dup_axis(name = "*&theta;*~2~", labels = NULL)
   ) +
   scale_y_continuous(
-    limits       = c(-1, 2),
+    limits       = c(-1, 1.5),
     breaks       = -1:2,
     minor_breaks = NULL,
     name         = NULL,
-    oob          = oob_keep
+    sec.axis     = dup_axis(name = "*&theta;*~1~", labels = NULL)
   ) +
   scale_color_manual(values = unname(PALETTE_BLUE["normal"]), guide = NULL) +
-  coord_fixed(expand = FALSE, clip = "on")           +
+  annotate(
+    "text",
+    x = 0.32, y = 0.3,
+    label = "MDISC",
+    size  = 5.5,
+    angle = mirt_item_params |> pull(deg_1)
+  ) +
+  annotate(
+    "richtext",
+    x = c(0.5, -0.13), y = c(-0.12, 0.25),
+    label         = c("*a*~1*i*~", "*a*~2*i*~"),
+    size          = 4.5,
+    label.colour  = NA,
+    label.padding = unit(0, "lines")
+  ) +
+  coord_fixed(clip = "on") +
   theme(
-    axis.line        = element_blank(),
-    panel.grid.major = element_line(
-      linewidth = LINE_WIDTH,
+    axis.line          = element_blank(),
+    axis.title         = element_markdown(size = 20, padding = unit(0, "lines")),
+    axis.title.x       = element_markdown(hjust = .4),
+    axis.title.y.right = element_markdown(vjust = .4),
+    axis.ticks         = element_blank(),
+    panel.grid.major   = element_line(
+      linewidth = GRID_WIDTH,
       linetype  = "17"
-    )
+    ),
   )
 ```
 :::
