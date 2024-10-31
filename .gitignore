@@ -49,6 +49,7 @@ vignettes/*.pdf
 *.svg
 *.url
 !www/slideshow-assets/title-slide.html
+!www/slideshow-assets/logos_fac_psicologia.svg
 
 # Specific outputs to ignore
 www/packages.bib
