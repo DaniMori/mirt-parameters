@@ -230,3 +230,58 @@ compute_mirt_coords <- function(items,
       values_from = !!output_select
     )
 }
+
+item_response_prob <- function(items,
+                               intercept,
+                               discrimination,
+                               latent_traits,
+                               item_id = item) {
+  ## Argument checking and formatting: ----
+  
+  # Check `items` and `latent_traits` data.frames:
+  assertive.types::assert_is_data.frame(items)
+  assertive.types::assert_is_data.frame(latent_traits)
+
+  # Enquote column selections:
+  item_id        <- rlang::enquo(item_id)
+  intercept      <- rlang::enquo(intercept)
+  discrimination <- rlang::enquo(discrimination)
+  
+  # Check number of columns selected:
+  
+  id_col     <- items |> dplyr::select(!!item_id)
+  intr_col   <- items |> dplyr::select(!!intercept)
+  discr_cols <- items |> dplyr::select(!!discrimination)
+  
+  n_discr_cols <- discr_cols |> ncol()
+  
+  assertive.properties::assert_is_of_length(id_col,   1)
+  assertive.properties::assert_is_of_length(intr_col, 1)
+  
+  assertive.extra::assert_is_greater_than_or_equal_to(n_discr_cols, 1)
+  
+  
+  # Check latent traits:
+  # It only checks that there are the same number of discrimination values and
+  #   latent traits. It does not check whether they match in order, so they are
+  #   assumed to be in order (first discrimination parameter with first column
+  #   in `latent_traits`, etc.)
+  assertive::assert_are_same_length(discr_cols, latent_traits)
+  
+  
+  ## Main: ----
+  
+  trait_names <- latent_traits |> colnames()
+  discr_names <- discr_cols |> colnames() |> setNames(trait_names)
+
+  item_disc <- items |>
+    select(!!item_id, !!discrimination) |>
+    rename(!!!discr_names) |>
+    pivot_longer(cols = !!trait_names)
+  
+}
+
+irs2d <- function(a_1, a_2, d, theta_1, theta_2) {
+  
+  logit(a_1 * theta_1 + a_2 * theta_2 + d)
+}
