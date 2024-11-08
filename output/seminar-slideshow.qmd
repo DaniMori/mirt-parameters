@@ -1281,8 +1281,8 @@ $$
 ::::: columns
 ::: column
 ```{r mirt-model-irs-3d}
-#| fig-width:  4.6
-#| fig-height: 4.6
+#| fig-width:  5
+#| fig-height: 5
 PROB_AXIS_2D <- seq(-3, 3, by = .1)
 
 mirt_item <- tribble(
@@ -1784,7 +1784,119 @@ Los ítems "buenos" serán muy discriminativos, lo que indica que distinguen bie
 
 ## Discriminación multidimensional {.smaller}
 
-<!-- # TODO: Superficies de ítems con alta y baja discriminación -->
+```{r mdisc-items}
+mdisc_items <- tribble(
+  ~item, ~a_1, ~a_2, ~d,
+  1,     4,    0.1,     0,
+  2,     0.01, 0.02,  0,
+)
+
+mirt_item_probs <- expand_grid(
+  trait_1 = PROB_AXIS_2D,
+  trait_2 = PROB_AXIS_2D
+) |>
+  mutate(
+    mdisc_items |>
+      select(-item) |>
+      pmap(irs2d, theta_1 = trait_1, theta_2 = trait_2) |>
+      bind_cols()
+  ) |>
+    rename_with(str_replace, pattern = '\\.{3}', replacement = "prob_")
+```
+
+::::: columns
+::: column
+$$
+  \mathbf{a}_1 = \begin{bmatrix}
+    0.1 \\
+    0.02
+  \end{bmatrix};\quad
+  d_1 = 0
+$$
+
+```{r low-mdisc-irs-contour}
+#| fig-height: 5
+#| fig-width:  5
+mirt_prob_surface <- mirt_item_probs |>
+  select(starts_with("trait"), prob_2) |>
+  pivot_wider(names_from = trait_1, values_from = prob_2) |>
+    select(-trait_2) |>
+    as.matrix()
+
+plot_ly(
+  x = ~PROB_AXIS_2D,
+  y = ~PROB_AXIS_2D,
+  z = ~mirt_prob_surface,
+  colorscale = list(c(0, 1), PALETTE_BLUE["normal"] |> rep(2)),
+  type = 'surface',
+  hovertemplate = 'P(I<sub>1</sub> = 1) = %{z:.2f}<extra></extra>',
+  showscale = FALSE,
+  hoverinfo = 'Z'
+) |>
+  layout(
+    scene = list(
+      xaxis = list(title = "<i>θ</i><sub>1</sub>"),
+      yaxis = list(title = "<i>θ</i><sub>2</sub>"),
+      zaxis = list(
+        range = 0:1,
+        title = "P(I<sub>1</sub> = 1)"
+      ),
+      camera = list(
+        center = list(x = -.1, z = -.2),
+        eye = list(x = -.12, y = -1.8, z = 1)
+      )
+    )
+  ) |>
+  config(displayModeBar = FALSE, scrollZoom = FALSE)
+```
+:::
+
+::: column
+$$
+  \mathbf{a}_2 = \begin{bmatrix}
+    4 \\
+    0.1
+  \end{bmatrix};\quad
+  d_2 = 0
+$$
+
+```{r high-mdisc-irs-contour}
+#| fig-height: 5
+#| fig-width:  5
+mirt_prob_surface <- mirt_item_probs |>
+  select(trait_1:prob_1) |>
+  pivot_wider(names_from = trait_1, values_from = prob_1) |>
+    select(-trait_2) |>
+    as.matrix()
+
+plot_ly(
+  x = ~PROB_AXIS_2D,
+  y = ~PROB_AXIS_2D,
+  z = ~mirt_prob_surface,
+  colorscale = list(c(0, 1), PALETTE_BLUE["normal"] |> rep(2)),
+  type = 'surface',
+  hovertemplate = 'P(I<sub>2</sub> = 1) = %{z:.2f}<extra></extra>',
+  showscale = FALSE,
+  hoverinfo = 'Z'
+) |>
+  layout(
+    scene = list(
+      xaxis = list(title = "<i>θ</i><sub>1</sub>"),
+      yaxis = list(title = "<i>θ</i><sub>2</sub>"),
+      zaxis = list(
+        range = 0:1,
+        title = "P(I<sub>2</sub> = 1)"
+      ),
+      camera = list(
+        center = list(x = -.1, z = -.2),
+        eye = list(x = -.12, y = -1.8, z = 1)
+      )
+    )
+  ) |>
+  config(displayModeBar = FALSE, scrollZoom = FALSE)
+```
+:::
+:::::
 
 ::: notes
 La discriminación se puede entender con una especie de "dardo" que atraviesa de arriba abajo esa superficie perpendicularmente por esa "recta de inflexión" de la que hablábamos antes, y luego cruza el plano origen.
