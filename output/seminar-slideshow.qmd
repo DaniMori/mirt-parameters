@@ -1779,8 +1779,14 @@ item_vector |>
 
 ::: notes
 Esta característica viene representada por el parámetro de "discriminación", que es una medida de la "calidad general" de un ítem.
-Los ítems "buenos" serán muy discriminativos, lo que indica que distinguen bien entre la gente que tiene nivel de rasgo alto o bajo, mientras que los "malos" tendrán una superficie de respuesta más "plana".
+Los ítems "buenos" serán muy discriminativos, lo que indica que distinguen bien entre la gente que está en la región de alta o baja probabilidad de respuesta, mientras que los "malos" tendrán una superficie de respuesta más "plana".
+:::
 
+## Discriminación multidimensional {.smaller}
+
+<!-- # TODO: Superficies de ítems con alta y baja discriminación -->
+
+::: notes
 La discriminación se puede entender con una especie de "dardo" que atraviesa de arriba abajo esa superficie perpendicularmente por esa "recta de inflexión" de la que hablábamos antes, y luego cruza el plano origen.
 Si la superficie es "totalmente plana" el dardo entra por un punto y sale por otro que está justo debajo, en las mismas coordenadas de rasgo latente.
 La "proyección" (si ponemos un foco justo encima, la sombra que forma en el plano) es un punto.
@@ -1789,11 +1795,9 @@ Si la pendiente es muy pronunciada (distingue bien entre niveles de rasgo) el da
 La sombra será muy larga (es decir, la discriminación muy alta).
 El caso "extremo" es una superficie "vertical" en la recta de inflexión (un escalón; cosa imposible en ítems reales).
 En este caso, el dardo nunca cortaría al plano origen, y la discriminación sería infinita.
+
+Pero cuidado, que el ítem "discimine mucho" no significa que sea "bueno" midiendo todas las dimensiones, ya que eso va a depender también de "en qué dirección" mida el ítem, y eso viene dado por el componente de dirección que hemos visto antes.
 :::
-
-## Discriminación multidimensional {.smaller}
-
-<!-- # TODO: Superficies de ítems con alta y baja discriminación -->
 
 ## Parámetros multidimensionales
 
