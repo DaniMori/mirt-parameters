@@ -54,7 +54,7 @@ format:
     fig-asp:                 1
     fig-width:               6
     incremental:             false
-    keep-md:                 true
+    keep-md:                 false
     link-external-newwindow: true
     margin:                  0
     self-contained:          true
