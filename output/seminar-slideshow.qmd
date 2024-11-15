@@ -732,8 +732,8 @@ Las variables "respuesta" o "criterio" es la variable observable, y su varianza 
 Lo que ocurre es que aquí a "coeficientes de regresión" los llamamos "pesos factoriales" y al término error, "unicidad" o "varianza única".
 
 El producto de los pesos por las puntuaciones factoriales se puede expresar en "forma vectorial", de esta manera.
-La "T" del vector de pesos factoriales significa que está "traspuesto", es decir, que se pone horizontalmente (esto es una convención en álgebra matricial).
-El producto del vector de pesos por el de puntuaciones factoriales es lo que se llama un "producto vectorial", que consiste simplemente en multiplicar dos a dos los términos de cada vector y sumar todos.
+Este término significa que el vector de puntuaciones factoriales está pre-multiplicado por el vector de pesos factoriales.
+Esta operación es lo que se llama un "producto escalar", que consiste simplemente en multiplicar dos a dos los términos de cada vector y sumar todos.
 :::
 
 ## Modelo factorial clásico {.smaller}
@@ -892,8 +892,14 @@ Los pesos factoriales del ítem 1 son estos: -1 para el primer rasgo (por lo cua
 Aquí vemos representados el ítem y la persona, en las mismas coordenadas cartesianas.
 Y luego el ítem tiene una intersección de 1, y la persona 1 tiene un -0.5 en el "error" de esa variable $I_1$.
 
-Su respuesta se calcularía así: (hacer los cálculos).
+\[NEXT\]
+
+Su respuesta se calcularía así: Primero tenemos el parámetro de intersección que vale 1.
+La "T" del vector de pesos factoriales significa que está "traspuesto", es decir, que se pone horizontalmente (esto es una convención en álgebra matricial).
+El producto del vector de pesos por el de puntuaciones factoriales es (...).
+Y por último sumamos la puntuación de error de ese participante en la variable.
 Luego esta persona (el particpante 1) tiene la respuesta o valor observado 0.5 en esta variable observada.
+
 Lo mismo podríamos hacer con el resto de variables y de participantes, pero obviamente nosotros lo que tenemos son estas respuestas observadas, y lo que hacemos con el AF es estimar todos estos parámetros del modelo, en lugar de como lo hemos hecho ahora.
 
 Ahora bien, esta respuesta observada que hemos calculado aquí es cuantitativa.
@@ -1379,7 +1385,7 @@ contour_plot
 
 ::: notes
 Esto se puede extender, de manera bastante directa, asumiendo que la respuesta se modela como una "regresión logística multivariada".
-Aquí aparece otra vez la discriminación pero ahora en forma vectorial, que se multiplica por el vector de rasgo latente de la persona, y un parámetro de intersección, como antes (pero no puede haber un parámetro de dificultad simplemente, o uno por cada dimensión, porque serían indistinguibles entre sí).
+Aquí aparece otra vez la discriminación pero ahora en forma vectorial, que se pre-multiplica (recordad, producto escalar) por el vector de rasgo latente de la persona, y un parámetro de intersección, como antes (pero no puede haber un parámetro de dificultad simplemente, o uno por cada dimensión, porque serían indistinguibles entre sí).
 Esta es una de las extensiones multidimensionales (más antiguas, y probablemente más obvias) del modelo logístico de 2 parámetros: El modelo logístico de 2 parámetros multidimensional compensatorio.
 Pertenece a una familia de modelos llamados "compensatorios" en TRI, ya que un nivel bajo en una puntuación latente se compensa con un nivel alto en otra, dando lugar a la misma probabilidad de respuesta.
 :::
