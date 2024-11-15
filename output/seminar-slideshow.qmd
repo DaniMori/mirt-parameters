@@ -2064,6 +2064,25 @@ Si recordáis además, esta raíz del producto escalar del ítem consigo mismo a
 Por lo tanto, esta expresión de la discriminación multidimensional se puede usar para expresar de manera más sencilla la dificultad.
 :::
 
+## Parámetros multidimensionales
+
+<br>
+
+$$
+  MDISC_i = \sqrt{\mathbf{a}_i^T \mathbf{a}_i}
+$$
+
+<br>
+
+$$
+  MID_i = \begin{Bmatrix}
+    \frac{-d_i}{MDISC_i} \\
+    \frac{\mathbf{a}_i}{MDISC_i}
+  \end{Bmatrix}
+$$
+
+::: notes
+Y así, esta sería la expresión completa de los parámetros multidimensionales de un ítem según el modelo de TRI logístico de 2 parámetros.
 :::
 
 ## Representación gráfica
