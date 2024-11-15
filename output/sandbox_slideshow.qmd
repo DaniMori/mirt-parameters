@@ -149,4 +149,30 @@ theme_set( # `ggplot` output configuration
 )
 ```
 
+```{r pre}
+PROB_AXIS_2D <- seq(-3, 3, by = .1)
+F1_COLOR <- unname(PALETTE_BLUE["normal"])
+
+logit <- function(x) 1 / (1 + exp(-x))
+irf   <- function(a, b, theta) logit(a * (theta - b))
+
+mirt_item <- tribble(
+  ~item, ~a_1, ~a_2, ~d,
+  1,     1,    0.5,  -0.5
+)
+
+mirt_item_probs <- expand_grid(
+  trait_2 = PROB_AXIS_2D,
+  trait_1 = PROB_AXIS_2D
+) |>
+  mutate(
+    mirt_item |>
+      select(-item) |>
+      pmap(irs2d, theta_1 = trait_1, theta_2 = trait_2) |>
+      bind_cols()
+  ) |>
+    rename(prob = `...1`)
+
+```
+
 ## References
