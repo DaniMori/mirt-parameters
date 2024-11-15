@@ -1,31 +1,6 @@
 ---
 title:     |
-  Parámetros multidimensionales en Teoría de Respuesta al Ítem:
-  ¡Algo estamos haciendo mal!
-author:    |
-  <table>
-    <tr>
-      <td>Daniel Morillo, Ph.D.</td>
-    </tr>
-    <tr>
-      <td>
-        <center>
-          [![](../www/slideshow-assets/github-logo.png){height="50"}](https://github.com/DaniMori/)&emsp;
-          [![](../www/slideshow-assets/orcid.png){height="50"}](https://orcid.org/0000-0003-3021-3878)
-        </center>
-      </td>
-    </tr>
-  </table>
-institute: |
-  <table>
-    <tr>
-      <td>
-        <center>
-          [![](../www/slideshow-assets/logos_fac_psicologia.svg){height="120"}](https://www.uned.es/universidad/facultades/psicologia.html)
-        </center>
-      </td>
-    </tr>
-  </table>
+  Sandbox slide
 bibliography:  ../www/Multidimensional-parameters-MCLM.bib
 csl:           ../www/apa-old-doi-prefix.csl
 date:          "2024-10-21"
@@ -67,8 +42,6 @@ format:
 editor_options: 
   chunk_output_type: console
 ---
-
-# Introducción
 
 ```{r libraries}
 #| cache:   false
