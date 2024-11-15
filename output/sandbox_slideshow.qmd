@@ -175,3 +175,5 @@ theme_set( # `ggplot` output configuration
     )
 )
 ```
+
+## References
