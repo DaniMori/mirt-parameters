@@ -1710,7 +1710,7 @@ $$
 :::
 
 ::: column
-```{r mdisc-item}
+```{r low-disc}
 #| fig-width:  4.7
 #| fig-height: 4.7
 #| cache: false
@@ -1934,28 +1934,136 @@ En este caso, el dardo nunca cortaría al plano origen, y la discriminación ser
 Pero cuidado, que el ítem "discimine mucho" no significa que sea "bueno" midiendo todas las dimensiones, ya que eso va a depender también de "en qué dirección" mida el ítem, y eso viene dado por el componente de dirección que hemos visto antes.
 :::
 
-## Parámetros multidimensionales
+## Discriminación multidimensional
 
+::::::: columns
+::: column
+```{r mdisc-item}
+#| fig-width:  8
+#| fig-height: 8
+#| cache: false
+
+item_vector <- mirt_item_coords |> mutate(
+  across(ends_with("1"), ~ . - origin_1),
+  across(ends_with("2"), ~ . - origin_2)
+)
+
+item_spikes <- item_vector             |>
+  slice(1 |> rep(2))                   |>
+  add_column(dim = 'F' |> paste0(1:2)) |>
+  mutate(
+    origin_1 = if_else(dim == 'F1', end_1, origin_1),
+    origin_2 = if_else(dim == 'F2', end_2, origin_2),
+  )
+
+item_vector |>
+  ggplot(
+    aes(
+      0, 0,
+      xend = end_1,
+      yend = end_2,
+      color = factor(item), fill = factor(item)
+    ),
+  )                                                  +
+  geom_vline(xintercept = 0, linewidth = GRID_WIDTH) +
+  geom_hline(yintercept = 0, linewidth = GRID_WIDTH) +
+  geom_segment(
+    data = item_spikes,
+    mapping = aes(origin_1, origin_2, xend = end_1, yend = end_2),
+    linewidth = LINE_WIDTH,
+    linetype  = '43',
+    color     = PALETTE_BLUE["light"]
+  ) +
+  geom_segment(
+    arrow     = arrow(angle = 20, length = unit(10, "points"), type = "closed"),
+    linejoin  = "mitre",
+    linewidth = VECTOR_WIDTH
+  ) +
+  scale_x_continuous(
+    limits       = c(-1, 1.5),
+    breaks       = -1:2,
+    minor_breaks = NULL,
+    name         = NULL,
+    sec.axis     = dup_axis(name = "*&theta;*~2~", labels = NULL)
+  ) +
+  scale_y_continuous(
+    limits       = c(-1, 1.5),
+    breaks       = -1:2,
+    minor_breaks = NULL,
+    name         = NULL,
+    sec.axis     = dup_axis(name = "*&theta;*~1~", labels = NULL)
+  ) +
+  scale_color_manual(values = unname(PALETTE_BLUE["normal"]), guide = NULL) +
+  annotate(
+    "richtext",
+    x = 0.3, y = 0.27,
+    label = "*MDISC~i~*",
+    size  = 9,
+    angle = mirt_item_params |> pull(deg_1),
+    label.colour  = NA,
+    fill = NA
+  ) +
+  annotate(
+    "richtext",
+    x = c(0.5, -0.13), y = c(-0.12, 0.25),
+    label         = c("*a*~1*i*~", "*a*~2*i*~"),
+    size          = 8,
+    label.colour  = NA,
+    label.padding = unit(0, "lines"),
+    fill = NA
+  ) +
+  coord_fixed(clip = "on") +
+  theme(
+    axis.line          = element_blank(),
+    axis.title         = element_markdown(size = 20, padding = unit(0, "lines")),
+    axis.title.x       = element_markdown(hjust = .4),
+    axis.title.y.right = element_markdown(vjust = .4),
+    axis.ticks         = element_blank(),
+    panel.grid.major   = element_line(
+      linewidth = GRID_WIDTH,
+      linetype  = "17"
+    ),
+  )
+```
+:::
+
+::::: column
+::: fragment
 @reckase_discriminating_1991:
 
-<!-- # TODO: Fórmula de MDISC -->
+<br>
 
-<!-- # TODO: Gráfico del cálculo de MDISC como teorema de Pitágoras -->
+$$
+  MDISC_i = \sqrt{\mathbf{a}_i^T \mathbf{a}_i}
+$$
+:::
 
-<!-- # TODO: Fórmula de dificultad con MDISC -->
+::: fragment
+$$
+  MID_i = \begin{Bmatrix}
+    \frac{-d_i}{\sqrt{\mathbf{a}_i^T\mathbf{a}_i}} \\
+    \frac{\mathbf{a}_i}{\sqrt{\mathbf{a}_i^T\mathbf{a}_i}}
+  \end{Bmatrix}
+$$
+:::
+:::::
+:::::::
 
 ::: notes
-@reckase_discriminating_1991 hacen la deducción de la discriminación multidimensional, y resulta dar lugar a esta fórmula.
-Como veis es simplemente la "longitud" del vector de parámetros de discriminación, resultante simplemente de aplicar el teorema de Pitágoras.
-El vector es un triángulo rectángulo, $a_1$ sería un cateto, el otro cateto sería igual a $a_2$, y la hipotenusa es la longitud (las dos discriminaciones al cuadrado, sumadas, y luego la raíz cuadrada de eso).
-Esto por cierto también vale para cualquier número de dimensiones.
-Aquí estamos representando sólo 2 porque es más fácil, pero podemos calcular la suma de cuadrados estos parámetros de discriminación (sea cual sea su número), y calcular su raíz cuadrada, y eso nos daría igualmente la discriminación multidimensional (la longitud de ese vector de $a$ del ítem).
+@reckase_discriminating_1991 hacen la deducción de la discriminación multidimensional, y el resultado es simplemente la "longitud" del vector de parámetros de discriminación.
+El cálculo puede hacerse simplemente aplicando el teorema de Pitágoras.
+El vector es un triángulo rectángulo, $a_1$ sería un cateto, el otro cateto (SEÑALAR "SPIKE") sería igual a $a_2$, y la hipotenusa es la longitud (las dos discriminaciones al cuadrado, sumadas, y luego la raíz cuadrada de eso).
 
-Esto es en realidad el producto escalar (o producto punto) de un vector consigo mismo, que consiste en multiplicar una a una las componentes y sumarlos todos.
+En forma matricial, esto no es más que el producto escalar del vector consigo mismo, es decir, que consiste en multiplicar una a una las componentes y sumarlos todos.
 En forma matricial se representaría como el vector pre-multiplicado por sí mismo.
-<!-- # TODO: Explicar la multiplicación vectorial (y poner ejemplo?) -->
+Por ejemplo, aquí $a_1$ es 1, al cuadrado 1, más 0.5 ($a_2$) al cuadrado que es 0,25, luego la raíz cuadrada de 1,25 (sale 1,12 aproximadamente).
+Esta fórmula por cierto vale para cualquier número de dimensiones.
+Aquí estamos representando sólo 2 porque es más fácil, pero podemos calcular el producto escalar de este vector de parámetros de discriminación consigo mismo (sea cual sea su dimensión), y calcular su raíz cuadrada, y eso nos daría igualmente la discriminación multidimensional (la longitud de ese vector de $\mathbf{a}$ del ítem).
 
-Esta expresión de la discriminación multidimensional se puede usar para expresar de manera más sencilla la dificultad.
+Si recordáis además, esta raíz del producto escalar del ítem consigo mismo aparecía en el denominador de la dificultad multidimensional (en ambos componentes).
+Por lo tanto, esta expresión de la discriminación multidimensional se puede usar para expresar de manera más sencilla la dificultad.
+:::
+
 :::
 
 ## Representación gráfica
