@@ -1608,7 +1608,17 @@ mirt_item_spikes <- mirt_item_coords |>
   add_column(type = c("end", "start")) |>
   pivot_wider(names_from = type, values_from = starts_with("trait"))
 
-contour_plot +
+mirt_item_probs |>
+  ggplot(mapping = aes(trait_1, trait_2, z = prob, label = after_stat(level))) +
+  geom_vline(xintercept = 0, linewidth = GRID_WIDTH) +
+  geom_hline(yintercept = 0, linewidth = GRID_WIDTH) +
+  geom_contour2(
+    color = F1_COLOR,
+    linewidth = LINE_WIDTH,
+    skip = 0,
+    breaks = 1:9 / 10,
+    label.placer = label_placer_fraction(frac = .90, rot_adjuster = 0)
+  ) +
   geom_segment(
     data    = mirt_item_spikes,
     mapping = aes(
@@ -1651,6 +1661,14 @@ contour_plot +
     angle = mirt_item_params |> pull(deg_1),
     label.colour  = NA,
     fill = NA
+  ) +
+  coord_fixed() +
+  theme(
+    axis.ticks       = element_blank(),
+    axis.line        = element_blank(),
+    axis.title       = element_markdown(),
+    axis.title.y     = element_markdown(),
+    panel.grid.major = element_line(linetype = "17", linewidth = GRID_WIDTH)
   )
 ```
 :::
