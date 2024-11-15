@@ -1721,101 +1721,122 @@ Es decir, una vez estoy pasada la recta, aunque esté cerca, ¿es el ítem muy f
 > the discriminating power of an item indicates how quickly the transition takes place from low probability to high probability \[...\].
 > A highly discriminating item divides the regions clearly---having a narrow region \[...\] where the probabilities are intermediate in magnitude.
 
-::::: {.columns .fragment}
-::: column
-<br> <br> <br>
-
-$$
-  MDISC_i = \sqrt{\mathbf{a}_i^T \mathbf{a}_i}
-$$
-:::
-
-::: column
-```{r low-disc}
+::::: columns
+::: {.column .fragment}
+```{r low-disc-contour}
 #| fig-width:  4.7
 #| fig-height: 4.7
-#| cache: false
-
-item_vector <- mirt_item_coords |> mutate(
-  across(ends_with("1"), ~ . - origin_1),
-  across(ends_with("2"), ~ . - origin_2)
+mirt_item <- tribble(
+  ~item, ~a_1, ~a_2, ~d,
+  1,     0.5,  0.25,  -0.125
 )
 
-item_spikes <- item_vector             |>
-  slice(1 |> rep(2))                   |>
-  add_column(dim = 'F' |> paste0(1:2)) |>
+mirt_item_probs <- expand_grid(
+  trait_2 = PROB_AXIS_2D,
+  trait_1 = PROB_AXIS_2D
+) |>
   mutate(
-    origin_1 = if_else(dim == 'F1', end_1, origin_1),
-    origin_2 = if_else(dim == 'F2', end_2, origin_2),
-  )
+    mirt_item |>
+      select(-item) |>
+      pmap(irs2d, theta_1 = trait_1, theta_2 = trait_2) |>
+      bind_cols()
+  ) |>
+    rename(prob = `...1`)
 
-item_vector |>
-  ggplot(
-    aes(
-      0, 0,
-      xend = end_1,
-      yend = end_2,
-      color = factor(item), fill = factor(item)
-    ),
-  )                                                  +
+mirt_item_probs |>
+  ggplot(mapping = aes(trait_1, trait_2, z = prob, label = after_stat(level))) +
   geom_vline(xintercept = 0, linewidth = GRID_WIDTH) +
   geom_hline(yintercept = 0, linewidth = GRID_WIDTH) +
-  geom_segment(
-    data = item_spikes,
-    mapping = aes(origin_1, origin_2, xend = end_1, yend = end_2),
+  geom_contour2(
+    color = F1_COLOR,
     linewidth = LINE_WIDTH,
-    linetype  = '43',
-    color     = PALETTE_BLUE["light"]
-  ) +
-  geom_segment(
-    arrow     = arrow(angle = 20, length = unit(10, "points"), type = "closed"),
-    linejoin  = "mitre",
-    linewidth = VECTOR_WIDTH
+    breaks = 1:9 / 10,
+    skip = 0,
+    label.placer = label_placer_fraction(frac = .80, rot_adjuster = 0)
   ) +
   scale_x_continuous(
-    limits       = c(-1, 1.5),
-    breaks       = -1:2,
+    breaks       = -1:1,
     minor_breaks = NULL,
+    limits       = c(-1.5, 1.5),
+    expand       = expansion(),
     name         = NULL,
     sec.axis     = dup_axis(name = "*&theta;*~2~", labels = NULL)
   ) +
   scale_y_continuous(
-    limits       = c(-1, 1.5),
-    breaks       = -1:2,
+    breaks       = -1:1,
     minor_breaks = NULL,
+    limits       = c(-1.5, 1.5),
+    expand       = expansion(),
     name         = NULL,
     sec.axis     = dup_axis(name = "*&theta;*~1~", labels = NULL)
   ) +
-  scale_color_manual(values = unname(PALETTE_BLUE["normal"]), guide = NULL) +
-  annotate(
-    "richtext",
-    x = 0.3, y = 0.27,
-    label = "*MDISC~i~*",
-    size  = 5.5,
-    angle = mirt_item_params |> pull(deg_1),
-    label.colour  = NA,
-    fill = NA
-  ) +
-  annotate(
-    "richtext",
-    x = c(0.5, -0.13), y = c(-0.12, 0.25),
-    label         = c("*a*~1*i*~", "*a*~2*i*~"),
-    size          = 4.5,
-    label.colour  = NA,
-    label.padding = unit(0, "lines"),
-    fill = NA
-  ) +
-  coord_fixed(clip = "on") +
+  coord_fixed() +
   theme(
-    axis.line          = element_blank(),
-    axis.title         = element_markdown(size = 20, padding = unit(0, "lines")),
-    axis.title.x       = element_markdown(hjust = .4),
-    axis.title.y.right = element_markdown(vjust = .4),
-    axis.ticks         = element_blank(),
-    panel.grid.major   = element_line(
-      linewidth = GRID_WIDTH,
-      linetype  = "17"
-    ),
+    axis.ticks       = element_blank(),
+    axis.line        = element_blank(),
+    axis.title       = element_markdown(),
+    axis.title.y     = element_markdown(),
+    panel.grid.major = element_line(linetype = "17", linewidth = GRID_WIDTH)
+  )
+```
+:::
+
+::: {.column .fragment}
+```{r high-disc-contour}
+#| fig-width:  4.7
+#| fig-height: 4.7
+
+mirt_item <- tribble(
+  ~item, ~a_1, ~a_2, ~d,
+  1,     1.5,  0.75,  -0.375
+)
+
+mirt_item_probs <- expand_grid(
+  trait_2 = PROB_AXIS_2D,
+  trait_1 = PROB_AXIS_2D
+) |>
+  mutate(
+    mirt_item |>
+      select(-item) |>
+      pmap(irs2d, theta_1 = trait_1, theta_2 = trait_2) |>
+      bind_cols()
+  ) |>
+    rename(prob = `...1`)
+
+mirt_item_probs |>
+  ggplot(mapping = aes(trait_1, trait_2, z = prob, label = after_stat(level))) +
+  geom_vline(xintercept = 0, linewidth = GRID_WIDTH) +
+  geom_hline(yintercept = 0, linewidth = GRID_WIDTH) +
+  geom_contour2(
+    color = F1_COLOR,
+    linewidth = LINE_WIDTH,
+    breaks = 1:9 / 10,
+    # skip = 0,
+    label.placer = label_placer_fraction(frac = .90, rot_adjuster = 0)
+  ) +
+  scale_x_continuous(
+    breaks       = -1:1,
+    minor_breaks = NULL,
+    limits       = c(-1.5, 1.5),
+    expand       = expansion(),
+    name         = NULL,
+    sec.axis     = dup_axis(name = "*&theta;*~2~", labels = NULL)
+  ) +
+  scale_y_continuous(
+    breaks       = -1:1,
+    minor_breaks = NULL,
+    limits       = c(-1.5, 1.5),
+    expand       = expansion(),
+    name         = NULL,
+    sec.axis     = dup_axis(name = "*&theta;*~1~", labels = NULL)
+  ) +
+  coord_fixed() +
+  theme(
+    axis.ticks       = element_blank(),
+    axis.line        = element_blank(),
+    axis.title       = element_markdown(),
+    axis.title.y     = element_markdown(),
+    panel.grid.major = element_line(linetype = "17", linewidth = GRID_WIDTH)
   )
 ```
 :::
@@ -1823,7 +1844,7 @@ item_vector |>
 
 ::: notes
 Esta característica viene representada por el parámetro de "discriminación", que es una medida de la "calidad general" de un ítem.
-Los ítems "buenos" serán muy discriminativos, lo que indica que distinguen bien entre la gente que está en la región de alta o baja probabilidad de respuesta, mientras que los "malos" tendrán una superficie de respuesta más "plana".
+Los ítems "malos", o poco discriminantivos, tendrán una superficie de respuesta bastante "plana", con una transición suave entre la región de baja y la de alta probabilidad de respuesta, mientras que los muy discriminativos distinguirán bien entre la gente que está en la región de alta o baja probabilidad de respuesta, con zona de transición más estrecha, más abrupta.
 :::
 
 ## Discriminación multidimensional {.smaller}
