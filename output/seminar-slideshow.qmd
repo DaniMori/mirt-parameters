@@ -1460,6 +1460,8 @@ contour_plot +
   \end{align}
 \end{matrix}
 
+<br>
+
 ::: fragment
 $$
   \begin{align}
@@ -1471,7 +1473,8 @@ $$
       -0.5 \right) \\
       &= \Phi_L \left(1 · 1 + 0.5 · (-1) -0.5 \right) \\
       &= \Phi_L \left(1 -0.5 -0.5 \right) = \Phi_L \left(0 \right) \\
-      &= \frac{1}{1 + e^{-0}} = \frac{1}{1 + 1} = \frac{1}{2} = 0.5
+      &= \frac{1}{1 + e^{-0}} = \frac{1}{1 + 1} = \frac{1}{2} \\
+      &= 0.5
   \end{align}
 $$
 :::
@@ -1941,7 +1944,6 @@ Pero cuidado, que el ítem "discimine mucho" no significa que sea "bueno" midien
 ```{r mdisc-item}
 #| fig-width:  8
 #| fig-height: 8
-#| cache: false
 
 item_vector <- mirt_item_coords |> mutate(
   across(ends_with("1"), ~ . - origin_1),
@@ -1996,7 +1998,7 @@ item_vector |>
   scale_color_manual(values = unname(PALETTE_BLUE["normal"]), guide = NULL) +
   annotate(
     "richtext",
-    x = 0.3, y = 0.27,
+    x = 0.32, y = 0.25,
     label = "*MDISC~i~*",
     size  = 9,
     angle = mirt_item_params |> pull(deg_1),
@@ -2051,17 +2053,19 @@ $$
 
 ::: notes
 @reckase_discriminating_1991 hacen la deducción de la discriminación multidimensional, y el resultado es simplemente la "longitud" del vector de parámetros de discriminación.
+Esto sería, en cierto modo, equivalente a la "representación factorial" del ítem; aquí la punta del vector está donde estarían las "bolitas" que usábamos antes para representar los pesos factoriales en el espacio de factores comunes, excepto que, para un mismo ítem, estaría escalado por la varianza única del ítem y el factor aquel de 1.7 que salía en la fórmula, pero por lo demás es una representación equivalente a la del modelo factorial.
+
 El cálculo puede hacerse simplemente aplicando el teorema de Pitágoras.
 El vector es un triángulo rectángulo, $a_1$ sería un cateto, el otro cateto (SEÑALAR "SPIKE") sería igual a $a_2$, y la hipotenusa es la longitud (las dos discriminaciones al cuadrado, sumadas, y luego la raíz cuadrada de eso).
-
-En forma matricial, esto no es más que el producto escalar del vector consigo mismo, es decir, que consiste en multiplicar una a una las componentes y sumarlos todos.
-En forma matricial se representaría como el vector pre-multiplicado por sí mismo.
 Por ejemplo, aquí $a_1$ es 1, al cuadrado 1, más 0.5 ($a_2$) al cuadrado que es 0,25, luego la raíz cuadrada de 1,25 (sale 1,12 aproximadamente).
-Esta fórmula por cierto vale para cualquier número de dimensiones.
+
+\[NEXT\]
+
+En forma matricial, esto no es más que el producto escalar del vector consigo mismo, es decir, aparece otra vez la norma del vector, nuestra vieja amiga.
+Y esta fórmula por cierto vale para cualquier número de dimensiones.
 Aquí estamos representando sólo 2 porque es más fácil, pero podemos calcular el producto escalar de este vector de parámetros de discriminación consigo mismo (sea cual sea su dimensión), y calcular su raíz cuadrada, y eso nos daría igualmente la discriminación multidimensional (la longitud de ese vector de $\mathbf{a}$ del ítem).
 
-Si recordáis además, esta raíz del producto escalar del ítem consigo mismo aparecía en el denominador de la dificultad multidimensional (en ambos componentes).
-Por lo tanto, esta expresión de la discriminación multidimensional se puede usar para expresar de manera más sencilla la dificultad.
+Si recordáis además, esta norma aparecía en el denominador de la dificultad multidimensional (en ambos componentes).
 :::
 
 ## Parámetros multidimensionales
@@ -2082,6 +2086,7 @@ $$
 $$
 
 ::: notes
+Luego esta expresión de la discriminación multidimensional se puede usar para expresar de manera más sencilla la dificultad.
 Y así, esta sería la expresión completa de los parámetros multidimensionales de un ítem según el modelo de TRI logístico de 2 parámetros.
 :::
 
