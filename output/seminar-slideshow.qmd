@@ -1558,9 +1558,11 @@ Además menciona que de esa manera se puede intentar comparar ítems que miden d
 
 ---(p. 402)
 
+::: fragment
 $$
   MID = \frac{-d_i}{\sqrt{\mathbf{a}_i^T\mathbf{a}_i}}
 $$
+:::
 
 ::: fragment
 > The distance can be interpreted much like a $b$ parameter from unidimensional IRT
@@ -1569,10 +1571,17 @@ $$
 :::
 
 ::: notes
-Por ese motivo propone un parámetro de "dificultad" (lo llama, para nosotros sería de posición) que sea de algún modo equivalente a la dificultad en el modelo unidimensional.
-Ese punto es donde la curva (superficie) de probabilidad de respuesta tiene una inflexión (a lo largo de toda ella, el punto más cercano al origen, donde la recta que lo une al origen es perpendicular a la recta de inflexión de la curva).
+Lo que hace Reckase entonces es intentar definir un parámetro de "dificultad" (lo llama, para nosotros sería de posición), que sea de algún modo equivalente a la dificultad en el modelo unidimensional, es decir, el lugar donde el ítem es lo más discriminativo posible.
+Donde la curva de probabilidad de respuesta pasa de ser cada vez más abrupta a cada vez más plana.
 
-Este parámetro se puede entender como una "distancia **con signo**" desde el origen hasta el punto de posición del ítem.
+\[NEXT\]
+
+Y llega a esta definición, que consiste simplemente en el parámetro de intersección (con signo negativo), dividido entre la raíz del producto escalar (vuelve a aparecer el producto escalar), en este caso, del vector de parámetros de discriminación consigo mismo.
+Toda esta expresión se denomina "norma" del vector.
+
+\[NEXT\]
+
+Este parámetro, de "discriminación" o "dificultad", se puede interpretar de igual manera a la dificultad unidimensional.
 :::
 
 ## Dificultad multidimensional
@@ -1664,10 +1673,18 @@ $$
 :::::::
 
 ::: notes
-Para representar ese punto no basta con la "distancia (con signo)"; hace falta saber en qué dirección mide ese ítem también.
-Eso viene dado por los llamados "cosenos directores".
+Geométricamente consiste en una "distancia **con signo**" (puede ser hacia cualquiera de ambos sentidos) desde el origen hasta ese punto donde está la posición del ítem, sobre la recta de inflexión (donde la probabilidad es igual a 0.5).
 
-Por lo tanto, la "dificultad (posición) multidimensional" viene dada por dos elementos, un número real que representa cuánto se desplaza la recta de inflexión del ítem respecto del origen y en qué sentido, y un vector de cosenos que determina la dirección en la que se desplaza.
+\[NEXT\]
+
+A lo largo de toda esa recta podría ser cualquier punto, pero en realidad es el punto más cercano al origen, donde la recta que lo une al origen es perpendicular a esa misma recta de inflexión).
+Para ello claro, no basta con la "distancia (con signo)"; hace falta saber en qué dirección mide ese ítem también.
+Eso viene dado por los llamados "cosenos directores".
+Fijáos que vuelve a aparecer la norma de este vector en el denominador.
+
+\[NEXT\]
+
+Por lo tanto, la "dificultad (posición) multidimensional" está compuesta por dos elementos, un número real que representa cuánto se desplaza la recta de inflexión del ítem respecto del origen y en qué sentido, y un vector de cosenos que determina la dirección en la que se desplaza.
 Así se puede interpretar un ítem, o varios, de manera relativamente sencilla: Todos los participantes cuyas coordenadas estén en la "recta de inflexión" (la recta que pasa por la posición del ítem, perpendicular a su dirección) tendrán una probabilidad de dar una respuesta positiva y negativa de .5 (dificultad media; igual probabilidad de acertar o fallar).
 Aquellos que estén pasada la recta, encontrarán el ítem "relativamente fácil" (tendrán una alta probabilidad de dar una respuesta positiva mayor a .5; lo encontrarán "más fácil que difícil").
 Lo contrario pasa para los que estén al otro lado de esa recta, tendrán más probabilidad de responder negativamente (mal), por lo que lo encontrarán difícil.
