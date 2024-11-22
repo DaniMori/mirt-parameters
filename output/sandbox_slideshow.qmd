@@ -1,11 +1,7 @@
 ---
-title:     |
-  Sandbox slide
 bibliography:  ../www/Multidimensional-parameters-MCLM.bib
 csl:           ../www/apa-old-doi-prefix.csl
-date:          "2024-10-21"
 date-meta:     "2024-11-27"
-date-format:   long
 editor:
   mode:        source
   markdown: 
@@ -13,8 +9,6 @@ editor:
     canonical: true
 lang:          es
 knitr:
-  # opts_knit: # Does not work, see line 88
-  #   root_dir:  here::here()
   opts_chunk: 
     results:   asis
     cache:     false
@@ -28,17 +22,12 @@ format:
     fig-format:              svg
     fig-asp:                 1
     fig-width:               6
-    incremental:             false
     keep-md:                 true
     link-external-newwindow: true
     margin:                  0
     self-contained:          true
     slide-number:            false
     theme:                   ../www/slideshow-assets/extra-styles.scss
-    transition:              none
-    view-distance:           3
-    template-partials:
-      - ../www/slideshow-assets/title-slide.html
 editor_options: 
   chunk_output_type: console
 ---
