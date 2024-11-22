@@ -36,13 +36,14 @@ editor:
   markdown: 
     wrap:      sentence
     canonical: true
+execute: 
+  cache:       true
 lang:          es
 knitr:
   # opts_knit: # Does not work, see line 88
   #   root_dir:  here::here()
   opts_chunk: 
     results:   asis
-    cache:     true
     autodep:   true
 format:
   revealjs:
@@ -1563,7 +1564,7 @@ Además menciona que de esa manera se puede intentar comparar ítems que miden d
 
 ::: fragment
 $$
-  MID = \frac{-d_i}{\sqrt{\mathbf{a}_i^T\mathbf{a}_i}}
+  D_i = \frac{-d_i}{\sqrt{\mathbf{a}_i^T\mathbf{a}_i}}
 $$
 :::
 
@@ -1602,7 +1603,7 @@ mirt_item_coords <- mirt_item_params |>
   compute_mirt_coords(D, MDISC, starts_with("cos"), original_coords = FALSE) |>
     rename_with(str_remove, pattern = "transf_")
 
-mirt_item_spikes <- mirt_item_coords |>
+d_i_spike <- mirt_item_coords |>
   select(item, trait_1 = origin_1, trait_2 = origin_2) |>
   bind_rows(tibble(item = 1, trait_1 = 0, trait_2 = 0)) |>
   add_column(type = c("end", "start")) |>
@@ -1620,7 +1621,7 @@ mirt_item_probs |>
     label.placer = label_placer_fraction(frac = .90, rot_adjuster = 0)
   ) +
   geom_segment(
-    data    = mirt_item_spikes,
+    data    = d_i_spike,
     mapping = aes(
       trait_1_start, trait_2_start,
       xend = trait_1_end,
@@ -1655,9 +1656,9 @@ mirt_item_probs |>
   ) +
   annotate(
     geom = "richtext",
-    x = 0.16, y = 0.15,
-    label = "*MID~i~*",
-    size = 6,
+    x = 0.15, y = 0.15,
+    label = "*D~i~*",
+    size = 9,
     angle = mirt_item_params |> pull(deg_1),
     label.colour  = NA,
     fill = NA
