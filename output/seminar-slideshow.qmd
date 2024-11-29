@@ -2229,6 +2229,66 @@ Ackerman propone que el ítem se represente como un vector de longitud dada por 
 :::
 
 ## Supuestos: Monotonía creciente
+## Representación gráfica
+
+@ackerman_graphical_1996:
+
+::: r-center
+```{r m2pl-representation-final}
+#| fig-align:  center
+#| fig-height: 7.2
+#| fig-width:  7.2
+
+mirt_item_coords |>
+  ggplot(
+    aes(
+      origin_1, origin_2,
+      xend = end_1,
+      yend = end_2,
+      color = factor(item), fill = factor(item)
+    ),
+  )                                                  +
+  geom_vline(xintercept = 0, linewidth = GRID_WIDTH) +
+  geom_hline(yintercept = 0, linewidth = GRID_WIDTH) +
+  geom_segment(
+    arrow     = arrow(angle = 20, length = unit(10, "points"), type = "closed"),
+    linejoin  = "mitre",
+    linewidth = VECTOR_WIDTH
+  ) +
+  scale_x_continuous(
+    limits       = c(-1, 1.5),
+    breaks       = -1:2,
+    minor_breaks = NULL,
+    name         = NULL,
+    sec.axis     = dup_axis(name = "*&theta;*~2~", labels = NULL)
+  ) +
+  scale_y_continuous(
+    limits       = c(-1, 1.5),
+    breaks       = -1:2,
+    minor_breaks = NULL,
+    name         = NULL,
+    sec.axis     = dup_axis(name = "*&theta;*~1~", labels = NULL)
+  ) +
+  scale_color_manual(values = unname(PALETTE_BLUE["normal"]), guide = NULL) +
+  coord_fixed(clip = "on") +
+  theme(
+    axis.line          = element_blank(),
+    axis.title         = element_markdown(size = 20, padding = unit(0, "lines")),
+    axis.title.x       = element_markdown(hjust = .4),
+    axis.title.y.right = element_markdown(vjust = .4),
+    axis.ticks         = element_blank(),
+    panel.grid.major   = element_line(
+      linewidth = GRID_WIDTH,
+      linetype  = "17"
+    ),
+  )
+```
+:::
+
+::: notes
+La representación como tal consiste solamente en el vector, aplicado en ese punto, obviamente.
+:::
+
 
 > the probability of answering an item correctly increases monotonically with an increase in each dimension being measured
 
