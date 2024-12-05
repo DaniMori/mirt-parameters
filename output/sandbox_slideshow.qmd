@@ -139,6 +139,8 @@ theme_set( # `ggplot` output configuration
 ```
 
 ```{r pre}
+PROB_AXIS    <- seq(-3, 3, by = .01)
+ERROR_POINTS <- seq(-3, 3, length.out = 5)
 PROB_AXIS_2D <- seq(-3, 3, by = .1)
 F1_COLOR <- unname(PALETTE_BLUE["normal"])
 
