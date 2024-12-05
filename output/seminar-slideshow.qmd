@@ -948,7 +948,7 @@ $$
 #| fig-asp:   0.5
 #| fig-width: 8
 
-PROB_AXIS      <- seq(-3, 3, by = .01)
+PROB_AXIS      <- seq(-3.3, 3.3, by = .01)
 ERROR_POINTS   <- seq(-3, 3, length.out = 5)
 ITEM_LOADING   <-  0.45
 ITEM_INTERCEPT <- -0.3
@@ -979,7 +979,7 @@ latent_response |>
     breaks       = ERROR_POINTS,
     minor_breaks = NULL,
     labels       = NULL,
-    limits       = range(ERROR_POINTS) * 1.12,
+    limits       = range(PROB_AXIS),
     expand       = expansion()
   )           +
   scale_x_continuous(breaks = 0) +
@@ -1025,7 +1025,7 @@ probit_curve_data |>
   scale_x_continuous(
     breaks       = ERROR_POINTS,
     minor_breaks = NULL,
-    limits = range(ERROR_POINTS) * 1.12,
+    limits = range(PROB_AXIS),
     expand = expansion()
   ) +
   theme(
@@ -1214,7 +1214,7 @@ logit_curve_data_long |>
   scale_x_continuous(
     breaks       = ERROR_POINTS,
     minor_breaks = NULL,
-    limits = range(ERROR_POINTS) * 1.12,
+    limits = range(PROB_AXIS),
     expand = expansion()
   )                                        +
   scale_color_manual(values = ITEMS_PALETTE, guide = NULL) +
