@@ -2292,6 +2292,8 @@ La representación como tal consiste solamente en el vector, aplicado en ese pun
 
 > the probability of answering an item correctly increases monotonically with an increase in each dimension being measured
 
+<!-- TODO: Put in column and make figure in 2nd column taller -->
+
 ---@reckase_difficulty_1985 [p. 402]
 
 ::::: {.columns .fragment}
@@ -2388,9 +2390,160 @@ Pero cuidado, si el ítem es "puro" de una dimensión (o no mide "todas" las dim
 En este ejemplo, las rectas de isoprobabilidad serían paralelas al eje $\theta_2$.
 :::
 
-## Generalización: Ítems inversos
+## Generalización: Ítems inversos {.smaller}
 
-<!-- # TODO: Curva de ítem inverso y ejemplo -->
+:::::: columns
+:::: column
+> "*I neglect my duties*"
+
+-- [International Personality Item Pool](https://ipip.ori.org/newAB5CKey.htm#Conscientiousness)
+
+<br> <br>
+
+::: fragment
+```{r inverse-item-curve}
+#| fig-asp:   0.74
+#| fig-width: 6.5
+
+ITEMS_PALETTE <- PALETTE_BLUE["normal"] |>
+  unname() |>
+  setNames("prob_1")
+
+ITEMS <- tribble(
+  ~item, ~a,   ~b,
+   1,    -2,   0
+)
+
+logit_curve_data <- tibble(
+  latent_trait = PROB_AXIS,
+  prob         = ITEMS |>
+    select(-item) |>
+    pmap(irf, theta = latent_trait) |>
+    bind_cols()
+) |>
+  unnest(
+    prob,
+    names_sep = '_'
+  ) |>
+  rename_with(str_remove, pattern = '\\.{3}')
+
+logit_curve_data_long <- logit_curve_data |>
+  pivot_longer(starts_with("prob"), names_to = "item", values_to = "prob")
+
+logit_curve_data_long |>
+  ggplot(
+    mapping = aes(
+      latent_trait, prob,
+      color = item,
+      group = after_scale(color)
+    )
+  )                                                        +
+  geom_line(linewidth = LINE_WIDTH)                        +
+  labs(x = "Responsabilidad", y = "P(Y~i~ = 1)")           +
+  scale_y_continuous(
+    breaks       = 0:1,
+    minor_breaks = NULL,
+    limits       = 0:1,
+    expand       = expansion(mult = c(0, .05))
+  )                                                        +
+  scale_x_continuous(
+    minor_breaks = NULL,
+    expand = expansion()
+  )                                                        +
+  scale_color_manual(values = ITEMS_PALETTE, guide = NULL) +
+  theme(
+    axis.title       = element_markdown(),
+    axis.title.x     = element_text(margin = margin(t = 1, unit = "lines")),
+    axis.title.y     = element_markdown(angle = 90),
+    panel.grid.major = element_line(linetype = "17", linewidth = GRID_WIDTH),
+    # The following is necessary to avoid showing the axis breaks, as dropping
+    #   them prevents the axis line from being drawn (see
+    #   https://github.com/tidyverse/ggplot2/issues/2983)
+    axis.text.x.bottom = element_blank(),
+    axis.ticks.length.x.bottom = unit(0, units = "cm"),
+    panel.grid.major.x = element_blank()
+  )
+```
+:::
+::::
+
+::: {.column .fragment}
+$$
+  \begin{align}
+    \mathbf{a}_1 &=
+      \begin{bmatrix}
+        -1 \\
+        1
+      \end{bmatrix} \\
+    d_1 &= 0
+  \end{align}
+$$
+
+<br>
+
+```{r m2pl-representation-final}
+#| fig-align:  center
+#| fig-height: 5
+#| fig-width:  5
+
+mirt_item <- tribble(
+  ~item, ~a_1, ~a_2, ~d,
+  1,     -1,    1,   0
+)
+
+mirt_item_params <- mirt_item |>
+  compute_mirt_params(d, starts_with('a'))
+
+mirt_item_coords <- mirt_item_params |>
+  compute_mirt_coords(D, MDISC, starts_with("cos"), original_coords = FALSE) |>
+    rename_with(str_remove, pattern = "transf_")
+
+mirt_item_coords |>
+  ggplot(
+    aes(
+      origin_1, origin_2,
+      xend = end_1,
+      yend = end_2,
+      color = factor(item), fill = factor(item)
+    ),
+  )                                                  +
+  geom_vline(xintercept = 0, linewidth = GRID_WIDTH) +
+  geom_hline(yintercept = 0, linewidth = GRID_WIDTH) +
+  geom_segment(
+    arrow     = arrow(angle = 20, length = unit(10, "points"), type = "closed"),
+    linejoin  = "mitre",
+    linewidth = VECTOR_WIDTH
+  ) +
+  scale_x_continuous(
+    limits       = c(-1.5, 1),
+    breaks       = -1:2,
+    minor_breaks = NULL,
+    name         = NULL,
+    sec.axis     = dup_axis(name = "*&theta;*~2~", labels = NULL)
+  ) +
+  scale_y_continuous(
+    limits       = c(-1, 1.5),
+    breaks       = -1:2,
+    minor_breaks = NULL,
+    name         = NULL,
+    sec.axis     = dup_axis(name = "*&theta;*~1~", labels = NULL)
+  ) +
+  scale_color_manual(values = unname(PALETTE_BLUE["normal"]), guide = NULL) +
+  coord_fixed(clip = "on") +
+  theme(
+    axis.line          = element_blank(),
+    axis.title         = element_markdown(size = 20, padding = unit(0, "lines")),
+    axis.title.x       = element_markdown(hjust = .4),
+    axis.title.y.right = element_markdown(vjust = .4),
+    axis.ticks         = element_blank(),
+    panel.grid.major   = element_line(
+      linewidth = GRID_WIDTH,
+      linetype  = "17"
+    ),
+  )
+```
+:::
+::::::
 
 <!-- # TODO: Fórmulas de los parámetros -->
 
