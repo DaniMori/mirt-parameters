@@ -2286,6 +2286,203 @@ mirt_item_coords |>
 
 ::: notes
 La representación como tal consiste solamente en el vector, aplicado en ese punto, obviamente.
+Y lo interesante que tiene esta representación es que nos permite visualizar con claridad las propiedades de estos parámetros multidimensionales.
+:::
+
+## Propiedades {.smaller}
+
+:::::: columns
+:::: column
+$$
+  MDISC_i = \sqrt{\mathbf{a}_i^T \mathbf{a}_i}
+$$
+
+::: {.fragment .r-stack style="color:#5c6eb1;" fragment-index="1"}
+$$
+  \begin{align}
+    \mathbf{a}_1 &= \begin{bmatrix}
+      1 \\
+      1
+    \end{bmatrix} \\
+    MDISC_1 &\approx 1,41
+  \end{align}
+$$
+:::
+::::
+
+::: {.column .fragment fragment-index="1"}
+```{r mdisc-comparison-1}
+#| fig-align:  center
+#| fig-height: 8
+#| fig-width:  8
+
+mdisc_diff_items <- tribble(
+  ~item, ~a_1, ~a_2, ~d,
+  1,     1,    1,    0,
+  2,     2,    2,    0,
+)
+
+mdisc_diff_params <- mdisc_diff_items |>
+  compute_mirt_params(d, starts_with('a'))
+
+mdisc_diff_coords <- mdisc_diff_params |>
+  compute_mirt_coords(D, MDISC, starts_with("cos"), original_coords = FALSE) |>
+    rename_with(str_remove, pattern = "transf_")
+
+mdisc_diff_coords |>
+  filter(item == 1) |>
+  ggplot(
+    aes(
+      origin_1, origin_2,
+      xend = end_1,
+      yend = end_2,
+      color = factor(item), fill = factor(item)
+    ),
+  )                                                  +
+  geom_vline(xintercept = 0, linewidth = GRID_WIDTH) +
+  geom_hline(yintercept = 0, linewidth = GRID_WIDTH) +
+  geom_segment(
+    arrow     = arrow(angle = 20, length = unit(10, "points"), type = "closed"),
+    linejoin  = "mitre",
+    linewidth = VECTOR_WIDTH
+  ) +
+  scale_x_continuous(
+    limits       = c(-0.2, 2.2),
+    breaks       = -1:2,
+    minor_breaks = NULL,
+    name         = NULL,
+    sec.axis     = dup_axis(name = "*&theta;*~2~", labels = NULL)
+  ) +
+  scale_y_continuous(
+    limits       = c(-0.2, 2.2),
+    breaks       = -1:2,
+    minor_breaks = NULL,
+    name         = NULL,
+    sec.axis     = dup_axis(name = "*&theta;*~1~", labels = NULL)
+  ) +
+  scale_color_manual(values = unname(PALETTE_BLUE["normal"]), guide = NULL) +
+  coord_fixed(clip = "on") +
+  theme(
+    axis.line          = element_blank(),
+    axis.title        = element_markdown(size = 20, padding = unit(0, "lines")),
+    axis.title.x       = element_markdown(hjust = .4),
+    axis.title.y.right = element_markdown(vjust = .4),
+    axis.ticks         = element_blank(),
+    panel.grid.major   = element_line(
+      linewidth = GRID_WIDTH,
+      linetype  = "17"
+    ),
+  )
+```
+:::
+::::::
+
+::: notes
+Por ejemplo, la discriminación multidimensional, vemos que depende solamente del parámetro de discriminación,
+
+\[NEXT\]
+
+que en este ejemplo tiene dos componentes.
+:::
+
+## Propiedades {.smaller}
+
+::::::: columns
+::::: column
+$$
+  MDISC_i = \sqrt{\mathbf{a}_i^T \mathbf{a}_i}
+$$
+
+::: {.r-stack style="color:#5c6eb1;"}
+$$
+  \begin{align}
+    \mathbf{a}_1 &= \begin{bmatrix}
+      1 \\
+      1
+    \end{bmatrix} \\
+    MDISC_1 &\approx 1,41
+  \end{align}
+$$
+:::
+
+::: {.r-stack style="color:#90214a;"}
+$$
+  \begin{align}
+    \mathbf{a}_2 &= \begin{bmatrix}
+      2 \\
+      2
+    \end{bmatrix} \\
+    MDISC_2 &\approx 2,83
+  \end{align}
+$$
+:::
+:::::
+
+::: column
+```{r mdisc-comparison-2}
+#| fig-align:  center
+#| fig-height: 8
+#| fig-width:  8
+
+ITEMS_PALETTE <- c(
+  PALETTE_BLUE["normal"],
+  PALETTE_RASPBERRY["normal"],
+  PALETTE_APPLE["normal"]
+) |>
+  unname() |>
+  setNames(paste(1:3, sep = '_'))
+
+mdisc_diff_coords |>
+  arrange(item |> desc()) |>
+  ggplot(
+    aes(
+      origin_1, origin_2,
+      xend = end_1,
+      yend = end_2,
+      color = factor(item), fill = factor(item)
+    ),
+  )                                                  +
+  geom_vline(xintercept = 0, linewidth = GRID_WIDTH) +
+  geom_hline(yintercept = 0, linewidth = GRID_WIDTH) +
+  geom_segment(
+    arrow     = arrow(angle = 20, length = unit(10, "points"), type = "closed"),
+    linejoin  = "mitre",
+    linewidth = VECTOR_WIDTH
+  ) +
+  scale_x_continuous(
+    limits       = c(-0.2, 2.2),
+    breaks       = -1:2,
+    minor_breaks = NULL,
+    name         = NULL,
+    sec.axis     = dup_axis(name = "*&theta;*~2~", labels = NULL)
+  ) +
+  scale_y_continuous(
+    limits       = c(-0.2, 2.2),
+    breaks       = -1:2,
+    minor_breaks = NULL,
+    name         = NULL,
+    sec.axis     = dup_axis(name = "*&theta;*~1~", labels = NULL)
+  ) +
+  scale_color_manual(values = ITEMS_PALETTE, guide = NULL) +
+  coord_fixed(clip = "on") +
+  theme(
+    axis.line          = element_blank(),
+    axis.title        = element_markdown(size = 20, padding = unit(0, "lines")),
+    axis.title.x       = element_markdown(hjust = .4),
+    axis.title.y.right = element_markdown(vjust = .4),
+    axis.ticks         = element_blank(),
+    panel.grid.major   = element_line(
+      linewidth = GRID_WIDTH,
+      linetype  = "17"
+    ),
+  )
+```
+:::
+:::::::
+
+::: notes
+Cuanto más grandes sean los componentes del parámetro de discriminación, mayor será también la discriminación multidimensional.
+Hasta aquí, todo es sencillo (creo).
 :::
 
 ## Supuestos: Monotonía creciente {.smaller}
