@@ -2714,6 +2714,10 @@ La dirección sin embargo tiene una peculiaridad, y es que vemos que cada uno de
 Eso lo que va a hacer es que el sentido del item en cada una de esas dimensiones venga determinado por el signo de ese valor.
 :::
 
+## Generalización: Ítems inversos
+
+<!-- # TODO: Representación de ítems con a (una o varias) negativa (tabla y gráfico) -->
+
 $$
   \begin{align}
     \mathbf{a}_1 &=
@@ -2727,7 +2731,7 @@ $$
 
 <br>
 
-```{r m2pl-representation-final}
+```{r inverse-item-representation}
 #| fig-align:  center
 #| fig-height: 5
 #| fig-width:  5
@@ -2788,28 +2792,14 @@ mirt_item_coords |>
     ),
   )
 ```
-:::
-::::::
-
-<!-- # TODO: Fórmulas de los parámetros -->
-
-<!-- # TODO: Ejemplo con a negativa -->
-
-::: notes
-Pero además, si hablamos de ítems "no cognitivos" (p.ej. personalidad) en los que la persona evaluada puede estar "de acuerdo" o "en desacuerdo", sí podemos tener ítems con probabilidad "decreciente".
-
-La generalización a ítems inversos es directa: La discriminación multidimensional "eleva al cuadrado" los "parámetros de discriminación marginales", luego va a ser siempre positiva.
-El parámetro de posición, por tanto, siempre va a tener el signo inverso al que tenga la intersección.
-Los cosenos tendrán, cada uno, el mismo que el parámetro de discriminación de esa dimensión.
-:::
-
-## Generalización: Ítems inversos
-
-<!-- # TODO: Representación de ítems con a (una o varias) negativa (tabla y gráfico) -->
 
 ::: notes
 La representación de estos ítems sería como se muestra en este gráfico.
 <!-- # TODO: Descripción de los ítems representados -->
+
+La generalización a ítems inversos es directa: La discriminación multidimensional "eleva al cuadrado" los "parámetros de discriminación marginales", luego va a ser siempre positiva.
+El parámetro de posición, por tanto, siempre va a tener el signo inverso al que tenga la intersección.
+Los cosenos tendrán, cada uno, el mismo que el parámetro de discriminación de esa dimensión.
 :::
 
 ## Ítems "inversos" en la literatura
