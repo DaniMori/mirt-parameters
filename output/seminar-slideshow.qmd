@@ -2678,6 +2678,42 @@ Sin embargo, cuanto más responsable sea una persona (a igual aquiescencia) meno
 En ese caso, tendríamos un ítem con un valor negativo de discriminación en la dimensión de responsabilidad, y uno positivo en la de aquiescencia.
 :::
 
+## Generalización: Ítems inversos
+
+<br>
+
+$$
+  MDISC_i = \sqrt{a_{1i}^2 + ... + a_{ni}^2}
+$$
+
+::: fragment
+$$
+  D_i = \frac{-d_i}{MDISC_i}
+$$
+:::
+
+::: fragment
+$$
+  cos \, \mathbf{\alpha}_i = \frac{\mathbf{a}_i}{MDISC_i}
+$$
+:::
+
+::: notes
+Si vemos la expresión de los parámetros multidimensionales, podemos prevér cómo van a ser en estos casos.
+Aquí he preferido representar la discriminación como suma de cuadrados, en lugar de como el producto matricial, pero es lo mismo, ¿os acordáis?
+El primer elemento de un vector por el primero del otro, y asi sucesivamente...
+todos sumados.
+Sólo que en este caso el primer y el segundo vector son el mismo, así que es la suma de los elementos del vector al cuadrado.
+Por lo tanto, la discriminación multidimensional siempre va a ser positiva.
+¿Lo veis claro?
+
+Por otro lado, la distancia (con signo), al depender sólo de la intersección y la discriminación multidimensional, nos da igual que los valores de la discriminación sean negativos.
+Siempre va a cumplir que su desplazamiento es "inverso" al valor indicado por la intersección, como indicábamos antes.
+
+La dirección sin embargo tiene una peculiaridad, y es que vemos que cada uno de los cosenos puede tener un signo distinto, que va a ser el mismo que el del valor de la discriminación para esa dimensión.
+Eso lo que va a hacer es que el sentido del item en cada una de esas dimensiones venga determinado por el signo de ese valor.
+:::
+
 $$
   \begin{align}
     \mathbf{a}_1 &=
