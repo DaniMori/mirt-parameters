@@ -742,7 +742,7 @@ Esta operación es lo que se llama un "producto escalar", que consiste simplemen
 ::::::: columns
 ::::: column
 $$
-  I_1 = \tau_1 + \mathbf{\lambda}_{1}^T \mathbf{F} + U_1
+  Y_1 = \tau_1 + \mathbf{\lambda}_{1}^T \mathbf{F} + U_1
 $$
 
 $$
@@ -873,7 +873,7 @@ fa_example_wide |>
 
 ::: fragment
 $$
-  I_1 = 1 + \left[ -1, 0.5 \right]
+  Y_1 = 1 + \left[ -1, 0.5 \right]
     \begin{bmatrix}
       0.5 \\
       1
