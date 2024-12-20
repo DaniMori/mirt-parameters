@@ -44,7 +44,6 @@ vignettes/*.pdf
 *.docx
 *.html
 *.lnk
-*.md
 *.pdf
 *.svg
 *.url
