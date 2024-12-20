@@ -2365,8 +2365,8 @@ mdisc_diff_coords |>
   theme(
     axis.line          = element_blank(),
     axis.title        = element_markdown(size = 20, padding = unit(0, "lines")),
-    axis.title.x       = element_markdown(hjust = .4),
-    axis.title.y.right = element_markdown(vjust = .4),
+    axis.title.x       = element_markdown(hjust = 1/12),
+    axis.title.y.right = element_markdown(vjust = 1/12),
     axis.ticks         = element_blank(),
     panel.grid.major   = element_line(
       linewidth = GRID_WIDTH,
@@ -2468,8 +2468,8 @@ mdisc_diff_coords |>
   theme(
     axis.line          = element_blank(),
     axis.title        = element_markdown(size = 20, padding = unit(0, "lines")),
-    axis.title.x       = element_markdown(hjust = .4),
-    axis.title.y.right = element_markdown(vjust = .4),
+    axis.title.x       = element_markdown(hjust = 1/12),
+    axis.title.y.right = element_markdown(vjust = 1/12),
     axis.ticks         = element_blank(),
     panel.grid.major   = element_line(
       linewidth = GRID_WIDTH,
@@ -2482,6 +2482,7 @@ mdisc_diff_coords |>
 
 ::: notes
 Cuanto más grandes sean los componentes del parámetro de discriminación, mayor será también la discriminación multidimensional.
+(Aunque en este ejemplo sean iguales entre sí, no tienen por qué serlo).
 Hasta aquí, todo es sencillo (creo).
 :::
 
