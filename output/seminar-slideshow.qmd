@@ -1677,7 +1677,7 @@ mirt_item_probs |>
 ::::: column
 ::: fragment
 $$
-  cos \, \mathbf{\alpha}_i = \frac{\mathbf{a}_i}{\sqrt{\mathbf{a}_i^T\mathbf{a}_i}}
+  \cos \, \mathbf{\alpha}_i = \frac{\mathbf{a}_i}{\sqrt{\mathbf{a}_i^T\mathbf{a}_i}}
 $$
 :::
 
@@ -3080,7 +3080,7 @@ $$
 
 ::: fragment
 $$
-  cos \, \mathbf{\alpha}_i = \frac{\mathbf{a}_i}{MDISC_i}
+  \cos \, \mathbf{\alpha}_i = \frac{\mathbf{a}_i}{MDISC_i}
 $$
 :::
 
