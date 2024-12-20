@@ -1,0 +1,2506 @@
+---
+title:     |
+  Parámetros multidimensionales en Teoría de Respuesta al Ítem:
+  ¡Algo estamos haciendo mal!
+author:    |
+  <table>
+    <tr>
+      <td>Daniel Morillo, Ph.D.</td>
+    </tr>
+    <tr>
+      <td>
+        <center>
+          [![](../www/slideshow-assets/github-logo.png){height="50"}](https://github.com/DaniMori/)&emsp;
+          [![](../www/slideshow-assets/orcid.png){height="50"}](https://orcid.org/0000-0003-3021-3878)
+        </center>
+      </td>
+    </tr>
+  </table>
+institute: |
+  <table>
+    <tr>
+      <td>
+        <center>
+          [![](../www/slideshow-assets/logos_fac_psicologia.svg){height="120"}](https://www.uned.es/universidad/facultades/psicologia.html)
+        </center>
+      </td>
+    </tr>
+  </table>
+bibliography:  ../www/Multidimensional-parameters-MCLM.bib
+csl:           ../www/apa-old-doi-prefix.csl
+date:          "2024-10-21"
+date-meta:     "2024-11-27"
+date-format:   long
+editor:
+  mode:        source
+  markdown: 
+    wrap:      sentence
+    canonical: true
+lang:          es
+knitr:
+  # opts_knit: # Does not work, see line 88
+  #   root_dir:  here::here()
+  opts_chunk: 
+    results:   asis
+    cache:     true
+    autodep:   true
+format:
+  revealjs:
+    auto-stretch:            true
+    code-annotations:        hover
+    df-print:                paged
+    fig-cap-location:        bottom
+    fig-format:              svg
+    fig-asp:                 1
+    fig-width:               6
+    incremental:             false
+    keep-md:                 false
+    link-external-newwindow: true
+    margin:                  0
+    self-contained:          true
+    slide-number:            false
+    theme:                   ../www/slideshow-assets/extra-styles.scss
+    transition:              none
+    view-distance:           3
+    template-partials:
+      - ../www/slideshow-assets/title-slide.html
+editor_options: 
+  chunk_output_type: console
+---
+
+# Introducción
+
+```{r libraries}
+#| cache:   false
+#| include: false
+
+library(tibble)
+library(dplyr)
+library(knitr)
+library(lavaan)
+library(semPlot)
+library(extrafont)
+library(tidyr)
+library(ggplot2)
+library(units)
+library(ggtext)
+library(ggridges)
+library(qgraph)
+library(stringr)
+library(purrr)
+library(plotly)
+library(metR)
+library(scales)
+```
+
+```{r setup}
+#| cache:   false
+#| include: false
+opts_knit$set(root.dir = here::here()) # See lines 41-42
+
+# Graphical configuration options:
+loadfonts(device = "win") # Load fonts (if necessary)
+par(family = "Arial", adj = 0.5) # Set graphical device params
+```
+
+```{r sources}
+source("R/LaTeX_math.R",   encoding = 'UTF-8')
+source("R/Output.R",       encoding = 'UTF-8')
+source("R/Mirt_toolbox.R", encoding = 'UTF-8')
+```
+
+```{r color-palettes}
+MARGINS <- c(12, 1.3, 8, 1.3) # margins for the sem path plots
+
+PALETTE_UNED <- c(
+  normal = "#00533e",
+  medium = "#427562",
+  light  = "#86a699",
+  white  = "#cddad5"
+)
+PALETTE_APPLE <- c(
+  normal = "#749f4c",
+  medium = "#8aac5d",
+  light  = "#a2bc7e",
+  white  = "#cddbb8"
+)
+PALETTE_BLUE <- c(
+  normal = "#5c6eb1",
+  medium = "#7683bd",
+  light  = "#929acb",
+  white  = "#d4d6eb"
+)
+PALETTE_TANGERINE <- c(
+  normal = "#d76f47",
+  medium = "#dd8964",
+  light  = "#e4a482",
+  white  = "#f0cfb9"
+)
+PALETTE_STRAWBERRY <- c(
+  normal = "#da5268",
+  medium = "#c87384",
+  light  = "#daa6b1",
+  white  = "#efdbdf"
+)
+PALETTE_RASPBERRY <- c(
+  normal = "#90214a",
+  medium = "#8e4d60",
+  light  = "#af848b",
+  white  = "#dac7c7"
+)
+
+GRAPH_FONT   <- "Arial"  # Replace default font to comply with UNED identity
+FONT_SIZE    <- 24       # Replace default font size for slideshow
+AXIS_LAB_POS <-  0.5     # Replace default axis label position for slideshow
+LINE_WIDTH   <-  0.75    # Replace default line width for slideshow
+GRID_WIDTH   <-  0.5     # Width for grid and axis lines
+AXIS_COLOR   <- "gray70" # Replace default grid line color for slideshow
+VECTOR_WIDTH <- 1.5      # Replace default vector width for slideshow
+```
+
+```{r graphical-output-conf}
+#| cache: false
+theme_set( # `ggplot` output configuration
+  theme_classic(
+    base_size      = FONT_SIZE,
+    base_family    = GRAPH_FONT,
+    base_line_size = LINE_WIDTH
+  ) %+replace%
+    theme(
+      axis.title.x       = element_text(hjust = AXIS_LAB_POS),
+      axis.title.y       = element_text(vjust = AXIS_LAB_POS, angle = 0),
+      axis.title.y.right = element_text(vjust = AXIS_LAB_POS, angle = 0),
+      panel.grid         = element_line(color = AXIS_COLOR),
+      panel.grid.minor   = element_line(linetype = "17", color = AXIS_COLOR)
+    )
+)
+```
+
+::: notes
+-   Nombre de la presentación: Cero atractivo
+
+-   Nuria me pide un título más llamativo
+
+-   Lo mejor que puedo conseguir
+
+-   ¿Por qué es relevante?
+
+-   TRI muy usada en evaluación e investigación educativa
+
+-   Poco en investigación psicológica (muestras "pequeñas" en comparación)
+
+-   Pero hay un "paralelismo" entre ambas teorías (isomórficas, ante determinados supuestos)
+:::
+
+<!-- Slides "Diferencias AF - TRI" -->
+
+```{r irt-fa-table}
+af_tri_differences <- tribble(
+  ~AF,                            ~TRI,
+  "Relaciones entre variables",   "Comparación entre participantes",
+  "Cuestionarios",                "Pruebas (rendimiento)",
+  "Explicación",                  "Medición",
+  "Puntuación compuesta",         "Puntuación latente",
+  "Estructura simple",            "Diferencias individuales"
+)
+
+section_title <- "## Diferencias AF - TRI"
+
+for (slide in af_tri_differences |> nrow() |> seq_len()) {
+  
+  cat( "\n", section_title, sep = '')
+  
+  cat( "\n", "<br>", sep = '')
+  
+  af_tri_differences |> slice_head(n = slide) |> kable() |> print()
+}
+```
+
+## AF: Estructura simple
+
+<br>
+
+```{r simple-complex-structure}
+ITEM_BASE_LOADING <- 1
+ITEM_DIST         <- 0.2
+
+# Generate data for simple and complex factorial structures
+simple_item_loadings <- tribble(
+  ~item, ~factor, ~loading,
+  'I1',  'F1',    ITEM_BASE_LOADING,
+  'I2',  'F1',    ITEM_BASE_LOADING + ITEM_DIST,
+  'I3',  'F1',    ITEM_BASE_LOADING + 3 * ITEM_DIST,
+  'I4',  'F2',    ITEM_BASE_LOADING - ITEM_DIST,
+  'I5',  'F2',    ITEM_BASE_LOADING + ITEM_DIST,
+  'I6',  'F2',    ITEM_BASE_LOADING + 2 * ITEM_DIST
+)
+complex_item_loadings <- simple_item_loadings |> bind_rows(
+  tibble(
+    item    = 'I3',
+    factor  = 'F2',
+    loading = ITEM_BASE_LOADING - 2 * ITEM_DIST # Secondary loading smaller
+  )
+)
+
+simple_item_loadings <- simple_item_loadings |>
+  complete(item, factor, fill = list(loading = 0))
+
+complex_item_loadings <- complex_item_loadings |>
+  complete(item, factor, fill = list(loading = 0))
+```
+
+::::: columns
+::: column
+```{r path-simple-structure}
+# TODO: Syntax from tibble
+simple_spec <- "
+  F1 =~ I1 + I2 + I3
+  F2 =~ I4 + I5 + I6
+  
+  F1 ~~ F2
+"
+
+F1_COLOR <- unname(PALETTE_BLUE["normal"])
+F2_COLOR <- unname(PALETTE_RASPBERRY["normal"])
+
+item_colors   <- c(F1_COLOR |> rep(3), F2_COLOR |> rep(3))
+factor_colors <- c('F1' = F1_COLOR, 'F2' = F2_COLOR)
+
+simple_spec      |>
+  semPlotModel() |>
+  semPaths(
+    border.color = c(
+      item_colors,       # Item colors
+      F1_COLOR, F2_COLOR # Factor colors
+    ),
+    edge.color   = c(
+      item_colors, # Loading colors
+      "black"      # Correlation color
+    ),
+    residuals    = FALSE,
+    thresholds   = FALSE,
+    intercepts   = FALSE,
+    fixedStyle   = 1,
+    curve        = 3,
+    label.cex    = 1.6,
+    sizeMan      = 10,
+    sizeLat      = 14,
+    border.width = 3,
+    edge.width   = 3,
+    mar          = MARGINS
+  )
+```
+:::
+
+::: {.column .fragment}
+```{r scatter-simple-structure}
+LIM_INF <- -1.5
+LIM_SUP <-  2
+
+axis_lims <- c(LIM_INF, LIM_SUP)
+lim_range <- LIM_SUP - LIM_INF
+axis_pos  <- (-LIM_INF) / lim_range
+  
+item_colors <- item_colors |> setNames(c('F1' |> rep(3), 'F2' |> rep(3)))
+
+simple_item_loadings_wide <- simple_item_loadings |>
+  group_by(item)                                  |>
+  arrange(desc(loading))                          |>
+  mutate(main_factor = first(factor))             |>
+  pivot_wider(names_from = factor, values_from = loading)
+
+simple_item_loadings_wide |>
+  ggplot(mapping = aes(F1, F2, color = main_factor, label = item)) +
+  geom_point(size = I(4))                                          +
+  geom_text(
+    nudge_x =  .1,
+    nudge_y = -.08,
+    color   = I("black"),
+    size    = I(5)
+  )                                                                +
+  scale_x_continuous(
+    limits   = axis_lims,
+    breaks   = 0,
+    labels   = NULL,
+    name     = "F2",
+    position = "top"
+  )                                                                +
+  scale_y_continuous(
+    limits   = axis_lims,
+    breaks   = 0,
+    labels   = NULL,
+    name     = "F1",
+    position = "right"
+  )                                                                +
+  scale_color_manual(values = factor_colors, guide = NULL)         +
+  coord_fixed(expand = FALSE, clip = "on")                         +
+  theme(
+    axis.line          = element_blank(),
+    axis.ticks         = element_blank(),
+    axis.title.x       = element_text(hjust = axis_pos),
+    axis.title.y.right = element_text(vjust = axis_pos),
+    panel.grid.major   = element_line(
+      color     = "black",
+      linewidth = GRID_WIDTH
+    ),
+    panel.grid.major.x = element_line(color = PALETTE_RASPBERRY["light"]),
+    panel.grid.major.y = element_line(color = PALETTE_BLUE["light"])
+  )
+```
+:::
+:::::
+
+::: notes
+Para darle más sentido al modelo factorial es común buscar la "estructura simple".
+Es decir, asumimos que la varianza de cada ítem está explicada solamente por un factor latente.
+Los pesos factoriales de un ítem en los demás factores son nulos.
+
+Si representamos los pesos factoriales como coordenadas, el ítem estará alineado con el eje correspondiente al factor en el que pesa.
+:::
+
+## AF: Estructura simple
+
+::: r-center
+```{r simple-structure-rotated}
+#| fig-align:  center
+#| fig-height: 8
+#| fig-width:  8
+
+AXIS1_DEGREES <- -25
+AXIS2_DEGREES <-  30
+
+axis1_radians <- AXIS1_DEGREES |> as_units("degrees") |> set_units("radians")
+axis2_radians <- AXIS2_DEGREES |> as_units("degrees") |> set_units("radians")
+
+rot_matrix <- c(
+  cos(axis1_radians), cos(axis2_radians),
+  sin(axis1_radians), sin(axis2_radians)
+) |>
+  matrix(nrow = 2, byrow = TRUE)
+
+simple_item_loadings_rot <- simple_item_loadings |>
+  group_by(item) |>
+  mutate(
+    loading = rot_matrix %*% loading |> drop()
+  ) |>
+  left_join(simple_item_loadings_wide |> select(item, main_factor), by = "item")
+  
+simple_item_loadings_rot_plot <- simple_item_loadings_rot |>
+  group_by(item)                                          |>
+  pivot_wider(names_from = factor, values_from = loading) |>
+  ggplot(mapping = aes(F1, F2, color = main_factor, label = item)) +
+  geom_text(
+    nudge_x = -.12,
+    color   = I("black"),
+    size    = I(5)
+  )                                                                +
+  scale_x_continuous(
+    limits = axis_lims,
+    breaks = 0,
+    labels = NULL,
+    name   = "",
+  )                                                                +
+  scale_y_continuous(
+    limits = axis_lims,
+    breaks = 0,
+    labels = NULL,
+    name   = ""
+  )                                                                +
+  scale_color_manual(values = factor_colors, guide = NULL)         +
+  coord_fixed(expand = FALSE, clip = "on")                         +
+  theme(
+    axis.line          = element_blank(),
+    axis.ticks         = element_blank(),
+    panel.grid.major   = element_line(
+      color     = "black",
+      linewidth = GRID_WIDTH
+    )
+  )
+
+simple_item_loadings_rot_plot + geom_point(size = I(4))
+```
+:::
+
+::: notes
+Ahora bien, la mayoría de procedimientos factoriales, exploratorios al menos, arrojan soluciones de este tipo: un primer factor que maximiza toda la varianza posible, el segundo (ortogonal al primeroo) maximiza la varianza restante, y si hay más, hacen lo mismo, dando ejes siempre ortogonales a los anteriores.
+:::
+
+## AF: Estructura simple
+
+<!-- # TODO: Añadir ángulos? -->
+
+::: r-center
+```{r simple-structure-rotated-axes}
+#| fig-align:  center
+#| fig-height: 8
+#| fig-width:  8
+
+rotated_axes <- tibble(
+  slope  = c(axis1_radians, axis2_radians) |> tan() |> drop_units(),
+  factor = c('F1', 'F2')
+)
+
+simple_item_loadings_rot_plot +
+  geom_abline(
+    data    = rotated_axes,
+    mapping = aes(slope = slope, intercept = 0),
+    color   = c(PALETTE_BLUE["light"], PALETTE_RASPBERRY["light"]),
+    linewidth = LINE_WIDTH
+  ) +
+  geom_point(size = I(4)) +
+  annotate(
+    "text",
+    x = -1.35, y = c(-.62, .78),
+    label = rotated_axes |> pull(factor),
+    size  = 9
+  )
+```
+:::
+
+::: notes
+Para obtener esa estructura simple, muchas veces necesitamos usar una rotación oblicua de los ejes.
+Cualquier procedimiento de rotación busca alinearse lo más posible con al menos algunos de los ítems, como vemos aquí.
+Pero esto es una situación ideal.
+Nunca van a quedar, en un modelo exploratorio, los ítems perfectamente alineados con un eje, dando cero exacto en los pesos de los factores que no le corresponden.
+En un modelo confirmatorio sí, forzamos que sea así, pero a costa de perder ajuste claro (y normalmente permitiendo también que los factores correlacionen).
+:::
+
+## AF: Estructura compleja
+
+<br>
+
+::::: columns
+::: column
+```{r path-complex-structure}
+# TODO: Syntax from tibble
+complex_spec <- "
+  F1 =~ I1 + I2 + I3
+  F2 =~ I3 + I4 + I5 + I6
+  
+  F1 ~~ F2
+"
+
+edge_colors <- c(
+  F1_COLOR |> rep(3),
+  PALETTE_RASPBERRY["light"], # Cross-loading
+  F2_COLOR |> rep(3)
+)
+
+complex_spec     |>
+  semPlotModel() |>
+  semPaths(
+    border.color = c(
+      item_colors,       # Item colors
+      F1_COLOR, F2_COLOR # Factor colors
+    ),
+    edge.color   = c(
+      edge_colors, # Loading colors
+      "black"      # Correlation color
+    ),
+    residuals    = FALSE,
+    thresholds   = FALSE,
+    intercepts   = FALSE,
+    fixedStyle   = 1,
+    curve        = 3,
+    label.cex    = 1.6,
+    sizeMan      = 10,
+    sizeLat      = 14,
+    border.width = 3,
+    edge.width   = 3,
+    mar          = MARGINS
+  )
+```
+:::
+
+::: {.column .fragment}
+```{r scatter-complex-structure}
+LIM_INF <- -1.5
+LIM_SUP <-  2
+
+axis_lims <- c(LIM_INF, LIM_SUP)
+lim_range <- LIM_SUP - LIM_INF
+axis_pos  <- (-LIM_INF) / lim_range
+  
+item_colors <- item_colors |> setNames(c('F1' |> rep(3), 'F2' |> rep(3)))
+
+complex_item_loadings_wide <- complex_item_loadings |>
+  group_by(item)                                    |>
+  arrange(desc(loading))                            |>
+  mutate(main_factor = first(factor))               |>
+  ungroup()                                         |>
+  pivot_wider(names_from = factor, values_from = loading)
+
+item3_spikes <- complex_item_loadings_wide      |>
+  filter(item == 'I3')                          |>
+  select(starts_with('F'))                      |>
+  add_column(type = "end")                      |> 
+  bind_rows(tibble(F1 = 0, F2 = 0))             |>
+  complete(F1, F2, fill = list(type = "start")) |>
+  filter(F1 != 0 | F2 != 0)
+
+item3_spikes <- item3_spikes                           |> 
+  bind_rows(item3_spikes |> slice(3))                  |>
+  mutate(n = paste0('F', (row_number() + 1) %% 2 + 1)) |>
+  pivot_wider(names_from = type, values_from = F1:F2)
+
+spike_colors = c(
+  'F1' = unname(PALETTE_BLUE['light']),
+  'F2' = unname(PALETTE_RASPBERRY['light'])
+)
+
+complex_item_loadings_wide |>
+  ggplot(mapping = aes(F1, F2, color = main_factor, label = item)) +
+  geom_segment(
+    data    = item3_spikes,
+    mapping = aes(F1_start, F2_start, xend = F1_end, yend = F2_end),
+    inherit.aes = FALSE,
+    linewidth = LINE_WIDTH,
+    linetype  = '43',
+    color = spike_colors
+  )                                                                +
+  geom_point(size = I(4))                                          +
+  geom_text(
+    nudge_x =  .1,
+    nudge_y = -.08,
+    color   = I("black"),
+    size    = I(5)
+  )                                                                +
+  scale_x_continuous(
+    limits = axis_lims,
+    breaks = 0,
+    labels = NULL,
+    name   = "F2",
+    position = "top"
+  )                                                                +
+  scale_y_continuous(
+    limits = axis_lims,
+    breaks = 0,
+    labels = NULL,
+    name   = "F1",
+    position = "right"
+  )                                                                +
+  scale_color_manual(values = factor_colors, guide = NULL)         +
+  coord_fixed(expand = FALSE, clip = "on")                         +
+  theme(
+    axis.line          = element_blank(),
+    axis.ticks         = element_blank(),
+    axis.title.x       = element_text(hjust = axis_pos),
+    axis.title.y.right = element_text(vjust = axis_pos),
+    panel.grid.major   = element_line(
+      color     = "black",
+      linewidth = GRID_WIDTH
+    ),
+    panel.grid.major.x = element_line(color = PALETTE_RASPBERRY["light"]),
+    panel.grid.major.y = element_line(color = PALETTE_BLUE["light"])
+  )
+```
+:::
+:::::
+
+::: notes
+Sin embargo, en ocasiones no es posible encontrar la estructura simple.
+Es cuando aparecen lo que llamamos "pesos cruzados".
+
+Esto da lugar a una "estructura compleja", que en realidad es más común que la estructura simple, en general.
+:::
+
+## AF: Estructura compleja
+
+<br>
+
+::::: columns
+::: column
+```{r path-method-factor}
+# TODO: Syntax from tibble
+method_spec <- "
+  F1 =~ I1 + I2 + I3 + I4 + I5 + I6
+  M1 =~ I4 + I5 + I6
+"
+
+edge_colors <- c(
+  F1_COLOR |> rep(6),
+  F2_COLOR |> rep(3)
+)
+
+method_spec      |>
+  semPlotModel() |>
+  semPaths(
+    border.color = c(
+      F1_COLOR |> rep(6), # Item colors
+      F1_COLOR, F2_COLOR  # Factor colors
+    ),
+    edge.color   = edge_colors, # Loading colors
+    residuals    = FALSE,
+    thresholds   = FALSE,
+    intercepts   = FALSE,
+    fixedStyle   = 1,
+    curve        = 3,
+    label.cex    = 1.6,
+    sizeMan      = 10,
+    sizeLat      = 14,
+    border.width = 3,
+    edge.width   = 3,
+    mar          = MARGINS
+  )
+```
+:::
+
+::: column
+```{r scatter-method-factor}
+method_item_loadings <- tribble(
+  ~item, ~factor, ~loading,
+  'I1',  'F1',     ITEM_BASE_LOADING,
+  'I1',  'M1',     0,
+  'I2',  'F1',     ITEM_BASE_LOADING + 2 * ITEM_DIST,
+  'I2',  'M1',     0,
+  'I3',  'F1',     ITEM_BASE_LOADING + 3 * ITEM_DIST,
+  'I3',  'M1',     0,
+  'I4',  'F1',    -ITEM_BASE_LOADING,
+  'I4',  'M1',     ITEM_BASE_LOADING - 2 * ITEM_DIST,
+  'I5',  'F1',     ITEM_BASE_LOADING + ITEM_DIST,
+  'I5',  'M1',    -ITEM_BASE_LOADING + 2 * ITEM_DIST,
+  'I6',  'F1',    -ITEM_BASE_LOADING - ITEM_DIST,
+  'I6',  'M1',    -ITEM_BASE_LOADING + 3 * ITEM_DIST
+)
+
+method_item_loadings                                      |>
+  pivot_wider(names_from = factor, values_from = loading) |>
+  ggplot(mapping = aes(F1, M1, label = item))              +
+  geom_point(size = I(4), color = F1_COLOR)                +
+  geom_text(
+    nudge_y = -.12,
+    color   = I("black"),
+    size    = I(5)
+  )                                                        +
+  scale_x_continuous(
+    limits = axis_lims,
+    breaks = 0,
+    labels = NULL,
+    name   = "M1",
+    position = "top"
+  )                                                        +
+  scale_y_continuous(
+    limits = axis_lims,
+    breaks = 0,
+    labels = NULL,
+    name   = "F1",
+    position = "right"
+  )                                                        +
+  scale_color_manual(values = factor_colors, guide = NULL) +
+  coord_fixed(expand = FALSE, clip = "on")                 +
+  theme(
+    axis.line          = element_blank(),
+    axis.ticks         = element_blank(),
+    axis.title.x       = element_text(hjust = axis_pos),
+    axis.title.y.right = element_text(vjust = axis_pos),
+    panel.grid.major   = element_line(
+      color     = "black",
+      linewidth = GRID_WIDTH
+    ),
+    panel.grid.major.x = element_line(color = PALETTE_RASPBERRY["light"]),
+    panel.grid.major.y = element_line(color = PALETTE_BLUE["light"])
+  )
+```
+:::
+:::::
+
+::: notes
+Por ejemplo, si tenemos ítems directos e inversos, podemos modelar lo que llamamos "factores de método": Una variable latente para cada factor sustantivo (sólo uno en este caso), y por ejemplo uno para los ítems formulados en negativo.
+:::
+
+## Modelo factorial clásico
+
+<br>
+
+$$
+Y_1 = \tau_1 + \lambda_{11} F_1^p + \lambda_{21} F_2^p + ... + \lambda_{n1} F_n^p + U_1^p \\
+\vdots                                                                            \\
+Y_i = \tau_i + \lambda_{1i} F_1^p + \lambda_{2i} F_2^p + ... + \lambda_{ni} F_n^p + U_i^p
+$$
+
+<br>
+
+::: fragment
+$$
+Y_i = \tau_i + \mathbf{\lambda}_i^T \mathbf{F} + U_i
+$$
+:::
+
+::: notes
+Un modelo factorial no es más que una serie de regresiones lineales (una por cada variable observable) con variables latentes.
+Las variables "respuesta" o "criterio" es la variable observable, y su varianza está explicada o "predicha" por las variables latentes, que son los factores y los términos de error de cada ítem.
+Lo que ocurre es que aquí a "coeficientes de regresión" los llamamos "pesos factoriales" y al término error, "unicidad" o "varianza única".
+
+El producto de los pesos por las puntuaciones factoriales se puede expresar en "forma vectorial", de esta manera.
+Este término significa que el vector de puntuaciones factoriales está pre-multiplicado por el vector de pesos factoriales.
+Esta operación es lo que se llama un "producto escalar", que consiste simplemente en multiplicar dos a dos los términos de cada vector y sumar todos.
+:::
+
+## Modelo factorial clásico {.smaller}
+
+::::::: columns
+::::: column
+$$
+  I_1 = \tau_1 + \mathbf{\lambda}_{1}^T \mathbf{F} + U_1
+$$
+
+$$
+  \mathbf{F}^1 =
+    \begin{bmatrix}
+      0.5 \\
+      1
+    \end{bmatrix}
+$$
+
+::: {.fragment fragment-index="1"}
+$$
+  \mathbf{\lambda}_{1} =
+    \begin{bmatrix}
+      -1 \\
+       0.5
+    \end{bmatrix}
+$$
+:::
+
+::: fragment
+$$
+  \begin{align}
+    \tau_1 &=  1 \\
+    U_1^1  &= -0.5
+  \end{align}
+$$
+:::
+:::::
+
+::: {.column .fragment fragment-index="2"}
+```{r fa_example_plot}
+#| cache: false
+AXIS_GRID <- -1:1
+
+# Generate data for simple and complex factorial structures
+fa_example <- tribble(
+  ~object, ~factor, ~loading,
+  'I~1~',  'F1',    -1,
+  'I~1~',  'F2',     0.5,
+  'F^1^',  'F1',     0.5,
+  'F^1^',  'F2',     1
+)
+
+fa_example_wide <- fa_example |>
+  pivot_wider(names_from = factor, values_from = loading)
+
+fa_example_spikes <- fa_example_wide |>
+  add_column(type = "end")           |> 
+  bind_rows(
+    tribble(
+      ~object, ~F1,  ~F2, ~type,
+      "I~1~",   0,   0.5, "start",
+      "F^1^",   0,   1,   "start",
+      "I~1~",  -1,   0,   "start",
+      "F^1^",   0.5, 0,   "start",
+    )
+  )
+
+fa_example_spikes <- fa_example_spikes |> slice(1:2)        |>
+  bind_rows(fa_example_spikes)                              |>
+  add_column(factor = paste0('F', 1:2 |> rep(2, each = 2))) |>
+  pivot_wider(names_from = type, values_from = F1:F2)
+
+fa_example_wide |>
+  ggplot(mapping = aes(F1, F2, label = object))             +
+  geom_hline(
+    yintercept = 0,
+    color      = PALETTE_BLUE["light"],
+    linewidth  = GRID_WIDTH
+  )                                                         +
+  geom_vline(
+    xintercept = 0,
+    color      = PALETTE_RASPBERRY["light"],
+    linewidth  = GRID_WIDTH
+  )                                                         +
+  geom_segment(
+    data        = fa_example_spikes,
+    mapping     = aes(
+      F1_start, F2_start,
+      xend  = F1_end, yend = F2_end
+    ),
+    inherit.aes = FALSE,
+    linewidth   = LINE_WIDTH,
+    linetype    = '43',
+    color       = spike_colors |> rep(each = 2)
+  )                                                        +
+  geom_point(size = I(4))                                  +
+  geom_richtext(
+    nudge_x = .15,
+    nudge_y = .10,
+    color   = I("black"),
+    size    = I(5),
+    lineheight = 1.2,
+    fill = NA,
+    label.color = NA
+  )                                                        +
+  scale_x_continuous(
+    limits       = axis_lims,
+    breaks       = AXIS_GRID,
+    name         = NULL,
+    minor_breaks = NULL,
+    sec.axis     = dup_axis(name = "F~2~", labels = NULL)
+  )                                                        +
+  scale_y_continuous(
+    limits       = axis_lims,
+    breaks       = AXIS_GRID,
+    name         = NULL,
+    minor_breaks = NULL,
+    sec.axis     = dup_axis(name = "F~1~", labels = NULL)
+  )                                                        +
+  scale_color_manual(values = factor_colors, guide = NULL) +
+  coord_fixed(expand = FALSE, clip = "on")                 +
+  theme(
+    axis.line          = element_blank(),
+    axis.ticks         = element_blank(),
+    axis.title.x       = element_markdown(hjust = axis_pos),
+    axis.title.y       = element_markdown(vjust = axis_pos),
+    axis.title.y.right = element_text(vjust = axis_pos),
+    panel.grid.major   = element_line(
+      linewidth = GRID_WIDTH,
+      linetype  = "17"
+    )
+  )
+```
+:::
+:::::::
+
+::: fragment
+$$
+  I_1 = 1 + \left[ -1, 0.5 \right]
+    \begin{bmatrix}
+      0.5 \\
+      1
+    \end{bmatrix}
+    - 0.5 = 1 + (-0.5 + 0.5) - 0.5 = 0.5
+$$
+:::
+
+::: notes
+Veámoslo con un ejemplo.
+Tenemos el participante 1, en nuestro estudio, que tiene esas puntuaciones factoriales; usamos el superíndice para denotar al participante.
+Por ejemplo, en el primer rasgo, tiene un 0.5 (nos da igual la distribución pero supongamos que está estandarizada, luego está media desviación típica por encima de la media).
+En el segundo rasgo, tiene una puntuación que está una desviación típica por encima de la media.
+
+Los pesos factoriales del ítem 1 son estos: -1 para el primer rasgo (por lo cual, cuanto mayor sea la puntuación factorial en el primer factor, menor va a ser la respuesta observada en el ítem 1), y 0.5 para el segundo.
+
+Aquí vemos representados el ítem y la persona, en las mismas coordenadas cartesianas.
+Y luego el ítem tiene una intersección de 1, y la persona 1 tiene un -0.5 en el "error" de esa variable $I_1$.
+
+\[NEXT\]
+
+Su respuesta se calcularía así: Primero tenemos el parámetro de intersección que vale 1.
+La "T" del vector de pesos factoriales significa que está "traspuesto", es decir, que se pone horizontalmente (esto es una convención en álgebra matricial).
+El producto del vector de pesos por el de puntuaciones factoriales es (...).
+Y por último sumamos la puntuación de error de ese participante en la variable.
+Luego esta persona (el particpante 1) tiene la respuesta o valor observado 0.5 en esta variable observada.
+
+Lo mismo podríamos hacer con el resto de variables y de participantes, pero obviamente nosotros lo que tenemos son estas respuestas observadas, y lo que hacemos con el AF es estimar todos estos parámetros del modelo, en lugar de como lo hemos hecho ahora.
+
+Ahora bien, esta respuesta observada que hemos calculado aquí es cuantitativa.
+Tenemos costumbre de ver el análisis factorial en ese contexto, de variables cuantitativas (o que asumimos que lo son, por ejemplo en ítems Likert).
+Sin embargo, el llamado "AF de ítems" se aplica también a variables discretas ordinales (e idealmente se debería aplicar así a ítems tipo Likert, aunque a veces no se haga, por simplificar).
+:::
+
+## Análisis factorial de ítems {.smaller}
+
+::::::::: columns
+::::: {.column width="45%"}
+$$
+  y_i^* = \tau_i + \mathbf{\lambda}_i^T \mathbf{F} + U_i
+$$
+
+<br>
+
+::: {.fragment fragment-index="1"}
+$$
+  Y_i = \left\{ \begin{matrix}
+      1 &si &y_i^* \geq 0\\
+      0 &si &y_i^* <    0
+    \end{matrix} \right.
+$$
+:::
+
+<br>
+
+::: {.fragment fragment-index="2"}
+$$
+  \begin{align}
+    P(Y_i = 1) &= \int_0^{-\infty} \mathcal{N}(y_i^*) \delta y_i^* \\
+               &= \Phi_N \left(
+                 \frac{ \tau_i + \mathbf{\lambda}_i^T \mathbf{F} }
+                   { \sqrt{var(U_i)} }
+               \right)
+  \end{align}
+$$
+:::
+:::::
+
+::::: {.column width="55%"}
+::: {.fragment fragment-index="1"}
+```{r ifa-density}
+#| fig-asp:   0.5
+#| fig-width: 8
+
+PROB_AXIS      <- seq(-3, 3, by = .01)
+ERROR_POINTS   <- seq(-3, 3, length.out = 5)
+ITEM_LOADING   <-  0.45
+ITEM_INTERCEPT <- -0.3
+
+item_unique_var <-  1 - sqrt(ITEM_LOADING)
+
+latent_response <- tibble(
+  point    = ERROR_POINTS |> rep(500000),
+  response = rnorm(
+    length(point),
+    mean = ITEM_INTERCEPT + ITEM_LOADING * point,
+    sd   = sqrt(item_unique_var)
+  )
+)
+
+# Plot: Upper Panel - Linear regression with Gaussian error distributions
+latent_response |>
+  ggplot(
+    aes(x = response, y = point, fill = after_stat(x) > 0, group = point)
+  )                            +
+  geom_density_ridges_gradient(
+    scale          =  .2,
+    rel_min_height = 0.001,
+    color          = PALETTE_BLUE["normal"]
+  )                              +
+  labs(x = "y~i~^*^", y = NULL)  +
+  scale_y_continuous(
+    breaks       = ERROR_POINTS,
+    minor_breaks = NULL,
+    labels       = NULL,
+    limits       = range(ERROR_POINTS) * 1.12,
+    expand       = expansion()
+  )           +
+  scale_x_continuous(breaks = 0) +
+  scale_fill_manual(
+    values = c(
+      `FALSE` = unname(PALETTE_BLUE["white"]),
+      `TRUE`  = unname(PALETTE_BLUE["normal"])
+    )
+  )                              +
+  theme(
+    axis.ticks.x = element_blank(),
+    axis.title.y = element_markdown(angle = 90),
+    legend.position = "none",
+    panel.grid.major = element_line(linetype = "17", linewidth = GRID_WIDTH)
+  )                              +
+  coord_flip()
+```
+:::
+
+::: {.fragment fragment-index="2"}
+```{r ifa-curve}
+#| fig-asp:   0.5
+#| fig-width: 8
+
+probit_curve_data <- tibble(
+  score    = PROB_AXIS,
+  response = ITEM_INTERCEPT + ITEM_LOADING * score,
+  prob     = pnorm(response, sd = sqrt(item_unique_var))
+)
+
+# Plot: Lower Panel - Probit curve
+probit_curve_data |>
+  ggplot(mapping = aes(x = score, y = prob))                        +
+  geom_line(color = PALETTE_BLUE["normal"], linewidth = LINE_WIDTH) +
+  labs(x = "E(*y~i~^*^*)", y = "P(Y~i~ = 1)")                       +
+  scale_y_continuous(
+    breaks       = 0:1,
+    minor_breaks = NULL,
+    limits       = 0:1,
+    expand       = expansion(mult = c(0, .05)),
+    oob = oob_keep
+  )  +
+  scale_x_continuous(
+    breaks       = ERROR_POINTS,
+    minor_breaks = NULL,
+    limits = range(ERROR_POINTS) * 1.12,
+    expand = expansion()
+  ) +
+  theme(
+    axis.title       = element_markdown(),
+    axis.title.y     = element_markdown(angle = 90),
+    panel.grid.major = element_line(linetype = "17", linewidth = GRID_WIDTH),
+  )
+```
+:::
+:::::
+:::::::::
+
+::: notes
+Lo que hace el análisis factorial de ítems es aplicar ese "modelo lineal" a variables ordinales, haciendo una generalización.
+(En este caso vamos a simplificarlo a variables dicotómicas; p.ej. ante un ítem como "Soy muy responsable" las opciones de respuesta son sólo V/F).
+Esto es una simplificación que rara vez se utiliza en cuestionarios no cognitivos, pero es interesante estudiarlo porque otros modelos pueden considerarse extensiones de este modelo.
+El AF de ítems asume una nueva "variable latente" lineal ($I_1^*$), con la misma fórmula anterior
+
+Después se aplica una "función de umbral": La respuesta es correcta o afirmativa, codificada como 1, si la variable latente es mayor (o igual) que 0, o incorrecta o negativa, codificada como 0, si es menor.
+Eso lo que da, en lugar de un respuesta observada (cuantitativa), es una "probabilidad" de responder correcta o "afirmativamente" a un ítem.
+:::
+
+## AF: Puntuaciones factoriales
+
+<br>
+
+:::::: columns
+:::: column
+Métodos:
+
+-   Regresión
+
+-   Bartlett
+
+::: {.fragment fragment-index="2"}
+-   **Máxima Verosimilitud**
+
+-   **Empirical Modal Bayes**
+:::
+::::
+
+::: {.column .fragment fragment-index="1"}
+```{r path-regression-scores}
+# item_colors   <- c(F1_COLOR |> rep(3), F2_COLOR |> rep(3))
+# factor_colors <- c('F1' = F1_COLOR, 'F2' = F2_COLOR)
+
+# NOTE: Manual call to qgraph:
+edge_list <- tribble(
+  ~rhs, ~lhs,
+  1,    7,
+  2,    7,
+  3,    7,
+  4,    8,
+  5,    8,
+  6,    8,
+  7,    8,
+  8,    7
+)
+vSize <- c(10 |> rep(6), 14 |> rep(2))
+
+qgraph(
+  edge_list,
+  labels = c("I1", "I2", "I3", "I4", "I5", "I6", "F1", "F2") |>
+    setNames(nm = _),
+  label.cex = 1.6,
+  shape = "square" |> rep(8),
+  vsize = vSize, 
+  vsize2 = vSize,
+  color = "background" |> rep(8),
+  border.color = c(F1_COLOR |> rep(3), F2_COLOR |> rep(3), F1_COLOR, F2_COLOR),
+  border.width = 3,
+  bidirectional = c(FALSE |> rep(6), TRUE, TRUE),
+  directed = TRUE |> rep(8),
+  curve = c(NA |> rep(6), 3, 3),
+  edge.color = c(F1_COLOR |> rep(3), F2_COLOR |> rep(3), "black"),
+  edge.width = 3,
+  lty = 1,
+  layout = matrix(
+    c(
+      -1, -0.6, -0.2, 0.2, 0.6, 1, -0.6, 0.6,
+      -0.5 |> rep(6), 0.5 |> rep(2)
+    ),
+    ncol = 2
+  ),
+  mar = c(12, 1.3, 8, 1.3)
+)
+```
+:::
+::::::
+
+<!--# TODO: Diagrama de CFA y de "CFA inverso" -->
+
+::: notes
+Una vez tenemos los parámetros del modelo factorial estimado, entre otras cosas, podemos aplicarlo para estimar las puntuaciones factoriales de los participantes.
+Para hacer esto hay varios métodos.
+
+El método de regresión y el de Bartlett se aplican en AF lineal y están implementados en SPSS.
+Consisten a grandes rasgos en calcular la puntuación factorial como una suma ponderada de las variables observables.
+Es decir, algo así como "darle la vuelta a las flechas" de causalidad.
+Lo que tiene más sentido, desde el punto de vista estadístico, es "estimar" qué puntuaciones factoriales hacen más probable para una participante dar las respuestas que ha dado.
+
+Eso es lo que hacen los dos métodos de abajo (SPSS no los implementa creo), Máxima Verosimilitud, o esimación Modal Bayesiana.
+Si habéis hecho esto con variables categóricas, entonces habéis aplicado la Teoría de Respuesta al Ítem, y a continuación veremos por qué.
+:::
+
+## Paralelismo AF - TRI
+
+<br>
+
+::::: columns
+::: column
+![](../www/slideshow-assets/cover_McDonald-1999.jpg){height="300px"}
+
+[@mcdonald_test_1999]
+:::
+
+::: column
+<!--# TODO: Citation by McDonald -->
+:::
+:::::
+
+::: notes
+En este libro, que se publica en 1999 (fijaos en el subtítulo de "unified treatment"), McDonald indica que estos modelos, factoriales, TRI, son a fin de cuentas "isomóficos": Sin ser exactamente iguales ni partir de los mismos supuestos, las predicciones que hacen uno y otro son indistinguibles en la práctica.
+:::
+
+## Teoría de respuesta al ítem {.smaller}
+
+Modelo logístico de 2 parámetros [@birnbaum_latent_1968]:
+
+::::::::::: columns
+:::::: {.column width="60%"}
+```{r irt-curves}
+#| fig-asp:   0.6
+#| fig-width: 8
+
+ITEMS_PALETTE <- c(
+  PALETTE_BLUE["normal"],
+  PALETTE_RASPBERRY["normal"],
+  PALETTE_APPLE["normal"]
+) |>
+  unname() |>
+  setNames("prob" |> paste(1:3, sep = '_'))
+
+ITEMS <- tribble(
+  ~item, ~a,   ~b,
+   1,     1,    0,
+   3,     1,    1.5,
+   2,     2.5,  0
+)
+
+logit <- function(x) 1 / (1 + exp(-x))
+irf   <- function(a, b, theta) logit(a * (theta - b))
+
+logit_curve_data <- tibble(
+  latent_trait = PROB_AXIS,
+  prob         = ITEMS |>
+    select(-item) |>
+    pmap(irf, theta = latent_trait) |>
+    bind_cols()
+) |>
+  unnest(
+    prob,
+    names_sep = '_'
+  ) |>
+  rename_with(str_remove, pattern = '\\.{3}')
+
+logit_curve_data_long <- logit_curve_data |>
+  pivot_longer(starts_with("prob"), names_to = "item", values_to = "prob")
+
+logit_curve_data_long |>
+  ggplot(
+    mapping = aes(
+      latent_trait, prob,
+      color = item,
+      group = after_scale(color)
+    )
+  )                                        +
+  geom_line(linewidth = LINE_WIDTH)        +
+  labs(x = "*&theta;*", y = "P(Y~i~ = 1)") +
+  scale_y_continuous(
+    breaks       = 0:1,
+    minor_breaks = NULL,
+    limits       = 0:1,
+    expand       = expansion(mult = c(0, .05))
+  )                                        +
+  scale_x_continuous(
+    breaks       = ERROR_POINTS,
+    minor_breaks = NULL,
+    limits = range(ERROR_POINTS) * 1.12,
+    expand = expansion()
+  )                                        +
+  scale_color_manual(values = ITEMS_PALETTE, guide = NULL) +
+  theme(
+    axis.title       = element_markdown(),
+    axis.title.y     = element_markdown(angle = 90),
+    panel.grid.major = element_line(linetype = "17", linewidth = GRID_WIDTH),
+  )
+```
+
+::: r-stack
+[$a_1$ = 1.0; $b_1$ = 0.0]{style="color:#5c6eb1;"}
+:::
+
+::: r-stack
+[$a_2$ = 1.0; $b_2$ = 1.5]{style="color:#90214a;"}
+:::
+
+::: r-stack
+[$a_3$ = 2.5; $b_3$ = 0.0]{style="color:#749f4c;"}
+:::
+::::::
+
+:::::: {.column width="40%"}
+::: {.fragment fragment-index="1"}
+$$
+  P(Y_i = 1) = \Phi_L (a_i (\theta - b_i))
+$$
+:::
+
+<br>
+
+::: {.fragment fragment-index="2"}
+$$
+  \begin{align}
+    d_i &= -a_i b_i \\
+    P(Y_i = 1) &= \Phi_L (a_i \theta + d_i))
+  \end{align}
+$$
+:::
+
+<br>
+
+::: {.fragment fragment-index="3"}
+$$
+  \Phi_L (x) =  \frac{1}{1 + e^{-x}}
+$$
+:::
+
+<br>
+::::::
+:::::::::::
+
+::: notes
+La TRI, por su lado, asume que hay cada persona tiene una puntuación latente, y que su respuesta depende de esa puntuación, con un parámetro de discriminación que determina cómo de bien o mal mide el ítem, y uno de dificultad (aunque aquí prefiero llamarlo "de posición") que determina lo fácil o difícil que será dar una respuesta positiva (afirmativa, correcta, codificada como 1).
+Esa posición representa el nivel de rasgo latente que da lugar a una probabilidad de .5 de dar la respuesta positiva (en este modelo; en general representa el punto de inflexión de la curva, es decir, donde pasa de hacerse cada vez más pronunciada a empezar a aplanarse).
+
+Ahora bien, la posición se puede reformular como un parámetro de intersección.
+
+Como se puede ver, esto también se trata de un "modelo lineal general".
+En este caso, en lugar de una función probit (normal acumulada), la función de enlace es la función "logit".
+Es decir, la respuesta a cada ítem se modela como una regresión logistica donde los predictores son las variables latentes.
+:::
+
+## TRI multidimensional
+
+$$
+  P(Y_i = 1) = \Phi_L (\mathbf{a}_i^T \mathbf{\theta} + d_i)
+$$
+
+::::: columns
+::: column
+```{r mirt-model-irs-3d}
+#| fig-width:  5
+#| fig-height: 5
+PROB_AXIS_2D <- seq(-3, 3, by = .1)
+
+mirt_item <- tribble(
+  ~item, ~a_1, ~a_2, ~d,
+  1,     1,    0.5,  -0.5
+)
+
+irs2d <- function(a_1, a_2, d, theta_1, theta_2) {
+  
+  logit(a_1 * theta_1 + a_2 * theta_2 + d)
+}
+
+mirt_item_probs <- expand_grid(
+  trait_2 = PROB_AXIS_2D,
+  trait_1 = PROB_AXIS_2D
+) |>
+  mutate(
+    mirt_item |>
+      select(-item) |>
+      pmap(irs2d, theta_1 = trait_1, theta_2 = trait_2) |>
+      bind_cols()
+  ) |>
+    rename(prob = `...1`)
+
+mirt_prob_surface <- mirt_item_probs |>
+  pivot_wider(names_from = trait_1, values_from = prob) |>
+    select(-trait_2) |>
+    as.matrix()
+
+plot_ly(
+  x = ~PROB_AXIS_2D,
+  y = ~PROB_AXIS_2D,
+  z = ~mirt_prob_surface,
+  colorscale = list(c(0, 1), PALETTE_BLUE["normal"] |> rep(2)),
+  type = 'surface',
+  hovertemplate = 'P(I<sub>i</sub> = 1) = %{z:.2f}<extra></extra>',
+  showscale = FALSE,
+  hoverinfo = 'Z'
+) |>
+  layout(
+    scene = list(
+      xaxis = list(title = "<i>θ</i><sub>1</sub>"),
+      yaxis = list(title = "<i>θ</i><sub>2</sub>"),
+      zaxis = list(title = "P(I<sub>i</sub> = 1)"),
+      camera = list(
+        center = list(x = -.1, z = -.2),
+        eye = list(x = -.12, y = -1.8, z = 1)
+      )
+    )
+  ) |>
+  config(displayModeBar = FALSE, scrollZoom = FALSE)
+```
+:::
+
+::: column
+```{r mirt-model-irs-contour}
+contour_plot <- mirt_item_probs |>
+  ggplot(mapping = aes(trait_1, trait_2, z = prob, label = after_stat(level))) +
+  geom_vline(xintercept = 0, linewidth = GRID_WIDTH) +
+  geom_hline(yintercept = 0, linewidth = GRID_WIDTH) +
+  geom_contour2(
+    color = F1_COLOR,
+    linewidth = LINE_WIDTH,
+    breaks = c(.05, .1, .2, .3, .5, .7, .8, .9, .95),
+    label.placer = label_placer_fraction(frac = .90, rot_adjuster = 0)
+  ) +
+  scale_x_continuous(
+    minor_breaks = NULL,
+    limits = range(PROB_AXIS_2D),
+    expand = expansion(),
+    name   = NULL,
+    sec.axis = dup_axis(name = "*&theta;*~2~", labels = NULL)
+  ) +
+  scale_y_continuous(
+    minor_breaks = NULL,
+    limits = range(PROB_AXIS_2D),
+    expand = expansion(),
+    name   = NULL,
+    sec.axis = dup_axis(name = "*&theta;*~1~", labels = NULL)
+  ) +
+  coord_fixed() +
+  theme(
+    axis.ticks       = element_blank(),
+    axis.line        = element_blank(),
+    axis.title       = element_markdown(),
+    axis.title.y     = element_markdown(),
+    panel.grid.major = element_line(linetype = "17", linewidth = GRID_WIDTH)
+  )
+
+contour_plot
+```
+:::
+:::::
+
+::: notes
+Esto se puede extender, de manera bastante directa, asumiendo que la respuesta se modela como una "regresión logística multivariada".
+Aquí aparece otra vez la discriminación pero ahora en forma vectorial, que se pre-multiplica (recordad, producto escalar) por el vector de rasgo latente de la persona, y un parámetro de intersección, como antes (pero no puede haber un parámetro de dificultad simplemente, o uno por cada dimensión, porque serían indistinguibles entre sí).
+Esta es una de las extensiones multidimensionales (más antiguas, y probablemente más obvias) del modelo logístico de 2 parámetros: El modelo logístico de 2 parámetros multidimensional compensatorio.
+Pertenece a una familia de modelos llamados "compensatorios" en TRI, ya que un nivel bajo en una puntuación latente se compensa con un nivel alto en otra, dando lugar a la misma probabilidad de respuesta.
+:::
+
+## TRI multidimensional: Ejemplo {.smaller}
+
+:::::: columns
+::: column
+$$
+  P(Y_1 = 1) = \Phi_L (\mathbf{a}_1^T \mathbf{\theta} + d_1)
+$$
+
+```{r mirt-item-response-example}
+mirt_example <- tribble(
+  ~theta_1, ~theta_2,
+  1,        -1
+)
+
+mirt_example_spikes <- mirt_example |>
+  add_column(type = "end")          |> 
+  bind_rows(
+    tribble(
+      ~theta_1, ~theta_2, ~type,
+      0,        -1,        "start",
+      1,         0,        "start"
+    )
+  )
+
+mirt_example_spikes <- mirt_example_spikes |>
+  slice(1) |>
+  bind_rows(mirt_example_spikes) |>
+  add_column(factor = paste0('F', 1:2 |> rep(2))) |>
+  pivot_wider(names_from = type, values_from = starts_with("theta"))
+
+contour_plot +
+  geom_segment(
+    data    = mirt_example_spikes,
+    mapping = aes(
+      theta_1_start, theta_2_start,
+      xend = theta_1_end,
+      yend = theta_2_end
+    ),
+    inherit.aes = FALSE,
+    linewidth = LINE_WIDTH,
+    linetype  = '43',
+    color = PALETTE_BLUE["light"]
+  ) +
+  geom_point(
+    data = mirt_example,
+    mapping = aes(theta_1, theta_2),
+    inherit.aes = FALSE,
+    size = I(4)
+  )
+```
+:::
+
+:::: column
+\begin{matrix}
+  \mathbf{\theta} =
+    \begin{bmatrix}
+      1 \\
+      -1
+    \end{bmatrix}
+
+  &\begin{align}
+    \mathbf{a}_1 &=
+      \begin{bmatrix}
+        1 \\
+        0.5
+      \end{bmatrix} \\
+    d_1 &= -0.5
+  \end{align}
+\end{matrix}
+
+<br>
+
+::: fragment
+$$
+  \begin{align}
+    P(Y_1 = 1) &= \Phi_L \left([1, 0.5]
+      \begin{bmatrix}
+         1 \\
+        -1
+      \end{bmatrix}
+      -0.5 \right) \\
+      &= \Phi_L \left(1 · 1 + 0.5 · (-1) -0.5 \right) \\
+      &= \Phi_L \left(1 -0.5 -0.5 \right) = \Phi_L \left(0 \right) \\
+      &= \frac{1}{1 + e^{-0}} = \frac{1}{1 + 1} = \frac{1}{2} \\
+      &= 0.5
+  \end{align}
+$$
+:::
+::::
+::::::
+
+::: notes
+Veamos un ejemplo de cuál sería la probabilidad de respuesta de una persona con puntuaciones de rasgo de 1 y -1.
+
+(Hacer cálculos matriciales)
+:::
+
+## AF en métrica TRI {.smaller}
+
+<br>
+
+$$
+  \begin{align}
+    P(Y_i = 1) &= \Phi_N \left(
+      \frac{\mathbf{\lambda}_i^T \mathbf{F} + \tau_i}{\sqrt{var(U_i)}}
+    \right) \\
+    P(Y_i = 1) &= \Phi_L (\mathbf{a}_i^T \mathbf{\theta} + d_i)
+  \end{align}
+$$
+
+<br>
+
+::: fragment
+@takane_relationship_1987:
+
+$$
+  \begin{align}
+    \mathbf{a}_i &= \frac{1.7}{\sqrt{var(U_i)}} \mathbf{\lambda}_i \\
+    d_i &= \frac{1.7}{\sqrt{var(U_i)}} \tau_i
+  \end{align}
+$$
+:::
+
+::: notes
+Claro, si ponemos las ecuaciones del AF y de TRI lado a lado, es fácil ver que existe un paralelismo entre ambos modelos.
+
+Pues resulta que estas dos curvas, la normal y la logística, son muy parecidas; tanto, que es posible transformar los parámetros de la métrica del AF a métrica de TRI, obteniendo modelos indistinguibles en la práctica.
+Las dos curvas se diferencian por este factor de 1.7, pero aplicándo ese factor y escalando por la desviación estándar de la unicidad del ítem, obtenemos los mismos parámetros en métrica de TRI mulidimensional con función de respuesta logística.
+Y de hecho, esto es necesario y se hace así para hacer la estimación máximo-verosimil de la que hablábamos antes.
+:::
+
+## Parámetros multidimensionales de TRI {.smaller}
+
+<br>
+
+$$
+  P(Y_i = 1) = \Phi_L (\mathbf{a}_i^T \mathbf{\theta} + d_i)
+$$
+
+::: fragment
+$$
+  P(Y_i = 1) = \Phi_L (a_i (\theta - b_i))
+$$
+:::
+
+::: fragment
+@reckase_difficulty_1985:
+
+> \[...\] means of describing the characteristics of an item that takes into account the dimensionality of the skills \[...\] can then be used to determine how or if it is possible to compare items that measure different combinations of abilities.
+:::
+
+::: notes
+A pesar de este paralelismo que os he mostrado, y de la utilidad de los modelos de TRI, hay un problema con la formulación del modelo que os he planteado, y es que como habéis podido ver los parámetros no son fácilmente interpretables.
+
+La intersección del modelo por ejemplo no tiene una interpretación clara.
+Si recordáis en la TRI unidimensional el parámetro de posición permitía comparar ítems entre sí en cuanto a su dificultad (en el caso de items cognitivos).
+Esto en AF no es muy habitual (prestamos poca atención a la "intersección" o "umbral"), porque no nos interesa tanto cómo de probable sea dar una respuesta positiva o negativa a un ítem, pero podría ayudarnos por ejemplo a diagnosticar ítems que estén mal diseñados, ya que nos da una idea de si va a haber muchas o pocas respuestas positivas a un ítem.
+
+Por eso Reckase dice, ya en 1985, que se necesita una forma de describir las características de los ítems que tenga en cuenta la dimensionalidad de las habilidades (los rasgos latentes en general).
+Daos cuenta de que entonces aún no se sabe nada de ese paralelismo con el AF.
+Además menciona que de esa manera se puede intentar comparar ítems que miden diferentes combinaciones de habilidades (fijaos en la importancia que tiene el dónde están los ítems en el continuo, en TRI, en contraste con AF, como comentábamos al principio).
+:::
+
+## Dificultad multidimensional {.smaller}
+
+@reckase_difficulty_1985:
+
+> \[...\] the most reasonable point to use in defining the \[multidimensional difficulty\] for an item in the multidimensional space is the point where the item is most discriminating.
+
+---(p. 402)
+
+::: fragment
+$$
+  MID = \frac{-d_i}{\sqrt{\mathbf{a}_i^T\mathbf{a}_i}}
+$$
+:::
+
+::: fragment
+> The distance can be interpreted much like a $b$ parameter from unidimensional IRT
+
+---(p. 405)
+:::
+
+::: notes
+Lo que hace Reckase entonces es intentar definir un parámetro de "dificultad" (lo llama, para nosotros sería de posición), que sea de algún modo equivalente a la dificultad en el modelo unidimensional, es decir, el lugar donde el ítem es lo más discriminativo posible.
+Donde la curva de probabilidad de respuesta pasa de ser cada vez más abrupta a cada vez más plana.
+
+\[NEXT\]
+
+Y llega a esta definición, que consiste simplemente en el parámetro de intersección (con signo negativo), dividido entre la raíz del producto escalar (vuelve a aparecer el producto escalar), en este caso, del vector de parámetros de discriminación consigo mismo.
+Toda esta expresión se denomina "norma" del vector.
+
+\[NEXT\]
+
+Este parámetro, de "discriminación" o "dificultad", se puede interpretar de igual manera a la dificultad unidimensional.
+:::
+
+## Dificultad multidimensional
+
+::::::: columns
+::: column
+```{r mid-representation}
+#| fig-height: 8
+#| fig-width:  8
+
+mirt_item_params <- mirt_item |>
+  compute_mirt_params(d, starts_with('a'))
+
+mirt_item_coords <- mirt_item_params |>
+  compute_mirt_coords(D, MDISC, starts_with("cos"), original_coords = FALSE) |>
+    rename_with(str_remove, pattern = "transf_")
+
+mirt_item_spikes <- mirt_item_coords |>
+  select(item, trait_1 = origin_1, trait_2 = origin_2) |>
+  bind_rows(tibble(item = 1, trait_1 = 0, trait_2 = 0)) |>
+  add_column(type = c("end", "start")) |>
+  pivot_wider(names_from = type, values_from = starts_with("trait"))
+
+mirt_item_probs |>
+  ggplot(mapping = aes(trait_1, trait_2, z = prob, label = after_stat(level))) +
+  geom_vline(xintercept = 0, linewidth = GRID_WIDTH) +
+  geom_hline(yintercept = 0, linewidth = GRID_WIDTH) +
+  geom_contour2(
+    color = F1_COLOR,
+    linewidth = LINE_WIDTH,
+    skip = 0,
+    breaks = 1:9 / 10,
+    label.placer = label_placer_fraction(frac = .90, rot_adjuster = 0)
+  ) +
+  geom_segment(
+    data    = mirt_item_spikes,
+    mapping = aes(
+      trait_1_start, trait_2_start,
+      xend = trait_1_end,
+      yend = trait_2_end
+    ),
+    inherit.aes = FALSE,
+    linewidth = LINE_WIDTH,
+    linetype  = '43',
+    color = PALETTE_BLUE["light"]
+  ) +
+  geom_point(
+    data = mirt_item_coords,
+    mapping = aes(origin_1, origin_2),
+    inherit.aes = FALSE,
+    size = I(4)
+  ) +
+  scale_x_continuous(
+    breaks       = -1:1,
+    minor_breaks = NULL,
+    limits       = c(-1.5, 1.5),
+    expand       = expansion(),
+    name         = NULL,
+    sec.axis     = dup_axis(name = "*&theta;*~2~", labels = NULL)
+  ) +
+  scale_y_continuous(
+    breaks       = -1:1,
+    minor_breaks = NULL,
+    limits       = c(-1.5, 1.5),
+    expand       = expansion(),
+    name         = NULL,
+    sec.axis     = dup_axis(name = "*&theta;*~1~", labels = NULL)
+  ) +
+  annotate(
+    geom = "richtext",
+    x = 0.16, y = 0.15,
+    label = "*MID~i~*",
+    size = 6,
+    angle = mirt_item_params |> pull(deg_1),
+    label.colour  = NA,
+    fill = NA
+  ) +
+  coord_fixed() +
+  theme(
+    axis.ticks       = element_blank(),
+    axis.line        = element_blank(),
+    axis.title       = element_markdown(),
+    axis.title.y     = element_markdown(),
+    panel.grid.major = element_line(linetype = "17", linewidth = GRID_WIDTH)
+  )
+```
+:::
+
+::::: column
+::: fragment
+$$
+  cos \, \mathbf{\alpha}_i = \frac{\mathbf{a}_i}{\sqrt{\mathbf{a}_i^T\mathbf{a}_i}}
+$$
+:::
+
+<br>
+
+::: fragment
+$$
+  MID_i = \begin{Bmatrix}
+    \frac{-d_i}{\sqrt{\mathbf{a}_i^T\mathbf{a}_i}} \\
+    \frac{\mathbf{a}_i}{\sqrt{\mathbf{a}_i^T\mathbf{a}_i}}
+  \end{Bmatrix}
+$$
+:::
+:::::
+:::::::
+
+::: notes
+Geométricamente consiste en una "distancia **con signo**" (puede ser hacia cualquiera de ambos sentidos) desde el origen hasta ese punto donde está la posición del ítem, sobre la recta de inflexión (donde la probabilidad es igual a 0.5).
+
+\[NEXT\]
+
+A lo largo de toda esa recta podría ser cualquier punto, pero en realidad es el punto más cercano al origen, donde la recta que lo une al origen es perpendicular a esa misma recta de inflexión).
+Para ello claro, no basta con la "distancia (con signo)"; hace falta saber en qué dirección mide ese ítem también.
+Eso viene dado por los llamados "cosenos directores".
+Fijáos que vuelve a aparecer la norma de este vector en el denominador.
+
+\[NEXT\]
+
+Por lo tanto, la "dificultad (posición) multidimensional" está compuesta por dos elementos, un número real que representa cuánto se desplaza la recta de inflexión del ítem respecto del origen y en qué sentido, y un vector de cosenos que determina la dirección en la que se desplaza.
+Así se puede interpretar un ítem, o varios, de manera relativamente sencilla: Todos los participantes cuyas coordenadas estén en la "recta de inflexión" (la recta que pasa por la posición del ítem, perpendicular a su dirección) tendrán una probabilidad de dar una respuesta positiva y negativa de .5 (dificultad media; igual probabilidad de acertar o fallar).
+Aquellos que estén pasada la recta, encontrarán el ítem "relativamente fácil" (tendrán una alta probabilidad de dar una respuesta positiva mayor a .5; lo encontrarán "más fácil que difícil").
+Lo contrario pasa para los que estén al otro lado de esa recta, tendrán más probabilidad de responder negativamente (mal), por lo que lo encontrarán difícil.
+
+De lo que este parámetro no informa es de "cómo de fácil o difícil" va a ser el ítem para aquellos participantes que están muy cerca o muy lejos de esta recta.
+Es decir, una vez estoy pasada la recta, aunque esté cerca, ¿es el ítem muy fácil, o más bien tengo que estar "muy lejos" (tener alta puntuación en uno u otro rasgo) para que sea más probable que de una respuesta positiva?
+:::
+
+## Discriminación multidimensional {.smaller}
+
+@reckase_discriminating_1991 [p. 362]:
+
+> the discriminating power of an item indicates how quickly the transition takes place from low probability to high probability \[...\].
+> A highly discriminating item divides the regions clearly---having a narrow region \[...\] where the probabilities are intermediate in magnitude.
+
+::::: columns
+::: {.column .fragment}
+```{r low-disc-contour}
+#| fig-width:  4.7
+#| fig-height: 4.7
+mirt_item <- tribble(
+  ~item, ~a_1, ~a_2, ~d,
+  1,     0.5,  0.25,  -0.125
+)
+
+mirt_item_probs <- expand_grid(
+  trait_2 = PROB_AXIS_2D,
+  trait_1 = PROB_AXIS_2D
+) |>
+  mutate(
+    mirt_item |>
+      select(-item) |>
+      pmap(irs2d, theta_1 = trait_1, theta_2 = trait_2) |>
+      bind_cols()
+  ) |>
+    rename(prob = `...1`)
+
+mirt_item_probs |>
+  ggplot(mapping = aes(trait_1, trait_2, z = prob, label = after_stat(level))) +
+  geom_vline(xintercept = 0, linewidth = GRID_WIDTH) +
+  geom_hline(yintercept = 0, linewidth = GRID_WIDTH) +
+  geom_contour2(
+    color = F1_COLOR,
+    linewidth = LINE_WIDTH,
+    breaks = 1:9 / 10,
+    skip = 0,
+    label.placer = label_placer_fraction(frac = .80, rot_adjuster = 0)
+  ) +
+  scale_x_continuous(
+    breaks       = -1:1,
+    minor_breaks = NULL,
+    limits       = c(-1.5, 1.5),
+    expand       = expansion(),
+    name         = NULL,
+    sec.axis     = dup_axis(name = "*&theta;*~2~", labels = NULL)
+  ) +
+  scale_y_continuous(
+    breaks       = -1:1,
+    minor_breaks = NULL,
+    limits       = c(-1.5, 1.5),
+    expand       = expansion(),
+    name         = NULL,
+    sec.axis     = dup_axis(name = "*&theta;*~1~", labels = NULL)
+  ) +
+  coord_fixed() +
+  theme(
+    axis.ticks       = element_blank(),
+    axis.line        = element_blank(),
+    axis.title       = element_markdown(),
+    axis.title.y     = element_markdown(),
+    panel.grid.major = element_line(linetype = "17", linewidth = GRID_WIDTH)
+  )
+```
+:::
+
+::: {.column .fragment}
+```{r high-disc-contour}
+#| fig-width:  4.7
+#| fig-height: 4.7
+
+mirt_item <- tribble(
+  ~item, ~a_1, ~a_2, ~d,
+  1,     1.5,  0.75,  -0.375
+)
+
+mirt_item_probs <- expand_grid(
+  trait_2 = PROB_AXIS_2D,
+  trait_1 = PROB_AXIS_2D
+) |>
+  mutate(
+    mirt_item |>
+      select(-item) |>
+      pmap(irs2d, theta_1 = trait_1, theta_2 = trait_2) |>
+      bind_cols()
+  ) |>
+    rename(prob = `...1`)
+
+mirt_item_probs |>
+  ggplot(mapping = aes(trait_1, trait_2, z = prob, label = after_stat(level))) +
+  geom_vline(xintercept = 0, linewidth = GRID_WIDTH) +
+  geom_hline(yintercept = 0, linewidth = GRID_WIDTH) +
+  geom_contour2(
+    color = F1_COLOR,
+    linewidth = LINE_WIDTH,
+    breaks = 1:9 / 10,
+    # skip = 0,
+    label.placer = label_placer_fraction(frac = .90, rot_adjuster = 0)
+  ) +
+  scale_x_continuous(
+    breaks       = -1:1,
+    minor_breaks = NULL,
+    limits       = c(-1.5, 1.5),
+    expand       = expansion(),
+    name         = NULL,
+    sec.axis     = dup_axis(name = "*&theta;*~2~", labels = NULL)
+  ) +
+  scale_y_continuous(
+    breaks       = -1:1,
+    minor_breaks = NULL,
+    limits       = c(-1.5, 1.5),
+    expand       = expansion(),
+    name         = NULL,
+    sec.axis     = dup_axis(name = "*&theta;*~1~", labels = NULL)
+  ) +
+  coord_fixed() +
+  theme(
+    axis.ticks       = element_blank(),
+    axis.line        = element_blank(),
+    axis.title       = element_markdown(),
+    axis.title.y     = element_markdown(),
+    panel.grid.major = element_line(linetype = "17", linewidth = GRID_WIDTH)
+  )
+```
+:::
+:::::
+
+::: notes
+Esta característica viene representada por el parámetro de "discriminación", que es una medida de la "calidad general" de un ítem.
+Los ítems "malos", o poco discriminantivos, tendrán una superficie de respuesta bastante "plana", con una transición suave entre la región de baja y la de alta probabilidad de respuesta, mientras que los muy discriminativos distinguirán bien entre la gente que está en la región de alta o baja probabilidad de respuesta, con zona de transición más estrecha, más abrupta.
+:::
+
+## Discriminación multidimensional {.smaller}
+
+```{r mdisc-items}
+mdisc_items <- tribble(
+  ~item, ~a_1, ~a_2, ~d,
+  1,     4,    0.1,     0,
+  2,     0.01, 0.02,  0,
+)
+
+mirt_item_probs <- expand_grid(
+  trait_1 = PROB_AXIS_2D,
+  trait_2 = PROB_AXIS_2D
+) |>
+  mutate(
+    mdisc_items |>
+      select(-item) |>
+      pmap(irs2d, theta_1 = trait_1, theta_2 = trait_2) |>
+      bind_cols()
+  ) |>
+    rename_with(str_replace, pattern = '\\.{3}', replacement = "prob_")
+```
+
+::::: columns
+::: column
+$$
+  \mathbf{a}_1 = \begin{bmatrix}
+    0.1 \\
+    0.02
+  \end{bmatrix};\quad
+  d_1 = 0
+$$
+
+```{r low-mdisc-irs-contour}
+#| fig-height: 5
+#| fig-width:  5
+mirt_prob_surface <- mirt_item_probs |>
+  select(starts_with("trait"), prob_2) |>
+  pivot_wider(names_from = trait_1, values_from = prob_2) |>
+    select(-trait_2) |>
+    as.matrix()
+
+plot_ly(
+  x = ~PROB_AXIS_2D,
+  y = ~PROB_AXIS_2D,
+  z = ~mirt_prob_surface,
+  colorscale = list(c(0, 1), PALETTE_BLUE["normal"] |> rep(2)),
+  type = 'surface',
+  hovertemplate = 'P(I<sub>1</sub> = 1) = %{z:.2f}<extra></extra>',
+  showscale = FALSE,
+  hoverinfo = 'Z'
+) |>
+  layout(
+    scene = list(
+      xaxis = list(title = "<i>θ</i><sub>1</sub>"),
+      yaxis = list(title = "<i>θ</i><sub>2</sub>"),
+      zaxis = list(
+        range = 0:1,
+        title = "P(I<sub>1</sub> = 1)"
+      ),
+      camera = list(
+        center = list(x = -.1, z = -.2),
+        eye = list(x = -.12, y = -1.8, z = 1)
+      )
+    )
+  ) |>
+  config(displayModeBar = FALSE, scrollZoom = FALSE)
+```
+:::
+
+::: column
+$$
+  \mathbf{a}_2 = \begin{bmatrix}
+    4 \\
+    0.1
+  \end{bmatrix};\quad
+  d_2 = 0
+$$
+
+```{r high-mdisc-irs-contour}
+#| fig-height: 5
+#| fig-width:  5
+mirt_prob_surface <- mirt_item_probs |>
+  select(trait_1:prob_1) |>
+  pivot_wider(names_from = trait_1, values_from = prob_1) |>
+    select(-trait_2) |>
+    as.matrix()
+
+plot_ly(
+  x = ~PROB_AXIS_2D,
+  y = ~PROB_AXIS_2D,
+  z = ~mirt_prob_surface,
+  colorscale = list(c(0, 1), PALETTE_BLUE["normal"] |> rep(2)),
+  type = 'surface',
+  hovertemplate = 'P(I<sub>2</sub> = 1) = %{z:.2f}<extra></extra>',
+  showscale = FALSE,
+  hoverinfo = 'Z'
+) |>
+  layout(
+    scene = list(
+      xaxis = list(title = "<i>θ</i><sub>1</sub>"),
+      yaxis = list(title = "<i>θ</i><sub>2</sub>"),
+      zaxis = list(
+        range = 0:1,
+        title = "P(I<sub>2</sub> = 1)"
+      ),
+      camera = list(
+        center = list(x = -.1, z = -.2),
+        eye = list(x = -.12, y = -1.8, z = 1)
+      )
+    )
+  ) |>
+  config(displayModeBar = FALSE, scrollZoom = FALSE)
+```
+:::
+:::::
+
+::: notes
+La discriminación se puede entender con una especie de "dardo" que atraviesa de arriba abajo esa superficie perpendicularmente por esa "recta de inflexión" de la que hablábamos antes, y luego cruza el plano origen.
+Si la superficie es "totalmente plana" el dardo entra por un punto y sale por otro que está justo debajo, en las mismas coordenadas de rasgo latente.
+La "proyección" (si ponemos un foco justo encima, la sombra que forma en el plano) es un punto.
+Es decir, la "discriminación" es cero (el vector del ítem tiene longitud "cero").
+Si la pendiente es muy pronunciada (distingue bien entre niveles de rasgo) el dardo atravesará el plano origen muy lejos.
+La sombra será muy larga (es decir, la discriminación muy alta).
+El caso "extremo" es una superficie "vertical" en la recta de inflexión (un escalón; cosa imposible en ítems reales).
+En este caso, el dardo nunca cortaría al plano origen, y la discriminación sería infinita.
+
+Pero cuidado, que el ítem "discimine mucho" no significa que sea "bueno" midiendo todas las dimensiones, ya que eso va a depender también de "en qué dirección" mida el ítem, y eso viene dado por el componente de dirección que hemos visto antes.
+:::
+
+## Discriminación multidimensional
+
+::::::: columns
+::: column
+```{r mdisc-item}
+#| fig-width:  8
+#| fig-height: 8
+
+item_vector <- mirt_item_coords |> mutate(
+  across(ends_with("1"), ~ . - origin_1),
+  across(ends_with("2"), ~ . - origin_2)
+)
+
+item_spikes <- item_vector             |>
+  slice(1 |> rep(2))                   |>
+  add_column(dim = 'F' |> paste0(1:2)) |>
+  mutate(
+    origin_1 = if_else(dim == 'F1', end_1, origin_1),
+    origin_2 = if_else(dim == 'F2', end_2, origin_2),
+  )
+
+item_vector |>
+  ggplot(
+    aes(
+      0, 0,
+      xend = end_1,
+      yend = end_2,
+      color = factor(item), fill = factor(item)
+    ),
+  )                                                  +
+  geom_vline(xintercept = 0, linewidth = GRID_WIDTH) +
+  geom_hline(yintercept = 0, linewidth = GRID_WIDTH) +
+  geom_segment(
+    data = item_spikes,
+    mapping = aes(origin_1, origin_2, xend = end_1, yend = end_2),
+    linewidth = LINE_WIDTH,
+    linetype  = '43',
+    color     = PALETTE_BLUE["light"]
+  ) +
+  geom_segment(
+    arrow     = arrow(angle = 20, length = unit(10, "points"), type = "closed"),
+    linejoin  = "mitre",
+    linewidth = VECTOR_WIDTH
+  ) +
+  scale_x_continuous(
+    limits       = c(-1, 1.5),
+    breaks       = -1:2,
+    minor_breaks = NULL,
+    name         = NULL,
+    sec.axis     = dup_axis(name = "*&theta;*~2~", labels = NULL)
+  ) +
+  scale_y_continuous(
+    limits       = c(-1, 1.5),
+    breaks       = -1:2,
+    minor_breaks = NULL,
+    name         = NULL,
+    sec.axis     = dup_axis(name = "*&theta;*~1~", labels = NULL)
+  ) +
+  scale_color_manual(values = unname(PALETTE_BLUE["normal"]), guide = NULL) +
+  annotate(
+    "richtext",
+    x = 0.32, y = 0.25,
+    label = "*MDISC~i~*",
+    size  = 9,
+    angle = mirt_item_params |> pull(deg_1),
+    label.colour  = NA,
+    fill = NA
+  ) +
+  annotate(
+    "richtext",
+    x = c(0.5, -0.13), y = c(-0.12, 0.25),
+    label         = c("*a*~1*i*~", "*a*~2*i*~"),
+    size          = 8,
+    label.colour  = NA,
+    label.padding = unit(0, "lines"),
+    fill = NA
+  ) +
+  coord_fixed(clip = "on") +
+  theme(
+    axis.line          = element_blank(),
+    axis.title         = element_markdown(size = 20, padding = unit(0, "lines")),
+    axis.title.x       = element_markdown(hjust = .4),
+    axis.title.y.right = element_markdown(vjust = .4),
+    axis.ticks         = element_blank(),
+    panel.grid.major   = element_line(
+      linewidth = GRID_WIDTH,
+      linetype  = "17"
+    ),
+  )
+```
+:::
+
+::::: column
+::: fragment
+@reckase_discriminating_1991:
+
+<br>
+
+$$
+  MDISC_i = \sqrt{\mathbf{a}_i^T \mathbf{a}_i}
+$$
+:::
+
+::: fragment
+$$
+  MID_i = \begin{Bmatrix}
+    \frac{-d_i}{\sqrt{\mathbf{a}_i^T\mathbf{a}_i}} \\
+    \frac{\mathbf{a}_i}{\sqrt{\mathbf{a}_i^T\mathbf{a}_i}}
+  \end{Bmatrix}
+$$
+:::
+:::::
+:::::::
+
+::: notes
+@reckase_discriminating_1991 hacen la deducción de la discriminación multidimensional, y el resultado es simplemente la "longitud" del vector de parámetros de discriminación.
+Esto sería, en cierto modo, equivalente a la "representación factorial" del ítem; aquí la punta del vector está donde estarían las "bolitas" que usábamos antes para representar los pesos factoriales en el espacio de factores comunes, excepto que, para un mismo ítem, estaría escalado por la varianza única del ítem y el factor aquel de 1.7 que salía en la fórmula, pero por lo demás es una representación equivalente a la del modelo factorial.
+
+El cálculo puede hacerse simplemente aplicando el teorema de Pitágoras.
+El vector es un triángulo rectángulo, $a_1$ sería un cateto, el otro cateto (SEÑALAR "SPIKE") sería igual a $a_2$, y la hipotenusa es la longitud (las dos discriminaciones al cuadrado, sumadas, y luego la raíz cuadrada de eso).
+Por ejemplo, aquí $a_1$ es 1, al cuadrado 1, más 0.5 ($a_2$) al cuadrado que es 0,25, luego la raíz cuadrada de 1,25 (sale 1,12 aproximadamente).
+
+\[NEXT\]
+
+En forma matricial, esto no es más que el producto escalar del vector consigo mismo, es decir, aparece otra vez la norma del vector, nuestra vieja amiga.
+Y esta fórmula por cierto vale para cualquier número de dimensiones.
+Aquí estamos representando sólo 2 porque es más fácil, pero podemos calcular el producto escalar de este vector de parámetros de discriminación consigo mismo (sea cual sea su dimensión), y calcular su raíz cuadrada, y eso nos daría igualmente la discriminación multidimensional (la longitud de ese vector de $\mathbf{a}$ del ítem).
+
+Si recordáis además, esta norma aparecía en el denominador de la dificultad multidimensional (en ambos componentes).
+:::
+
+## Parámetros multidimensionales
+
+<br>
+
+$$
+  MDISC_i = \sqrt{\mathbf{a}_i^T \mathbf{a}_i}
+$$
+
+<br>
+
+$$
+  MID_i = \begin{Bmatrix}
+    \frac{-d_i}{MDISC_i} \\
+    \frac{\mathbf{a}_i}{MDISC_i}
+  \end{Bmatrix}
+$$
+
+::: notes
+Luego esta expresión de la discriminación multidimensional se puede usar para expresar de manera más sencilla la dificultad.
+Y así, esta sería la expresión completa de los parámetros multidimensionales de un ítem según el modelo de TRI logístico de 2 parámetros.
+:::
+
+## Representación gráfica
+
+@ackerman_graphical_1996:
+
+::: notes
+La propuesta de representación gráfica completa (y consistente) no llega hasta 1996.
+Ackerman propone que el ítem se represente como un vector de longitud dada por la discriminación multidimensional, aplicado en la posición del ítem (y en la dirección dada por esa posición; es decir, todos los ítems "apuntan" siempre en la dirección que pasa por el origen).
+:::
+
+## Supuestos: Monotonía creciente
+
+> the probability of answering an item correctly increases monotonically with an increase in each dimension being measured
+
+---@reckase_difficulty_1985 [p. 402]
+
+<!-- # TODO: Ecuación modelo y ejemplo probabilidad constante -->
+
+::: notes
+Ahora bien, como hemos visto, la TRI originalmente sólo trataba con "ítems cognitivos" (lo hemos podido ver en el propio lenguaje que utiliza Reckase: "dificultad", "habilidad", "respuesta correcta").
+Uno de los supuestos que hace es este.
+Eso tiene todo el sentido (casi), ya que si la probabilidad de un ítem "decrece" al aumentar el nivel de habilidad, es que algo está mal en el ítem: No puede ser que alguien que sepa más tenga menos probabilidad de acertar un ítem que alguien que sepa menos.
+Pero cuidado, si el ítem es "puro" de una dimensión, la probabilidad en la otra u otras dimensiones sería constante (discriminación = 0); es decir, la probabilidad puede ser "plana" (es una dimensión que no "está siendo medida por el ítem").
+:::
+
+## Generalización: Ítems inversos
+
+<!-- # TODO: Curva de ítem inverso y ejemplo -->
+
+<!-- # TODO: Fórmulas de los parámetros -->
+
+<!-- # TODO: Ejemplo con a negativa -->
+
+::: notes
+Pero además, si hablamos de ítems "no cognitivos" (p.ej. personalidad) en los que la persona evaluada puede estar "de acuerdo" o "en desacuerdo", sí podemos tener ítems con probabilidad "decreciente".
+
+La generalización a ítems inversos es directa: La discriminación multidimensional "eleva al cuadrado" los "parámetros de discriminación marginales", luego va a ser siempre positiva.
+El parámetro de posición, por tanto, siempre va a tener el signo inverso al que tenga la intersección.
+Los cosenos tendrán, cada uno, el mismo que el parámetro de discriminación de esa dimensión.
+:::
+
+## Generalización: Ítems inversos
+
+<!-- # TODO: Representación de ítems con a (una o varias) negativa (tabla y gráfico) -->
+
+::: notes
+La representación de estos ítems sería como se muestra en este gráfico.
+<!-- # TODO: Descripción de los ítems representados -->
+:::
+
+## Ítems "inversos" en la literatura
+
+> the negative relation of Item 15 with geometry achievement is particularly puzzling
+
+---@mcdonald_basis_2000 [p. 109]
+
+> This result occurs because $a_1$ for the item is negative, and thus as an examinee's $\theta_1$ ability increases, the chance of answering the item correctly actually decreases.
+
+---@ackerman_multidimensional_2005-1 [p. 17]
+
+### Generalización: "Monotonía constante"
+
+::: notes
+Esta generalización es bastante evidente, y se puede aplicar sin problema a ítems no cognitivos.
+Sin embargo, hay que tener en cuenta que Reckase explicitaba como condición que los ítems tenían que ser "monotonamente crecientes".
+Pero en la literatura nos encontramos casos como estos, que no lo son, y a los autores no se les ocurre decir que "hay que generalizar esas definiciones".
+Más bien, hacen comentarios como estos, restándole importancia al hecho de que los parámetros de discriminación sean negativos ("particularmente misterioso"), o afirmando lo obvio (el parámetro de discriminación del ítem es negativo para una dimensión, por lo que la probabilidad de respuesta correcta disminuye al incrementarse su habilidad)
+
+En lugar de eso, proponemos que los supuestos de Reckase se "relajen" para considerar ítems con probabilidad "con monotonía constante" (es decir, que no tengan un "pico" u óptimo de rasgo latente para dar una respuesta positiva y luego decrezca), sino que cuanto más extremo sea el nivel de rasgo, más extrema es también la probabilidad (positiva o negativa).
+Este caso general incluye también la probabilidad constante (ya que es monotonía "nula constante", es decir, "el cambio es nulo de manera constante").
+Este tipo de ítems, positivos, negativos, o nulos, se pueden acomodar y modelar fácilmente por un modelo como el logístico de 2 parámetros multidimensional, como hemos visto.
+Ítems que estarían excluidos, por no tener monotonía constante, podrían ser formulaciones como, por ejemplo, "Soy tan extrovertido como la mayoría de mis amigos" (alguien puede decir, "No, soy más introvertido que todos ellos", respuesta negativa con rasgo bajo, o "Qué va, soy el más extrovertido con diferencia", respuesta negativa con rasgo alto).
+:::
+
+## Supuestos: Ortogonalidad
+
+> before performing the differentiation, the constraint that <!-- # TODO: Sum of cosines^2 = 1 --> is added to the expression for the slope \[...\]
+
+---@reckase_difficulty_1985 [p. 404]
+
+<!-- # TODO: Ejemplo de rotación oblicua con los ejes resultantes oblicuos -->
+
+<!-- # TODO: Coordenadas rectangulares resultantes de una rotación oblicua -->
+
+::: notes
+Otro de los supuestos que hace Reckase originalmente para calcular los parámetros es este: Los cosenos al cuadrado suman 1.
+Es decir, está aplicando el teorema de Pitágoras, pero ello implica de manera implícita que los ejes del espacio latente son "ortogonales" (forman ángulos de 90 grados).
+
+Esto en TRI multidimensional originalmente tenía sentido, ya que no se tenía muy en cuenta la interpretación de los parámetros de rasgo latente.
+O bien no importaba mucho que los ejes se pudieran interpretar como rasgos latentes, o se interpretaban de manera no necesariamente muy precisa.
+
+No obstante, en 1999 llega McDonald, y dice que la TRI y el AF son fundamentalmente la misma cosa.
+Pero en AF tenemos dimensiones correlacionadas la mayoría de las veces, y eso como hemos visto implica hacer rotaciones oblicuas que dan lugar a ejes no ortogonales.
+
+Los pesos factoriales resultantes (o discriminaciones) los podemos representar sin ningún problema en coordenadas rectangulares (las llamadas "coordenadas Cartesianas").
+Pero algo parece fallar cuando generalizamos los parámetros multidimensionales de TRI que hemos mostrado antes a esos espacios de coordenadas no ortogonales.
+Si rotamos los ejes de coordenadas, pero los ítems siguen siendo los mismos, es de esperar que la "longitud" del vector de ese ítem (i.e. su discriminación), no cambie (esta propiedad se llama invarianza).
+Veámoslo con un ejemplo.
+:::
+
+## Supuestos: Ortogonalidad
+
+<!-- # TODO: Ejemplo de item en coordenadas ortogonales (gráfico y vectorial) -->
+
+<!-- # TODO: Ejemplo de rotación oblicua (gráfico de ejes y matriz de rotación) -->
+
+::: notes
+Supongamos este ítem, en coordenadas ortogonales.
+El vector muestra sus parámetros de discriminación en las dos dimensiones de los ejes representados.
+Esto sería la "solución sin rotar" que resulta típicamente de ajustar un modelo de TRI multdimensional, o un AFE exploratorio.
+La discriminación multidimensional de este vector es (explicar paso a paso).
+
+Supongamos que aplicamos una rotación oblicua.
+Hemos identificado dos rasgos latentes sustantivos, correlacionados entre sí.
+Los ejes resultantes son los que se muestran en este gráfico.
+Los nuevos parámetros de discriminación del ítem están representadas cada una por la "proyección" de ese vector sobre cada uno de los ejes (paralela al otro, u otros, si hay más de dos).
+:::
+
+## Supuestos: Ortogonalidad
+
+<!-- # TODO: Ejemplo de item en coordenadas ortogonales (gráfico y vectorial) -->
+
+<!-- # TODO: Ejemplo de item proyectado en los ejes rotados (gráfico y vectorial) -->
+
+<!-- # TODO: Cálculo de la discriminación en los ejes rotados -->
+
+::: notes
+Hacer una rotación supone "multiplicar" las coordenadas de este vector por la matriz de rotación que representa ese nuevo sistema de coordenadas (la transformación del ortogonal a este nuevo, oblicuo).
+En este caso, esta es la matriza de rotación.
+Como los vectores se representan en columnas, se "pre-multiplica" por la matriz de rotación.
+Esto es parecido a multiplicar por un vector; es como si cada fila de la matriz fuese un vector, y los resultados se ponen cada uno en una fila.
+<!-- # TODO: Explicar paso a paso el producto matricial -->
+
+Si ahora calculamos la discriminación del ítem en estos ejes rotados, nos encontramos con este resultado.
+Es decir, ¿que el ítem discrimina mejor o peor en función de qué ejes quiera yo considerar?
+Eso no parece tener sentido, y sin embargo hay muchos ejemplos en la literatura que calculan esta discriminación multidimensional con la fórmula de Reckase (con "rasgos correlacionados") sin preocuparse por "los ejes" que representan esos rasgos de manera fidedigna.
+<!-- # TODO: Ejemplos de la literatura -->
+:::
+
+### Generalización: "Coordenadas oblicuas"
+
+::: notes
+Para la representación gráfica esto puede valer, como dice Ackerman aquí.
+Pero a la hora de calcular los parámetros (y Ackerman lo hace en este capítulo de libro), solamente considerar el caso ortogonal, la información que obtenemos resulta deficiente.
+:::
+
+## Generalización: Coordenadas oblicuas
+
+> before performing the differentiation, the constraint that <!-- # TODO: Sum of cosines^2 = 1 --> is added to the expression for the slope \[...\]
+
+---@reckase_difficulty_1985 [p. 404]
+
+<!-- # TODO: Expresión de las \thetas transformadas -->
+
+<!-- # TODO: Distribución de \thetas en ejes ortogonales -->
+
+::: notes
+Hacer esta generalización no es algo tan directo como ocurría con la probabilidad "monótonamente decreciente".
+Si os acordáis, Reckase aplicaba esta restricción de que la suma de cosenos directores era 1 (que se deriva del teorema de Pitágoras).
+Pero para aplicarla hace falta asumir que esos cosenos directores son todos ortogonales entre sí.
+Si no tenemos ángulos rectos, esa condición no se cumple.
+
+Y lo que nosotros estamos asumiendo que tenemos una distribución de vectores de rasgo latente ($\theta$) con una matriz de correlaciones ($R$, la que sea).
+Normalmente representamos esos vectores en coordenadas rectangulares (ejes ortogonales), pero para obtener los parámetros multidimensionales generalizados a coordenadas oblicuas tenemos que representados en un espacio no ortogonal (aquí también hablaría de "unidades no estandarizadas", es decir, que la distancia entre el o y el 1 pueda ser distinta de la base estándar, pero digamos solamente "no ortogonal" por simplificar).
+
+¿Cómo podríamos solucionar esto?
+Lo que podemos hacer es aplicar una "transformación" a los rasgos latentes de forma que pasemos de este espacio oblicuo (el que sea, aún no sabemos cuál es) a un espacio ortogonal.
+:::
+
+## Generalización: Coordenadas oblicuas
+
+<!-- # TODO: Expresión de las \thetas transformadas -->
+
+<!-- # TODO: Expresión de la R transformada -->
+
+<!-- # TODO: Distribución (esférica) de las \thetas transformadas -->
+
+::: notes
+Esto es una transformación de las coordenadas, como la que aplicamos antes para calcular las coordenadas del ítem tras aplicar la rotación oblicua, pero aplicada en este caso al vector de rasgo latente.
+
+Estas nuevas coordenadas (transformadas), que ahora están en un espacio ortogonal, queremos que representen una distribución en la que las correlaciones sean nulas, es decir, que la matriz de correlaciones transformada ($R^B$) sea una matriz identidad (unos en la diagonal, ceros en el resto).
+Pero hay que tener en cuenta que esto es un "artefacto matemático".
+Estamos haciendo esto por conveniencia, pero las coordenadas que realmente nos interesan como investigadores, porque son las que verdaderamente representan algo que nos interesa investigar, son esas coordenadas originales, que pueden representar cualquier fenómeno que sea de nuestro interés (rasgos de personalidad, síntomas, actitudes, inteligencia, conocimientos... lo que estemos investigando).
+:::
+
+## Generalización: Coordenadas oblicuas
+
+<!-- # TODO: Ejemplo de \theta (expresión) y coordenadas en espacio oblicuo -->
+
+::: notes
+Mientras tanto, las coordenadas de los "rasgos latentes" originales se van a representar en otros ejes, en general distintos de los "ejes ortogonales" transformados.
+Esto lo que significa es que las puntuaciones de rasgo latente originales van a representar la posición de un participante respecto de esos ejes originales.
+Por ejemplo, en este caso, si el participante tiene un "vector de puntuaciones" \[1, 2\], para representar sus coordenadas tenemos que desplazarnos, primero una unidad en el primer eje, y luego dos unidades en el segundo eje.
+:::
+
+## Generalización: Coordenadas oblicuas
+
+<!-- # TODO: Matriz de correlaciones con correlación muy alta -->
+
+<!-- # TODO: Opciones de elección de bases oblicuas: rectangular, ejes muy alineados, ejes correctos -->
+
+::: notes
+En base a lo planteado anteriormente, me gustaría hacer una prueba con vosotras y vosotros.
+Supongamos una distribución bivariada de rasgos latentes, con una correlación de .8, bastante alta. ¿Cuál de los siguientes sistemas de coordenadas consideráis que representaría adecuadamente los ejes de una distribución bivariada, de forma que al transformarlos a coordenadas rectangulares obtuviésemos una distribución con correlación de 0?
+:::
+
+## Generalización: Coordenadas oblicuas
+
+<!-- # TODO: Matriz de correlaciones con correlación muy alta -->
+
+<!-- # TODO: Distribución en ejes rectangulares -->
+
+::: notes
+El primero ya sabemos que no, de acuerdo, puesto que es la representación habitual, y sabemos que la nube que forma está "achatada".
+No se aplica ninguna transformación (la transformación es una matriz identidad), ya que los que serían los ejes originales y los transformados son los mismos.
+:::
+
+## Generalización: Coordenadas oblicuas
+
+<!-- # TODO: Matriz de correlaciones con correlación muy alta -->
+
+<!-- # TODO: Animación de distribución en ejes rectangulares a ejes alineados -->
+
+::: notes
+Si pensáis igual que yo, habréis elegido el segundo, porque el coseno del ángulo entre los ejes representa la correlación entre las dimensiones.
+Por lo tanto, ejes muy alineados representan una correlación muy alta.
+
+Sin embargo, fijáos lo que ocurre cuando "transformamos" las coordenadas de los puntos de nuestra distribución a ese sistema de coordenadas.
+Como podéis ver, la distribución tiende a "achatarse" aún más, en lugar de hacerse más "esférica".
+:::
+
+## Generalización: Coordenadas oblicuas
+
+<!-- # TODO: Matriz de correlaciones con correlación muy alta -->
+
+<!-- # TODO: Animación de distribución en ejes rectangulares a ejes correctos -->
+
+<!-- # TODO: Matriz de correlaciones transformada "identidad" -->
+
+::: notes
+El sistema de coordenadas correcto es el tercero, que "compensa" de alguna manera el achatamiento de la nube de puntos, de forma que las coordenadas transformadas que nos quedan (en los ejes ortogonales), los "normales" del gráfico) tienen una distribución "esférica" (con matriz de correlaciones "identidad").
+
+Esto, que visto así parece ya evidente, es algo que al menos a mí me ha llevado varias decenas (puede que "cientos") de horas entender, durante al menos dos años trabajando en este problema.
+:::
+
+## Espacio latente vs. espacio test
+
+> It has been suggested by some researchers that the angle between the axes represents the degree of correlation.
+> However, for sake of clarity, an orthogonal axes system is used in which distance measures and vectors can be easily calculated, understood, and interpreted.
+
+---@ackerman_multidimensional_2005-1 [p. 16]
+
+<!-- # TODO: Fórmula del modelo en coordenadas "transformadas" y equivalencia -->
+
+<!-- # TODO: Expresión de la transformación de la discriminación a coordenadas rectangulares -->
+
+::: notes
+Viendo que en la literatura hay afirmaciones como esta, no me resulta totalmente descorazonador.
+Parece que no soy el único al que le ha supuesto un esfuerzo entenderlo (resultados de la "encuesta"?)
+
+Lo que ocurre en realidad, y esto es en realidad también un paralelismo con lo que ocurre en análisis factorial, es que para que el modelo sea invariante, los ítems también tienen que transformarse a un sistema de coordenadas ortogonal.
+Pero podemos ver que su matriz de transformación no es la misma que la de las puntuaciones de rasgo latente.
+Es su inversa (inversa traspuesta, más concretamente).
+
+Y esto nos ha permitido "descubrir" (o darnos cuenta, más bien) de que hay dos "espacios vectoriales" distintos, uno en el que se encuentran las coordenadas de las puntuaciones factoriales, y otro distinto, que es el espacio en el que se encuentran las coordenadas de los ítems, y que es donde en realidad hay que representarlos.
+:::
+
+## Espacio latente vs. espacio test
+
+> \[...\] the latent space should be regarded as a general Euclidean space with its *inner product* defined by <!-- # TODO: Inner product -->.
+
+---@zhang_theoretical_1999 [p. 221]
+
+<!-- #TODO: Ref. to Mahalanobis -->
+
+> \[...\] the *inner product* in \[the test space\] is consistently defined by <!-- # TODO: Inner product -->.
+
+---@zhang_theoretical_1999 [p. 221]
+
+::: notes
+Esto, curiosamente, aparece en la literatura como podéis ver; en el año 1999, en un artículo que no tiene nada que ver con esto.
+Lo menciona de soslayo y no profundiza en la deducción de los parámetros, como hemos hecho aquí.S olamente lo utiliza para resolver un problema "parcial" que se encuentra en la deducción de un índice de dimensionalidad, distinto de los parámetros de los que estamos hablando aquí.
+Pero podía haber obviado este problema y haber utilizado coordenadas ortogonales, sin importarle si había o no correlaciones entre los rasgos latentes, como ha hecho todo el mundo.
+
+Así que, todos mis respetos por estos autores.
+Sin embargo claro, ellos estaban hablando de otra cosa, y sólo tocaban este tema de paso.
+Así que al final eso se quedó ahí, y nadie ha hecho caso en 25 años a lo que dijeron Zhang y Stout.
+La gente ha usado los modelos, hecho simulaciones, etc., usando distribuciones correlacionadas, y ha usado las fórmulas de Reckase para transformar entre parámetros multidimensionales y los parámetros "lineales" (podríamos llamarlos, los de la formulación original) del modelo.
+:::
+
+## Parámetros multidimensionales generalizados
+
+<!-- # TODO: Fórmulas de los parámetros multidimensionales -->
+
+::: notes
+Si tenemos en cuenta las correlaciones (más generalmente, covarianzas) de la distribución de puntuaciones factoriales, lo que obtenemos son estas expresiones para los parámetros multidimensionales.
+
+Muy importante, la distancia con signo y la discriminación multidimensional son iguales, no importa en qué espacio queramos obtenerlas y representarlas.
+Pero los cosenos directores es necesario calcularlos en el espacio test, no en el espacio de puntuaciones latentes, como decía Reckase, porque este es el espacio que va a representar en realidad la relación entre las variables latentes.
+:::
+
+## Conclusiones
+
+Parámetros multidimensionales generalizados
+
+-   A ítems con monotonía constante
+
+-   A coordenadas oblicuas
+
+Distinción espacio latente - espacio test
+
+::: notes
+En conclusión, lo que hemos propuesto en este artículo consiste en una generalización:
+
+-   A ítems con monotonía constante, creciente, decreciente o nula.
+    Esto se venía haciendo ya como hemos visto, pero creemos que hacía falta formalizarlo.
+    No basta con hacerlo y punto, si Reckase dijo que las discriminaciones tiene que ser positivas, tenemos que demostrar que también vale para discriminaciones negativas o nulas (monotonía decreciente, o probabilidad constante).
+
+-   A coordenadas oblicuas, las cuales consideramos que son necesarias para representar distribuciones de puntuaciones de rasgo correlacionadas, en general.
+    Hemos visto que esto ya lo mencionaron Zhang y Stout, hace 25 años, pero no proporcionaron una "deducción" de estos parámetros multidimensionales, cosa que nosotros hacemos.
+
+Por último, es imortante recalcar este "descubrimiento" (o "redescubrimiento", más bien) del espacio test, ya que tenemos que ser muy conscientes de que los ítems y las personas están en espacios vectoriales distintos.
+Aunque esto parezca solamente un "artefacto matemático" (y en el fondo lo es), hemos visto que es verdaderamente crucial tenerlo en cuenta para entender bien los modelos que estamos utilizando.
+Además, esta "distinción" se halla también en los modelos factoriales: Existe lo que se denominan "ejes primarios" y "ejes de referencia", propuestos por Thurstone hace años (pero que prácticamente no se utilizan ni tienen en consideración).
+<!-- # TODO: Hace cuántos años? (Thurstone) --> Sin embargo, cuidado con esto, porque no está claro que esos espacios en TRI multidimensional se puedan asimilar directamente a los ejes en un modelo de AF.
+:::
+
+## To be continued...
+
+-   Paralelismo TRI multidimensional - AF
+
+-   Extensiones del modelo M2PL: Escala graduada, respuesta nominal, 3PL...
+
+-   Investigación en otros modelos
+
+::: notes
+Esta de hecho puede ser una futura línea de investigación.
+Puede parecer evidente el paralelismo (o al menos a mí me lo parece), pero si una cosa me ha enseñado el estar trabajando en este problema de los parámetros (y toparme con el problema de los dos espacios), es que no hay que fiarse de las apariencias.
+Por eso aplicamos el método científico (el método puramente deductivo, en este caso)
+
+El modelo multidimensional logístico de 2 parámetros se puede considerar como "anidado", o un caso más simple de varios modelos.
+Así que partiendo de este como base, lo interesante es aplicarlo a otros más complejos, pero más útiles en la práctica.
+Por cierto, que esto también lo hace mucha gente, aplica las fórmulas de Reckase a otros modelos y a correr, se quedan "tan anchos".
+
+El modelo de escala graduada, por ejemplo, sería el equivalente al modelo de AF para respuestas ordinales, con varios umbrales o "posiciones" en TRI.
+
+El de crédito parcial, por ejemplo, puede servir también para formatos con varias opciones de respuesta que miden o pesan en factores diferentes cada una de ella.
+
+El logístico de 3 parámetros es como el de 2, pero añadiendo un parámetro de pseudoazar, para modelar el que un participante acierte un ítem por pura suerte, respondiendo "a ciegas" (esto sólo valdría para ítems cognitivos).
+
+Estos modelos, que son "extensiones" de este más básico, deberían partir de estos parámetros como fundamento.
+Pero un investigador no debería dar los parámetros sin más de ese modelo, sin proporcionar una prueba formal de que se aplica esa fórmula y se cumplen los supuestos.
+:::
+
+## Últimas palabras
+
+<!-- # TODO: Imagen ilustrativa -->
+
+::: notes
+A este respecto, me gustaría terminar recalcando esto último que he mencionado, aplicado no sólo a cuestiones psicométricas, o de TRI.
+Cuando estaba empezando a preparar este seminario, una de mis inquietudes era la complejidad, tanto conceptual como formal de esta investigación.
+Compartiendo estas inquietudes con algunos compañeros, me aconsejaron utilizar digamos este discurso como excusa para lanzar este "mensaje" en general: La idea de que tenemos que ser muy precavidos a la hora de aplicar estos métodos, sean cuales sean (cuantitativos, cualitativos, o del tipo que sean) sin reflexionar sobre si son los más adecuados o no.
+Y bueno, a este respecto comentar que, no sólo yo, sino el departamento de Metodología al completo, hacemos una tipo de investigación que precisamente se encarga de eso, de intentar entender estos métodos, saber si son los más adecuados, y saber cuándo, cómo, y sobre todo, por qué, aplicarlos en la investigación aplicada (aplicada para nosotros, al menos).
+
+Así que bueno, ya lo sabéis, estamos disponibles en el departamento para colaborar en esas investigaciones, si lo consideráis oportuno, para aplicar los métodos más apropiados a los problemas de investigación que tengáis.
+En mi caso en concreto, no sólo puedo proporcionar cierto "expertise" psicométrico.
+También me dedico mucho a cuestiones de ciencia abierta y reproduciblidad, así que si queréis darle a vuestra investigación un giro en ese sentido, para hacerla más sostenible y alineada con los objetivos de los organismos financiadores (y si no queréis, deberíais ir queriendo), podéis contactar conmigo, y podemos plantear líneas de colaboración.
+Eso sí, me gustaría pediros, si necesitáis colaboración, no sólo metodológica, sino de cualquier tipo, por favor no nos llaméis cuando tengáis un lío de datos, y no sepáis bien cómo resolver la papeleta (no digo que sea vuestro caso, pero me he encontrado con muchos casos, que son verdaderas historias de terror).
+Contad por favor con nosotros desde el momento de escribir vuestro proyecto, para solicitar la financiación, porque es en ese punto en el que se pueden prevér problemas y anticiparse a ellos.
+Porque si una investigación no está bien diseñada desde el principio, teniendo en cuenta estos aspectos metodológicos, de reproducibilidad, etc., si tenemos mala suerte pueden surgir problemas que se puedan resolver sólo con muchísimo trabajo, o incluso que ya nunca se puedan resolver, y tengamos que tirar a la basura todo ese esfuerzo de investigación.
+
+Eso es todo, muchas gracias.
+Y espero vuestras preguntas y comentarios.
+:::
+
+## References {.smaller}

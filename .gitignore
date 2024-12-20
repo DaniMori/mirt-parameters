@@ -36,6 +36,7 @@ vignettes/*.pdf
 # Temporary files created by R markdown
 *.utf8.md
 *.knit.md
+*.revealjs.md
 
 # R Environment Variables
 .Renviron
@@ -43,10 +44,13 @@ vignettes/*.pdf
 # Rmd outputs formats, other documents and files
 *.docx
 *.html
-*.pdf
 *.lnk
-*.url
+*.md
+*.pdf
 *.svg
+*.url
+!www/slideshow-assets/title-slide.html
+!www/slideshow-assets/logos_fac_psicologia.svg
 
 # Specific outputs to ignore
 www/packages.bib

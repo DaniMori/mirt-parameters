@@ -34,6 +34,9 @@ source("R/Constants.R",    encoding = 'UTF-8')
 
 # Graphical representation parameters:
 GRAPH_FONT   <- "serif"
+FONT_SIZE    <- 12L # Base font size for graphics
+AXIS_LAB_POS <- 1   # Axis label position (right or upper extreme)
+AXIS_COLOR   <- "black"
 LINE_WIDTH   <- .1
 VECTOR_WIDTH <- .5
 # POINT_CHAR   <- 19L
@@ -66,13 +69,14 @@ CORR_ORTH_OUT  <- latex_eq(CORR, 0)              |> as.character()
 ## ----graphical-output-conf----
 theme_set( # `ggplot` output configuration
   theme_classic(
-    base_size      = 12,
+    base_size      = FONT_SIZE,
     base_family    = GRAPH_FONT,
     base_line_size = LINE_WIDTH
   ) %+replace%
     theme(
-      axis.title.x = element_text(hjust = 1),
-      axis.title.y = element_text(vjust = 1, angle = 0)
+      axis.title.x = element_text(hjust = AXIS_LAB_POS),
+      axis.title.y = element_text(vjust = AXIS_LAB_POS, angle = 0),
+      panel.grid   = element_line(color = AXIS_COLOR)
     )
 )
 
