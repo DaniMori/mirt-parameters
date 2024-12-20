@@ -164,6 +164,14 @@ mirt_item_probs <- expand_grid(
   ) |>
     rename(prob = `...1`)
 
+ITEMS_PALETTE <- c(
+  PALETTE_BLUE["normal"],
+  PALETTE_RASPBERRY["normal"],
+  PALETTE_APPLE["normal"],
+  PALETTE_TANGERINE["normal"]
+) |>
+  unname() |>
+  setNames(paste(1:4, sep = '_'))
 ```
 
 ## References
