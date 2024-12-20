@@ -2289,7 +2289,7 @@ La representación como tal consiste solamente en el vector, aplicado en ese pun
 Y lo interesante que tiene esta representación es que nos permite visualizar con claridad las propiedades de estos parámetros multidimensionales.
 :::
 
-## Propiedades {.smaller}
+## Propiedades: *MDISC* {.smaller}
 
 :::::: columns
 :::: column
@@ -2385,7 +2385,7 @@ Por ejemplo, la discriminación multidimensional, vemos que depende solamente de
 que en este ejemplo tiene dos componentes.
 :::
 
-## Propiedades {.smaller}
+## Propiedades: *MDISC* {.smaller}
 
 ::::::: columns
 ::::: column
