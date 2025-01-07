@@ -1,0 +1,232 @@
+---
+output:
+  officedown::rdocx_document:
+    mapstyles:
+      First Paragraph: Body Text
+    base_format: bookdown::word_document2
+    reference_docx: ../www/Template.docx
+    number_sections: no
+    keep_md:         no
+editor_options: 
+  chunk_output_type: console
+---
+
+September 16, 2024. <!-- TODO: Update date -->
+
+<br>
+
+Sandip Sinharay, PhD \
+Editor, *Psychometrika* \
+Educational Testing Service, USA
+
+<br>
+
+Dear Dr. Sinharay:
+
+Please find attached the updated version of our manuscript
+*"A generalized definition of multidimensional item response theory
+parameters"*.
+We hope that this new version lives up to the expectations of
+the action editor and the reviewers;
+we have put as much effort as we have been able to address all the comments and
+suggestions, which we believe have helped improve the quality of our paper.
+<!-- TODO: Complete -->
+
+Our manuscript presents a generalization of the multidimensional IRT parameters
+introduced by Reckase and Reckase & McKinley in their articles
+["The difficulty of test items that measure more than one ability" (1985)][1]
+and
+["The discriminating power of items that measure more than one dimension"
+(1991)][2],
+respectively.
+
+[1]: https://doi.org/10.1177/014662168500900409
+
+[2]: https://doi.org/10.1177/014662169101500407
+
+We thank you in advance for considering our reviewed manuscript.
+Please feel free to contact us again at my aforementioned email address
+(dvmorillo@psi.uned.es).
+We will be happy to address any further comments or suggestions
+the action editor or the reviewers may deem necesssary.
+
+<br>
+
+Sincerely,
+
+Daniel Morillo, Ph.D.\
+Department of Behavioral Science Methodology \
+Universidad Nacional de Educación a Distancia (UNED) \
+C. Juan del Rosal 10, Office 2.74 \
+28040 Madrid, Spain
+
+
+Response to the action editor:
+
+> I have a concern with making the latent ability axes nonorthogonal to represent the covariance structure between the latent abilities.
+> Recognizing that the data used to estimate MIRT parameters represents an interaction between the examinees and the items and that different groups of examinees can result in different covariance structures and thus quite different item parameter estimates.
+
+
+
+> The statement (p.13, line 8) about “the test space where item parameters naturally lie” needs greater explanation with examples.
+
+
+
+> Like Reviewer 3, I do not understand how the magnitude of discrimination values (p 29 , 7) can be compared/interpreted values of discrimination are comparable from the two representations.
+> It seems that the metric of the represented space has changed, and equivalent numbers will not have equivalent interpretations.
+
+
+
+> I also wonder about how one compares the standard errors of the item parameters when the covariance covariance structures are different.  Are they directly comparable?
+
+
+
+> I would like to see the motivation and psychometric utility of this approach.
+> Does it improve the interpretation of the latent abilities and thus result in more insight into how the results are used?
+> The author needs to address this with legitimate examples for testing practitioners.
+
+
+
+> What implications does your approach have for standard psychometric procedures like equating.
+
+
+
+> Are there standard computer programs that you would recommend to do the estimation/modeling you are proposing?
+
+
+
+Response to Reviwer 1:
+
+> 1. Introduction, too lengthy, 1-2 pages will be fine.
+
+
+
+> 2. Introduction, do you have any hypothesis for the current study? Please briefly describe it at the end.
+
+
+
+> 3. The details about the datasets should be described here.
+
+
+
+> 4. Within or between multidimensional latent? This should be detailed.
+
+
+
+> 5. Limitation is missing and should be added here.
+
+
+
+> 6. Conclusion is missing and should be added here.
+
+
+
+Response to Reviwer 2:
+
+> [...] it is difficult to ascertain its practical value, as it is unclear how it can be applied in the real world.
+
+
+
+> While the manuscript includes a graphical representation example with two-dimensional latent variables, real-world applications often involve higher dimensions (e.g., the Big Five personality traits or
+Cattell’s 16 personality factors). If the current results cannot be applied to the
+high-dimensional cases, would that significantly limit their practical value and
+applicability?
+
+
+
+> 1. In the 8th line from the bottom on page 9, the subscript in the formula is incorrect.
+> It should be “$\mathcal{C}$”.
+
+
+
+> 2. The notations in the manuscript lack clarity, particularly in Eq. (19) on page 12.
+> Based on Eq. (5) and Eq. (15), $\mathbf{a}_i$ in the numerator of Eq. (19) should be $\mathbf{a}_i^{\mathcal{B}*}$.
+
+
+
+> Similar issues occur in Eqs. (26) and (27) on page 17.
+
+
+
+> 3. In the second graph on page 18, the authors state, “*That is, the less discriminating the item, the further it will be from the origin.*”
+> However, the value of $D_i$ is influenced not only by the $MDISC_i$ parameter but also by $d_i$.
+> For instance, in Table 1 on page 20, $d_i$ for item 1 is zero, meaning that regardless of $MDISC_i$, $D_i$ remains zero.
+
+
+
+Response to Reviwer 3:
+
+> The manuscript highlights the fact that the coordinate system used to represent results typical of educational achievement and other types of social measures is at the discretion of the person performing the analysis, or the entities developing computer software, if default settings are used in the analysis.
+
+
+
+> This is a very important issue and it is not frequently discussed in the research literature. Two researchers can administer the identical instrument to samples of individuals with different characteristics – say typical high school students versus those who have a different native language – and get different representations of the test results from analyses programs, such as the correlations between estimated constructs.  This manuscript stimulates much thought related to this problem.
+
+
+
+> I was at a loss at the end of the discussion to identify the interpretive or methodological value that was gained by working with non-orthogonal axes.
+> The correlation between items can be represented by the angle between item vectors in the space with orthogonal axes, and the correlation between coordinates for persons can be represented by the shape of the scatter plot of points representing the individuals.
+> How are these features interpreted when the coordinate axes are non-orthogonal?  
+
+
+
+> Care needs to be taken when using nonorthogonal coordinates that the distances between points in the space are correctly represented.
+> What formula should be used for the distance between two points in each case?
+
+
+
+> Page 3  Line 20 I could not find a discussion of nonorthogonal dimensions in Ackerman (2005).
+> It would help if a page number were provided for the discussion.
+> I also wonder about the Harman (1970) reference.
+> I know that he shows a plot of length of arm against length of leg using orthogonal axes for the plot even though the two measures are correlated.
+> I am not not sure how the axes should be oriented to reflect the correlation between the two measures.
+
+
+
+> Page 6  Line 21 The expression on this line needs more explanation.
+> I am not sure what the expression is supposed to represent.
+
+
+
+> Page 7  Line 24 The meaning of the superscripts is not clear in this expression.
+> What is the source of the -1T?  Is that the transpose of the inverse?
+> Do the -1 superscripts indicate an inverse?
+
+
+
+> Page 13 Line 4 The implications of the word “indistinctly” in this sentence are not clear.
+
+
+
+> Page 13 Line 8 The statement “the test space is where the item parameters naturally lie” seems to imply there is a correct representation of the item parameters.
+> But, the correlations between constructs changes with the sample of examinees and the coordinates can easily be rotated and translated giving different representations of the item parameters.
+> I would like to see support for the statement.
+
+
+
+> Page 19 Line 8 There is an interesting distinction that seems to be lost here.
+> Attributes can be measured independently, such as height and weight and yield correlated results.
+> Under those circumstances, should axes be represented as orthogonal, or should the axes represent the correlation.
+> This has an implication for the formula that is used to compute the distance between points in the space.
+
+
+
+> Page 22 Figure 1 It seems that both of these plots are shown with orthogonal coordinate axes.
+> But the orthogonal axes have changed so that the nonorthogonal axes can be shown in the orthogonal representation.
+
+
+
+> Page 26 Line 8 This discussion seems to miss the distinction between correlations between traits and dimensions  of sensitivity of the test items.
+
+
+
+> Page 29 Line 7 I am curious if the values of discrimination are comparable from the two representations.
+> It seems that the metric of the representational space has changed, and equivalent numbers will not have equivalent meaning.
+
+
+
+> Page 30 Line 8 It would be helpful to show the orthogonal and nonorthogonal representations of items and then discuss the interpretation of the parameter estimates based on each of the representations.
+> I have been unable to determine the value of using the nonorthogonal representation.
+> The nonorthogonal representation is more complex, and it seems sample dependent because it uses the observed correlations/covariances.
+> What is the value added of using the more complex representation?
+
