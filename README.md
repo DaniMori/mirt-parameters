@@ -9,7 +9,7 @@ parameters”
 <!-- TODO: Choose a license and update this section, if necessary -->
 
 [Repository
-mirt-parameters](https://github.com/DaniMori/mirt-parameters) © 2024 by
+mirt-parameters](https://github.com/DaniMori/mirt-parameters) © 2025 by
 [Daniel Morillo](https://github.com/DaniMori) is licensed under [CC BY
 4.0](https://creativecommons.org/licenses/by/4.0). Please see the
 [license file](LICENSE.md).
@@ -44,9 +44,9 @@ Start by installing the following software components:
 
 - [Rstudio Desktop](https://posit.co/download/rstudio-desktop/):
   Although not strictly necessary, it is recommended to install the
-  Rstudio IDE; for strict reproducibility, use build [2024.09.1+394 for
+  Rstudio IDE; for strict reproducibility, use build [2024.12.0+467 for
   Windows
-  10/11](https://download1.rstudio.org/electron/windows/RStudio-2024.09.1-394.exe).
+  10/11](https://download1.rstudio.org/electron/windows/RStudio-2024.12.0-467.exe).
 
 <!-- -->
 
@@ -61,7 +61,7 @@ Start by installing the following software components:
 - [Git client](https://git-scm.com/download): Install the Git client in
   order to be able to clone locally the project repository. On Windows,
   use [the 64-bit Windows
-  installer](https://github.com/git-for-windows/git/releases/download/v2.47.0.windows.1/Git-2.47.0-64-bit.exe).
+  installer](https://github.com/git-for-windows/git/releases/download/v2.47.1.windows.1/Git-2.47.1-64-bit.exe).
 
 ## Installing the project locally
 
