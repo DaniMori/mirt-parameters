@@ -177,6 +177,9 @@ Response to Reviwer 3:
 
 > Page 3  Line 20 I could not find a discussion of nonorthogonal dimensions in Ackerman (2005).
 > It would help if a page number were provided for the discussion.
+
+
+
 > I also wonder about the Harman (1970) reference.
 > I know that he shows a plot of length of arm against length of leg using orthogonal axes for the plot even though the two measures are correlated.
 > I am not not sure how the axes should be oriented to reflect the correlation between the two measures.
