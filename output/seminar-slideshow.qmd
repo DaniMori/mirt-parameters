@@ -1496,7 +1496,11 @@ $$
   \begin{align}
     P(Y_i = 1) &= \Phi_N \left(
       \frac{\mathbf{\lambda}_i^T \mathbf{F} + \tau_i}{\sqrt{var(U_i)}}
-    \right) \\
+    \right) =
+      \left(
+        \frac{1}{\sqrt{var(U_i)}} \mathbf{\lambda}_i^T \mathbf{F} +
+          \frac{1}{\sqrt{var(U_i)}} \tau_i
+      \right)\\
     P(Y_i = 1) &= \Phi_L (\mathbf{a}_i^T \mathbf{\theta} + d_i)
   \end{align}
 $$
