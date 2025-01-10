@@ -168,10 +168,11 @@ ITEMS_PALETTE <- c(
   PALETTE_BLUE["normal"],
   PALETTE_RASPBERRY["normal"],
   PALETTE_APPLE["normal"],
-  PALETTE_TANGERINE["normal"]
+  PALETTE_TANGERINE["normal"],
+  PALETTE_UNED["normal"]
 ) |>
   unname() |>
-  setNames(paste(1:4, sep = '_'))
+  setNames(1:5)
 ```
 
 ## References
