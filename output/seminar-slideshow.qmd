@@ -2939,7 +2939,7 @@ mdisc_diff_plot
 :::::::
 
 ::: notes
-Por último, en cuanto a la dirección del vector: Vemos que, mientras que los componentes del parámetro de discriminación se mantengan proporcionales, la dirección no va a cambiar, a pesar de que cambie la discriminación multidimensional.
+Por último, en cuanto a la dirección del vector: Vemos que, mientras que los componentes del parámetro de discriminación se mantengan proporcionales, la dirección no va a cambiar, a pesar de que la discriminación multidimensional sí cambia.
 :::
 
 ## Propiedades: $\cos \, \mathbf{\alpha}$ {.smaller}
@@ -3054,7 +3054,8 @@ cos_diff_coords |>
 :::::::
 
 ::: notes
-Ahora bien, si cambia la proporción entre ellos, la dirección sÍ va a cambiar; y eso es independiente de que la disciminación multidimensional se mantenga constante, como vemos en este ejemplo: misma longitud del vector, distinta dirección.
+Ahora bien, si cambia la proporción entre ellos, la dirección sí va a cambiar; y eso va a ser independiente de que la disciminación multidimensional se mantenga constante, como vemos en este ejemplo: misma longitud del vector, distinta dirección.
+Es decir, que por ejemplo un ítem puede medir "igual de bien" dos constructos, y otro, que mida más bien uno de ellos, estaría más alineado con esa dirección, a pesar de tener la misma discriminación multidimensional, de ser igual de discriminante "en términos globales", diríamos.
 :::
 
 ## Propiedades: $\cos \, \mathbf{\alpha}$ {.smaller}
@@ -3153,7 +3154,7 @@ cos_diff_coords |>
 :::::::
 
 ::: notes
-Por último, vemos que, cuando uno de los valores de la discriminación es cero, el vector es perpendicular al eje correspondiente (además de ser paralelo al otro eje, pero esto es una simplificación por tener dos dimensones solamente).
+Y por último, vemos que, cuando uno de los valores de la discriminación es cero, el vector es perpendicular al eje correspondiente (además de ser paralelo al otro eje, pero esto es una simplificación por tener dos dimensones solamente).
 Esto es muy importante, ya que nos viene a indicar que, cuando un ítem no mide en absoluto alguna de las dimensiones del instrumento que estamos considerando, entonces no proporciona absolutamente ninguna información del nivel de rasgo en esa dimensión de las personas que están respondiendo al instrumento.
 :::
 
