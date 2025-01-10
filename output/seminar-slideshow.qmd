@@ -2430,7 +2430,7 @@ ITEMS_PALETTE <- c(
   PALETTE_RASPBERRY["normal"],
   PALETTE_APPLE["normal"],
   PALETTE_TANGERINE["normal"],
-  PALETTE_UNED["normal"]
+  PALETTE_UNED["medium"]
 ) |>
   unname() |>
   setNames(1:5)
@@ -2890,6 +2890,8 @@ $$
   \cos \, \mathbf{\alpha}_i = \frac{\mathbf{a}_i}{MDISC_i}
 $$
 
+<br>
+
 ::: {.r-stack style="color:#5c6eb1;"}
 $$
   \begin{matrix}
@@ -2943,6 +2945,8 @@ Por último, en cuanto a la dirección del vector: Vemos que, mientras que los c
 $$
   \cos \, \mathbf{\alpha}_i = \frac{\mathbf{a}_i}{MDISC_i}
 $$
+
+<br>
 
 ::: {.r-stack style="color:#5c6eb1;"}
 $$
@@ -3057,6 +3061,8 @@ $$
   \cos \, \mathbf{\alpha}_i = \frac{\mathbf{a}_i}{MDISC_i}
 $$
 
+<br>
+
 ::: {.r-stack style="color:#d76f47;"}
 $$
   \begin{matrix}
@@ -3072,7 +3078,7 @@ $$
 $$
 :::
 
-::: {.r-stack style="color:#00533e;"}
+::: {.r-stack style="color:#427562;"}
 $$
   \begin{matrix}
     \mathbf{a}_5 \approx \begin{bmatrix}
