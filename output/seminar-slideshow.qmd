@@ -1967,6 +1967,7 @@ plot_ly(
 ::: notes
 La discriminación se puede entender con una especie de "dardo" que atraviesa de arriba abajo esa superficie perpendicularmente por esa "recta de inflexión" de la que hablábamos antes, y luego cruza el plano origen.
 Si la superficie es "totalmente plana" el dardo entra por un punto y sale por otro que está justo debajo, en las mismas coordenadas de rasgo latente.
+<!-- TODO: Añadir los vectores perpendiculares en las gráficas? -->.
 La "proyección" (si ponemos un foco justo encima, la sombra que forma en el plano) es un punto.
 Es decir, la "discriminación" es cero (el vector del ítem tiene longitud "cero").
 Si la pendiente es muy pronunciada (distingue bien entre niveles de rasgo) el dardo atravesará el plano origen muy lejos.
@@ -2434,7 +2435,8 @@ ITEMS_PALETTE <- c(
   unname() |>
   setNames(1:5)
 
-mdisc_diff_coords |>
+# TODO: Cambiar grosor de los ítems
+mdisc_diff_plot <- mdisc_diff_coords |>
   arrange(item |> desc()) |>
   ggplot(
     aes(
@@ -2478,6 +2480,8 @@ mdisc_diff_coords |>
       linetype  = "17"
     ),
   )
+
+mdisc_diff_plot
 ```
 :::
 :::::::
@@ -2708,6 +2712,8 @@ $$
 :::
 
 ::: {.r-stack style="color:#749f4c;"}
+<!-- TODO: Align D_4 value (add space with equal width as minus signs) -->
+
 $$
   \begin{matrix}
     \begin{align}
@@ -2789,6 +2795,8 @@ $$
 $$
 
 ::: {.r-stack style="color:#749f4c;"}
+<!-- TODO: Align D_4 value with prevous slide -->
+
 $$
   \begin{matrix}
     \begin{align}
@@ -2819,6 +2827,7 @@ $$
 #| fig-height: 8
 #| fig-width:  8
 
+# TODO: Cambiar grosor de los ítems
 mdisc_diff_coords |>
   slice(4:3) |>
   ggplot(
@@ -2875,20 +2884,23 @@ Este tercer ítem se encuentra aquí, justo en la punta del segundo.
 
 ## Propiedades: $\cos \, \mathbf{\alpha}$ {.smaller}
 
-:::::::: columns
-:::::: column
+::::::: columns
+::::: column
 $$
-  D_i = \frac{-d_i}{MDISC_i}
+  \cos \, \mathbf{\alpha}_i = \frac{\mathbf{a}_i}{MDISC_i}
 $$
 
 ::: {.r-stack style="color:#5c6eb1;"}
 $$
   \begin{matrix}
-    \begin{align}
-      d_1     &= 2 \\
-      MDISC_1 &= \sqrt{2}
-    \end{align} &
-    D_1 \approx -1,41
+    \mathbf{a}_1 \approx \begin{bmatrix}
+        1 \\
+        1
+      \end{bmatrix} &
+      \mathbf{\alpha}_1 =  \begin{bmatrix}
+        45º \\
+        45º
+      \end{bmatrix}
   \end{matrix}
 $$
 :::
@@ -2896,11 +2908,53 @@ $$
 ::: {.r-stack style="color:#90214a;"}
 $$
   \begin{matrix}
-    \begin{align}
-      d_2     &= 1 \\
-      MDISC_2 &= \sqrt{2}
-    \end{align} &
-    D_2 \approx -0,71
+    \mathbf{a}_2 \approx \begin{bmatrix}
+        2 \\
+        2
+      \end{bmatrix} &
+      \mathbf{\alpha}_2 =  \begin{bmatrix}
+        45º \\
+        45º
+      \end{bmatrix}
+  \end{matrix}
+$$
+:::
+:::::
+
+::: column
+```{r dir-comparison-1}
+#| fig-align:  center
+#| fig-height: 8
+#| fig-width:  8
+
+mdisc_diff_plot
+```
+:::
+:::::::
+
+::: notes
+Por último, en cuanto a la dirección del vector: Vemos que, mientras que los componentes del parámetro de discriminación se mantengan proporcionales, la dirección no va a cambiar, a pesar de que cambie la discriminación multidimensional.
+:::
+
+## Propiedades: $\cos \, \mathbf{\alpha}$ {.smaller}
+
+::::::: columns
+::::: column
+$$
+  \cos \, \mathbf{\alpha}_i = \frac{\mathbf{a}_i}{MDISC_i}
+$$
+
+::: {.r-stack style="color:#5c6eb1;"}
+$$
+  \begin{matrix}
+    \mathbf{a}_1 \approx \begin{bmatrix}
+        1 \\
+        1
+      \end{bmatrix} &
+      \mathbf{\alpha}_1 =  \begin{bmatrix}
+        45º \\
+        45º
+      \end{bmatrix}
   \end{matrix}
 $$
 :::
@@ -2908,39 +2962,43 @@ $$
 ::: {.r-stack style="color:#749f4c;"}
 $$
   \begin{matrix}
-    \begin{align}
-      d_3     &= -1 \\
-      MDISC_3 &= \sqrt{2}
-    \end{align} &
-    D_3 \approx 0,71
+    \mathbf{a}_3 \approx \begin{bmatrix}
+        1,329 \\
+        0,484
+      \end{bmatrix} &
+      \mathbf{\alpha}_3 =  \begin{bmatrix}
+        20º \\
+        70º
+      \end{bmatrix}
   \end{matrix}
 $$
 :::
-::::::
+:::::
 
 ::: column
-```{r d-comparison-3}
+```{r dir-comparison-2}
 #| fig-align:  center
 #| fig-height: 8
 #| fig-width:  8
 
-mdisc_diff_items <- tribble(
-  ~item, ~a_1, ~a_2, ~d,
-  1,     1,    1,    2,
-  2,     1,    1,    1,
-  3,     1,    1,    -1,
-  4,     2,    2,    -1,
+cos_diff_items <- tribble(
+  ~item, ~a_1,                       ~a_2,                       ~d,
+  1,     1,                          1,                          0,
+  2,     2,                          2,                          0,
+  3,     cos((20/180*pi)) * sqrt(2), cos((70/180*pi)) * sqrt(2), 0,
+  4,     0,                          2,                          0,
+  5,     2,                          0,                          0
 )
 
-mdisc_diff_params <- mdisc_diff_items |>
+cos_diff_params <- cos_diff_items |>
   compute_mirt_params(d, starts_with('a'))
 
-mdisc_diff_coords <- mdisc_diff_params |>
+cos_diff_coords <- cos_diff_params |>
   compute_mirt_coords(D, MDISC, starts_with("cos"), original_coords = FALSE) |>
     rename_with(str_remove, pattern = "transf_")
 
-mdisc_diff_coords |>
-  filter(item %in% 1:3) |>
+cos_diff_coords |>
+  filter(item %in% c(1, 3)) |>
   ggplot(
     aes(
       origin_1, origin_2,
@@ -2957,14 +3015,14 @@ mdisc_diff_coords |>
     linewidth = VECTOR_WIDTH
   ) +
   scale_x_continuous(
-    limits       = c(-1.1, 2.4),
+    limits       = c(-0.2, 2.2),
     breaks       = -1:2,
     minor_breaks = NULL,
     name         = NULL,
     sec.axis     = dup_axis(name = "*&theta;*~2~", labels = NULL)
   ) +
   scale_y_continuous(
-    limits       = c(-1.1, 2.4),
+    limits       = c(-0.2, 2.2),
     breaks       = -1:2,
     minor_breaks = NULL,
     name         = NULL,
@@ -2975,8 +3033,8 @@ mdisc_diff_coords |>
   theme(
     axis.line          = element_blank(),
     axis.title        = element_markdown(size = 20, padding = unit(0, "lines")),
-    axis.title.x       = element_markdown(hjust = 1.1/3.5),
-    axis.title.y.right = element_markdown(vjust = 1.1/3.5),
+    axis.title.x       = element_markdown(hjust = 1/12),
+    axis.title.y.right = element_markdown(vjust = 1/12),
     axis.ticks         = element_blank(),
     panel.grid.major   = element_line(
       linewidth = GRID_WIDTH,
@@ -2985,9 +3043,108 @@ mdisc_diff_coords |>
   )
 ```
 :::
-::::::::
+:::::::
 
 ::: notes
+Ahora bien, si cambia la proporción entre ellos, la dirección sÍ va a cambiar; y eso es independiente de que la disciminación multidimensional se mantenga constante, como vemos en este ejemplo: misma longitud del vector, distinta dirección.
+:::
+
+## Propiedades: $\cos \, \mathbf{\alpha}$ {.smaller}
+
+::::::: columns
+::::: column
+$$
+  \cos \, \mathbf{\alpha}_i = \frac{\mathbf{a}_i}{MDISC_i}
+$$
+
+::: {.r-stack style="color:#d76f47;"}
+$$
+  \begin{matrix}
+    \mathbf{a}_4 \approx \begin{bmatrix}
+        0 \\
+        2
+      \end{bmatrix} &
+      \mathbf{\alpha}_4 =  \begin{bmatrix}
+        90º \\
+         0º
+      \end{bmatrix}
+  \end{matrix}
+$$
+:::
+
+::: {.r-stack style="color:#00533e;"}
+$$
+  \begin{matrix}
+    \mathbf{a}_5 \approx \begin{bmatrix}
+        2 \\
+        0
+      \end{bmatrix} &
+      \mathbf{\alpha}_5 =  \begin{bmatrix}
+         0º \\
+        90º
+      \end{bmatrix}
+  \end{matrix}
+$$
+:::
+:::::
+
+::: column
+```{r dir-comparison-3}
+#| fig-align:  center
+#| fig-height: 8
+#| fig-width:  8
+
+cos_diff_coords |>
+  filter(item %in% 4:5) |>
+  ggplot(
+    aes(
+      origin_1, origin_2,
+      xend = end_1,
+      yend = end_2,
+      color = factor(item), fill = factor(item)
+    ),
+  )                                                  +
+  geom_vline(xintercept = 0, linewidth = GRID_WIDTH) +
+  geom_hline(yintercept = 0, linewidth = GRID_WIDTH) +
+  geom_segment(
+    arrow     = arrow(angle = 20, length = unit(10, "points"), type = "closed"),
+    linejoin  = "mitre",
+    linewidth = VECTOR_WIDTH
+  ) +
+  scale_x_continuous(
+    limits       = c(-0.2, 2.2),
+    breaks       = -1:2,
+    minor_breaks = NULL,
+    name         = NULL,
+    sec.axis     = dup_axis(name = "*&theta;*~2~", labels = NULL)
+  ) +
+  scale_y_continuous(
+    limits       = c(-0.2, 2.2),
+    breaks       = -1:2,
+    minor_breaks = NULL,
+    name         = NULL,
+    sec.axis     = dup_axis(name = "*&theta;*~1~", labels = NULL)
+  ) +
+  scale_color_manual(values = ITEMS_PALETTE, guide = NULL) +
+  coord_fixed(clip = "on") +
+  theme(
+    axis.line          = element_blank(),
+    axis.title        = element_markdown(size = 20, padding = unit(0, "lines")),
+    axis.title.x       = element_markdown(hjust = 1/12),
+    axis.title.y.right = element_markdown(vjust = 1/12),
+    axis.ticks         = element_blank(),
+    panel.grid.major   = element_line(
+      linewidth = GRID_WIDTH,
+      linetype  = "17"
+    ),
+  )
+```
+:::
+:::::::
+
+::: notes
+Por último, vemos que, cuando uno de los valores de la discriminación es cero, el vector es perpendicular al eje correspondiente (además de ser paralelo al otro eje, pero esto es una simplificación por tener dos dimensones solamente).
+Esto es muy importante, ya que nos viene a indicar que, cuando un ítem no mide en absoluto alguna de las dimensiones del instrumento que estamos considerando, entonces no proporciona absolutamente ninguna información del nivel de rasgo en esa dimensión de las personas que están respondiendo al instrumento.
 :::
 
 ## Supuestos: Monotonía creciente {.smaller}
