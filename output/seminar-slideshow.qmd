@@ -3556,7 +3556,7 @@ $$
         1 \\
         1
       \end{bmatrix} &
-    d_1 = 0.25
+    d_1 = 0
   \end{matrix}
 $$
 :::
@@ -3595,7 +3595,7 @@ $$
         -1 \\
          1
       \end{bmatrix} &
-    d_1 = 0
+    d_1 = 0.25
   \end{matrix}
 $$
 :::
@@ -3609,10 +3609,10 @@ $$
 
 mirt_item <- tribble(
   ~item, ~a_1, ~a_2, ~d,
-  1,      1,    1,    0.25,
+  1,      1,    1,    0,
   2,      1,   -1,   -0.5,
   3,     -1,   -1,   -0.5,
-  4,     -1,    1,    0
+  4,     -1,    1,    0.25
 )
 
 mirt_item_params <- mirt_item |>
@@ -3672,10 +3672,12 @@ mirt_item_coords |>
 ::: notes
 Si la intersección es distinta de cero, como decíamos antes: El desplazamiento del ítem es opuesto al sentido en el que apunta el ítem.
 
-Si la intersección es positiva, como en el ítem 1, se desplaza "hacia atrás" respecto de la cabeza de la flecha, o sea, el ítem es "en general más fácil o atractivo": La región donde es fácil acertar o estar de acuerdo con el ítem se amplía.
+Si la intersección es negativa, como en los ítems 2 y 3, el vector se desplaza "hacia adelante" en el sentido de la cabeza de la flecha.
+Es decir, el ítem es "más difícil en general, o menos atractivo", y la región donde es relativamente fácil acertar el ítem (o estar de acuerdo con él) disminuye.
 
-Si la intersección es negativa, como en los ítems 2 y 3, se desplaza "hacia adelante" en el sentido del ítem.
-El ítem es "más difícil en general, o 'repulsivo'", o la región donde es fácil acertar o estar de acuerdo disminuye.
+Si la intersección es negativa, como en el ítem 1, el vector se desplaza "hacia atrás"; o sea, el ítem es "en general más fácil o atractivo": La región donde es fácil acertar o estar de acuerdo con el ítem se amplía.
+
+Y da igual en qué dirección apunten los vectores; esto se cumple en todos los casos.
 
 Esta generalización es bastante evidente, y se puede aplicar sin problema a ítems no cognitivos.
 Sin embargo, hay que tener en cuenta que Reckase explicitaba como condición que los ítems tenían que ser "monotonamente crecientes".
