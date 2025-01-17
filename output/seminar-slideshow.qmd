@@ -3676,25 +3676,40 @@ Si la intersección es positiva, como en el ítem 1, se desplaza "hacia atrás" 
 
 Si la intersección es negativa, como en los ítems 2 y 3, se desplaza "hacia adelante" en el sentido del ítem.
 El ítem es "más difícil en general, o 'repulsivo'", o la región donde es fácil acertar o estar de acuerdo disminuye.
+
+Esta generalización es bastante evidente, y se puede aplicar sin problema a ítems no cognitivos.
+Sin embargo, hay que tener en cuenta que Reckase explicitaba como condición que los ítems tenían que ser "monotonamente crecientes".
 :::
 
-## Ítems "inversos" en la literatura
+## Ítems "inversos" en la literatura {.smaller}
 
 > the negative relation of Item 15 with geometry achievement is particularly puzzling
 
 ---@mcdonald_basis_2000 [p. 109]
 
+<br>
+
+::: fragment
 > This result occurs because $a_1$ for the item is negative, and thus as an examinee's $\theta_1$ ability increases, the chance of answering the item correctly actually decreases.
 
 ---@ackerman_multidimensional_2005-1 [p. 17]
+:::
 
+<br>
+
+::: {.fragment .r-center}
 ### Generalización: "Monotonía constante"
+:::
 
 ::: notes
-Esta generalización es bastante evidente, y se puede aplicar sin problema a ítems no cognitivos.
-Sin embargo, hay que tener en cuenta que Reckase explicitaba como condición que los ítems tenían que ser "monotonamente crecientes".
 Pero en la literatura nos encontramos casos como estos, que no lo son, y a los autores no se les ocurre decir que "hay que generalizar esas definiciones".
-Más bien, hacen comentarios como estos, restándole importancia al hecho de que los parámetros de discriminación sean negativos ("particularmente misterioso"), o afirmando lo obvio (el parámetro de discriminación del ítem es negativo para una dimensión, por lo que la probabilidad de respuesta correcta disminuye al incrementarse su habilidad)
+Más bien, hacen comentarios como estos, restándole importancia al hecho de que los parámetros de discriminación sean negativos ("particularmente misterioso"),...
+
+\[NEXT\]
+
+o afirmando lo obvio (el parámetro de discriminación del ítem es negativo para una dimensión, por lo que la probabilidad de respuesta correcta disminuye al incrementarse su habilidad)
+
+\[NEXT\]
 
 En lugar de eso, proponemos que los supuestos de Reckase se "relajen" para considerar ítems con probabilidad "con monotonía constante" (es decir, que no tengan un "pico" u óptimo de rasgo latente para dar una respuesta positiva y luego decrezca), sino que cuanto más extremo sea el nivel de rasgo, más extrema es también la probabilidad (positiva o negativa).
 Este caso general incluye también la probabilidad constante (ya que es monotonía "nula constante", es decir, "el cambio es nulo de manera constante").
@@ -3767,7 +3782,7 @@ Eso no parece tener sentido, y sin embargo hay muchos ejemplos en la literatura 
 <!-- # TODO: Ejemplos de la literatura -->
 :::
 
-### Generalización: "Coordenadas oblicuas"
+## Generalización: "Coordenadas oblicuas"
 
 ::: notes
 Para la representación gráfica esto puede valer, como dice Ackerman aquí.
