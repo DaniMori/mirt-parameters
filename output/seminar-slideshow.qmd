@@ -1279,6 +1279,7 @@ Ahora bien, la posición se puede reformular como un parámetro de intersección
 Como se puede ver, esto también se trata de un "modelo lineal general".
 En este caso, en lugar de una función probit (normal acumulada), la función de enlace es la función "logit".
 Es decir, la respuesta a cada ítem se modela como una regresión logistica donde los predictores son las variables latentes.
+Esto es lo que se llama "Función Característica del Ítem".
 :::
 
 ## TRI multidimensional
@@ -3275,19 +3276,16 @@ En este ejemplo, las rectas de isoprobabilidad serían paralelas al eje $\theta_
 
 <br>
 
-::: {.fragment .r-center}
+::::: columns
+::: {.column .fragment .r-center}
 ```{r inverse-item-curve}
-#| fig-align: center
-#| fig-asp:   0.74
-#| fig-width: 6.5
-
-ITEMS_PALETTE <- PALETTE_BLUE["normal"] |>
-  unname() |>
-  setNames("prob_1")
+#| fig-align:  center
+#| fig-asp:    0.5344
+#| fig-width:  9
 
 ITEMS <- tribble(
   ~item, ~a,   ~b,
-   1,    -2,   0
+   1,    -1.5, 0
 )
 
 logit_curve_data <- tibble(
@@ -3301,10 +3299,10 @@ logit_curve_data <- tibble(
     prob,
     names_sep = '_'
   ) |>
-  rename_with(str_remove, pattern = '\\.{3}')
+  rename_with(str_remove, pattern = 'prob_\\.{3}')
 
 logit_curve_data_long <- logit_curve_data |>
-  pivot_longer(starts_with("prob"), names_to = "item", values_to = "prob")
+  pivot_longer(matches('\\d'), names_to = "item", values_to = "prob")
 
 logit_curve_data_long |>
   ggplot(
@@ -3342,15 +3340,32 @@ logit_curve_data_long |>
 ```
 :::
 
+::: {.column .fragment .r-center}
+<br> <br>
+
+$$
+  P(Y_i = 1) = \Phi_L (a_i (\theta - b_i))
+$$
+:::
+:::::
+
 ::: notes
 Pero además, si hablamos de ítems "no cognitivos" (p.ej. personalidad) en los que la persona evaluada puede estar "de acuerdo" o "en desacuerdo", sí podemos tener ítems con probabilidad "decreciente".
+
+\[NEXT\]
+
+Formalmente, esto vendría no sería más que un parámetro de discriminación negativo.
+
+\[NEXT\]
+
+Si recordáis la "función característica del ítem", esto consiste simplemente en un valor negativo en el parámetro $a$; eso hace que la probabilidad sea decreciente.
 
 Llevado al caso multidimensional, lo que nos podemos encontrar es con ítems que por ejemplo tengan todos los valores de discriminación negativos, o algunos negativos y otros positivos.
 Pensad por ejemplo que tenemos el problema de los "sesgos de respuesta".
 Vamos a imaginar que alguien estuviera respondiendo con un sesgo de "deseabilidad social" (intenta dar una buena imagen de sí mismo o de sí misma, de manera consciente o no).
-A un ítem como este, tendería a responder que no, al margen de cómo autoevalúe su verdadero nivel de responsabilidad.
-Por lo tanto, tendríamos un ítems con dos valores negativos de discriminación, uno en la dimensión de responsabilidad, y otro en la dimensión de deseabilidad social.
-Sin embargo, consideremos ahora un sesgo de "aquiescencia", que hace que la gente tienda a estar de acuerdo con todo, o a decir que sí a todo sin un criterio muy reflexivo ("¿Descuidas tus obligaciones? Mmmmm... sí"; "¿Atiendes tus obligaciones con diligencia? Mmmmm... sí").
+A un ítem como este, tendería a responder que no, dado ese sesgo de deseabilidad social, al margen de cómo autoevalúe su verdadero nivel de responsabilidad.
+Por lo tanto, tendríamos un ítem con dos valores negativos de discriminación, uno en la dimensión de responsabilidad, y otro en la dimensión de deseabilidad social.
+Sin embargo, consideremos ahora que estamos modelando un sesgo de "aquiescencia", que hace que la gente tienda a estar de acuerdo con todo, o a decir que sí a todo sin un criterio muy reflexivo ("¿Descuidas tus obligaciones? Mmmmm... sí"; "¿Atiendes tus obligaciones con diligencia? Mmmmm... sí").
 Cuanto más aquiescente sea una persona (a igual responsabilidad) mayor será su tendencia o probabilidad a responder afirmativamente al ítem.
 Sin embargo, cuanto más responsable sea una persona (a igual aquiescencia) menor será su tendencia (o probabilidad) a responder afirmativamente.
 En ese caso, tendríamos un ítem con un valor negativo de discriminación en la dimensión de responsabilidad, y uno positivo en la de aquiescencia.
