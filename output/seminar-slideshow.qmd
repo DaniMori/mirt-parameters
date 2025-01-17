@@ -3407,31 +3407,75 @@ La dirección sin embargo tiene una peculiaridad, y es que vemos que cada uno de
 Eso lo que va a hacer es que el sentido del item en cada una de esas dimensiones venga determinado por el signo de ese valor.
 :::
 
-## Generalización: Ítems inversos
+## Generalización: Ítems inversos {.smaller}
 
-<!-- # TODO: Representación de ítems con a (una o varias) negativa (tabla y gráfico) -->
-
+::::::::: columns
+::::::: column
+::: {.r-stack style="color:#5c6eb1;"}
 $$
-  \begin{align}
+  \begin{matrix}
+    \mathbf{a}_1 &=
+      \begin{bmatrix}
+        1 \\
+        1
+      \end{bmatrix} &
+    d_1 = 0
+  \end{matrix}
+$$
+:::
+
+::: {.r-stack style="color:#90214a;"}
+$$
+  \begin{matrix}
+    \mathbf{a}_1 &=
+      \begin{bmatrix}
+         1 \\
+        -1
+      \end{bmatrix} &
+    d_1 = 0
+  \end{matrix}
+$$
+:::
+
+::: {.r-stack style="color:#749f4c;"}
+$$
+  \begin{matrix}
     \mathbf{a}_1 &=
       \begin{bmatrix}
         -1 \\
-        1
-      \end{bmatrix} \\
-    d_1 &= 0
-  \end{align}
+        -1
+      \end{bmatrix} &
+    d_1 = 0
+  \end{matrix}
 $$
+:::
 
-<br>
+::: {.r-stack style="color:#d76f47;"}
+$$
+  \begin{matrix}
+    \mathbf{a}_1 &=
+      \begin{bmatrix}
+        -1 \\
+         1
+      \end{bmatrix} &
+    d_1 = 0
+  \end{matrix}
+$$
+:::
+:::::::
 
+::: column
 ```{r inverse-item-representation}
 #| fig-align:  center
-#| fig-height: 5
-#| fig-width:  5
+#| fig-height: 8
+#| fig-width:  8
 
 mirt_item <- tribble(
   ~item, ~a_1, ~a_2, ~d,
-  1,     -1,    1,   0
+  1,      1,    1,   0,
+  2,      1,   -1,   0,
+  3,     -1,   -1,   0,
+  4,     -1,    1,   0
 )
 
 mirt_item_params <- mirt_item |>
@@ -3439,7 +3483,7 @@ mirt_item_params <- mirt_item |>
 
 mirt_item_coords <- mirt_item_params |>
   compute_mirt_coords(D, MDISC, starts_with("cos"), original_coords = FALSE) |>
-    rename_with(str_remove, pattern = "transf_")
+  rename_with(str_remove, pattern = "transf_")
 
 mirt_item_coords |>
   ggplot(
@@ -3458,26 +3502,26 @@ mirt_item_coords |>
     linewidth = VECTOR_WIDTH
   ) +
   scale_x_continuous(
-    limits       = c(-1.5, 1),
+    limits       = c(-1.5, 1.5),
     breaks       = -1:2,
     minor_breaks = NULL,
     name         = NULL,
     sec.axis     = dup_axis(name = "*&theta;*~2~", labels = NULL)
   ) +
   scale_y_continuous(
-    limits       = c(-1, 1.5),
+    limits       = c(-1.5, 1.5),
     breaks       = -1:2,
     minor_breaks = NULL,
     name         = NULL,
     sec.axis     = dup_axis(name = "*&theta;*~1~", labels = NULL)
   ) +
-  scale_color_manual(values = unname(PALETTE_BLUE["normal"]), guide = NULL) +
+  scale_color_manual(values = ITEMS_PALETTE, guide = NULL) +
   coord_fixed(clip = "on") +
   theme(
     axis.line          = element_blank(),
-    axis.title         = element_markdown(size = 20, padding = unit(0, "lines")),
-    axis.title.x       = element_markdown(hjust = .4),
-    axis.title.y.right = element_markdown(vjust = .4),
+    axis.title        = element_markdown(size = 20, padding = unit(0, "lines")),
+    axis.title.x       = element_markdown(hjust = .5),
+    axis.title.y.right = element_markdown(vjust = .5),
     axis.ticks         = element_blank(),
     panel.grid.major   = element_line(
       linewidth = GRID_WIDTH,
@@ -3485,14 +3529,153 @@ mirt_item_coords |>
     ),
   )
 ```
+:::
+:::::::::
 
 ::: notes
-La representación de estos ítems sería como se muestra en este gráfico.
-<!-- # TODO: Descripción de los ítems representados -->
+Veamos un ejemplo: En el ítem 1 ambos cosenos son positivos, luego ambos ánculos son menores de 90º.
+El ítem está en el primer cuadrante.
 
-La generalización a ítems inversos es directa: La discriminación multidimensional "eleva al cuadrado" los "parámetros de discriminación marginales", luego va a ser siempre positiva.
-El parámetro de posición, por tanto, siempre va a tener el signo inverso al que tenga la intersección.
-Los cosenos tendrán, cada uno, el mismo que el parámetro de discriminación de esa dimensión.
+El segundo ítem va a tener un coseno positivo (ángulo menor que 90º) y uno negativo, por lo que será mayor que 90º; por tanto, apunta en el sentido negativo de ese eje.
+El ángulo es 180º menos el ángulo que tendría ese mismo coseno si fuera positivo.
+
+En el tercer ítem pasa lo mismo, pero con los dos cosenos negativos (y por tanto, ángulos mayores que 90º), y en el cuarto como el segundo pero al revés.
+
+Es decir, las propiedades algebraicas de la discriminación determinan las propiedades geométricas; y vemos cómo se puede visualizar gráficamente con facilidad.
+:::
+
+## Generalización: Ítems inversos {.smaller}
+
+::::::::: columns
+::::::: column
+::: {.r-stack style="color:#5c6eb1;"}
+$$
+  \begin{matrix}
+    \mathbf{a}_1 &=
+      \begin{bmatrix}
+        1 \\
+        1
+      \end{bmatrix} &
+    d_1 = 0.25
+  \end{matrix}
+$$
+:::
+
+::: {.r-stack style="color:#90214a;"}
+$$
+  \begin{matrix}
+    \mathbf{a}_1 &=
+      \begin{bmatrix}
+         1 \\
+        -1
+      \end{bmatrix} &
+    d_1 = -0.5
+  \end{matrix}
+$$
+:::
+
+::: {.r-stack style="color:#749f4c;"}
+$$
+  \begin{matrix}
+    \mathbf{a}_1 &=
+      \begin{bmatrix}
+        -1 \\
+        -1
+      \end{bmatrix} &
+    d_1 = -0.5
+  \end{matrix}
+$$
+:::
+
+::: {.r-stack style="color:#d76f47;"}
+$$
+  \begin{matrix}
+    \mathbf{a}_1 &=
+      \begin{bmatrix}
+        -1 \\
+         1
+      \end{bmatrix} &
+    d_1 = 0
+  \end{matrix}
+$$
+:::
+:::::::
+
+::: column
+```{r inverse-item-representation-distance}
+#| fig-align:  center
+#| fig-height: 8
+#| fig-width:  8
+
+mirt_item <- tribble(
+  ~item, ~a_1, ~a_2, ~d,
+  1,      1,    1,    0.25,
+  2,      1,   -1,   -0.5,
+  3,     -1,   -1,   -0.5,
+  4,     -1,    1,    0
+)
+
+mirt_item_params <- mirt_item |>
+  compute_mirt_params(d, starts_with('a'))
+
+mirt_item_coords <- mirt_item_params |>
+  compute_mirt_coords(D, MDISC, starts_with("cos"), original_coords = FALSE) |>
+  rename_with(str_remove, pattern = "transf_")
+
+mirt_item_coords |>
+  ggplot(
+    aes(
+      origin_1, origin_2,
+      xend = end_1,
+      yend = end_2,
+      color = factor(item), fill = factor(item)
+    ),
+  )                                                  +
+  geom_vline(xintercept = 0, linewidth = GRID_WIDTH) +
+  geom_hline(yintercept = 0, linewidth = GRID_WIDTH) +
+  geom_segment(
+    arrow     = arrow(angle = 20, length = unit(10, "points"), type = "closed"),
+    linejoin  = "mitre",
+    linewidth = VECTOR_WIDTH
+  ) +
+  scale_x_continuous(
+    limits       = c(-1.5, 1.5),
+    breaks       = -1:2,
+    minor_breaks = NULL,
+    name         = NULL,
+    sec.axis     = dup_axis(name = "*&theta;*~2~", labels = NULL)
+  ) +
+  scale_y_continuous(
+    limits       = c(-1.5, 1.5),
+    breaks       = -1:2,
+    minor_breaks = NULL,
+    name         = NULL,
+    sec.axis     = dup_axis(name = "*&theta;*~1~", labels = NULL)
+  ) +
+  scale_color_manual(values = ITEMS_PALETTE, guide = NULL) +
+  coord_fixed(clip = "on") +
+  theme(
+    axis.line          = element_blank(),
+    axis.title        = element_markdown(size = 20, padding = unit(0, "lines")),
+    axis.title.x       = element_markdown(hjust = .5),
+    axis.title.y.right = element_markdown(vjust = .5),
+    axis.ticks         = element_blank(),
+    panel.grid.major   = element_line(
+      linewidth = GRID_WIDTH,
+      linetype  = "17"
+    ),
+  )
+```
+:::
+:::::::::
+
+::: notes
+Si la intersección es distinta de cero, como decíamos antes: El desplazamiento del ítem es opuesto al sentido en el que apunta el ítem.
+
+Si la intersección es positiva, como en el ítem 1, se desplaza "hacia atrás" respecto de la cabeza de la flecha, o sea, el ítem es "en general más fácil o atractivo": La región donde es fácil acertar o estar de acuerdo con el ítem se amplía.
+
+Si la intersección es negativa, como en los ítems 2 y 3, se desplaza "hacia adelante" en el sentido del ítem.
+El ítem es "más difícil en general, o 'repulsivo'", o la región donde es fácil acertar o estar de acuerdo disminuye.
 :::
 
 ## Ítems "inversos" en la literatura
