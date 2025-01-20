@@ -61,12 +61,18 @@ C. Juan del Rosal 10, Office 2.74 \
 28040 Madrid, Spain
 
 
-Response to the action editor:
+# Responses to the action editor:
 
 > I have a concern with making the latent ability axes nonorthogonal to represent the covariance structure between the latent abilities.
 > Recognizing that the data used to estimate MIRT parameters represents an interaction between the examinees and the items and that different groups of examinees can result in different covariance structures and thus quite different item parameter estimates.
 
-
+We agree with the editor that different groups of examinees can result in different covariance structures, due to the interaction between the examinees and the items.
+However, in our understanding, the same could be predicated from the item parameters themselves, without taking into account the covariance structure.
+For example, in unidimensional IRT, the item parameters may be different for different groups of examinees, even if the variance is constrained to be equal across groups; this is indeed the basis of methods such as multigroup IRT.
+It is our stance that the covariance structure, understood as a property of the data of course, should be taken into account when determining the multidimensional properties of the items.
+That is what we do when we posit that the covariance structure is taken into account when computing the multidimensional parameters.
+The method we propose thus so, by considering an algebraic basis that conveys information of the covariance structure.
+<!-- TODO: Changes to the main text? -->
 
 > The statement (p.13, line 8) about “the test space where item parameters naturally lie” needs greater explanation with examples.
 
@@ -75,11 +81,25 @@ Response to the action editor:
 > Like Reviewer 3, I do not understand how the magnitude of discrimination values (p 29 , 7) can be compared/interpreted values of discrimination are comparable from the two representations.
 > It seems that the metric of the represented space has changed, and equivalent numbers will not have equivalent interpretations.
 
+Indeed, we propose that the basis used to represent the test space changes its metric.
+We also understand that the metrics of the two representation are not comparable, and thus one should not compare items represented with the agnostic and the covariance-base version of the multidimensional parameters.
+However, when making multi-group comparisons, we think that taking into account the covariance-based structure of the latent space may provide more accurate information.
 
+There are several references in the literature that have found contradictory results that, we believe, are due to disregarding the latent covariance structure (i.e., using Reckase & McKinley's formulae in a non-orthonormal space).
+<!-- TODO: Examples? -->
+While we consider this is out of the scope of the current paper, we will gladly add furthere detail to explain why these results are contradictory and how our method may solve the problem.
+<!-- TODO: Add examples of contradictory results? -->
 
 > I also wonder about how one compares the standard errors of the item parameters when the covariance covariance structures are different.  Are they directly comparable?
 
+The standard errors of the multidimensional parameters are, without a doubt, more difficult to compute for the covariance-based case than for the agnostic one (if we assume the covariance structure is estimated from the model).
+Computing the covariance errors in this case requires taking into account the standard errors of the item parameters themselves and at least the standard errors of the correlations (in the best-case scenario, assuming standard latent dimensions).
+However, to our knowledge, multidimensional item parameters, as defined by @reckase_difficulty_1985 and @reckase_discriminating_1991 have been previously defined and used only for a theoretical perspective, without ever taking into account the uncertainty resulting from the model estimation.
 
+Regarding the "original" item parameters in the classical M2PL metric, we understand that the standard errors of the item parameters are independent of the definition of the multidimensional parameters used.
+Software such as R package {mirt} <!-- TODO: Add reference --> use a method similar to exploratory factor analysis to compute the item parameter estimtates and the standard errors, based on an oblique rotation to approximate simple structure.
+As far as we know, these standard error estimates are computed using the usual methods, involving Taylor series, bootstraping, and similar.
+<!-- TODO: Check methods; complete? -->
 
 > I would like to see the motivation and psychometric utility of this approach.
 > Does it improve the interpretation of the latent abilities and thus result in more insight into how the results are used?
@@ -93,9 +113,19 @@ Response to the action editor:
 
 > Are there standard computer programs that you would recommend to do the estimation/modeling you are proposing?
 
+Our manuscript does not propose an estimation or modeling method.
+On the contrary, what we propose is a way to compute and represent the multidimensional item parameters without disregarding the covariance structure of the latent space.
+Implementing the formulae we propose, using the standard output of most MIRT software, should be straightforward for most IRT researchers.
 
+We have written extensive code in R for computing these parameters, which we intend to open up for public use and scrutiny in a GitHub repository that includes all the code, data, and examples (including all the R packages to re-create the necessary environment to grant computational reproducibility), allowing to generate all the tables, plots, examples, and even the submitted version of the manuscript.
+Using dedicated functions in our code, any interested researcher will be able to compute the multidimensional parameters from the output of any MIRT software (e.g., {mirt} <!-- TODO: Add reference -->, FlexMIRT <!-- TODO: Add reference -->).
+As the journal guidelines require a specific format for the Supplementary Material,
+<!-- TODO: Check this -->
+we have preferred not to include the repository as additional material.
+However, we can do so if the journal accepts linking an external repository as supplenetary material, or otherwise grant access to the editor and reviewers to this repository.
+<!-- TODO: Publish repo and link Software Legacy DOI? -->
 
-Response to Reviwer 1:
+# Responses to Reviwer 1:
 
 > 1. Introduction, too lengthy, 1-2 pages will be fine.
 
@@ -121,7 +151,7 @@ Response to Reviwer 1:
 
 
 
-Response to Reviwer 2:
+# Responses to Reviwer 2:
 
 > [...] it is difficult to ascertain its practical value, as it is unclear how it can be applied in the real world.
 
@@ -154,7 +184,7 @@ applicability?
 
 
 
-Response to Reviwer 3:
+# Responses to Reviwer 3:
 
 > The manuscript highlights the fact that the coordinate system used to represent results typical of educational achievement and other types of social measures is at the discretion of the person performing the analysis, or the entities developing computer software, if default settings are used in the analysis.
 
