@@ -105,11 +105,17 @@ As far as we know, these standard error estimates are computed using the usual m
 > Does it improve the interpretation of the latent abilities and thus result in more insight into how the results are used?
 > The author needs to address this with legitimate examples for testing practitioners.
 
-
+We think the motivation and psychometric utility of our approach are more
+related with the interpretation of the item parameters than with the latent
+abilities.
+To our understanding, the better interpretation of the item parameters that
+results from our approach provides indeed a better insight into how the results
+are used.
+<!-- TODO: Complete -->
 
 > What implications does your approach have for standard psychometric procedures like equating.
 
-
+<!-- TODO: Reply -->
 
 > Are there standard computer programs that you would recommend to do the estimation/modeling you are proposing?
 
