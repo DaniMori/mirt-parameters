@@ -252,8 +252,10 @@ the applicability and generalization of our results.
 
 # Model Formulation
 
-Consider a $`r N_DIMS`$-dimensional latent space $`r LATENT_SPACE`$
-in basis $`r LS_BASIS_EQ`$, being $`r LS_BASIS`$ not necessarily orthonormal,
+Consider a basis $`r LS_BASIS_EQ`$,
+with $`r LS_BASIS`$ generally non-orthonormal.
+Let $`r LATENT_SPACE`$ be a $`r N_DIMS`$-dimensional latent space
+in basis $`r LS_BASIS`$ (with $`r N_DIMS`$ any positive integer),
 where a respondent is represented by vector $`r TRAIT_VEC_IN_LS`$.
 According to the `r MODEL_ACRONYM` model, the probability of
 a positive response to item $`r ITEM_INDEX`$ is
