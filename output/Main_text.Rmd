@@ -195,10 +195,10 @@ On an unrelated basis, negative loadings/discrimination parameters
 are often irrelevant in MIRT applications in the cognitive testing domain.
 It has been argued that discrimination parameters
 "are constrained to be positive" [@ackerman_graphical_1996, p. 315],
-or that “in an [independent-clusters] solution, the loadings can always
-be selected to be positive” [@mcdonald_basis_2000, p. 110].
+or that "in an [independent-clusters] solution, the loadings can always
+be selected to be positive" [@mcdonald_basis_2000, p. 110].
 However, when such instances of negative parameters appear,
-they are often dismissed as “particularly puzzling” (p. 109),
+they are often dismissed as "particularly puzzling" (p. 109),
 or implicitly assuming item malfunctioning without further discussion
 [e.g., @ackerman_multidimensional_2005-1].
 In the non-cognitive domain though, the use of so-called negatively-keyed items
