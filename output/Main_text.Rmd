@@ -242,6 +242,11 @@ as a function of how we define and interpret the latent space.
 Next, we discuss their properties,
 propose a graphical representation method based on the new formulation,
 and present two examples of application of our results.
+These examples, from the cognitive and the non-cognitive domain respectively,
+are taken from the MIRT literature:
+One of them is a classic dataset, often used to exemplify
+the use of the `r MODEL_ACRONYM` model [@reckase_multidimensional_2009];
+the other one, an application in marketing research [@tezza_modelo_2018].
 We round up with a discussion about
 the applicability and generalization of our results.
 
@@ -274,9 +279,15 @@ with an increase in ability makes little sense].
 In our case, $`r DISCR_VECTOR`$ is a vector of real numbers; the value
 of the $`r DIM_INDEX`$-th component $`r DISCR_PARAM`$ can be negative if
 the item is negatively-keyed for latent dimension $`r DIM_INDEX`$.
-Finally, as responses are not necessarily interpreted as correct or incorrect,
+Third, as responses are not necessarily interpreted as correct or incorrect,
 parameter $`r INTERCEPT_PARAM`$ is said to be related to the item _location_
 instead of the item difficulty.
+Finally, it is worth highlighting that
+this model generally assumes *within-item multidimensionality*,
+which will be present whenever more than one component of $`r DISCR_VECTOR`$
+is non-null.
+However, the model can also account for *between-item multidimensionality*,
+if the $`r DISCR_VECTOR`$ parameter only has one non-null component.
 
 Following Reckase's [-@reckase_difficulty_1985] procedure,
 we must find in the first place

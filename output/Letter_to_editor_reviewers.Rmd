@@ -105,12 +105,10 @@ As far as we know, these standard error estimates are computed using the usual m
 > Does it improve the interpretation of the latent abilities and thus result in more insight into how the results are used?
 > The author needs to address this with legitimate examples for testing practitioners.
 
-We think the motivation and psychometric utility of our approach are more
-related with the interpretation of the item parameters than with the latent
-abilities.
-To our understanding, the better interpretation of the item parameters that
-results from our approach provides indeed a better insight into how the results
-are used.
+We think the motivation and psychometric utility of our approach are more related with the interpretation of the item parameters than with the latent abilities.
+To our understanding, the better interpretation of the item parameters that results from our approach provides indeed a better insight into how the results are used.
+A multidimensional representation of the items provides benchmarks for comparing different latent trait levels, as discussed by @reckase_difficulty_1985.
+Therefore, the more accurate such representation is, the better the latent trait interpretation will be.
 <!-- TODO: Complete -->
 
 > What implications does your approach have for standard psychometric procedures like equating.
@@ -135,27 +133,53 @@ However, we can do so if the journal accepts linking an external repository as s
 
 > 1. Introduction, too lengthy, 1-2 pages will be fine.
 
-
+Our introduction is a bit less than four pages long.
+We have provided concise paragraphs about the Multidimensional IRT model and its parameters, their assumptions, and our rationale to relax them.
+Finally, a last paragraph presents the objectives of our research.
+We honestly believe we have made a thorough effort to summarize the motivation of our research, and we find it difficult to shorten it further without losing relevant information to justify our work.
+Therefore, we are sorry to say that we cannot comply with the reviewer's request to shorten the introduction.
 
 > 2. Introduction, do you have any hypothesis for the current study? Please briefly describe it at the end.
 
-
+Our work is completely theoretical and thus uses a purely deductive method.
+Therefore, we do not have any hypothesis to test, but the results of the formal derivations that we present, adressing the objective crearly described at the end of our introduction.
 
 > 3. The details about the datasets should be described here.
 
-
+The datasets we use in our paper are examples of item parameter estimates, taken from the literature.
+As they only serve exemplification purposes, and are not the main focus of our article, we deem it more appropriate to describe their details in the corresponding section of the manuscript.
+We have added a short reference to them in the introduction, to make sure their pertinence as examples is clear.
 
 > 4. Within or between multidimensional latent? This should be detailed.
 
+We think the context makes it clear that we are referring to "within-item" multidimensionality.
+In fact, it is clear from the manuscript that the results are trivial in the "between-item" multidimensionality case,
+as the `r MDISC_SYM` parameter reduces to the only non-null component of the $`r DISCR_VECTOR`$ parameter.
+However, we acknowledge this terminology is prevalent in the current MIRT literature;
+therefore, we have now explained this in our "Model formulation" section.
+The end of the second paragraph reads now as follows:
 
+    > Third, as responses are not necessarily interpreted as correct or incorrect,
+    parameter $`r INTERCEPT_PARAM`$ is said to be related to the item _location_
+    instead of the item difficulty.
+    Finally, it is worth noting that
+    this formulation assumes *within-item multidimensionality* in general,
+    which will be present whenever more than one component of $`r DISCR_VECTOR`$
+    is non-null.
+    However, the model can also account for *between-item multidimensionality*,
+    if all items are unidimensional
+    (i.e., their $`r DISCR_VECTOR`$ parameters only have one non-null component).
 
 > 5. Limitation is missing and should be added here.
 
-
+Our last two paragraphs mention the most important limitations of our work.
+We clearly demarcate the limited scope of our conclusions, and warn against overgeneralizing our results to other MIRT models or the common factor model.
+We have put a great effort into writing our limitations in a way that is elegant and, at the same time, avoids cliché sentences that add little value.
+Therefore, we would rather not add a separate section for limitations.
 
 > 6. Conclusion is missing and should be added here.
 
-
+Similarly to the previous comment, we believe that our conclusions are thoroughly and carefully elaborated in our "Discussion" section, and we would prefer not to add an explicit "Conclusions" header.
 
 # Responses to Reviwer 2:
 
