@@ -3739,12 +3739,14 @@ Como veis, esta generalización es necesaria cuando hablamos de medición en el 
 ::::: columns
 ::: column
 ```{r oblique-rotation-axis-1}
-LIM_INF <- -0.5
-LIM_SUP <-  2.5
+LIM_INF_X <- -2.7
+LIM_INF_Y <- -0.5
+LIM_SUP   <-  2.7
 
-axis_lims <- c(LIM_INF, LIM_SUP)
+axis_lims_x <- c(LIM_INF_X, LIM_SUP)
+axis_lims_y <- c(LIM_INF_Y, LIM_SUP)
 
-point <- tibble(F1 = 2.4, F2 = .1)
+point <- tibble(F1 = .1, F2 = .3)
 
 point_spikes <- point      |>
   add_column(type = "end")                      |> 
@@ -3768,13 +3770,13 @@ point |>
   )                                        +
   geom_point(size = I(4))                  +
   scale_x_continuous(
-    limits = axis_lims,
+    limits = axis_lims_x,
     breaks = 0,
     labels = NULL,
     name   = NULL
   )                                        +
   scale_y_continuous(
-    limits = axis_lims,
+    limits = axis_lims_y,
     breaks = 0,
     labels = NULL,
     name   = NULL
@@ -3825,10 +3827,9 @@ No obstante, en 1999 llega McDonald, y dice que la TRI y el AF son fundamentalme
 SEC_COLOR <- "grey60"
 
 BASIS_VEC_1 <- c(1, 0)
-BASIS_VEC_2 <- c(12, 1)
+BASIS_VEC_2 <- c(-8, 1)
 BASIS_VEC_2 <- BASIS_VEC_2 / sqrt(sum(BASIS_VEC_2^2))
 
-axis_lims  <- c(LIM_INF, LIM_SUP)
 axis_slope <- BASIS_VEC_2[2] / BASIS_VEC_2[1]
 transf_matrix <- cbind(BASIS_VEC_1, BASIS_VEC_2) |> unname()
 
@@ -3861,7 +3862,7 @@ point_spikes_transf_ob <- point_spikes_transf |>
 
 point |>
   ggplot(mapping = aes(F1, F2)) +
-  geom_abline(slope = axis_slope) +
+  geom_abline(slope = axis_slope, linewidth = GRID_WIDTH) +
   geom_segment(
     data    = point_spikes,
     mapping = aes(F1_start, F2_start, xend = F1_end, yend = F2_end),
@@ -3879,13 +3880,13 @@ point |>
   ) +
   geom_point(size = I(4)) +
   scale_x_continuous(
-    limits = axis_lims,
+    limits = axis_lims_x,
     breaks = 0,
     labels = NULL,
     name   = NULL
   ) +
   scale_y_continuous(
-    limits = axis_lims,
+    limits = axis_lims_y,
     breaks = 0,
     labels = NULL,
     name   = NULL
@@ -3940,13 +3941,13 @@ point_transf |>
   )                                        +
   geom_point(size = I(4))                  +
   scale_x_continuous(
-    limits = axis_lims,
+    limits = axis_lims_x,
     breaks = 0,
     labels = NULL,
     name   = NULL
   )                                        +
   scale_y_continuous(
-    limits = axis_lims,
+    limits = axis_lims_y,
     breaks = 0,
     labels = NULL,
     name   = NULL
