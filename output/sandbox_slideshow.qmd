@@ -175,4 +175,182 @@ ITEMS_PALETTE <- c(
   setNames(1:5)
 ```
 
+## Supuestos: Ortogonalidad {.smaller}
+
+> \[...\] before performing the differentiation, the constraint that Σ cos^2^**α** = 1 is added to the expression for the slope \[...\]
+
+---@reckase_difficulty_1985 [p. 404]
+
+::::: columns
+::: column
+```{r oblique-rotation-axis-1}
+LIM_INF <- -0.5
+LIM_SUP <-  2.5
+
+axis_lims <- c(LIM_INF, LIM_SUP)
+
+point <- tibble(F1 = 2, F2 = .2)
+
+point_spikes <- point      |>
+  add_column(type = "end")                      |> 
+  bind_rows(tibble(F1 = 0, F2 = 0))             |>
+  complete(F1, F2, fill = list(type = "start")) |>
+  filter(F1 != 0 | F2 != 0)
+
+point_spikes <- point_spikes                           |> 
+  bind_rows(point_spikes |> slice(3))                  |>
+  mutate(n = paste0('F', (row_number() + 1) %% 2 + 1)) |>
+  pivot_wider(names_from = type, values_from = F1:F2)
+
+point |>
+  ggplot(mapping = aes(F1, F2))            +
+  geom_segment(
+    data    = point_spikes,
+    mapping = aes(F1_start, F2_start, xend = F1_end, yend = F2_end),
+    inherit.aes = FALSE,
+    linewidth = LINE_WIDTH,
+    linetype  = '43',
+  )                                        +
+  geom_point(size = I(4))                  +
+  scale_x_continuous(
+    limits = axis_lims,
+    breaks = 0,
+    labels = NULL,
+    name   = NULL
+  )                                        +
+  scale_y_continuous(
+    limits = axis_lims,
+    breaks = 0,
+    labels = NULL,
+    name   = NULL
+  )                                        +
+  coord_fixed(expand = FALSE, clip = "on") +
+  theme(
+    axis.line          = element_blank(),
+    axis.ticks         = element_blank(),
+    panel.grid.major   = element_line(
+      color     = "black",
+      linewidth = GRID_WIDTH
+    )
+  )
+```
+:::
+
+::: column
+:::
+:::::
+
+::: notes
+Ahora, la TRI multidimensional también dijimos que se interesaba sobre todo por medir (y ordenar) a las personas, no tanto por interpretar sustantivamente esas dimensiones de rasgo latente.
+De ahí que estimar un modelo con suficientes dimensiones para explicar la variabilidad entre los sujetos fuese importante, pero no era tan importante cuáles fueran esas dimensiones.
+Por eso, hay un supuesto, implícito muchas veces en TRI, de que las dimensiones no están correlacionadas: Se estima el modelo con N dimensiones, las que haga falta, añadiendo restricciones a los ítems para identificarlas, y eso da lugar a N dimensiones independientes entre sí (con correlaciones de 0), representadas en N ejes ortogonales (ángulos rectos todos ellos).
+Que esos ejes representen competencia o habilidad en esto o lo otro, en principio, nos da igual.
+Con asegurarnos de que hay suficientes dimensiones para "capturar" toda la variabilidad debida a esos rasgos nos basta.
+
+Pues bien, ese es el otro supuesto que hace Reckase para calcular los parámetros multidimensionales: Los cosenos directores del ítem al cuadrado suman 1.
+Es decir, está aplicando el teorema de Pitágoras.
+Esta expresión implica, de manera implícita, que todos los ejes del espacio latente son "ortogonales" entre sí.
+Como digo, en TRI originalmente no importaba mucho que los ejes se pudieran interpretar como rasgos latentes.
+No obstante, en 1999 llega McDonald, y dice que la TRI y el AF son fundamentalmente la misma cosa.
+:::
+
+## Supuestos: Ortogonalidad {.smaller}
+
+<!-- TODO: Equation as LaTeX -->
+
+> ~~\[...\] before performing the differentiation, the constraint that Σ cos^2^**α** = 1 is added to the expression for the slope \[...\]~~
+
+---@reckase_difficulty_1985 [p. 404]
+
+<!-- # TODO: Coordenadas rectangulares resultantes de una rotación oblicua -->
+
+::::: columns
+::: column
+```{r oblique-rotation-axis-2}
+SEC_COLOR <- "grey60"
+
+BASIS_VEC_1 <- c(1, 0)
+BASIS_VEC_2 <- c(4, 1) / sqrt(17)
+
+axis_lims  <- c(LIM_INF, LIM_SUP)
+axis_slope <- BASIS_VEC_2[2] / BASIS_VEC_2[1]
+transf_matrix <- cbind(BASIS_VEC_1, BASIS_VEC_2) |> unname() |> t() |> solve()
+
+# point_transf <- point |>
+#   pivot_longer(everything()) |>
+#   mutate(value = transf_matrix %*% value |> drop()) |>
+#   pivot_wider()
+# 
+# point_spikes_transf <- point_transf             |>
+#   add_column(type = "end")                      |> 
+#   bind_rows(tibble(F1 = 0, F2 = 0))             |>
+#   complete(F1, F2, fill = list(type = "start")) |>
+#   filter(F1 != 0 | F2 != 0)
+# 
+# point_spikes_transf <- point_spikes_transf             |> 
+#   bind_rows(point_spikes_transf |> slice(3))           |>
+#   mutate(n = paste0('F', (row_number() + 1) %% 2 + 1)) |>
+#   pivot_wider(names_from = type, values_from = F1:F2)
+
+point_spikes_transf <-
+  point_spikes |>
+    pivot_longer(starts_with("F")) |>
+    separate(name, into = c("dim", "coord")) |>
+    pivot_wider(names_from = coord, values_from = value) |>
+    group_by(n) |>
+    mutate(start = (transf_matrix %*% start |> drop())) |>
+  pivot_wider(names_from = dim, values_from = start:end)
+
+point |>
+  ggplot(mapping = aes(F1, F2)) +
+  geom_abline(slope = axis_slope) +
+  geom_segment(
+    data    = point_spikes_transf,
+    mapping = aes(start_F1, start_F2, xend = end_F1, yend = end_F2),
+    inherit.aes = FALSE,
+    linewidth = LINE_WIDTH,
+    linetype  = '43',
+    color = SEC_COLOR
+  ) +
+  geom_point(size = I(4)) +
+  scale_x_continuous(
+    limits = axis_lims,
+    breaks = 0,
+    labels = NULL,
+    name   = NULL
+  ) +
+  scale_y_continuous(
+    limits = axis_lims,
+    breaks = 0,
+    labels = NULL,
+    name   = NULL
+  ) +
+  coord_fixed(expand = FALSE, clip = "on") +
+  theme(
+    axis.line          = element_blank(),
+    axis.ticks         = element_blank(),
+    panel.grid.major   = element_line(linewidth = GRID_WIDTH),
+    panel.grid.major.x = element_line(color = SEC_COLOR),
+    panel.grid.major.y = element_line(color = "black")
+  )
+```
+:::
+
+::: column
+:::
+:::::
+
+::: notes
+Pero en AF tenemos dimensiones correlacionadas la mayoría de las veces, y eso como hemos visto implica hacer rotaciones oblicuas, que dan lugar a ejes no ortogonales.
+Luego esta restricción que propone Reckase parece que en principio no se podría aplicar.
+
+\[NEXT\]
+
+Las coordenadas resultantes de cualquier rotación oblicua las podemos representar sin ningún problema en ejes rectangulares (las llamadas "coordenadas Cartesianas").
+Pero algo parece fallar cuando generalizamos los parámetros multidimensionales de TRI que hemos mostrado antes a esos espacios de coordenadas no ortogonales.
+Si rotamos los ejes de coordenadas, pero los ítems siguen siendo los mismos, es de esperar que la discriminación multidimensional de un ítem (i.e., la "longitud" de su vector) no cambie.
+Esta propiedad se llama invarianza.
+Veámoslo con un ejemplo.
+:::
+
 ## References
