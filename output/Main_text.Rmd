@@ -195,10 +195,10 @@ On an unrelated basis, negative loadings/discrimination parameters
 are often irrelevant in MIRT applications in the cognitive testing domain.
 It has been argued that discrimination parameters
 "are constrained to be positive" [@ackerman_graphical_1996, p. 315],
-or that “in an [independent-clusters] solution, the loadings can always
-be selected to be positive” [@mcdonald_basis_2000, p. 110].
+or that "in an [independent-clusters] solution, the loadings can always
+be selected to be positive" [@mcdonald_basis_2000, p. 110].
 However, when such instances of negative parameters appear,
-they are often dismissed as “particularly puzzling” (p. 109),
+they are often dismissed as "particularly puzzling" (p. 109),
 or implicitly assuming item malfunctioning without further discussion
 [e.g., @ackerman_multidimensional_2005-1].
 In the non-cognitive domain though, the use of so-called negatively-keyed items
@@ -242,13 +242,20 @@ as a function of how we define and interpret the latent space.
 Next, we discuss their properties,
 propose a graphical representation method based on the new formulation,
 and present two examples of application of our results.
+These examples, from the cognitive and the non-cognitive domain respectively,
+are taken from the MIRT literature:
+One of them is a classic dataset, often used to exemplify
+the use of the `r MODEL_ACRONYM` model [@reckase_multidimensional_2009];
+the other one, an application in marketing research [@tezza_modelo_2018].
 We round up with a discussion about
 the applicability and generalization of our results.
 
 # Model Formulation
 
-Consider a $`r N_DIMS`$-dimensional latent space $`r LATENT_SPACE`$
-in basis $`r LS_BASIS_EQ`$, being $`r LS_BASIS`$ not necessarily orthonormal,
+Consider a basis $`r LS_BASIS_EQ`$,
+with $`r LS_BASIS`$ generally non-orthonormal.
+Let $`r LATENT_SPACE`$ be a $`r N_DIMS`$-dimensional latent space
+in basis $`r LS_BASIS`$ (with $`r N_DIMS`$ any positive integer),
 where a respondent is represented by vector $`r TRAIT_VEC_IN_LS`$.
 According to the `r MODEL_ACRONYM` model, the probability of
 a positive response to item $`r ITEM_INDEX`$ is
@@ -274,9 +281,15 @@ with an increase in ability makes little sense].
 In our case, $`r DISCR_VECTOR`$ is a vector of real numbers; the value
 of the $`r DIM_INDEX`$-th component $`r DISCR_PARAM`$ can be negative if
 the item is negatively-keyed for latent dimension $`r DIM_INDEX`$.
-Finally, as responses are not necessarily interpreted as correct or incorrect,
+Third, as responses are not necessarily interpreted as correct or incorrect,
 parameter $`r INTERCEPT_PARAM`$ is said to be related to the item _location_
 instead of the item difficulty.
+Finally, it is worth highlighting that
+this model generally assumes *within-item multidimensionality*,
+which will be present whenever more than one component of $`r DISCR_VECTOR`$
+is non-null.
+However, the model can also account for *between-item multidimensionality*,
+if the $`r DISCR_VECTOR`$ parameter only has one non-null component.
 
 Following Reckase's [-@reckase_difficulty_1985] procedure,
 we must find in the first place
@@ -899,7 +912,8 @@ and will therefore have an effect on the representation.
 Of course,
 from Equations \@ref(eq:origin-coords-result) and \@ref(eq:end-coords-result)
 it is easy to express the coordinates in terms of the parameters in the original
-model formulation, namely,
+model formulation.
+Given $`r DISCR_VECTOR_COORDS_EQ`$, we can express the coordinates as
 
 \begin{align}
   `r ORIGIN_ITEM_PARAMS_EQ`                  &(\#eq:origin-from-model-params) \\

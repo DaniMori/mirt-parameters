@@ -11,6 +11,54 @@ editor_options:
   chunk_output_type: console
 ---
 
+```{r setup}
+#| include: false
+
+# Includes:
+
+library(here)
+library(knitr)
+library(patchwork)
+library(ggplot2)
+library(rstudioapi)
+library(svglite) # Used by {knitr} and {ggplot2} to render the figure to SVG;
+                 #   added to prevent {renv} from reporting inconsistent state.
+library(officer)
+
+ROOT_DIR <- here()
+DOC_DIR  <- file.path(ROOT_DIR, "output")
+
+opts_knit$set(root.dir = ROOT_DIR)
+opts_chunk$set(
+  echo     = FALSE,
+  message  = FALSE,
+  cache    = FALSE,
+  dev      = "png",
+  dpi      = 1200L,
+  dev.args = list(type = "cairo-png"),
+  tab.cap.fp_text = fp_text_lite(italic = FALSE, bold = TRUE),
+  fig.cap.fp_text = fp_text_lite(italic = FALSE, bold = TRUE)
+)
+
+# Output configuration options:
+options(digits = 3)
+```
+
+```{r write-bib}
+# automatically create a bib database for R packages
+write_bib(
+  c(.packages(), 'bookdown', 'knitr', 'rmarkdown'),
+  'www/packages.bib'
+)
+```
+
+```{r sources}
+#| cache:   false
+#| include: false
+source("R/Formulae.R",  encoding = 'UTF-8')
+source("R/Constants.R", encoding = 'UTF-8')
+```
+
 September 16, 2024. <!-- TODO: Update date -->
 
 <br>
@@ -31,18 +79,6 @@ the action editor and the reviewers;
 we have put as much effort as we have been able to address all the comments and
 suggestions, which we believe have helped improve the quality of our paper.
 <!-- TODO: Complete -->
-
-Our manuscript presents a generalization of the multidimensional IRT parameters
-introduced by Reckase and Reckase & McKinley in their articles
-["The difficulty of test items that measure more than one ability" (1985)][1]
-and
-["The discriminating power of items that measure more than one dimension"
-(1991)][2],
-respectively.
-
-[1]: https://doi.org/10.1177/014662168500900409
-
-[2]: https://doi.org/10.1177/014662169101500407
 
 We thank you in advance for considering our reviewed manuscript.
 Please feel free to contact us again at my aforementioned email address
@@ -105,11 +141,15 @@ As far as we know, these standard error estimates are computed using the usual m
 > Does it improve the interpretation of the latent abilities and thus result in more insight into how the results are used?
 > The author needs to address this with legitimate examples for testing practitioners.
 
-
+We think the motivation and psychometric utility of our approach are more related with the interpretation of the item parameters than with the latent abilities.
+To our understanding, the better interpretation of the item parameters that results from our approach provides indeed a better insight into how the results are used.
+A multidimensional representation of the items provides benchmarks for comparing different latent trait levels, as discussed by @reckase_difficulty_1985.
+Therefore, the more accurate such representation is, the better the latent trait interpretation will be.
+<!-- TODO: Complete -->
 
 > What implications does your approach have for standard psychometric procedures like equating.
 
-
+<!-- TODO: Reply -->
 
 > Are there standard computer programs that you would recommend to do the estimation/modeling you are proposing?
 
@@ -129,54 +169,100 @@ However, we can do so if the journal accepts linking an external repository as s
 
 > 1. Introduction, too lengthy, 1-2 pages will be fine.
 
-
+Our introduction is a bit less than four pages long.
+We have provided concise paragraphs about the Multidimensional IRT model and its parameters, their assumptions, and our rationale to relax them.
+Finally, a last paragraph presents the objectives of our research.
+We honestly believe we have made a thorough effort to summarize the motivation of our research, and we find it difficult to shorten it further without losing relevant information to justify our work.
+Therefore, we are sorry to say that we cannot comply with the reviewer's request to shorten the introduction.
 
 > 2. Introduction, do you have any hypothesis for the current study? Please briefly describe it at the end.
 
-
+Our work is completely theoretical and thus uses a purely deductive method.
+Therefore, we do not have any hypothesis to test, but the results of the formal derivations that we present, adressing the objective crearly described at the end of our introduction.
 
 > 3. The details about the datasets should be described here.
 
-
+The datasets we use in our paper are examples of item parameter estimates, taken from the literature.
+As they only serve exemplification purposes, and are not the main focus of our article, we deem it more appropriate to describe their details in the corresponding section of the manuscript.
+We have added a short reference to them in the introduction, to make sure their pertinence as examples is clear.
 
 > 4. Within or between multidimensional latent? This should be detailed.
 
+We think the context makes it clear that we are referring to "within-item" multidimensionality.
+In fact, it is clear from the manuscript that the results are trivial in the "between-item" multidimensionality case,
+as the `r MDISC_SYM` parameter reduces to the only non-null component of the $`r DISCR_VECTOR`$ parameter.
+However, we acknowledge this terminology is prevalent in the current MIRT literature;
+therefore, we have now explained this in our "Model formulation" section.
+The end of the second paragraph reads now as follows:
 
+    > Third, as responses are not necessarily interpreted as correct or incorrect,
+    parameter $`r INTERCEPT_PARAM`$ is said to be related to the item _location_
+    instead of the item difficulty.
+    Finally, it is worth noting that
+    this formulation assumes *within-item multidimensionality* in general,
+    which will be present whenever more than one component of $`r DISCR_VECTOR`$
+    is non-null.
+    However, the model can also account for *between-item multidimensionality*,
+    if all items are unidimensional
+    (i.e., their $`r DISCR_VECTOR`$ parameters only have one non-null component).
 
 > 5. Limitation is missing and should be added here.
 
-
+Our last two paragraphs mention the most important limitations of our work.
+We clearly demarcate the limited scope of our conclusions, and warn against overgeneralizing our results to other MIRT models or the common factor model.
+We have put a great effort into writing our limitations in a way that is elegant and, at the same time, avoids cliché sentences that add little value.
+Therefore, we would rather not add a separate section for limitations.
 
 > 6. Conclusion is missing and should be added here.
 
-
+Similarly to the previous comment, we believe that our conclusions are thoroughly and carefully elaborated in our "Discussion" section, and we would prefer not to add an explicit "Conclusions" header.
 
 # Responses to Reviwer 2:
 
 > [...] it is difficult to ascertain its practical value, as it is unclear how it can be applied in the real world.
 
-
+<!-- TODO: Reply -->
 
 > While the manuscript includes a graphical representation example with two-dimensional latent variables, real-world applications often involve higher dimensions (e.g., the Big Five personality traits or
 Cattell’s 16 personality factors). If the current results cannot be applied to the
 high-dimensional cases, would that significantly limit their practical value and
 applicability?
 
+Although the graphical representation is limited to two dimensions, we propose a general algebraic formulation that may account for any number of dimensions.
+we have found our previous version to not be explicit enough about this, so we have updated the first paragraph of the "Model Formulation" section to read as follows:
 
+    > Consider a basis $`r LS_BASIS_EQ`$,
+    with $`r LS_BASIS`$ generally non-orthonormal.
+    Let $`r LATENT_SPACE`$ be a $`r N_DIMS`$-dimensional latent space
+    in basis $`r LS_BASIS`$ (with $`r N_DIMS`$ any positive integer),
+    where a respondent is represented by vector $`r TRAIT_VEC_IN_LS`$.
+    According to the `r MODEL_ACRONYM` model, the probability of
+    a positive response to item $`r ITEM_INDEX`$ is [...]
 
 > 1. In the 8th line from the bottom on page 9, the subscript in the formula is incorrect.
 > It should be “$\mathcal{C}$”.
 
-
+Thank you so much to Reviewer 2 for pointing out this typo.
+We have corrected it in the manuscript accordingly.
 
 > 2. The notations in the manuscript lack clarity, particularly in Eq. (19) on page 12.
 > Based on Eq. (5) and Eq. (15), $\mathbf{a}_i$ in the numerator of Eq. (19) should be $\mathbf{a}_i^{\mathcal{B}*}$.
 
-
+This case was also a typo; we have now corrected it in the manuscript as well.
 
 > Similar issues occur in Eqs. (26) and (27) on page 17.
 
+Our intention in Equations (26) and (27) was to express the item vector coordinates in terms of the original model parameters directly.
+To do that, we have made use of the expression $`r DISCR_VECTOR_COORDS_EQ`$, stated in p. 7.
+(That is, the geometric coordinates in the original test-space basis are equal to the algebraic values of the discrimination parameter.)
+However, we acknowledge that we have skipped a step in our discrourse, thus making harder than necessary to follow along.
+To correct this, we have modified the immediately preceding paragraph to the following:
 
+    > Of course,
+    from Equations \@ref(eq:origin-coords-result) and \@ref(eq:end-coords-result)
+    it is easy to express the coordinates in terms of the parameters in the original
+    model formulation.
+    Given $`r DISCR_VECTOR_COORDS_EQ`$, we can express the coordinates as
 
 > 3. In the second graph on page 18, the authors state, “*That is, the less discriminating the item, the further it will be from the origin.*”
 > However, the value of $D_i$ is influenced not only by the $MDISC_i$ parameter but also by $d_i$.
