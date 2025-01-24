@@ -117,7 +117,7 @@ Our manuscript does not propose an estimation or modeling method.
 On the contrary, what we propose is a way to compute and represent the multidimensional item parameters without disregarding the covariance structure of the latent space.
 Implementing the formulae we propose, using the standard output of most MIRT software, should be straightforward for most IRT researchers.
 
-We have written extensive code in R for computing these parameters, which we intend to open up for public use and scrutiny in a GitHub repository that includes all the code, data, and examples (including all the R packages to re-create the necessary environment to grant computational reproducibility), allowing to generate all the tables, plots, examples, and even the submitted version of the manuscript.
+We have written extensive code in R for computing these parameters, which we intend to open up for public use and scrutiny in a GitHub repository that includes all the code, data, and examples (including all the R packages to re-create the necessary environment to grant computational reproducibility), allowing to generate all the tables, plots, and even the submitted versions of the manuscript.
 Using dedicated functions in our code, any interested researcher will be able to compute the multidimensional parameters from the output of any MIRT software (e.g., {mirt} <!-- TODO: Add reference -->, FlexMIRT <!-- TODO: Add reference -->).
 As the journal guidelines require a specific format for the Supplementary Material,
 <!-- TODO: Check this -->
