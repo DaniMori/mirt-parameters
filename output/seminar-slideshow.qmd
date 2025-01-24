@@ -3685,22 +3685,30 @@ Sin embargo, hay que tener en cuenta que Reckase explicitaba como condición que
 
 ## Ítems "inversos" en la literatura {.smaller}
 
-> the negative relation of Item 15 with geometry achievement is particularly puzzling
+:::::: columns
+:::: {.column width="62%"}
+> \[...\] the negative relation of Item 15 with geometry achievement is particularly puzzling.
 
 ---@mcdonald_basis_2000 [p. 109]
-
-<br>
 
 ::: fragment
 > This result occurs because $a_1$ for the item is negative, and thus as an examinee's $\theta_1$ ability increases, the chance of answering the item correctly actually decreases.
 
 ---@ackerman_multidimensional_2005-1 [p. 17]
 :::
+::::
 
-<br>
+::: {.column width="38%"}
+![Ítems de "ACT Mathematics Usage Test"](../www/Fig_1-6_Contemporary_Psychometrics.png){fig-align="left"}
+:::
+::::::
 
 ::: {.fragment .r-center}
 ### Generalización: "Monotonía constante"
+:::
+
+::: aside
+Figura tomada de @ackerman_multidimensional_2005-1
 :::
 
 ::: notes
