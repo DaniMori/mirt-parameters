@@ -3725,11 +3725,14 @@ En lugar de eso, proponemos que los supuestos de Reckase se "relajen" para consi
 Este caso general incluye también la probabilidad constante (ya que es monotonía "nula constante", es decir, "el cambio es nulo de manera constante").
 Este tipo de ítems, positivos, negativos, o nulos, se pueden acomodar y modelar fácilmente por un modelo como el logístico de 2 parámetros multidimensional, como hemos visto.
 Ítems que estarían excluidos, por no tener monotonía constante, podrían ser formulaciones como, por ejemplo, "Soy tan extrovertido como la mayoría de mis amigos" (alguien puede decir, "No, soy más introvertido que todos ellos", respuesta negativa con rasgo bajo, o "Qué va, soy el más extrovertido con diferencia", respuesta negativa con rasgo alto).
+
+Bien, esto por lo que respecta a los ítems que denominamos "inversos" (o que tienen parámetros de discrimiinación / pesos factoriales inversos).
+Como veis, esta generalización es necesaria cuando hablamos de medición en el dominio "no cognitivos"; en el cognitivo, ya vimos que no tenía sentido, y de ahí que hiciera falta esta matización.
 :::
 
 ## Supuestos: Ortogonalidad
 
-> before performing the differentiation, the constraint that <!-- # TODO: Sum of cosines^2 = 1 --> is added to the expression for the slope \[...\]
+> \[...\] before performing the differentiation, the constraint that $\cos^2 \, \mathbf{\alpha} = 1$ is added to the expression for the slope \[...\]
 
 ---@reckase_difficulty_1985 [p. 404]
 
@@ -3737,15 +3740,32 @@ Este tipo de ítems, positivos, negativos, o nulos, se pueden acomodar y modelar
 
 <!-- # TODO: Coordenadas rectangulares resultantes de una rotación oblicua -->
 
-::: notes
-Otro de los supuestos que hace Reckase originalmente para calcular los parámetros es este: Los cosenos al cuadrado suman 1.
-Es decir, está aplicando el teorema de Pitágoras, pero ello implica de manera implícita que los ejes del espacio latente son "ortogonales" (forman ángulos de 90 grados).
+::::: columns
+::: column
+:::
 
-Esto en TRI multidimensional originalmente tenía sentido, ya que no se tenía muy en cuenta la interpretación de los parámetros de rasgo latente.
-O bien no importaba mucho que los ejes se pudieran interpretar como rasgos latentes, o se interpretaban de manera no necesariamente muy precisa.
+::: column
+:::
+:::::
+
+::: notes
+Ahora, la TRI multidimensional también dijimos que se interesaba sobre todo por medir (y ordenar) a las personas, no tanto por interpretar sustantivamente esas dimensiones de rasgo latente.
+De ahí que estimar un modelo con suficientes dimensiones para explicar la variabilidad entre los sujetos fuese importante, pero no era tan importante cuáles fueran esas dimensiones.
+Por eso, hay un supuesto, implícito muchas veces en TRI, de que las dimensiones no están correlacionadas: Se estima el modelo con N dimensiones, las que haga falta, añadiendo restricciones a los ítems para identificarlas, y eso da lugar a N dimensiones independientes entre sí (con correlaciones de 0), representadas en N ejes ortogonales (ángulos rectos todos ellos).
+Que esos ejes representen competencia o habilidad en esto o lo otro, en principio, nos da igual.
+Con asegurarnos de que hay suficientes dimensiones para "capturar" toda la variabilidad debida a esos rasgos nos basta.
+
+Pues bien, ese es el otro supuesto que hace Reckase para calcular los parámetros multidimensionales: Los cosenos directores del ítem al cuadrado suman 1.
+Es decir, está aplicando el teorema de Pitágoras.
+Esta expresión implica, de manera implícita, que todos los ejes del espacio latente son "ortogonales" entre sí.
+Como digo, en TRI originalmente no importaba mucho que los ejes se pudieran interpretar como rasgos latentes.
+
+\[NEXT\]
 
 No obstante, en 1999 llega McDonald, y dice que la TRI y el AF son fundamentalmente la misma cosa.
-Pero en AF tenemos dimensiones correlacionadas la mayoría de las veces, y eso como hemos visto implica hacer rotaciones oblicuas que dan lugar a ejes no ortogonales.
+Pero en AF tenemos dimensiones correlacionadas la mayoría de las veces, y eso como hemos visto implica hacer rotaciones oblicuas, que dan lugar a ejes no ortogonales.
+
+\[NEXT\]
 
 Los pesos factoriales resultantes (o discriminaciones) los podemos representar sin ningún problema en coordenadas rectangulares (las llamadas "coordenadas Cartesianas").
 Pero algo parece fallar cuando generalizamos los parámetros multidimensionales de TRI que hemos mostrado antes a esos espacios de coordenadas no ortogonales.
