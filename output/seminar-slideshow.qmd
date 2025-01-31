@@ -3699,6 +3699,8 @@ Sin embargo, hay que tener en cuenta que Reckase explicitaba como condición que
 ::::
 
 ::: {.column width="38%"}
+<!-- TODO: Annotate figure? -->
+
 ![Ítems de "ACT Mathematics Usage Test"](../www/Fig_1-6_Contemporary_Psychometrics.png){fig-align="left"}
 :::
 ::::::
@@ -3976,22 +3978,344 @@ Esta propiedad se llama invarianza.
 Veámoslo con un ejemplo.
 :::
 
-## Supuestos: Ortogonalidad
+## Supuestos: Ortogonalidad {.smaller}
 
-<!-- # TODO: Ejemplo de item en coordenadas ortogonales (gráfico y vectorial) -->
+::::::: columns
+::: column
+```{r item-oblique-axes-1}
+#| fig-align:  center
+#| fig-height: 8
+#| fig-width:  8
+mirt_item <- tribble(
+  ~item, ~a_1, ~a_2, ~d,
+  1,     0.5,  1,    0
+)
 
-<!-- # TODO: Ejemplo de rotación oblicua (gráfico de ejes y matriz de rotación) -->
+mirt_item_params <- mirt_item |>
+  compute_mirt_params(d, starts_with('a'))
+
+mirt_item_coords <- mirt_item_params |>
+  compute_mirt_coords(D, MDISC, starts_with("cos"), original_coords = FALSE) |>
+    rename_with(str_remove, pattern = "transf_")
+
+item_spikes <- mirt_item_coords        |>
+  slice(1 |> rep(2))                   |>
+  add_column(dim = 'F' |> paste0(1:2)) |>
+  mutate(
+    origin_1 = if_else(dim == 'F1', end_1, origin_1),
+    origin_2 = if_else(dim == 'F2', end_2, origin_2),
+  )
+
+mirt_item_coords |>
+  ggplot(
+    aes(
+      origin_1, origin_2,
+      xend = end_1,
+      yend = end_2,
+      color = factor(item), fill = factor(item)
+    ),
+  )                                                  +
+  geom_vline(xintercept = 0, linewidth = GRID_WIDTH) +
+  geom_hline(yintercept = 0, linewidth = GRID_WIDTH) +
+  geom_segment(
+    data = item_spikes,
+    mapping = aes(origin_1, origin_2, xend = end_1, yend = end_2),
+    linewidth = LINE_WIDTH,
+    linetype  = '43',
+    color     = PALETTE_BLUE["light"]
+  ) +
+  geom_segment(
+    arrow     = arrow(angle = 20, length = unit(10, "points"), type = "closed"),
+    linejoin  = "mitre",
+    linewidth = VECTOR_WIDTH
+  ) +
+  scale_x_continuous(
+    limits       = c(-0.75, 1.5),
+    breaks       = (-1:3)/2,
+    minor_breaks = NULL,
+    name         = NULL,
+    expand       = expansion(),
+    sec.axis     = dup_axis(name = "*&theta;*~2~", labels = NULL)
+  ) +
+  scale_y_continuous(
+    limits       = c(-0.75, 1.5),
+    breaks       = (-1:3)/2,
+    minor_breaks = NULL,
+    name         = NULL,
+    expand       = expansion(),
+    sec.axis     = dup_axis(name = "*&theta;*~1~", labels = NULL)
+  ) +
+  scale_color_manual(values = unname(PALETTE_BLUE["normal"]), guide = NULL) +
+  annotate(
+    "richtext",
+    x = c(0.5, -0.1), y = c(-0.1, 1),
+    label         = c("*a*^*^~11~", "*a*^*^~21~"),
+    size          = 8,
+    label.colour  = NA,
+    label.padding = unit(0, "lines"),
+    fill = NA
+  ) +
+  coord_fixed(clip = "on") +
+  theme(
+    axis.line          = element_blank(),
+    axis.title         = element_markdown(size = 20, padding = unit(0, "lines")),
+    axis.title.x       = element_markdown(hjust = 1/3),
+    axis.title.y.right = element_markdown(vjust = 1/3),
+    axis.ticks         = element_blank(),
+    panel.grid.major   = element_line(
+      linewidth = GRID_WIDTH,
+      linetype  = "17"
+    )
+  )
+```
+:::
+
+::::: column
+::: fragment
+$$
+  \begin{align}
+    \mathbf{a}^*_1 &=
+      \begin{bmatrix}
+        0.5 \\
+        1
+      \end{bmatrix}\\
+      d^*_1 &= 0
+  \end{align}
+$$
+:::
+
+<br>
+
+::: fragment
+$$
+  \begin{align}
+    MDISC^*_1 &= \sqrt{
+        [0.5, 1]
+        \begin{bmatrix}
+          0.5 \\
+          1
+        \end{bmatrix}
+      } \\
+      &= \sqrt{ 0.5 · 0.5 + 1 · 1 } \\
+      &= \sqrt{ 0.25 + 1 } \\
+      &= \sqrt{ 1.25 } \\
+      &\approx 1.12
+  \end{align}
+$$
+:::
+:::::
+:::::::
 
 ::: notes
-Supongamos este ítem, en coordenadas ortogonales.
-El vector muestra sus parámetros de discriminación en las dos dimensiones de los ejes representados.
-Esto sería la "solución sin rotar" que resulta típicamente de ajustar un modelo de TRI multdimensional, o un AFE exploratorio.
+Supongamos un ítem, en coordenadas ortogonales (de una solución sin rotar).
+(Con vuestro permiso, le voy a llamar "a asterico", para representar las coordenadas "originales" de una solución ortogonal, antes de una rotación).
+El vector muestra los componentes de su parámetrosde discriminación en las dos dimensiones de los ejes representados.
+Esto sería la "solución sin rotar" que resulta típicamente de ajustar un modelo de TRI multdimensional, o un análisis factorial exploratorio (si lo convertimos a métrica de TRI).
 La discriminación multidimensional de este vector es (explicar paso a paso).
 
 Supongamos que aplicamos una rotación oblicua.
-Hemos identificado dos rasgos latentes sustantivos, correlacionados entre sí.
+Imaginad, por ejemplo, que la solución incluye más ítems aparte de este, y cada uno de los ejes se alinea con un grupo de ítems después de hacer la rotación, de forma que da una solución próxima a la estructura simple.
+Esa rotación como digo es oblicua, da lugar a dos ejes no ortogonales, y cada eje se identifica con un rasgo latente sustantivo.
+Como son oblicuos, la solución representa que esos dos rasgos latentes están correlacionados entre sí, con una correlación "la que sea", no nos importa cuál en este momento.
+:::
+
+## Supuestos: Ortogonalidad {.smaller}
+
+:::::::: columns
+::: column
+```{r item-oblique-axes-2}
+#| fig-align:  center
+#| fig-height: 8
+#| fig-width:  8
+BASIS_VEC_1 <- c(1, 0)
+BASIS_VEC_2 <- c(-.5, 1)
+
+axis_slope <- BASIS_VEC_2[2] / BASIS_VEC_2[1]
+transf_matrix <- cbind(BASIS_VEC_1, BASIS_VEC_2) |> unname()
+
+item_coords_transf <- mirt_item_coords |>
+  pivot_longer(-item) |>
+  separate(name, into = c("coord", "dim")) |>
+  group_by(coord) |>
+  mutate(
+    dim   = paste0('F', dim),
+    value = solve(transf_matrix) %*% value |> drop()
+  ) |>
+  ungroup() |>
+  pivot_wider(names_from = dim)
+
+item_spikes_transf <- item_coords_transf         |>
+  select(-item)                                  |>
+  filter(coord == "end")                         |>
+  bind_rows(tibble(F1 = 0, F2 = 0))              |>
+  complete(F1, F2, fill = list(coord = "start")) |>
+  filter(F1 != 0 | F2 != 0)
+
+item_spikes_transf <- item_spikes_transf               |>
+  bind_rows(item_spikes_transf |> slice(3))            |>
+  mutate(n = paste0('F', (row_number() + 1) %% 2 + 1)) |>
+  pivot_wider(names_from = coord, values_from = F1:F2)
+
+item_spikes_transf_ob <- item_spikes_transf |>
+  pivot_longer(starts_with("F")) |>
+  separate(name, into = c("dim", "coord")) |>
+  pivot_wider(names_from = coord, values_from = value) |>
+  group_by(n) |>
+  mutate(
+    start = (transf_matrix %*% start |> drop()),
+    end   = (transf_matrix %*% end   |> drop())
+  ) |>
+  pivot_wider(names_from = dim, values_from = start:end)
+
+mirt_item_coords |>
+  ggplot(
+    aes(
+      origin_1, origin_2,
+      xend = end_1,
+      yend = end_2,
+      color = factor(item), fill = factor(item)
+    ),
+  ) +
+  geom_abline(
+    intercept = -2:3,
+    slope     = -2,
+    linewidth = GRID_WIDTH,
+    linetype  = "17",
+    color     = AXIS_COLOR
+  ) +
+  geom_abline(slope = -2, linewidth = GRID_WIDTH) +
+  geom_hline(yintercept = 0,  linewidth = GRID_WIDTH) +
+  geom_segment(
+    data = item_spikes_transf_ob,
+    mapping = aes(start_F1, start_F2, xend = end_F1, yend = end_F2),
+    inherit.aes = FALSE,
+    linewidth = LINE_WIDTH,
+    linetype  = '43',
+    color     = PALETTE_BLUE["light"]
+  ) +
+  geom_segment(
+    arrow     = arrow(angle = 20, length = unit(10, "points"), type = "closed"),
+    linejoin  = "mitre",
+    linewidth = VECTOR_WIDTH
+  ) +
+  scale_x_continuous(
+    limits       = c(-0.75, 1.5),
+    breaks       = (-2:2)/2 + .375,
+    labels       = ~. - .375,
+    minor_breaks = NULL,
+    name         = NULL,
+    expand       = expansion(),
+    sec.axis     = dup_axis(name = "*&theta;*~2~", labels = NULL)
+  ) +
+  scale_y_continuous(
+    limits       = c(-0.75, 1.5),
+    breaks       = (-1:2)/2,
+    minor_breaks = NULL,
+    name         = NULL,
+    expand       = expansion(),
+    sec.axis     = dup_axis(name = "*&theta;*~1~", labels = NULL)
+  ) +
+  scale_color_manual(values = unname(PALETTE_BLUE["normal"]), guide = NULL) +
+  annotate(
+    "richtext",
+    x = c(1, -0.59), y = c(-0.07, 1),
+    label         = c("*a*~11~", "*a*~21~"),
+    size          = 8,
+    label.colour  = NA,
+    label.padding = unit(0, "lines"),
+    fill = NA
+  ) +
+  coord_fixed(clip = "on") +
+  theme(
+    axis.line          = element_blank(),
+    axis.title         = element_markdown(size = 20, padding = unit(0, "lines")),
+    axis.title.x       = element_markdown(hjust = 0),
+    axis.title.y.right = element_markdown(vjust = 1/3),
+    axis.ticks         = element_blank(),
+    panel.grid.major.y = element_line(
+      linewidth = GRID_WIDTH,
+      linetype  = "17"
+    )
+  )
+```
+:::
+
+:::::: column
+::: fragment
+$$
+  \mathbf{Q} = \begin{bmatrix}
+      1 & 0.5 \\
+      0 & 1
+    \end{bmatrix}
+$$
+:::
+
+::: fragment
+$$
+  \begin{align}
+    \mathbf{a}_1 =
+    \mathbf{Q} \mathbf{a}^*_1 &= \begin{bmatrix}
+      1 & 0.5 \\
+      0 & 1
+    \end{bmatrix}
+    \begin{bmatrix}
+      0.5 \\
+      1
+    \end{bmatrix} \\
+    &= \begin{bmatrix}
+      1 · 0.5 + 0.5 · 1 \\
+      0 · 0.5 + 1 · 1
+    \end{bmatrix} \\
+    &= \begin{bmatrix}
+      0.5 + 0.5 \\
+      0   + 1
+    \end{bmatrix}
+    = \begin{bmatrix}
+      1 \\
+      1
+    \end{bmatrix}
+  \end{align}
+$$
+:::
+
+::: fragment
+$$
+  \begin{align}
+    \mathbf{a}_1 &=
+      \begin{bmatrix}
+        1 \\
+        1
+      \end{bmatrix}\\
+      d_1 &= d^*_1 = 0
+  \end{align}
+$$
+:::
+::::::
+::::::::
+
+::: notes
 Los ejes resultantes son los que se muestran en este gráfico.
-Los nuevos parámetros de discriminación del ítem están representadas cada una por la "proyección" de ese vector sobre cada uno de los ejes (paralela al otro, u otros, si hay más de dos).
+No es exactamente una rotación, ya que el eje oblicuo \[señalar\] es un poco más largo (si lo rotáramos solamente acabaría por aquí \[señalar\]), pero para el caso es una transformación de los ejes, y cualquier transformación lineal nos sirve para ejemplificar, y así simplificamos el ejemplo.
+Los nuevos valores del parámetros de discriminación del ítem, en este caso ya sí lo llamo "a", porque esta es la solución rotada, la que me interesa, la que es interpretable según mi teoría, están representados cada uno por la "proyección" de ese vector sobre cada uno de los ejes (proyección paralela al otro eje, u otros, si hubiera más de dos).
+
+Hacer una rotación supone "multiplicar" las coordenadas de este vector por la matriz de rotación que representa ese nuevo sistema de coordenadas (la transformación del ortogonal a este nuevo, oblicuo).
+
+\[NEXT\]
+
+En este caso, la matriz de rotación es esta (la llamamos matriz Q).
+Esta es la matriz que convierte las coordenadas del espacio ortogonal original a las coordenadas transformadas (coordenadas "rotadas").
+
+\[NEXT\]
+
+Como los vectores se representan en columnas, se "pre-multiplica" por la matriz de rotación.
+Esto es parecido a multiplicar por un vector; es como si cada fila de la matriz fuese un vector, y los resultados se ponen cada uno en una fila.
+\[Explicar paso a paso el producto matricial\]
+
+\[NEXT\]
+
+El resultado es, como vemos en el gráfico, (1, 1).
+El parámetro de discriminación de este ítem, en su solución rotada, interpretable, es este, (1, 1).
+El valor de la intersección del modelo no cambia.
 :::
 
 ## Supuestos: Ortogonalidad
@@ -4003,12 +4327,6 @@ Los nuevos parámetros de discriminación del ítem están representadas cada un
 <!-- # TODO: Cálculo de la discriminación en los ejes rotados -->
 
 ::: notes
-Hacer una rotación supone "multiplicar" las coordenadas de este vector por la matriz de rotación que representa ese nuevo sistema de coordenadas (la transformación del ortogonal a este nuevo, oblicuo).
-En este caso, esta es la matriza de rotación.
-Como los vectores se representan en columnas, se "pre-multiplica" por la matriz de rotación.
-Esto es parecido a multiplicar por un vector; es como si cada fila de la matriz fuese un vector, y los resultados se ponen cada uno en una fila.
-<!-- # TODO: Explicar paso a paso el producto matricial -->
-
 Si ahora calculamos la discriminación del ítem en estos ejes rotados, nos encontramos con este resultado.
 Es decir, ¿que el ítem discrimina mejor o peor en función de qué ejes quiera yo considerar?
 Eso no parece tener sentido, y sin embargo hay muchos ejemplos en la literatura que calculan esta discriminación multidimensional con la fórmula de Reckase (con "rasgos correlacionados") sin preocuparse por "los ejes" que representan esos rasgos de manera fidedigna.
