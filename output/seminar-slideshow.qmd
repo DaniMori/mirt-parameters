@@ -4318,18 +4318,147 @@ El parámetro de discriminación de este ítem, en su solución rotada, interpre
 El valor de la intersección del modelo no cambia.
 :::
 
-## Supuestos: Ortogonalidad
+## Supuestos: Ortogonalidad {.smaller}
 
-<!-- # TODO: Ejemplo de item en coordenadas ortogonales (gráfico y vectorial) -->
+::::::: columns
+::: column
+```{r item-oblique-axes-3}
+#| fig-align:  center
+#| fig-height: 8
+#| fig-width:  8
+mirt_item <- tribble(
+  ~item, ~a_1, ~a_2, ~d,
+  1,     1,    1,    0
+)
 
-<!-- # TODO: Ejemplo de item proyectado en los ejes rotados (gráfico y vectorial) -->
+mirt_item_params <- mirt_item |>
+  compute_mirt_params(d, starts_with('a'))
 
-<!-- # TODO: Cálculo de la discriminación en los ejes rotados -->
+mirt_item_coords <- mirt_item_params |>
+  compute_mirt_coords(D, MDISC, starts_with("cos"), original_coords = FALSE) |>
+    rename_with(str_remove, pattern = "transf_")
+
+item_spikes <- mirt_item_coords        |>
+  slice(1 |> rep(2))                   |>
+  add_column(dim = 'F' |> paste0(1:2)) |>
+  mutate(
+    origin_1 = if_else(dim == 'F1', end_1, origin_1),
+    origin_2 = if_else(dim == 'F2', end_2, origin_2),
+  )
+
+mirt_item_coords |>
+  ggplot(
+    aes(
+      origin_1, origin_2,
+      xend = end_1,
+      yend = end_2,
+      color = factor(item), fill = factor(item)
+    ),
+  )                                                  +
+  geom_vline(xintercept = 0, linewidth = GRID_WIDTH) +
+  geom_hline(yintercept = 0, linewidth = GRID_WIDTH) +
+  geom_segment(
+    data = item_spikes,
+    mapping = aes(origin_1, origin_2, xend = end_1, yend = end_2),
+    linewidth = LINE_WIDTH,
+    linetype  = '43',
+    color     = PALETTE_BLUE["light"]
+  ) +
+  geom_segment(
+    arrow     = arrow(angle = 20, length = unit(10, "points"), type = "closed"),
+    linejoin  = "mitre",
+    linewidth = VECTOR_WIDTH
+  ) +
+  scale_x_continuous(
+    limits       = c(-0.75, 1.5),
+    breaks       = (-1:3)/2,
+    minor_breaks = NULL,
+    name         = NULL,
+    expand       = expansion(),
+    sec.axis     = dup_axis(name = "*&theta;*~2~", labels = NULL)
+  ) +
+  scale_y_continuous(
+    limits       = c(-0.75, 1.5),
+    breaks       = (-1:3)/2,
+    minor_breaks = NULL,
+    name         = NULL,
+    expand       = expansion(),
+    sec.axis     = dup_axis(name = "*&theta;*~1~", labels = NULL)
+  ) +
+  scale_color_manual(values = unname(PALETTE_BLUE["normal"]), guide = NULL) +
+  annotate(
+    "richtext",
+    x = c(0.5, -0.1), y = c(-0.1, 1),
+    label         = c("*a*^*^~11~", "*a*^*^~21~"),
+    size          = 8,
+    label.colour  = NA,
+    label.padding = unit(0, "lines"),
+    fill = NA
+  ) +
+  coord_fixed(clip = "on") +
+  theme(
+    axis.line          = element_blank(),
+    axis.title         = element_markdown(size = 20, padding = unit(0, "lines")),
+    axis.title.x       = element_markdown(hjust = 1/3),
+    axis.title.y.right = element_markdown(vjust = 1/3),
+    axis.ticks         = element_blank(),
+    panel.grid.major   = element_line(
+      linewidth = GRID_WIDTH,
+      linetype  = "17"
+    )
+  )
+```
+:::
+
+::::: column
+::: fragment
+$$
+  \begin{align}
+    \mathbf{a}_1 &=
+      \begin{bmatrix}
+        1 \\
+        1
+      \end{bmatrix}\\
+      d_1 &= 0
+  \end{align}
+$$
+:::
+
+<br>
+
+::: fragment
+$$
+  \begin{align}
+    MDISC^*_1 &= \sqrt{
+        [1, 1]
+        \begin{bmatrix}
+          1 \\
+          1
+        \end{bmatrix}
+      } \\
+      &= \sqrt{ 1 · 1 + 1 · 1 } \\
+      &= \sqrt{ 1 + 1 } \\
+      &= \sqrt{ 2 } \\
+      &\approx 1.41
+  \end{align}
+$$
+:::
+:::::
+:::::::
 
 ::: notes
-Si ahora calculamos la discriminación del ítem en estos ejes rotados, nos encontramos con este resultado.
+Ahora bien, al igual que vimos antes, nadie me impide representar este ítem en coordenadas rectangulares.
+
+\[NEXT\]
+
+Y si el ítem está representado en coordenadas rectangulares, puedo aplicar, como vimos, las fórmulas de Reckase.
+Pero si hago eso, me encuentro con que el resultado de la discriminación es este, raíz de 2.
+Antes, recordaréis que era raíz de 1,25, aproximadamente 1,12.
+
 Es decir, ¿que el ítem discrimina mejor o peor en función de qué ejes quiera yo considerar?
-Eso no parece tener sentido, y sin embargo hay muchos ejemplos en la literatura que calculan esta discriminación multidimensional con la fórmula de Reckase (con "rasgos correlacionados") sin preocuparse por "los ejes" que representan esos rasgos de manera fidedigna.
+El ítem es exactamente el mismo, y por lo tanto su discriminación (multidimensional al menos, ya que no depende de la "dirección" a considerar, como los valores del vector de discriminación) debería ser la misma. Esta propiedad se llama "invarianza" del ítem.
+
+No tien sentido que cambie su discriminación multidimensional, y sin embargo hay muchos ejemplos en la literatura que la calculan con la fórmula de Reckase (con "rasgos correlacionados") sin preocuparse por "los ejes" que representan esos rasgos de manera fidedigna.
 <!-- # TODO: Ejemplos de la literatura -->
 :::
 
