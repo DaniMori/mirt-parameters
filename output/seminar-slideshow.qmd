@@ -29,13 +29,13 @@ institute: |
 bibliography:  ../www/Multidimensional-parameters-MCLM.bib
 csl:           ../www/apa-old-doi-prefix.csl
 date:          "2024-10-21"
-date-meta:     "2024-11-27"
+date-meta:     "2024-11-27" # TODO: Update
 date-format:   long
 editor:
   mode:        source
   markdown: 
-    wrap:      sentence
-    canonical: true
+    wrap:      sentence  # TODO: Restore
+    canonical: true # TODO: Restore
 execute: 
   cache:       true
 lang:          es
@@ -65,7 +65,7 @@ format:
     view-distance:           3
     template-partials:
       - ../www/slideshow-assets/title-slide.html
-editor_options: 
+editor_options:
   chunk_output_type: console
 ---
 
