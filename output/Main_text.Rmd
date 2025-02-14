@@ -171,7 +171,8 @@ critical misconceptions about the measurement model.
 
 The representation of a latent space where the traits are correlated is more
 accurate on a geometrical coordinate system with non-orthogonal axes
-[@ackerman_multidimensional_2005-1] and (possibly) non-standard units,
+[@ackerman_multidimensional_2005-1, p. 16, see footnote 1]
+and (possibly) non-standard units,
 often referred to as *general Cartesian coordinates* [@harman_modern_1970].
 Such a space has the advantage that the basis vectors and the axes they yield
 have a meaningful interpretation (albeit counterintuitive, as we will see)
@@ -308,6 +309,9 @@ with the dot product as inner product.
 Let $`r TRAIT_COORDS_EQ`$ and $`r TRAIT_COORDS_ORTH_EQ`$ be the coordinates of
 any $`r TRAIT_VEC_IN_LS`$ in $`r LS_BASIS`$ and $`r LS_ORTH_BASIS`$,
 respectively, such that $`r TRAIT_VECTOR_DEF_EQ`$.
+That is, vector $`r TRAIT_VECTOR`$ is represented in each of the two bases by
+the linear combination of its element vectors
+scaled by the coordinates of $`r TRAIT_VECTOR`$ in that basis.
 
 Let $`r BASIS_CHANGE_DEF`$ be the change of basis matrix between the two bases;
 then, we have that
