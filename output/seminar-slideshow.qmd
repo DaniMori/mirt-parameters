@@ -4008,8 +4008,11 @@ point_transf |>
 :::::
 
 ::: notes
-Las coordenadas resultantes de cualquier rotación oblicua las podemos representar sin ningún problema en ejes rectangulares (las llamadas "coordenadas Cartesianas rectangulares").
+Lo mismo pasa al representar los ejes de una rotación oblicua:
+Nada me impide representar las coordenadas resultantes en ejes rectangulares (las llamadas "coordenadas Cartesianas rectangulares").
 Son coordenadas, nada más; el espacio en el que yo las represente en realidad da igual.
+Y de hecho, esto lo habréis visto muchas veces; por ejemplo, SPSS representa los pesos factoriales siempre en coordenadas rectangulares, incluso después de aplicar una rotación oblicua.
+
 Así que si represento un ítem en ejes rectangulares, nada me impide aplicar las fórmulas de Reckase y obtener sus parámetros multidimensionales.
 
 Pero algo parece fallar cuando generalizamos los parámetros multidimensionales de TRI que hemos mostrado antes a esos espacios de coordenadas no ortogonales.
