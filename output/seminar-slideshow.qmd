@@ -3929,7 +3929,7 @@ Luego esta restricción que propone Reckase parece que en principio no se podrí
 
 ## (Pero, un inciso...)
 
-![](../www/slideshow-assets/isometric-cube.jpg){height="600" fig-align="center"}
+![Un cubo rojo en perspectiva isométrica](../www/slideshow-assets/isometric-cube.jpg){height="600" fig-align="center"}
 
 ::: aside
 Figura tomada de [Vecteezy](https://www.vecteezy.com/vector-art/3709640-isometric-cube-on-a-white-background)
