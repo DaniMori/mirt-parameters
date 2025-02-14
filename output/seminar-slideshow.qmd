@@ -3739,7 +3739,7 @@ Como veis, esta generalización es necesaria cuando hablamos de medición en el 
 ---@reckase_difficulty_1985 [p. 404]
 
 ::::: columns
-::: column
+::: {.column .fragment}
 ```{r oblique-rotation-axis-1}
 LIM_INF_X <- -2.7
 LIM_INF_Y <- -0.5
@@ -3803,6 +3803,9 @@ point |>
 Ahora, la TRI multidimensional también dijimos que se interesaba sobre todo por medir (y ordenar) a las personas, no tanto por interpretar sustantivamente esas dimensiones de rasgo latente.
 De ahí que estimar un modelo con suficientes dimensiones para explicar la variabilidad entre los sujetos fuese importante, pero no era tan importante cuáles fueran esas dimensiones.
 Por eso, hay un supuesto, implícito muchas veces en TRI, de que las dimensiones no están correlacionadas: Se estima el modelo con N dimensiones, las que haga falta, añadiendo restricciones a los ítems para identificarlas, y eso da lugar a N dimensiones independientes entre sí (con correlaciones de 0), representadas en N ejes ortogonales (ángulos rectos todos ellos).
+
+\[NEXT\]
+
 Que esos ejes representen competencia o habilidad en esto o lo otro, en principio, nos da igual.
 Con asegurarnos de que hay suficientes dimensiones para "capturar" toda la variabilidad debida a esos rasgos nos basta.
 
@@ -3913,7 +3916,44 @@ point |>
 
 ::: notes
 Pero en AF tenemos dimensiones correlacionadas la mayoría de las veces, y eso como hemos visto implica hacer rotaciones oblicuas, que dan lugar a ejes no ortogonales.
+
+Aquí vemos un ejemplo de ejes oblicuos (muy exagerado, eso sí).
+Imaginad que esto que estamos representando aquí es un punto sobre La Tierra, y sus coordenadas rectangulares son la longitud y latitud.
+
+Es posible que por algún motivo (no sé cuál, pero imaginémoslo) nos interesen las coordenadas en estos "ejes oblicuos": Este-Oeste, y uno que podría ser algo así como "Este-Sureste este este - Oeste-Noroeste oeste oeste".
+¿Se entiende claramente?
+Proyectando cada coordenada, de forma paralela a los ejes, obtendríamos las coordenadas en este nuevo sistema de "coordenadas geodésicas oblicuas".
+
 Luego esta restricción que propone Reckase parece que en principio no se podría aplicar.
+:::
+
+## (Pero, un inciso...)
+
+![](../www/slideshow-assets/isometric-cube.jpg){height="600" fig-align="center"}
+
+::: aside
+Figura tomada de [Vecteezy](https://www.vecteezy.com/vector-art/3709640-isometric-cube-on-a-white-background)
+:::
+
+::: notes
+Sin embargo, mirad este ejemplo:
+
+¿Qué veis?
+¿Un cubo, verdad?
+¿Son sus lados todos iguales?
+¿Y sus ángulos?
+Son todos ángulos rectos, se entiende.
+Pero si cojo un transportador de ángulos y mido, voy a ver que este mide 120 grados, y este 60.
+
+Este cubo está representado en un plano en perspectiva isométrica (Creo que todo el mundo sabe lo que es la perspectiva isométrica, si no de dibujo en bachillerato, de jugar a los SIMS, aunque sea).
+
+Bien, si ahora os pregunto por las diagonales de una cara, ¿diríais que son iguales?
+Y sin embargo, si mido (en este plano) las dos diagonales, vemos que son distintas.
+¿Estáis de acuerdo?
+
+Esta representación no es errónea: De hecho, se necesita algún sistema de perspectiva para representar un cuerpo sólido en dos dimensiones; la isométrica es solamente una de ellas.
+
+Es decir, que nada me impide, si lo necesito, representar unos ejes con un ángulo cualquiera (recto en este caso) como otro ángulo (120 grados).
 :::
 
 ## Supuestos: Ortogonalidad {.smaller}
@@ -4456,7 +4496,8 @@ Pero si hago eso, me encuentro con que el resultado de la discriminación es est
 Antes, recordaréis que era raíz de 1,25, aproximadamente 1,12.
 
 Es decir, ¿que el ítem discrimina mejor o peor en función de qué ejes quiera yo considerar?
-El ítem es exactamente el mismo, y por lo tanto su discriminación (multidimensional al menos, ya que no depende de la "dirección" a considerar, como los valores del vector de discriminación) debería ser la misma. Esta propiedad se llama "invarianza" del ítem.
+El ítem es exactamente el mismo, y por lo tanto su discriminación (multidimensional al menos, ya que no depende de la "dirección" a considerar, como los valores del vector de discriminación) debería ser la misma.
+Esta propiedad se llama "invarianza" del ítem.
 
 No tien sentido que cambie su discriminación multidimensional, y sin embargo la literatura está llena de ejemplos que calculan este parámetro con la fórmula de Reckase (en un espacio de "rasgos correlacionados", que en seguida veremos por qué eso es importante), y que no se preocupan por "los ejes" que representan esos rasgos de manera fidedigna.
 <!-- # TODO: Ejemplos de la literatura? -->
