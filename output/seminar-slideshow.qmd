@@ -4503,12 +4503,14 @@ El ítem es exactamente el mismo, y por lo tanto su discriminación (multidimens
 Esta propiedad se llama "invarianza" del ítem.
 
 No tien sentido que cambie su discriminación multidimensional, y sin embargo la literatura está llena de ejemplos que calculan este parámetro con la fórmula de Reckase (en un espacio de "rasgos correlacionados", que en seguida veremos por qué eso es importante), y que no se preocupan por "los ejes" que representan esos rasgos de manera fidedigna.
-<!-- # TODO: Ejemplos de la literatura? -->
 :::
 
-## Generalización: "Coordenadas oblicuas"
+## Generalización: Coordenadas oblicuas
+
+<!-- TODO: ACT en McDonald, 1999? -->
 
 ::: notes
+<!-- # TODO: Corregir referencia de Ackerman? -->
 Para la representación gráfica esto puede valer, como dice Ackerman aquí.
 Pero a la hora de calcular los parámetros (y Ackerman lo hace en este capítulo de libro), solamente considerar el caso ortogonal, la información que obtenemos resulta deficiente.
 :::
