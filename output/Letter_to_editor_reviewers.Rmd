@@ -268,67 +268,105 @@ To correct this, we have modified the immediately preceding paragraph to the fol
 > However, the value of $D_i$ is influenced not only by the $MDISC_i$ parameter but also by $d_i$.
 > For instance, in Table 1 on page 20, $d_i$ for item 1 is zero, meaning that regardless of $MDISC_i$, $D_i$ remains zero.
 
+The reviewer is right in this respect; we made the mistake of assuming this relationship was obvious enough, but we acknowledge it may be confusing to the reader to refer to the $MDISC_i$ and obviate the influence of $d_i$. 
+We have added a clarification in this respect to the end of the paragraph, which now reads:
 
+    > That is, the less discriminating the item is,
+    the further away it will be from the origin.
+    Of course, it is also directly proportional to
+    the intercept parameter $`r INTERCEPT_PARAM`$.
+    This implies that, if $`r INTERCEPT_NULL_EQ`$,
+    $`r DISTANCE_NULL_EQ`$ as well,
+    regardless of the discrimination.
 
 # Responses to Reviwer 3:
 
 > The manuscript highlights the fact that the coordinate system used to represent results typical of educational achievement and other types of social measures is at the discretion of the person performing the analysis, or the entities developing computer software, if default settings are used in the analysis.
 
-
+Although we argue indeed that the coordinate system is arbitrary, our stance is also that there is a more interpretable approach than simply assuming orthogonal axes.
+This approach implies that there is a geometric basis (and thus a coordinate system) that can be considered a faithful representation of the covariance structure.
 
 > This is a very important issue and it is not frequently discussed in the research literature. Two researchers can administer the identical instrument to samples of individuals with different characteristics – say typical high school students versus those who have a different native language – and get different representations of the test results from analyses programs, such as the correlations between estimated constructs.  This manuscript stimulates much thought related to this problem.
 
+We are glad that the reviewer has found our work thought-provoking.
+We argue indeed that different samples may yield different latent covariance structures.
+This problem has received much attention in the factor analysis literature (i.e., factorial invariance), it has been largely overlooked in the MIRT literature, where any covariance structure is usually represented in orthogonal axes (implying an orthonormal basis).
 
-
-> I was at a loss at the end of the discussion to identify the interpretive or methodological value that was gained by working with non-orthogonal axes.
+> [...] I was at a loss at the end of the discussion to identify the interpretive or methodological value that was gained by working with non-orthogonal axes.
 > The correlation between items can be represented by the angle between item vectors in the space with orthogonal axes, and the correlation between coordinates for persons can be represented by the shape of the scatter plot of points representing the individuals.
 > How are these features interpreted when the coordinate axes are non-orthogonal?  
 
+We believe that non-orthogonal axes provide a faithful representation of the latent covariance structure:
+In geometrical terms, the cosine between axes directly maps to the correlation between the two dimensions represented by those axes.
+In the orthogonal space, the angles between items are "distorted" and do not faithfully represent the correlation among those items.
+Consider the following example: Two simple items, each measuring a single dimension of a two-dimensional construct, will always be represented by a 90-degree angle in the orthogonal coordinate system.
+If those two dimensions are uncorrelated, so the items will also be.
+However, suppose those two dimensions are highly correlated; in that case, the items would also have to be equally highly correlated, but would still be represented by a 90-degree angle in orthogonal coordinates.
+Therefore, our argument is that the correlation among items is better represented by the cosines of their vectors in the non-orthogonal space.
 
+Regarding the person parameters, the interpretation is more complicated:
+If the original, correlated coordinates of the persons are represented in the orthogonal space, the shape of the scatter plot indeed represents the correlation between the latent trait coordinates.
+However, our rationale is that a basis may be used such that, when the coordinates are transformed to an orthonormal one, the resulting scatter plot is spherical (i.e. its covariance is an identity matrix).
+This results in a basis (and an associated coordinate system) that does not have a direct interpretation, save for being the "inverse transpose" of the basis where we argue the items are faithfully represented.
 
 > Care needs to be taken when using nonorthogonal coordinates that the distances between points in the space are correctly represented.
 > What formula should be used for the distance between two points in each case?
 
-
+The distances between points are given by the norm, which we argue to be invariant to changes of bases.
+Interestingly, when considering the covariance-based version of the multidimensional parameters, the distance between points in the latent space is given by the Mahalanobis distance.
 
 > Page 3  Line 20 I could not find a discussion of nonorthogonal dimensions in Ackerman (2005).
 > It would help if a page number were provided for the discussion.
 
-
+We apologize for the lack of clarity.
+We intended to refer to footnote 1 in page 16, we have correctly referenced the page and footnote in the new version.
 
 > I also wonder about the Harman (1970) reference.
 > I know that he shows a plot of length of arm against length of leg using orthogonal axes for the plot even though the two measures are correlated.
 > I am not not sure how the axes should be oriented to reflect the correlation between the two measures.
 
-
+We intended to refer to <!-- # TODO: Complete -->
+Please note that, as we do not have access to the 2nd edition anymore, we have used the 3rd one in our new version, and updated all the references accordingly.
 
 > Page 6  Line 21 The expression on this line needs more explanation.
 > I am not sure what the expression is supposed to represent.
 
+This is the expression of a vector represented in a basis, in this case, representing that the vector can be represented in each of the two bases indistinctly.
+Following the reviewer's suggestion, we have added this clarification to the text, so it now reads:
 
+    > [...] such that $`r TRAIT_VECTOR_DEF_EQ`$.
+    That is, vector $`r TRAIT_VECTOR`$ is represented in each of the two bases by
+    the linear combination of its element vectors
+    scaled by the coordinates of $`r TRAIT_VECTOR`$ in that basis.
 
 > Page 7  Line 24 The meaning of the superscripts is not clear in this expression.
 > What is the source of the -1T?  Is that the transpose of the inverse?
 > Do the -1 superscripts indicate an inverse?
 
-
+The -1 superscripts indeed indicate the inverse of a matrix.
+This has been an unfortunate typesetting problem of the submission system,
+that renders the -1 and the *T* at the same height.
+We have sorted this out by using parentheses, as you will be able to see in our new submission.
 
 > Page 13 Line 4 The implications of the word “indistinctly” in this sentence are not clear.
 
-
+<!-- # TODO: Add response -->
 
 > Page 13 Line 8 The statement “the test space is where the item parameters naturally lie” seems to imply there is a correct representation of the item parameters.
 > But, the correlations between constructs changes with the sample of examinees and the coordinates can easily be rotated and translated giving different representations of the item parameters.
 > I would like to see support for the statement.
 
-
+What we want to imply is that there are two different spaces, the latent space, and the test space, and that, unlike the latent traits, which "naturally lie" in the latent space, the item parameters "naturally lie in the test space", even though they can be projected onto the latent space.
+This happens even when the basis of the latent space (and, consequently, that of the test space) is orthonormal, whih we argue is overlooked (due to a lack of need to make this distinction) in Reckase's original formulations.
 
 > Page 19 Line 8 There is an interesting distinction that seems to be lost here.
 > Attributes can be measured independently, such as height and weight and yield correlated results.
 > Under those circumstances, should axes be represented as orthogonal, or should the axes represent the correlation.
 > This has an implication for the formula that is used to compute the distance between points in the space.
 
-
+As we mentioned above, when the attributes are correlated, a distance measure that keeps the norm invariant in the latent space is the Mahalanobis distance.
+One should make the distinction between representing the attributes being measured (i.e., the latent traits) and the variables measuring those attributes (in our case, the items).
+It is when we represent the items that we should use axes that "faithfully represent the covariance structure", and not when we represent the attributes.
 
 > Page 22 Figure 1 It seems that both of these plots are shown with orthogonal coordinate axes.
 > But the orthogonal axes have changed so that the nonorthogonal axes can be shown in the orthogonal representation.

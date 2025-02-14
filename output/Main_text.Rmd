@@ -950,6 +950,10 @@ that displacement will be inversely proportional
 to the discrimination of the item.
 That is, the less discriminating the item is,
 the further away it will be from the origin.
+Of course, it is also directly proportional to
+the intercept parameter $`r INTERCEPT_PARAM`$.
+This implies that, if $`r INTERCEPT_NULL_EQ`$, $`r DISTANCE_NULL_EQ`$ as well,
+regardless of the discrimination.
 
 The measurement direction is given by
 the signs of $`r DIR_COS_ITEM_VEC_BASIS_TS`$ which,

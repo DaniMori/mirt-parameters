@@ -1169,6 +1169,10 @@ END_ITEM_PARAMS_EQ     <- latex_eq(
 
 #### Geometric properties of the parameters: ----
 
+# Signed distance:
+INTERCEPT_NULL_EQ <- latex_eq(INTERCEPT_PARAM, 0)
+DISTANCE_NULL_EQ  <- latex_eq(DISTANCE_PARAM, 0)
+
 # Direction cosines:
 ANGLE_VECTORS_ITEM   <- latex_sub(ANGLE_TS, "$ITEM_INDEX$$DIM_INDEX$")
 COS_VECTORS_ITEM     <- latex_cos(ANGLE_VECTORS_ITEM)
