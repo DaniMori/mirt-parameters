@@ -4432,7 +4432,7 @@ mirt_item_coords |>
   annotate(
     "richtext",
     x = c(0.5, -0.1), y = c(-0.1, 1),
-    label         = c("*a*^*^~11~", "*a*^*^~21~"),
+    label         = c("*a*~11~", "*a*~21~"),
     size          = 8,
     label.colour  = NA,
     label.padding = unit(0, "lines"),
@@ -4472,7 +4472,7 @@ $$
 ::: fragment
 $$
   \begin{align}
-    MDISC^*_1 &= \sqrt{
+    MDISC^_1 &= \sqrt{
         [1, 1]
         \begin{bmatrix}
           1 \\
