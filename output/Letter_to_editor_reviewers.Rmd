@@ -319,7 +319,7 @@ Interestingly, when considering the covariance-based version of the multidimensi
 > It would help if a page number were provided for the discussion.
 
 We apologize for the lack of clarity.
-We intended to refer to footnote 1 in page 16, we have correctly referenced the page and footnote in the new version.
+We intended to refer to footnote 1 in page 16, we have now completed the reference.
 
 > I also wonder about the Harman (1970) reference.
 > I know that he shows a plot of length of arm against length of leg using orthogonal axes for the plot even though the two measures are correlated.
@@ -371,19 +371,35 @@ It is when we represent the items that we should use axes that "faithfully repre
 > Page 22 Figure 1 It seems that both of these plots are shown with orthogonal coordinate axes.
 > But the orthogonal axes have changed so that the nonorthogonal axes can be shown in the orthogonal representation.
 
-
+That is exactly the case.
+All graphical devices require that coordinates are represented in a rectangular Cartesian system such that the first coordinate maps to the horizontal dimension and the second coordinate to the vertical one.
+Therefore, even when computing the coordinates in a non-orthonormal basis, we need to transform them to the canonical one to plot them.
+This is explained in our manuscript, in p. 19 (lines 9-14) in the original version, and in p. <!-- # TODO: Complete --> (lines <!-- # TODO: Complete -->) in the new submission.
+We are unsure about how to make this clearer, we are afraid, so we would appreciate any suggestions.
 
 > Page 26 Line 8 This discussion seems to miss the distinction between correlations between traits and dimensions  of sensitivity of the test items.
 
-
+<!-- # NOTE: Help needed -->
 
 > Page 29 Line 7 I am curious if the values of discrimination are comparable from the two representations.
 > It seems that the metric of the representational space has changed, and equivalent numbers will not have equivalent meaning.
 
-
+<!-- # NOTE: Help needed -->
 
 > Page 30 Line 8 It would be helpful to show the orthogonal and nonorthogonal representations of items and then discuss the interpretation of the parameter estimates based on each of the representations.
 > I have been unable to determine the value of using the nonorthogonal representation.
 > The nonorthogonal representation is more complex, and it seems sample dependent because it uses the observed correlations/covariances.
 > What is the value added of using the more complex representation?
 
+To our understanding, the representation is always sample dependent, because item parameters are in turn.
+Our argument is that the non-orthogonal coordinate system is a more faithful representation of the latent covariance structure, as the cosines between the axes are the geometric equivalent of the latent trait correlations.
+This is, to our understanding, the value of using this more complex representation, and so we have tried to convey in (please see p. 31, line 19 to p. 32, line 4, in the original version.
+
+We acknowledge though that this may have been explained without enough clarity, and therefore strived to improve this discussion.
+The aforementioned paragraph now reads:
+
+    > [...] This implies that the axes defined by the test space basis,
+    and not the ones defined by the latent space basis,
+    are a geometrical representation of the covariance structure:
+    Indeed, the cosines of the angles among the test space axes are
+    the geometric equivalent of the correlations. [...]

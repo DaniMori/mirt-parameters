@@ -1528,8 +1528,10 @@ where the person parameters are represented,
 has the inverse of the covariance (correlation) matrix as
 its inner product matrix.
 This implies that the axes defined by the test space basis,
-and not the latent space basis,
-are a geometrical representation of the covariance structure.
+and not the ones defined by the latent space basis,
+are a geometrical representation of the covariance structure:
+Indeed, the cosines of the angles among the test space axes are
+the geometric equivalent of the correlations.
 This result is both surprising and counterintuitive
 ---Several instances in the MIRT literature suggest that
 "the angle between the axes [of the latent ability space] represents
