@@ -44,14 +44,6 @@ opts_chunk$set(
 options(digits = 3)
 ```
 
-```{r write-bib}
-# automatically create a bib database for R packages
-write_bib(
-  c(.packages(), 'bookdown', 'knitr', 'rmarkdown'),
-  'www/packages.bib'
-)
-```
-
 ```{r sources}
 #| cache:   false
 #| include: false
