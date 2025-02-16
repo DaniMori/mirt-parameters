@@ -143,8 +143,7 @@ For example,
 We believe this is also what happens when MIRT software such as NOHARM tries to force a correlated latent trait structure into its default orthogonal solution:
 As you have noted yourself [@ackerman_multidimensional_2005-1, p. 7].
 <!-- # TODO: Correctly expressed? -->
-While we consider this is out of the scope of the current paper, we will gladly add further detail to explain why these results are contradictory and how our method may solve the problem.
-<!-- # TODO: Add examples of contradictory results? -->
+While we consider this is out of the scope of the current paper, we will gladly add further details to explain why these results are contradictory and how our method may solve the problem.
 
 ###### I also wonder about how one compares the standard errors of the item parameters when the covariance covariance structures are different.  Are they directly comparable?
 
