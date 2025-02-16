@@ -174,9 +174,9 @@ critical misconceptions about the measurement model.
 
 Take the following as an example:
 A hypothetical complex item measures two latent traits with equal validity
----i.e., its discrimination parameters are equal with value $a$.
+---i.e., its discrimination parameters are equal with value $`r DISCR_SYM`$.
 Applying Reckase & McKinley's [-@reckase_discriminating_1991] formula,
-we would find that $`r MDISC_SYM` = \sqrt{2} a_i$.
+we would find that $`r AG_MDISC_EXAMPLE`$.
 Assume we apply this item in two groups where, taken to the extreme,
 the two measured dimensions are orthogonal in the first group
 and perfectly correlated in the second one.
@@ -185,7 +185,7 @@ one can intuitively say that,
 because the two dimensions are *perfectly aligned* and thus
 compound up in the second group,
 the item `r MDISC_SYM` should be the algebraic sum of both components,
-that is, $2 a_i$.
+that is, $`r MDISC_VALUE_COLLIN`$.
 Similarly, the correlation between two simple items items,
 each one measuring a distinct dimension,
 should be uncorrelated in the first group,

@@ -26,6 +26,15 @@ source("R/LaTeX_math.R")
 
 FRAC_1_2 <- latex_frac(1, 2, .sep = NO_SEP)
 FRAC_1_4 <- latex_frac(1, 4, .sep = NO_SEP)
+SQRT_2   <- latex_sqrt(2)
+
+### Introduction: ----
+
+# Discrimination example:
+MDISC_SYM          <- latex("MDISC")
+DISCR_SYM          <- latex('a')
+AG_MDISC_EXAMPLE   <- latex_eq(MDISC_SYM, "$SQRT_2$ $DISCR_SYM$")
+MDISC_VALUE_COLLIN <- latex(2, DISCR_SYM)
 
 ### Latent space and variable definition ----
 
@@ -55,9 +64,9 @@ TRAIT_VEC_IN_LS <- latex_in(TRAIT_VECTOR, LATENT_SPACE)
 ITEM_INDEX          <- latex('i')
 DIM_INDEX           <- latex('k')
 INTERCEPT_PARAM     <- latex_sub('d', ITEM_INDEX)
-DISCR_VECTOR_ANY    <- latex_bf('a')
+DISCR_VECTOR_ANY    <- latex_bf(DISCR_SYM)
 DISCR_VECTOR        <- latex_sub(DISCR_VECTOR_ANY, ITEM_INDEX)
-DISCR_PARAM         <- latex_sub('a', "$ITEM_INDEX$$DIM_INDEX$")
+DISCR_PARAM         <- latex_sub(DISCR_SYM, "$ITEM_INDEX$$DIM_INDEX$")
 DISCR_VECTOR_TRANSP <- latex_transp(DISCR_VECTOR)
 
 # IRF denotation:
@@ -886,7 +895,6 @@ MATRIX_INNER_PROD_INV_EL_DIAG_EQ  <- latex_eq(
 ### Generalized multidimensional parameters ----
 
 # Parameters:
-MDISC_SYM  <- latex("MDISC")
 MDISC_ITEM <- latex_sub(MDISC_SYM, ITEM_INDEX)
 MIL_PARAM  <- latex("MIL")
 
