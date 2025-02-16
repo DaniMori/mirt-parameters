@@ -302,7 +302,7 @@ in a non-cognitive domain.
 Second, although not explicitly stated, $`r DISCR_VECTOR`$ is a vector of
 non-negative real numbers in @reckase_difficulty_1985
 ---a decrease in the probability of a correct response
-with an increase in ability makes little sense].
+with an increase in ability makes little sense.
 In our case, $`r DISCR_VECTOR`$ is a vector of real numbers; the value
 of the $`r DIM_INDEX`$-th component $`r DISCR_PARAM`$ can be negative if
 the item is negatively-keyed for latent dimension $`r DIM_INDEX`$.
@@ -933,7 +933,7 @@ and
 \end{equation}
 
 Equations \@ref(eq:origin-coords-result) and \@ref(eq:end-coords-result)
-express the items coordinates in terms of their multidimensional parameters.
+express the item coordinates in terms of their multidimensional parameters.
 However, it is worth noting that the latent space Gram matrix
 also plays a role in computing these coordinates,
 and will therefore have an effect on the representation.
@@ -972,7 +972,7 @@ $`r MDISC_SYM`$ is strictly positive for non-null vectors.
 Therefore, the sign of $`r DISTANCE_PARAM`$ is equal to
 the sign of $`r INTERCEPT_PARAM`$.
 The implication is that the item is displaced along
-its measurement direction forwards or backwards with respect to the origin.
+its measurement direction forward or backward with respect to the origin.
 As the $`r MDISC_SYM`$ appears in the denominator of $`r DISTANCE_PARAM`$,
 that displacement will be inversely proportional
 to the discrimination of the item.
@@ -1021,7 +1021,7 @@ the distance to the origin depends on the $`r MDISC_SYM`$.
 Also, in the covariance-based,
 the term $`r INNER_PROD_MAT_DIAG_INV_PROD`$ becomes $`r COV_BASED_SCALE_MAT_EQ`$
 which, as we have argued before, implies a change of scale.
-In the case of the correlation-based version however,
+In the case of the correlation-based version, however,
 $`r INNER_PROD_MAT_DIAG_INV_PROD`$ is simply $`r CORR_MATRIX_INV`$,
 being the coordinates scale-invariant.
 For graphical representation purposes,
@@ -1034,7 +1034,7 @@ of our general, possibly non-rectangular coordinates.
 This implies pre-multiplying its coordinates in basis $`r TEST_SPACE_BASIS`$
 by $`r TRANSFORM_MATRIX_TRANSP_INV`$, to find
 the equivalent, orthonormalized coordinates.
-Hence we will need a convenient value for $`r TRANSFORM_MATRIX_TRANSP_INV`$
+Hence, we will need a convenient value for $`r TRANSFORM_MATRIX_TRANSP_INV`$
 that allows us to represent the test space structure and the items
 in a rectangular Cartesian system.
 
@@ -1349,7 +1349,7 @@ uses the same item parameters to demonstrate the over-specification of
 dimensions (see p. 183).
 In that example, he uses a covariance matrix that practically has rank 1,
 implying that the (alleged) three dimensions collapse into a single one, being
-thus the test practically unidimensional.
+thus the test unidimensional in practice.
 In such a case, the covariance-based direction angles
 are extremely close to 0 for all items, as one would expect
 from a unidimensional test, where all items are strictly aligned with the one
@@ -1507,7 +1507,7 @@ the resulting norm in the latent space is the Mahalanobis distance
 [i.e., $`r MAH_DIST_EQ`$, @mahalanobis_reprint_2018],
 thus taking the latent covariance structure into account. 
 Given these considerations,
-we propose to adopt the covariance-based version of
+we propose adopting the covariance-based version of
 the multidimensional parameters as the most general definition,
 and refer to them simply as
 the $`r MDISC_SYM`$ and $`r MIL_PARAM`$ parameters.
