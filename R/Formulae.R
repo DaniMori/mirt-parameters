@@ -181,24 +181,18 @@ TRAIT_NORM_EQ           <- latex_eq(
 )
 
 # Latent vector invariance condition:
-TRAIT_NORM              <- latex_norm(TRAIT_VECTOR)
-TRAIT_NORM_SQ           <- latex_squared(TRAIT_NORM)
-TRAIT_VECTOR_ORTH_TRANSP <- latex_raised_to(
-  TRAIT_VECTOR, # TODO: Transposing a "vector in basis" may typeset wrongly
-  exp = "{$LS_ORTH_BASIS$T}"
-)
+TRAIT_NORM               <- latex_norm(TRAIT_VECTOR)
+TRAIT_NORM_SQ            <- latex_squared(TRAIT_NORM)
+TRAIT_VECTOR_ORTH_TRANSP <- latex_transp(TRAIT_ORTH_COORDS, .par = TRUE)
 TRAIT_VECTOR_ORTH_SQ     <- latex(TRAIT_VECTOR_ORTH_TRANSP, TRAIT_ORTH_COORDS)
-TRAIT_COORDS_TRANSP     <- latex_raised_to(
-  TRAIT_VECTOR, # TODO: Transposing a "vector in basis" may typeset wrongly
-  exp = "{$LS_BASIS$T}"
-)
-INNER_PROD_TRANSF_DEF   <- latex(TRANSFORM_MATRIX_TRANSP, TRANSFORM_MATRIX)
-TRAIT_TRANSF_TRAIT      <- latex(
+TRAIT_COORDS_TRANSP      <- latex_transp(TRAIT_COORDS, .par = TRUE)
+INNER_PROD_TRANSF_DEF    <- latex(TRANSFORM_MATRIX_TRANSP, TRANSFORM_MATRIX)
+TRAIT_TRANSF_TRAIT       <- latex(
   TRAIT_COORDS_TRANSP,
   INNER_PROD_TRANSF_DEF,
   TRAIT_COORDS
 )
-TRAIT_NORM_SQ_EQ    <- latex_eq(
+TRAIT_NORM_SQ_EQ         <- latex_eq(
   TRAIT_NORM_SQ,
   TRAIT_VECTOR_ORTH_SQ,
   TRAIT_TRANSF_TRAIT
@@ -1190,7 +1184,7 @@ CORR_MATRIX_INV        <- latex_inverse(CORR_MATRIX)
 SD_INV_CORR_INV_PROD   <- latex(SD_MATRIX_INV, CORR_MATRIX_INV)
 COV_BASED_SCALE_MAT_EQ <- latex_eq(COV_INV_SD_PROD, SD_INV_CORR_INV_PROD)
 
-## TODO: Review the following (and maybe delete)
+# Item origin computation:
 DISTANCE_CORR_PARAM <- latex_sub(DISTANCE_SYM, "$CORR_MATRIX$$ITEM_INDEX$")
 DIR_CORR_PARAM      <- latex_sub(DIR_COS_VEC_TS,  "$CORR_MATRIX$$ITEM_INDEX$")
 ORIGIN_ITEM_COMP  <- latex(DISTANCE_CORR_PARAM, CORR_MATRIX_INV, DIR_CORR_PARAM)
@@ -1238,3 +1232,12 @@ TRANSFORM_MATRIX_EXAMPLE_EQ <- latex_def(
 ### Application to examples from the literature: ----
 
 DISTANCE_AG_PARAM <- DISTANCE_SYM |> latex_sub(AGNOSTIC_SUBINDEX)
+
+### Discussion: ----
+
+# Mahalanobis distance:
+TRAIT_NORM          <- latex_norm(TRAIT_VECTOR)
+TRAIT_VECTOR_TRANSP <- latex_transp(TRAIT_VECTOR)
+TRAIT_COV_INV_TRAIT <- latex(TRAIT_VECTOR_TRANSP, COV_MATRIX_INV, TRAIT_VECTOR)
+MAH_DIST_DEF        <- latex_sqrt(TRAIT_COV_INV_TRAIT)
+MAH_DIST_EQ         <- latex_eq(TRAIT_NORM, MAH_DIST_DEF)

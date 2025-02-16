@@ -146,7 +146,10 @@ the R package *psych* [@revelle_psych_2024], graphically represents
 factor loadings on orthogonal axes even after an oblique rotation.
 Nevertheless, the assimilation of correlated latent traits to non-orthogonal
 axes is prevalent in the common factor literature
-[see, e.g., @harman_modern_1970].
+[see, e.g., @harman_modern_1970]:
+Indeed, the cosine between any two axes (or, more generally, vectors)
+is considered as the geometrical equivalent of the correlation between
+the variables they represent.
 This assumption is not so easily found in the MIRT literature though,
 which mostly deals with uncorrelated dimensions
 [see @reckase_multidimensional_2009 for a comprehensive treatment of the topic].
@@ -169,8 +172,29 @@ is usually implicit in the MIRT literature without further consideration
 Moreover, disregarding this geometrical interpretation may lead to
 critical misconceptions about the measurement model.
 
-The representation of a latent space where the traits are correlated is more
-accurate on a geometrical coordinate system with non-orthogonal axes
+Take the following as an example:
+A hypothetical complex item measures two latent traits with equal validity
+---i.e., its discrimination parameters are equal with value $a$.
+Applying Reckase & McKinley's [-@reckase_discriminating_1991] formula,
+we would find that $`r MDISC_SYM` = \sqrt{2} a_i$.
+Assume we apply this item in two groups where, taken to the extreme,
+the two measured dimensions are orthogonal in the first group
+and perfectly correlated in the second one.
+While the previous formula seems correct in the first group,
+one can intuitively say that,
+because the two dimensions are *perfectly aligned* and thus
+compound up in the second group,
+the item `r MDISC_SYM` should be the algebraic sum of both components,
+that is, $2 a_i$.
+Similarly, the correlation between two simple items items,
+each one measuring a distinct dimension,
+should be uncorrelated in the first group,
+but perfectly correlated in the second one.
+However, using an orthogonal representation
+would yield null cosines in both cases.
+
+Therefore, the representation of a latent space where the traits are correlated
+is more accurate on a geometrical coordinate system with non-orthogonal axes
 [@ackerman_multidimensional_2005-1, p. 16, see footnote 1]
 and (possibly) non-standard units,
 often referred to as *general Cartesian coordinates* [@harman_modern_1970].
@@ -1476,8 +1500,12 @@ comparable among different latent spaces.
 More importantly, the covariance-based version
 of the multidimensional parameters is invariant to
 changes of latent-space basis.
-Once again, this is important in applications where
+Once again, this is relevant in applications where
 potentially different bases are involved.
+Furthermore, not that, when using the covariance-based version formulation,
+the resulting norm in the latent space is the Mahalanobis distance
+[i.e., $`r MAH_DIST_EQ`$, @mahalanobis_reprint_2018],
+thus taking the latent covariance structure into account. 
 Given these considerations,
 we propose to adopt the covariance-based version of
 the multidimensional parameters as the most general definition,
@@ -1509,13 +1537,28 @@ depends on "the distinction between coordinate axes and the constructs that are
 the target of the instrument"
 (Reckase, M.D., personal communication, 28 April 2015).
 Such a procedure will of course yield identical results,
-given the invariance of the parameters to a change of basis.
+given the invariance of $`r MDISC_COV_PARAM`$ to a change of basis.
 However, the computations in the oblique space allow us to obtain
 the direction cosines relative to the original latent dimensions,
 which may give relevant information if these are actual, substantive traits.
 Computing the parameters in the orthonormalized (or just orthogonalized) space,
-by contrast, would require computing the cosines in
-the original basis afterwards.
+by contrast, would require transforming the cosines to
+the original, non-orthonormal basis afterwards.
+Nevertheless, most available MIRT software solutions,
+such as FlexMIRT <!-- TODO: Add reference --> or R package {mirt} [@chalmers_mirt_2012],
+initially estimate an uncorrelated solution and apply
+an oblique rotation afterwards, at least in exploratory solutions.
+Taking advantage of the invariance property,
+we may compute the parameters in the orthogonal space
+(in fact, this is exactly what {mirt} functions `MDISC()` and `MDIFF()` do).
+Then, we may compute the direction cosines in the rotated solution applying
+(the covariance-based version of) Equation \@ref(eq:dir-cos-vec-test-space).
+<!-- TODO: Number and reference cov-based version of the cosines? -->
+What a researcher should be aware of, though,
+is that applying Reckase & McKinley's [-@reckase_discriminating_1991] formula
+after any non-orthonormal transformation will yield
+a $`r MDISC_AG_PARAM`$ value specific to that basis,
+instead of the invariant value of $`r MDISC_COV_PARAM`$.
 
 On the other hand, establishing the relationship between the original and
 the orthonormalized basis has provided us with an important insight:
@@ -1527,6 +1570,9 @@ On the other hand, the latent space,
 where the person parameters are represented,
 has the inverse of the covariance (correlation) matrix as
 its inner product matrix.
+(Note that in the original derivations by @reckase_difficulty_1985
+and @reckase_discriminating_1991 both matrices simplify to the identity matrix,
+so there was no need to make this distinction.)
 This implies that the axes defined by the test space basis,
 and not the ones defined by the latent space basis,
 are a geometrical representation of the covariance structure:
