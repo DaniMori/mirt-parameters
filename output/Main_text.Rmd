@@ -146,7 +146,7 @@ the R package *psych* [@revelle_psych_2024], graphically represents
 factor loadings on orthogonal axes even after an oblique rotation.
 Nevertheless, the assimilation of correlated latent traits to non-orthogonal
 axes is prevalent in the common factor literature
-[see, e.g., @harman_modern_1970]:
+[see, e.g., @harman_modern_1976]:
 Indeed, the cosine between any two axes (or, more generally, vectors)
 is considered as the geometrical equivalent of the correlation between
 the variables they represent.
@@ -197,7 +197,8 @@ Therefore, the representation of a latent space where the traits are correlated
 is more accurate on a geometrical coordinate system with non-orthogonal axes
 [@ackerman_multidimensional_2005-1, p. 16, see footnote 1]
 and (possibly) non-standard units,
-often referred to as *general Cartesian coordinates* [@harman_modern_1970].
+often referred to as *general Cartesian coordinates*
+[@harman_modern_1976, p. 60].
 Such a space has the advantage that the basis vectors and the axes they yield
 have a meaningful interpretation (albeit counterintuitive, as we will see)
 in a multivariate statistical sense.
@@ -1101,7 +1102,7 @@ with $`r TRANSFORM_MATRIX_TRANSP_INV`$ being an identity matrix.
 In the second one, the correlation between the dimensions is $`r CORR_OBL_OUT`$.
 To keep the horizontal axis invariant,
 we define $`r TRANSFORM_MATRIX_TRANSP_INV`$ such that
-it only rotates the vertical axis [@harman_modern_1970]:
+it only rotates the vertical axis [@harman_modern_1976]:
 
 \begin{equation}
   `r TRANSFORM_MATRIX_EXAMPLE_EQ`.
@@ -1588,7 +1589,7 @@ this often misunderstood topic.
 It is worth noting that a similar relationship exists in
 the common factor literature
 between the *primary factors* and Thurstone's *reference axes*
-[@harman_modern_1970, see p. 291].
+[@harman_modern_1976, see p. 276].
 Nevertheless, one must not make the mistake of assimilating the test space and
 the *common-factor space*.
 Their parameterization, albeit related [@mcdonald_test_1999], is different,
