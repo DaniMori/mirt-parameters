@@ -1502,7 +1502,7 @@ of the multidimensional parameters is invariant to
 changes of latent-space basis.
 Once again, this is relevant in applications where
 potentially different bases are involved.
-Furthermore, not that, when using the covariance-based version formulation,
+Furthermore, note that, when using the covariance-based version formulation,
 the resulting norm in the latent space is the Mahalanobis distance
 [i.e., $`r MAH_DIST_EQ`$, @mahalanobis_reprint_2018],
 thus taking the latent covariance structure into account. 
@@ -1570,9 +1570,9 @@ On the other hand, the latent space,
 where the person parameters are represented,
 has the inverse of the covariance (correlation) matrix as
 its inner product matrix.
-(Note that in the original derivations by @reckase_difficulty_1985
-and @reckase_discriminating_1991 both matrices simplify to the identity matrix,
-so there was no need to make this distinction.)
+[Note that in the original derivations by @reckase_difficulty_1985;
+and @reckase_discriminating_1991, both matrices simplify to the identity matrix,
+so there was no need to make this distinction.]
 This implies that the axes defined by the test space basis,
 and not the ones defined by the latent space basis,
 are a geometrical representation of the covariance structure:
