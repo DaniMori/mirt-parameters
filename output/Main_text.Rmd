@@ -1545,7 +1545,7 @@ Computing the parameters in the orthonormalized (or just orthogonalized) space,
 by contrast, would require transforming the cosines to
 the original, non-orthonormal basis afterwards.
 Nevertheless, most available MIRT software solutions,
-such as flexMIRT [@cai_flexmirttm_2024] or R package {mirt} [@chalmers_mirt_2012],
+such as flexMIRT [@cai_flexmirt_2024] or R package {mirt} [@chalmers_mirt_2012],
 initially estimate an uncorrelated solution and apply
 an oblique rotation afterwards, at least in exploratory solutions.
 Taking advantage of the invariance property,
