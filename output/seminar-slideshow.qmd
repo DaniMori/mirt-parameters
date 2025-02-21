@@ -4520,9 +4520,9 @@ El ítem es exactamente el mismo, y por lo tanto su discriminación (multidimens
 Esta propiedad se llama "invarianza" del ítem.
 :::
 
-## Generalización: Coordenadas oblicuas
+## Generalización: Ejes oblicuos {.smaller}
 
-> before performing the differentiation, the constraint that <!-- # TODO: Sum of cosines^2 = 1 --> is added to the expression for the slope \[...\]
+> \[...\] before performing the differentiation, the constraint that Σ cos^2^**α** = 1 is added to the expression for the slope \[...\]
 
 ---@reckase_difficulty_1985 [p. 404]
 
@@ -4533,17 +4533,19 @@ Esta propiedad se llama "invarianza" del ítem.
 ::: notes
 Hacer esta generalización no es algo tan directo como ocurría con la probabilidad "monótonamente decreciente".
 Si os acordáis, Reckase aplicaba esta restricción de que la suma de cosenos directores era 1 (que se deriva del teorema de Pitágoras).
-Pero para aplicarla hace falta asumir que esos cosenos directores son todos ortogonales entre sí.
+Pero para aplicarla hace falta asumir que esos cosenos directores son todos ortogonales entre sí, como ya hemos visto.
 Si no tenemos ángulos rectos, esa condición no se cumple.
 
-Y lo que nosotros estamos asumiendo que tenemos una distribución de vectores de rasgo latente ($\theta$) con una matriz de correlaciones ($R$, la que sea).
-Normalmente representamos esos vectores en coordenadas rectangulares (ejes ortogonales), pero para obtener los parámetros multidimensionales generalizados a coordenadas oblicuas tenemos que representados en un espacio no ortogonal (aquí también hablaría de "unidades no estandarizadas", es decir, que la distancia entre el o y el 1 pueda ser distinta de la base estándar, pero digamos solamente "no ortogonal" por simplificar).
+[NEXT]
+
+Y lo que nosotros estamos asumiendo es que tenemos una distribución de vectores de rasgo latente ($\theta$) con una matriz de correlaciones $R$ (la que sea).
+Normalmente representamos esos vectores en coordenadas rectangulares (ejes ortogonales), pero para obtener los parámetros multidimensionales generalizados a Ejes oblicuos tenemos que representados en un espacio no ortogonal (aquí también hablaría de "unidades no estandarizadas", es decir, que la distancia entre el o y el 1 pueda ser distinta de la base estándar, pero digamos solamente "no ortogonal" por simplificar).
 
 ¿Cómo podríamos solucionar esto?
 Lo que podemos hacer es aplicar una "transformación" a los rasgos latentes de forma que pasemos de este espacio oblicuo (el que sea, aún no sabemos cuál es) a un espacio ortogonal.
 :::
 
-## Generalización: Coordenadas oblicuas
+## Generalización: Ejes oblicuos
 
 <!-- # TODO: Expresión de las \thetas transformadas -->
 
@@ -4559,7 +4561,7 @@ Pero hay que tener en cuenta que esto es un "artefacto matemático".
 Estamos haciendo esto por conveniencia, pero las coordenadas que realmente nos interesan como investigadores, porque son las que verdaderamente representan algo que nos interesa investigar, son esas coordenadas originales, que pueden representar cualquier fenómeno que sea de nuestro interés (rasgos de personalidad, síntomas, actitudes, inteligencia, conocimientos... lo que estemos investigando).
 :::
 
-## Generalización: Coordenadas oblicuas
+## Generalización: Ejes oblicuos
 
 <!-- # TODO: Ejemplo de \theta (expresión) y coordenadas en espacio oblicuo -->
 
@@ -4569,7 +4571,7 @@ Esto lo que significa es que las puntuaciones de rasgo latente originales van a 
 Por ejemplo, en este caso, si el participante tiene un "vector de puntuaciones" \[1, 2\], para representar sus coordenadas tenemos que desplazarnos, primero una unidad en el primer eje, y luego dos unidades en el segundo eje.
 :::
 
-## Generalización: Coordenadas oblicuas
+## Generalización: Ejes oblicuos
 
 <!-- # TODO: Matriz de correlaciones con correlación muy alta -->
 
@@ -4580,7 +4582,7 @@ En base a lo planteado anteriormente, me gustaría hacer una prueba con vosotras
 Supongamos una distribución bivariada de rasgos latentes, con una correlación de .8, bastante alta. ¿Cuál de los siguientes sistemas de coordenadas consideráis que representaría adecuadamente los ejes de una distribución bivariada, de forma que al transformarlos a coordenadas rectangulares obtuviésemos una distribución con correlación de 0?
 :::
 
-## Generalización: Coordenadas oblicuas
+## Generalización: Ejes oblicuos
 
 <!-- # TODO: Matriz de correlaciones con correlación muy alta -->
 
@@ -4591,7 +4593,7 @@ El primero ya sabemos que no, de acuerdo, puesto que es la representación habit
 No se aplica ninguna transformación (la transformación es una matriz identidad), ya que los que serían los ejes originales y los transformados son los mismos.
 :::
 
-## Generalización: Coordenadas oblicuas
+## Generalización: Ejes oblicuos
 
 <!-- # TODO: Matriz de correlaciones con correlación muy alta -->
 
@@ -4605,7 +4607,7 @@ Sin embargo, fijáos lo que ocurre cuando "transformamos" las coordenadas de los
 Como podéis ver, la distribución tiende a "achatarse" aún más, en lugar de hacerse más "esférica".
 :::
 
-## Generalización: Coordenadas oblicuas
+## Generalización: Ejes oblicuos
 
 <!-- # TODO: Matriz de correlaciones con correlación muy alta -->
 
@@ -4702,7 +4704,7 @@ Parámetros multidimensionales generalizados
 
 -   A ítems con monotonía constante
 
--   A coordenadas oblicuas
+-   A Ejes oblicuos
 
 Distinción espacio latente - espacio test
 
@@ -4713,7 +4715,7 @@ En conclusión, lo que hemos propuesto en este artículo consiste en una general
     Esto se venía haciendo ya como hemos visto, pero creemos que hacía falta formalizarlo.
     No basta con hacerlo y punto, si Reckase dijo que las discriminaciones tiene que ser positivas, tenemos que demostrar que también vale para discriminaciones negativas o nulas (monotonía decreciente, o probabilidad constante).
 
--   A coordenadas oblicuas, las cuales consideramos que son necesarias para representar distribuciones de puntuaciones de rasgo correlacionadas, en general.
+-   A Ejes oblicuos, las cuales consideramos que son necesarias para representar distribuciones de puntuaciones de rasgo correlacionadas, en general.
     Hemos visto que esto ya lo mencionaron Zhang y Stout, hace 25 años, pero no proporcionaron una "deducción" de estos parámetros multidimensionales, cosa que nosotros hacemos.
 
 Por último, es imortante recalcar este "descubrimiento" (o "redescubrimiento", más bien) del espacio test, ya que tenemos que ser muy conscientes de que los ítems y las personas están en espacios vectoriales distintos.
