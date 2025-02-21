@@ -4299,6 +4299,10 @@ mirt_item_coords |>
 ::: fragment
 $$
   \mathbf{Q} = \begin{bmatrix}
+      1 & -0.5 \\
+      0 & 1
+    \end{bmatrix}; \quad
+  \mathbf{Q}^{-1} = \begin{bmatrix}
       1 & 0.5 \\
       0 & 1
     \end{bmatrix}
@@ -4309,7 +4313,7 @@ $$
 $$
   \begin{align}
     \mathbf{a}_1 =
-    \mathbf{Q} \mathbf{a}^*_1 &= \begin{bmatrix}
+    \mathbf{Q}^{-1} \mathbf{a}^*_1 &= \begin{bmatrix}
       1 & 0.5 \\
       0 & 1
     \end{bmatrix}
@@ -4468,14 +4472,11 @@ mirt_item_coords |>
 ::::: column
 ::: fragment
 $$
-  \begin{align}
-    \mathbf{a}_1 &=
-      \begin{bmatrix}
-        1 \\
-        1
-      \end{bmatrix}\\
-      d_1 &= 0
-  \end{align}
+  \mathbf{a}_1 = \begin{bmatrix}
+    1 \\
+    1
+  \end{bmatrix};\quad
+  d_1 = 0
 $$
 :::
 
@@ -4484,7 +4485,7 @@ $$
 ::: fragment
 $$
   \begin{align}
-    MDISC^_1 &= \sqrt{
+    MDISC_1 &= \sqrt{
         [1, 1]
         \begin{bmatrix}
           1 \\
@@ -4493,8 +4494,7 @@ $$
       } \\
       &= \sqrt{ 1 · 1 + 1 · 1 } \\
       &= \sqrt{ 1 + 1 } \\
-      &= \sqrt{ 2 } \\
-      &\approx 1.41
+      &= \sqrt{ 2 } \approx 1.41
   \end{align}
 $$
 :::
