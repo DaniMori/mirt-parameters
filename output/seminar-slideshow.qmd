@@ -3930,7 +3930,7 @@ Luego esta restricción que propone Reckase parece que en principio no se podrí
 
 ## (Pero, un inciso...) {.smaller}
 
-::: columns
+::::: columns
 ::: column
 ![Un cubo rojo en perspectiva isométrica](../www/slideshow-assets/isometric-cube.jpg){fig-align="center"}
 :::
@@ -3943,7 +3943,7 @@ Luego esta restricción que propone Reckase parece que en principio no se podrí
 
 ---@ackerman_multidimensional_2005-1 [p. 16]
 :::
-:::
+:::::
 
 ::: aside
 Figura tomada de [Vecteezy](https://www.vecteezy.com/vector-art/3709640-isometric-cube-on-a-white-background)
@@ -4022,8 +4022,7 @@ point_transf |>
 :::::
 
 ::: notes
-Lo mismo pasa al representar los ejes de una rotación oblicua:
-Nada me impide representar las coordenadas resultantes en ejes rectangulares (las llamadas "coordenadas Cartesianas rectangulares").
+Lo mismo pasa al representar los ejes de una rotación oblicua: Nada me impide representar las coordenadas resultantes en ejes rectangulares (las llamadas "coordenadas Cartesianas rectangulares").
 Son coordenadas, nada más; el espacio en el que yo las represente en realidad da igual.
 Y de hecho, esto lo habréis visto muchas veces; por ejemplo, SPSS representa los pesos factoriales siempre en coordenadas rectangulares, incluso después de aplicar una rotación oblicua.
 
@@ -4380,7 +4379,7 @@ El valor de la intersección del modelo no cambia.
 
 ## Supuestos: Ortogonalidad {.smaller}
 
-::::::: columns
+:::::::: columns
 ::: column
 ```{r item-oblique-axes-3}
 #| fig-align:  center
@@ -4470,7 +4469,7 @@ mirt_item_coords |>
 ```
 :::
 
-::::: column
+:::::: column
 ::: fragment
 $$
   \mathbf{a}_1 = \begin{bmatrix}
@@ -4482,8 +4481,7 @@ $$
 :::
 
 ::: fragment
-> Using orthogonal axes, discrimination corresponds
-to the length of the item response vector
+> Using orthogonal axes, discrimination corresponds to the length of the item response vector
 
 ---@ackerman_multidimensional_2005 [p. 6]
 :::
@@ -4504,8 +4502,8 @@ $$
   \end{align}
 $$
 :::
-:::::
-:::::::
+::::::
+::::::::
 
 ::: notes
 Ahora bien, al igual que vimos antes, nadie me impide representar este ítem en coordenadas rectangulares.
@@ -4776,7 +4774,7 @@ Y esto nos ha permitido "descubrir" (o darnos cuenta, más bien) de que hay dos 
 <!-- TODO: ACT en McDonald, 1999? -->
 
 ::: r-center
-![Ítems de "ACT Mathematics Usage Test"](../www/Fig_1-6_Contemporary_Psychometrics.png){fig-align="center" height=400px}
+![Ítems de "ACT Mathematics Usage Test"](../www/Fig_1-6_Contemporary_Psychometrics.png){fig-align="center" height="400px"}
 :::
 
 ::: aside
