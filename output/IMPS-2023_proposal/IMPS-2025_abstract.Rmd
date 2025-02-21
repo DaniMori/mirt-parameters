@@ -1,5 +1,5 @@
 ---
-title: A generalization of multidimensional item response theory parameters
+title: IMPS 2025 proposal
 author: "Daniel Morillo, Mario Luzardo"
 date: "2023-02-27"
 output: word_document
@@ -7,18 +7,15 @@ bibliography: ../../www/Multidimensional-parameters-MCLM.bib
 csl:          ../../www/apa-old-doi-prefix.csl
 ---
 
-# Abstract
-
 ```{r setup}
 #| include: false
 
 # Includes:
 
 library(knitr)
-library(rstudioapi)
+library(here)
 
-ROOT_DIR <- getActiveProject()
-DOC_DIR  <- getwd()
+ROOT_DIR <- here()
 
 opts_knit$set(root.dir = ROOT_DIR)
 opts_chunk$set(
@@ -34,31 +31,168 @@ opts_chunk$set(
 source("R/Constants.R", encoding = 'UTF-8')
 ```
 
-The Multidimensional 2-Parameter Logistic
-[`r MODEL_ACRONYM`, @mckinley_extension_1983] model is one of the most important
-and widely used models in Multidimensional Item Response Theory (MIRT).
-@reckase_difficulty_1985 and @reckase_discriminating_1991 gave a precise
-definition of a Multidimensional Item Difficulty (MID) and Multidimensional
-Discrimination (MDISC) parameter, respectively, and derived their expressions
-for the M2PL model.
-However, we argue here that (1) their derivations implicitly assume the
-orthonormality of the latent space, and (2) it is straightforwardly extensible
-to applications where the items have marginally unchanging monotony, instead of
-just to monotonously increasing items (which is important for non-cognitive
-applications).
+# Format
 
-We derive generalized expressions of those parameters, that apply to any item
-with unchanging monotony in any non-orthonormal space, thus allowing to properly
-represent disparate covariance structures.
+## Which presentation format would you prefer?
+
+- [X] Oral
+
+- [ ] Poster
+
+- [ ] Symposia
+
+- [ ] Symposium Overview 
+
+# Title & Abstract
+
+## Title
+
+A generalization of multidimensional item response theory parameters
+
+<!-- # 8/10 words -->
+
+## Abstract
+
+The Multidimensional 2-Parameter Logistic (`r MODEL_ACRONYM`, McKinley &
+Reckase, 1983) model is one of the most important and widely used models in
+Multidimensional Item Response Theory (MIRT).
+Reckase (1985) and Reckase & McKinley (1991) gave a precise definition of a
+Multidimensional Item Difficulty (MID) and Multidimensional Discrimination
+(MDISC) parameter, respectively, and derived their expressions for the M2PL
+model.
+However, we argue that their derivations (1) only consider the case of items
+with conditional monotonously increasing probability of a positive response, and
+(2) implicitly assume that the items are represented in an orthogonal basis.
+
+We argue that these assumptions, which restrict the application of the model to
+the assessment of non-cognitive traits, can be relaxed.
+We thus extend the expressions to the general case of unchanging monotony items
+in any non-orthonormal space, which allows to properly represent disparate
+covariance structures.
 We then use these definitions in two applications: to represent M2PL items in
-non-orthogonal spaces, and to compute the multidimensional parameters in various
-applications, showing how they provide better information compared with their
+non-orthonormal bases, and to compute the multidimensional parameters in various
+applications, showing how they provide better properties compared with their
 "covariance-agnostic" counterparts.
 
 These results become increasingly relevant as the modern measurement theory in
 social and behavioral sciences experiences as a convergence between MIRT and the
-common factor model. Nevertheless, we warn against generalizing our results to
-other MIRT models, beyond the M2PL, without carefully considering each
+common factor model.
+Importantly, our derivations show that the space where the items are represented
+is necessarily distinct from the latent space.
+Nevertheless, we warn against generalizing our results to
+other MIRT models (i.e. beyond the M2PL), without carefully considering each
 particular case.
+
+<!-- # 239/250 words -->
+
+# Authors
+
+
+## Is this a student submission?
+
+- [ ] Yes
+
+- [X] No
+
+## Please nominate all the authors that contributed to this submission below.
+
+Daniel Morillo
+
+danielmorillo.ac@gmail.com
+
+### Title
+
+Dr
+
+### Affiliation
+
+Universidad Nacional de Educación a Distancia (UNED)
+
+### Country
+
+Spain
+
+## Add another author
+
+### Please type the new author's email
+
+mluzardov@gmail.com
+
+### Title
+
+Dr
+
+### First Name
+
+Mario
+
+### Last Name
+
+Luzardo-Verde
+
+### Affiliation
+
+Universidad de la República (UdelaR)
+
+### Country
+
+Uruguay
+
+# Topics
+
+Please choose a maximum of three topics from the list below.
+
+- [ ] Applications
+- [ ] Artificial Intelligence Applications
+- [ ] Bayesian Statistics
+- [ ] Categorical Data Analysis
+- [ ] Causal Inference and Mediation
+- [ ] Classical Test Theory
+- [ ] Classification
+- [ ] Clustering
+- [ ] Cognitive Diagnostic Models
+- [ ] Conceptual and Philosophical Issues
+- [ ] Computational modeling
+- [ ] Differential Item Functioning
+- [ ] Dynamical Systems Modeling
+- [ ] Computer-based Testing
+- [ ] Estimation and Computational Methods
+- [ ] Factor Analysis
+- [ ] Generalized Linear Models
+- [ ] Graphical Models
+- [X] Item Response Theory
+- [ ] Latent Class Models
+- [ ] Longitudinal Data Analysis
+- [ ] Measurement Invariance and DIF
+- [ ] Missing Data
+- [X] Multidimensional Analysis
+- [ ] Multilevel/Hierarchical/Mixed Models
+- [ ] Multivariate Analysis
+- [ ] Social Network Analysis
+- [ ] Prediction
+- [ ] Network Psychometrics
+- [ ] Optimal/Dual Scaling
+- [ ] Principal Components/Correspondence Analysis
+- [ ] Patient-Reported Outcomes
+- [ ] Statistical and Machine Learning
+- [ ] Test Equating
+- [ ] Time Series Analysis
+- [ ] Validity and Reliability
+
+# Additional Information
+
+Links to author's websites.
+
+Please provide a link to any professional websites you would like to share in the app.
+
+# Application for Student Travel Award
+
+(NA)
+
+Proceedings
+
+- [ ] I plan to submit a chapter based on my presentation for the 2025 IMPS Proceedings volume.
+
+<!-- # TODO: Decide -->
 
 # References
