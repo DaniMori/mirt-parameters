@@ -4480,7 +4480,12 @@ $$
 $$
 :::
 
-<br>
+::: fragment
+> Using orthogonal axes, discrimination corresponds
+to the length of the item response vector
+
+---@ackerman_multidimensional_2005 [p. 6]
+:::
 
 ::: fragment
 $$
