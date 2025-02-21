@@ -3927,9 +3927,22 @@ Proyectando cada coordenada, de forma paralela a los ejes, obtendríamos las coo
 Luego esta restricción que propone Reckase parece que en principio no se podría aplicar.
 :::
 
-## (Pero, un inciso...)
+## (Pero, un inciso...) {.smaller}
 
-![Un cubo rojo en perspectiva isométrica](../www/slideshow-assets/isometric-cube.jpg){height="600" fig-align="center"}
+::: columns
+::: column
+![Un cubo rojo en perspectiva isométrica](../www/slideshow-assets/isometric-cube.jpg){fig-align="center"}
+:::
+
+::: {.column .fragment}
+<br>
+
+> It has been suggested by some researchers that the angle between the axes represents the degree of correlation.
+> However, for sake of clarity, an orthogonal axes system is used in which distance measures and vectors can be easily calculated, understood, and interpreted.
+
+---@ackerman_multidimensional_2005-1 [p. 16]
+:::
+:::
 
 ::: aside
 Figura tomada de [Vecteezy](https://www.vecteezy.com/vector-art/3709640-isometric-cube-on-a-white-background)
