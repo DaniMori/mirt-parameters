@@ -1,123 +1,184 @@
+
 # Repository `mirt-parameters`
 
-Paper "A generalized definition of multidimensional item response
-theory parameters" (working title)
+Paper “A generalized definition of multidimensional item response theory
+parameters”
 
+# License
 
-# Main output
+<!-- TODO: Choose a license and update this section, if necessary -->
 
-The main file is
-[`output/paper_draft/paper_M2PLM_parameters.Rmd`][paper],
-which renders the article main text output.
+[Repository
+mirt-parameters](https://github.com/DaniMori/mirt-parameters) © 2025 by
+[Daniel Morillo](https://github.com/DaniMori) is licensed under [CC BY
+4.0](https://creativecommons.org/licenses/by/4.0). Please see the
+[license file](LICENSE.md).
 
-[paper]: output/paper_draft/paper_M2PLM_parameters.Rmd
+## Attributions
 
-The output of this file is the document that will eventually
-be submitted to a journal,
-along with the necessary additional files (i.e., cover letter).
+### Rstudio project template
 
-# Rendering the output
+This project makes use of the
+[rproj-template](https://github.com/DaniMori/rproj-template) Github
+template created by [Daniel Morillo](https://github.com/DaniMori) and
+licensed under the [Creative Commons Attribution 4.0 International
+license](https://creativecommons.org/licenses/by/4.0).
 
-The easiest way to render the project output is by sourcing the script
-[src/Build_project.R](src/Build_project.R).
-Prior to this step, some pre-requisites must be met
-(which imply manual installation of software components).
+<!-- TODO: Add attributions to other software components, if necessary -->
 
-**NOTE:** When opening the output document,
-Word will prompt to "Update the fields".
-This is [set by design in the R package `officer`][update_prompt],
-used to render the document, for security reasons.
-It is enough to click on "Yes" in the pop-up window.
+### <Software component>
 
-[update_prompt]: https://ardata-fr.github.io/officeverse/faq.html#update-fields
+# Project installation
 
-## Manual installation of software components:
+## Software components
 
-- Install [R version 4.2.1][R]:
-  In Windows, using the [binary installer][inst] is recommended.
+Start by installing the following software components:
 
-[R]: https://cran.rstudio.com/bin/windows/base/old/4.2.1/
-[inst]: (https://cran.rstudio.com/bin/windows/base/old/4.2.1/R-4.2.1-win.exe)
+- [R version
+  4.4.2](https://cran.rstudio.com/bin/windows/base/old/4.4.2/): In
+  Windows, using the [binary
+  installer](https://cran.rstudio.com/bin/windows/base/old/4.4.2/R-4.4.2-win.exe)
+  is recommended.
 
-- [Rstudio Desktop][RS]: Although not strictly necessary, it is recommended
-  to install the Rstudio IDE; for strict reproducibility, use build
-  [2022.07.1+554 for Windows 10/11][RSv].
-  However, if Rstudio is not installed,
-  then [Pandoc][P] will need to be downloaded and installed
-  (Use [v2.18 for Windows][Pv] for strict reproducibility).
+<!-- -->
 
-[RS]: https://www.rstudio.com/products/rstudio/download/#download
+- [Rstudio Desktop](https://posit.co/download/rstudio-desktop/):
+  Although not strictly necessary, it is recommended to install the
+  Rstudio IDE; for strict reproducibility, use build [2024.12.0+467 for
+  Windows
+  10/11](https://download1.rstudio.org/electron/windows/RStudio-2024.12.0-467.exe).
 
-[RSv]: https://download1.rstudio.org/desktop/windows/RStudio-2022.07.1-554.exe
+<!-- -->
 
-[P]: https://pandoc.org/installing.html
+- [Quarto publishing system](https://quarto.org/): An additional
+  component used by Rstudio to generate and publish literate computing
+  outputs. For strict reproducibility please use build 1.5.57; On
+  Windows, use [the 64-bit
+  installer](https://github.com/quarto-dev/quarto-cli/releases/download/v1.5.57/quarto-1.5.57-win.msi).
 
-[Pv]: https://github.com/jgm/pandoc/releases/download/2.18/pandoc-2.18-windows-x86_64.msi
+<!-- -->
 
-- [Git client][G]: Install the Git client in order to be able to clone locally
-  the project repository.
-  On Windows, use the [64-bit Windows installer][GW].
-
-[G]: https://git-scm.com/download
-
-[GW]: https://github.com/git-for-windows/git/releases/download/v2.37.1.windows.1/Git-2.37.1-64-bit.exe
-
-- [Node.js][N]: It is necessary for rendering the equations in the table headers
-  with the [`flextable` package][FT]. When installing Node.js,
-  one of the Windows of the installer will prompt the user to
-  "Automatically install the necessary tools";
-  tick this checkbox to ensure all the necessary tools are installed.
-  For strict reproducibility, install the
-  [64-bit Windows intaller, v16.16.0][NW].
-
-[FT]: https://cran.r-project.org/package=flextable
-
-[NW]: https://nodejs.org/dist/v16.16.0/node-v16.16.0-x64.msi
+- [Git client](https://git-scm.com/download): Install the Git client in
+  order to be able to clone locally the project repository. On Windows,
+  use [the 64-bit Windows
+  installer](https://github.com/git-for-windows/git/releases/download/v2.47.1.windows.1/Git-2.47.1-64-bit.exe).
 
 ## Installing the project locally
 
-This project is hosted as a GitHub repository.
-It can be cloned as a local Git repository following [this instructions][CR]
-(steps 2 through 7).
-Note that this will create a local copy of the GitHub repository as an
-Rstudio project in the folder specified.
-The URL that must be entered into the `Repository URL` text box is:
+This project is hosted as a GitHub repository. It can be cloned as a
+local Git repository following [these
+instructions](https://book.cds101.com/using-rstudio-server-to-clone-a-github-repo-as-a-new-project.html#step---2)
+(steps 2 through 7). Note that this will create a local copy of
+(‘clone’) the GitHub repository as an Rstudio project in the folder
+specified. The URL that must be entered into the `Repository URL` text
+box is:
 
+    https://github.com/DaniMori/mirt-parameters.git
+
+**IMPORTANT:** It is totally unrecommended to clone a git repository
+inside a cloud storage folder (e.g., Dropbox, OneDrive). Please note
+that GitHub serves the purpose of backing up the repository, so no cloud
+storage is necessary. Similarly, cloning the repository in a network
+folder may cause problems with the `renv` environment (see below); do it
+at your own risk!
+
+After cloning the repository, the Rstudio project will open
+automatically in the Rstudio IDE. If it doesn’t, or you want to return
+later to the project in Rstudio, you can do so by double clicking on the
+file `rstudio_project.Rproj` that has been created in the project folder
+when cloning the repository.
+
+**NOTE:** It is common practice to avoid using and versioning
+`.Rprofile` files. However, this project uses [package
+`renv`](https://cran.r-project.org/package=renv) to create a
+reproducible environment, which needs the `.Rprofile` file that lives in
+the root directory of the project. **Please DO NOT delete or edit this
+file**; it will install and activate the `renv` package and make it
+ready for restoring the environment.
+
+## Restoring the environment
+
+The reproducible environment created by `renv` must be restored to
+install all the packages this project needs to be built properly. If
+`renv` does not initialize automatically (check the console for messages
+about this), you will need to manually install the package first:
+
+``` r
+install.packages("renv")
 ```
-https://github.com/DaniMori/mirt-parameters.git
+
+Once it is successfully installed, use the “renv” -\> “Restore library…”
+button in Rstudio’s “Packages” tab to restore the environment.
+Alternatively, you can type in the console:
+
+``` r
+renv::restore(prompt = FALSE)
 ```
 
-[CR]: https://book.cds101.com/using-rstudio-server-to-clone-a-github-repo-as-a-new-project.html#step---2
+# Repository structure
 
-After cloning the repository,
-the Rstudio project will open automatically in the Rstudio IDE.
-If it doesn't, or you want to return later to the project in Rstudio,
-you can do so by double clicking on the file `mapping-initiatives.Rproj`
-that has been created in the project folder when cloning the repository.
+The file structure of this repository is as follows:
 
-**NOTE:** It is common practice to avoid using and versioning `.Rprofile` files.
-Hoever, this project uses [package `renv`][renv]
-to create a reproducible environment,
-which needs the `.Rprofile` file that lives in the root directory of the
-project. **Please DO NOT delete or edit this file**; it will install and
-activate the `renv` package and make it ready for restoring the environment.
+    mirt-parameters
+    |
+    |--- apps         (To store apps, e.g. in Shiny)
+    |
+    |--- dat          (To store input datasets; must NEVER be checked-in to Github)
+    |
+    |--- doc          (To store important documentation of the project)
+    |    |
+    |    |--- minutes (To store meeting minutes)
+    |
+    |--- notebooks    (Notebooks to explore data and test processes live here)
+    |
+    |--- output       (Processing outputs; files must be individually "checked-in"
+    |                 when necessary)
+    |
+    |--- R            (R functions created for this project live here)
+    |
+    |--- renv         (System library necesssary for `renv` to work. DON'T TOUCH)
+    |
+    |--- src          (Source scripts that implement the main processes)
+    |
+    |--- www          (Project assets, e.g., images, bibliography files, etc.)
 
-[renv]: https://cran.r-project.org/package=renv
+Use the folders as indicated to store the different files and generate
+the outputs of the processes.
 
-## Building the project
+# How to use this project
 
-In order to build the project, simply source the script
-[`src/Build_project.R`](src/Build_project.R) with the following command,
-which will render the project output.
+## Main output
 
-```r
-source("src/Build_project.R")
+The main file is
+[`output/paper_draft/paper_M2PLM_parameters.Rmd`](output/paper_draft/paper_M2PLM_parameters.Rmd),
+which renders the article main text output.
+
+The output of this file is the document that will eventually be
+submitted to a journal, along with the necessary additional files (i.e.,
+cover letter). If the rendering is successful, the output will be
+generated in file “output/Main_text.docx”.
+
+**NOTE:** When opening the output document, Word will prompt to “Update
+the fields”. This is [set by design in the R package
+`officer`](https://ardata-fr.github.io/officeverse/faq.html#update-fields),
+used to render the document, for security reasons. It is enough to click
+on “Yes” in the pop-up window.
+
+## Rendering the output
+
+A script for building the project is provided in file
+[`src/Build_project.R`](src/Build_project.R). The easiest way to render
+the output is by sourcing this script, running the following command:
+
+``` r
+source("src/Build_project.R", encoding = 'UTF-8')
 ```
 
 The output file generated will be in the following path:
 
-`output/paper_draft/paper_M2PLM_parameters.docx`
+    "output/Main_text.docx"
 
-**NOTE:** Rendering the project may take a while, especially the first time.
-This is due to the `renv` package restoring the environment, which implies
-downloading and installing several R packages. Please, be patient!
+**NOTE:** Rendering the project may take a while, especially the first
+time. This is due to the `renv` package restoring the environment, which
+implies downloading and installing several R packages. Please, be
+patient!

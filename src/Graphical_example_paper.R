@@ -22,11 +22,11 @@ library(officer)
 library(scales)
 
 ## ----sources----
-source("R/Mirt_toolbox.R")
-source("R/Formulae.R")
-source("R/LaTeX_math.R")
-source("R/Output.R")
-source("R/Constants.R")
+source("R/Mirt_toolbox.R", encoding = 'UTF-8')
+source("R/Formulae.R",     encoding = 'UTF-8')
+source("R/LaTeX_math.R",   encoding = 'UTF-8')
+source("R/Output.R",       encoding = 'UTF-8')
+source("R/Constants.R",    encoding = 'UTF-8')
 
 ## ---- CONSTANTS: -------------------------------------------------------------
 
@@ -34,8 +34,11 @@ source("R/Constants.R")
 
 # Graphical representation parameters:
 GRAPH_FONT   <- "serif"
+FONT_SIZE    <- 12L # Base font size for graphics
+AXIS_LAB_POS <- 1   # Axis label position (right or upper extreme)
+AXIS_COLOR   <- "black"
 LINE_WIDTH   <- .1
-VECTOR_WIDTH <- .3
+VECTOR_WIDTH <- .5
 # POINT_CHAR   <- 19L
 PALETTE      <- c("darkred", "darkgoldenrod3", "green3", "cyan3", "blue3")
 
@@ -66,13 +69,14 @@ CORR_ORTH_OUT  <- latex_eq(CORR, 0)              |> as.character()
 ## ----graphical-output-conf----
 theme_set( # `ggplot` output configuration
   theme_classic(
-    base_size      = 12,
+    base_size      = FONT_SIZE,
     base_family    = GRAPH_FONT,
     base_line_size = LINE_WIDTH
   ) %+replace%
     theme(
-      axis.title.x = element_text(hjust = 1),
-      axis.title.y = element_text(vjust = 1, angle = 0)
+      axis.title.x = element_text(hjust = AXIS_LAB_POS),
+      axis.title.y = element_text(vjust = AXIS_LAB_POS, angle = 0),
+      panel.grid   = element_line(color = AXIS_COLOR)
     )
 )
 
@@ -107,17 +111,17 @@ transform_matrix_inv_transp <- t(transform_matrix_inv)
 inner_prod_matrix           <- transform_matrix_transp %*% transform_matrix
 corr_matrix                 <- solve(inner_prod_matrix)
                        # == transform_matrix_inv %*% transform_matrix_inv_transp
-sqrt_diag_inner_prod_matrix <- diag(inner_prod_matrix) |> diag() |> sqrt()
 
 ## Compute parameters and coordinates:
 items_oblique_params <- items_M2PL |> compute_mirt_params(
   all_of(INTERCEPT_COLKEY), starts_with(DISCR_PREFFIX), # Input parameters
   cov_matrix = corr_matrix,                             # Input correlations
-  dir_out    = c(COSINE_DIRTYPE, DEGREE_DIRTYPE)        # Output configuration
+  dir_out    = c(COSINE_DIRTYPE, DEGREE_DIRTYPE),       # Output configuration
+  version    = "corr"                               # Compute corr-based version
 )
 items_oblique_coords <- items_oblique_params |> compute_mirt_coords(
   D, MDISC, starts_with(COSINE_DIRTYPE),
-  transform       = transform_matrix,
+  transform       = transform_matrix_inv_transp,
   original_coords = FALSE
 )
 items_oblique        <- full_join(
@@ -129,7 +133,7 @@ item_params <- full_join(
   items_orth    |> select(item:deg_2, -starts_with(COSINE_DIRTYPE)),
   items_oblique |> select(item:deg_2, -starts_with(COSINE_DIRTYPE)),
   by     = ITEM_COLKEY,
-  suffix = paste0('_', c(ORTH_SUFFIX, OBL_SUFFIX))
+  suffix = paste0(UNDERSCORE, c(ORTH_SUFFIX, OBL_SUFFIX))
 )
 
 item_params <- full_join(items_M2PL, item_params, by = ITEM_COLKEY)
@@ -142,7 +146,7 @@ item_params <- item_params                          |>
   add_column(sep_1 = NA, .after = INTERCEPT_COLKEY) |>
   add_column(
     sep_2  = NA,
-    .after = DEGREE_DIRTYPE |> paste(2, ORTH_SUFFIX, sep = '_')
+    .after = paste(DEGREE_DIRTYPE, 2, ORTH_SUFFIX, sep = UNDERSCORE)
   )
 
 # Table header (for flextable object):
@@ -151,7 +155,7 @@ item_headers <- tibble(
   metric   = col_keys %>% {
     case_when(
                  . == ITEM_COLKEY                        ~ ITEM_TABLE_TITLE,
-                 . == SEP_PREFFIX |> paste(1, sep = '_') ~ ' ',
+                 . == glue("{SEP_PREFFIX}{UNDERSCORE}1") ~ SPACE_SEP,
                  . == INTERCEPT_COLKEY                   ~ MODEL_ACRONYM,
       str_detect(.,   DISCR_PREFFIX)                     ~ MODEL_ACRONYM,
       TRUE                                               ~ MULTIDIM_PARAMS_TITLE
@@ -169,7 +173,7 @@ item_headers <- tibble(
     case_when(
                  . == ITEM_COLKEY      ~ ITEM_TABLE_TITLE,
                  . == INTERCEPT_COLKEY ~ as.character(INTERCEPT_PARAM),
-      str_detect(., SEP_PREFFIX  )     ~ ' ',
+      str_detect(., SEP_PREFFIX  )     ~ SPACE_SEP,
       str_detect(., MDISC_SYM    )     ~ as.character(MDISC_ITEM),
       str_detect(., DISTANCE_SYM )     ~ as.character(DISTANCE_PARAM),
       str_detect(., DISCR_PREFFIX)     ~ DISCR_PARAM |> str_replace(
@@ -184,47 +188,74 @@ item_headers <- tibble(
   }
 )
 
-# c(
-#   ITEM_TABLE_TITLE,
-#   "a_{i1}",
-#   "a_{i2}",
-#   INTERCEPT_PARAM,
-#   c(" ", MDISC_ITEM, DISTANCE_PARAM, "\\alpha_{i1}", "\\alpha_{i2}") |> rep(2)
-# )
+# Column (logical) indices for indexing the flextable output:
+corr_header_index      <- item_headers                 |>
+  transmute(!corr %in% c(ITEM_TABLE_TITLE, SPACE_SEP)) |>
+  pull()
+multidim_scalars_index <- item_headers                                  |>
+  transmute(param |> str_detect(glue("{MDISC_ITEM}|{DISTANCE_PARAM}"))) |>
+  pull()
+multidim_angles_index  <- item_headers              |>
+  transmute(col_keys |> str_detect(DEGREE_DIRTYPE)) |>
+  pull()
+
+# Footer composition:
+footer_values <- as_paragraph(
+  list_values = list(
+    FOOTER_PREFFIX
+  ) |>
+    c(
+      MODEL_EXPLANATION,
+      CORR_EXPLANATION,
+      DISCR_EXPLANATION,
+      INTERCEPT_EXPLANATION,
+      MDISC_EXPLANATION,
+      DISTANCE_EXPLANATION,
+      ANGLE_EXPLANATION, DOT
+    )
+)
 
 # Table formatted as a `flextable` object:
-item_params_output <- item_params                 |>
-  flextable()                                     |>
-  set_header_df(item_headers)                     |>
-  merge_v(part = "header")                        |>
-  merge_h(part = "header", i = 1:2)               |>
+item_params_output <- item_params                          |>
+  flextable()                                              |>
+  set_header_df(item_headers)                              |>
+  add_footer_lines(values = footer_values)                 |>
+  merge_v(part = "header")                                 |>
+  merge_h(part = "header", i = 1:2)                        |>
   mk_par(
-    i = 2:3, j = c(2:4, 6:9, 11:14),
+    i = 2:3, j = corr_header_index,
     part    = "header",
     value   = as_paragraph(as_equation(.)),
     use_dot = TRUE
-  )                                               |>
+  )                                                        |>
   style(
-    i    = 1:2, j = c(2:4, 6:9, 11:14),
+    i    = 1:2, j = corr_header_index,
     pr_c = fp_cell(border.bottom = fp_border(width = .5)),
     part = "header"
-  )                                               |>
-  theme_apa()                                     |>
-  colformat_double(j = -(1:4),        digits = 3) |>
-  colformat_double(j = c(8:9, 13:14), digits = 1) |>
+  )                                                        |>
+  theme_apa()                                              |>
+  colformat_double(j = multidim_scalars_index, digits = 3) |>
+  colformat_double(j = multidim_angles_index,  digits = 1) |>
   style(
     pr_p = fp_par(
       padding.bottom = 3,
       padding.top    = 3,
-      padding.left   = 4,
-      padding.right  = 4
+      padding.left   = 3,
+      padding.right  = 3
     ),
     part = "all"
-  )                                               |>
-  valign(valign = "bottom", part = "header")      |>
-  align(align   = "center", part = "header")      |>
-  align(align   = "right",  part = "body")        |>
-  fontsize(size = 12,       part = "all")         |>
+  )                                                        |>
+  style(
+    pr_p = fp_par(
+      line_spacing   = 1.25,
+      padding.bottom = 0
+    ),
+    part = "footer",
+  )                                                        |>
+  valign(valign = "bottom", part = "header")               |>
+  align(align   = "center", part = "header")               |>
+  align(align   = "right",  part = "body")                 |>
+  fontsize(size = 12,       part = "all")                  |>
   set_table_properties(layout = "autofit")
 
 ## ----compose-oblique-plot----
@@ -248,7 +279,7 @@ plot_oblique <- items_oblique |>
   geom_segment(
     arrow     = arrow(angle = 20, length = unit(10, "points"), type = "closed"),
     linejoin  = "mitre",
-    linewidth = LINE_WIDTH
+    linewidth = VECTOR_WIDTH
   )                                                         +
   scale_x_continuous(
     limits       = c(-2, 3),
@@ -260,8 +291,8 @@ plot_oblique <- items_oblique |>
   )                                                         +
   scale_y_continuous(
     limits       = c(-2, 2.8),
-    breaks       = -3:3 * cos(CORR_VALUE),
-    labels       = function(x) x / cos(CORR_VALUE),
+    breaks       = -3:3 * CORR_ARC_SIN,
+    labels       = function(x) x / CORR_ARC_SIN,
     minor_breaks = 0,
     name         = NULL,
     oob          = oob_keep
@@ -293,7 +324,7 @@ plot_orth <- items_orth |>
   geom_segment(
     arrow     = arrow(angle = 20, length = unit(10, "points"), type = "closed"),
     linejoin  = "mitre",
-    linewidth = LINE_WIDTH
+    linewidth = VECTOR_WIDTH
   ) +
   scale_x_continuous(
     limits       = c(-2.5, 2.5),

@@ -1,0 +1,651 @@
+---
+title: "Ejemplificando art"
+author: "Mario Luzardo"
+date: "2023-07-13"
+output:
+  word_document:
+    fig_width:    6
+    fig_height:   6
+  html_document:
+    fig_width:    6
+    fig_height:   6
+    code_folding: hide
+    toc:          yes
+    toc_float:    yes
+editor_options:
+  markdown:
+    canonical:    false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+rm(list=ls()) 
+library(pspline)
+library(mvtnorm)
+library(sn)
+library(mnormt)
+library(scatterplot3d)
+library(copula)
+library(ggplot2)
+library(fungible)
+library(pracma)
+library(rgl)
+set.seed(123)
+
+source("R/Math.R")
+```
+
+En esta simulacion queremos ejemplificar lo hallado hasta la fecha
+
+Primeramente se generará a la base canónica (puede no ser la canónica, cualquier base ortonormal sirve) y una base no ortogonal $\mathfrak{B}$
+
+Para simplifcar la base no ortogonal $\mathfrak{B}$ la normalizamos aunque esto no es necesario
+
+```{r base canonica, include=FALSE}
+c_v1=c(1,0)
+c_v2=c(0,1)
+Base_C=matrix(cbind(c_v1,c_v2),ncol=2)
+```
+
+```{r base no ortogonal, include=FALSE}
+b1_v1=c(1,4)
+b1_v2=c(3,1)
+b1_v1=b1_v1/len(b1_v1) # Normalized, but not necessary
+b1_v2=b1_v2/len(b1_v2) # Normalized, but not necessary
+Base_1=matrix(cbind(b1_v1,b1_v2),ncol=2)
+```
+
+La base no ortogonal es:
+
+$\mathfrak{B}$={$v_1$=(`r b1_v1[1]`, `r b1_v1[2]`) ;$v_2$=(`r b1_v2[1]`, `r b1_v2[2]`) }
+
+Estos vectores tienen norma 1 y un ángulo entre ellos de `r round(angle(Base_1[,1],Base_1[,2]),2)` grados
+
+Gráficamente los vectores de las bases canónica y B quedan
+
+```{r grafico bases, echo=FALSE, include=TRUE}
+plot(NA, xlim=c(-2,2), ylim=c(-2,2), xlab="X", ylab="Y")
+vecs <- data.frame(vname=c("a","b"),x0=c(0,0,0,0),y0=c(0,0,0,0), x1=c(1,0,Base_1[1,1],Base_1[1,2]) ,y1=c(0,1,Base_1[2,1],Base_1[2,2]),col=1:4) 
+with( vecs, mapply("arrows", x0, y0, x1,y1,col=col,lwd=3) )
+with(vecs, mapply('text', x=x1[1:2]-.1, y=y1[1:2]+.1,labels=expression(list(a), list(b) ) ))
+```
+
+```{r angulos, include=FALSE}
+alfa_1_1=angle(Base_1[,1],Base_C[,1])
+alfa_1_2=angle(Base_1[,1],Base_C[,2])
+alfa_2_1=angle(Base_1[,2],Base_C[,1])
+alfa_2_2=angle(Base_1[,2],Base_C[,2])
+```
+
+Los ángulos con los ejes coordenados son:
+
+Entre $v_1$ y $e_1$ `r round(alfa_1_1,2)` grados
+
+Entre $v_1$ y $e_2$ `r round(alfa_1_2,2)` grados
+
+Entre $v_2$ y $e_1$ `r round(alfa_2_1,2)` grados
+
+Entre $v_2$ y $e_2$ `r round(alfa_2_2,2)` grados
+
+Vamos a simular 2000 coordenadas en la base $\mathfrak{B}$. Tomaremos habilidades normales bivariadas correlacionadas 0.5 y con marginales normales típicas.
+
+```{r coordenadas en B, include=FALSE}
+CopulaNormal<-normalCopula(0.5, dim = 2, dispstr = "un")
+MvdcNorm1<-mvdc(copula=CopulaNormal,margins=c("norm","norm"),paramMargins=list(list(mean=0,sd=1),list(mean=0,sd=1)))
+coord_B<-rMvdc(2000,MvdcNorm1)
+```
+
+```{r coordenadas en C, include=FALSE}
+P=Base_1
+P_inv=solve(P)
+P_invT=t(P_inv)
+M=t(P)%*%P
+coord_C <- t(apply(coord_B, 1, function(x) P %*% as.matrix(x)))
+```
+
+Los puntos quedan gráficamente
+
+```{r coordenadas, echo=FALSE, include=TRUE}
+plot(coord_C,xlim=c(-4,4),ylim=c(-4,4))
+arrows(0, 0, 4*Base_1[1,1],4*Base_1[2,1] , lwd=3, col=2,code=2)
+arrows(0, 0, 4*Base_1[1,2], 4*Base_1[2,2], lwd=3, col=2,code=2)
+arrows(0, 0, -3*Base_1[1,1],-3*Base_1[2,1] , lwd=3, col=2,code=0)
+arrows(0, 0, -3*Base_1[1,2], -3*Base_1[2,2], lwd=3, col=2,code=0)
+grid()
+```
+
+En la base Canónica $\mathfrak{E}$ las coordenadas se obtienen mediante la matriz de cambio de base P
+
+$$\theta^{\mathfrak{E}}=P\theta^{\mathfrak{B}}$$
+
+```{r }
+print("La matriz de cambio de base P es")
+P
+```
+
+Debemos observar que los puntos quedan fijos en el espacio lo que cambia son las coordenadas dado que P es la transformación identidad expresada en ambas bases.
+
+Para mantener invariante la norma debemos definir en el espacio de la habilidad con la base B un producto interno con matriz de Gramm M $$ M= P^T P$$
+
+```{r }
+print("M resulta")
+M
+```
+
+```{r norma, echo=TRUE, include=FALSE}
+theta_C=coord_C[17,]
+#theta_C
+theta_B=solve(Base_1,theta_C)
+norma_B=as.numeric(sqrt(t(theta_B)%*%M%*%theta_B))
+norma_C=as.numeric(sqrt(t(theta_C)%*%theta_C))
+#norma_B
+#norma_C
+```
+
+Por lo tanto la norma permanece invariante esto se puede comprobar mediante un ejemplo particular.
+
+Consderamos un caso particular de habilidad dada sus coordenadas en la base canónica por `r round(theta_C,4)` y su norma usando el producto punto es `r round(norma_C,4)`
+
+Las coordenadas de este punto expresados en la base B son `r round(theta_B,4)` y su norma utilizando el producto internos con matriz de Gramm M es `r round(norma_B,4)`
+
+Es claro que al existir una transformación lineal sobre las coordenadas esto afectará a las varianzas (no a la distribución ya que partimos de una normal) y también las correlaciones.
+
+La relación viene dada por $$Var(coord_C(\theta))=P Var(coord_B(\theta)) P^T$$
+
+$$Cor(coord_C(\theta))=U P Var(coord_B(\theta)) P^T U=UVar(coord_C(\theta))U$$
+
+siendo
+
+$$U=diag((Var(coord_C(\theta)))^{-1/2})$$ Veremos como son estas relaciones en el siguiente código
+
+```{r varianzas,echo=TRUE}
+var(coord_B)
+var(coord_C)
+
+#Relaciones entre las varianzas a partir de matrices
+P%*%var(coord_B)%*%t(P)
+cor(coord_B)
+cor(coord_C)
+
+#Relaciones entre las correlaciones a partir de matrices
+U=diag(diag(sqrt(var(coord_C))^(-1)))
+   
+U%*%P%*%var(coord_B)%*%t(P)%*%U
+```
+
+## Proposición 1
+
+Veamos como funciona la proposición 1 que dice que
+
+$$ cos\gamma^B=\frac{D^{-\frac{1}{2}}M \theta^B}{\| \theta \|}$$
+
+```{r prop1,echo=TRUE}
+D=diag(c(len(b1_v1),len(b1_v2)))
+D_inv=solve(D)
+normaC=apply(coord_C,1,len)
+cosdir_B=NULL
+for(i in 1: length(normaC)){
+  aux=t((D_inv^(0.5)%*%M%*%coord_B[i,])/normaC[i])  
+  cosdir_B=rbind(cosdir_B,aux)
+}
+cosdir_B[1:5,]
+angulos=r2d(acos(cosdir_B))
+angulos[1:5,]
+```
+
+Observemos que la norma que tomamos en la función es la norma respecto a la base canonica. Si queremos considerar la base no ortogonal debe calcularse la norma con el producto interno con matriz M
+
+## Modelo
+
+```{r modelo,include=FALSE}
+a=c(0.5,1.5)
+d=0.2
+P_theta=NULL
+for(i in 1:dim(coord_B)[1]){
+  x=coord_B[i,]
+  aux=1/(1+exp(-(t(a)%*%x+d)))
+  P_theta=rbind(P_theta,aux)
+}
+
+
+a_p=P_invT%*%a
+P_theta_C=NULL
+for(i in 1:dim(coord_C)[1]){
+  x=coord_C[i,]
+  aux=1/(1+exp(-(t(a_p)%*%x+d)))
+  P_theta_C=rbind(P_theta_C,aux)
+}
+
+```
+
+Consideremos el modelo expresado en la base no ortogonal B con discriminación `r a` y d=`r d`
+
+Con el cambio
+
+$$a_i^{'}=(P^{-1})^T a_i$$ se puede modelizar utilizando las coordenadas en la base canónica, es decir la ecuación anterior da la transformación de los a al transformar los $\theta$. Esto imlica que si utilizamos las coordeadas de las habilidades en la base canónica debemos utilizar la $a'$.
+
+Veamos que coinciden ambas modelizaciones
+
+```{r comprueba}
+P_theta[1:5]
+P_theta_C[1:5]
+```
+
+## Cálculo de punto de máxima pendiente y pendiente
+
+Los cosenos directores respecto a los ejes de la base canónica de la dirección del punto de máxima pendiente son
+
+$$cos \gamma_i^E=\frac{a_i^{'}}{\sqrt{a_i^{'T}a_i^{'}}}$$ o con respecto a la base B
+
+$$cos \gamma_i^B=\frac{D^{-\frac{1}{2}} a_i}{\sqrt{a_i^{T}M^{-1}a_i}}$$
+
+La distancia al origen en esta dirección esta dada por
+
+$$D_i=\frac{-d_i}{\sqrt{a_i^{T}M^{-1}a_i}}$$ y la pendiente $$ S_i=\frac{\sqrt{a_i^{T}M^{-1}a_i}}{4}$$
+
+```{r slope, include=FALSE}
+cos_gamma_C=a_p/len(a_p)
+M_inv=solve(M)
+cos_gamma_B=(D_inv^(0.5)%*%a)/as.numeric(sqrt(t(a)%*%M_inv%*%a))
+dista=-d/as.numeric(sqrt(t(a)%*%M_inv%*%a))
+slope=as.numeric(sqrt(t(a)%*%M_inv%*%a))/4
+```
+
+Obtenemos
+
+$cos \gamma_i^E$= `r cos_gamma_C`
+
+$cos \gamma_i^B$= `r cos_gamma_B`
+
+$D_i$=`r dista`
+
+$S_i$= `r slope`
+
+El ángulo con los ejes de la base canónica es `r r2d(acos(cos_gamma_C))`
+
+Graficamos un vector cuya norma es $S_i$ aplicado sobre el punto donde se da el máximo slope
+
+```{r graslope}
+m=cos_gamma_C[2]/cos_gamma_C[1]
+punto_x=(dista/abs(dista))*sqrt(dista^2/(1+m^2))
+punto_y=m*punto_x
+
+plot(coord_C,xlim=c(-4,4),ylim=c(-4,4))
+arrows(0, 0, 4*Base_1[1,1],4*Base_1[2,1] , lwd=3, col=2,code=2)
+arrows(0, 0, 4*Base_1[1,2], 4*Base_1[2,2], lwd=3, col=2,code=2)
+arrows(0, 0, -3*Base_1[1,1],-3*Base_1[2,1] , lwd=3, col=2,code=0)
+arrows(0, 0, -3*Base_1[1,2], -3*Base_1[2,2], lwd=3, col=2,code=0)
+points(punto_x, punto_y,lwd=4, col=5)
+grid()
+
+```
+
+En un grafico de perspectiva tenemos
+
+```{r perspe}
+x=seq(-3,3,length=100)
+y=seq(-3,3,length=100)
+
+ICC=function(x,y){1/(1+exp(-(a_p[1]*x+a_p[2]*y+d)))}
+
+z=outer(x, y, ICC)
+persp(x,y,z,phi=40,border=NA,col="blue")
+
+image(x,y,z)
+contour(x,y,z,add=T)
+points(punto_x,punto_y,lwd=4, col=5)
+
+```
+
+## Función de Representación
+
+Lo anteriore lo podemos representar para cualesquiera bases mediante la función representa
+
+```{r representa}
+# BaseO es la base oblicua u original
+#BaseC base ortogonal cualesquiera
+#K matriz de cambio de base de O a C
+# a y d parámetros del modelo original
+#coord_O coordenadas del rasgo enla base original
+
+representa=function(BaseO,BaseC,K,a,d,coord_O){
+  K_inv=solve(K)
+  M=t(K)%*%K
+  M_inv=solve(M)
+  D=diag(c(len(K[,1]),len(K[,2])))
+  D_inv=solve(D)
+  coord_C=t(apply(coord_O, 1, function(x) K %*% as.matrix(x)))
+  a_p=t(K_inv)%*%a
+  #cosenos directores entre la base C y a_p
+  cos_gamma_C=a_p/len(a_p)
+  angulo_C=r2d(acos(cos_gamma_C))
+  #cosenos directores entre la base O y a_p
+  cos_gamma_B=(D_inv^(0.5)%*%a)/as.numeric(sqrt(t(a)%*%M_inv%*%a))
+  angulo_B=r2d(acos(cos_gamma_B))
+  dista=-d/as.numeric(sqrt(t(a)%*%M_inv%*%a))
+  slope=as.numeric(sqrt(t(a)%*%M_inv%*%a))/4
+  m=cos_gamma_C[2]/cos_gamma_C[1]
+    if(d==0){
+    punto_x=0
+  }else{
+  punto_x=(dista/abs(dista))*sqrt(dista^2/(1+m^2))}
+  punto_y=m*punto_x
+  #Coordenadas de la BaseO orignal en la BaseC
+  v1= K[,1] # viene de K*c(1,0) pues en la BaseO estas son las coordenadas
+  v2= K[,2] #K * (0,1)
+  plot(coord_C,xlim=c(-4,4),ylim=c(-4,4))
+  arrows(0, 0, v1[1],v1[2] , lwd=3, col=2,code=2)
+  arrows(0, 0, v2[1], v2[2], lwd=3, col=2,code=2)
+  arrows(0, 0, -v1[1],-v1[2] , lwd=3, col=2,code=0)
+  arrows(0, 0, -v2[1], -v2[2], lwd=3, col=2,code=0)
+  arrows(-2, m*(-2), 2, m*2, lwd=3, col=4,code=0)
+  points(punto_x, punto_y,lwd=4, col=5)
+  grid()
+  return(list(direccion=m,D=dista,coord_X=punto_x,coord_Y=punto_y,Slope=slope))  
+}
+
+```
+
+Podemos presentar un gráfico de nivel mediante la función repnivel
+
+```{r reprenivel}
+# x, y grilla
+#K matriz de cambio de base de O a C
+# a y d parámetros del modelo original
+#punto_X ,punto_y punto de máximo slope
+
+repnivel<-function(x=seq(-3,3,length=100),y=seq(-3,3,length=100),K,a,d,punto_x,punto_y){
+  a_p=t(solve(K))%*%a
+  ICC=function(x,y){1/(1+exp(-(a_p[1]*x+a_p[2]*y+d)))}  
+  z=outer(x, y, ICC)  
+  image(x,y,z)
+  contour(x,y,z,add=T)
+  points(punto_x,punto_y,lwd=4, col=5)
+}
+```
+
+Por ejemplo si usamos nuevamente la base $\mathfrak{B}$ y la canónica pero ahora el ítem tiene a=(0.5,2) y d=1.1
+
+```{r }
+Ej1=representa(Base_1,Base_C,P,c(0.5,2),1.1,coord_B)
+repnivel(seq(-3,3,length=100),seq(-3,3,length=100),P,c(0.5,2),1.1,Ej1$coord_X,Ej1$coord_Y)
+
+```
+
+## Test Space
+
+Observemos que el parámetro a "vive" en otro espacio vectorial que $\theta$.
+
+Llamemos a ese espacio vectorial $\mathcal A$.
+
+El modelo de TRI expresa una relación en el espacio de coordenadas de la habilidad y la discriminación y en ese espacio de coordenadas $R^n$ se considera el producto punto. En principio el rasgo $\theta$ tiene sus coordenadas expresadas en la base $\mathfrak{B}$ que representa a las reales dimensiones que tiene el rasgo. También las discriminaciones estan expresadas en alguna base que al no tener restricciones previas podemos suponer cualquier base que fijará las transformaciones del espacio. En particular supondremos que la base de origen en el espacio $\mathcal A$ tiene como vectores las columnas de $(P^{-1})^T$. La llamaremos $\mathfrak{A}$
+
+Al realizar un cambio de base en el espacio $\Theta$ donde se transforman las coordenadas de la base $\mathfrak{B}$ a la base $\mathfrak{E}$ (en nuestro caso la canónica) mediante la matriz P a partir de la ecuación de ligadura dada por el modelo observamos que las coordenadas de las dicriminaciones ($a_i$) se trasforman en $a^'_i$ mediante la ecuación
+
+$$a_i^{'}=(P^{-1})^T a_i$$
+
+Al ser $(P^{-1})^T$ invertible representa una matriz de cambio de base que lleva las coordenasas de $a_i$ expresadas en la base $\mathfrak{A}$ a la base canónica
+
+Además al tratarse de una transformación identidad la norma de $a_i$ no cambia al expresarse en las diferentes bases. Para mantener esta condición se induce un producto interno en el espacio original con matriz de Gramm $M^{-1}$
+
+$$\parallel a_i^{'} \parallel=a_i^T P^{-1} (P^{-1})^T a_i =a_i^T M^{-1}a_i$$
+
+En nuestro ejemplo la base $\mathfrak{A}$ se puede dibujar
+
+```{r coord3, echo=FALSE, include=TRUE}
+plot(NA,xlim=c(-4,4),ylim=c(-4,4))
+arrows(0, 0, 2*P_invT[1,1],2*P_invT[2,1] , lwd=3, col=2,code=2)
+arrows(0, 0, 2*P_invT[1,2], 2*P_invT[2,2], lwd=3, col=2,code=2)
+grid()
+```
+
+## Consideramdo la estructura probabilistica de $\Theta$
+
+Si ahora consideramos la estructura probabilistica de los rasgos por ejemplo
+
+$$\theta \sim N(0, \Sigma)$$
+
+El hecho de que la media sea 0 no hace perder generalidad pies se puede centrar el rasgo.
+
+Suponemos además que la base natural de los rasgos es $\mathfrak{B}$ que en nuestro ejemplo es
+
+```{r b1, include=FALSE}
+print(Base_1)
+```
+
+Como ya vimos graficamente tenemos
+
+```{r coord, echo=FALSE, include=TRUE}
+plot(coord_C,xlim=c(-4,4),ylim=c(-4,4))
+arrows(0, 0, 4*Base_1[1,1],4*Base_1[2,1] , lwd=3, col=2,code=2)
+arrows(0, 0, 4*Base_1[1,2], 4*Base_1[2,2], lwd=3, col=2,code=2)
+arrows(0, 0, -3*Base_1[1,1],-3*Base_1[2,1] , lwd=3, col=2,code=0)
+arrows(0, 0, -3*Base_1[1,2], -3*Base_1[2,2], lwd=3, col=2,code=0)
+grid()
+```
+
+La pregunta es cual es la base ortonormal conveniente para tomarnos
+
+```{r DEB, echo=FALSE, include=TRUE}
+aux=eigen(var(coord_B))
+Q=aux$vectors
+Qinv=solve(Q)
+lam=diag(aux$values)
+auxi=Q%*%lam%*%t(Q)
+```
+
+```{r coord2, echo=FALSE, include=TRUE}
+plot(coord_C,xlim=c(-4,4),ylim=c(-4,4))
+arrows(0, 0, 4*Base_1[1,1],4*Base_1[2,1] , lwd=3, col=2,code=2)
+arrows(0, 0, 4*Base_1[1,2], 4*Base_1[2,2], lwd=3, col=2,code=2)
+arrows(0, 0, -3*Base_1[1,1],-3*Base_1[2,1] , lwd=3, col=2,code=0)
+arrows(0, 0, -3*Base_1[1,2], -3*Base_1[2,2], lwd=3, col=2,code=0)
+arrows(0, 0, 4*Q[1,1],4*Q[2,1] , lwd=3, col=3,code=2)
+arrows(0, 0, 4*Q[1,2],4*Q[2,2] , lwd=3, col=3,code=2)
+grid()
+
+```
+
+El ángulo entre los vectores propios es 1
+
+```{r , echo=FALSE, include=TRUE}
+print(angle(Q[,1],Q[,2]))
+```
+
+Debemos entonces desarrollar como queda la matriz de cambio de base entre la base $\mathfrak{B}$ y la base de vectores propios $\mathfrak{L}$ de la matriz $\Sigma$
+
+Tenemos al descomponer espectralmente a $\Sigma$ que
+
+$$\Sigma=Q \Lambda Q^T$$
+
+con $Q^T=Q^{-1}$
+
+La descomposicion espectral se expresa en la base canónica tanto para los datos con coordenadas en la base $\mathfrak{B}$ como en la base $\mathfrak{E}$.
+
+Si descomponemos $Sigma_E$ (con los datos en la base canónica) entonces
+
+$$
+\Sigma_E = Q_E \Lambda_E Q_E^T
+$$
+
+y lo propio con $\Sigma_B$ (con las coordenadas oblicuas)
+
+$$
+\Sigma_B = Q_B \Lambda_B Q_B^T
+$$
+
+Además como ya vimos
+
+$$
+\Sigma_E=P \Sigma_B P^T
+$$
+
+de donde
+
+$$
+Q_E \Lambda_E Q_E^T = P Q_B \Lambda_B Q_B^T P^T
+$$
+
+Si tomamos la matriz $L$ definida como la matriz diagonal que contiene el cociente de los valores propios de $\Lambda_B$ entre $\Lambda_E$
+
+Entonces
+
+$$
+Q_E \Lambda_E Q_E^T = P Q_B L^{1/2} \Lambda_E (P Q_B L^{1/2} )^T
+$$
+
+o sea se cumple que
+
+$$
+Q_E = P Q_B L^{1/2}
+$$
+
+Como $Q_E$ tiene los vectores propios como columnas, es la matriz de cambio de base entre la base $\mathfrak{L}$ y la base canónica o sea
+
+$$\theta^{\mathfrak{E}}=Q_E\theta^{\mathfrak{L}}$$
+
+Como $$\theta^{\mathfrak{E}}=P\theta^{\mathfrak{B}}$$
+
+Luego la matriz de cambio de base entre $\mathfrak{B}$ y $\mathfrak{L}$ es $Q_E^{-1}P$
+
+Una expresion de la matriz de cambio de base es
+
+$$
+Q_E^{-1}P = ( PQ_BL^{1/2} )^{-1} P= L^{-1/2} Q_B^{-1}
+$$
+
+Veamos como queda
+
+```{r DEBC, echo=FALSE, include=TRUE}
+sigma_E=var(coord_C)
+aux_E=eigen(sigma_E)
+Q_E=aux_E$vectors
+Qinv_E=solve(Q_E)
+lam_E=diag(aux_E$values)
+auxi_E=Q_E%*%lam_E%*%t(Q_E)
+
+sigma_B=var(coord_B)
+aux_B=eigen(sigma_B)
+Q_B=aux_B$vectors
+Qinv_B=solve(Q_B)
+lam_B=diag(aux_B$values)
+auxi_B=Q_B%*%lam_B%*%t(Q_B)
+
+KK=Qinv_E%*%P
+llam_E=diag(lam_E)
+llam_B=diag(lam_B)
+L=diag(llam_B/llam_E)
+L_raiz=diag(diag(L)^(-1/2))
+L_raiz%*%Qinv
+
+coord_L <- t(apply(coord_B, 1, function(x) KK %*% as.matrix(x)))
+
+```
+
+$Q_B$ es
+
+```{r , echo=FALSE, include=TRUE}
+print(Q_B)
+```
+
+$Q_E$ es
+
+```{r , echo=FALSE, include=TRUE}
+print(Q_E)
+```
+
+La matriz de cambio de base $Q_E^{-1}P$ es
+
+```{r , echo=FALSE, include=TRUE}
+print(KK)
+print(len(KK[,1]))
+print(len(KK[,2]))
+```
+
+Se puede aplicar con esta matriz de cambio de base los resultados anteriores hallados.
+
+Como queda la nube ahora
+
+```{r coord4, echo=FALSE, include=TRUE}
+PP2=KK
+coord_VP <- t(apply(coord_B, 1, function(x) PP2 %*% as.matrix(x)))
+plot(coord_VP,xlim=c(-4,4),ylim=c(-4,4))
+arrows(0, 0, 4*PP2[1,1],4*PP2[2,1] , lwd=3, col=2,code=2)
+arrows(0, 0, 4*PP2[1,2], 4*PP2[2,2], lwd=3, col=2,code=2)
+arrows(0, 0, -3*PP2[1,1],-3*PP2[2,1] , lwd=3, col=2,code=0)
+arrows(0, 0, -3*PP2[1,2], -3*PP2[2,2], lwd=3, col=2,code=0)
+grid()
+
+```
+
+La matriz de varianza covarianza es
+
+```{r , echo=FALSE, include=TRUE}
+print(var(coord_VP))
+```
+
+Otra manera de proceder para encontrar la base y su matriz es de nuevo considerar
+
+$$
+\Sigma_B = Q_B \Lambda_B^{1/2} \Lambda_B^{1/2} Q_B^T
+$$ Si consideramos como mariz de cambio de base
+
+$$P=\Lambda_B^{1/2} Q_B^T$$ entonces $$\Sigma_B =P^T P=M$$ La matriz de cambio de be queda
+
+```{r , echo=FALSE, include=TRUE}
+lam_medio=diag(aux_B$values^(1/2))
+KK2=lam_medio%*%t(Q)
+```
+
+```{r , echo=FALSE, include=TRUE}
+print(KK2)
+print(t(KK2)%*%KK2)
+```
+
+```{r coord5, echo=FALSE, include=TRUE}
+PP2=KK2
+coord_sigma <- t(apply(coord_B, 1, function(x) PP2 %*% as.matrix(x)))
+plot(coord_sigma,xlim=c(-4,4),ylim=c(-4,4))
+arrows(0, 0, 4*PP2[1,1],4*PP2[2,1] , lwd=3, col=2,code=2)
+arrows(0, 0, 4*PP2[1,2], 4*PP2[2,2], lwd=3, col=2,code=2)
+arrows(0, 0, -3*PP2[1,1],-3*PP2[2,1] , lwd=3, col=2,code=0)
+arrows(0, 0, -3*PP2[1,2], -3*PP2[2,2], lwd=3, col=2,code=0)
+grid()
+
+```
+
+También recordando que \$ Q_B^T=Q_B^{-1}\$ tenemos
+
+$$
+\Sigma_B^{-1} = Q_B \Lambda_B^{-1/2} \Lambda_B^{-1/2} Q_B^T
+$$ Si consideramos como matriz de cambio de base
+
+$$P=\Lambda_B^{-1/2} Q_B^T$$ entonces $$\Sigma_B^{-1} =P^T P=M$$ La matriz de cambio de be queda
+
+```{r , echo=FALSE, include=TRUE}
+lam_mediomenos=diag(aux_B$values^(-1/2))
+KK3=lam_mediomenos%*%t(Q)
+```
+
+```{r , echo=FALSE, include=TRUE}
+print(KK3)
+print(t(KK3)%*%KK3)
+```
+
+```{r coord6, echo=FALSE, include=TRUE}
+PP2=KK3
+coord_menossigma <- t(apply(coord_B, 1, function(x) PP2 %*% as.matrix(x)))
+plot(coord_menossigma,xlim=c(-4,4),ylim=c(-4,4))
+arrows(0, 0, 4*PP2[1,1],4*PP2[2,1] , lwd=3, col=2,code=2)
+arrows(0, 0, 4*PP2[1,2], 4*PP2[2,2], lwd=3, col=2,code=2)
+arrows(0, 0, -3*PP2[1,1],-3*PP2[2,1] , lwd=3, col=2,code=0)
+arrows(0, 0, -3*PP2[1,2], -3*PP2[2,2], lwd=3, col=2,code=0)
+grid()
+
+```
+
+Varianza de la nube
+
+```{r , echo=FALSE, include=TRUE}
+print(var(coord_menossigma))
+```

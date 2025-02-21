@@ -15,34 +15,59 @@
 ## ---- INCLUDES: --------------------------------------------------------------
 
 library(glue)
+library(rlang)
 
 
-# source("R/<File_name>.R")
+# source("R/<File_name>.R", encoding = 'UTF-8')
 
 
 ## ---- CONSTANTS: -------------------------------------------------------------
 
-DELIMITER  <- '$'
-SEP        <- ' '
-EQ_SIGN    <- ' = '
-EQUIV_SIGN <- ' \\equiv '
-DEF_SIGN   <- ' \\coloneq '
-SIM_SIGN   <- ' \\sim '
-IN_SIGN    <- ' \\in '
-NO_SEP     <- ''
-SEP_COMMA  <- ', '
-UNDERSCORE <- '_'
-ELLIPSIS   <- '...'
+EMPTY_STRING      <- ''
 
 TRANSPOSED_SUFFIX <- '^T'
 PRIME_SUFFIX      <- "'"
 
+DELIMITER  <- '$'
+SEP        <- ' '
+EQ_SIGN    <- ' = '
+AL_EQ_SIGN <- ' &= '
+EQUIV_SIGN <- ' \\equiv '
+DEF_SIGN   <- ' \\coloneq '
+SIM_SIGN   <- ' \\sim '
+IN_SIGN    <- ' \\in '
+NO_SEP     <- EMPTY_STRING
+SEP_SPACE  <- '\\,'
+SEP_COMMA  <- ', '
+UNDERSCORE <- '_'
+
+ELLIPSIS      <- '...'
+DIAG_ELLIPSIS <- '\\ddots'
+
 INNER_PROD_LEFT  <- "\\langle"
 INNER_PROD_RIGHT <- "\\rangle"
-INNER_PROD_SEP   <- ",\\,"
+INNER_PROD_SEP   <- paste0(SEP_COMMA, SEP_SPACE)
+
+SUMMATION_OP   <- "\\sum"
+COORDINATES_OP <- "coord"
 
 LATEX_CLASS <- "laTeR"
 
+ENCLOSING_VALUES <- c(
+  "parentheses",
+  "sqbrackets",
+  "curlybraces",
+  "pipes",
+  "doublepipes"
+)
+
+COLUMN_SEP    <- " & "
+LINE_BREAK    <- "\\\\"
+EMPTY_OPERAND <- SEP
+
+END_OF_PROOF <- "\\blacksquare"
+# TODO: Maybe change by `\rule{2mm}{2mm}`
+#       (see https://tex.stackexchange.com/a/302260 )
 
 ## ---- FUNCTIONS: -------------------------------------------------------------
 
@@ -94,7 +119,10 @@ latex_frac <- function(num, den, .inline = FALSE, .sep = SEP) {
 }
 latex_ifrac <- function(num, den) latex_frac(num, den, .inline = TRUE)
 
-latex_eq    <- function(...) latex(..., .sep = EQ_SIGN)
+latex_eq    <- function(..., .align = FALSE) {
+  
+  latex(..., .sep = if (.align) AL_EQ_SIGN else EQ_SIGN)
+}
 latex_equiv <- function(...) latex(..., .sep = EQUIV_SIGN)
 latex_def   <- function(...) latex(..., .sep = DEF_SIGN)
 latex_sim   <- function(...) latex(..., .sep = SIM_SIGN)
@@ -108,6 +136,32 @@ latex_sign <- function(..., .par = NA) {
   
   latex(latex_rm("sign"), argument)
 }
+
+### Iterated operations: ----
+
+latex_summation <- function(index, ..., from = 1, to = NULL, .par = NA) {
+  
+  if (is.na(.par)) .par <- length(list(...)) != 1
+  
+  if (is.null(to)) {
+    
+    sub <- latex_in(index, from)
+    
+  } else {
+    
+    sub <- latex_eq(index, from)
+  }
+  
+  operator <- latex_sub(SUMMATION_OP, sub)
+  
+  if (!is.null(to)) operator <- latex_raised_to(operator, exp = to)
+  
+  result <- latex(...)
+  if (.par) result <- latex_parentheses(result)
+  
+  latex(operator, result)
+}
+
 
 ### Powers and roots: ----
 
@@ -155,8 +209,14 @@ latex_seconddiff <- function(fun, par) {
 ### Exponentials and logistics: ----
 
 latex_exp       <- function(x) latex("\\exp{$latex(x)$}")
-latex_log_den   <- function(x) latex("1 + ", latex_exp(latex("\\left[-$x$\\right]")))
+
+latex_log_den   <- function(x) {
+  
+  latex("1 + ", latex_exp(latex("\\left[-$x$\\right]")))
+}
+
 latex_logistic  <- function(x) latex_frac(1, latex_log_den(x))
+
 latex_inv_log   <- function(x) latex_frac(1, latex("1 + ", latex_exp(x)))
 
 
@@ -176,6 +236,105 @@ latex_tan_def    <- function(x) {
 }
 
 
+### Linear algebra: ----
+
+latex_basis_change <- function(init_basis, end_basis) {
+  
+  latex(
+    "{}_{$end_basis$}",
+    latex_sub(latex_parentheses('I'), init_basis)
+  )
+}
+
+latex_coords <- function(vector, basis, transpose = FALSE) {
+  
+  COORDINATES_OP <- latex_rm(COORDINATES_OP)
+  
+  result <- latex_sub(COORDINATES_OP, basis, .abbr = TRUE)
+  
+  if (transpose) result <- latex_transp(result)
+  
+  latex(result, latex_parentheses(vector, .sep = NO_SEP), .sep = NO_SEP)
+}
+
+latex_norm <- function(..., basis = NULL) {
+  
+  result <- latex_doublepipes(...)
+  
+  if (!is.null(basis)) return(latex_sub(result, basis))
+  
+  result
+}
+
+
+### Matrices: ----
+
+latex_matrix <- function(elements,
+                         enclosing = ENCLOSING_VALUES,
+                         small     = FALSE,
+                         precision) {
+  
+  if (!is.matrix(elements)) stop("`elements` is not a matrix.")
+
+  enclosing_func <- paste0("latex_", match.arg(enclosing))
+  
+  
+  result <- list()
+  
+  for (row in seq_len(nrow(elements))) {
+    
+    row_elements <- elements[row, ]
+    
+    if (!missing(precision)) {
+      
+      row_elements <- row_elements |> round(precision)
+    }
+    
+    result[[row]] <- do.call(
+      latex,
+      args = append(row_elements, list(.sep = COLUMN_SEP))
+    )
+  }
+
+  result <- do.call(
+    latex,
+    args = append(result, list(.sep = LINE_BREAK))
+  )
+  
+  envir <- if (small) "smallmatrix" else "matrix"
+  
+  result <- latex("\\begin{$envir$}\n$result$\n\\end{$envir$}")
+  
+  do.call(enclosing_func, args = list(result))
+}
+
+latex_diagmatrix <- function(elements,
+                             enclosing = ENCLOSING_VALUES,
+                             small     = FALSE) {
+  
+  n      <- length(elements)
+  mode   <- if (is.list(elements)) "character" else mode(elements)
+  
+  matrix <- vector(mode = mode, length = n^2)
+  if (is.list(elements)) {
+    
+    matrix <- as.list(matrix)
+    matrix[matrix == ''] <- EMPTY_OPERAND
+  }
+  
+  dim(matrix) <- rep(n, 2)
+  diag(matrix) <- elements
+  
+  latex_matrix(matrix, enclosing = enclosing, small = small)
+}
+
+latex_enum_diagmatrix <- function(init, end,
+                                  enclosing = ENCLOSING_VALUES,
+                                  small     = FALSE) {
+  
+  latex_diagmatrix(list(init, DIAG_ELLIPSIS, end))
+}
+
 ### Matrix algebra: ----
 
 latex_transp <- function(x) {
@@ -192,9 +351,15 @@ latex_transp <- function(x) {
 #   latex(x, '^', transp_sym, .sep = NO_SEP)
 # }
 
-latex_innerprod <- function(x, y) {
+latex_innerprod <- function(x     = EMPTY_OPERAND,
+                            y     = EMPTY_OPERAND,
+                            basis = NULL) {
   
-  latex(INNER_PROD_LEFT, x, INNER_PROD_SEP, y, INNER_PROD_RIGHT)
+  result <- latex(INNER_PROD_LEFT, x, INNER_PROD_SEP, y, INNER_PROD_RIGHT)
+  
+  if (!is.null(basis)) return(latex_sub(result, basis))
+  
+  result
 }
 
 
@@ -207,7 +372,11 @@ latex_in <- function(element, set) latex(element, set, .sep = IN_SIGN)
 ### Enclosing functions: ----
 
 latex_enclose     <- function(...) latex("{", ..., "}", .sep = NO_SEP)
-latex_norm        <- function(...) latex("\\left\\|", ..., "\\right\\|")
+
+latex_doublepipes <- function(...) latex("\\left\\|", ..., "\\right\\|")
+
 latex_parentheses <- function(...) latex("\\left(", ..., "\\right)")
+
 latex_sqbrackets  <- function(...) latex("\\left[", ..., "\\right]")
+
 latex_curlybraces <- function(...) latex("\\left\\{", ..., "\\right\\}")
