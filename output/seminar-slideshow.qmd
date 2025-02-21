@@ -92,6 +92,7 @@ library(purrr)
 library(plotly)
 library(metR)
 library(scales)
+library(mvtnorm)
 ```
 
 ```{r setup}
@@ -4526,9 +4527,134 @@ Esta propiedad se llama "invarianza" del ítem.
 
 ---@reckase_difficulty_1985 [p. 404]
 
-<!-- # TODO: Expresión de las \thetas transformadas -->
+:::::::::::: columns
+::::::: column
+::: {.fragment fragment-index="1"}
+$$
+  cor (\mathbf{\theta}) = \mathbf{R}
+$$
+:::
 
-<!-- # TODO: Distribución de \thetas en ejes ortogonales -->
+::: {.fragment fragment-index="2"}
+$$
+  \mathbf{R} = \begin{bmatrix}
+      1 & 0.5 \\
+      0.5 & 1
+    \end{bmatrix}
+$$
+:::
+
+::: {.fragment fragment-index="3"}
+$$
+  \mathbf{\theta}^* = \mathbf{P} \mathbf{\theta}
+$$
+:::
+
+::: {.fragment fragment-index="4"}
+$$
+  cor (\mathbf{\theta}^*) =
+    \mathbf{R}^* =
+    \begin{bmatrix}
+      1 & 0 \\
+      0 & 1
+    \end{bmatrix}
+$$
+:::
+:::::::
+
+:::::: column
+::::: r-stack
+::: {.fragment fragment-index="2"}
+```{r corr-traits-example}
+#| fig-width:  5.5
+#| fig-height: 5.5
+
+set.seed(7117)
+
+corr_matrix <- matrix(c(1, .5, .5, 1), nrow = 2)
+
+thetas <- rmvnorm(10^4, sigma = corr_matrix) |>
+  as_tibble(.name_repair = ~paste0("trait_", 1:2))
+
+thetas |>
+  ggplot(mapping = aes(trait_1, trait_2)) +
+  geom_vline(xintercept = 0, linewidth = GRID_WIDTH) +
+  geom_hline(yintercept = 0, linewidth = GRID_WIDTH) +
+  geom_point(alpha = .33, shape = 16, colour = I(PALETTE_BLUE["normal"])) +
+  scale_x_continuous(
+    minor_breaks = NULL,
+    limits = c(-4, 4),
+    expand = expansion(),
+    name   = NULL,
+    sec.axis = dup_axis(name = "*&theta;*~2~", labels = NULL)
+  ) +
+  scale_y_continuous(
+    minor_breaks = NULL,
+    limits = c(-4, 4),
+    expand = expansion(),
+    name   = NULL,
+    sec.axis = dup_axis(name = "*&theta;*~1~", labels = NULL)
+  ) +
+  coord_fixed() +
+  theme(
+    axis.ticks       = element_blank(),
+    axis.line        = element_blank(),
+    axis.title       = element_markdown(),
+    axis.title.y     = element_markdown(),
+    panel.grid.major = element_line(linetype = "17", linewidth = GRID_WIDTH)
+  )
+```
+:::
+
+::: {.fragment .fade-in fragment-index="4"}
+```{r corr-traits-transf-example}
+#| fig-width:  5.5
+#| fig-height: 5.5
+
+set.seed(7117)
+
+# This is a square root of the correlation matrix, then inverted and transposed:
+orth_matrix <- c(1, 0, .5, sqrt(.75)) |> matrix(nrow = 2) |> solve() |> t()
+
+thetas_transf <- thetas |>
+  rownames_to_column("i") |>
+  pivot_longer(starts_with("trait")) |>
+  group_by(i) |>
+  mutate(value = orth_matrix %*% value |> drop()) |>
+  pivot_wider() 
+
+thetas_transf |>
+  ggplot(mapping = aes(trait_1, trait_2)) +
+  geom_vline(xintercept = 0, linewidth = GRID_WIDTH) +
+  geom_hline(yintercept = 0, linewidth = GRID_WIDTH) +
+  geom_point(alpha = .33, shape = 16, colour = I(PALETTE_BLUE["normal"])) +
+  scale_x_continuous(
+    minor_breaks = NULL,
+    limits = c(-4, 4),
+    expand = expansion(),
+    name   = NULL,
+    sec.axis = dup_axis(name = "*&theta;*^*^~2~", labels = NULL)
+  ) +
+  scale_y_continuous(
+    minor_breaks = NULL,
+    limits = c(-4, 4),
+    expand = expansion(),
+    name   = NULL,
+    sec.axis = dup_axis(name = "*&theta;*^*^~1~", labels = NULL)
+  ) +
+  coord_fixed() +
+  theme(
+    axis.ticks       = element_blank(),
+    axis.line        = element_blank(),
+    axis.title       = element_markdown(),
+    axis.title.y     = element_markdown(),
+    panel.grid.major = element_line(linetype = "17", linewidth = GRID_WIDTH)
+  )
+```
+:::
+:::::
+::::::
+::::::::::::
 
 ::: notes
 Hacer esta generalización no es algo tan directo como ocurría con la probabilidad "monótonamente decreciente".
@@ -4536,13 +4662,13 @@ Si os acordáis, Reckase aplicaba esta restricción de que la suma de cosenos di
 Pero para aplicarla hace falta asumir que esos cosenos directores son todos ortogonales entre sí, como ya hemos visto.
 Si no tenemos ángulos rectos, esa condición no se cumple.
 
-[NEXT]
+\[NEXT\]
 
 Y lo que nosotros estamos asumiendo es que tenemos una distribución de vectores de rasgo latente ($\theta$) con una matriz de correlaciones $R$ (la que sea).
-Normalmente representamos esos vectores en coordenadas rectangulares (ejes ortogonales), pero para obtener los parámetros multidimensionales generalizados a Ejes oblicuos tenemos que representados en un espacio no ortogonal (aquí también hablaría de "unidades no estandarizadas", es decir, que la distancia entre el o y el 1 pueda ser distinta de la base estándar, pero digamos solamente "no ortogonal" por simplificar).
+Normalmente representamos esos vectores en coordenadas rectangulares (ejes ortogonales), pero para obtener los parámetros multidimensionales generalizados a ejes oblicuos tenemos que representados en un espacio no ortogonal (aquí también hablaría de "unidades no" estandarizadas", es decir, que la distancia entre el 0 y el 1 pueda ser "distinta de la base estándar, pero digamos solamente "no ortogonal" por simplificar).
 
 ¿Cómo podríamos solucionar esto?
-Lo que podemos hacer es aplicar una "transformación" a los rasgos latentes de forma que pasemos de este espacio oblicuo (el que sea, aún no sabemos cuál es) a un espacio ortogonal.
+Lo que podemos hacer es aplicar una "transformación" a los rasgos latentes de forma que pasemos de ese espacio oblicuo (el que sea, aún no sabemos cuál es) a un espacio ortogonal.
 :::
 
 ## Generalización: Ejes oblicuos
