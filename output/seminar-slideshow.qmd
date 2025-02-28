@@ -4526,43 +4526,9 @@ Esta propiedad se llama "invarianza" del ítem.
 ---@reckase_difficulty_1985 [p. 404]
 
 :::::::::::: columns
-::::::: column
-::: {.fragment fragment-index="1"}
-$$
-  cor (\mathbf{\theta}) = \mathbf{R}
-$$
-:::
-
-::: {.fragment fragment-index="2"}
-$$
-  \mathbf{R} = \begin{bmatrix}
-      1 & 0.5 \\
-      0.5 & 1
-    \end{bmatrix}
-$$
-:::
-
-::: {.fragment fragment-index="3"}
-$$
-  \mathbf{\theta}^* = \mathbf{P} \mathbf{\theta}
-$$
-:::
-
-::: {.fragment fragment-index="4"}
-$$
-  cor (\mathbf{\theta}^*) =
-    \mathbf{R}^* =
-    \begin{bmatrix}
-      1 & 0 \\
-      0 & 1
-    \end{bmatrix}
-$$
-:::
-:::::::
-
 :::::: column
 ::::: r-stack
-::: {.fragment fragment-index="2"}
+::: {.fragment fragment-index="1"}
 ```{r corr-traits-example}
 #| fig-width:  5.5
 #| fig-height: 5.5
@@ -4652,6 +4618,40 @@ thetas_transf |>
 :::
 :::::
 ::::::
+
+::::::: column
+::: {.fragment fragment-index="1"}
+$$
+  cor (\mathbf{\theta}) = \mathbf{R}
+$$
+:::
+
+::: {.fragment fragment-index="2"}
+$$
+  \mathbf{R} = \begin{bmatrix}
+      1 & 0.5 \\
+      0.5 & 1
+    \end{bmatrix}
+$$
+:::
+
+::: {.fragment fragment-index="3"}
+$$
+  \mathbf{\theta}^* = \mathbf{P} \mathbf{\theta}
+$$
+:::
+
+::: {.fragment fragment-index="4"}
+$$
+  cor (\mathbf{\theta}^*) =
+    \mathbf{R}^* =
+    \begin{bmatrix}
+      1 & 0 \\
+      0 & 1
+    \end{bmatrix}
+$$
+:::
+:::::::
 ::::::::::::
 
 ::: notes
@@ -4663,36 +4663,25 @@ Si no tenemos ángulos rectos, esa condición no se cumple.
 \[NEXT\]
 
 Y lo que nosotros estamos asumiendo es que tenemos una distribución de vectores de rasgo latente ($\theta$) con una matriz de correlaciones $R$ (la que sea).
+
+\[NEXT\]
+
+(En este ejemplo, vamos a usar una distribución normal estandarizada con correlación de 0,5).
+
 Normalmente representamos esos vectores en coordenadas rectangulares (ejes ortogonales), pero para obtener los parámetros multidimensionales generalizados a ejes oblicuos tenemos que representados en un espacio no ortogonal (aquí también hablaría de "unidades no" estandarizadas", es decir, que la distancia entre el 0 y el 1 pueda ser "distinta de la base estándar, pero digamos solamente "no ortogonal" por simplificar).
 
 ¿Cómo podríamos solucionar esto?
+
+\[NEXT\]
+
 Lo que podemos hacer es aplicar una "transformación" a los rasgos latentes de forma que pasemos de ese espacio oblicuo (el que sea, aún no sabemos cuál es) a un espacio ortogonal.
-:::
-
-## Generalización: Ejes oblicuos
-
-<!-- # TODO: Expresión de las \thetas transformadas -->
-
-<!-- # TODO: Expresión de la R transformada -->
-
-<!-- # TODO: Distribución (esférica) de las \thetas transformadas -->
-
-::: notes
 Esto es una transformación de las coordenadas, como la que aplicamos antes para calcular las coordenadas del ítem tras aplicar la rotación oblicua, pero aplicada en este caso al vector de rasgo latente.
 
-Estas nuevas coordenadas (transformadas), que ahora están en un espacio ortogonal, queremos que representen una distribución en la que las correlaciones sean nulas, es decir, que la matriz de correlaciones transformada ($R^B$) sea una matriz identidad (unos en la diagonal, ceros en el resto).
+Ahora bien, como recordaréis, queremos representar los ítems en unos ejes que sean, por los ángulos relativos entre ellos, una representación fidedigna, de alguna manera, de las correlaciones entre las dimensiones de rasgo latente.
+
+Estas nuevas coordenadas (transformadas), que ahora están en un espacio ortogonal, queremos que representen una distribución en la que las correlaciones sean nulas, es decir, que la matriz de correlaciones transformada ($R^*$ la vamos a llamar) sea una matriz identidad (unos en la diagonal, ceros en el resto).
 Pero hay que tener en cuenta que esto es un "artefacto matemático".
 Estamos haciendo esto por conveniencia, pero las coordenadas que realmente nos interesan como investigadores, porque son las que verdaderamente representan algo que nos interesa investigar, son esas coordenadas originales, que pueden representar cualquier fenómeno que sea de nuestro interés (rasgos de personalidad, síntomas, actitudes, inteligencia, conocimientos... lo que estemos investigando).
-:::
-
-## Generalización: Ejes oblicuos
-
-<!-- # TODO: Ejemplo de \theta (expresión) y coordenadas en espacio oblicuo -->
-
-::: notes
-Mientras tanto, las coordenadas de los "rasgos latentes" originales se van a representar en otros ejes, en general distintos de los "ejes ortogonales" transformados.
-Esto lo que significa es que las puntuaciones de rasgo latente originales van a representar la posición de un participante respecto de esos ejes originales.
-Por ejemplo, en este caso, si el participante tiene un "vector de puntuaciones" \[1, 2\], para representar sus coordenadas tenemos que desplazarnos, primero una unidad en el primer eje, y luego dos unidades en el segundo eje.
 :::
 
 ## Generalización: Ejes oblicuos
