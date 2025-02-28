@@ -4686,11 +4686,76 @@ Estamos haciendo esto por conveniencia, pero las coordenadas que realmente nos i
 
 ## Generalización: Ejes oblicuos
 
-<!-- # TODO: Matriz de correlaciones con correlación muy alta -->
+¿Cuál es el sistema de coordenadas de θ para que θ* tenga correlaciones nulas?
 
+:::: {.columns .fragment}
+::: column
+```{r}
+x_limits <- c(-4, 4)
+y_limits <- c(-4, 4)
+
+vec_1 <- c(1, 0)
+vec_2 <- c(.5, sqrt(.75))
+basis <- cbind(vec_1, vec_2) |> unname()
+
+vec_1_tan <- vec_1[2]/vec_1[1]
+vec_2_tan <- vec_2[2]/vec_2[1]
+
+h_grid_limits <- trunc(x_limits / vec_2[2]) + c(-1, 1)
+h_grid_values <- h_grid_limits[1]:h_grid_limits[2]
+h_grid_interc <- h_grid_values * vec_2[2]
+h_grid_labpos <- h_grid_values + vec_1_tan * x_limits[1]
+
+v_grid_limits <- trunc(y_limits / vec_1[1]) + c(-1, 1)
+v_grid_values <- v_grid_limits[1]:v_grid_limits[2]
+v_grid_xcoord <- v_grid_values * vec_1[1]
+v_grid_interc <- - v_grid_xcoord * vec_2_tan
+v_grid_labpos <- v_grid_values # TODO
+
+ggplot() +
+  geom_abline(intercept = h_grid_interc, slope = vec_1_tan) +
+  geom_abline(intercept = v_grid_interc, slope = vec_2_tan) +
+  scale_x_continuous(
+    minor_breaks = NULL,
+    breaks = v_grid_labpos,
+    labels = v_grid_values,
+    limits = x_limits,
+    expand = expansion(),
+    name   = NULL,
+    sec.axis = dup_axis(name = "*&theta;*~2~", labels = NULL)
+  ) +
+  scale_y_continuous(
+    minor_breaks = NULL,
+    breaks = h_grid_labpos,
+    labels = h_grid_values,
+    limits = y_limits,
+    expand = expansion(),
+    name   = NULL,
+    sec.axis = dup_axis(name = "*&theta;*~1~", labels = NULL)
+  ) +
+  coord_fixed() +
+  theme(
+    axis.ticks       = element_blank(),
+    axis.line        = element_blank(),
+    axis.title       = element_markdown(valign = vec_2_tan * y_limits[2]), # TODO
+    axis.title.y     = element_markdown(halign = vec_1_tan * x_limits[2])
+  )
+```
+:::
+::: column
+:::
+::: column
+:::
+::::
 <!-- # TODO: Opciones de elección de bases oblicuas: rectangular, ejes muy alineados, ejes correctos -->
 
 ::: notes
+Llegados a este punto, la incógnita es: ¿Qué matriz es $\mathbf{P}$, es decir, la matriz que nos permite pasar de las coordenadas originales, $\mathbf{\theta}$, a las transformadas $\mathbf{\theta^*}$?
+Esto es equivalente a decir, ¿cuáles son los ejes originales en los que tenemos que representar $\mathbf{\theta}$?
+(Recordad, para que $\mathbf{R^*}$ sea una matriz identidad, 1's en la diagonal y 0's fuera de ella).
+
+[NEXT]
+
 En base a lo planteado anteriormente, me gustaría hacer una prueba con vosotras y vosotros.
 Supongamos una distribución bivariada de rasgos latentes, con una correlación de .8, bastante alta. ¿Cuál de los siguientes sistemas de coordenadas consideráis que representaría adecuadamente los ejes de una distribución bivariada, de forma que al transformarlos a coordenadas rectangulares obtuviésemos una distribución con correlación de 0?
 :::
