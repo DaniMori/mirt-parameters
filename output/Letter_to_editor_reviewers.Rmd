@@ -445,7 +445,7 @@ Therefore, even when computing the coordinates in a non-orthonormal basis, we ne
 This is explained in our manuscript, in p. 19 (lines 9-14) in the original version, and in p. <!-- # TODO: Complete --> (lines <!-- # TODO: Complete -->) in the new submission.
 We are unsure about how to make this clearer, we are afraid, so we would appreciate any suggestions.
 
-###### Page 26 Line 8 This discussion seems to miss the distinction between correlations between traits and dimensions  of sensitivity of the test items.
+###### Page 26 Line 8 This discussion seems to miss the distinction between correlations between traits and dimensions of sensitivity of the test items.
 
 <!-- TODO: Reply -->
 
@@ -455,9 +455,13 @@ We are unsure about how to make this clearer, we are afraid, so we would appreci
 
 ###### Page 30 Line 8 It would be helpful to show the orthogonal and nonorthogonal representations of items and then discuss the interpretation of the parameter estimates based on each of the representations. I have been unable to determine the value of using the nonorthogonal representation. The nonorthogonal representation is more complex, and it seems sample dependent because it uses the observed correlations/covariances. What is the value added of using the more complex representation?
 
-To our understanding, the representation is always sample dependent because item parameters also are.
+We have found this comment puzzling as, to our understanding, what Reviewer 3 is asking is what we do in Figure 1 (p. 22 in our original submission, p. <!-- # TODO: Complete --> in the new one).
+We have shown the same items, with as many different cases as possible, represented in both orthogonal and nonorthogonal coordinates, and explained the interpretation of the multidimensional parameters in both spaces.
+We would appreciate if Reviwer 3 would kindly clarify this comment, so we can address it properly.
+
+On the other hand, to our understanding, the representation is always sample dependent because the item parameters also are.
 Our argument is that the non-orthogonal coordinate system is a more faithful representation of the latent covariance structure, as the cosines between the axes are the geometric equivalent of the latent trait correlations.
-We argue that this is the value of using this more complex representation, and so we have tried to convey in <!-- # TODO: Complete --> (please see p. 31, line 19 to p. 32, line 4, in the original version).
+We argue that this is the value of using this more complex representation, and so we have tried to convey in our Discussion section (please see p. 31, line 19 to p. 32, line 4, in the original version).
 
 We acknowledge though that this may have been explained without enough clarity, and therefore striven to improve this discussion.
 The aforementioned paragraph now reads:
