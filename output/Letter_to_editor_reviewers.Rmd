@@ -344,17 +344,27 @@ Our first version tried to convey this when explaining the rationale behind the 
 
 ###### Care needs to be taken when using nonorthogonal coordinates that the distances between points in the space are correctly represented. What formula should be used for the distance between two points in each case?
 
-The distances between points are given by the norm, which we argue to be invariant to a change of basis.
-Interestingly, when considering the covariance-based version of the multidimensional parameters, the distance between points in the latent space is given by the Mahalanobis distance.
-We have reflected this in our new version, by adding the following to the third paragraph in our Discussion:
+The distances between points are given by the norm,
+be it in the latent space or in the test space.
+We propose that the norm of both items and trait vectors should be invariant to
+changes of basis and, interestingly, when considering the covariance-based version of the multidimensional parameters, the distance between points in the latent space is given by the Mahalanobis distance.
+We have reflected this in our new version, by adding the following to the end of the "Covariance-based Version" section:
 
-> [...] Once again, this is relevant in applications where
-potentially different bases are involved.
-Furthermore, not that, when using the covariance-based version formulation,
-the resulting norm in the latent space is the Mahalanobis distance
-[i.e., $`r MAH_DIST_EQ`$, @mahalanobis_reprint_2018],
-thus taking the latent covariance structure into account. 
-Given these considerations, [...]
+> [...] Moreover, it is important to notice that,
+when the latent trait inner product Gram matrix
+is defined as $`r INNER_PROD_COV_COND`$,
+the norm of a trait vector in the latent space is given by
+the Mahalanobis distance, i.e., $`r MAH_DIST_EQ`$ [@mahalanobis_reprint_2018].
+
+Also, we have made changes and additions to
+the third paragraph of our Discussion, which now reads:
+
+> [...] Once again, this is relevantimportant in applications where potentially different bases are involved.
+Furthermore, we have found that using this version yields a norm in
+the latent space given by the Mahalanobis distance.
+This statistical distance not only takes
+the latent covariance structure into account,
+but also makes the latent space norm invariant to changes of basis. [...]
 
 ###### Page 3  Line 20 I could not find a discussion of nonorthogonal dimensions in Ackerman (2005). It would help if a page number were provided for the discussion.
 

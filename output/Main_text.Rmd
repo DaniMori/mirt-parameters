@@ -853,6 +853,11 @@ with the standard deviation of the corresponding dimension as scaling factor.
 This transformation may be made in the unidimensional case as well,
 thus finding a *standard-metric* discrimination parameter
 (i.e., referred to a unitary variance space).
+Moreover, it is important to notice that,
+when the latent trait inner product Gram matrix
+is defined as $`r INNER_PROD_COV_COND`$,
+the norm of a trait vector in the latent space is given by
+the Mahalanobis distance, i.e., $`r MAH_DIST_EQ`$ [@mahalanobis_reprint_2018].
 
 ## Correlation-Based Version
 
@@ -1511,10 +1516,11 @@ of the multidimensional parameters is invariant to
 changes of latent-space basis.
 Once again, this is relevant in applications where
 potentially different bases are involved.
-Furthermore, note that, when using the covariance-based version formulation,
-the resulting norm in the latent space is the Mahalanobis distance
-[i.e., $`r MAH_DIST_EQ`$, @mahalanobis_reprint_2018],
-thus taking the latent covariance structure into account. 
+Furthermore, we have found that using this version yields a norm in
+the latent space given by the Mahalanobis distance.
+This statistical distance not only takes
+the latent covariance structure into account,
+but also makes the latent space norm invariant to changes of basis.
 Given these considerations,
 we propose adopting the covariance-based version of
 the multidimensional parameters as the most general definition,

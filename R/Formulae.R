@@ -1018,6 +1018,13 @@ MDISC_UNIDIM_GENERALIZED_EQ <- latex_eq(MDISC_SYM, MDISC_UNIDIM_GENERALIZED)
 MDISC_COV_BASED_UNIDIM      <- latex(COV_SYM_DIAG, DISCR_PARAM)
 MDISC_COV_BASED_UNIDIM_EQ   <- latex_eq(MDISC_COV_PARAM, MDISC_COV_BASED_UNIDIM)
 
+# Mahalanobis distance:
+TRAIT_NORM          <- latex_norm(TRAIT_VECTOR)
+TRAIT_VECTOR_TRANSP <- latex_transp(TRAIT_VECTOR)
+TRAIT_COV_INV_TRAIT <- latex(TRAIT_VECTOR_TRANSP, COV_MATRIX_INV, TRAIT_VECTOR)
+MAH_DIST_DEF        <- latex_sqrt(TRAIT_COV_INV_TRAIT)
+MAH_DIST_EQ         <- latex_eq(TRAIT_NORM, MAH_DIST_DEF)
+
 #### Correlation-based version of the indices: ----
 
 # Ancillary transform matrix:
@@ -1241,12 +1248,3 @@ TRANSFORM_MATRIX_EXAMPLE_EQ <- latex_def(
 ### Application to examples from the literature: ----
 
 DISTANCE_AG_PARAM <- DISTANCE_SYM |> latex_sub(AGNOSTIC_SUBINDEX)
-
-### Discussion: ----
-
-# Mahalanobis distance:
-TRAIT_NORM          <- latex_norm(TRAIT_VECTOR)
-TRAIT_VECTOR_TRANSP <- latex_transp(TRAIT_VECTOR)
-TRAIT_COV_INV_TRAIT <- latex(TRAIT_VECTOR_TRANSP, COV_MATRIX_INV, TRAIT_VECTOR)
-MAH_DIST_DEF        <- latex_sqrt(TRAIT_COV_INV_TRAIT)
-MAH_DIST_EQ         <- latex_eq(TRAIT_NORM, MAH_DIST_DEF)
