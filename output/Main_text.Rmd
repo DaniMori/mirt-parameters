@@ -300,16 +300,19 @@ we speak of _positive_ instead of _correct response_. This may imply giving
 a correct response indeed, if we are talking about a cognitive test.
 But it may mean endorsing an item (or a certain response option)
 in a non-cognitive domain.
-Second, although not explicitly stated, $`r DISCR_VECTOR`$ is a vector of
+Second, as responses are not necessarily interpreted as correct or incorrect,
+parameter $`r INTERCEPT_PARAM`$ is said to be related to the item _location_
+instead of the item difficulty.
+Third, although not explicitly stated, $`r DISCR_VECTOR`$ is a vector of
 non-negative real numbers in @reckase_difficulty_1985
 ---a decrease in the probability of a correct response
 with an increase in ability makes little sense.
 In our case, $`r DISCR_VECTOR`$ is a vector of real numbers; the value
 of the $`r DIM_INDEX`$-th component $`r DISCR_PARAM`$ can be negative if
 the item is negatively-keyed for latent dimension $`r DIM_INDEX`$.
-Third, as responses are not necessarily interpreted as correct or incorrect,
-parameter $`r INTERCEPT_PARAM`$ is said to be related to the item _location_
-instead of the item difficulty.
+Fourth, $`r DISCR_VECTOR`$ is expressed on an algebraic basis,
+which the MIRT literature implicitly assumes to be the canonical basis
+(we will show that this assumption is not necessary though).
 Finally, it is worth highlighting that
 this model generally assumes *within-item multidimensionality*,
 which will be present whenever more than one component of $`r DISCR_VECTOR`$

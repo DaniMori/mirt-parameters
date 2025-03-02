@@ -232,10 +232,7 @@ However, we acknowledge this terminology is prevalent in the current MIRT litera
 therefore, we have now explained this in our "Model formulation" section.
 The end of the second paragraph reads now as follows:
 
-> Third, as responses are not necessarily interpreted as correct or incorrect,
-parameter $`r INTERCEPT_PARAM`$ is said to be related to the item _location_
-instead of the item difficulty.
-Finally, it is worth noting that
+> [...] Finally, it is worth noting that
 this formulation assumes *within-item multidimensionality* in general,
 which will be present whenever more than one component of $`r DISCR_VECTOR`$
 is non-null.
