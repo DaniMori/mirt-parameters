@@ -963,7 +963,8 @@ Of course,
 from Equations \@ref(eq:origin-coords-result) and \@ref(eq:end-coords-result)
 it is easy to express the coordinates in terms of the parameters in the original
 model formulation.
-Given $`r DISCR_VECTOR_COORDS_EQ`$, we can express the coordinates as
+Given $`r DISCR_VECTOR_COORDS_EQ`$,
+we can express the coordinates in terms of the model parameters as
 
 \begin{align}
   `r ORIGIN_ITEM_PARAMS_EQ`                  &(\#eq:origin-from-model-params) \\

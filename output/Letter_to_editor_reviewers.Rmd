@@ -291,7 +291,7 @@ This case was also a typo; we have now corrected it in the manuscript as well.
 ###### Similar issues occur in Eqs. (26) and (27) on page 17.
 
 Our intention in Equations (26) and (27) was to express the item vector coordinates in terms of the original model parameters directly.
-To do that, we have made use of the expression $`r DISCR_VECTOR_COORDS_EQ`$, stated in p. 7.
+To do that, we have made use of the equality $`r DISCR_VECTOR_COORDS_EQ`$, stated in p. 7.
 (That is, the geometric coordinates in the original test-space basis are equal to the algebraic values of the discrimination parameter.)
 However, we acknowledge that we have skipped a step in our discrourse, thus making harder than necessary to follow along.
 To correct this, we have modified the immediately preceding paragraph to the following:
@@ -299,7 +299,8 @@ To correct this, we have modified the immediately preceding paragraph to the fol
 <!-- # TODO: Confirm equation references -->
 > Of course, from Equations (24) and (25) it is easy to express
 the coordinates in terms of the parameters in the original model formulation.
-Given $`r DISCR_VECTOR_COORDS_EQ`$, we can express the coordinates as
+Given $`r DISCR_VECTOR_COORDS_EQ`$,
+we can express the coordinates in terms of the model parameters as
 
 ###### 3. In the second graph on page 18, the authors state, “*That is, the less discriminating the item, the further it will be from the origin.*” However, the value of $D_i$ is influenced not only by the $MDISC_i$ parameter but also by $d_i$. For instance, in Table 1 on page 20, $d_i$ for item 1 is zero, meaning that regardless of $MDISC_i$, $D_i$ remains zero.
 
