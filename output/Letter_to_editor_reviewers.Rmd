@@ -372,9 +372,14 @@ This is the expression of a vector represented in a basis, in this case, represe
 Following the reviewer's suggestion, we have added this clarification to the text, so it now reads:
 
 > [...] such that $`r TRAIT_VECTOR_DEF_EQ`$.
-That is, vector $`r TRAIT_VECTOR`$ is represented in each of the two bases by
-the linear combination of its element vectors
+That is, the geometric representation of the algebraic vector $`r TRAIT_VECTOR`$
+in each of the two bases is given by the linear combination of
+the element vectors of the basis,
 scaled by the coordinates of $`r TRAIT_VECTOR`$ in that basis.
+Note thouth that, as $`r LATENT_SPACE`$ is originally represented in
+$`r LS_BASIS`$, the geometric coordinates $`r TRAIT_COORDS`$ of
+$`r TRAIT_VECTOR`$ in $`r LS_BASIS`$ are equal to the algebraic ones,
+i.e., $`r TRAIT_GEOM_ALGEBR_EQ`$.
 
 ###### Page 7  Line 24 The meaning of the superscripts is not clear in this expression. What is the source of the -1T?  Is that the transpose of the inverse? Do the -1 superscripts indicate an inverse?
 

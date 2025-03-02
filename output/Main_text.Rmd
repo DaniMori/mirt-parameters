@@ -337,9 +337,14 @@ with the dot product as inner product.
 Let $`r TRAIT_COORDS_EQ`$ and $`r TRAIT_COORDS_ORTH_EQ`$ be the coordinates of
 any $`r TRAIT_VEC_IN_LS`$ in $`r LS_BASIS`$ and $`r LS_ORTH_BASIS`$,
 respectively, such that $`r TRAIT_VECTOR_DEF_EQ`$.
-That is, vector $`r TRAIT_VECTOR`$ is represented in each of the two bases by
-the linear combination of its element vectors
+That is, the geometric representation of the algebraic vector $`r TRAIT_VECTOR`$
+in each of the two bases is given by the linear combination of
+the element vectors of the basis,
 scaled by the coordinates of $`r TRAIT_VECTOR`$ in that basis.
+Note thouth that, as $`r LATENT_SPACE`$ is originally represented in
+$`r LS_BASIS`$, the geometric coordinates $`r TRAIT_COORDS`$ of
+$`r TRAIT_VECTOR`$ in $`r LS_BASIS`$ are equal to the algebraic ones,
+i.e., $`r TRAIT_GEOM_ALGEBR_EQ`$.
 
 Let $`r BASIS_CHANGE_DEF`$ be the change of basis matrix between the two bases;
 then, we have that
