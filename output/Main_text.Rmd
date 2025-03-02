@@ -854,8 +854,9 @@ simple arithmetic can show that $`r MDISC_UNIDIM_GENERALIZED_EQ`$.
 In the covariance-based case, this means that $`r MDISC_COV_BASED_UNIDIM_EQ`$
 and, as $`r COV_SYM_DIAG`$ is generally different from 1,
 $`r MDISC_COV_PARAM`$ does not fulfill the first property
-(we shall refer to this property as *scale invariance*, from now on).
-Nevertheless, it can be interpreted as a *scaled version* of the parameter,
+(we shall refer to this property as *scale invariance*, henceforth).
+Nevertheless, $`r MDISC_COV_PARAM`$ can be interpreted as
+a *scaled version* of the parameter,
 with the standard deviation of the corresponding dimension as scaling factor.
 This transformation may be made in the unidimensional case as well,
 thus finding a *standard-metric* discrimination parameter
@@ -1538,7 +1539,7 @@ has the advantage of being scale-invariant,
 which is convenient for fidelity when representing the items.
 However, as it has been defined ad-hoc to fulfill this specific property,
 it lacks the other desirable ones the covariance-based version has
-(i.e., scale invariance, and yielding a diagonal latent covariance matrix in
+(i.e., norm invariance, and yielding a diagonal latent covariance matrix in
 the corresponding orthogonal basis).
 Therefore, we recommend its use for graphical representation purposes only,
 although in many applications both versions will be coincident, fortunately.
