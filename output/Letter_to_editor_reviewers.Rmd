@@ -304,7 +304,7 @@ we can express the coordinates in terms of the model parameters as
 
 ###### 3. In the second graph on page 18, the authors state, “*That is, the less discriminating the item, the further it will be from the origin.*” However, the value of $D_i$ is influenced not only by the $MDISC_i$ parameter but also by $d_i$. For instance, in Table 1 on page 20, $d_i$ for item 1 is zero, meaning that regardless of $MDISC_i$, $D_i$ remains zero.
 
-The reviewer is right in this respect; we made the mistake of assuming this relationship was obvious enough, but we acknowledge it may be confuse the reader to refer to the $MDISC_i$ and obviate the influence of $d_i$.
+The reviewer is right in this respect; we made the mistake of assuming this relationship was obvious enough, but we acknowledge it may confuse the reader to refer to the $MDISC_i$ and overlook the influence of $d_i$.
 We have added a clarification in this respect to the end of the paragraph, which now reads:
 
 > That is, the less discriminating the item is,
@@ -313,7 +313,7 @@ Of course, it is also directly proportional to
 the intercept parameter $`r INTERCEPT_PARAM`$.
 This implies that, if $`r INTERCEPT_NULL_EQ`$,
 $`r DISTANCE_NULL_EQ`$ as well,
-regardless of the discrimination.
+regardless of the multidimensional discrimination.
 
 # Responses to Reviwer 3:
 
