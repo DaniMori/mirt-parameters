@@ -175,7 +175,8 @@ On the contrary, what we propose is a way to compute and represent the multidime
 Implementing the formulae we propose should be rather straightforward for most IRT researchers, simply using the standard output of most MIRT software.
 We have now added a discussion about this at the end of our fourth paragraph in the "Discussion" section. This addition reads:
 
-> [...] Computing the parameters in the orthonormalized (or just orthogonalized) space,
+> [...] Computing the parameters in the orthonormalized
+(or just orthogonalized) space,
 by contrast, would require transforming the cosines to
 the original, non-orthonormal basis afterwards.
 Nevertheless, most available MIRT software solutions,
@@ -186,13 +187,13 @@ Taking advantage of the invariance property,
 we may compute the parameters in the orthogonal space
 (in fact, this is exactly what {mirt} functions `MDISC()` and `MDIFF()` do).
 Then, we may compute the direction cosines in the rotated solution applying
-(the covariance-based version of) Equation \@ref(eq:dir-cos-vec-test-space).
-<!-- TODO: Number and reference cov-based version of the cosines? -->
-What a researcher should be aware of, though,
+Equation (24).
+<!-- TODO: Check Eq. nº afterwards -->
+What a practitioner should be aware of, though,
 is that applying Reckase & McKinley's [-@reckase_discriminating_1991] formula
 after any non-orthonormal transformation will yield
 a $`r MDISC_AG_PARAM`$ value specific to that basis,
-instead of the invariant value of $`r MDISC_COV_PARAM`$.
+unlike the invariant value of $`r MDISC_COV_PARAM`$.
 
 Notwithstanding, we have written extensive code in R for computing these parameters, which we intend to open up for public use and scrutiny in a GitHub repository that includes all the code, data, and examples (including all the R packages to re-create the necessary environment to grant computational reproducibility), allowing to generate all the tables, plots, and even the submitted versions of the manuscript.
 Using dedicated functions in our code, any interested researcher will be able to compute the multidimensional parameters from the output of any MIRT software [e.g., {mirt}, @chalmers_mirt_2012; flexMIRT, @cai_flexmirt_2024].

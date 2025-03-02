@@ -974,11 +974,8 @@ MDISC_COV_PARAM_EQ          <- latex_def(
 )
 
 # MIL:
-MIL_COV_PARAM                 <- latex_sub(MIL_PARAM, COV_MATRIX)
-DISTANCE_COV_DEF              <- latex_frac(
-  "- $INTERCEPT_PARAM$",
-  MDISC_COV_PARAM
-)
+MIL_COV_PARAM                     <- latex_sub(MIL_PARAM, COV_MATRIX)
+DISTANCE_COV_DEF           <- latex_frac("- $INTERCEPT_PARAM$", MDISC_COV_PARAM)
 SD_MATRIX_SQUARED                 <- latex_squared(SD_MATRIX)
 DIAG_MATRIX_INNER_PROD_INV_VAR_EQ <- latex_eq(
   DIAG_MATRIX_INNER_PROD_INV,
@@ -989,6 +986,7 @@ DIR_COS_ITEM_VEC_COV_DEF          <- latex_frac(
   "$SD_MATRIX_INV$ $COV_MATRIX$ $DISCR_VECTOR$",
   MDISC_COV_PARAM
 )
+DIR_COS_VEC_COV_EQ         <- latex_eq(DIR_COS_VEC_TS, DIR_COS_ITEM_VEC_COV_DEF)
 MIL_COV_PARAM_EQ                  <- latex_def(
   MIL_COV_PARAM,
   latex_curlybraces("$DISTANCE_COV_DEF$, $DIR_COS_ITEM_VEC_COV_DEF$")

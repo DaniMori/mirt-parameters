@@ -816,8 +816,15 @@ Applying Equation \@ref(eq:change-basis), $`r COV_MATRIX_TRANSF_EQ`$, and thus,
 
 Therefore, we may define $`r TRANSFORM_MATRIX`$ such that
 $`r INNER_PROD_COV_COND`$;
-in this case, $`r DIAG_MATRIX_INNER_PROD_INV_VAR_EQ`$, resulting in a
-*covariance-based* version of the parameters:
+in this case, $`r DIAG_MATRIX_INNER_PROD_INV_VAR_EQ`$,
+resulting in the direction cosines defined by
+
+\begin{equation}
+  `r DIR_COS_VEC_COV_EQ`.                                 (\#eq:dir-cos-vec-cov)
+\end{equation}
+
+Along with the expressions for the $`r MDISC_SYM`$ and the signed distance,
+this results in a *covariance-based* version of the parameters:
 
 \begin{equation}
   \begin{split}
@@ -1567,13 +1574,12 @@ Taking advantage of the invariance property,
 we may compute the parameters in the orthogonal space
 (in fact, this is exactly what {mirt} functions `MDISC()` and `MDIFF()` do).
 Then, we may compute the direction cosines in the rotated solution applying
-(the covariance-based version of) Equation \@ref(eq:dir-cos-vec-test-space).
-<!-- TODO: Number and reference cov-based version of the cosines? -->
+Equation \@ref(eq:dir-cos-vec-cov).
 What a researcher should be aware of, though,
 is that applying Reckase & McKinley's [-@reckase_discriminating_1991] formula
 after any non-orthonormal transformation will yield
 a $`r MDISC_AG_PARAM`$ value specific to that basis,
-instead of the invariant value of $`r MDISC_COV_PARAM`$.
+unlike the invariant value of $`r MDISC_COV_PARAM`$.
 
 On the other hand, establishing the relationship between the original and
 the orthonormalized basis has provided us with an important insight:
