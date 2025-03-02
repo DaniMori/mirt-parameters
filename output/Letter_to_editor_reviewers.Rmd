@@ -189,7 +189,7 @@ we may compute the parameters in the orthogonal space
 Then, we may compute the direction cosines in the rotated solution applying
 Equation (24).
 <!-- TODO: Check Eq. nº afterwards -->
-What a practitioner should be aware of, though,
+What a test practitioner should be aware of, though,
 is that applying Reckase & McKinley's [-@reckase_discriminating_1991] formula
 after any non-orthonormal transformation will yield
 a $`r MDISC_AG_PARAM`$ value specific to that basis,
@@ -260,8 +260,8 @@ Similarly to the previous comment, we believe that our conclusions are thoroughl
 
 ###### While the manuscript includes a graphical representation example with two-dimensional latent variables, real-world applications often involve higher dimensions (e.g., the Big Five personality traits or Cattell’s 16 personality factors). If the current results cannot be applied to the high-dimensional cases, would that significantly limit their practical value and applicability?
 
-Although the graphical representation is limited to two dimensions, we propose a general algebraic formulation that may account for any number of dimensions.
-we have found that our previous version was not explicit enough about this, so we have updated the first paragraph of the "Model Formulation" section to read as follows:
+Although the graphical representation is limited to two dimensions, we propose a general algebraic formulation that accounts for any number of dimensions.
+We have found that our previous version was not explicit enough about this, so we have updated the first paragraph of the "Model Formulation" section to read as follows:
 
 > Consider a basis $`r LS_BASIS_EQ`$,
 with $`r LS_BASIS`$ generally non-orthonormal.
@@ -270,6 +270,14 @@ in basis $`r LS_BASIS`$ (with $`r N_DIMS`$ any positive integer),
 where a respondent is represented by vector $`r TRAIT_VEC_IN_LS`$.
 According to the `r MODEL_ACRONYM` model, the probability of
 a positive response to item $`r ITEM_INDEX`$ is [...]
+
+Also, the "Graphical Representation Example" section now begins:
+
+> Up to now, all our derivations
+have considered $`r N_DIMS`$-dimensional spaces;
+that is, multidimensional parameters and item vector coordinates
+can be computed in an arbitrary large number of dimensions.
+However, as plotting more than two dimensions [...]
 
 ###### 1. In the 8th line from the bottom on page 9, the subscript in the formula is incorrect. It should be “$\mathcal{C}$”.
 
