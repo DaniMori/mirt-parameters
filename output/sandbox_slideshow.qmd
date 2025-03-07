@@ -176,4 +176,227 @@ ITEMS_PALETTE <- c(
   setNames(1:5)
 ```
 
+## Generalización: Ejes oblicuos
+
+¿Cuál es el sistema de coordenadas de θ para que θ\* tenga correlaciones nulas?
+
+:::::: {.columns .fragment}
+::: column
+```{r}
+x_limits   <- c(-4, 4)
+y_limits   <- c(-4, 4)
+break_step <- 2
+
+# Define grid limits as a function of the axes limits:
+grid_box <- expand_grid(x = x_limits, y = y_limits) |> mutate(
+  x_lim = if_else(x == x_limits[1], "inf", "sup"),
+  y_lim = if_else(y == y_limits[1], "inf", "sup")
+)
+
+vec_1 <- c(sqrt(1), sqrt(0))
+vec_2 <- c(sqrt(.25), sqrt(.75))
+basis <- cbind(vec_1, vec_2) |> unname()
+# basis <- basis |> solve() |> t()
+# vec_1 <- basis[, 1]
+# vec_2 <- basis[, 2]
+
+vec_1_tan <- vec_1[2] / vec_1[1]
+vec_2_tan <- vec_2[2] / vec_2[1]
+vec_1_mod <- vec_1^2 |> sum() |> sqrt()
+vec_2_mod <- vec_2^2 |> sum() |> sqrt()
+
+linear_transf <- function(points, basis, x = x, y = y) {
+  
+  any_group_cols <- points |> select(-({{x}}:{{y}})) |> ncol()
+  
+  if (!any_group_cols) points <- points |> rownames_to_column()
+  
+  points |>
+    pivot_longer({{x}}:{{y}}) |>
+    group_by(across(-(name:value))) |>
+    mutate(value = basis %*% value |> drop()) |>
+    pivot_wider()    
+}
+
+# Select delimiting grid vertices, based on the basis vector directions
+grid_bounds <- bind_rows(
+  h = grid_box |>
+    filter(xor(vec_1_tan > 0, x_lim == y_lim)) |>
+    mutate(limit = y_lim, slope = vec_1_tan),
+  v = grid_box |>
+    filter(xor(vec_2_tan > 0, x_lim == y_lim)) |>
+    mutate(limit = x_lim, slope = vec_2_tan),
+  .id = "grid"
+) |>
+  # linear_transf(basis) |>
+  mutate(intercept = y - slope * x) # Compute their intercept
+
+# x_axis_titpos <- -y_limits[1] +
+#   if(is.infinite(vec_1_tan)) 0 else x_limits[2] * vec_1_tan
+# x_axis_titjust <- x_axis_titpos / x_axis_span
+# y_axis_titpos  <- -x_limits[1] +
+#   if(is.infinite(vec_2_tan)) 0 else y_limits[2] / vec_2_tan
+# y_axis_titjust <- y_axis_titpos / y_axis_span
+
+base_intercepts <- tibble(
+  h = vec_2[2] - vec_1_tan * vec_2[1],
+  v = vec_1[2] - vec_2_tan * vec_1[1]
+) |>
+  pivot_longer(everything(), names_to = "grid", values_to = "intercept")
+
+grid_specs <- grid_bounds |>
+  select(grid, limit:intercept) |>
+  left_join(base_intercepts, by = "grid", suffix = c("_limit", "_base")) |>
+  mutate(
+    n_limit = trunc(intercept_limit / intercept_base) %/%
+      break_step *
+      break_step
+  )
+  
+grid <- grid_specs |>
+  select(-intercept_limit) |>
+  pivot_wider(names_from = limit, values_from = n_limit) |>
+  group_by(grid) |>
+  reframe(
+    slope,
+    coord = seq(from = inf, to = sup, by = break_step),
+    intercept = coord * intercept_base
+  ) |>
+  mutate(
+    label_pos = if_else(
+      grid == "h",
+      intercept + x_limits[1] * vec_1_tan,
+      intercept + y_limits[1] / vec_2_tan
+    ),
+    ref = as.numeric(!intercept)
+  )
+
+# h_grid <- tibble(
+#   pos = seq(from = h_grid_limits[1], by = break_step, to = h_grid_limits[2]),
+#   x   = 0L,
+#   y   = pos,
+#   ref = as.numeric(!y)
+# ) |>
+#   pivot_longer(
+#     x:y
+#   ) |>
+#     group_by(pos) |>
+#     mutate(value = basis %*% value |> drop()) |>
+#     pivot_wider() |>
+#     mutate(
+#       slope     = vec_1_tan,
+#       intercept = y - vec_1_tan * x 
+#     )
+# 
+# 
+# h_grid_interc <- h_grid_values * vec_2[2]
+# h_grid_labpos <- h_grid_interc + vec_1_tan * x_limits[1]
+# h_linetype    <- if_else(h_grid_interc == 0, 'solid', '13')
+# 
+# v_grid_limits <- (trunc(y_limits / abs(vec_1[1]) + x_limits / abs(vec_2_tan)) + c(-1, 1)) %/% break_step * break_step
+# v_grid_values <- seq(from = v_grid_limits[1], by = break_step, to = v_grid_limits[2])
+# v_grid_xcoord <- v_grid_values * vec_1[1]
+# v_grid_labpos <- v_grid_xcoord # Initial position of the x labels
+scale_linetype <- c(`1` = 'solid', `0` = 'dashed')
+
+if (is.infinite(vec_2_tan)) {
+  
+  v_grid <- grid_bounds |>
+    filter(grid == "v") |>
+    mutate(
+      unit    = vec_1[1],
+      x_coord = trunc(x / unit) %/% break_step * break_step
+    ) |>
+    select(grid, limit, x_coord, unit) |>
+    pivot_wider(names_from = "limit", values_from = x_coord) |>
+    reframe(
+      x_coord = seq(from = inf, to = sup, by = break_step) * unit
+    ) |>
+    mutate(ref = as.numeric(!x_coord))
+    
+  geom_vgrid <- geom_vline(
+    mapping = aes(xintercept = x_coord, linetype = ref),
+    data = v_grid
+  )
+  
+}
+
+# else {
+#   
+#   v_grid_labpos <- v_grid_labpos + y_limits[1] / vec_2_tan
+#   v_grid_interc <- -v_grid_xcoord * vec_2_tan
+#   v_linetype    <- if_else(v_grid_interc == 0, 'solid', '13')
+#   geom_vgrid    <- geom_abline(
+#     aes(
+#       intercept = v_grid_interc,
+#       slope     = vec_2_tan,
+#       linetype  = v_grid_interc == 0
+#     )
+#   )
+# }
+
+grid_plot <- grid |>
+  ggplot(
+    mapping = aes(
+      intercept = intercept,
+      slope     = slope
+      # linetype  = ref
+    )
+  ) +
+  geom_abline()
+
+if (is.infinite(vec_2_tan)) grid_plot <- grid_plot + geom_vgrid
+
+grid_plot +
+  scale_x_continuous(
+    minor_breaks = NULL,
+    breaks = grid |> filter(grid == "v") |> pull(label_pos),
+    labels = grid |> filter(grid == "v") |> pull(coord),
+    limits = x_limits,
+    expand = expansion(),
+    name   = NULL,
+    sec.axis = dup_axis(name = "*&theta;*~2~", labels = NULL)
+  ) +
+  scale_y_continuous(
+    minor_breaks = NULL,
+    breaks = grid |> filter(grid == "h") |> pull(label_pos),
+    labels = grid |> filter(grid == "h") |> pull(coord),
+    limits = y_limits,
+    expand = expansion(),
+    name   = NULL,
+    sec.axis = dup_axis(name = "*&theta;*~1~", labels = NULL)
+  ) +
+  # scale_linetype_manual(values = scale_linetype, guide = NULL) +
+  coord_fixed() +
+  theme(
+    axis.ticks   = element_blank(),
+    axis.line    = element_blank(),
+    # axis.title   = element_markdown(vjust = y_axis_titjust),
+    # axis.title.y = element_markdown(hjust = x_axis_titjust)
+    axis.title   = element_markdown(),
+    axis.title.y = element_markdown()
+  )
+```
+:::
+
+::: column
+:::
+
+::: column
+:::
+::::::
+
+<!-- # TODO: Opciones de elección de bases oblicuas: rectangular, ejes muy alineados, ejes correctos -->
+
+::: notes
+Llegados a este punto, la incógnita es: ¿Qué matriz es $\mathbf{P}$, es decir, la matriz que nos permite pasar de las coordenadas originales, $\mathbf{\theta}$, a las transformadas $\mathbf{\theta^*}$?
+Esto es equivalente a decir, ¿cuáles son los ejes originales en los que tenemos que representar $\mathbf{\theta}$?
+(Recordad, para que $\mathbf{R^*}$ sea una matriz identidad, 1's en la diagonal y 0's fuera de ella).
+
+\[NEXT\]
+
+En base a lo planteado anteriormente, me gustaría hacer una prueba con vosotras y vosotros.
+Supongamos una distribución bivariada de rasgos latentes, con una correlación de .8, bastante alta. ¿Cuál de los siguientes sistemas de coordenadas consideráis que representaría adecuadamente los ejes de una distribución bivariada, de forma que al transformarlos a coordenadas rectangulares obtuviésemos una distribución con correlación de 0?
+:::
+
 ## References
