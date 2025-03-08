@@ -4838,6 +4838,8 @@ transform_grid <- function(basis,
 }
 ```
 
+<br>
+
 ¿Cuál es el sistema de coordenadas de θ para que θ\* tenga correlaciones nulas?
 
 <br>
