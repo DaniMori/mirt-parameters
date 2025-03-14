@@ -35,7 +35,7 @@ editor:
   mode:        source
   markdown: 
     wrap:      sentence  # TODO: Restore
-    canonical: true # TODO: Restore
+    canonical: true  # TODO: Restore
 execute: 
   cache:       true
 lang:          es
@@ -4575,8 +4575,6 @@ thetas |>
 #| fig-width:  5.5
 #| fig-height: 5.5
 
-set.seed(7117)
-
 # This is a square root of the correlation matrix, then inverted and transposed:
 orth_matrix <- c(1, 0, .5, sqrt(.75)) |> matrix(nrow = 2) |> solve() |> t()
 
@@ -4682,6 +4680,65 @@ Ahora bien, como recordaréis, queremos representar los ítems en unos ejes que 
 Estas nuevas coordenadas (transformadas), que ahora están en un espacio ortogonal, queremos que representen una distribución en la que las correlaciones sean nulas, es decir, que la matriz de correlaciones transformada ($R^*$ la vamos a llamar) sea una matriz identidad (unos en la diagonal, ceros en el resto).
 Pero hay que tener en cuenta que esto es un "artefacto matemático".
 Estamos haciendo esto por conveniencia, pero las coordenadas que realmente nos interesan como investigadores, porque son las que verdaderamente representan algo que nos interesa investigar, son esas coordenadas originales, que pueden representar cualquier fenómeno que sea de nuestro interés (rasgos de personalidad, síntomas, actitudes, inteligencia, conocimientos... lo que estemos investigando).
+
+Llegados a este punto, la incógnita es: ¿Qué matriz es $\mathbf{P}$, es decir, la matriz que nos permite pasar de las coordenadas originales, $\mathbf{\theta}$, a las transformadas $\mathbf{\theta^*}$?
+Esto es equivalente a decir, ¿cuáles son los ejes originales en los que tenemos que representar $\mathbf{\theta}$?
+(Recordad, para que $\mathbf{R^*}$ sea una matriz identidad, 1's en la diagonal y 0's fuera de ella).
+:::
+
+## Generalización: Ejes oblicuos {.smaller}
+
+<center>
+
+<br>
+
+[bit.ly/vote-coords](https://bit.ly/vote-coords) ([slido.com](https://slido.com) : #1904926)
+
+<br>
+
+![](../www/slideshow-assets/bit.ly_vote-coords.svg){width="40%" height="40%"}
+
+</center>
+
+::: notes
+En base a lo planteado anteriormente, me gustaría hacer una prueba con vosotras y vosotros.
+Aquí tenéis un enlace y QR para participar en una breve "encuesta".
+:::
+
+## Generalización: Ejes oblicuos {.smaller}
+
+<br>
+
+:::::: columns
+::: {.column .fragment width="33%"}
+:::
+
+::: {.column .fragment width="33%"}
+:::
+
+::: {.column .fragment width="33%"}
+```{r corr-traits-transf-example}
+#| fig-width:  5.5
+#| fig-height: 5.5
+```
+:::
+::::::
+
+¿Cuál es el sistema de coordenadas de *θ* para que *θ\** sea "esférica"?
+
+::: notes
+Supongamos una distribución bivariada de rasgos latentes, con una correlación de .5, como la mostrada anteriormente.
+Queremos saber cuál es la matriz $\mathbf{P}$ que nos permite pasar de las coordenadas originales, $\mathbf{\theta}$, a las transformadas $\mathbf{\theta^*}$.
+
+Esto es equivalente a preguntar:
+
+\[NEXT\]
+
+¿Cuál es el sistema de coordenadas que representaría adecuadamente los ejes de una distribución bivariada,...
+
+\[NEXT\]
+
+de forma que al transformarlos a coordenadas rectangulares (mediante la matriz $\mathbf{P}$) obtuviésemos una distribución con correlaciones de 0 y varianzas de 1, es decir, una distribución "esférica"?
 :::
 
 ## Generalización: Ejes oblicuos {.smaller}
@@ -4840,19 +4897,15 @@ transform_grid <- function(basis,
 
 <br>
 
-¿Cuál es el sistema de coordenadas de θ para que θ\* tenga correlaciones nulas?
-
-<br>
-
 :::::: columns
-::: {.column .fragment width="33%"}
+::: {.column width="33%"}
 <center>A</center>
 
 ```{r grid-orthogonal-rotation}
 #| fig-width: 5
 basis <- cbind(
-  c(sqrt(.85), -sqrt(.15)),
-  c(sqrt(.15), sqrt(.85))
+  c(sqrt(.75), -sqrt(.25)),
+  c(sqrt(.25), sqrt(.75))
 )
 
 transform_grid(basis)
@@ -4885,15 +4938,26 @@ transform_grid(basis)
 :::
 ::::::
 
+<br>
+
+::: fragment
+[Respuestas en 3, 2, 1...](https://wall.sli.do/event/dPunB4BMx3S8hfSjaFSuFh?section=ae77dd00-34fb-4600-9677-337a65b04b83)
+:::
+
 ::: notes
-Llegados a este punto, la incógnita es: ¿Qué matriz es $\mathbf{P}$, es decir, la matriz que nos permite pasar de las coordenadas originales, $\mathbf{\theta}$, a las transformadas $\mathbf{\theta^*}$?
-Esto es equivalente a decir, ¿cuáles son los ejes originales en los que tenemos que representar $\mathbf{\theta}$?
-(Recordad, para que $\mathbf{R^*}$ sea una matriz identidad, 1's en la diagonal y 0's fuera de ella).
+-   ¿Será el A?
 
 \[NEXT\]
 
-En base a lo planteado anteriormente, me gustaría hacer una prueba con vosotras y vosotros.
-Supongamos una distribución bivariada de rasgos latentes, con una correlación de .8, bastante alta. ¿Cuál de los siguientes sistemas de coordenadas consideráis que representaría adecuadamente los ejes de una distribución bivariada, de forma que al transformarlos a coordenadas rectangulares obtuviésemos una distribución con correlación de 0?
+-   ¿O puede ser el B?
+
+\[NEXT\]
+
+-   ¿O es el C?
+
+\[NEXT\]
+
+Tomáos vuestro tiempo y en seguida vemos las respuestas.
 :::
 
 ## Generalización: Ejes oblicuos
