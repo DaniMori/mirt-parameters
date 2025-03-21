@@ -47,6 +47,7 @@ vignettes/*.pdf
 *.lnk
 *.pdf
 *.svg
+*.gif
 *.url
 !www/slideshow-assets/title-slide.html
 !www/slideshow-assets/logos_fac_psicologia.svg
