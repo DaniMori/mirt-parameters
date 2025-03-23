@@ -4538,7 +4538,8 @@ set.seed(7117)
 corr_matrix <- matrix(c(1, .5, .5, 1), nrow = 2)
 
 thetas <- rmvnorm(10^4, sigma = corr_matrix) |>
-  as_tibble(.name_repair = ~paste0("trait_", 1:2))
+  as_tibble(.name_repair = ~paste0("trait_", 1:2)) |>
+    rownames_to_column("i")
 
 thetas |>
   ggplot(mapping = aes(trait_1, trait_2)) +
@@ -4579,7 +4580,6 @@ thetas |>
 orth_matrix <- c(1, 0, .5, sqrt(.75)) |> matrix(nrow = 2) |> solve() |> t()
 
 thetas_transf <- thetas |>
-  rownames_to_column("i") |>
   pivot_longer(starts_with("trait")) |>
   group_by(i) |>
   mutate(value = orth_matrix %*% value |> drop()) |>
@@ -4709,6 +4709,8 @@ Aquí tenéis un enlace y QR para participar en una breve "encuesta".
 ## Generalización: Ejes oblicuos {.smaller}
 
 <br>
+
+<!-- # TODO: Faltan dos primeros paneles -->
 
 :::::: columns
 ::: {.column .fragment width="33%"}
@@ -5011,13 +5013,118 @@ Tomáos vuestro tiempo y en seguida vemos las respuestas.
 
 ## Generalización: Ejes oblicuos
 
-<!-- # TODO: Matriz de correlaciones con correlación muy alta -->
+<br>
 
-<!-- # TODO: Distribución en ejes rectangulares -->
+::::::::: columns
+::: {.column width="33%"}
+<center>A</center>
+
+```{r scatter-orthogonal-rotation}
+#| fig-width: 5
+basis <- cbind(
+  c(sqrt(.75), -sqrt(.25)),
+  c(sqrt(.25),  sqrt(.75))
+)
+
+thetas_transf <- thetas |>
+  group_by(i) |>
+  pivot_longer(starts_with("trait")) |>
+  mutate(value = basis %*% value |> drop()) |>
+  pivot_wider() |>
+  ungroup()
+
+transform_grid(basis) +
+  geom_point(
+    data    = thetas_transf,
+    mapping = aes(trait_1, trait_2),
+    alpha   = .33,
+    shape   = 16,
+    colour = I(PALETTE_BLUE["normal"])
+  )
+```
+:::
+
+:::::: {.column width="33%"}
+<center>B</center>
+
+::::: r-stack
+::: fragment
+```{r grid-ts-basis}
+#| fig-width: 5
+```
+:::
+
+::: fragment
+```{r scatter-ts-basis}
+#| fig-width: 5
+basis <- cbind(
+  c(1, 0),
+  c(sqrt(.25), sqrt(.75))
+)
+
+thetas_transf <- thetas |>
+  group_by(i) |>
+  pivot_longer(starts_with("trait")) |>
+  mutate(value = basis %*% value |> drop()) |>
+  pivot_wider() |>
+  ungroup()
+
+transform_grid(basis) +
+  geom_point(
+    data    = thetas_transf,
+    mapping = aes(trait_1, trait_2),
+    alpha   = .33,
+    shape   = 16,
+    colour = I(PALETTE_BLUE["normal"])
+  )
+```
+:::
+:::::
+::::::
+
+::: {.column .fragment width="33%"}
+<center>C</center>
+
+```{r scatter-ls-basis}
+#| fig-width: 5
+basis <- t(solve(basis))
+
+thetas_transf <- thetas |>
+  group_by(i) |>
+  pivot_longer(starts_with("trait")) |>
+  mutate(value = basis %*% value |> drop()) |>
+  pivot_wider() |>
+  ungroup()
+
+transform_grid(basis) +
+  geom_point(
+    data    = thetas_transf,
+    mapping = aes(trait_1, trait_2),
+    alpha   = .33,
+    shape   = 16,
+    colour = I(PALETTE_BLUE["normal"])
+  )
+```
+:::
+:::::::::
 
 ::: notes
-El primero ya sabemos que no, de acuerdo, puesto que es la representación habitual, y sabemos que la nube que forma está "achatada".
-No se aplica ninguna transformación (la transformación es una matriz identidad), ya que los que serían los ejes originales y los transformados son los mismos.
+El primero yo creo que estamos de acuerdo en que no, ya que solamente es una "rotación ortogonal" (como la llamaríamos en el ámbito psicométrico).
+La transformación que se aplica podría dar lugar a correlaciones nulas (es lo que haría la transformación de los ejes mediante Análisis de Componentes Principales), pero las varianzas resultantes no serían estandarizadas.
+
+\[NEXT\]
+
+El segundo caso rotaría el eje vertical de manera que ambos ejes formarían un ángulo de 60º, que tiene un coseno igual a 0.5.
+La gente que ha pensado que estos son los ejes correctos, pensáis como yo.
+
+\[NEXT\]
+
+Sin embargo, mirad lo que ocurre cuando "proyectamos" esa nube de puntos sobre esos ejes.
+La "nube de puntos" se achata y se alarga aún más.
+
+\[NEXT\]
+
+La respuesta correcta era la C, que "deshace" el achatamiento de la nube de puntos, convirtiéndola en esférica.
 :::
 
 ## Generalización: Ejes oblicuos
