@@ -4583,7 +4583,8 @@ thetas_transf <- thetas |>
   pivot_longer(starts_with("trait")) |>
   group_by(i) |>
   mutate(value = orth_matrix %*% value |> drop()) |>
-  pivot_wider() 
+  pivot_wider() |>
+  ungroup()
 
 thetas_transf |>
   ggplot(mapping = aes(trait_1, trait_2)) +
@@ -4744,28 +4745,18 @@ de forma que al transformarlos a coordenadas rectangulares (mediante la matriz $
 ## Generalización: Ejes oblicuos {.smaller}
 
 ```{r create-grid-function}
-transform_grid <- function(basis,
-                           x_limits = c(-4, 4),
-                           y_limits = c(-4, 4),
-                           break_step = 2,
-                           linetype_axis = 'solid',
-                           linetype_grid = 'dashed') {
+create_grid <- function(basis,
+                        x_limits = c(-4, 4),
+                        y_limits = c(-4, 4),
+                        break_step = 2) {
   # Argument checking and formatting: ----
     
-  ## Grid plot linetypes
-  linetypes <- c(`TRUE` = linetype_axis, `FALSE` = linetype_grid)
-  
   ## Basis vectors tangents and norms
   vec_tan <- basis[2, ] / basis[1, ]
   
-  ## Axis title positions
-  y_axis_titpos <- (y_limits[2] / vec_tan[2] - x_limits[1]) /
-    (x_limits[2] - x_limits[1])
-  x_axis_titpos <- (x_limits[2] * vec_tan[1] - y_limits[1]) /
-    (y_limits[2] - y_limits[1])
   
   # Main: ----
-    
+  
   # Define grid limits as a function of the axes limits (in canonical metric):
   grid_box <- expand_grid(x = x_limits, y = y_limits) |> mutate(
     x_lim = if_else(x == x_limits[1], "inf", "sup"),
@@ -4782,10 +4773,10 @@ transform_grid <- function(basis,
     mutate(limit_intercept = y - slope * x) # Compute their intercept
   
   # Transformed (1, 1), expressed in the canonical basis
-  unit_point <- basis %*% c(1, 1) |>
-    as_tibble() |>
+  unit_point <- basis %*% c(1, 1) |> drop() |>
+    as_tibble(.name_repair = "minimal") |>
     add_column(name = c('x', 'y') |> paste0('_unit')) |>
-    pivot_wider(values_from = V1)
+    pivot_wider(values_from = value)
   
   # Grid specifications, in canonical basis
   grid_specs <- grid_bounds |>
@@ -4797,7 +4788,7 @@ transform_grid <- function(basis,
       n_breaks = n_units %/% break_step * break_step
     )
   
-  # Create vertical grid, if the vertical basis vector is completely vertical
+  # Create vertical grid data, if the second basis vector is completely vertical
   if (is.infinite(vec_tan[2])) {
     
     # Create vertical grid data
@@ -4810,23 +4801,17 @@ transform_grid <- function(basis,
       ) |>
       select(grid, limit, n_breaks, unit) |>
       pivot_wider(names_from = "limit", values_from = n_breaks) |>
-      reframe(
-        coord   = seq(from = inf, to = sup, by = break_step),
-        x_coord = coord * unit
-      ) |>
-      mutate(label_pos = x_coord, ref = as.character(!coord))
+      reframe(coord = seq(from = inf, to = sup, by = break_step) * unit) |>
+      mutate(
+        grid      = 'v',
+        slope     = Inf,
+        intercept = NA_real_,
+        label_pos = coord,
+        ref       = as.character(!coord)
+      )
     
     # Filter out non-valid grid values
     grid_specs <- grid_specs |> filter(!is.infinite(slope))
-    
-    # Assign x axis label values and coordinates (for the vertical case)
-    x_labels <- v_grid |> select(coord, label_pos)
-    
-    # Create vertical grid geometry
-    geom_vgrid <- geom_vline(
-      mapping = aes(xintercept = x_coord, linetype = ref),
-      data = v_grid
-    )
   }
   
   # Create grid data
@@ -4847,12 +4832,51 @@ transform_grid <- function(basis,
       ),
       ref = as.character(!intercept)
     )
-
-  # Assign x axis label values and coordinates (accounting for the vertical
-  #   special case)
-  x_labels <- if (is.infinite(vec_tan[2]))    v_grid |> select(coord, label_pos)
-              else       grid |> filter(grid == "v") |> select(coord, label_pos)
+  
+    if (is.infinite(vec_tan[2])) return(grid |> bind_rows(v_grid))
     
+    grid
+}
+
+plot_grid <- function(grid,
+                      x_limits = c(-4, 4),
+                      y_limits = c(-4, 4),
+                      break_step = 2,
+                      linetype_axis = 'solid',
+                      linetype_grid = 'dashed') {
+  
+  # Argument checking and formatting: ----
+    
+  ## Grid plot linetypes
+  linetypes <- c(`TRUE` = linetype_axis, `FALSE` = linetype_grid)
+  
+  ## Basis vectors tangents and norms
+  vec_tan <- grid |> distinct(grid, slope) |> deframe()
+  
+  ## Axis title positions
+  y_axis_titpos <- (y_limits[2] / vec_tan[2] - x_limits[1]) /
+    (x_limits[2] - x_limits[1])
+  x_axis_titpos <- (x_limits[2] * vec_tan[1] - y_limits[1]) /
+    (y_limits[2] - y_limits[1])
+  
+  
+  # Main: ----
+  
+  # Assign x axis label values and coordinates (to account for the vertical
+  #   special case)
+  x_labels <- grid |> filter(grid == "v") |> select(coord, label_pos)
+    
+  # Create vertical grid geometry if the second vector is completely vertical
+  if (is.infinite(vec_tan[2])) {
+
+    geom_vgrid <- geom_vline(
+      mapping = aes(xintercept = coord, linetype = ref),
+      data = grid |> filter(grid == "v")
+    )
+    
+    grid <- grid |> filter(grid == "h")
+  }
+  
   grid_plot <- grid |>
     ggplot() +
     geom_abline(
@@ -4891,6 +4915,31 @@ transform_grid <- function(basis,
       axis.line    = element_blank(),
       axis.title.x       = element_markdown(hjust = y_axis_titpos),
       axis.title.y.right = element_markdown(vjust = x_axis_titpos)
+    )
+}
+
+transform_grid <- function(grid,
+                           x_limits = c(-4, 4),
+                           y_limits = c(-4, 4),
+                           break_step = 2,
+                           linetype_axis = 'solid',
+                           linetype_grid = 'dashed') {
+  
+  # Argument checking and formatting: ----
+  
+  # Main: ----
+  basis |>
+    create_grid(
+      x_limits   = x_limits,
+      y_limits   = y_limits,
+      break_step = break_step
+    ) |>
+    plot_grid(
+      x_limits   = x_limits,
+      y_limits   = y_limits,
+      break_step = break_step,
+      linetype_axis = 'solid',
+      linetype_grid = 'dashed'
     )
 }
 ```
