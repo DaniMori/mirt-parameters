@@ -5126,24 +5126,85 @@ La respuesta correcta era la C, que "compensa" de alguna manera el achatamiento 
 Esto, que visto así parece ya evidente, es algo que al menos a mí me ha llevado varias decenas (puede que "cientos") de horas entender, durante al menos dos años trabajando en este problema.
 :::
 
-## Espacio latente vs. espacio test
+## Espacio latente vs. espacio test {.smaller}
 
 > It has been suggested by some researchers that the angle between the axes represents the degree of correlation.
 > However, for sake of clarity, an orthogonal axes system is used in which distance measures and vectors can be easily calculated, understood, and interpreted.
 
 ---@ackerman_multidimensional_2005-1 [p. 16]
 
-<!-- # TODO: Fórmula del modelo en coordenadas "transformadas" y equivalencia -->
+::::::::: columns
+::::: column
+::: {.fragment fragment-index="1"}
+$$
+  P(Y_i = 1) = \Phi_L (\mathbf{a}_i^T \mathbf{\theta} + d_i)
+$$
+:::
 
-<!-- # TODO: Expresión de la transformación de la discriminación a coordenadas rectangulares -->
+::: {.fragment fragment-index="2"}
+$$
+  P(Y_i = 1) = \Phi_L ({\mathbf{a}^*_i}^T \mathbf{\theta}^* + d_i)
+$$
+:::
+:::::
+
+::::: column
+::: {.fragment fragment-index="2"}
+$$
+  \mathbf{\theta}^* = \mathbf{P} \mathbf{\theta}
+$$
+:::
+
+::: {.fragment fragment-index="3"}
+$$
+  \mathbf{a}^*_i = \mathbf{Q} \mathbf{a}_i \\
+$$
+:::
+:::::
+:::::::::
+
+::: fragment
+$$
+  \mathbf{a}_i^T \mathbf{\theta} =
+    {\mathbf{a}^*_i}^T \mathbf{\theta}^* =
+    \mathbf{a}_i^T \mathbf{Q}^T \mathbf{P} \mathbf{\theta}
+$$
+:::
+
+::: fragment
+$$
+  \mathbf{Q} = (\mathbf{P}^{-1})^T
+$$
+:::
 
 ::: notes
 Viendo que en la literatura hay afirmaciones como esta, no me resulta totalmente descorazonador.
-Parece que no soy el único al que le ha supuesto un esfuerzo entenderlo (resultados de la "encuesta"?)
+Parece que no soy el único al que le ha supuesto un esfuerzo entenderlo (resultados de la "encuesta"?).
 
-Lo que ocurre en realidad, y esto es en realidad también un paralelismo con lo que ocurre en análisis factorial, es que para que el modelo sea invariante, los ítems también tienen que transformarse a un sistema de coordenadas ortogonal.
-Pero podemos ver que su matriz de transformación no es la misma que la de las puntuaciones de rasgo latente.
-Es su inversa (inversa traspuesta, más concretamente).
+Pues bien, lo que ocurre en realidad es lo siguiente:
+
+\[NEXT\]
+
+Este es el modelo de TRI multidimensional, recordaréis (ya lo presentamos, es como un modelo de regresión multivariada, donde los predcitores, $\theta$ son variables latentes).
+El modelo tiene que ser invariante; es decir, tiene que dar igual qué sistema de coordenadas usemos para representarlo (y esto por cierto también tiene su paralelismo en análisis factorial).
+
+\[NEXT\]
+
+Así que si transformamos los rasgos latentes de las personas a un sistema de coordenadas ortogonal, los ítems tienen que transformarse también.
+
+\[NEXT\]
+
+Pero recordaréis que llamé Q a su matriz de transformación, mientras que a la de los rasgos latentes la llamé P.
+
+\[NEXT\]
+
+Claro, para que se cumpla la invarianza, se tiene que cumplir esta igualdad: Este término debe ser el mismo, da igual el sistema de coordenadas que utilice, y por lo tanto P y Q no pueden ser la misma matriz.
+
+\[NEXT\]
+
+En realidad, para transformar los ítems hay que usar la matriz inversa (inversa traspuesta, más concretamente) de la matriz de transformación de los rasgos latentes.
+
+<!-- TODO: Next slide -->
 
 Y esto nos ha permitido "descubrir" (o darnos cuenta, más bien) de que hay dos "espacios vectoriales" distintos, uno en el que se encuentran las coordenadas de las puntuaciones factoriales, y otro distinto, que es el espacio en el que se encuentran las coordenadas de los ítems, y que es donde en realidad hay que representarlos.
 :::
