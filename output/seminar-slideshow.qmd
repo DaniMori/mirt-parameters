@@ -4744,7 +4744,7 @@ Esto es equivalente a preguntar:
 de forma que al transformarlos a coordenadas rectangulares (mediante la matriz $\mathbf{P}$) obtuviésemos una distribución con correlaciones de 0 y varianzas de 1, es decir, una distribución "esférica"?
 :::
 
-## Generalización: Ejes oblicuos {.smaller}
+## Generalización: Ejes oblicuos
 
 ```{r create-grid-function}
 create_grid <- function(basis,
@@ -4989,8 +4989,6 @@ transform_grid(basis)
 :::
 ::::::
 
-<br>
-
 ::: fragment
 [Respuestas en 3, 2, 1...](https://wall.sli.do/event/dPunB4BMx3S8hfSjaFSuFh?section=ae77dd00-34fb-4600-9677-337a65b04b83)
 :::
@@ -5044,15 +5042,13 @@ transform_grid(basis) +
 ```
 :::
 
-:::::: {.column width="33%"}
+:::::: {.column .fragment width="33%"}
 <center>B</center>
 
 ::::: r-stack
-::: fragment
 ```{r grid-ts-basis}
 #| fig-width: 5
 ```
-:::
 
 ::: fragment
 ```{r scatter-ts-basis}
@@ -5115,7 +5111,8 @@ La transformación que se aplica podría dar lugar a correlaciones nulas (es lo 
 \[NEXT\]
 
 El segundo caso rotaría el eje vertical de manera que ambos ejes formarían un ángulo de 60º, que tiene un coseno igual a 0.5.
-La gente que ha pensado que estos son los ejes correctos, pensáis como yo.
+La gente que ha pensado que estos son los ejes correctos, pensáis como yo: que el coseno del ángulo entre los ejes representa la correlación entre las dimensiones.
+Por lo tanto, cuanto más alta la correlación, más alineados deben estar los ejes.
 
 \[NEXT\]
 
@@ -5124,33 +5121,7 @@ La "nube de puntos" se achata y se alarga aún más.
 
 \[NEXT\]
 
-La respuesta correcta era la C, que "deshace" el achatamiento de la nube de puntos, convirtiéndola en esférica.
-:::
-
-## Generalización: Ejes oblicuos
-
-<!-- # TODO: Matriz de correlaciones con correlación muy alta -->
-
-<!-- # TODO: Animación de distribución en ejes rectangulares a ejes alineados -->
-
-::: notes
-Si pensáis igual que yo, habréis elegido el segundo, porque el coseno del ángulo entre los ejes representa la correlación entre las dimensiones.
-Por lo tanto, ejes muy alineados representan una correlación muy alta.
-
-Sin embargo, fijáos lo que ocurre cuando "transformamos" las coordenadas de los puntos de nuestra distribución a ese sistema de coordenadas.
-Como podéis ver, la distribución tiende a "achatarse" aún más, en lugar de hacerse más "esférica".
-:::
-
-## Generalización: Ejes oblicuos
-
-<!-- # TODO: Matriz de correlaciones con correlación muy alta -->
-
-<!-- # TODO: Animación de distribución en ejes rectangulares a ejes correctos -->
-
-<!-- # TODO: Matriz de correlaciones transformada "identidad" -->
-
-::: notes
-El sistema de coordenadas correcto es el tercero, que "compensa" de alguna manera el achatamiento de la nube de puntos, de forma que las coordenadas transformadas que nos quedan (en los ejes ortogonales), los "normales" del gráfico) tienen una distribución "esférica" (con matriz de correlaciones "identidad").
+La respuesta correcta era la C, que "compensa" de alguna manera el achatamiento de la nube de puntos, de forma que las coordenadas transformadas que nos quedan (en los ejes ortogonales, los "normales" del gráfico) tienen una distribución "esférica" (con matriz de correlaciones "identidad").
 
 Esto, que visto así parece ya evidente, es algo que al menos a mí me ha llevado varias decenas (puede que "cientos") de horas entender, durante al menos dos años trabajando en este problema.
 :::
