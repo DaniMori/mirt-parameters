@@ -337,7 +337,9 @@ latex_enum_diagmatrix <- function(init, end,
 
 ### Matrix algebra: ----
 
-latex_transp <- function(x) {
+latex_transp <- function(x, .par = FALSE) {
+  
+  if (.par) x <- latex_parentheses(x)
   
   latex(x, TRANSPOSED_SUFFIX, .sep = NO_SEP)
 }
