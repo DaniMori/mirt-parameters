@@ -67,7 +67,7 @@ par(family = "Arial", adj = 0.5) # Set graphical device params
 ```
 
 ```{r sources}
-source("R/LaTeX_math.R",   encoding = 'UTF-8')
+source("R/Formulae.R",     encoding = 'UTF-8')
 source("R/Output.R",       encoding = 'UTF-8')
 source("R/Mirt_toolbox.R", encoding = 'UTF-8')
 ```

@@ -106,7 +106,7 @@ par(family = "Arial", adj = 0.5) # Set graphical device params
 ```
 
 ```{r sources}
-source("R/LaTeX_math.R",   encoding = 'UTF-8')
+source("R/Formulae.R",     encoding = 'UTF-8')
 source("R/Output.R",       encoding = 'UTF-8')
 source("R/Mirt_toolbox.R", encoding = 'UTF-8')
 ```
@@ -5038,7 +5038,7 @@ Tomáos vuestro tiempo y en seguida vemos las respuestas.
 
 <br>
 
-::::::::: columns
+:::::::: columns
 ::: {.column width="33%"}
 <center>A</center>
 
@@ -5062,10 +5062,10 @@ rot_grid +
 ```
 :::
 
-:::::: {.column .fragment width="33%"}
+::::: {.column .fragment width="33%"}
 <center>B</center>
 
-::::: r-stack
+:::: r-stack
 ```{r grid-ts-basis}
 #| fig-width: 5
 ```
@@ -5090,8 +5090,8 @@ ts_grid +
   )
 ```
 :::
+::::
 :::::
-::::::
 
 ::: {.column .fragment width="33%"}
 <center>C</center>
@@ -5117,7 +5117,7 @@ ls_scatter <- ls_grid +
 ls_scatter
 ```
 :::
-:::::::::
+::::::::
 
 ::: notes
 El primero yo creo que estamos de acuerdo en que no, ya que solamente es una "rotación ortogonal" (como la llamaríamos en el ámbito psicométrico).
@@ -5266,25 +5266,89 @@ Porque en este espacio es donde los ángulos entre los ejes son los que verdader
 
 ## Espacio latente vs. espacio test {.smaller}
 
-> \[...\] the latent space should be regarded as a general Euclidean space with its *inner product* defined by <!-- # TODO: Inner product -->.
+```{r space-inner-products}
+# Mahalanobis distance:
+TRAIT_VECTOR        <- latex_bf("\\theta")
+TRAIT_NORM          <- latex_norm(TRAIT_VECTOR)
+TRAIT_VECTOR_T      <- latex_transp(TRAIT_VECTOR)
+TRAIT_COV_INV_TRAIT <- latex(TRAIT_VECTOR_T, COV_MATRIX_INV, TRAIT_VECTOR)
+MAH_DIST_DEF        <- latex_sqrt(TRAIT_COV_INV_TRAIT)
+MAH_DIST_EQ         <- latex_eq(TRAIT_NORM, MAH_DIST_DEF)
+
+INNER_PROD_INV_COV_EQ <- latex_eq(COV_MATRIX_INV, INNER_PROD_TRANSF_DEF)
+
+# Latent space:
+TRAIT_VECTOR_1    <- latex_sub(TRAIT_VECTOR, 1)
+TRAIT_VECTOR_2    <- latex_sub(TRAIT_VECTOR, 2)
+TRAIT_VECTOR_1_T  <- latex_transp(TRAIT_VECTOR_1)
+
+INNER_PROD     <- latex_innerprod(TRAIT_VECTOR_1, TRAIT_VECTOR_2)
+INNER_PROD_DEF <- latex(TRAIT_VECTOR_1_T, COV_MATRIX_INV, TRAIT_VECTOR_2)
+INNER_PROD_EQ  <- latex_eq(INNER_PROD, INNER_PROD_DEF)
+
+# Test space:
+DISCR_VECTOR_J <- latex_sub(DISCR_VECTOR_ANY, AUX_INDEX)
+DISCR_VECTOR_T <- latex_transp(DISCR_VECTOR)
+
+INNER_PROD_DISCR     <- latex_innerprod(DISCR_VECTOR, DISCR_VECTOR_J)
+INNER_PROD_DISCR_DEF <- latex(DISCR_VECTOR_T, COV_MATRIX, DISCR_VECTOR_J)
+INNER_PROD_DISCR_EQ  <- latex_eq(INNER_PROD_DISCR, INNER_PROD_DISCR_DEF)
+```
+
+<br>
+
+@mahalanobis_reprint_2018:
+
+::::: columns
+::: {.column width="50%"}
+<center>$`r MAH_DIST_EQ`$</center>
+:::
+
+::: {.column .fragment width="50%"}
+$`r INNER_PROD_INV_COV_EQ`$
+:::
+:::::
+
+<br>
+
+::: fragment
+> \[...\] the latent space should be regarded as a general Euclidean space with its *inner product* defined by $`r INNER_PROD_EQ`$.
 
 ---@zhang_theoretical_1999 [p. 221]
+:::
 
-<!-- #TODO: Ref. to Mahalanobis -->
-
-> \[...\] the *inner product* in \[the test space\] is consistently defined by <!-- # TODO: Inner product -->.
+::: fragment
+> \[...\] the *inner product* in \[the test space\] is consistently defined by
+>
+> $`r INNER_PROD_DISCR_EQ`$
 
 ---@zhang_theoretical_1999 [p. 221]
+:::
 
 ::: notes
-Esto, curiosamente, aparece en la literatura como podéis ver; en el año 1999, en un artículo que no tiene nada que ver con esto.
-Lo menciona de soslayo y no profundiza en la deducción de los parámetros, como hemos hecho aquí.S olamente lo utiliza para resolver un problema "parcial" que se encuentra en la deducción de un índice de dimensionalidad, distinto de los parámetros de los que estamos hablando aquí.
-Pero podía haber obviado este problema y haber utilizado coordenadas ortogonales, sin importarle si había o no correlaciones entre los rasgos latentes, como ha hecho todo el mundo.
+Esto da lugar a algo muy curioso, y es que la "norma" de un punto en el espacio latente (la longitud de un vector aplicado en el origen que termina en ese punto) viene determinada por la distancia de Mahalanobis (esto es una reimpresión de 1936, no penséis que es una cosa de anteayer).
+
+\[NEXT\]
+
+Y eso se debe a que, para que la transformación en el espacio latente se cumpla, esa matriz de transformación (la que llamababmos P) tiene que ser "raíz cuadrada" de la inversa de la matriz de covarianzas.
+
+\[NEXT\]
+
+Y, curiosamente también, aparece en la literatura, en el año 1999, en un artículo que no tiene nada que ver con esto.
+Lo menciona de soslayo y no profundiza en su deducción como hemos hecho aquí.
+Solamente lo utiliza para resolver un problema "parcial" que se encuentra en la deducción de un índice de dimensionalidad, distinto de los parámetros de los que estamos hablando.
+Pero podía haber obviado este problema y haber utilizado coordenadas ortogonales, sin importarle si había o no correlaciones entre los rasgos latentes, como ha hecho todo el mundo (antes y después que ellos).
 
 Así que, todos mis respetos por estos autores.
+
 Sin embargo claro, ellos estaban hablando de otra cosa, y sólo tocaban este tema de paso.
 Así que al final eso se quedó ahí, y nadie ha hecho caso en 25 años a lo que dijeron Zhang y Stout.
 La gente ha usado los modelos, hecho simulaciones, etc., usando distribuciones correlacionadas, y ha usado las fórmulas de Reckase para transformar entre parámetros multidimensionales y los parámetros "lineales" (podríamos llamarlos, los de la formulación original) del modelo.
+
+\[NEXT\]
+
+Y lo más importante: Esto nos demuestra efectivamente que tenemos dos espacios distintos: Uno para los parámetros de las personas (espacio latente) y otro para los ítems (espacio test).
+Y esto es así porque la operación del producto interno está definida de manera distinta en los dos espacios; si la matriz del producto interno es la inversa de las covarianzas en el espacio latente, entonces en el espacio test, donde la transformación del parámetro de discriminación es inversa (como recordaréis), pues la matriz del producto interno es la matriz de covarianzas.
 :::
 
 ## Parámetros multidimensionales generalizados
