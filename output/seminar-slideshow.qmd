@@ -4519,6 +4519,25 @@ El ítem es exactamente el mismo, y por lo tanto su discriminación (multidimens
 Esta propiedad se llama "invarianza" del ítem.
 :::
 
+## Supuestos: Ortogonalidad
+
+<!-- TODO: ACT en McDonald, 1999? -->
+
+::: r-center
+![Ítems de "ACT Mathematics Usage Test"](../www/Fig_1-6_Contemporary_Psychometrics.png){fig-align="center" height="400px"}
+:::
+
+::: aside
+Figura tomada de @ackerman_multidimensional_2005-1
+:::
+
+::: notes
+No tiene sentido que cambie su discriminación multidimensional, y sin embargo la literatura está llena de ejemplos que calculan este parámetro con la fórmula de Reckase (en un espacio de "rasgos correlacionados", que en seguida veremos por qué eso es importante), y que no se preocupan por "los ejes" que representan esos rasgos de manera fidedigna.
+
+Para la representación gráfica esto puede valer, como dice Ackerman aquí.
+Pero a la hora de calcular los parámetros (y Ackerman lo hace en este capítulo de libro), solamente considerar el caso ortogonal, la información que obtenemos resulta deficiente; obtenemos parámetros de discriminación multidimensional "distorsionados".
+:::
+
 ## Generalización: Ejes oblicuos {.smaller}
 
 > \[...\] before performing the differentiation, the constraint that Σ cos^2^**α** = 1 is added to the expression for the slope \[...\]
@@ -5209,25 +5228,15 @@ En realidad, para transformar los ítems hay que usar la matriz inversa (inversa
 Y esto nos ha permitido "descubrir" (o darnos cuenta, más bien) de que hay dos "espacios vectoriales" distintos, uno en el que se encuentran las coordenadas de las puntuaciones factoriales, y otro distinto, que es el espacio en el que se encuentran las coordenadas de los ítems, y que es donde en realidad hay que representarlos.
 :::
 
-## Supuestos: Ortogonalidad
 
-<!-- # TODO: Review/delete slide? -->
 
-<!-- TODO: ACT en McDonald, 1999? -->
 
-::: r-center
-![Ítems de "ACT Mathematics Usage Test"](../www/Fig_1-6_Contemporary_Psychometrics.png){fig-align="center" height="400px"}
 :::
 
-::: aside
-Figura tomada de @ackerman_multidimensional_2005-1
 :::
 
 ::: notes
-No tiene sentido que cambie su discriminación multidimensional, y sin embargo la literatura está llena de ejemplos que calculan este parámetro con la fórmula de Reckase (en un espacio de "rasgos correlacionados", que en seguida veremos por qué eso es importante), y que no se preocupan por "los ejes" que representan esos rasgos de manera fidedigna.
 
-Para la representación gráfica esto puede valer, como dice Ackerman aquí.
-Pero a la hora de calcular los parámetros (y Ackerman lo hace en este capítulo de libro), solamente considerar el caso ortogonal, la información que obtenemos resulta deficiente; obtenemos parámetros de discriminación multidimensional "distorsionados".
 :::
 
 ## Espacio latente vs. espacio test
