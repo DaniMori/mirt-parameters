@@ -383,8 +383,13 @@ We intended to refer to footnote 1 in page 16; we have now completed the referen
 
 ###### I also wonder about the Harman (1970) reference. I know that he shows a plot of length of arm against length of leg using orthogonal axes for the plot even though the two measures are correlated. I am not not sure how the axes should be oriented to reflect the correlation between the two measures.
 
-We intended to refer to <!-- # TODO: Complete -->
+We intended to refer to section 4.8 (*Distance and Angle in General Cartesian Coordinates*), where it is explained how to compute coordinates that "involve the inclination of the reference axes" [@harman_modern_1976, p. 60].
 Please note that, as we do not have access to the 2nd edition anymore, we have used the 3rd one in our new version, and updated all the references accordingly.
+
+Regarding the scatter plot you mention, we have not been able to find in (at least not in the 3^rd^ one we are using now, even though the example you refer to appears at the end of section 2.5, pp. 22-23).
+However, we acknowledge such a plot is the most common representation of the values realized by different cases (persons, in our case) in two variables, correlated or not.
+In this regard, we would kindly refer you to our third response to your comments, in p. <!-- TODO: Complete --> of this letter, where we discuss the representation of person parameters in the last two paragraphs.
+<!-- TODO: Possibly complete with references to other responses? -->
 
 ###### Page 6  Line 21 The expression on this line needs more explanation. I am not sure what the expression is supposed to represent.
 
