@@ -3984,7 +3984,7 @@ Es decir, que nada me impide, si lo necesito, representar unos ejes con un ángu
 ```
 :::
 
-::: column
+::: {.column .fragment}
 <!-- TODO: Animate? -->
 
 ```{r oblique-rotation-rect-coords}
@@ -4688,18 +4688,18 @@ Y lo que nosotros estamos asumiendo es que tenemos una distribución de vectores
 
 (En este ejemplo, vamos a usar una distribución normal estandarizada con correlación de 0,5).
 
-Normalmente representamos esos vectores en coordenadas rectangulares (ejes ortogonales), pero para obtener los parámetros multidimensionales generalizados a ejes oblicuos tenemos que representados en un espacio no ortogonal (aquí también hablaría de "unidades no" estandarizadas", es decir, que la distancia entre el 0 y el 1 pueda ser "distinta de la base estándar, pero digamos solamente "no ortogonal" por simplificar).
+Normalmente representamos esos vectores en coordenadas rectangulares (ejes ortogonales), pero para obtener los parámetros multidimensionales generalizados a ejes oblicuos tenemos que representados en una base no ortogonal (aquí también hablaría de "unidades no estandarizadas", es decir, que la distancia entre el 0 y el 1 pueda ser "distinta de la base estándar, pero digamos solamente "no ortogonal" por simplificar).
 
 ¿Cómo podríamos solucionar esto?
 
 \[NEXT\]
 
-Lo que podemos hacer es aplicar una "transformación" a los rasgos latentes de forma que pasemos de ese espacio oblicuo (el que sea, aún no sabemos cuál es) a un espacio ortogonal.
+Lo que podemos hacer es aplicar una "transformación" a los rasgos latentes de forma que pasemos de esa base oblicua (la que sea, aún no sabemos cuál es) a una base ortogonal.
 Esto es una transformación de las coordenadas, como la que aplicamos antes para calcular las coordenadas del ítem tras aplicar la rotación oblicua, pero aplicada en este caso al vector de rasgo latente.
 
 Ahora bien, como recordaréis, queremos representar los ítems en unos ejes que sean, por los ángulos relativos entre ellos, una representación fidedigna, de alguna manera, de las correlaciones entre las dimensiones de rasgo latente.
 
-Estas nuevas coordenadas (transformadas), que ahora están en un espacio ortogonal, queremos que representen una distribución en la que las correlaciones sean nulas, es decir, que la matriz de correlaciones transformada ($R^*$ la vamos a llamar) sea una matriz identidad (unos en la diagonal, ceros en el resto).
+Estas nuevas coordenadas (transformadas), que ahora están en una base ortogonal, queremos que representen una distribución en la que las correlaciones sean nulas, es decir, que la matriz de correlaciones transformada ($R^*$ la vamos a llamar) sea una matriz identidad (unos en la diagonal, ceros en el resto).
 Pero hay que tener en cuenta que esto es un "artefacto matemático".
 Estamos haciendo esto por conveniencia, pero las coordenadas que realmente nos interesan como investigadores, porque son las que verdaderamente representan algo que nos interesa investigar, son esas coordenadas originales, que pueden representar cualquier fenómeno que sea de nuestro interés (rasgos de personalidad, síntomas, actitudes, inteligencia, conocimientos... lo que estemos investigando).
 
