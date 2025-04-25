@@ -3430,12 +3430,12 @@ $$
 ::: {.r-stack style="color:#90214a;"}
 $$
   \begin{matrix}
-    \mathbf{a}_1 &=
+    \mathbf{a}_2 &=
       \begin{bmatrix}
          1 \\
         -1
       \end{bmatrix} &
-    d_1 = 0
+    d_2 = 0
   \end{matrix}
 $$
 :::
@@ -3443,12 +3443,12 @@ $$
 ::: {.r-stack style="color:#749f4c;"}
 $$
   \begin{matrix}
-    \mathbf{a}_1 &=
+    \mathbf{a}_3 &=
       \begin{bmatrix}
         -1 \\
         -1
       \end{bmatrix} &
-    d_1 = 0
+    d_3 = 0
   \end{matrix}
 $$
 :::
@@ -3456,12 +3456,12 @@ $$
 ::: {.r-stack style="color:#d76f47;"}
 $$
   \begin{matrix}
-    \mathbf{a}_1 &=
+    \mathbf{a}_4 &=
       \begin{bmatrix}
         -1 \\
          1
       \end{bmatrix} &
-    d_1 = 0
+    d_4 = 0
   \end{matrix}
 $$
 :::
@@ -3567,12 +3567,12 @@ $$
 ::: {.r-stack style="color:#90214a;"}
 $$
   \begin{matrix}
-    \mathbf{a}_1 &=
+    \mathbf{a}_2 &=
       \begin{bmatrix}
          1 \\
         -1
       \end{bmatrix} &
-    d_1 = -0.5
+    d_2 = -0.5
   \end{matrix}
 $$
 :::
@@ -3580,12 +3580,12 @@ $$
 ::: {.r-stack style="color:#749f4c;"}
 $$
   \begin{matrix}
-    \mathbf{a}_1 &=
+    \mathbf{a}_3 &=
       \begin{bmatrix}
         -1 \\
         -1
       \end{bmatrix} &
-    d_1 = -0.5
+    d_3 = -0.5
   \end{matrix}
 $$
 :::
@@ -3593,12 +3593,12 @@ $$
 ::: {.r-stack style="color:#d76f47;"}
 $$
   \begin{matrix}
-    \mathbf{a}_1 &=
+    \mathbf{a}_4 &=
       \begin{bmatrix}
         -1 \\
          1
       \end{bmatrix} &
-    d_1 = 0.25
+    d_4 = 0.25
   \end{matrix}
 $$
 :::
