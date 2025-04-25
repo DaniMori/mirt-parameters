@@ -5419,13 +5419,25 @@ Muy importante, la distancia con signo y la discriminación multidimensional son
 Pero los cosenos directores es necesario calcularlos en el espacio test, no en el espacio de puntuaciones latentes, como decía Reckase, porque este es el espacio que va a representar en realidad la relación entre las variables latentes.
 :::
 
-## Representación gráfica
+## Representación gráfica completa
 
 ```{r item-plot-out}
 #| fig-cap:   Espacio test ortogonal (izquierda) y oblicuo (derecha)
 #| fig-align: center
 #| fig-asp:     .5
 #| fig-width: 13
+
+plot_orth <- plot_orth +
+  scale_color_manual(values = ITEMS_PALETTE) +
+  theme(
+    axis.ticks       = element_blank(),
+    legend.title     = element_blank(),
+    panel.grid.minor = element_blank()
+  )
+
+plot_oblique <- plot_oblique +
+  scale_color_manual(values = ITEMS_PALETTE, guide = NULL) +
+  theme(axis.ticks = element_blank())
 
 plot_orth + plot_oblique ## TODO: Tema ggplot
 ```
