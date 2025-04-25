@@ -40,7 +40,7 @@ execute:
   cache:       true
 lang:          es
 knitr:
-  # opts_knit: # Does not work, see line 88
+  # opts_knit: # Does not work, see line 102
   #   root_dir:  here::here()
   opts_chunk: 
     results:   asis
@@ -92,6 +92,7 @@ library(purrr)
 library(plotly)
 library(metR)
 library(scales)
+library(fontawesome)
 library(mvtnorm)
 library(patchwork)
 ```
@@ -99,7 +100,7 @@ library(patchwork)
 ```{r setup}
 #| cache:   false
 #| include: false
-opts_knit$set(root.dir = here::here()) # See lines 41-42
+opts_knit$set(root.dir = here::here()) # See lines 43-44
 
 # Graphical configuration options:
 loadfonts(device = "win") # Load fonts (if necessary)
@@ -1503,7 +1504,7 @@ $$
     P(Y_i = 1) &= \Phi_N \left(
       \frac{\mathbf{\lambda}_i^T \mathbf{F} + \tau_i}{\sqrt{var(U_i)}}
     \right) =
-      \left(
+      \Phi_N \left(
         \frac{1}{\sqrt{var(U_i)}} \mathbf{\lambda}_i^T \mathbf{F} +
           \frac{1}{\sqrt{var(U_i)}} \tau_i
       \right)\\
