@@ -4734,10 +4734,49 @@ Aquí tenéis un enlace y QR para participar en una breve "encuesta".
 <!-- # TODO: Faltan dos primeros paneles -->
 
 :::::: columns
-::: {.column .fragment width="33%"}
+::: {.column width="33%"}
+```{r}
+#| fig-width:  5.5
+#| fig-height: 5.5
+thetas_transf |>
+  ggplot(mapping = aes(trait_1, trait_2)) +
+  geom_point(alpha = .33, shape = 16, colour = I(PALETTE_BLUE["normal"])) +
+  scale_x_continuous(
+    minor_breaks = NULL,
+    labels = \(breaks) '' |> rep(length(breaks)),
+    limits = c(-4, 4),
+    expand = expansion(),
+    name   = NULL,
+    sec.axis = dup_axis(name = "{*&theta;*~1~, *&theta;*~2~}", labels = NULL)
+  ) +
+  scale_y_continuous(
+    minor_breaks = NULL,
+    labels = \(breaks) '' |> rep(length(breaks)),
+    limits = c(-4, 4),
+    expand = expansion(),
+    name   = NULL
+  ) +
+  coord_fixed() +
+  theme(
+    axis.ticks   = element_blank(),
+    axis.line    = element_blank(),
+    axis.title   = element_markdown(),
+    axis.title.y = element_markdown(),
+    panel.grid   = element_blank()
+  )
+```
 :::
 
 ::: {.column .fragment width="33%"}
+```{r question-mark}
+fa(
+  "question",
+  fill           = "#929acb",
+  height         = "200px",
+  vertical_align = "-10em",
+  margin_left    = "4em"
+)
+```
 :::
 
 ::: {.column .fragment width="33%"}
