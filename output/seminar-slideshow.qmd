@@ -34,8 +34,8 @@ date-format:   long
 editor:
   mode:        source
   markdown: 
-    wrap:      sentence  # TODO: Restore
-    canonical: true  # TODO: Restore
+    wrap:      sentence # TODO: Restore
+    canonical: true     # TODO: Restore
 execute: 
   cache:       true
 lang:          es
@@ -5444,13 +5444,19 @@ plot_orth + plot_oblique ## TODO: Tema ggplot
 
 ## Conclusiones
 
+<br>
+
 Parámetros multidimensionales generalizados
 
 -   A ítems con monotonía constante
 
 -   A Ejes oblicuos
 
+<br>
+
+::: fragment
 Distinción espacio latente - espacio test
+:::
 
 ::: notes
 En conclusión, lo que hemos propuesto en este artículo consiste en una generalización:
@@ -5462,6 +5468,8 @@ En conclusión, lo que hemos propuesto en este artículo consiste en una general
 -   A Ejes oblicuos, las cuales consideramos que son necesarias para representar distribuciones de puntuaciones de rasgo correlacionadas, en general.
     Hemos visto que esto ya lo mencionaron Zhang y Stout, hace 25 años, pero no proporcionaron una "deducción" de estos parámetros multidimensionales, cosa que nosotros hacemos.
 
+\[NEXT\]
+
 Por último, es imortante recalcar este "descubrimiento" (o "redescubrimiento", más bien) del espacio test, ya que tenemos que ser muy conscientes de que los ítems y las personas están en espacios vectoriales distintos.
 Aunque esto parezca solamente un "artefacto matemático" (y en el fondo lo es), hemos visto que es verdaderamente crucial tenerlo en cuenta para entender bien los modelos que estamos utilizando.
 Además, esta "distinción" se halla también en los modelos factoriales: Existe lo que se denominan "ejes primarios" y "ejes de referencia", propuestos por Thurstone hace años (pero que prácticamente no se utilizan ni tienen en consideración).
@@ -5470,16 +5478,28 @@ Además, esta "distinción" se halla también en los modelos factoriales: Existe
 
 ## To be continued...
 
+<br>
+
 -   Paralelismo TRI multidimensional - AF
 
--   Extensiones del modelo M2PL: Escala graduada, respuesta nominal, 3PL...
+<br>
 
+::: fragment
+-   Extensiones del modelo M2PL: Escala graduada, respuesta nominal, 3PL...
+:::
+
+<br>
+
+::: fragment
 -   Investigación en otros modelos
+:::
 
 ::: notes
 Esta de hecho puede ser una futura línea de investigación.
 Puede parecer evidente el paralelismo (o al menos a mí me lo parece), pero si una cosa me ha enseñado el estar trabajando en este problema de los parámetros (y toparme con el problema de los dos espacios), es que no hay que fiarse de las apariencias.
 Por eso aplicamos el método científico (el método puramente deductivo, en este caso)
+
+\[NEXT\]
 
 El modelo multidimensional logístico de 2 parámetros se puede considerar como "anidado", o un caso más simple de varios modelos.
 Así que partiendo de este como base, lo interesante es aplicarlo a otros más complejos, pero más útiles en la práctica.
@@ -5493,6 +5513,10 @@ El logístico de 3 parámetros es como el de 2, pero añadiendo un parámetro de
 
 Estos modelos, que son "extensiones" de este más básico, deberían partir de estos parámetros como fundamento.
 Pero un investigador no debería dar los parámetros sin más de ese modelo, sin proporcionar una prueba formal de que se aplica esa fórmula y se cumplen los supuestos.
+
+\[NEXT\]
+
+Y por supuesto, existen muchos otros modelos psicométricos, muy útiles y aplicados en la investigación en Psicología y Educación, en los cuales no está claro aún cómo generalizar estos resultados al ámbito multidimensional.
 :::
 
 ## Últimas palabras
