@@ -265,6 +265,10 @@ the formulation of the multidimensional parameters.
 We will introduce three different versions,
 showing that either the original or one of the new ones is obtained
 as a function of how we define and interpret the latent space.
+(Interestingly, we will show that, when the latent space basis is defined
+as a geometric mapping of the covariance structure,
+we arrive at a definition of the norm that is given by
+the Mahalanobis [-@mahalanobis_reprint_2018] distance.)
 Next, we discuss their properties,
 propose a graphical representation method based on the new formulation,
 and present two examples of application of our results.
@@ -279,7 +283,7 @@ the applicability and generalization of our results.
 # Model Formulation
 
 Consider a basis $`r LS_BASIS_EQ`$,
-with $`r LS_BASIS`$ generally non-orthonormal.
+with $`r LS_BASIS`$ not necessarily orthonormal.
 Let $`r LATENT_SPACE`$ be a $`r N_DIMS`$-dimensional latent space
 in basis $`r LS_BASIS`$ (with $`r N_DIMS`$ any positive integer),
 where a respondent is represented by vector $`r TRAIT_VEC_IN_LS`$.
@@ -344,8 +348,8 @@ the element vectors of the basis,
 scaled by the coordinates of $`r TRAIT_VECTOR`$ in that basis.
 Note thouth that, as $`r LATENT_SPACE`$ is originally represented in
 $`r LS_BASIS`$, the geometric coordinates $`r TRAIT_COORDS`$ of
-$`r TRAIT_VECTOR`$ in $`r LS_BASIS`$ are equal to the algebraic ones,
-i.e., $`r TRAIT_GEOM_ALGEBR_EQ`$.
+$`r TRAIT_VECTOR`$ in $`r LS_BASIS`$ are equal to the algebraic ones, i.e.,
+in Equation \@ref(eq:M2PL-formulation) we identify $`r TRAIT_GEOM_ALGEBR_EQ`$.
 
 Let $`r BASIS_CHANGE_DEF`$ be the change of basis matrix between the two bases;
 then, we have that
@@ -723,16 +727,17 @@ they are still two different spaces.
 
 We must make a few observations here.
 First, the transformation to the orthonormal bases of the two spaces allows
-mapping the $`r MODEL_ACRONYM`$ parameters indistinctly in the two spaces,
+mapping the $`r MODEL_ACRONYM`$ parameters interchangeably in the two spaces,
 by projecting one space onto the other.
 This allows representing the coordinates of the discrimination vectors
 in the latent space and, conversely,
 the coordinates of the latent trait vectors in the test space.
 As we can see, the invariance of the model holds,
 no matter in which space we represent the coordinates.
-Second, and most importantly, if the test space is
-where the item parameters naturally lie, they must be represented in this space,
-and not in the latent space.
+Second, and most importantly,
+given that the test space is defined as the set of  item parameters,
+as we did before (see section Test Space Definition),
+then they should be represented in this space, and not in the latent space.
 Therefore, we may find the direction angles of $`r DISCR_VECTOR`$
 in the test space:
 Applying Proposition 1, if $`r ANGLE_VEC_TS_ITEM`$ is
