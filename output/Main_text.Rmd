@@ -186,7 +186,7 @@ because the two dimensions are *perfectly aligned* and thus
 compound up in the second group,
 the item `r MDISC_SYM` should be the algebraic sum of both components,
 that is, $`r MDISC_VALUE_COLLIN`$.
-Similarly, the correlation between two simple items items,
+Similarly, the correlation between two simple items,
 each one measuring a distinct dimension,
 should be uncorrelated in the first group,
 but perfectly correlated in the second one.
@@ -322,7 +322,7 @@ Finally, it is worth highlighting that
 this model generally assumes *within-item multidimensionality*,
 which will be present whenever more than one component of $`r DISCR_VECTOR`$
 is non-null.
-However, the model can also account for *between-item multidimensionality*,
+However, the model can also account for *between-item multidimensionality*
 if the $`r DISCR_VECTOR`$ parameter only has one non-null component.
 
 Following Reckase's [-@reckase_difficulty_1985] procedure,
@@ -346,7 +346,7 @@ That is, the geometric representation of the algebraic vector $`r TRAIT_VECTOR`$
 in each of the two bases is given by the linear combination of
 the element vectors of the basis,
 scaled by the coordinates of $`r TRAIT_VECTOR`$ in that basis.
-Note thouth that, as $`r LATENT_SPACE`$ is originally represented in
+However, note that, as $`r LATENT_SPACE`$ is originally represented in
 $`r LS_BASIS`$, the geometric coordinates $`r TRAIT_COORDS`$ of
 $`r TRAIT_VECTOR`$ in $`r LS_BASIS`$ are equal to the algebraic ones, i.e.,
 in Equation \@ref(eq:M2PL-formulation) we identify $`r TRAIT_GEOM_ALGEBR_EQ`$.
@@ -404,7 +404,9 @@ with $`r DISCR_COORDS_ALT_EQ`$, and
 $`r TRANSFORM_MATRIX_TRANSP_INV`$ a change of basis matrix.
 Note that $`r TRANSFORM_MATRIX_TRANSP_INV`$ determines $`r TEST_SPACE_BASIS`$
 and, as $`r DISCR_VECTOR`$ is expressed in this basis,
-its algebraic vector values correspond to its coordinates, i.e.,
+its geometric coordinates in $`r TEST_SPACE_BASIS`$
+are equal to its algebraic ones,
+i.e., in Equation \@ref(eq:M2PL-formulation) we identify
 $`r DISCR_VECTOR_COORDS_EQ`$.
 
 As we did with $`r LS_ORTH_BASIS`$ before,
@@ -735,8 +737,8 @@ the coordinates of the latent trait vectors in the test space.
 As we can see, the invariance of the model holds,
 no matter in which space we represent the coordinates.
 Second, and most importantly,
-given that the test space is defined as the set of  item parameters,
-as we did before (see section Test Space Definition),
+given that the test space is defined as the set of item parameters
+(see section *Test Space Definition*),
 then they should be represented in this space, and not in the latent space.
 Therefore, we may find the direction angles of $`r DISCR_VECTOR`$
 in the test space:
@@ -966,7 +968,7 @@ However, it is worth noting that the latent space Gram matrix
 also plays a role in computing these coordinates,
 and will therefore have an effect on the representation.
 Of course,
-from Equations \@ref(eq:origin-coords-result) and \@ref(eq:end-coords-result)
+from Equations \@ref(eq:origin-coords-result) and \@ref(eq:end-coords-result),
 it is easy to express the coordinates in terms of the parameters in the original
 model formulation.
 Given $`r DISCR_VECTOR_COORDS_EQ`$,
@@ -1585,7 +1587,7 @@ an oblique rotation afterwards, at least in exploratory solutions.
 Taking advantage of the invariance property,
 we may compute the parameters in the orthogonal space
 (in fact, this is exactly what {mirt} functions `MDISC()` and `MDIFF()` do).
-Then, we may compute the direction cosines in the rotated solution applying
+Then, we may compute the direction cosines in the rotated solution by applying
 Equation \@ref(eq:dir-cos-vec-cov).
 What a test practitioner should be aware of, though,
 is that applying Reckase & McKinley's [-@reckase_discriminating_1991] formula
@@ -1608,7 +1610,7 @@ and @reckase_discriminating_1991, both matrices simplify to the identity matrix,
 so there was no need to make this distinction.]
 This implies that the axes defined by the test space basis,
 and not the ones defined by the latent space basis,
-are a geometrical representation of the covariance structure:
+are a geometrical representation of the covariance structure.
 Indeed, the cosines of the angles among the test space axes are
 the geometric equivalent of the correlations.
 This result is both surprising and counterintuitive
