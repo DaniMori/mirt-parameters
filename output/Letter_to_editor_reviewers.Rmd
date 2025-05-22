@@ -468,7 +468,12 @@ We are unsure about how to make this clearer, we are afraid, so we would appreci
 
 ###### Page 29 Line 7 I am curious if the values of discrimination are comparable from the two representations. It seems that the metric of the representational space has changed, and equivalent numbers will not have equivalent meaning.
 
-<!-- TODO: Reply -->
+We are not completely sure to have understood this comment.
+The discrimination values in the original `r MODEL_ACRONYM` metric are comparable, in the sense that they yield the same model probabilities for the same latent trait coordinates, independently of the covariance structure of the latent space.
+However, the covariance-version of the multidimensional discrimination is different, and will indeed be dependent on the metric of the test space, which is defined by its geometrical basis, which determines the directions and scales of the axes.
+In this case, the basis has been chosen to be a geometric representation of the correlation matrix (as given by the expression $`r INNER_PROD_CORR_COND`$, please see p. <!-- # TODO: Complete -->, line <!-- # TODO: Complete -->, in the new version), and therefore, the scales are not affected (only the relative directions among the axes).
+
+We would kindly ask to elaborate further on this question if the Reviewer feels it has not been completely addressed.
 
 ###### Page 30 Line 8 It would be helpful to show the orthogonal and nonorthogonal representations of items and then discuss the interpretation of the parameter estimates based on each of the representations. I have been unable to determine the value of using the nonorthogonal representation. The nonorthogonal representation is more complex, and it seems sample dependent because it uses the observed correlations/covariances. What is the value added of using the more complex representation?
 

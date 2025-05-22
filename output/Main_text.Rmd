@@ -272,7 +272,7 @@ the Mahalanobis [-@mahalanobis_reprint_2018] distance.)
 Next, we discuss their properties,
 propose a graphical representation method based on the new formulation,
 and present two examples of application of our results.
-These examples, from the cognitive and the non-cognitive domain respectively,
+These examples, from the cognitive and the non-cognitive domain, respectively,
 are taken from the MIRT literature:
 One of them is a classic dataset, often used to exemplify
 the use of the `r MODEL_ACRONYM` model [@reckase_multidimensional_2009];
