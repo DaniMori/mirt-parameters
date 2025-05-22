@@ -404,7 +404,7 @@ In this regard, we would kindly refer you to our third response to your comments
 
 ###### Page 6  Line 21 The expression on this line needs more explanation. I am not sure what the expression is supposed to represent.
 
-This is the expression of a vector represented in a basis, in this case, representing that the vector can be represented in each of the two bases indistinctly.
+This is the expression of a vector represented in a basis, in this case, representing that the vector can be represented in each of the two bases interchangeably.
 Following the reviewer's suggestion, we have added this clarification to the text, so it now reads:
 
 > [...] such that $`r TRAIT_VECTOR_DEF_EQ`$.
@@ -426,7 +426,8 @@ We have sorted this out by using parentheses, as you will be able to see in our 
 
 ###### Page 13 Line 4 The implications of the word “indistinctly” in this sentence are not clear.
 
-<!-- # TODO: Add response -->
+This is a mistake on our side, we are afraid to admit, product of a careless translation of a false friend from our mother tongue Spanish ("indistintamente"), which means "indifferently".
+We have changed the term by the mathematically appropriate "interchangeably" in our new version.
 
 ###### Page 13 Line 8 The statement “the test space is where the item parameters naturally lie” seems to imply there is a correct representation of the item parameters. But, the correlations between constructs changes with the sample of examinees and the coordinates can easily be rotated and translated giving different representations of the item parameters. I would like to see support for the statement.
 
