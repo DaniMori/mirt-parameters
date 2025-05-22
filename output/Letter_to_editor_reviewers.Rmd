@@ -227,9 +227,13 @@ Therefore, we do not have any hypothesis to test, but the results of the formal 
 
 The datasets we use in our paper are examples of item parameter estimates, taken from the literature.
 As they only serve exemplification purposes and are not the main focus of our article, we deem it more appropriate to describe their details in the corresponding section of the manuscript.
-We have added a short reference to them in the introduction, to make sure their pertinence as examples is clear.
+We have added a short reference to them in the last paragraph of our introduction (p. <!-- TODO: Complete -->, lines <!-- TODO: Complete -->), to make sure their pertinence as examples is clear.
 
-<!-- TODO: Include text added -->
+> These examples, from the cognitive and the non-cognitive domain, respectively,
+are taken from the MIRT literature:
+One of them is a classic dataset, often used to exemplify
+the use of the `r MODEL_ACRONYM` model [@reckase_multidimensional_2009];
+the other one, an application in marketing research [@tezza_modelo_2018].
 
 ###### 4. Within or between multidimensional latent? This should be detailed.
 
