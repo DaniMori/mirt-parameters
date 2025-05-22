@@ -202,11 +202,11 @@ unlike the invariant value of $`r MDISC_COV_PARAM`$.
 
 Notwithstanding, we have written extensive code in R for computing these parameters, which we intend to open up for public use and scrutiny in a GitHub repository that includes all the code, data, and examples (including all the R packages to re-create the necessary environment to grant computational reproducibility), allowing to generate all the tables, plots, and even the submitted versions of the manuscript.
 Using dedicated functions in our code, any interested researcher will be able to compute the multidimensional parameters from the output of any MIRT software [e.g., {mirt}, @chalmers_mirt_2012; flexMIRT, @cai_flexmirt_2024].
-As the journal guidelines require a specific format for the Supplementary Material,
-<!-- TODO: Check this -->
-we have preferred not to include the repository as additional material.
-However, we can do so if the journal accepts linking an external repository as supplementary material, or otherwise grant access to the editor and reviewers to this repository.
-<!-- TODO: Publish repo and link Software Legacy DOI? -->
+As the journal guidelines [require a specific format for the Supplementary Material](https://www.cambridge.org/core/services/authors/publishing-supplementary-material),
+we chose not to include the repository as additional material.
+However, we have checked and the journal accepts and also encourages publishing additional materiales in [a proper, trusted repository](https://www.cambridge.org/core/services/where-to-share-your-data). 
+We have thus made public [our GitHub repository for the manuscript](https://github.com/DaniMori/mirt-parameters) and [indexed it in Software Heritage](https://archive.softwareheritage.org/swh:1:dir:3914435e67a2b34847e36a712a181d7d9d76f35e;origin=https://github.com/DaniMori/mirt-parameters;visit=swh:1:snp:9069b256471ea08d5748e8bb021b7ee876aee724;anchor=swh:1:rev:fe49f438bf940606ae7e3c86c3c55f202e6920af) for being identified with a SWHID.
+can do so if the journal accepts linking an external repository as supplementary material, or otherwise grant access to the editor and reviewers to this repository.
 
 # Responses to Reviewer 1:
 
