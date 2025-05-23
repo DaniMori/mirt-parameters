@@ -464,7 +464,27 @@ We are unsure about how to make this clearer, we are afraid, so we would appreci
 
 ###### Page 26 Line 8 This discussion seems to miss the distinction between correlations between traits and dimensions of sensitivity of the test items.
 
-<!-- TODO: Reply -->
+We acknowledge we may have overlooked this distinction.
+To our understanding, a highly correlated latent space may imply a restricted dimensionality (as indicated by the rank of the covariance matrix) of the latent space.
+We consider that this example, being an edge case (of unidimensionality), is very illustrative for our purposes, because it allows the reader to understand easily that all items should be aligned with the only dimension being measured and thus that grasp the intuitive notion that all direction cosines should be expected to be equal to 0.
+However, in doing so, we have skipped a step in our reasoning, assimilating the dimensionality of the latent space with the dimensional sensitivity of the items.
+
+To clarify better this point, we have tried to express better this distintion, emphasizing that the dimensionality of the latent space is an upper limit of the dimensional sensitivity of the items.
+The aforementioned paragraph now reads (p. <!-- # TODO: Complete -->, lines <!-- # TODO: Complete -->):
+
+> [...] In that example,
+he uses a covariance matrix that practically has rank 1,
+implying that the (alleged) three dimensions collapse into a single one.
+This in turn makes the latent space unidimensional in practice.
+As the dimensional sensitivity of the latent space sets the upper limit of
+the dimensional sensitivity of a test measuring those traits,
+it follows that the test must be unidimensional.
+In such a case, when all the items are strictly aligned with
+the one dimension they measure,
+we should expect the direction angles to be extremely close to 0 for all items.
+The reader interested can check that this is the case for
+the covariance-based version of the direction angles
+in the table in Online Resource 1.
 
 ###### Page 29 Line 7 I am curious if the values of discrimination are comparable from the two representations. It seems that the metric of the representational space has changed, and equivalent numbers will not have equivalent meaning.
 
