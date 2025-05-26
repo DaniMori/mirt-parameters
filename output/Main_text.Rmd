@@ -265,10 +265,10 @@ the formulation of the multidimensional parameters.
 We will introduce three different versions,
 showing that either the original or one of the new ones is obtained
 as a function of how we define and interpret the latent space.
-(Interestingly, we will show that, when the latent space basis is defined
+[Interestingly, we will show that, when the latent space basis is defined
 as a geometric mapping of the covariance structure,
 we arrive at a definition of the norm that is given by
-the Mahalanobis [-@mahalanobis_reprint_2018] distance.)
+the @mahalanobis_reprint_2018, distance.]
 Next, we discuss their properties,
 propose a graphical representation method based on the new formulation,
 and present two examples of application of our results.
