@@ -72,7 +72,11 @@ We hope that this new version lives up to the expectations of
 the action editor and the reviewers;
 we have put as much effort as we have been able to address all the comments and
 suggestions, which we believe have helped improve the quality of our paper.
-<!-- TODO: Complete -->
+However, we acknowledge we may not have resolved satisfactorily all the action
+editor's and reviewers' concerns.
+Therefore, we would kindly ask you to forward to them our good will
+and predisposition to address any further comments or suggestions,
+or clarify futher on the previous ones.
 
 We thank you in advance for considering our reviewed manuscript.
 Please feel free to contact us again at my aforementioned email address
