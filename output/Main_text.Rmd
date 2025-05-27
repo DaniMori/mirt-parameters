@@ -190,6 +190,9 @@ Similarly, the correlation between two simple items,
 each one measuring a distinct dimension,
 should be uncorrelated in the first group,
 but perfectly correlated in the second one.
+As the cosine between variables is usually understood as
+the geometrical representation of their correlation,
+the cosine between the two items should be 1 in the second group.
 However, using an orthogonal representation
 would yield null cosines in both cases.
 

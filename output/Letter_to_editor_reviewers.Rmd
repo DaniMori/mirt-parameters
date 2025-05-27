@@ -133,18 +133,21 @@ Similarly, the correlation between two simple items,
 each one measuring a distinct dimension,
 should be uncorrelated in the first group,
 but perfectly correlated in the second one.
+As the cosine between variables is usually understood as
+the geometrical representation of their correlation,
+the cosine between the two items should be 1 in the second group.
 However, using an orthogonal representation
 would yield null cosines in both cases.
 
-There are several references in the literature that have found contradictory results that, we believe, are due to disregarding the latent covariance structure (i.e., using Reckase & McKinley's formulae in a non-orthonormal space).
+There are several references in the literature that have found contradictory results which, we believe, are due to disregarding the latent covariance structure (i.e., using Reckase & McKinley's formulae in a non-orthonormal space).
 For example, @min_evaluation_2007 [p. 49] computes the item parameters in the M2PL from a priori fixed values of $MDISC_i$ and $MDIFF_i$ (the name they use for $MID_i$), using @reckase_difficulty_1985 and @reckase_discriminating_1991's formulae.
 They find that "[...] bias [...] was more apparent when ability distribution was separated from the
 default distribution, such as was the case in groups 2 to 5".
-Although they attribute this to a possible "degree of confounding among errors of parameter estimation and scale
-transformation", their groups 2 to 5 have all correlations equal (or almost equal) to .5, as it happens.
+They attribute this to a possible "degree of confounding among errors of parameter estimation and scale transformation", but their groups 2 to 5 happen to all have correlations equal (or almost equal) to .5.
+(We consider that discussing these examples is out of the scope of this manuscript, but we will be glad to consider some of them if this editor deems it necessary.)
 
-We believe this is also what happens when MIRT software such as NOHARM tries to force a correlated latent trait structure into its default orthogonal solution, as this editor himself has noted before [@ackerman_multidimensional_2005-1, p. 11].
-While we consider this to be out of the scope of the current paper, we will gladly add further details to explain why these results are contradictory and how our method may solve the problem.
+Also, we believe this is what happens when MIRT software such as NOHARM tries to force a correlated latent trait structure into its default orthogonal solution, as this editor himself has noted elsewhere [@ackerman_multidimensional_2005-1, p. 11].
+While we consider this to be also out of the scope of the current paper, we will gladly add further details to explain why these results are contradictory and how our proposal may solve the problem.
 
 ###### I also wonder about how one compares the standard errors of the item parameters when the covariance covariance structures are different.  Are they directly comparable?
 
