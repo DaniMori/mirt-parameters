@@ -1385,7 +1385,7 @@ dimensions (see p. 183).
 In that example, he uses a covariance matrix that practically has rank 1,
 implying that the (alleged) three latent dimensions collapse into a single one.
 This makes the latent space unidimensional in practice,
-which in turn resticts the dimensionality of any response dataset
+which in turn restricts the dimensionality of any response dataset
 generated from a test measuring those traits.
 Therefore, "the data could be well fit by a unidimensional IRT model"
 [@reckase_multidimensional_2009, p. 189].

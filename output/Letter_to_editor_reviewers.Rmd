@@ -464,8 +464,7 @@ We are unsure about how to make this clearer, we are afraid, so we would appreci
 
 ###### Page 26 Line 8 This discussion seems to miss the distinction between correlations between traits and dimensions of sensitivity of the test items.
 
-To our understanding, one may assume a theoretical dimensional sensitivity of a test space that is higher than the dimensionality of the latent space.
-We acknowledge we may have overlooked this distinction.
+To our understanding, one may assume a theoretical dimensional sensitivity of a test space that is higher than the dimensionality of the latent space, which we acknowledge we may have overlooked.
 However, in such a case, the (minimum) dimensionality of the data would be "the smaller of the dimensions or variation for the people and the dimensions of sensitivity for the test items" (@reckase_multidimensional_2009, p. 182).
 That is, the dimensional sensitivity of the data would nevertheless be restricted by the dimensionality of the latent space.
 This implies that the parameter values one can estimate for the items will represent a lower-dimensional solution, which would be the projection of the theoretically higher-dimensionally sensitive parameters on the lower-dimensional latent trait space, as discussed in p. 182 of @reckase_multidimensional_2009.
@@ -501,7 +500,7 @@ The aforementioned paragraph now reads (p. <!-- # TODO: Complete -->, lines <!--
 he uses a covariance matrix that practically has rank 1,
 implying that the (alleged) three latent dimensions collapse into a single one.
 This makes the latent space unidimensional in practice,
-which in turn resticts the dimensionality of any response dataset
+which in turn restricts the dimensionality of any response dataset
 generated from a test measuring those traits.
 Therefore, "the data could be well fit by a unidimensional IRT model"
 [@reckase_multidimensional_2009, p. 189].
