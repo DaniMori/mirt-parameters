@@ -465,17 +465,17 @@ We are unsure about how to make this clearer, we are afraid, so we would appreci
 ###### Page 26 Line 8 This discussion seems to miss the distinction between correlations between traits and dimensions of sensitivity of the test items.
 
 To our understanding, one may assume a theoretical dimensional sensitivity of a test space that is higher than the dimensionality of the latent space, which we acknowledge we may have overlooked.
-However, in such a case, the (minimum) dimensionality of the data would be "the smaller of the dimensions or variation for the people and the dimensions of sensitivity for the test items" (@reckase_multidimensional_2009, p. 182).
+However, in such a case, the (minimum) dimensionality of the data would be "the smaller of the dimensions or variation for the people and the dimensions of sensitivity for the test items" [@reckase_multidimensional_2009, p. 182].
 That is, the dimensional sensitivity of the data would nevertheless be restricted by the dimensionality of the latent space.
-This implies that the parameter values one can estimate for the items will represent a lower-dimensional solution, which would be the projection of the theoretically higher-dimensionally sensitive parameters on the lower-dimensional latent trait space, as discussed in p. 182 of @reckase_multidimensional_2009.
-In practice, this implies that this solution is indistinguishable from one where the items are simply sensitive to the lower number of dimensions, with their parameters given by such lower-dimensional solution which would correspond to their projections from the alleged higher-dimensional space onto the lower-dimensional one.
+This implies that the parameter values one can estimate for the items will represent a lower-dimensional solution, which would be the projection of the theoretically higher-dimensionally sensitive parameters on the lower-dimensional latent trait space, as discussed on p. 182 of @reckase_multidimensional_2009.
+In practice, this implies that this solution is indistinguishable from one where the items are simply sensitive to the lower number of dimensions, with their parameters given by such a lower-dimensional solution, which would correspond to their projections from the alleged higher-dimensional space onto the lower-dimensional one.
 
-As Reviewer 3 points out, the high correlations between traits, and the restricted dimensionality they imply, is different from the dimensional sensitivity of the test items.
+As Reviewer 3 points out, the high correlations between traits and the restricted dimensionality they imply are different from the dimensional sensitivity of the test items.
 However, a highly correlated latent space, as in dataset 3d1 in @reckase_multidimensional_2009, may induce a dimensional restriction on the latent space (as indicated by the rank-1 covariance matrix), which is indistinguishable from a lower-dimensional (unidimensional, in this case) solution.
 These two facts, the indistinguishability of the "projected high-dimensional" solution and the lower-dimensional one, on the one hand, and the indistinguishability of the "high-dimensional solution" with a low-rank covariance matrix and the "low-dimensional solution", on the other, render the theoretical implications of a higher-dimensional item sensitivity impossible to test in a case like this example.
 This is acknowledged by @reckase_multidimensional_2009, who states that "if the process used to generate the data were not known, the interpretation of the analysis results would likely be that the test items all measured the same construct and that the data could be well fit by a unidimensional IRT model" (p. 189).
 
-However, in our manuscript we intend to go one step further, and show how the latent space covariance affects how the item parameters are interpreted.
+However, in our manuscript, we intend to go one step further and show how the latent space covariance affects how the item parameters are interpreted.
 We have shown that non-orthonormal axes are a more faithful geometrical representation of the test space when the latent covariance is not an identity matrix.
 From the model formulation, one can note that the components of the discrimination parameter serve as a scaling factor on the effect each latent trait has on the response probability function.
 As such, if they were interpreted as abstract parameters in a high-dimensional space that can be projected onto the latent trait axis, then the model formulation would consider those projections instead of the original item parameters.
@@ -485,15 +485,15 @@ In other words, each discrimination parameter value is itself the projection of 
 In this sense, having such high correlations among latent traits not only makes them practically unidimensional; it also implies that the item parameters must be practically aligned with the "unidimensional" latent space axis.
 In other words, even if a test is designed to be sensitive to three dimensions, if those three dimensions are highly correlated, the items will be practically sensitive to a single dimension.
 This will happen regardless of whether one considers that there is a higher-dimensional test space from which the alleged single dimension is a subspace (where the item parameters will be a projection of the higher-dimensionally sensitive ones), or whether one considers that the items are simply sensitive to a single dimension, with the item parameters given simply by the 2PL model.
-We believe this is the reason why estimating such a model would yield "a first dimension with high positive aparameters and other dimensions with much lower a-parameter estimates with many around zero" [@reckase_multidimensional_2009, p. 189].
+We believe this is the reason why estimating such a model would yield "a first dimension with high positive $`r DISCR_SYM`$-parameters and other dimensions with much lower $`r DISCR_SYM`$-parameter estimates with many around zero" [@reckase_multidimensional_2009, p. 189].
 In fact, we predict that the non-zero discrimination value estimate will not match any of the values of the generating discrimination parameter, but $`r MDISC_COV_PARAM`$ which, in this case, actually matches the discrimination parameter of the unidimensional 2PL model.
 Although we acknowledge the lack of time to properly check that this prediction is fulfilled, we will gladly do so in another review round if the editor and Reviewer 3 consider it necessary.
 
 The aforementioned considerations have led us to use this edge case as a very illustrative example for our purposes, because it allows the reader to understand easily that all items should be aligned with the only dimension being measured.
 It is therefore easy to grasp the intuitive notion that all direction cosines should be expected to be equal to 0, and in the more general case, to represent the relative alignment of the item vector with all the axes.
-However, in doing so, we may have skipped a step in our reasoning, assimilating the dimensionality of the latent space with the dimensional sensitivity of the items, as Reviwer 3 points out.
+However, in doing so, we may have skipped a step in our reasoning, assimilating the dimensionality of the latent space with the dimensional sensitivity of the items, as Reviewer 3 points out.
 
-To clarify better this point, we have tried to express better this distinction, emphasizing that, in this case, the unidimensionality induced by the rank-limited covariance matrix restricts the dimensional sensitivity of the test space.
+To clarify this point better, we have tried to better express this distinction, emphasizing that, in this case, the unidimensionality induced by the rank-limited covariance matrix restricts the dimensional sensitivity of the test space.
 The aforementioned paragraph now reads (p. <!-- # TODO: Complete -->, lines <!-- # TODO: Complete -->):
 
 > [...] In that example,
