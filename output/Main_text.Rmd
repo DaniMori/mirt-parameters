@@ -1383,13 +1383,14 @@ The latter effect can be better noticed in another case, in which Reckase
 uses the same item parameters to demonstrate the over-specification of
 dimensions (see p. 183).
 In that example, he uses a covariance matrix that practically has rank 1,
-implying that the (alleged) three dimensions collapse into a single one.
-This in turn makes the latent space unidimensional in practice.
-As the dimensional sensitivity of the latent space sets the upper limit of
-the dimensional sensitivity of a test measuring those traits,
-it follows that the test must be unidimensional.
+implying that the (alleged) three latent dimensions collapse into a single one.
+This makes the latent space unidimensional in practice,
+which in turn resticts the dimensionality of any response dataset
+generated from a test measuring those traits.
+Therefore, "the data could be well fit by a unidimensional IRT model"
+[@reckase_multidimensional_2009, p. 189].
 In such a case, when all the items are strictly aligned with
-the one dimension they measure,
+the one dimension being measured,
 we should expect the direction angles to be extremely close to 0 for all items.
 The reader interested can check that this is the case for
 the covariance-based version of the direction angles
