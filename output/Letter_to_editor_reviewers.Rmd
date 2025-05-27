@@ -103,13 +103,13 @@ Indeed, different groups of examinees can result in different covariance structu
 However, in our understanding, the same fact can be predicated about the item parameters themselves, even without considering the covariance structure at all.
 For example, in unidimensional IRT, the item parameters may be different for different groups of examinees, even if the variance is constrained to be equal across groups; this is indeed the basis of methods such as multigroup IRT.
 
-It is our stance that the covariance structure, understood as a property of the data of course, should be taken into account when determining the multidimensional properties of the items.
+It is our stance that the covariance structure, understood as a property of the data, of course, should be taken into account when determining the multidimensional properties of the items.
 That is what we propose with the covariance-based (and correlation-based) versions of the multidimensional parameters.
 
 ###### The statement (p.13, line 8) about “the test space where item parameters naturally lie” needs greater explanation with examples.
 
 We acknowledge and apologize for the lack of clarity in this sentence.
-Please refer to our 10th response to Reviewer 3 on p. <!-- TODO: Complete --> of this letter.
+Please refer to our response to Reviewer 3 on p. <!-- TODO: Complete --> of this letter.
 
 ###### Like Reviewer 3, I do not understand how the magnitude of discrimination values (p 29 , 7) can be compared/interpreted values of discrimination are comparable from the two representations. It seems that the metric of the represented space has changed, and equivalent numbers will not have equivalent interpretations.
 
@@ -155,14 +155,13 @@ While we consider this to be also out of the scope of the current paper, we will
 
 ###### I also wonder about how one compares the standard errors of the item parameters when the covariance covariance structures are different.  Are they directly comparable?
 
-The standard errors of the multidimensional parameters are, without a doubt, more difficult to compute for the covariance-based case than for the agnostic one (if we assume the covariance structure is estimated from the model).
+The standard errors of the multidimensional parameters are, without a doubt, more difficult to compute for the covariance-based case than for the agnostic one.
 Computing the covariance errors in the former would require taking into account the standard errors of the item parameters themselves and at least the standard errors of the correlations (in the best-case scenario, assuming standard latent dimensions; otherwise, those of the variances and covariances).
 However, to our knowledge, multidimensional item parameters, as defined by @reckase_difficulty_1985 and @reckase_discriminating_1991, have been previously defined and used only from a theoretical perspective, without ever taking into account the uncertainty resulting from the model estimation.
 
 Regarding the "original" item parameters in the classical M2PL metric, we understand that the standard errors of the item parameters are independent of the definition of the multidimensional parameters used.
 Software such as the R package {mirt} [@chalmers_mirt_2012] uses a method similar to exploratory factor analysis to compute the item parameter estimates and the standard errors, based on an oblique rotation to approximate simple structure.
-As far as we know, these standard error estimates are computed by the usual methods, involving, e.g., Taylor series, bootstrapping, or similar.
-<!-- TODO: Check SE methods; complete? -->
+One can see the help of the [`mirt()` function](https://www.rdocumentation.org/packages/mirt/versions/1.43/topics/mirt) therein (se description of argument `SE.type`) for a detailed description of how this package computes the standard errors.
 
 ###### I would like to see the motivation and psychometric utility of this approach. Does it improve the interpretation of the latent abilities and thus result in more insight into how the results are used? The author needs to address this with legitimate examples for testing practitioners.
 
@@ -212,8 +211,7 @@ Using dedicated functions in our code, any interested researcher will be able to
 As the journal guidelines [require a specific format for the Supplementary Material](https://www.cambridge.org/core/services/authors/publishing-supplementary-material),
 we chose not to include the repository as additional material.
 However, we have checked and the journal accepts and also encourages publishing additional materiales in [a proper, trusted repository](https://www.cambridge.org/core/services/where-to-share-your-data). 
-We have thus made public [our GitHub repository for the manuscript](https://github.com/DaniMori/mirt-parameters) and [indexed it in Software Heritage](https://archive.softwareheritage.org/swh:1:dir:3914435e67a2b34847e36a712a181d7d9d76f35e;origin=https://github.com/DaniMori/mirt-parameters;visit=swh:1:snp:9069b256471ea08d5748e8bb021b7ee876aee724;anchor=swh:1:rev:fe49f438bf940606ae7e3c86c3c55f202e6920af) for being identified with a SWHID.
-can do so if the journal accepts linking an external repository as supplementary material, or otherwise grant access to the editor and reviewers to this repository.
+We have thus made public [our GitHub repository for the manuscript](https://github.com/DaniMori/mirt-parameters) and [indexed it in Software Heritage](https://archive.softwareheritage.org/swh:1:dir:3914435e67a2b34847e36a712a181d7d9d76f35e;origin=https://github.com/DaniMori/mirt-parameters;visit=swh:1:snp:9069b256471ea08d5748e8bb021b7ee876aee724;anchor=swh:1:rev:fe49f438bf940606ae7e3c86c3c55f202e6920af) for identification with a SWHID.
 
 # Responses to Reviewer 1:
 
