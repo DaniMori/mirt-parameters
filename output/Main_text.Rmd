@@ -1265,6 +1265,10 @@ provided in the original [@tezza_modelo_2018, do not provide these results].
 In order to facilitate the comparison,
 the covariance-based version of each parameter is provided in
 the column next to its corresponding agnostic version.
+The interested reader can explore the complete code for these examples in the
+indexed Software Heritage repository for this paper, specifically:
+<https://archive.softwareheritage.org/swh:1:cnt:b104aa768ded8fc19e2cafe8cdc9e64724c4fa47;origin=https://github.com/DaniMori/mirt-parameters;visit=swh:1:snp:9069b256471ea08d5748e8bb021b7ee876aee724;anchor=swh:1:rev:fe49f438bf940606ae7e3c86c3c55f202e6920af;path=/src/Empirical_example.R>
+
 
 ```{r reset-root-wd}
 #| cache: false
