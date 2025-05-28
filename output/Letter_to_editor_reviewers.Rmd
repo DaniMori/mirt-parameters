@@ -241,12 +241,12 @@ Using dedicated functions in our code, any interested researcher will be able to
 As the journal guidelines [require a specific format for the Supplementary Material](https://www.cambridge.org/core/services/authors/publishing-supplementary-material),
 we chose not to include the repository as additional material.
 However, we have checked and the journal accepts and also encourages publishing additional materiales in [a proper, trusted repository](https://www.cambridge.org/core/services/where-to-share-your-data). 
-We have thus made public [our GitHub repository for the manuscript](https://github.com/DaniMori/mirt-parameters) and [indexed it in Software Heritage](https://archive.softwareheritage.org/swh:1:dir:3914435e67a2b34847e36a712a181d7d9d76f35e;origin=https://github.com/DaniMori/mirt-parameters;visit=swh:1:snp:9069b256471ea08d5748e8bb021b7ee876aee724;anchor=swh:1:rev:fe49f438bf940606ae7e3c86c3c55f202e6920af) for identification with a SWHID.
+We have thus made public our GitHub repository for the manuscript [Link URL obfuscated for blind peer-review] and indexed it in Software Heritage [Link URL obfuscated for blind peer-review] for identification with a SWHID.
 For the sake of transparency, we have also made this addition to the manuscript, in section "Applications to Examples from the Literature", before the @reckase_multidimensional_2009 example:
 
 > The interested reader can explore the complete code for these examples in the
 indexed Software Heritage repository for this paper, specifically:
-<https://archive.softwareheritage.org/swh:1:cnt:b104aa768ded8fc19e2cafe8cdc9e64724c4fa47;origin=https://github.com/DaniMori/mirt-parameters;visit=swh:1:snp:9069b256471ea08d5748e8bb021b7ee876aee724;anchor=swh:1:rev:fe49f438bf940606ae7e3c86c3c55f202e6920af;path=/src/Empirical_example.R>
+[URL obfuscated for blind peer-review]
 
 # Responses to Reviewer 1:
 

@@ -41,6 +41,13 @@ The authors would like to thank Patricia Recio-Saboya, Ph.D.
 for her valuable guidance regarding multidimensional estimation
 in IRT software packages.
 
+# Data Availability Statement
+
+All the materials and code of this paper are available as
+a Software Heritage repository, under the following SWHID persistent identifier:
+
+[swh:1:dir:3914435e67a2b34847e36a712a181d7d9d76f35e;origin=https://github.com/DaniMori/mirt-parameters;visit=swh:1:snp:9069b256471ea08d5748e8bb021b7ee876aee724;anchor=swh:1:rev:fe49f438bf940606ae7e3c86c3c55f202e6920af](https://archive.softwareheritage.org/swh:1:dir:3914435e67a2b34847e36a712a181d7d9d76f35e;origin=https://github.com/DaniMori/mirt-parameters;visit=swh:1:snp:9069b256471ea08d5748e8bb021b7ee876aee724;anchor=swh:1:rev:fe49f438bf940606ae7e3c86c3c55f202e6920af)
+
 # Financial Support
 
 This research received no specific grant funding form any funding agency,
