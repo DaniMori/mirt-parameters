@@ -53,48 +53,6 @@ source("R/Formulae.R",  encoding = 'UTF-8')
 source("R/Constants.R", encoding = 'UTF-8')
 ```
 
-June 2, 2025. <!-- TODO: Update date -->
-
-<br>
-
-Sandip Sinharay, PhD \
-Editor, *Psychometrika* \
-Educational Testing Service, USA
-
-<br>
-
-Dear Dr. Sinharay:
-
-Please find attached the updated version of our manuscript
-*"A generalized definition of multidimensional item response theory
-parameters"*.
-We hope that this new version lives up to the expectations of
-the action editor and the reviewers;
-we have put as much effort as we have been able to address all the comments and
-suggestions, which we believe have helped improve the quality of our paper.
-However, we acknowledge we may not have resolved satisfactorily all the action
-editor's and reviewers' concerns.
-Therefore, we would kindly ask you to forward to them our good will
-and predisposition to address any further comments or suggestions,
-or clarify futher on the previous ones.
-
-We thank you in advance for considering our reviewed manuscript.
-Please feel free to contact us again at my aforementioned email address
-(dvmorillo@psi.uned.es).
-We will be happy to address any further comments or suggestions
-the action editor or the reviewers may deem necessary.
-
-<br>
-
-Sincerely,
-
-Daniel Morillo, Ph.D.\
-Department of Behavioral Science Methodology \
-Universidad Nacional de Educación a Distancia (UNED) \
-C. Juan del Rosal 10, Office 2.74 \
-28040 Madrid, Spain
-
-
 # Responses to the action editor:
 
 ###### I have a concern with making the latent ability axes nonorthogonal to represent the covariance structure between the latent abilities. Recognizing that the data used to estimate MIRT parameters represents an interaction between the examinees and the items and that different groups of examinees can result in different covariance structures and thus quite different item parameter estimates.
