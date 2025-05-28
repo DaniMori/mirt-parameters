@@ -212,7 +212,7 @@ Assuming orthonormality among traits is usually unrealistic, be it in the
 cognitive [e.g., @reckase_multidimensional_2009] or the non-cognitive domain
 [e.g., @thielmann_comparability_2022].
 Moreover, certain applications impose the estimation of
-non-identity latent covariance matrices (e.g., multigroup equating) even when
+non-identity latent covariance matrices (e.g., multi-group equating) even when
 interpreting the latent dimensions as substantive constructs is not a goal
 [for multidimensional linking and equating procedures,
 see Chapter 9 in @reckase_multidimensional_2009].
@@ -1529,8 +1529,20 @@ Moreover, in applications where the latent space structure is critical
 (e.g., multi-group IRT, equating, and linking),
 the agnostic version may overlook relevant differences in
 the values of the multidimensional parameters.
-Thus, the covariance structure of the latent space should be considered
-when computing the multidimensional parameters of a MIRT model.
+Different covariance structures across groups may significantly affect
+the value of these parameters,
+due to differences in either the variances or the correlation structure.
+Therefore, even when the model parameters are equal across groups,
+the multidimensional parameters may not be the same
+if the covariance structure differs across groups.
+Conversely, the same multidimensional parameters may correspond
+to different parameter models.
+The subsequent invariance of either the M2PL parameters
+or the multidimensional ones may lead to different interpretations of
+the same model when applied to different groups.
+Although this is an empirical question that requires further research,
+it could have significant implications for future theoretical developments
+in the understanding of MIRT theory.
 
 With that purpose in mind, we have defined two new versions of these parameters:
 One that takes into account the whole covariance structure,

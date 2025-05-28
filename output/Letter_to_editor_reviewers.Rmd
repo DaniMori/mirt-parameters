@@ -177,7 +177,36 @@ Please see our answer on p. <!-- TODO: Complete (3?) --> of this letter for an e
 
 ###### What implications does your approach have for standard psychometric procedures like equating.
 
-<!-- TODO: Reply -->
+Fitting a single-group model where the latent dimensions are correlated affects the computation of the multidimensional parameters we propose here.
+Given the scale underidentification in IRT, it is relatively common to fix the latent variances to 1, so it is unlikely that non-standard covariances affect these applications.
+In this sense, we have mentioned in our discussion that "in many applications both [the covariance- and correlation-based] versions will be coincident, fortunately" (p. 31, lines 2-3, or p. <!-- TODO: Complete -->, lines <!-- TODO: Complete --> in the new version).
+However, in multigroup procedures, such as equating and linking, non-standard (in some of the groups at least) may indeed affect the resulting multidimensional parameters.
+Additionally, it is worth noting that the correlation matrix may differ among groups, which can also have a substantial effect on the multidimensional parameter values.
+This is relevant because, even if the item parameters are equal across groups, the covariance structure may differ; thus, the multidimensional parameters will not be the same.
+Conversely, the same multidimensional parameters may correspond to different parameter models if the latent covariance structure is different across groups.
+Although it would be interesting to explore whether it is more realistic to assume equal M2PL parameters across groups (and thus possibly different multidimensional parameters) or vice-versa, we believe that this is an empirical question that lies outside the scope of our current manuscript.
+
+We have probably made the mistake of assuming that this was implicitly understood, for which we apologize to the editor.
+To improve and address this point better, we have made some additions to the second paragraph <!-- TODO: Third now? --> of our "Discussion" section (p. 30, lines 5-9 in the original submission, or p. <!-- TODO: Complete -->, lines <!-- TODO: Complete --> in the new one), which now reads:
+
+> [...] Moreover, in applications where the latent space structure is critical
+(e.g., multi-group IRT, equating, and linking),
+the agnostic version may overlook relevant differences in
+the values of the multidimensional parameters.
+Different covariance structures across groups may significantly affect
+the value of these parameters,
+due to differences in either the variances or the correlation structure.
+Therefore, even when the model parameters are equal across groups,
+the multidimensional parameters may not be the same
+if the covariance structure differs across groups.
+Conversely, the same multidimensional parameters may correspond
+to different parameter models.
+The subsequent invariance of either the M2PL parameters
+or the multidimensional ones may lead to different interpretations of
+the same model when applied to different groups.
+Although this is an empirical question that requires further research,
+it could have significant implications for future theoretical developments
+in the understanding of MIRT theory.
 
 ###### Are there standard computer programs that you would recommend to do the estimation/modeling you are proposing?
 
