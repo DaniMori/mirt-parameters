@@ -306,7 +306,13 @@ Similarly to the previous comment, we believe that our conclusions are thoroughl
 
 ###### [...] it is difficult to ascertain its practical value, as it is unclear how it can be applied in the real world.
 
-<!-- TODO: Reply -->
+We understand that it may be difficult to see the practical value of our proposal.
+However, we argue that our main contribution is solidly founded on sound formal derivations, and that its value lies in the theoretical contribution it represents.
+In practical terms, we believe that our results may help better diagnose the validity of the items in multidimensional tests, as both the multidimensional parameters and the vector representation we put forward are a more faithful representation of the properties of those items.
+This happens because item parameters should be interpreted in their context, that is, as properties of the response data that result from the interaction of an instrument and the sample where it is applied, as argued by @reckase_multidimensional_2009.
+
+We expect that the changes we have made in the new version of our manuscript help clarify the practical value of our proposal.
+In this respect, please see especially the responses to the editor in pp. <!-- TODO: Complete (3rd response, last, and 2nd to last) --> in this letter.
 
 ###### While the manuscript includes a graphical representation example with two-dimensional latent variables, real-world applications often involve higher dimensions (e.g., the Big Five personality traits or Cattell’s 16 personality factors). If the current results cannot be applied to the high-dimensional cases, would that significantly limit their practical value and applicability?
 
