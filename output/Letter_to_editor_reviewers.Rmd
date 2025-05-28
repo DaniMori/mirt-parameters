@@ -406,6 +406,7 @@ Regarding the person parameters, the interpretation is more complicated:
 If the original, correlated coordinates of the persons are represented in the orthogonal space, the shape of the scatter plot indeed represents the correlation between the latent trait coordinates.
 However, our rationale is that a basis may be used such that, when the coordinates are transformed to an orthonormal one, the resulting scatter plot is spherical (i.e., its covariance is an identity matrix).
 This results in a basis (and an associated coordinate system) that does not have a direct interpretation, save for being "the inverse transpose" of the basis where we argue the items are faithfully represented.
+However, please bear in mind that this transformation in the latent space is a reasoning artifact to obtain the proper expression of the item parameters in the general case; for further explanation about this, please see our response to the editor in pp.  <!-- TODO: Complete (5th response) --> lines  <!-- TODO: Complete --> of this letter.
 We have tried to convey this when explaining the rationale behind the covariance-based version of the parameters (see p. 14, lines 15-22, or p. <!-- TODO: Complete -->, lines <!-- TODO: Complete --> in the new version).
 
 ###### Care needs to be taken when using nonorthogonal coordinates that the distances between points in the space are correctly represented. What formula should be used for the distance between two points in each case?
