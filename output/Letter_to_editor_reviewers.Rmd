@@ -394,7 +394,7 @@ the variables they represent. [...]
 In geometrical terms, the cosine between axes directly maps to the correlation between the two dimensions represented by those axes.
 In the orthogonal space, the angles between items are "distorted" and do not faithfully represent the correlation among those items.
 We have now added a paragraph to our introduction to try to explain this fact intuitively.
-Please refer to our answer to the editor on pp. 3-4 of this letter for more details on this addition.
+Please refer to our answer to the editor on pp. 3-4 <!-- TODO: Review --> of this letter for more details on this addition.
 
 Regarding the person parameters, the interpretation is more complicated:
 If the original, correlated coordinates of the persons are represented in the orthogonal space, the shape of the scatter plot indeed represents the correlation between the latent trait coordinates.
@@ -417,7 +417,7 @@ the norm of a trait vector in the latent space is given by
 the Mahalanobis distance, i.e., $`r MAH_DIST_EQ`$ [@mahalanobis_reprint_2018].
 
 Also, we have made changes and additions to
-the third paragraph of our Discussion, which now reads:
+the third  <!-- TODO: Review --> paragraph of our Discussion, which now reads:
 
 > [...] Once again, this is relevant in applications where potentially different bases are involved.
 Furthermore, we have found that using this version yields a norm in
@@ -438,7 +438,7 @@ Please note that, as we do not have access to the 2nd edition anymore, we have u
 
 Regarding the scatter plot you mention, we have not been able to find it (at least not in the 3^rd^ one we are using now, even though the example you refer to appears at the end of section 2.5, pp. 22-23).
 However, we acknowledge that such a plot is the most common representation of the values realized by different cases (persons, in our case) in two variables, correlated or not.
-In this regard, we would kindly refer you to our third response to your comments, on p. <!-- TODO: Complete --> of this letter, where we discuss the representation of person parameters in the last two paragraphs.
+In this regard, we would kindly refer you to our third <!-- TODO: Expressed ok? --> response to your comments, on p. <!-- TODO: Complete --> of this letter, where we discuss the representation of person parameters in the last two paragraphs.
 <!-- TODO: Possibly complete with references to other responses? -->
 
 ###### Page 6  Line 21 The expression on this line needs more explanation. I am not sure what the expression is supposed to represent.
