@@ -34,6 +34,13 @@ C. de Juan del Rosal 10, 28040 Madrid
 Phone nº: +34 91398 6584 \
 Email address: dvmorillo@psi.uned.es
 
+# Acknowledgements
+
+The authors would like to thank Patricia Recio-Saboya, Ph.D.
+(ORCID: [0000-0002-0530-4404](https://orcid.org/0000-0002-0530-4404))
+for her valuable guidance regarding multidimensional estimation
+in IRT software packages.
+
 # Financial Support
 
 This research received no specific grant funding form any funding agency,

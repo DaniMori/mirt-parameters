@@ -220,9 +220,10 @@ We have now added a discussion about this at the end of our fourth paragraph in 
 by contrast, would require transforming the cosines to
 the original, non-orthonormal basis afterwards.
 Nevertheless, most available MIRT software solutions,
-such as flexMIRT [@cai_flexmirt_2024] or R package {mirt} [@chalmers_mirt_2012],
-initially estimate an uncorrelated solution and apply
-an oblique rotation afterwards, at least in exploratory solutions.
+such as flexMIRT [@cai_flexmirt_2024], IRTPRO [@cai_irtpro_2017],
+or R package {mirt} [@chalmers_mirt_2012],
+initially estimate an uncorrelated solution (at least in the exploratory case)
+and apply an oblique rotation afterwards.
 Taking advantage of the invariance property,
 we may compute the parameters in the orthogonal space
 (in fact, this is exactly what {mirt} functions `MDISC()` and `MDIFF()` do).
