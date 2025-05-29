@@ -136,9 +136,9 @@ Please see our answer on p. <!-- TODO: Complete (3?) --> of this letter for an e
 ###### What implications does your approach have for standard psychometric procedures like equating.
 
 Fitting a single-group model where the latent dimensions are correlated affects the computation of the multidimensional parameters we propose here.
-Given the scale underidentification in IRT, it is relatively common to fix the latent variances to 1, so it is unlikely that non-standard covariances affect these applications.
+Given the scale underidentification in IRT, it is relatively common to fix the latent variances to 1, so it is unlikely that non-standard distributions affect these applications.
 In this sense, we have mentioned in our discussion that "in many applications both [the covariance- and correlation-based] versions will be coincident, fortunately" (p. 31, lines 2-3, or p. <!-- TODO: Complete -->, lines <!-- TODO: Complete --> in the new version).
-However, in multigroup procedures, such as equating and linking, non-standard (in some of the groups at least) may indeed affect the resulting multidimensional parameters.
+However, in multi-group procedures, such as equating and linking, non-unitary variances (in some of the groups at least) may indeed affect the resulting multidimensional parameters.
 Additionally, it is worth noting that the correlation matrix may differ among groups, which can also have a substantial effect on the multidimensional parameter values.
 This is relevant because, even if the item parameters are equal across groups, the covariance structure may differ; thus, the multidimensional parameters will not be the same.
 Conversely, the same multidimensional parameters may correspond to different parameter models if the latent covariance structure is different across groups.
@@ -306,11 +306,11 @@ This case was also a typo; we have now corrected it in the manuscript as well.
 ###### Similar issues occur in Eqs. (26) and (27) on page 17.
 
 <!-- # TODO: Equation references change? -->
-Our intention in Equations (26) and (27) was to express the item vector coordinates in terms of the original model parameters directly.
+Our intention in Equations (26) and (27), numbered (27) and (28) in the new version, was to express the item vector coordinates in terms of the original model parameters directly.
 To do that, we have made use of the equality $`r DISCR_VECTOR_COORDS_EQ`$, stated on p. 7.
 (That is, the geometric coordinates in the original test-space basis are equal to the algebraic values of the discrimination parameter.)
 However, we acknowledge that we have skipped a step in our discourse, thus making it harder than necessary to follow along.
-To correct this, we have modified the immediately preceding paragraph to the following:
+To correct this, we have modified the immediately preceding paragraph to the following (please note that the equation numbering has also increased by 1):
 
 <!-- # TODO: Confirm equation references -->
 > Of course, from Equations (25) and (26), it is easy to express
@@ -409,7 +409,11 @@ In this regard, we would kindly refer you to our third <!-- TODO: Expressed ok? 
 
 ###### Page 6  Line 21 The expression on this line needs more explanation. I am not sure what the expression is supposed to represent.
 
-This is the expression of a vector represented in a basis, in this case, stating that the vector can be represented in each of the two bases interchangeably.
+This is the expression of a vector represented as a linear combination of
+the vectors that make up the basis in which it is represented
+(with the coefficients $`r TRAIT_VEC_COMP`$ and $`r TRAIT_VEC_ORTH_COMP`$ being
+the scalars corresponding to each basis).
+In this case, we intend to state that the vector can be represented in each of the two bases interchangeably.
 Following the reviewer's suggestion, we have added this clarification to the text, so it now reads:
 
 > [...] such that $`r TRAIT_VECTOR_DEF_EQ`$.
@@ -439,7 +443,7 @@ We have changed the term to the mathematically appropriate "interchangeably" in 
 We think that our word choice has been unfortunate here.
 What we want to imply is that there are two different spaces, the latent space, and the test space, and that, unlike the latent traits, which "naturally lie" in the latent space, the item parameters "naturally lie in the test space", even though they can be projected onto the latent space.
 This is implicit in the definition of the test space itself (see p. 7 line 8 in our original submission, or p. <!-- TODO: Complete --> line <!-- TODO: Complete --> in the new version), and is independent of the basis chosen to represent the items.
-This basis does not necessarily need to be a geometric representation of the covariance structure, as we argue in our introduction, so it can be the canonical basis, or any other, orthonormal or not, and not necessarily representing the covariance structure.
+This basis does not have to be necessarily a geometric representation of the covariance structure, as we argue in our introduction, so it can be the canonical basis, or any other, orthonormal or not, and not necessarily representing the covariance structure.
 
 We also argue that the test space and the latent space are two distinct spaces, even when the basis of the latent space (and, consequently, that of the test space) is orthonormal.
 It is our understanding that,  due to a lack of need for this distinction, this is overlooked in Reckase's [-@reckase_difficulty_1985] and Reckase & McKinley's [-@reckase_discriminating_1991] original formulations.
