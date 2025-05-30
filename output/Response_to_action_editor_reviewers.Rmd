@@ -71,7 +71,7 @@ Please refer to our response to Reviewer 3 on p. <!-- TODO: Complete --> of this
 
 ###### Like Reviewer 3, I do not understand how the magnitude of discrimination values (p 29 , 7) can be compared/interpreted values of discrimination are comparable from the two representations. It seems that the metric of the represented space has changed, and equivalent numbers will not have equivalent interpretations.
 
-As the editor says, the basis used to represent the test space changes its metric.
+As the editor says, the basis used to represent the test space changes its metric, which is determined by the Gram matrix ($`r INNER_PROD_MATRIX_INV`$, in contrast to $`r INNER_PROD_MATRIX`$ in the latent space).
 We also understand that the metrics of the two representations are not comparable, and thus one should not compare items represented with the agnostic and the covariance-based version of the multidimensional parameters.
 However, when making multi-group comparisons, we think that taking into account the covariance-based structure of the latent space will provide more realistic information, and thus one should use the covariance-based version.
 
@@ -399,6 +399,7 @@ Regarding the person parameters, the interpretation is more complicated:
 If the original, correlated coordinates of the persons are represented in the orthogonal space, the shape of the scatter plot indeed represents the correlation between the latent trait coordinates.
 However, our rationale is that a basis may be used such that, when the coordinates are transformed to an orthonormal one, the resulting scatter plot is spherical (i.e., its covariance is an identity matrix).
 This results in a basis (and an associated coordinate system) that does not have a direct interpretation, save for being "the inverse transpose" of the basis where we argue the items are faithfully represented.
+
 However, please bear in mind that this transformation in the latent space is a reasoning artifact to obtain the proper expression of the item parameters in the general case; for further explanation about this, please see our response to the editor in pp.  <!-- TODO: Complete (5th response) --> lines  <!-- TODO: Complete --> of this letter.
 We have tried to convey this when explaining the rationale behind the covariance-based version of the parameters (see p. 14, lines 15-22, or p. <!-- TODO: Complete -->, lines <!-- TODO: Complete --> in the new version).
 
