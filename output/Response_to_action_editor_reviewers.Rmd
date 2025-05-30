@@ -135,12 +135,6 @@ Please see our answer on p. <!-- TODO: Complete (3?) --> of this letter for an e
 
 ###### What implications does your approach have for standard psychometric procedures like equating.
 
-Fitting a single-group model where the latent dimensions are correlated affects the computation of the multidimensional parameters we propose here.
-Given the scale underidentification in IRT, it is relatively common to fix the latent variances to 1, so it is unlikely that non-standard distributions affect these applications.
-In this sense, we have mentioned in our discussion that "in many applications both [the covariance- and correlation-based] versions will be coincident, fortunately" (p. 31, lines 2-3, or p. <!-- TODO: Complete -->, lines <!-- TODO: Complete --> in the new version).
-However, in multi-group procedures, such as equating and linking, non-unitary variances (in some of the groups at least) may indeed affect the resulting multidimensional parameters.
-Additionally, it is worth noting that the correlation matrix may differ among groups, which can also have a substantial effect on the multidimensional parameter values.
-This is relevant because, even if the item parameters are equal across groups, the covariance structure may differ; thus, the multidimensional parameters will not be the same.
 It is our understanding that both common item design and common person design procedures can be applied soundly under this approach.
 Despite the latent and the test space being (generally) represented in a different geometric basis, note that if one of them is known, the other one is determined.
 This linkage between the two spaces, along with the model invariance, implies that any transformation in one space must be accompanied by the corresponding transformation in the other.
@@ -179,8 +173,10 @@ These implications will require future exploration of
 the relationships between the latent and test spaces
 as mathematically separate entities.
 
+Regarding the multidimensional parameters, it is clear that different covariance matrices may have a substantial effect on the multidimensional parameter values.
+This is relevant for multi-group procedures because, even if the item parameters are equal, if the covariance structure differs across groups, the multidimensional parameters will not be the same.
 Conversely, the same multidimensional parameters may correspond to different parameter models if the latent covariance structure is different across groups.
-Although it would be interesting to explore whether it is more realistic to assume equal M2PL parameters across groups (and thus possibly different multidimensional parameters) or vice-versa, we believe that this is an empirical question that lies outside the scope of our current manuscript.
+Although it could be interesting to explore whether it is more realistic to assume equal M2PL parameters across groups (and thus possibly different multidimensional parameters) or vice-versa, we believe that this is an empirical question that also lies outside the scope of our current manuscript.
 
 We have probably made the mistake of assuming that this was implicitly understood, for which we apologize to the editor.
 To improve and address this point better, we have made some additions to the second paragraph <!-- TODO: Third now? --> of our "Discussion" section (p. 30, lines 5-9 in the original submission, or p. <!-- TODO: Complete -->, lines <!-- TODO: Complete --> in the new one), which now reads:
