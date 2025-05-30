@@ -1656,6 +1656,36 @@ and we do not mean to imply that the derivations made here are directly
 generalizable to the common factor model.
 Those relationships deserve further exploration on their own.
 
+Making a distinction between the two spaces can also have a significant impact
+on our understanding of MIRT applications that involve several latent spaces,
+such as multi-group equating and linking.
+Although the usual transformations among coordinate systems still apply
+under this consideration
+[see Chapter 8 of @reckase_multidimensional_2009,
+for an exhaustive discussion on the topic],
+the different geometric bases on which each of the two spaces is represented
+must be considered.
+However, as they are mutually dependent,
+any transformation in any of the two spaces will imply
+the inverse transformation in the other one,
+thus preserving the relationship between the two spaces.
+Nevertheless, using non-orthogonal rotation matrices for aligning the items
+(in a common-item design procedure) or persons
+[in a common-person one, see Chapter 9 in @reckase_multidimensional_2009]
+may have additional implications;
+for example, besides a rescaling and an origin translation, a transformation
+as defined, e.g., in Equation (8.31) of @reckase_multidimensional_2009,
+may imply a rotation that can be non-orthogonal,
+thus affecting the relative alignment among the test space axes,
+and subsequently among the latent space ones.
+Moreover, even if the transformation in one space is scale-invariant
+(i.e., the transform matrix has unitary diagonal elements),
+it may induce a rescaling in the other one,
+given by the diagonal elements of the inverse transform matrix.
+These implications will require future exploration of
+the relationships between the latent and test spaces
+as mathematically separate entities.
+
 Finally, we must also warn against generalizing these results
 to other IRT models without further consideration.
 First, we have only considered the case of dichotomous items,
