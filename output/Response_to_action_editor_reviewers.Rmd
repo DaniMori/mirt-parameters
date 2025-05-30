@@ -141,6 +141,44 @@ In this sense, we have mentioned in our discussion that "in many applications bo
 However, in multi-group procedures, such as equating and linking, non-unitary variances (in some of the groups at least) may indeed affect the resulting multidimensional parameters.
 Additionally, it is worth noting that the correlation matrix may differ among groups, which can also have a substantial effect on the multidimensional parameter values.
 This is relevant because, even if the item parameters are equal across groups, the covariance structure may differ; thus, the multidimensional parameters will not be the same.
+It is our understanding that both common item design and common person design procedures can be applied soundly under this approach.
+Despite the latent and the test space being (generally) represented in a different geometric basis, note that if one of them is known, the other one is determined.
+This linkage between the two spaces, along with the model invariance, implies that any transformation in one space must be accompanied by the corresponding transformation in the other.
+These relationships allow for both common-item and common-person design equating procedures, derived according to Reckase [-@reckase_multidimensional_2009, see Chapter 8], and do not change in our approach.
+For instance, if the common item-design procedure is used (where the item parameters in Form 2 of a test are transformed to resemble as closely as possible those in Form 1), both the item parameters and the covariance matrix will be affected.
+Although it is out of the scope of our paper to explore in depth the implications for these psychometric procedures, we have added a new paragraph to our discussion briefly explaining this fact and acknowledging our limitation.
+This new paragraph reads:
+
+> Making a distinction between the two spaces can also have a significant impact
+on our understanding of MIRT applications that involve several latent spaces,
+such as multi-group equating and linking.
+Although the usual transformations among coordinate systems still apply
+under this consideration
+[see Chapter 8 of @reckase_multidimensional_2009,
+for an exhaustive discussion on the topic],
+the different geometric bases on which each of the two spaces is represented
+must be considered.
+However, as they are mutually dependent,
+any transformation in any of the two spaces will imply
+the inverse transformation in the other one,
+thus preserving the relationship between the two spaces.
+Nevertheless, using non-orthogonal rotation matrices for aligning the items
+(in a common-item design procedure) or persons
+[in a common-person one, see Chapter 9 in @reckase_multidimensional_2009]
+may have additional implications;
+for example, besides a rescaling and an origin translation, a transformation
+as defined, e.g., in Equation (8.31) of @reckase_multidimensional_2009,
+may imply a rotation that can be non-orthogonal,
+thus affecting the relative alignment among the test space axes,
+and subsequently among the latent space ones.
+Moreover, even if the transformation in one space is scale-invariant
+(i.e., the transform matrix has unitary diagonal elements),
+it may induce a rescaling in the other one,
+given by the diagonal elements of the inverse transform matrix.
+These implications will require future exploration of
+the relationships between the latent and test spaces
+as mathematically separate entities.
+
 Conversely, the same multidimensional parameters may correspond to different parameter models if the latent covariance structure is different across groups.
 Although it would be interesting to explore whether it is more realistic to assume equal M2PL parameters across groups (and thus possibly different multidimensional parameters) or vice-versa, we believe that this is an empirical question that lies outside the scope of our current manuscript.
 
