@@ -1474,7 +1474,8 @@ other two dimensions, and around 1º in most cases.
 #| tab.cap: |
 #|   Agnostic and Covariance-Based Multidimensional Item Parameters in
 #|   Tezza et al. (2018)
-item_params_output
+item_params_output |>
+  fontsize(size = 11, part = "body")
 ```
 
 <!---BLOCK_LANDSCAPE_STOP--->
