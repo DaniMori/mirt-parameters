@@ -1154,25 +1154,6 @@ The parameters in both spaces,
 along with their corresponding `r MODEL_ACRONYM` parameters,
 are shown in Table \@ref(tab:example-items-table-out).
 
-Figure \@ref(fig:item-plot-out) illustrates the effect of
-a positive correlation on the $`r MDISC_CORR_PARAM`$
-(and consequently the $`r MIL_CORR_PARAM`$) value:
-The components of the discrimination parameters tend to
-*sum up* in the same direction as they get *more aligned*.
-Thus, if the discrimination parameters have the same sign, as in items 1 and 5,
-the $`r MDISC_CORR_PARAM_ITEM`$ value tends to increase;
-on the contrary, when the discrimination parameters have opposite signs
-they tend to cancel each other out and $`r MDISC_CORR_PARAM_ITEM`$ decreases,
-as happens with items 2 and 3.
-This effect can be especially noticed by comparing
-the $`r MDISC_CORR_PARAM_ITEM`$ of items 3 and 5:
-Their discrimination parameters are equal in absolute value,
-so their $`r MDISC_CORR_PARAM_ITEM`$ values are equal in the orthogonal space;
-however, the effect of the correlation shrinks the former and
-stretches the latter.
-Finally, note that item 4 has one discrimination parameter equal to 0,
-so its $`r MDISC_CORR_PARAM_ITEM`$ is unaffected by the correlation.
-
 ```{r compose-example-items-table}
 ```
 
@@ -1194,24 +1175,24 @@ item_params_output
 
 <br>
 
-We can also see how the sign of $`r INTERCEPT_PARAM`$ affects
-the distance to the origin:
-The item vector is applied at the origin when its value is null (item 1),
-and tends to be shifted
-*against* the item direction when its value is positive (items 2 and 4) and
-*towards* the item direction when it is negative (items 3 and 5).
-Finally, we can see how the direction is determined by the discrimination
-parameters *and* the correlation; the sign of the discrimination parameters
-determines where the item will point at;
-thus, an item with two positive (negative) discrimination parameters will point
-at the first (third) quadrant,
-while an item with opposite-sign discrimination parameters will be in the
-second or fourth quadrant.
-The direction relative to the axes will be given by the relative absolute value
-of the two parameters, but also by the correlation:
-Items 2 and 3 especially illustrate this effect,
-as each of them is orthogonal to one of the axes in the oblique space,
-even when they are not parallel to the other axis.
+Figure \@ref(fig:item-plot-out) illustrates the effect of
+a positive correlation on the $`r MDISC_CORR_PARAM`$
+(and consequently the $`r MIL_CORR_PARAM`$) value:
+The components of the discrimination parameters tend to
+*sum up* in the same direction as they get *more aligned*.
+Thus, if the discrimination parameters have the same sign, as in items 1 and 5,
+the $`r MDISC_CORR_PARAM_ITEM`$ value tends to increase;
+on the contrary, when the discrimination parameters have opposite signs
+they tend to cancel each other out and $`r MDISC_CORR_PARAM_ITEM`$ decreases,
+as happens with items 2 and 3.
+This effect can be especially noticed by comparing
+the $`r MDISC_CORR_PARAM_ITEM`$ of items 3 and 5:
+Their discrimination parameters are equal in absolute value,
+so their $`r MDISC_CORR_PARAM_ITEM`$ values are equal in the orthogonal space;
+however, the effect of the correlation shrinks the former and
+stretches the latter.
+Finally, note that item 4 has one discrimination parameter equal to 0,
+so its $`r MDISC_CORR_PARAM_ITEM`$ is unaffected by the correlation.
 
 ```{r compose-oblique-plot}
 ```
@@ -1231,6 +1212,25 @@ plot_orth + plot_oblique
 
 ggsave(file.path(DOC_DIR, "Figure_1.svg"))
 ```
+
+We can also see how the sign of $`r INTERCEPT_PARAM`$ affects
+the distance to the origin:
+The item vector is applied at the origin when its value is null (item 1),
+and tends to be shifted
+*against* the item direction when its value is positive (items 2 and 4) and
+*towards* the item direction when it is negative (items 3 and 5).
+Finally, we can see how the direction is determined by the discrimination
+parameters *and* the correlation; the sign of the discrimination parameters
+determines where the item will point at;
+thus, an item with two positive (negative) discrimination parameters will point
+at the first (third) quadrant,
+while an item with opposite-sign discrimination parameters will be in the
+second or fourth quadrant.
+The direction relative to the axes will be given by the relative absolute value
+of the two parameters, but also by the correlation:
+Items 2 and 3 especially illustrate this effect,
+as each of them is orthogonal to one of the axes in the oblique space,
+even when they are not parallel to the other axis.
 
 # Application to Examples From the Literature
 
@@ -1387,25 +1387,6 @@ item_params_output
 
 <br>
 
-The latter effect can be better noticed in another case, in which Reckase
-uses the same item parameters to demonstrate the over-specification of
-dimensions (see p. 183).
-In that example, he uses a covariance matrix that practically has rank 1,
-implying that the (alleged) three latent dimensions collapse into a single one.
-This makes the latent space unidimensional in practice,
-which in turn restricts the dimensionality of any response dataset
-generated from a test measuring those traits.
-Therefore, "the data could be well fit by a unidimensional IRT model"
-[@reckase_multidimensional_2009, p. 189].
-In such a case, when all the items are strictly aligned with
-the one dimension being measured,
-we should expect the direction angles to be extremely close to 0 for all items.
-The reader interested can check that this is the case for
-the covariance-based version of the direction angles
-in the table in Online Resource 1.
-
-## @tezza_modelo_2018
-
 ```{r set-cov-matrix-Tezza2018}
 # See Tezza et al., 2018, p. 927:
 # > No presente estudo, a correlação entre a dimensão 1 e a dimensão 4
@@ -1445,24 +1426,6 @@ in Tezza 2018, table 5 -->
 ```{r compose-output-table}
 ```
 
-@tezza_modelo_2018 provide us with another example that allows showcasing
-the effect of correlated dimensions on negative discrimination parameters.
-In their model, dimensions 1 and 4 are estimated to have a correlation of
-`r DIMS_CORR`.
-With such latent space structure, items that strongly discriminate in any or
-both of these two dimensions change drastically their multidimensional
-parameters from the agnostic to the covariance-based version
-(see Table \@ref(tab:empirical-table-Tezza2018-out))
----this happens,
-for example, with items 57 and 60. These items also have different-sign
-discrimination parameters in dimensions 1 and 4, so their situation is
-similar to items 2 and 3 in Table \@ref(tab:example-items-table-out) and
-Figure \@ref(fig:item-plot-out),
-thus the decrease in their $`r MDISC_ITEM`$ parameter.
-The effect on the direction is also patent in the angles these items make with
-these dimensions, which change up to almost 20º, compared with at most 7º in the
-other two dimensions, and around 1º in most cases.
-
 <!---BLOCK_LANDSCAPE_START--->
 
 ```{r set-flextable-wd}
@@ -1480,6 +1443,43 @@ item_params_output |>
 ```
 
 <!---BLOCK_LANDSCAPE_STOP--->
+
+The latter effect can be better noticed in another case, in which Reckase
+uses the same item parameters to demonstrate the over-specification of
+dimensions (see p. 183).
+In that example, he uses a covariance matrix that practically has rank 1,
+implying that the (alleged) three latent dimensions collapse into a single one.
+This makes the latent space unidimensional in practice,
+which in turn restricts the dimensionality of any response dataset
+generated from a test measuring those traits.
+Therefore, "the data could be well fit by a unidimensional IRT model"
+[@reckase_multidimensional_2009, p. 189].
+In such a case, when all the items are strictly aligned with
+the one dimension being measured,
+we should expect the direction angles to be extremely close to 0 for all items.
+The reader interested can check that this is the case for
+the covariance-based version of the direction angles
+in the table in Online Resource 1.
+
+## @tezza_modelo_2018
+
+@tezza_modelo_2018 provide us with another example that allows showcasing
+the effect of correlated dimensions on negative discrimination parameters.
+In their model, dimensions 1 and 4 are estimated to have a correlation of
+`r DIMS_CORR`.
+With such latent space structure, items that strongly discriminate in any or
+both of these two dimensions change drastically their multidimensional
+parameters from the agnostic to the covariance-based version
+(see Table \@ref(tab:empirical-table-Tezza2018-out))
+---this happens,
+for example, with items 57 and 60. These items also have different-sign
+discrimination parameters in dimensions 1 and 4, so their situation is
+similar to items 2 and 3 in Table \@ref(tab:example-items-table-out) and
+Figure \@ref(fig:item-plot-out),
+thus the decrease in their $`r MDISC_ITEM`$ parameter.
+The effect on the direction is also patent in the angles these items make with
+these dimensions, which change up to almost 20º, compared with at most 7º in the
+other two dimensions, and around 1º in most cases.
 
 On the other hand, in cases such as items 12 or 59, which have
 relatively low discrimination parameters on those two dimensions
