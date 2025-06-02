@@ -1,5 +1,4 @@
 ---
-title: Abstract
 output:
   officedown::rdocx_document:
     tables:
@@ -73,6 +72,8 @@ write_bib(
 source("R/Formulae.R",  encoding = 'UTF-8')
 source("R/Constants.R", encoding = 'UTF-8')
 ```
+
+# Abstract
 
 In this paper, we generalize the multidimensional discrimination (MDISC) and
 difficulty (MID) parameters in the Multidimensional 2-Parameter Logistic model
