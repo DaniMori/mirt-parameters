@@ -13,7 +13,7 @@ editor_options:
   chunk_output_type: console
 ---
 
-June 2, 2025. <!-- TODO: Update date -->
+June 2, 2025.
 
 <br>
 
