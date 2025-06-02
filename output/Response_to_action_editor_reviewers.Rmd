@@ -67,7 +67,7 @@ That is what we propose with the covariance-based (and correlation-based) versio
 ###### The statement (p.13, line 8) about “the test space where item parameters naturally lie” needs greater explanation with examples.
 
 We acknowledge and apologize for the lack of clarity in this sentence.
-Please refer to our response to Reviewer 3 on p. <!-- TODO: Complete --> of this letter.
+Please refer to our response to Reviewer 3 on p. 18 of this letter.
 
 ###### Like Reviewer 3, I do not understand how the magnitude of discrimination values (p 29 , 7) can be compared/interpreted values of discrimination are comparable from the two representations. It seems that the metric of the represented space has changed, and equivalent numbers will not have equivalent interpretations.
 
@@ -130,8 +130,7 @@ However, to our understanding, the more precise interpretation of the item param
 A multidimensional representation of the items provides benchmarks for comparing different latent trait levels, as discussed by @reckase_difficulty_1985.
 Therefore, the more accurate such a representation is, the better the latent trait interpretation will be.
 
-Please see our answer on p. <!-- TODO: Complete (3?) --> of this letter for an example of how the interpretation of the item parameters may change when considering the covariance structure.
-<!-- TODO: Complete -->
+Please see our next answer for further clarification on the interpretation of the item parameters, as well as our response above, on pp. 2-3 of this letter, for an example of how the interpretation of the item parameters may change when considering the covariance structure.
 
 ###### What implications does your approach have for standard psychometric procedures like equating.
 
@@ -179,7 +178,7 @@ Conversely, the same multidimensional parameters may correspond to different par
 Although it could be interesting to explore whether it is more realistic to assume equal M2PL parameters across groups (and thus possibly different multidimensional parameters) or vice-versa, we believe that this is an empirical question that also lies outside the scope of our current manuscript.
 
 We have probably made the mistake of assuming that this was implicitly understood, for which we apologize to the editor.
-To improve and address this point better, we have made some additions to the second paragraph <!-- TODO: Third now? --> of our "Discussion" section (p. 30, lines 5-9 in the original submission, or p. <!-- TODO: Complete -->, lines <!-- TODO: Complete --> in the new one), which now reads:
+To improve and address this point better, we have made some additions to the second paragraph of our "Discussion" section (p. 30, lines 5-9 in the original submission, or p. 31, lines 1-12 in the new one), which now reads:
 
 > [...] Moreover, in applications where the latent space structure is critical
 (e.g., multi-group IRT, equating, and linking),
@@ -221,7 +220,6 @@ we may compute the parameters in the orthogonal space
 (in fact, this is exactly what {mirt} functions `MDISC()` and `MDIFF()` do).
 Then, we may compute the direction cosines in the rotated solution by applying
 Equation (24).
-<!-- TODO: Check Eq. nº afterwards -->
 What a test practitioner should be aware of, though,
 is that applying Reckase & McKinley's [-@reckase_discriminating_1991] formula
 after any non-orthonormal transformation will yield
@@ -259,7 +257,7 @@ Consequently, we do not have any hypothesis to test; rather, we present the resu
 
 The datasets we use in our paper are examples of item parameter estimates, taken from the literature.
 As they only serve exemplification purposes and are not the main focus of our article, we deem it more appropriate to describe their details in the corresponding section of the manuscript.
-We have added a short reference to them in the last paragraph of our introduction (p. <!-- TODO: Complete -->, lines <!-- TODO: Complete -->), to make sure their pertinence as examples is clear.
+We have added a short reference to them in the last paragraph of our introduction (p. 6, lines 10-13), to make sure their pertinence as examples is clear.
 
 > These examples, from the cognitive and the non-cognitive domain, respectively,
 are taken from the MIRT literature:
@@ -305,7 +303,7 @@ In practical terms, we believe that our results may help better diagnose the val
 This happens because item parameters should be interpreted in their context, that is, as properties of the response data that result from the interaction of an instrument and the sample where it is applied, as argued by @reckase_multidimensional_2009.
 
 We expect that the changes we have made in the new version of our manuscript help clarify the practical value of our proposal.
-In this respect, please see especially the responses to the editor in pp. <!-- TODO: Complete (3rd response, last, and 2nd to last) --> in this letter.
+In this respect, please see especially the responses to the editor in pp. 4-7 in this letter.
 
 ###### While the manuscript includes a graphical representation example with two-dimensional latent variables, real-world applications often involve higher dimensions (e.g., the Big Five personality traits or Cattell’s 16 personality factors). If the current results cannot be applied to the high-dimensional cases, would that significantly limit their practical value and applicability?
 
@@ -339,14 +337,12 @@ This case was also a typo; we have now corrected it in the manuscript as well.
 
 ###### Similar issues occur in Eqs. (26) and (27) on page 17.
 
-<!-- # TODO: Equation references change? -->
 Our intention in Equations (26) and (27), numbered (27) and (28) in the new version, was to express the item vector coordinates in terms of the original model parameters directly.
-To do that, we have made use of the equality $`r DISCR_VECTOR_COORDS_EQ`$, stated on p. 7.
+To do that, we have made use of the equality $`r DISCR_VECTOR_COORDS_EQ`$, stated on p. 7, or p. 8, line 23 (third by the end) in the new submission.
 (That is, the geometric coordinates in the original test-space basis are equal to the algebraic values of the discrimination parameter.)
 However, we acknowledge that we have skipped a step in our discourse, thus making it harder than necessary to follow along.
 To correct this, we have modified the immediately preceding paragraph to the following (please note that the equation numbering has also increased by 1):
 
-<!-- # TODO: Confirm equation references -->
 > Of course, from Equations (25) and (26), it is easy to express
 the coordinates in terms of the parameters in the original model formulation.
 Given $`r DISCR_VECTOR_COORDS_EQ`$,
@@ -393,15 +389,15 @@ the variables they represent. [...]
 In geometrical terms, the cosine between axes directly maps to the correlation between the two dimensions represented by those axes.
 In the orthogonal space, the angles between items are "distorted" and do not faithfully represent the correlation among those items.
 We have now added a paragraph to our introduction to try to explain this fact intuitively.
-Please refer to our answer to the editor on pp. 3-4 <!-- TODO: Review --> of this letter for more details on this addition.
+Please refer to our answer to the editor on pp. 2-3 of this letter for more details on this addition.
 
 Regarding the person parameters, the interpretation is more complicated:
 If the original, correlated coordinates of the persons are represented in the orthogonal space, the shape of the scatter plot indeed represents the correlation between the latent trait coordinates.
 However, our rationale is that a basis may be used such that, when the coordinates are transformed to an orthonormal one, the resulting scatter plot is spherical (i.e., its covariance is an identity matrix).
 This results in a basis (and an associated coordinate system) that does not have a direct interpretation, save for being "the inverse transpose" of the basis where we argue the items are faithfully represented.
 
-However, please bear in mind that this transformation in the latent space is a reasoning artifact to obtain the proper expression of the item parameters in the general case; for further explanation about this, please see our response to the editor in pp.  <!-- TODO: Complete (5th response) --> lines  <!-- TODO: Complete --> of this letter.
-We have tried to convey this when explaining the rationale behind the covariance-based version of the parameters (see p. 14, lines 15-22, or p. <!-- TODO: Complete -->, lines <!-- TODO: Complete --> in the new version).
+However, please bear in mind that this transformation in the latent space is a reasoning artifact to obtain the proper expression of the item parameters in the general case; for further explanation about this, please see our response to the editor in pp. 4-5 of this letter.
+We have tried to convey this when explaining the rationale behind the covariance-based version of the parameters (see p. 14, lines 15-22, or p. 15, line 22, to p. 16, line 2, in the new version).
 
 ###### Care needs to be taken when using nonorthogonal coordinates that the distances between points in the space are correctly represented. What formula should be used for the distance between two points in each case?
 
@@ -418,7 +414,7 @@ the norm of a trait vector in the latent space is given by
 the Mahalanobis distance, i.e., $`r MAH_DIST_EQ`$ [@mahalanobis_reprint_2018].
 
 Also, we have made changes and additions to
-the third  <!-- TODO: Review --> paragraph of our Discussion, which now reads:
+the third paragraph of our Discussion, which now reads (p. 31, line 22, to p. 32, line 1):
 
 > [...] Once again, this is relevant in applications where potentially different bases are involved.
 Furthermore, we have found that using this version yields a norm in
@@ -439,8 +435,7 @@ Please note that, as we do not have access to the 2nd edition anymore, we have u
 
 Regarding the scatter plot you mention, we have not been able to find it (at least not in the 3^rd^ one we are using now, even though the example you refer to appears at the end of section 2.5, pp. 22-23).
 However, we acknowledge that such a plot is the most common representation of the values realized by different cases (persons, in our case) in two variables, correlated or not.
-In this regard, we would kindly refer you to our third <!-- TODO: Expressed ok? --> response to your comments, on p. <!-- TODO: Complete --> of this letter, where we discuss the representation of person parameters in the last two paragraphs.
-<!-- TODO: Possibly complete with references to other responses? -->
+In this regard, we would kindly refer Reviewer 3 to our response on pp. 15-16 of this letter, where we discuss the representation of person parameters in the last two paragraphs.
 
 ###### Page 6  Line 21 The expression on this line needs more explanation. I am not sure what the expression is supposed to represent.
 
@@ -477,12 +472,12 @@ We have changed the term to the mathematically appropriate "interchangeably" in 
 
 We think that our word choice has been unfortunate here.
 What we want to imply is that there are two different spaces, the latent space, and the test space, and that, unlike the latent traits, which "naturally lie" in the latent space, the item parameters "naturally lie in the test space", even though they can be projected onto the latent space.
-This is implicit in the definition of the test space itself (see p. 7 line 8 in our original submission, or p. <!-- TODO: Complete --> line <!-- TODO: Complete --> in the new version), and is independent of the basis chosen to represent the items.
+This is implicit in the definition of the test space itself (see p. 7 line 8 in our original submission, or p. 8, line 12 in the new version), and is independent of the basis chosen to represent the items.
 This basis does not have to be necessarily a geometric representation of the covariance structure, as we argue in our introduction, so it can be the canonical basis, or any other, orthonormal or not, and not necessarily representing the covariance structure.
 
 We also argue that the test space and the latent space are two distinct spaces, even when the basis of the latent space (and, consequently, that of the test space) is orthonormal.
 It is our understanding that,  due to a lack of need for this distinction, this is overlooked in Reckase's [-@reckase_difficulty_1985] and Reckase & McKinley's [-@reckase_discriminating_1991] original formulations.
-We have added this latter clarification in our new version (p. <!-- TODO: Complete --> lines <!-- TODO: Complete -->):
+We have added this latter clarification in our new version (p. 34, lines 13-16):
 
 > [...] the latent space,
 where the person parameters are represented,
@@ -495,7 +490,7 @@ This implies that the axes defined by the test space basis, [...]
 
 ###### Page 19 Line 8 There is an interesting distinction that seems to be lost here. Attributes can be measured independently, such as height and weight and yield correlated results. Under those circumstances, should axes be represented as orthogonal, or should the axes represent the correlation. This has an implication for the formula that is used to compute the distance between points in the space.
 
-As we mention above, when the attributes are correlated, a distance measure that keeps the norm invariant in the latent space is the Mahalanobis distance (please see our response on p. <!-- TODO: Complete --> in this letter).
+As we mention above, when the attributes are correlated, a distance measure that keeps the norm invariant in the latent space is the Mahalanobis distance (please see our response on pp. 16-17 in this letter).
 In this respect, we should make the distinction between representing the attributes being measured (i.e., the latent traits) and the variables measuring those attributes (in our case, the items).
 Our argument is that it is when we represent the items that we should use axes that "faithfully represent the covariance structure", regardless of how we represent the attributes.
 
@@ -504,7 +499,7 @@ Our argument is that it is when we represent the items that we should use axes t
 That is exactly the case.
 All graphical devices require that coordinates are represented in a rectangular Cartesian system such that the first coordinate maps to the horizontal dimension and the second coordinate to the vertical one.
 Therefore, even when computing the coordinates in a non-orthonormal basis, we need to transform them to the canonical one to plot them.
-This is explained in our manuscript, on p. 19 (lines 9-14) in the original version, and on p. <!-- # TODO: Complete --> (lines <!-- # TODO: Complete -->) in the new submission.
+This is explained in our manuscript, on p. 19 (lines 9-14) in the original version, and on p. 20 (last paragraph) in the new submission.
 We are unsure about how to make this clearer, we are afraid, so we would appreciate any suggestions.
 
 ###### Page 26 Line 8 This discussion seems to miss the distinction between correlations between traits and dimensions of sensitivity of the test items.
@@ -539,7 +534,7 @@ It is therefore easy to grasp the intuitive notion that all direction cosines sh
 However, in doing so, we may have skipped a step in our reasoning, assimilating the dimensionality of the latent space with the dimensional sensitivity of the items, as Reviewer 3 points out.
 
 To clarify this point better, we have tried to better express this distinction, emphasizing that, in this case, the unidimensionality induced by the rank-limited covariance matrix restricts the dimensional sensitivity of the test space.
-The aforementioned paragraph now reads (p. <!-- # TODO: Complete -->, lines <!-- # TODO: Complete -->):
+The aforementioned paragraph now reads (p. 29, lines 2-10):
 
 > [...] In that example,
 he uses a covariance matrix that practically has rank 1,
@@ -561,13 +556,13 @@ in the table in Online Resource 1.
 We are not completely sure to have understood this comment.
 The discrimination values in the original `r MODEL_ACRONYM` metric are comparable, in the sense that they yield the same model probabilities for the same latent trait coordinates, independently of the covariance structure of the latent space.
 However, the covariance-version of the multidimensional discrimination is different, and will indeed be dependent on the metric of the test space, which is defined by its geometrical basis, which determines the directions and scales of the axes.
-In this case, the basis has been chosen to be a geometric representation of the correlation matrix (as given by the expression $`r INNER_PROD_CORR_COND`$, please see p. <!-- # TODO: Complete -->, line <!-- # TODO: Complete -->, in the new version), and therefore, the scales are not affected (only the relative directions among the axes).
+In this case, the basis has been chosen to be a geometric representation of the correlation matrix (as given by the expression $`r INNER_PROD_CORR_COND`$, please see p. 20, last two paragraphs, in the new version), and therefore, the scales are not affected (only the relative directions among the axes).
 
 We would kindly ask to elaborate further on this question if the Reviewer feels it has not been completely addressed.
 
 ###### Page 30 Line 8 It would be helpful to show the orthogonal and nonorthogonal representations of items and then discuss the interpretation of the parameter estimates based on each of the representations. I have been unable to determine the value of using the nonorthogonal representation. The nonorthogonal representation is more complex, and it seems sample dependent because it uses the observed correlations/covariances. What is the value added of using the more complex representation?
 
-We have found this comment puzzling as, to our understanding, what Reviewer 3 is asking is what we do in Figure 1 (p. 22 in our original submission, p. <!-- # TODO: Complete --> in the new one).
+We have found this comment puzzling as, to our understanding, what Reviewer 3 is asking is what we do in Figure 1 (p. 22 in our original submission, p. 23 in the new one).
 We have shown the same items, with as many different cases as possible, represented in both orthogonal and nonorthogonal coordinates, and explained the interpretation of the multidimensional parameters in both spaces.
 We would appreciate it if Reviewer 3 would kindly clarify this comment, so we can address it properly.
 
@@ -575,8 +570,8 @@ On the other hand, to our understanding, the representation is always sample dep
 Our argument is that the non-orthogonal coordinate system is a more faithful representation of the latent covariance structure, as the cosines between the axes are the geometric equivalent of the latent trait correlations.
 We argue that this is the value of using this more complex representation, and so we have tried to convey in our Discussion section (please see p. 31, line 19 to p. 32, line 4, in the original version).
 
-We acknowledge, though, that this may have been explained without enough clarity, and therefore striven to improve this discussion.
-The aforementioned paragraph now reads:
+We acknowledge, though, that this may have been explained without enough clarity, and therefore we have striven to improve this discussion.
+The aforementioned paragraph now reads (p. 33, lines 16-19):
 
 > [...] This implies that the axes defined by the test space basis,
 and not the ones defined by the latent space basis,
