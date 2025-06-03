@@ -254,7 +254,7 @@ item_params_output <- item_params                          |>
   style(
     pr_p = fp_par(
       padding.bottom = 1,
-      padding.top    = 1,
+      padding.top    = 2,
       padding.left   = 3,
       padding.right  = 3
     ),
@@ -282,5 +282,5 @@ item_params_output <- item_params                          |>
   align(align = "center",   part = "header")               |>
   align(align = "right",    part = "body")                 |>
   fontsize(size = 12,       part = "all")                  |>
-  fontsize(size =  9,       part = "body")                 |>
+  fontsize(size = 10,       part = "body")                 |>
   set_table_properties(layout = "autofit")

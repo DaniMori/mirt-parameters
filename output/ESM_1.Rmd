@@ -1,5 +1,4 @@
 ---
-title: "Online Resource 1"
 output:
   officedown::rdocx_document:
     tables:
@@ -87,6 +86,8 @@ read_chunk("src/Empirical_example.R")
 
 ```{r compose-output-table}
 ```
+
+# Online Resource 1
 
 Table S.\@ref(tab:empirical-table-Reckase2009-out) is similar to Table 2,
 comparing the agnostic version of the multidimensional parameters drawn from
