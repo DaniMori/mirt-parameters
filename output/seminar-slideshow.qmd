@@ -1,11 +1,11 @@
 ---
 title:     |
-  Parámetros multidimensionales en Teoría de Respuesta al Ítem:
-  ¡Algo estamos haciendo mal!
+  A generalization of multidimensional item response theory parameters
 author:    |
   <table>
     <tr>
       <td>Daniel Morillo, Ph.D.</td>
+      <td>Mario Luzardo, Ph.D.</td>
     </tr>
     <tr>
       <td>
@@ -14,22 +14,30 @@ author:    |
           [![](../www/slideshow-assets/orcid.png){height="50"}](https://orcid.org/0000-0003-3021-3878)
         </center>
       </td>
+      <td>
+        <center>
+          [![](../www/slideshow-assets/github-logo.png){height="50"}](https://github.com/mluzardov/)&emsp;
+          [![](../www/slideshow-assets/orcid.png){height="50"}](https://orcid.org/0000-0002-9360-2806)
+        </center>
+      </td>
     </tr>
   </table>
 institute: |
   <table>
+    <!-- # TODO: Fix vertical alignment in logos-->
     <tr>
-      <td>
-        <center>
-          [![](../www/slideshow-assets/logos_fac_psicologia.svg){height="120"}](https://www.uned.es/universidad/facultades/psicologia.html)
-        </center>
+      <td style="width: 400px">
+        [![](../www/slideshow-assets/logos_fac_psicologia.svg){height="60"}](https://www.uned.es/universidad/facultades/psicologia.html)
+      </td>
+      <td style="width: 100px">
+        [![](../www/slideshow-assets/logo_udelar.svg){height="120"}](https://udelar.edu.uy)
       </td>
     </tr>
   </table>
 bibliography:  ../www/Multidimensional-parameters-MCLM.bib
 csl:           ../www/apa-old-doi-prefix.csl
-date:          "2024-10-21"
-date-meta:     "2024-11-27" # TODO: Update
+date:          "2024-07-17"
+date-meta:     "2024-11-27"
 date-format:   long
 editor:
   mode:        source
@@ -38,7 +46,7 @@ editor:
     canonical: true     # TODO: Restore
 execute: 
   cache:       true
-lang:          es
+lang:          en
 knitr:
   # opts_knit: # Does not work, see line 102
   #   root_dir:  here::here()
