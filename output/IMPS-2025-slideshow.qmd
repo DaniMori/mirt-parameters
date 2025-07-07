@@ -168,7 +168,7 @@ F2_COLOR <- unname(PALETTE_RASPBERRY["normal"])
 
 # Probability axes:
 PROB_AXIS <- seq(-3.3, 3.3, by = .01)
-PROB_AXIS_2D <- seq(-1.5, 1.5, by = 0.05) # Axis for the probability contour plots
+PROB_AXIS_2D <- seq(-3, 3, by = 0.05) # Axis for the probability contour plots
 ```
 
 ```{r graphical-output-conf}
@@ -201,19 +201,13 @@ theme_set( # `ggplot` output configuration
 MARGINS <- c(12, 1.3, 8, 1.3) # margins for the sem path plots
 ```
 
-M2PL model (mckinley_extension_1983):
-
-$$
-  P(Y_i = 1) = \Phi_L (\mathbf{a}_i^T \mathbf{\theta} + d_i)
-$$
+M2PL model [@mckinley_extension_1983]: $P(Y_i = 1) = \Phi_L (\mathbf{a}_i^T \mathbf{\theta} + d_i)$
 
 ::::: columns
 ::: column
 ```{r mirt-model-irs-3d}
 #| fig-width:  5
 #| fig-height: 5
-PROB_AXIS_2D <- seq(-3, 3, by = .1)
-
 mirt_item <- tribble(
   ~item, ~a_1, ~a_2, ~d,
   1,     1,    0.5,  -0.5
@@ -303,6 +297,8 @@ contour_plot <- mirt_item_probs |>
 
 contour_plot
 ```
+:::
+:::::
 
 ::: notes
 Esto se puede extender, de manera bastante directa, asumiendo que la respuesta se modela como una "regresión logística multivariada".
@@ -2095,7 +2091,7 @@ logit_curve_data_long |>
     )
   )                                                        +
   geom_line(linewidth = LINE_WIDTH)                        +
-  labs(x = "Responsabilidad", y = "P(Y~i~ = 1)")           +
+  labs(x = "Conscientiousness", y = "P(Y~i~ = 1)")           +
   scale_y_continuous(
     breaks       = 0:1,
     minor_breaks = NULL,
@@ -2483,7 +2479,7 @@ Sin embargo, hay que tener en cuenta que Reckase explicitaba como condición que
 ::: {.column width="38%"}
 <!-- TODO: Annotate figure? -->
 
-![Ítems de "ACT Mathematics Usage Test"](../www/Fig_1-6_Contemporary_Psychometrics.png){fig-align="left"}
+!["ACT Mathematics Usage Test" items](../www/Fig_1-6_Contemporary_Psychometrics.png){fig-align="left"}
 :::
 ::::::
 
@@ -2713,7 +2709,7 @@ Luego esta restricción que propone Reckase parece que en principio no se podrí
 
 ::::: columns
 ::: column
-![Un cubo rojo en perspectiva isométrica](../www/slideshow-assets/isometric-cube.jpg){fig-align="center"}
+![A red cube in isometric perspective](../www/slideshow-assets/isometric-cube.jpg){fig-align="center"}
 :::
 
 ::: {.column .fragment}
@@ -3305,7 +3301,7 @@ Esta propiedad se llama "invarianza" del ítem.
 <!-- TODO: ACT en McDonald, 1999? -->
 
 ::: r-center
-![Ítems de "ACT Mathematics Usage Test"](../www/Fig_1-6_Contemporary_Psychometrics.png){fig-align="center" height="400px"}
+!["ACT Mathematics Usage Test" items](../www/Fig_1-6_Contemporary_Psychometrics.png){fig-align="center" height="400px"}
 :::
 
 ::: aside
@@ -3566,7 +3562,7 @@ fa(
 :::
 ::::::
 
-¿Cuál es el sistema de coordenadas de *θ* para que *θ\** sea "esférica"?
+¿What is the coordinate system of *θ* to make *θ\** "spherical"?
 
 ::: notes
 Supongamos una distribución bivariada de rasgos latentes, con una correlación de .5, como la mostrada anteriormente.
@@ -3835,7 +3831,7 @@ ls_grid
 ::::::
 
 ::: fragment
-[Respuestas en 3, 2, 1...](https://wall.sli.do/event/dPunB4BMx3S8hfSjaFSuFh?section=ae77dd00-34fb-4600-9677-337a65b04b83)
+[Answers in 3, 2, 1...](https://wall.sli.do/event/dPunB4BMx3S8hfSjaFSuFh?section=ae77dd00-34fb-4600-9677-337a65b04b83)
 :::
 
 ::: notes
@@ -4200,7 +4196,7 @@ Pero los cosenos directores es necesario calcularlos en el espacio test, no en e
 ## Complete graphical representation
 
 ```{r item-plot-out}
-#| fig-cap:   Espacio test ortogonal (izquierda) y oblicuo (derecha)
+#| fig-cap:   Orthogonal (left) and oblique (right) test space
 #| fig-align: center
 #| fig-asp:     .5
 #| fig-width: 13
@@ -4224,16 +4220,16 @@ plot_orth + plot_oblique ## TODO: Tema ggplot
 
 <br>
 
-Parámetros multidimensionales generalizados
+Generalization of multidimensional parameters
 
--   A ítems con monotonía constante
+-   To constant-monotony items
 
--   A Ejes oblicuos
+-   To oblique axes
 
 <br>
 
 ::: fragment
-Distinción espacio latente - espacio test
+Distinction latent space - test space
 :::
 
 ::: notes
