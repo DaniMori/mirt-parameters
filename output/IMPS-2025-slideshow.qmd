@@ -644,19 +644,16 @@ However, there are two assumptions that Reckase & McKinley make when obtaining t
 
 The first is that the probability of answering an item correctly always increases monotonically with respect to each dimension.
 
-The second, that constrain that you see there, implies that the item is represented in an orthogonal basis.
-That is the reason why the discrimination is defined by a "general Pythagorean theorem".
+The second, that constrain that you see there, implies that the item is represented in an orthogonal basis, which is why the discrimination is defined by a "general Pythagorean theorem".
+
+So, our purpose in this work is **to relax these two assumptions**.
 :::
 
-## Assumptions: Increasing monotony {.smaller}
+## Assumptions: Increasing monotony
 
-> the probability of answering an item correctly increases monotonically with an increase in each dimension being measured
+<br>
 
-<!-- TODO: Put in column and make figure in 2nd column taller -->
-
----@reckase_difficulty_1985 [p. 402]
-
-::::: {.columns .fragment}
+::::: columns
 ::: column
 <br>
 
@@ -674,6 +671,81 @@ $$
     d_1 &= 0.75
   \end{align}
 $$
+:::
+
+::: column
+```{r m2pl-representation-unidimensional}
+#| fig-align:  center
+#| fig-height: 7.2
+#| fig-width:  7.2
+
+mirt_item <- tribble(
+  ~item, ~a_1, ~a_2, ~d,
+  1,     1.5,  0,    0.75
+)
+
+mirt_item_params <- mirt_item |>
+  compute_mirt_params(d, starts_with('a'))
+
+mirt_item_coords <- mirt_item_params |>
+  compute_mirt_coords(D, MDISC, starts_with("cos"), original_coords = FALSE) |>
+    rename_with(str_remove, pattern = "transf_")
+
+mirt_item_coords |>
+  ggplot(
+    aes(
+      origin_1, origin_2,
+      xend = end_1,
+      yend = end_2,
+      color = factor(item), fill = factor(item)
+    ),
+  )                                                  +
+  geom_vline(xintercept = 0, linewidth = GRID_WIDTH) +
+  geom_hline(yintercept = 0, linewidth = GRID_WIDTH) +
+  geom_segment(
+    arrow     = arrow(angle = 20, length = unit(10, "points"), type = "closed"),
+    linejoin  = "mitre",
+    linewidth = VECTOR_WIDTH
+  ) +
+  scale_x_continuous(
+    limits       = c(-1, 1.5),
+    breaks       = -1:2,
+    minor_breaks = NULL,
+    name         = NULL,
+    sec.axis     = dup_axis(name = "*&theta;*~2~", labels = NULL)
+  ) +
+  scale_y_continuous(
+    limits       = c(-1, 1),
+    breaks       = NULL,
+    minor_breaks = NULL,
+    name         = NULL,
+    sec.axis     = dup_axis(name = "*&theta;*~1~", labels = NULL)
+  ) +
+  scale_color_manual(values = unname(PALETTE_BLUE["normal"]), guide = NULL) +
+  coord_fixed(clip = "on") +
+  theme(
+    axis.line          = element_blank(),
+    axis.title         = element_markdown(size = 20, padding = unit(0, "lines")),
+    axis.title.x       = element_markdown(hjust = .4),
+    axis.title.y.right = element_markdown(vjust = .4),
+    axis.ticks         = element_blank(),
+    panel.grid.major   = element_line(
+      linewidth = GRID_WIDTH,
+      linetype  = "17"
+    ),
+  )
+```
+:::
+:::::
+
+::: notes
+In the first case, one may argue that we may deal with "undimensional items" or, more generally, items that have null discrimination components.
+
+This would imply that the probability of a correct response would not change with respect to that dimension; i.e., that trait is not being measured by the item, so the isoprobability lines would be parallel to the $\theta_2$ axis (in this example.
+
+Therefore, the probability does not "increase monotonically".
+
+Nevertheless, with this caveat about null discrimination components, this assumption would be realistic in a "cognitive testing context": The more you know, the more likely you are to give a correct answer.
 :::
 
 ::: column
