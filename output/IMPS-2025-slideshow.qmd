@@ -469,9 +469,9 @@ The problem with the M2PL, and other multidimensional extensions, is that its pa
 
 \[NEXT\]
 
-That is why Reckase & McKinley propose to find a way of describing the characteristics of multidimensional items, taking their dimensionality into account.
+That is why Reckase proposes to find a way of describing the characteristics of multidimensional items, taking their dimensionality into account.
 
-They do it in this 1985 paper, and a subsequent one in 1991...
+He do it in this 1985 paper, and in a subsequent one in 1991...
 :::
 
 ## Multidimensional parameters {.smaller}
@@ -609,14 +609,43 @@ mirt_item_coords |>
 :::::
 
 ::: notes
-...where they define the item discrimination, which can in turn be used to define the item difficulty.
+...Reckase & McKinley define the item discrimination, which is an extension of the Pythagorean theorem.
 
-Note that the difficulty has two components: a "signed distance" from the origin, and a direction.
+Note also that the discrimination can in turn be used to define the item difficulty, as happens in the unidimensional model.
+
+And also, that the difficulty has two components: a "signed distance" from the origin, and a direction.
 
 \[NEXT\]
 
 It is easier to appreciate this with the graphical representation, that was proposed by Ackerman a few years later, where we can see that the item vector is applied at a point given by the difficulty, and has a length equal to the discrimination.
 Note that the item direction always goes through the origin, and that the sign of the distance (positive in this case) will determine whether the vector is displaced forward or backward along that direction.
+:::
+
+## Assumptions {.smaller}
+
+<br>
+
+@reckase_difficulty_1985:
+
+-   Increasing monotony:
+
+> the probability of answering an item correctly increases monotonically with an increase in each dimension being measured
+
+---(p. 402)
+
+-   Orthogonality
+
+> \[...\] before performing the differentiation, the constraint that Σ cos^2^**α** = 1 is added to the expression for the slope \[...\]
+
+---(p. 404)
+
+::: notes
+However, there are two assumptions that Reckase & McKinley make when obtaining the definition of the multidimensional parameters.
+
+The first is that the probability of answering an item correctly always increases monotonically with respect to each dimension.
+
+The second, that constrain that you see there, implies that the item is represented in an orthogonal basis.
+That is the reason why the discrimination is defined by a "general Pythagorean theorem".
 :::
 
 ## Assumptions: Increasing monotony {.smaller}
