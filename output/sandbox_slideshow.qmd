@@ -53,13 +53,15 @@ library(purrr)
 library(plotly)
 library(metR)
 library(scales)
+library(fontawesome)
 library(mvtnorm)
+library(patchwork)
 ```
 
 ```{r setup}
 #| cache:   false
 #| include: false
-opts_knit$set(root.dir = here::here()) # See lines 41-42
+opts_knit$set(root.dir = here::here()) # See lines 43-44
 
 # Graphical configuration options:
 loadfonts(device = "win") # Load fonts (if necessary)
@@ -67,13 +69,14 @@ par(family = "Arial", adj = 0.5) # Set graphical device params
 ```
 
 ```{r sources}
-source("R/Formulae.R",     encoding = 'UTF-8')
-source("R/Output.R",       encoding = 'UTF-8')
-source("R/Mirt_toolbox.R", encoding = 'UTF-8')
+source("R/Formulae.R",                  encoding = 'UTF-8')
+source("R/Output.R",                    encoding = 'UTF-8')
+source("R/Mirt_toolbox.R",              encoding = 'UTF-8')
+source("src/Graphical_example_paper.R", encoding = 'UTF-8')
 ```
 
-```{r color-palettes}
-MARGINS <- c(12, 1.3, 8, 1.3) # margins for the sem path plots
+```{r graphical-constants}
+# Color palettes:
 
 PALETTE_UNED <- c(
   normal = "#00533e",
@@ -112,6 +115,22 @@ PALETTE_RASPBERRY <- c(
   white  = "#dac7c7"
 )
 
+# Factor axis colors:
+F1_COLOR <- unname(PALETTE_BLUE["normal"])
+F2_COLOR <- unname(PALETTE_RASPBERRY["normal"])
+
+# Grid breaks:
+X_BREAKS <- seq(-3, 3, length.out = 5)
+
+# Probability axes:
+PROB_AXIS <- seq(-3.3, 3.3, by = .01)
+PROB_AXIS_2D <- seq(-3, 3, by = 0.05) # Axis for the probability contour plots
+```
+
+```{r graphical-output-conf}
+#| cache: false
+
+# Graphical output constants:
 GRAPH_FONT   <- "Arial"  # Replace default font to comply with UNED identity
 FONT_SIZE    <- 24       # Replace default font size for slideshow
 AXIS_LAB_POS <-  0.5     # Replace default axis label position for slideshow
@@ -119,10 +138,7 @@ LINE_WIDTH   <-  0.75    # Replace default line width for slideshow
 GRID_WIDTH   <-  0.5     # Width for grid and axis lines
 AXIS_COLOR   <- "gray70" # Replace default grid line color for slideshow
 VECTOR_WIDTH <- 1.5      # Replace default vector width for slideshow
-```
 
-```{r graphical-output-conf}
-#| cache: false
 theme_set( # `ggplot` output configuration
   theme_classic(
     base_size      = FONT_SIZE,
@@ -137,43 +153,8 @@ theme_set( # `ggplot` output configuration
       panel.grid.minor   = element_line(linetype = "17", color = AXIS_COLOR)
     )
 )
-```
 
-```{r pre}
-PROB_AXIS    <- seq(-3, 3, by = .01)
-ERROR_POINTS <- seq(-3, 3, length.out = 5)
-PROB_AXIS_2D <- seq(-3, 3, by = .1)
-F1_COLOR <- unname(PALETTE_BLUE["normal"])
-
-logit <- function(x) 1 / (1 + exp(-x))
-irf   <- function(a, b, theta) logit(a * (theta - b))
-
-mirt_item <- tribble(
-  ~item, ~a_1, ~a_2, ~d,
-  1,     1,    0.5,  -0.5
-)
-
-mirt_item_probs <- expand_grid(
-  trait_2 = PROB_AXIS_2D,
-  trait_1 = PROB_AXIS_2D
-) |>
-  mutate(
-    mirt_item |>
-      select(-item) |>
-      pmap(irs2d, theta_1 = trait_1, theta_2 = trait_2) |>
-      bind_cols()
-  ) |>
-    rename(prob = `...1`)
-
-ITEMS_PALETTE <- c(
-  PALETTE_BLUE["normal"],
-  PALETTE_RASPBERRY["normal"],
-  PALETTE_APPLE["normal"],
-  PALETTE_TANGERINE["normal"],
-  PALETTE_UNED["normal"]
-) |>
-  unname() |>
-  setNames(1:5)
+MARGINS <- c(12, 1.3, 8, 1.3) # margins for the sem path plots
 ```
 
 ## References
