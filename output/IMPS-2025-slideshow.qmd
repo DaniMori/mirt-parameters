@@ -750,83 +750,7 @@ Therefore, the probability does not "increase monotonically".
 Nevertheless, with this caveat about null discrimination components, this assumption would be realistic in a "cognitive testing context": The more you know, the more likely you are to give a correct answer.
 :::
 
-::: column
-```{r m2pl-representation-unidimensional}
-#| fig-align:  center
-#| fig-height: 7.2
-#| fig-width:  6
-
-mirt_item <- tribble(
-  ~item, ~a_1, ~a_2, ~d,
-  1,     1.5,  0,    0.75
-)
-
-mirt_item_params <- mirt_item |>
-  compute_mirt_params(d, starts_with('a'))
-
-mirt_item_coords <- mirt_item_params |>
-  compute_mirt_coords(D, MDISC, starts_with("cos"), original_coords = FALSE) |>
-    rename_with(str_remove, pattern = "transf_")
-
-mirt_item_coords |>
-  ggplot(
-    aes(
-      origin_1, origin_2,
-      xend = end_1,
-      yend = end_2,
-      color = factor(item), fill = factor(item)
-    ),
-  )                                                  +
-  geom_vline(xintercept = 0, linewidth = GRID_WIDTH) +
-  geom_hline(yintercept = 0, linewidth = GRID_WIDTH) +
-  geom_segment(
-    arrow     = arrow(angle = 20, length = unit(10, "points"), type = "closed"),
-    linejoin  = "mitre",
-    linewidth = VECTOR_WIDTH
-  ) +
-  scale_x_continuous(
-    limits       = c(-1, 1.5),
-    breaks       = -1:2,
-    minor_breaks = NULL,
-    name         = NULL,
-    sec.axis     = dup_axis(name = "*&theta;*~2~", labels = NULL)
-  ) +
-  scale_y_continuous(
-    limits       = c(-1, 1),
-    breaks       = NULL,
-    minor_breaks = NULL,
-    name         = NULL,
-    sec.axis     = dup_axis(name = "*&theta;*~1~", labels = NULL)
-  ) +
-  scale_color_manual(values = unname(PALETTE_BLUE["normal"]), guide = NULL) +
-  coord_fixed(clip = "on") +
-  theme(
-    axis.line          = element_blank(),
-    axis.title         = element_markdown(size = 20, padding = unit(0, "lines")),
-    axis.title.x       = element_markdown(hjust = .4),
-    axis.title.y.right = element_markdown(vjust = .4),
-    axis.ticks         = element_blank(),
-    panel.grid.major   = element_line(
-      linewidth = GRID_WIDTH,
-      linetype  = "17"
-    ),
-  )
-```
-:::
-:::::
-
-::: notes
-Ahora bien, como hemos visto, la TRI originalmente sólo trataba con "ítems cognitivos" (lo hemos podido ver en el propio lenguaje que utiliza Reckase: "dificultad", "habilidad", "respuesta correcta").
-Uno de los supuestos que hace es este.
-Esto tiene todo el sentido, de acuerdo, ya que si la probabilidad de un ítem "decrece" al aumentar el nivel de habilidad, es que algo está mal en el ítem: No puede ser que alguien más inteligente (pongamos como ejemplo) tenga menos probabilidad de acertar un ítem que alguien menos inteligente.
-
-\[NEXT\]
-
-Pero cuidado, si el ítem es "puro" de una dimensión (o no mide "todas" las dimensiones del test), la probabilidad en la otra (u otras) dimensiones sel test sería constante (porque su discriminación sería 0); es decir, la probabilidad puede ser "plana" (es una dimensión que no "está siendo medida por el ítem").
-En este ejemplo, las rectas de isoprobabilidad serían paralelas al eje $\theta_2$.
-:::
-
-## Generalization: Inverse items {.smaller}
+## Assumptions: Increasing monotony {.smaller}
 
 <br>
 
@@ -836,8 +760,8 @@ En este ejemplo, las rectas de isoprobabilidad serían paralelas al eje $\theta_
 
 <br>
 
-::::: columns
-::: {.column .fragment .r-center}
+:::::: {.columns .fragment}
+::: {.column .r-center}
 ```{r inverse-item-curve}
 #| fig-align:  center
 #| fig-asp:    0.5344
@@ -900,24 +824,30 @@ logit_curve_data_long |>
 ```
 :::
 
-::: {.column .fragment .r-center}
-<br> <br>
-
+:::: {.column .r-center}
 $$
   P(Y_i = 1) = \Phi_L (a_i (\theta - b_i))
 $$
+
+<br>
+
+::: r-stack
+[$a_i < 0$]{style="color:#5c6eb1;"}
 :::
-:::::
+::::
+::::::
 
 ::: notes
-Pero además, si hablamos de ítems "no cognitivos" (p.ej. personalidad) en los que la persona evaluada puede estar "de acuerdo" o "en desacuerdo", sí podemos tener ítems con probabilidad "decreciente".
+However, if we wanted to apply this model to "non-cognitive" items (e.g., personality traits) where the person evaluated can be "agreeing" or "disagreeing", we can have items with "decreasing" probability.
 
 \[NEXT\]
 
-Formalmente, esto vendría no sería más que un parámetro de discriminación negativo.
+Formally, what this would imply is a negative discrimination parameter.
+:::
 
-\[NEXT\]
+## Generalization: Inverse items {.smaller}
 
+::: notes
 Si recordáis la "función característica del ítem", esto consiste simplemente en un valor negativo en el parámetro $a$; eso hace que la probabilidad sea decreciente.
 
 Llevado al caso multidimensional, lo que nos podemos encontrar es con ítems que por ejemplo tengan todos los valores de discriminación negativos, o algunos negativos y otros positivos.
