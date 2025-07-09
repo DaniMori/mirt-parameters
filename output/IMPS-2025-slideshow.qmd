@@ -442,7 +442,7 @@ It assumes that the probability of a correct response to an item is a function o
 This results in a response probability function where equal probability points form a straight line in the latent space.
 :::
 
-## Multidimensional IRT parameters {.smaller}
+## Multidimensional parameters {.smaller}
 
 <br>
 
@@ -471,7 +471,152 @@ The problem with the M2PL, and other multidimensional extensions, is that its pa
 
 That is why Reckase & McKinley propose to find a way of describing the characteristics of multidimensional items, taking their dimensionality into account.
 
-They do it in this 1985 paper, and a subsequent one in 1991.
+They do it in this 1985 paper, and a subsequent one in 1991...
+:::
+
+## Multidimensional parameters {.smaller}
+
+<br>
+
+::::: columns
+::: column
+-   @reckase_discriminating_1991:
+
+$$
+  MDISC_i = \sqrt{\mathbf{a}_i^T \mathbf{a}_i}
+$$
+
+<br>
+
+-   @reckase_difficulty_1985:
+
+$$
+  MID_i = \begin{Bmatrix}
+    D_i &= \frac{-d_i}{MDISC_i} \\
+    \cos \mathbf{\alpha}_i &= \frac{\mathbf{a}_i}{MDISC_i}
+  \end{Bmatrix}
+$$
+:::
+
+::: {.column .fragment}
+-   @ackerman_graphical_1996:
+
+```{r m2pl-representation}
+#| fig-align:  center
+#| fig-height: 6.2
+#| fig-width:  6.2
+
+mirt_item <- tribble(
+  ~item, ~a_1, ~a_2, ~d,
+  1,     1,    0.5,  -0.5
+)
+
+mirt_item_params <- mirt_item |>
+  compute_mirt_params(d, starts_with('a'))
+
+mirt_item_coords <- mirt_item_params |>
+  compute_mirt_coords(D, MDISC, starts_with("cos"), original_coords = FALSE) |>
+    rename_with(str_remove, pattern = "transf_")
+
+d_i_spike <- mirt_item_coords |>
+  select(item, trait_1 = origin_1, trait_2 = origin_2) |>
+  bind_rows(tibble(item = 1, trait_1 = 0, trait_2 = 0)) |>
+  add_column(type = c("end", "start")) |>
+  pivot_wider(names_from = type, values_from = starts_with("trait"))
+
+mirt_item_coords |>
+  ggplot(
+    aes(
+      origin_1, origin_2,
+      xend = end_1,
+      yend = end_2,
+      color = factor(item), fill = factor(item)
+    ),
+  )                                                  +
+  geom_vline(xintercept = 0, linewidth = GRID_WIDTH) +
+  geom_hline(yintercept = 0, linewidth = GRID_WIDTH) +
+  geom_segment(
+    data    = d_i_spike,
+    mapping = aes(
+      trait_1_start, trait_2_start,
+      xend = trait_1_end,
+      yend = trait_2_end
+    ),
+    inherit.aes = FALSE,
+    linewidth = LINE_WIDTH,
+    linetype  = '43',
+    color = PALETTE_BLUE["light"]
+  ) +
+  geom_point(
+    data = mirt_item_coords,
+    mapping = aes(origin_1, origin_2),
+    inherit.aes = FALSE,
+    size = I(4)
+  ) +
+  geom_segment(
+    arrow     = arrow(angle = 20, length = unit(10, "points"), type = "closed"),
+    linejoin  = "mitre",
+    linewidth = VECTOR_WIDTH
+  ) +
+  scale_x_continuous(
+    limits       = c(-1, 1.5),
+    breaks       = -1:2,
+    minor_breaks = NULL,
+    name         = NULL,
+    sec.axis     = dup_axis(name = "*&theta;*~2~", labels = NULL)
+  ) +
+  scale_y_continuous(
+    limits       = c(-1, 1.5),
+    breaks       = -1:2,
+    minor_breaks = NULL,
+    name         = NULL,
+    sec.axis     = dup_axis(name = "*&theta;*~1~", labels = NULL)
+  ) +
+  scale_color_manual(values = unname(PALETTE_BLUE["normal"]), guide = NULL) +
+  annotate(
+    geom = "richtext",
+    x = 0.16, y = 0.20,
+    label = "*D~i~*",
+    size = 9,
+    angle = mirt_item_params |> pull(deg_1),
+    label.colour  = NA,
+    fill = NA
+  ) +
+  annotate(
+    "richtext",
+    x = mirt_item_coords |> pull(origin_1) + 0.40,
+    y = mirt_item_coords |> pull(origin_2) + 0.32,
+    label = "*MDISC~i~*",
+    size  = 9,
+    angle = mirt_item_params |> pull(deg_1),
+    label.colour  = NA,
+    fill = NA
+  ) +
+  coord_fixed(clip = "on") +
+  theme(
+    axis.line          = element_blank(),
+    axis.title         = element_markdown(size = 20, padding = unit(0, "lines")),
+    axis.title.x       = element_markdown(hjust = .4),
+    axis.title.y.right = element_markdown(vjust = .4),
+    axis.ticks         = element_blank(),
+    panel.grid.major   = element_line(
+      linewidth = GRID_WIDTH,
+      linetype  = "17"
+    ),
+  )
+```
+:::
+:::::
+
+::: notes
+...where they define the item discrimination, which can in turn be used to define the item difficulty.
+
+Note that the difficulty has two components: a "signed distance" from the origin, and a direction.
+
+\[NEXT\]
+
+It is easier to appreciate this with the graphical representation, that was proposed by Ackerman a few years later, where we can see that the item vector is applied at a point given by the difficulty, and has a length equal to the discrimination.
+Note that the item direction always goes through the origin, and that the sign of the distance (positive in this case) will determine whether the vector is displaced forward or backward along that direction.
 :::
 
 ## Multidimensional difficulty {.smaller}
