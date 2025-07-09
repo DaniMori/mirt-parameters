@@ -77,8 +77,6 @@ editor_options:
   chunk_output_type: console
 ---
 
-## Multidimensional IRT
-
 ```{r libraries}
 #| cache:   false
 #| include: false
@@ -166,6 +164,9 @@ PALETTE_RASPBERRY <- c(
 F1_COLOR <- unname(PALETTE_BLUE["normal"])
 F2_COLOR <- unname(PALETTE_RASPBERRY["normal"])
 
+# Grid breaks:
+X_BREAKS <- seq(-3, 3, length.out = 5)
+
 # Probability axes:
 PROB_AXIS <- seq(-3.3, 3.3, by = .01)
 PROB_AXIS_2D <- seq(-3, 3, by = 0.05) # Axis for the probability contour plots
@@ -201,10 +202,139 @@ theme_set( # `ggplot` output configuration
 MARGINS <- c(12, 1.3, 8, 1.3) # margins for the sem path plots
 ```
 
-M2PL model [@mckinley_extension_1983]: $P(Y_i = 1) = \Phi_L (\mathbf{a}_i^T \mathbf{\theta} + d_i)$
+## Unidimensional IRT {.smaller}
 
-::::: columns
-::: column
+-   2-parameter logistic (2PL) model [@birnbaum_latent_1968]:
+
+::::::::: columns
+::::::: {.column width="40%"}
+$$
+  P(Y_i = 1) = \Phi_L (a_i (\theta - b_i))
+$$
+
+$$
+  \Phi_L (x) =  \frac{1}{1 + e^{-x}}
+$$
+
+<br>
+
+:::::: {.fragment fragment-index="1"}
+::: r-stack
+[$a_1$ = 1.0; $b_1$ = 0.0]{style="color:#5c6eb1;"}
+:::
+
+::: r-stack
+[$a_2$ = 1.0; $b_2$ = 1.5]{style="color:#90214a;"}
+:::
+
+::: r-stack
+[$a_3$ = 2.5; $b_3$ = 0.0]{style="color:#749f4c;"}
+:::
+::::::
+:::::::
+
+::: {.column .fragment width="60%" fragment-index="1"}
+```{r irt-curves}
+#| fig-asp:   0.6
+#| fig-width: 8
+
+ITEMS_PALETTE <- c(
+  PALETTE_BLUE["normal"],
+  PALETTE_RASPBERRY["normal"],
+  PALETTE_APPLE["normal"]
+) |>
+  unname() |>
+  setNames("prob" |> paste(1:3, sep = '_'))
+
+ITEMS <- tribble(
+  ~item, ~a,   ~b,
+   1,     1,    0,
+   3,     1,    1.5,
+   2,     2.5,  0
+)
+
+logit <- function(x) 1 / (1 + exp(-x))
+irf   <- function(a, b, theta) logit(a * (theta - b))
+
+logit_curve_data <- tibble(
+  latent_trait = PROB_AXIS,
+  prob         = ITEMS |>
+    select(-item) |>
+    pmap(irf, theta = latent_trait) |>
+    bind_cols()
+) |>
+  unnest(
+    prob,
+    names_sep = '_'
+  ) |>
+  rename_with(str_remove, pattern = '\\.{3}')
+
+logit_curve_data_long <- logit_curve_data |>
+  pivot_longer(starts_with("prob"), names_to = "item", values_to = "prob")
+
+logit_curve_data_long |>
+  ggplot(
+    mapping = aes(
+      latent_trait, prob,
+      color = item,
+      group = after_scale(color)
+    )
+  )                                        +
+  geom_line(linewidth = LINE_WIDTH)        +
+  labs(x = "*&theta;*", y = "P(Y~i~ = 1)") +
+  scale_y_continuous(
+    breaks       = 0:1,
+    minor_breaks = NULL,
+    limits       = 0:1,
+    expand       = expansion(mult = c(0, .05))
+  )                                        +
+  scale_x_continuous(
+    breaks       = X_BREAKS,
+    minor_breaks = NULL,
+    limits = range(PROB_AXIS),
+    expand = expansion()
+  )                                        +
+  scale_color_manual(values = ITEMS_PALETTE, guide = NULL) +
+  theme(
+    axis.title       = element_markdown(),
+    axis.title.y     = element_markdown(angle = 90),
+    panel.grid.major = element_line(linetype = "17", linewidth = GRID_WIDTH),
+  )
+```
+
+<!-- TODO: Como ecuaciones (sin punto y coma?) -->
+:::
+:::::::::
+
+::: {.r-stack .fragment fragment-index="1"}
+$a_i$ = discrimination
+:::
+
+::: {.r-stack .fragment fragment-index="1"}
+$b_i$ = difficulty (location)
+:::
+
+::: notes
+The 2-parameter logistic model is the most simple model in item response theory (IRT).
+
+It is a prototypical model that allows us to study the item properties according to a parametric conception...
+
+\[NEXT\]
+
+... that assumes a discrimination ($a_i$) and a difficulty (or location, $b_i$) for each item.
+:::
+
+## Multidimensional IRT {.smaller}
+
+-   Multidimensional 2PL (M2PL) model [@mckinley_extension_1983]:
+
+:::::: columns
+:::: column
+$$
+  P(Y_i = 1) = \Phi_L (\mathbf{a}_i^T \mathbf{\theta} + d_i)
+$$
+
+::: {.fragment fragment-index="1"}
 ```{r mirt-model-irs-3d}
 #| fig-width:  5
 #| fig-height: 5
@@ -259,8 +389,11 @@ plot_ly(
   config(displayModeBar = FALSE, scrollZoom = FALSE)
 ```
 :::
+::::
 
-::: column
+::: {.column .fragment fragment-index="1"}
+<br>
+
 ```{r mirt-model-irs-contour}
 contour_plot <- mirt_item_probs |>
   ggplot(mapping = aes(trait_1, trait_2, z = prob, label = after_stat(level))) +
@@ -298,45 +431,47 @@ contour_plot <- mirt_item_probs |>
 contour_plot
 ```
 :::
-:::::
+::::::
 
 ::: notes
-Esto se puede extender, de manera bastante directa, asumiendo que la respuesta se modela como una "regresión logística multivariada".
-Aquí aparece otra vez la discriminación pero ahora en forma vectorial, que se pre-multiplica (recordad, producto escalar) por el vector de rasgo latente de la persona, y un parámetro de intersección, como antes (pero no puede haber un parámetro de dificultad simplemente, o uno por cada dimensión, porque serían indistinguibles entre sí).
-Esta es una de las extensiones multidimensionales (más antiguas, y probablemente más obvias) del modelo logístico de 2 parámetros: El modelo logístico de 2 parámetros multidimensional compensatorio.
-Pertenece a una familia de modelos llamados "compensatorios" en TRI, ya que un nivel bajo en una puntuación latente se compensa con un nivel alto en otra, dando lugar a la misma probabilidad de respuesta.
+The Multidimensional 2PL model is one of many extensions of the 2PL model, which in this case is compensatory.
+It assumes that the probability of a correct response to an item is a function of the linear combination of the latent traits weighted by item discrimination parameters.
+
+\[NEXT\]
+
+This results in a response probability function where equal probability points form a straight line in the latent space.
 :::
 
 ## Multidimensional IRT parameters {.smaller}
 
 <br>
 
-$$
-  P(Y_i = 1) = \Phi_L (\mathbf{a}_i^T \mathbf{\theta} + d_i)
-$$
+-   Unidimensional 2PL model: $P(Y_i = 1) = \Phi_L (a_i (\theta - b_i))$
+
+    -   $a_i$ = discrimination
+
+    -   $b_i$ = difficulty (location)
+
+-   Multidimensional 2PL model: $P(Y_i = 1) = \Phi_L (\mathbf{a}_i^T \mathbf{\theta} + d_i)$
+
+    -   $\mathbf{a}_i$ = ?
+
+    -   $d_i$ = ?
 
 ::: fragment
-$$
-  P(Y_i = 1) = \Phi_L (a_i (\theta - b_i))
-$$
-:::
-
-::: fragment
-@reckase_difficulty_1985:
+@reckase_difficulty_1985 [p. 402]:
 
 > \[...\] means of describing the characteristics of an item that takes into account the dimensionality of the skills \[...\] can then be used to determine how or if it is possible to compare items that measure different combinations of abilities.
 :::
 
 ::: notes
-A pesar de este paralelismo que os he mostrado, y de la utilidad de los modelos de TRI, hay un problema con la formulación del modelo que os he planteado, y es que como habéis podido ver los parámetros no son fácilmente interpretables.
+The problem with the M2PL, and other multidimensional extensions, is that its parameters do not have a clear interpretation in IRT terms, and they cannot be reparameterized.
 
-La intersección del modelo por ejemplo no tiene una interpretación clara.
-Si recordáis en la TRI unidimensional el parámetro de posición permitía comparar ítems entre sí en cuanto a su dificultad (en el caso de items cognitivos).
-Esto en AF no es muy habitual (prestamos poca atención a la "intersección" o "umbral"), porque no nos interesa tanto cómo de probable sea dar una respuesta positiva o negativa a un ítem, pero podría ayudarnos por ejemplo a diagnosticar ítems que estén mal diseñados, ya que nos da una idea de si va a haber muchas o pocas respuestas positivas a un ítem.
+\[NEXT\]
 
-Por eso Reckase dice, ya en 1985, que se necesita una forma de describir las características de los ítems que tenga en cuenta la dimensionalidad de las habilidades (los rasgos latentes en general).
-Daos cuenta de que entonces aún no se sabe nada de ese paralelismo con el AF.
-Además menciona que de esa manera se puede intentar comparar ítems que miden diferentes combinaciones de habilidades (fijaos en la importancia que tiene el dónde están los ítems en el continuo, en TRI, en contraste con AF, como comentábamos al principio).
+That is why Reckase & McKinley propose to find a way of describing the characteristics of multidimensional items, taking their dimensionality into account.
+
+They do it in this 1985 paper, and a subsequent one in 1991.
 :::
 
 ## Multidimensional difficulty {.smaller}
