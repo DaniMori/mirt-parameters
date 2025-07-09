@@ -164,6 +164,17 @@ PALETTE_RASPBERRY <- c(
 F1_COLOR <- unname(PALETTE_BLUE["normal"])
 F2_COLOR <- unname(PALETTE_RASPBERRY["normal"])
 
+# Item colors:
+ITEMS_PALETTE <- c(
+  PALETTE_BLUE["normal"],
+  PALETTE_RASPBERRY["normal"],
+  PALETTE_APPLE["normal"],
+  PALETTE_TANGERINE["normal"],
+  PALETTE_UNED["medium"]
+) |>
+  unname() |>
+  setNames(1:5)
+
 # Grid breaks:
 X_BREAKS <- seq(-3, 3, length.out = 5)
 
@@ -238,14 +249,6 @@ $$
 #| fig-asp:   0.6
 #| fig-width: 8
 
-ITEMS_PALETTE <- c(
-  PALETTE_BLUE["normal"],
-  PALETTE_RASPBERRY["normal"],
-  PALETTE_APPLE["normal"]
-) |>
-  unname() |>
-  setNames("prob" |> paste(1:3, sep = '_'))
-
 ITEMS <- tribble(
   ~item, ~a,   ~b,
    1,     1,    0,
@@ -253,8 +256,6 @@ ITEMS <- tribble(
    2,     2.5,  0
 )
 
-logit <- function(x) 1 / (1 + exp(-x))
-irf   <- function(a, b, theta) logit(a * (theta - b))
 
 logit_curve_data <- tibble(
   latent_trait = PROB_AXIS,
@@ -270,7 +271,8 @@ logit_curve_data <- tibble(
   rename_with(str_remove, pattern = '\\.{3}')
 
 logit_curve_data_long <- logit_curve_data |>
-  pivot_longer(starts_with("prob"), names_to = "item", values_to = "prob")
+  pivot_longer(starts_with("prob"), names_to = "item", values_to = "prob") |>
+  mutate(item = item |> str_remove("prob_"))
 
 logit_curve_data_long |>
   ggplot(

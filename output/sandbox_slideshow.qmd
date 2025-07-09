@@ -119,6 +119,17 @@ PALETTE_RASPBERRY <- c(
 F1_COLOR <- unname(PALETTE_BLUE["normal"])
 F2_COLOR <- unname(PALETTE_RASPBERRY["normal"])
 
+# Item colors:
+ITEMS_PALETTE <- c(
+  PALETTE_BLUE["normal"],
+  PALETTE_RASPBERRY["normal"],
+  PALETTE_APPLE["normal"],
+  PALETTE_TANGERINE["normal"],
+  PALETTE_UNED["medium"]
+) |>
+  unname() |>
+  setNames(1:5)
+
 # Grid breaks:
 X_BREAKS <- seq(-3, 3, length.out = 5)
 
