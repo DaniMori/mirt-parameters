@@ -1,11 +1,11 @@
 ---
 title:     |
-  A generalization of multidimensional item response theory parameters
+  Parámetros multidimensionales en Teoría de Respuesta al Ítem:
+  ¡Algo estamos haciendo mal!
 author:    |
   <table>
     <tr>
       <td>Daniel Morillo, Ph.D.</td>
-      <td>Mario Luzardo, Ph.D.</td>
     </tr>
     <tr>
       <td>
@@ -14,30 +14,22 @@ author:    |
           [![](../www/slideshow-assets/orcid.png){height="50"}](https://orcid.org/0000-0003-3021-3878)
         </center>
       </td>
-      <td>
-        <center>
-          [![](../www/slideshow-assets/github-logo.png){height="50"}](https://github.com/mluzardov/)&emsp;
-          [![](../www/slideshow-assets/orcid.png){height="50"}](https://orcid.org/0000-0002-9360-2806)
-        </center>
-      </td>
     </tr>
   </table>
 institute: |
   <table>
-    <!-- # TODO: Fix vertical alignment in logos-->
     <tr>
-      <td style="width: 400px">
-        [![](../www/slideshow-assets/logos_fac_psicologia.svg){height="60"}](https://www.uned.es/universidad/facultades/psicologia.html)
-      </td>
-      <td style="width: 100px">
-        [![](../www/slideshow-assets/logo_udelar.svg){height="120"}](https://udelar.edu.uy)
+      <td>
+        <center>
+          [![](../www/slideshow-assets/logos_fac_psicologia.svg){height="120"}](https://www.uned.es/universidad/facultades/psicologia.html)
+        </center>
       </td>
     </tr>
   </table>
 bibliography:  ../www/Multidimensional-parameters-MCLM.bib
 csl:           ../www/apa-old-doi-prefix.csl
-date:          "2024-07-17"
-date-meta:     "2024-11-27"
+date:          "2024-10-21"
+date-meta:     "2024-11-27" # TODO: Update
 date-format:   long
 editor:
   mode:        source
@@ -46,7 +38,7 @@ editor:
     canonical: true     # TODO: Restore
 execute: 
   cache:       true
-lang:          en
+lang:          es
 knitr:
   # opts_knit: # Does not work, see line 102
   #   root_dir:  here::here()
@@ -4289,6 +4281,27 @@ Pero un investigador no debería dar los parámetros sin más de ese modelo, sin
 \[NEXT\]
 
 Y por supuesto, existen muchos otros modelos psicométricos, muy útiles y aplicados en la investigación en Psicología y Educación, en los cuales no está claro aún cómo generalizar estos resultados al ámbito multidimensional.
+:::
+
+## Últimas palabras
+
+<!-- # TODO: Imagen ilustrativa -->
+
+::: notes
+A este respecto, me gustaría terminar recalcando esto último que he mencionado, aplicado no sólo a cuestiones psicométricas, o de TRI.
+Cuando estaba empezando a preparar este seminario, una de mis inquietudes era la complejidad, tanto conceptual como formal de esta investigación.
+Compartiendo estas inquietudes con algunos compañeros, me aconsejaron utilizar digamos este discurso como excusa para lanzar este "mensaje" en general: La idea de que tenemos que ser muy precavidos a la hora de aplicar estos métodos, sean cuales sean (cuantitativos, cualitativos, o del tipo que sean) sin reflexionar sobre si son los más adecuados o no.
+Y bueno, a este respecto comentar que, no sólo yo, sino el departamento de Metodología al completo, hacemos una tipo de investigación que precisamente se encarga de eso, de intentar entender estos métodos, saber si son los más adecuados, y saber cuándo, cómo, y sobre todo, por qué, aplicarlos en la investigación aplicada (aplicada para nosotros, al menos).
+
+Así que bueno, ya lo sabéis, estamos disponibles en el departamento para colaborar en esas investigaciones, si lo consideráis oportuno, para aplicar los métodos más apropiados a los problemas de investigación que tengáis.
+En mi caso en concreto, no sólo puedo proporcionar cierto "expertise" psicométrico.
+También me dedico mucho a cuestiones de ciencia abierta y reproduciblidad, así que si queréis darle a vuestra investigación un giro en ese sentido, para hacerla más sostenible y alineada con los objetivos de los organismos financiadores (y si no queréis, deberíais ir queriendo), podéis contactar conmigo, y podemos plantear líneas de colaboración.
+Eso sí, me gustaría pediros, si necesitáis colaboración, no sólo metodológica, sino de cualquier tipo, por favor no nos llaméis cuando tengáis un lío de datos, y no sepáis bien cómo resolver la papeleta (no digo que sea vuestro caso, pero me he encontrado con muchos casos, que son verdaderas historias de terror).
+Contad por favor con nosotros desde el momento de escribir vuestro proyecto, para solicitar la financiación, porque es en ese punto en el que se pueden prevér problemas y anticiparse a ellos.
+Porque si una investigación no está bien diseñada desde el principio, teniendo en cuenta estos aspectos metodológicos, de reproducibilidad, etc., si tenemos mala suerte pueden surgir problemas que se puedan resolver sólo con muchísimo trabajo, o incluso que ya nunca se puedan resolver, y tengamos que tirar a la basura todo ese esfuerzo de investigación.
+
+Eso es todo, muchas gracias.
+Y espero vuestras preguntas y comentarios.
 :::
 
 ## References {.smaller}
