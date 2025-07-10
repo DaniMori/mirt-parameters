@@ -442,7 +442,7 @@ The Multidimensional 2PL model is one of many extensions of the 2PL model, which
 It assumes that the probability of a correct response to an item is a function of the linear combination of the latent traits weighted by item discrimination parameters.
 (This here is a vector inner product; the "T" means that the discrimination vector is transposed).
 
-And it has this additional "intercept parameter"; so it is basically a logistic regression with latent predictors.
+And it has this additional "intercept parameter"; so it is basically a logistic multivariate regression with latent predictors.
 
 \[NEXT\]
 
@@ -976,21 +976,19 @@ $$
   \cos \, \mathbf{\alpha}_i = \frac{\mathbf{a}_i}{MDISC_i}
 $$
 
-<br>
-
-::: {style="color:#5c6eb1;"}
+::: {style="color:#5c6eb1; padding-left:300px;"}
 $d_1 = 0$
 :::
 
-::: {style="color:#90214a;"}
+::: {style="color:#90214a; padding-left:300px;"}
 $d_2 = -0.5$
 :::
 
-::: {style="color:#749f4c;"}
+::: {style="color:#749f4c; padding-left:300px;"}
 $d_3 = -0.25$
 :::
 
-::: {style="color:#d76f47;"}
+::: {style="color:#d76f47; padding-left:300px;"}
 $d_4 = 0.25$
 :::
 :::::::
