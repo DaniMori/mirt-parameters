@@ -1072,44 +1072,6 @@ So, we can see that this generalization is quite straightforward.
 However, remember that Reckase explicitly constrained the parameter definitions to items that were "monotonically increasing", not simply "with constant monotony".k
 :::
 
-## Constant monotony {.smaller}
-
-:::::: columns
-:::: {.column width="62%"}
-> \[...\] the negative relation of Item 15 with geometry achievement is particularly puzzling.
-
----@mcdonald_basis_2000 [p. 109]
-
-> This result occurs because $a_1$ for the item is negative, and thus as an examinee's $\theta_1$ ability increases, the chance of answering the item correctly actually decreases.
-
----@ackerman_multidimensional_2005-1 [p. 17]
-::::
-
-::: {.column width="38%"}
-<!-- TODO: Annotate figure? -->
-
-!["ACT Mathematics Usage Test" items](../www/Fig_1-6_Contemporary_Psychometrics.png){fig-align="left"}
-:::
-::::::
-
-::: aside
-Figure taken from @ackerman_multidimensional_2005-1
-:::
-
-::: notes
-However, it is not uncommon to find cases like these in the literature, where the items are not monotonically increasing, and the authors do not suggest to "generalize these definitions".
-
-On the contrary, what we find are these kind of downplaying comments: "particularly puzzling", or "as an examinee’s ability increases, the chance of answering the item correctly actually decreases" (asserting the obvious).
-
-That is why we propose to relax the "increasing monotony assumption", considering items with "constant monotony" instead.
-This includes all items that do not have a latent trait "optimum" to give a positive response, and then decrease in both directions, but rather that the more extreme the trait level, the more extreme the probability (positive or negative) as well, in either direction.
-And this general case also includes the "constant probability" case (as "constant probability" implies no change, so "constantly null monotony").
-
-This regarding so-called "inverse" items.
-Quite straightforward.
-Now, to something also necessary, but not so straightforward: The orthogonality assumption.
-:::
-
 ## Assumptions: Orthogonality {.smaller}
 
 > \[...\] before performing the differentiation, the constraint that Σ cos^2^**α** = 1 is added to the expression for the slope \[...\]
