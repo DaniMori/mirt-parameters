@@ -840,6 +840,10 @@ $$
 :::
 :::::
 
+::: {.fragment .r-center}
+### Generalization: "Constant monotony"
+:::
+
 ::: notes
 However, if we wanted to apply this model to "non-cognitive" items (e.g., personality traits) where the person evaluated can be "agreeing" or "disagreeing", we can have items with "decreasing" probability.
 
@@ -1063,9 +1067,12 @@ mirt_item_coords |>
 
 ::: notes
 Also, with non-null intercepts, the distance is still proportional to its absolute value, and the direction is again given by its sign and the direction of the vector (forward for negative intercepts, backward for positive intercepts).
+
+So, we can see that this generalization is quite straightforward.
+However, remember that Reckase explicitly constrained the parameter definitions to items that were "monotonically increasing", not simply "with constant monotony".k
 :::
 
-## "Inverse" items in the literature {.smaller}
+## Constant monotony {.smaller}
 
 :::::: columns
 :::: {.column width="62%"}
@@ -1073,11 +1080,9 @@ Also, with non-null intercepts, the distance is still proportional to its absolu
 
 ---@mcdonald_basis_2000 [p. 109]
 
-::: fragment
 > This result occurs because $a_1$ for the item is negative, and thus as an examinee's $\theta_1$ ability increases, the chance of answering the item correctly actually decreases.
 
 ---@ackerman_multidimensional_2005-1 [p. 17]
-:::
 ::::
 
 ::: {.column width="38%"}
@@ -1087,31 +1092,22 @@ Also, with non-null intercepts, the distance is still proportional to its absolu
 :::
 ::::::
 
-::: {.fragment .r-center}
-### Generalization: "Constant monotony"
-:::
-
 ::: aside
 Figure taken from @ackerman_multidimensional_2005-1
 :::
 
 ::: notes
-Pero en la literatura nos encontramos casos como estos, que no lo son, y a los autores no se les ocurre decir que "hay que generalizar esas definiciones".
-Más bien, hacen comentarios como estos, restándole importancia al hecho de que los parámetros de discriminación sean negativos ("particularmente misterioso"),...
+However, it is not uncommon to find cases like these in the literature, where the items are not monotonically increasing, and the authors do not suggest to "generalize these definitions".
 
-\[NEXT\]
+On the contrary, what we find are these kind of downplaying comments: "particularly puzzling", or "as an examinee’s ability increases, the chance of answering the item correctly actually decreases" (asserting the obvious).
 
-o afirmando lo obvio (el parámetro de discriminación del ítem es negativo para una dimensión, por lo que la probabilidad de respuesta correcta disminuye al incrementarse su habilidad)
+That is why we propose to relax the "increasing monotony assumption", considering items with "constant monotony" instead.
+This includes all items that do not have a latent trait "optimum" to give a positive response, and then decrease in both directions, but rather that the more extreme the trait level, the more extreme the probability (positive or negative) as well, in either direction.
+And this general case also includes the "constant probability" case (as "constant probability" implies no change, so "constantly null monotony").
 
-\[NEXT\]
-
-En lugar de eso, proponemos que los supuestos de Reckase se "relajen" para considerar ítems con probabilidad "con monotonía constante" (es decir, que no tengan un "pico" u óptimo de rasgo latente para dar una respuesta positiva y luego decrezca), sino que cuanto más extremo sea el nivel de rasgo, más extrema es también la probabilidad (positiva o negativa).
-Este caso general incluye también la probabilidad constante (ya que es monotonía "nula constante", es decir, "el cambio es nulo de manera constante").
-Este tipo de ítems, positivos, negativos, o nulos, se pueden acomodar y modelar fácilmente por un modelo como el logístico de 2 parámetros multidimensional, como hemos visto.
-Ítems que estarían excluidos, por no tener monotonía constante, podrían ser formulaciones como, por ejemplo, "Soy tan extrovertido como la mayoría de mis amigos" (alguien puede decir, "No, soy más introvertido que todos ellos", respuesta negativa con rasgo bajo, o "Qué va, soy el más extrovertido con diferencia", respuesta negativa con rasgo alto).
-
-Bien, esto por lo que respecta a los ítems que denominamos "inversos" (o que tienen parámetros de discrimiinación / pesos factoriales inversos).
-Como veis, esta generalización es necesaria cuando hablamos de medición en el dominio "no cognitivos"; en el cognitivo, ya vimos que no tenía sentido, y de ahí que hiciera falta esta matización.
+This regarding so-called "inverse" items.
+Quite straightforward.
+Now, to something also necessary, but not so straightforward: The orthogonality assumption.
 :::
 
 ## Assumptions: Orthogonality {.smaller}
