@@ -437,7 +437,7 @@ contour_plot
 ::::::
 
 ::: notes
-The Multidimensional 2PL model is one of many extensions of the 2PL model, which in this case is compensatory.
+The Multidimensional 2PL model is one of many extensions of the 2PL model.
 
 It assumes that the probability of a correct response to an item is a function of the linear combination of the latent traits weighted by item discrimination parameters.
 (This here is a vector inner product; the "T" means that the discrimination vector is transposed).
@@ -472,13 +472,13 @@ This results in a response probability function where equal probability points f
 :::
 
 ::: notes
-The problem with the M2PL, and other multidimensional extensions, is that its parameters do not have a clear interpretation in IRT terms, and they cannot be reparameterized.
+The problem with the M2PL is that its parameters do not have a clear interpretation in IRT terms.
 
 \[NEXT\]
 
 That is why Reckase proposes to find a way of describing the characteristics of multidimensional items, taking their dimensionality into account.
 
-He do it in this 1985 paper, and in a subsequent one in 1991...
+He does it in this 1985 paper, and in a subsequent one in 1991...
 :::
 
 ## Multidimensional parameters {.smaller}
@@ -618,14 +618,14 @@ mirt_item_coords |>
 ::: notes
 ...Reckase & McKinley define the item discrimination, which is an extension of the Pythagorean theorem.
 
-Note also that the discrimination can in turn be used to define the item difficulty, as happens in the unidimensional model.
+This discrimination can be used to define the item difficulty, finding a parameterization that parallels the unidimensional 2PL model.
 
-And also, that the difficulty has two components: a "signed distance" from the origin, and a direction.
+Note though that, in this case, the difficulty has two components: a "signed distance" from the origin, and a direction.
 
 \[NEXT\]
 
-It is easier to appreciate this with the graphical representation, that was proposed by Ackerman a few years later, where we can see that the item vector is applied at a point given by the difficulty, and has a length equal to the discrimination.
-Note that the item direction always goes through the origin, and that the sign of the distance (positive in this case) will determine whether the vector is displaced forward or backward along that direction.
+It is easier to appreciate this with the graphical representation, that was proposed by Ackerman a few years later, where we can see that the item vector is applied at a point given by the difficulty (with its distance and direction), and has a length equal to the discrimination.
+The vector direction always goes through the origin, and the sign of the distance (positive in this case), which is the opposite of the intercept sign, will determine whether the vector is displaced forward or backward along that direction.
 :::
 
 ## Assumptions {.smaller}
@@ -643,13 +643,12 @@ Note that the item direction always goes through the origin, and that the sign o
 > \[...\] before performing the differentiation, the constraint that Σ cos^2^**α** = 1 is added to the expression for the slope \[...\]
 
 ::: notes
-However, there are two assumptions that Reckase & McKinley make when obtaining the definition of the multidimensional parameters.
+However, there are two assumptions for defining the multidimensional parameters.
 
-The first is that the probability of answering an item correctly always increases monotonically with respect to each dimension.
+First, that the probability of a correct answer increases monotonically with each dimension.
 
-The second, that constrain that you see there, implies that the item is represented in an orthogonal basis, which is why the discrimination is defined by a "general Pythagorean theorem".
+And second, this constrain you see there, which implies that the item is represented in an orthogonal basis. This is necessary for applying the "general Pythagorean theorem" as we saw before.
 
-So, our purpose in this work is **to relax these two assumptions**.
 :::
 
 ## Increasing monotony
@@ -749,6 +748,8 @@ This would imply that the probability of a correct response would not change wit
 Therefore, the probability does not "increase monotonically".
 
 Nevertheless, with this caveat about null discrimination components, this assumption would be realistic in a "cognitive testing context": The more you know, the more likely you are to give a correct answer.
+These assumptions derive from the traditional application of the model to the cognitive domain, but we want to apply multidimensional IRT to the non-cognitive domain as well, e.g. to personality measures.
+So, our purpose is **to relax these two assumptions**.
 :::
 
 ## Increasing monotony {.smaller}
