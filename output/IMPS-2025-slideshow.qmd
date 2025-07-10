@@ -649,7 +649,6 @@ First, that the probability of a correct answer increases monotonically with eac
 
 And second, this constrain you see there, which implies that the item is represented in an orthogonal basis. This is necessary for applying the "general Pythagorean theorem" as we saw before.
 
-These assumptions derive from the traditional application of the model to the cognitive domain, but we want to apply multidimensional IRT to the non-cognitive domain as well, e.g. to personality measures.
 So, our purpose is **to relax these two assumptions**.
 :::
 
@@ -728,7 +727,7 @@ logit_curve_data_long |>
 :::
 :::::
 
-::::: {.columns .fragment fragment-index="1"}
+::::: {.columns .fragment fragment-index="2"}
 ::: column
 $$
   P(Y_i = 1) = \Phi_L (a_i (\theta - b_i))
@@ -747,13 +746,18 @@ $$
 :::
 
 ::: notes
-However, if we wanted to apply this model to "non-cognitive" items (e.g., personality traits) where the person evaluated can be "agreeing" or "disagreeing", we can have items with "decreasing" probability.
+
+Because they derive from the traditional application of the model to the cognitive domain, but we want to apply multidimensional IRT to non-cognitive items as well, e.g. to personality measures.
+
+\[NEXT\]
+
+Here, we can have items with "decreasing" probability.
 
 \[NEXT\]
 
 Formally, what this would imply is a negative discrimination parameter.
 
-In the multidimensional case, this may imply a mix of positive, negative, and null discrimination parameters.
+In the multidimensional case, this may imply a mix of positive and negative discrimination parameters, even in the same item.
 :::
 
 ## Constant monotony {.smaller}
@@ -766,20 +770,20 @@ $$
   MDISC_i = \sqrt{a_{1i}^2 + ... + a_{ni}^2}
 $$
 
-::: {.fragment fragment-index="1"}
+::: fragment
 $$
   D_i = \frac{-d_i}{MDISC_i}
 $$
 :::
 
-::: {.fragment fragment-index="2"}
+::: fragment
 $$
   \cos \, \mathbf{\alpha}_i = \frac{\mathbf{a}_i}{MDISC_i}
 $$
 :::
 :::::
 
-::: {.column .fragment fragment-index="3"}
+::: {.column .fragment}
 ```{r inverse-item-representation}
 #| fig-align:  center
 #| fig-height: 8
@@ -848,7 +852,7 @@ mirt_item_coords |>
 :::::::
 
 ::: notes
-The generalization is straightforward: The MDISC implies squared values of the discrimination components, so it is always positive and not affected by the sign of the discrimination components.
+The generalization is straightforward: The MDISC implies squared values of the discrimination components (this is the inner product expanded), so it is always positive regardless of the sign of the discrimination components.
 
 \[NEXT\]
 
@@ -856,12 +860,11 @@ The signed distance is also the same,...
 
 \[NEXT\]
 
-...and the direction only needs to take into account the sign of each component when computing the corresponding cosine.
+...and the direction only needs to take into account the sign of each component when computing that corresponding cosine.
 
 \[NEXT\]
 
-Graphically, we can see that each item points in the direction given by its discrimination components.
-In these case, all of them have an absolute value of 1, so the direction is given by the sign of the two components.
+Graphically, we can see that each item points in a direction given by its discrimination components, including their signs.
 :::
 
 ## Constant monotony {.smaller}
@@ -968,10 +971,7 @@ mirt_item_coords |>
 :::::::::
 
 ::: notes
-Also, with non-null intercepts, the distance is still proportional to its absolute value, and the direction is again given by its sign and the direction of the vector (forward for negative intercepts, backward for positive intercepts).
-
-So, we can see that this generalization is quite straightforward.
-However, remember that Reckase explicitly constrained the parameter definitions to items that were "monotonically increasing", not simply "with constant monotony".k
+And the displacement from the origin is again given by the sign of the signed distance (so, opposite to the intercept sign).
 :::
 
 ## Assumptions: Orthogonality {.smaller}
