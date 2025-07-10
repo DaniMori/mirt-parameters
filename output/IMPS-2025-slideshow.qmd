@@ -843,118 +843,34 @@ However, if we wanted to apply this model to "non-cognitive" items (e.g., person
 \[NEXT\]
 
 Formally, what this would imply is a negative discrimination parameter.
+
+In the multidimensional case, this may imply a mix of positive, negative, and null discrimination parameters.
 :::
 
-## Generalization: Inverse items {.smaller}
-
-::: notes
-Si recordáis la "función característica del ítem", esto consiste simplemente en un valor negativo en el parámetro $a$; eso hace que la probabilidad sea decreciente.
-
-Llevado al caso multidimensional, lo que nos podemos encontrar es con ítems que por ejemplo tengan todos los valores de discriminación negativos, o algunos negativos y otros positivos.
-Pensad por ejemplo que tenemos el problema de los "sesgos de respuesta".
-Vamos a imaginar que alguien estuviera respondiendo con un sesgo de "deseabilidad social" (intenta dar una buena imagen de sí mismo o de sí misma, de manera consciente o no).
-A un ítem como este, tendería a responder que no, dado ese sesgo de deseabilidad social, al margen de cómo autoevalúe su verdadero nivel de responsabilidad.
-Por lo tanto, tendríamos un ítem con dos valores negativos de discriminación, uno en la dimensión de responsabilidad, y otro en la dimensión de deseabilidad social.
-Sin embargo, consideremos ahora que estamos modelando un sesgo de "aquiescencia", que hace que la gente tienda a estar de acuerdo con todo, o a decir que sí a todo sin un criterio muy reflexivo ("¿Descuidas tus obligaciones? Mmmmm... sí"; "¿Atiendes tus obligaciones con diligencia? Mmmmm... sí").
-Cuanto más aquiescente sea una persona (a igual responsabilidad) mayor será su tendencia o probabilidad a responder afirmativamente al ítem.
-Sin embargo, cuanto más responsable sea una persona (a igual aquiescencia) menor será su tendencia (o probabilidad) a responder afirmativamente.
-En ese caso, tendríamos un ítem con un valor negativo de discriminación en la dimensión de responsabilidad, y uno positivo en la de aquiescencia.
-:::
-
-## Generalization: Inverse items
+## Constant monotony {.smaller}
 
 <br>
 
+::::::: columns
+::::: column
 $$
   MDISC_i = \sqrt{a_{1i}^2 + ... + a_{ni}^2}
 $$
 
-::: fragment
+::: {.fragment fragment-index="1"}
 $$
   D_i = \frac{-d_i}{MDISC_i}
 $$
 :::
 
-::: fragment
+::: {.fragment fragment-index="2"}
 $$
   \cos \, \mathbf{\alpha}_i = \frac{\mathbf{a}_i}{MDISC_i}
 $$
 :::
+:::::
 
-::: notes
-Si vemos la expresión de los parámetros multidimensionales, podemos prevér cómo van a ser en estos casos.
-Aquí he preferido representar la discriminación como suma de cuadrados, en lugar de como el producto matricial, pero es lo mismo, ¿os acordáis?
-El primer elemento de un vector por el primero del otro, y asi sucesivamente...
-todos sumados.
-Sólo que en este caso el primer y el segundo vector son el mismo, así que es la suma de los elementos del vector al cuadrado.
-Por lo tanto, la discriminación multidimensional siempre va a ser positiva.
-¿Lo veis claro?
-
-Por otro lado, la distancia (con signo), al depender sólo de la intersección y la discriminación multidimensional, nos da igual que los valores de la discriminación sean negativos.
-Siempre va a cumplir que su desplazamiento es "inverso" al valor indicado por la intersección, como indicábamos antes.
-
-La dirección sin embargo tiene una peculiaridad, y es que vemos que cada uno de los cosenos puede tener un signo distinto, que va a ser el mismo que el del valor de la discriminación para esa dimensión.
-Eso lo que va a hacer es que el sentido del item en cada una de esas dimensiones venga determinado por el signo de ese valor.
-:::
-
-## Generalization: Inverse items {.smaller}
-
-::::::::: columns
-::::::: column
-::: {.r-stack style="color:#5c6eb1;"}
-$$
-  \begin{matrix}
-    \mathbf{a}_1 &=
-      \begin{bmatrix}
-        1 \\
-        1
-      \end{bmatrix} &
-    d_1 = 0
-  \end{matrix}
-$$
-:::
-
-::: {.r-stack style="color:#90214a;"}
-$$
-  \begin{matrix}
-    \mathbf{a}_2 &=
-      \begin{bmatrix}
-         1 \\
-        -1
-      \end{bmatrix} &
-    d_2 = 0
-  \end{matrix}
-$$
-:::
-
-::: {.r-stack style="color:#749f4c;"}
-$$
-  \begin{matrix}
-    \mathbf{a}_3 &=
-      \begin{bmatrix}
-        -1 \\
-        -1
-      \end{bmatrix} &
-    d_3 = 0
-  \end{matrix}
-$$
-:::
-
-::: {.r-stack style="color:#d76f47;"}
-$$
-  \begin{matrix}
-    \mathbf{a}_4 &=
-      \begin{bmatrix}
-        -1 \\
-         1
-      \end{bmatrix} &
-    d_4 = 0
-  \end{matrix}
-$$
-:::
-:::::::
-
-::: column
+::: {.column .fragment fragment-index="3"}
 ```{r inverse-item-representation}
 #| fig-align:  center
 #| fig-height: 8
@@ -1020,74 +936,59 @@ mirt_item_coords |>
   )
 ```
 :::
-:::::::::
+:::::::
 
 ::: notes
-Veamos un ejemplo: En el ítem 1 ambos cosenos son positivos, luego ambos ánculos son menores de 90º.
-El ítem está en el primer cuadrante.
+The generalization is straightforward: The MDISC implies squared values of the discrimination components, so it is always positive and not affected by the sign of the discrimination components.
 
-El segundo ítem va a tener un coseno positivo (ángulo menor que 90º) y uno negativo, por lo que será mayor que 90º; por tanto, apunta en el sentido negativo de ese eje.
-El ángulo es 180º menos el ángulo que tendría ese mismo coseno si fuera positivo.
+\[NEXT\]
 
-En el tercer ítem pasa lo mismo, pero con los dos cosenos negativos (y por tanto, ángulos mayores que 90º), y en el cuarto como el segundo pero al revés.
+The signed distance is also the same,...
 
-Es decir, las propiedades algebraicas de la discriminación determinan las propiedades geométricas; y vemos cómo se puede visualizar gráficamente con facilidad.
+\[NEXT\]
+
+...and the direction only needs to take into account the sign of each component when computing the corresponding cosine.
+
+\[NEXT\]
+
+Graphically, we can see that each item points in the direction given by its discrimination components.
+In these case, all of them have an absolute value of 1, so the direction is given by the sign of the two components.
 :::
 
-## Generalization: Inverse items {.smaller}
+## Constant monotony {.smaller}
+
+<br>
 
 ::::::::: columns
 ::::::: column
-::: {.r-stack style="color:#5c6eb1;"}
 $$
-  \begin{matrix}
-    \mathbf{a}_1 &=
-      \begin{bmatrix}
-        1 \\
-        1
-      \end{bmatrix} &
-    d_1 = 0
-  \end{matrix}
+  MDISC_i = \sqrt{a_{1i}^2 + ... + a_{ni}^2}
 $$
+
+$$
+  D_i = \frac{-d_i}{MDISC_i}
+$$
+
+$$
+  \cos \, \mathbf{\alpha}_i = \frac{\mathbf{a}_i}{MDISC_i}
+$$
+
+<br>
+
+::: {style="color:#5c6eb1;"}
+$d_1 = 0$
 :::
 
-::: {.r-stack style="color:#90214a;"}
-$$
-  \begin{matrix}
-    \mathbf{a}_2 &=
-      \begin{bmatrix}
-         1 \\
-        -1
-      \end{bmatrix} &
-    d_2 = -0.5
-  \end{matrix}
-$$
+::: {style="color:#90214a;"}
+$d_2 = -0.5$
 :::
 
-::: {.r-stack style="color:#749f4c;"}
-$$
-  \begin{matrix}
-    \mathbf{a}_3 &=
-      \begin{bmatrix}
-        -1 \\
-        -1
-      \end{bmatrix} &
-    d_3 = -0.5
-  \end{matrix}
-$$
+::: {style="color:#749f4c;"}
+$d_3 = -0.25$
 :::
 
-::: {.r-stack style="color:#d76f47;"}
-$$
-  \begin{matrix}
-    \mathbf{a}_4 &=
-      \begin{bmatrix}
-        -1 \\
-         1
-      \end{bmatrix} &
-    d_4 = 0.25
-  \end{matrix}
-$$
+::: {style="color:#d76f47;"}
+$d_4 = 0.25$
 :::
 :::::::
 
@@ -1101,7 +1002,7 @@ mirt_item <- tribble(
   ~item, ~a_1, ~a_2, ~d,
   1,      1,    1,    0,
   2,      1,   -1,   -0.5,
-  3,     -1,   -1,   -0.5,
+  3,     -1,   -1,   -0.25,
   4,     -1,    1,    0.25
 )
 
@@ -1160,17 +1061,7 @@ mirt_item_coords |>
 :::::::::
 
 ::: notes
-Si la intersección es distinta de cero, como decíamos antes: El desplazamiento del ítem es opuesto al sentido en el que apunta el ítem.
-
-Si la intersección es negativa, como en los ítems 2 y 3, el vector se desplaza "hacia adelante" en el sentido de la cabeza de la flecha.
-Es decir, el ítem es "más difícil en general, o menos atractivo", y la región donde es relativamente fácil acertar el ítem (o estar de acuerdo con él) disminuye.
-
-Si la intersección es negativa, como en el ítem 1, el vector se desplaza "hacia atrás"; o sea, el ítem es "en general más fácil o atractivo": La región donde es fácil acertar o estar de acuerdo con el ítem se amplía.
-
-Y da igual en qué dirección apunten los vectores; esto se cumple en todos los casos.
-
-Esta generalización es bastante evidente, y se puede aplicar sin problema a ítems no cognitivos.
-Sin embargo, hay que tener en cuenta que Reckase explicitaba como condición que los ítems tenían que ser "monotonamente crecientes".
+Also, with non-null intercepts, the distance is still proportional to its absolute value, and the direction is again given by its sign and the direction of the vector (forward for negative intercepts, backward for positive intercepts).
 :::
 
 ## "Inverse" items in the literature {.smaller}
