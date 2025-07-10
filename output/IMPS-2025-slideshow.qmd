@@ -438,7 +438,11 @@ contour_plot
 
 ::: notes
 The Multidimensional 2PL model is one of many extensions of the 2PL model, which in this case is compensatory.
+
 It assumes that the probability of a correct response to an item is a function of the linear combination of the latent traits weighted by item discrimination parameters.
+(This here is a vector inner product; the "T" means that the discrimination vector is transposed).
+
+And it has this additional "intercept parameter"; so it is basically a logistic regression with latent predictors.
 
 \[NEXT\]
 
