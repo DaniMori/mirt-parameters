@@ -42,8 +42,8 @@ date-format:   long
 editor:
   mode:        source
   markdown: 
-    wrap:      sentence # TODO: Restore
-    canonical: true     # TODO: Restore
+    wrap:      sentence
+    canonical: true # TODO: Restore
 execute: 
   cache:       true
 lang:          en
@@ -761,6 +761,12 @@ The signed distance is also the same, and the direction only needs to take into 
 Graphically, we can see that each item points in a direction given by its discrimination components, including their signs (so, 1 1, 1 -1, etc.).
 
 And the displacement from the origin is again with respect to the pointing direction.
+
+This seems obvious enough, but we must explicitly state that this definitions are valid in these cases, and that they have the same interpretation.
+
+\[PAUSE\]
+
+Now, to the "not so obvious"...
 :::
 
 ## Assumptions: Orthogonality {.smaller}
