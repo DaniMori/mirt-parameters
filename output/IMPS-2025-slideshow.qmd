@@ -1808,85 +1808,9 @@ So if you want to actually "stretch" the cloud of points in the distribution, yo
 \[NEXT\]
 
 ...as in the coordinate axes C.
-:::
 
-## Latent space vs. test space {.smaller}
-
-> It has been suggested by some researchers that the angle between the axes represents the degree of correlation.
-> However, for sake of clarity, an orthogonal axes system is used in which distance measures and vectors can be easily calculated, understood, and interpreted.
-
----@ackerman_multidimensional_2005-1 [p. 16]
-
-::::::::: columns
-::::: column
-::: {.fragment fragment-index="1"}
-$$
-  P(Y_i = 1) = \Phi_L (\mathbf{a}_i^T \mathbf{\theta} + d_i)
-$$
-:::
-
-::: {.fragment fragment-index="3"}
-$$
-  P(Y_i = 1) = \Phi_L ({\mathbf{a}^*_i}^T \mathbf{\theta}^* + d_i)
-$$
-:::
-:::::
-
-::::: column
-::: {.fragment fragment-index="2"}
-$$
-  \mathbf{\theta}^* = \mathbf{P} \mathbf{\theta}
-$$
-:::
-
-::: {.fragment fragment-index="4"}
-$$
-  \mathbf{a}^*_i = \mathbf{Q} \mathbf{a}_i \\
-$$
-:::
-:::::
-:::::::::
-
-::: fragment
-$$
-  \mathbf{a}_i^T \mathbf{\theta} =
-    {\mathbf{a}^*_i}^T \mathbf{\theta}^* =
-    \mathbf{a}_i^T \mathbf{Q}^T \mathbf{P} \mathbf{\theta}
-$$
-:::
-
-::: fragment
-$$
-  \mathbf{Q} = (\mathbf{P}^{-1})^T
-$$
-:::
-
-::: notes
-Viendo que en la literatura hay afirmaciones como esta, no me resulta totalmente descorazonador.
-Parece que no soy el único al que le ha supuesto un esfuerzo entenderlo (resultados de la "encuesta"?).
-
-Pues bien, lo que ocurre en realidad es lo siguiente:
-
-\[NEXT\]
-
-Este es el modelo de TRI multidimensional, recordaréis (ya lo presentamos, es como un modelo de regresión multivariada, donde los predcitores, $\theta$ son variables latentes).
-El modelo tiene que ser invariante; es decir, tiene que dar igual qué sistema de coordenadas usemos para representarlo (y esto por cierto también tiene su paralelismo en análisis factorial).
-
-\[NEXT\]
-
-Así que si transformamos los rasgos latentes de las personas a un sistema de coordenadas ortogonal, los ítems tienen que transformarse también.
-
-\[NEXT\]
-
-Pero recordaréis que llamé Q a su matriz de transformación, mientras que a la de los rasgos latentes la llamé P.
-
-\[NEXT\]
-
-Claro, para que se cumpla la invarianza, se tiene que cumplir esta igualdad: Este término debe ser el mismo, da igual el sistema de coordenadas que utilice, y por lo tanto P y Q no pueden ser la misma matriz.
-
-\[NEXT\]
-
-En realidad, para transformar los ítems hay que usar la matriz inversa (inversa traspuesta, más concretamente) de la matriz de transformación de los rasgos latentes.
+But how is our intuition so wrong then?
+Well, the truth is that it is not.
 :::
 
 ## Latent space vs. test space {.smaller}
@@ -1894,43 +1818,83 @@ En realidad, para transformar los ítems hay que usar la matriz inversa (inversa
 <br>
 
 ::::::: columns
-::::: column
-<center>Espacio latente</center>
+:::: column
+$$
+  P(Y_i = 1) = \Phi_L (\mathbf{a}_i^T \mathbf{\theta} + d_i)
+$$
 
-:::: r-stack
-```{r grid-latent-space}
-#| fig-width: 6.5
-ls_grid
-```
+::: {.fragment fragment-index="1"}
+$$
+  P(Y_i = 1) = \Phi_L ({\mathbf{a}^*_i}^T \mathbf{\theta}^* + d_i)
+$$
+:::
+::::
 
-::: fragment
+:::: column
+$$
+  \mathbf{\theta}^* = \mathbf{P} \mathbf{\theta}
+$$
+
+::: {.fragment fragment-index="1"}
+$$
+  \mathbf{a}^*_i = \mathbf{Q} \mathbf{a}_i \\
+$$
+:::
+::::
+:::::::
+
+::: {.fragment fragment-index="2"}
+$$
+  \mathbf{a}_i^T \mathbf{\theta} =
+    {\mathbf{a}^*_i}^T \mathbf{\theta}^* =
+    \mathbf{a}_i^T \mathbf{Q}^T \mathbf{P} \mathbf{\theta}
+$$
+:::
+
+::: {.fragment fragment-index="2"}
+$$
+  \mathbf{Q} = (\mathbf{P}^{-1})^T
+$$
+:::
+
+::: notes
+The model probability must be invariant to a change of basis like this.
+
+\[NEXT\]
+
+So, the item vector must be transformed as well.
+
+\[NEXT\]
+
+And its transformation must be the opposite of the latent trait transformation.
+:::
+
+## Latent space vs. test space {.smaller}
+
+<br>
+
+::::: columns
+::: column
+<center>Latent space</center>
+
 ```{r scatter-latent-space}
 #| fig-width: 6.5
 ls_scatter
 ```
 :::
-::::
-:::::
 
-::: {.column .fragment}
-<center>Espacio test</center>
+::: column
+<center>Test space</center>
 
 ```{r grid-test-space}
 #| fig-width: 6.5
 ts_grid
 ```
 :::
-:::::::
+:::::
 
 ::: notes
-Y esto nos ha permitido "descubrir" (o darnos cuenta, más bien) de que hay dos "espacios vectoriales" distintos, uno en el que se encuentran las coordenadas de rasgo latente (las puntuaciones factoriales),...
-
-\[NEXT\]
-
-...
-y otro distinto, que es el espacio en el que se encuentran las coordenadas de los ítems, y que es donde en realidad habría que representarlos.
-
-Porque en este espacio es donde los ángulos entre los ejes son los que verdaderamente son una representación geométrica de las correlaciones entre las variables latentes.
+As it turns out, this gives a space where the axes actually do represent faithfully the latent covariances.
 :::
 
 ## Latent space vs. test space {.smaller}
@@ -1966,24 +1930,10 @@ INNER_PROD_DISCR_EQ  <- latex_eq(INNER_PROD_DISCR, INNER_PROD_DISCR_DEF)
 
 <br>
 
-@mahalanobis_reprint_2018:
-
-::::: columns
-::: {.column width="50%"}
-<center>$`r MAH_DIST_EQ`$</center>
-:::
-
-::: {.column .fragment width="50%"}
-$`r INNER_PROD_INV_COV_EQ`$
-:::
-:::::
-
-<br>
-
 ::: fragment
 > \[...\] the latent space should be regarded as a general Euclidean space with its *inner product* defined by $`r INNER_PROD_EQ`$.
 
----@zhang_theoretical_1999 [p. 221]
+--- @zhang_theoretical_1999 [p. 221]
 :::
 
 ::: fragment
@@ -1991,33 +1941,15 @@ $`r INNER_PROD_INV_COV_EQ`$
 >
 > $`r INNER_PROD_DISCR_EQ`$
 
----@zhang_theoretical_1999 [p. 221]
+--- @zhang_theoretical_1999 [p. 221]
 :::
 
 ::: notes
-Esto da lugar a algo muy curioso, y es que la "norma" de un punto en el espacio latente (la longitud de un vector aplicado en el origen que termina en ese punto) viene determinada por la distancia de Mahalanobis (esto es una reimpresión de 1936, no penséis que es una cosa de anteayer).
+This is actually not new, it was already noted by Zhang & Stout, more than 25 years ago, to solve a different problem, but unfortunately they didn't provide a deduction as we do here.
 
-\[NEXT\]
+But the important thing here, is that we have two different spaces: One for the latent traits and one for the items.
 
-Y eso se debe a que, para que la transformación en el espacio latente se cumpla, esa matriz de transformación (la que llamababmos P) tiene que ser "raíz cuadrada" de la inversa de la matriz de covarianzas.
-
-\[NEXT\]
-
-Y, curiosamente también, aparece en la literatura, en el año 1999, en un artículo que no tiene nada que ver con esto.
-Lo menciona de soslayo y no profundiza en su deducción como hemos hecho aquí.
-Solamente lo utiliza para resolver un problema "parcial" que se encuentra en la deducción de un índice de dimensionalidad, distinto de los parámetros de los que estamos hablando.
-Pero podía haber obviado este problema y haber utilizado coordenadas ortogonales, sin importarle si había o no correlaciones entre los rasgos latentes, como ha hecho todo el mundo (antes y después que ellos).
-
-Así que, todos mis respetos por estos autores.
-
-Sin embargo claro, ellos estaban hablando de otra cosa, y sólo tocaban este tema de paso.
-Así que al final eso se quedó ahí, y nadie ha hecho caso en 25 años a lo que dijeron Zhang y Stout.
-La gente ha usado los modelos, hecho simulaciones, etc., usando distribuciones correlacionadas, y ha usado las fórmulas de Reckase para transformar entre parámetros multidimensionales y los parámetros "lineales" (podríamos llamarlos, los de la formulación original) del modelo.
-
-\[NEXT\]
-
-Y lo más importante: Esto nos demuestra efectivamente que tenemos dos espacios distintos: Uno para los parámetros de las personas (espacio latente) y otro para los ítems (espacio test).
-Y esto es así porque la operación del producto interno está definida de manera distinta en los dos espacios; si la matriz del producto interno es la inversa de las covarianzas en el espacio latente, entonces en el espacio test, donde la transformación del parámetro de discriminación es inversa (como recordaréis), pues la matriz del producto interno es la matriz de covarianzas.
+And knowing these...
 :::
 
 ## Generalized multidimensional parameters
