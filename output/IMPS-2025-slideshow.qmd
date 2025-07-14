@@ -1952,17 +1952,18 @@ But the important thing here, is that we have two different spaces: One for the 
 And knowing these...
 :::
 
-## Generalized multidimensional parameters
+## Generalized MIRT parameters {.smaller}
 
 <br>
 
+::::: columns
+::: column
 $$
 `r latex_eq(MDISC_COV_PARAM, DISCR_VECTOR_COV_MODULE)`
 $$
 
 <br>
 
-::: fragment
 $$
 `r latex_eq(
      MIL_COV_PARAM,
@@ -1971,68 +1972,29 @@ $$
 $$
 :::
 
-::: notes
-Si tenemos en cuenta las correlaciones (más generalmente, covarianzas) de la distribución de puntuaciones factoriales, lo que obtenemos son estas expresiones para los parámetros multidimensionales.
-
-Muy importante, la distancia con signo y la discriminación multidimensional son iguales, no importa en qué espacio (latente, o test) queramos obtenerlas y representarlas.
-Pero los cosenos directores es necesario calcularlos en el espacio test, no en el espacio de puntuaciones latentes, como decía Reckase, porque este es el espacio que va a representar en realidad la relación entre las variables latentes.
-:::
-
-## Complete graphical representation
-
+::: column
 ```{r item-plot-out}
-#| fig-cap:   Orthogonal (left) and oblique (right) test space
+#| fig-cap:   Item representation in non-orthonormal test space
 #| fig-align: center
-#| fig-asp:     .5
-#| fig-width: 13
-
-plot_orth <- plot_orth +
-  scale_color_manual(values = ITEMS_PALETTE) +
-  theme(
-    axis.ticks       = element_blank(),
-    legend.title     = element_blank(),
-    panel.grid.minor = element_blank()
-  )
-
-plot_oblique <- plot_oblique +
+plot_oblique +
   scale_color_manual(values = ITEMS_PALETTE, guide = NULL) +
-  theme(axis.ticks = element_blank())
-
-plot_orth + plot_oblique ## TODO: Tema ggplot
+  theme(axis.ticks = element_blank()) ## TODO: Tema ggplot
 ```
-
-## Conclusions
-
-<br>
-
-Generalization of multidimensional parameters
-
--   To constant-monotony items
-
--   To oblique axes
-
-<br>
-
-::: fragment
-Distinction latent space - test space
 :::
+:::::
 
 ::: notes
-En conclusión, lo que hemos propuesto en este artículo consiste en una generalización:
+The complete definition and representation of the parameters is as you see here.
 
--   A ítems con monotonía constante, creciente, decreciente o nula.
-    Esto se venía haciendo ya como hemos visto, pero creemos que hacía falta formalizarlo.
-    No basta con hacerlo y punto, si Reckase dijo que las discriminaciones tiene que ser positivas, tenemos que demostrar que también vale para discriminaciones negativas o nulas (monotonía decreciente, o probabilidad constante).
+\[IF THERE IS TIME\]
 
--   A Ejes oblicuos, las cuales consideramos que son necesarias para representar distribuciones de puntuaciones de rasgo correlacionadas, en general.
-    Hemos visto que esto ya lo mencionaron Zhang y Stout, hace 25 años, pero no proporcionaron una "deducción" de estos parámetros multidimensionales, cosa que nosotros hacemos.
+You can see here:
 
-\[NEXT\]
+- Items in the first or third quadrant are "stretched"; their MDISC become larger, while the opposite happens in the other two quadrants (these two items have components with the same absolute values)
 
-Por último, es imortante recalcar este "descubrimiento" (o "redescubrimiento", más bien) del espacio test, ya que tenemos que ser muy conscientes de que los ítems y las personas están en espacios vectoriales distintos.
-Aunque esto parezca solamente un "artefacto matemático" (y en el fondo lo es), hemos visto que es verdaderamente crucial tenerlo en cuenta para entender bien los modelos que estamos utilizando.
-Además, esta "distinción" se halla también en los modelos factoriales: Existe lo que se denominan "ejes primarios" y "ejes de referencia", propuestos por Thurstone hace años (pero que prácticamente no se utilizan ni tienen en consideración).
-<!-- # TODO: Hace cuántos años? (Thurstone) --> Sin embargo, cuidado con esto, porque no está claro que esos espacios en TRI multidimensional se puedan asimilar directamente a los ejes en un modelo de AF.
+- Simple items (in one of the axis) are rotated, but their MDISC is not affected.
+
+- Also, simple iems are not necessarily orthogonal to the other axis, while complex items can be.
 :::
 
 ## To be continued...
