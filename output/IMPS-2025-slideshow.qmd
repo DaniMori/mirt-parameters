@@ -1218,11 +1218,169 @@ What we actually need is to compute the multidimensional parameters in this gene
 
 <br>
 
+:::::::::: columns
+:::::: column
+$$
+  cor (\mathbf{\theta}) = \mathbf{\Sigma}
+$$
+
+::: {.fragment fragment-index="1"}
+$$
+  \mathbf{\Sigma} = \begin{bmatrix}
+      1 & 0.5 \\
+      0.5 & 1
+    \end{bmatrix}
+$$
+:::
+
+::: {.fragment fragment-index="2"}
+$$
+  \mathbf{\theta}^* = \mathbf{P} \mathbf{\theta}
+$$
+:::
+
+::: {.fragment fragment-index="2"}
+$$
+  cor (\mathbf{\theta}^*) =
+    \mathbf{\Sigma}^* =
+    \begin{bmatrix}
+      1 & 0 \\
+      0 & 1
+    \end{bmatrix}
+$$
+:::
+::::::
+
+::::: column
+:::: {.r-stack .fragment .fade-in fragment-index="1"}
+```{r corr-traits-example}
+#| fig-width:  5.5
+#| fig-height: 5.5
+
+set.seed(7117)
+
+corr_matrix <- matrix(c(1, .5, .5, 1), nrow = 2)
+
+thetas <- rmvnorm(10^4, sigma = corr_matrix) |>
+  as_tibble(.name_repair = ~paste0("trait_", 1:2)) |>
+    rownames_to_column("i")
+
+thetas |>
+  ggplot(mapping = aes(trait_1, trait_2)) +
+  geom_vline(xintercept = 0, linewidth = GRID_WIDTH) +
+  geom_hline(yintercept = 0, linewidth = GRID_WIDTH) +
+  geom_point(alpha = .33, shape = 16, colour = I(PALETTE_BLUE["normal"])) +
+  scale_x_continuous(
+    minor_breaks = NULL,
+    limits = c(-4, 4),
+    expand = expansion(),
+    name   = NULL,
+    sec.axis = dup_axis(name = "*&theta;*~2~", labels = NULL)
+  ) +
+  scale_y_continuous(
+    minor_breaks = NULL,
+    limits = c(-4, 4),
+    expand = expansion(),
+    name   = NULL,
+    sec.axis = dup_axis(name = "*&theta;*~1~", labels = NULL)
+  ) +
+  coord_fixed() +
+  theme(
+    axis.ticks       = element_blank(),
+    axis.line        = element_blank(),
+    axis.title       = element_markdown(),
+    axis.title.y     = element_markdown(),
+    panel.grid.major = element_line(linetype = "17", linewidth = GRID_WIDTH)
+  )
+```
+
+::: {.fragment .fade-in fragment-index="4"}
+```{r corr-traits-transf-example}
+#| fig-width:  5.5
+#| fig-height: 5.5
+
+# This is a square root of the correlation matrix, then inverted and transposed:
+orth_matrix <- c(1, 0, .5, sqrt(.75)) |> matrix(nrow = 2) |> solve() |> t()
+
+thetas_transf <- thetas |>
+  pivot_longer(starts_with("trait")) |>
+  group_by(i) |>
+  mutate(value = orth_matrix %*% value |> drop()) |>
+  pivot_wider() |>
+  ungroup()
+
+thetas_transf |>
+  ggplot(mapping = aes(trait_1, trait_2)) +
+  geom_vline(xintercept = 0, linewidth = GRID_WIDTH) +
+  geom_hline(yintercept = 0, linewidth = GRID_WIDTH) +
+  geom_point(alpha = .33, shape = 16, colour = I(PALETTE_BLUE["normal"])) +
+  scale_x_continuous(
+    minor_breaks = NULL,
+    limits = c(-4, 4),
+    expand = expansion(),
+    name   = NULL,
+    sec.axis = dup_axis(name = "*&theta;*^*^~2~", labels = NULL)
+  ) +
+  scale_y_continuous(
+    minor_breaks = NULL,
+    limits = c(-4, 4),
+    expand = expansion(),
+    name   = NULL,
+    sec.axis = dup_axis(name = "*&theta;*^*^~1~", labels = NULL)
+  ) +
+  coord_fixed() +
+  theme(
+    axis.ticks       = element_blank(),
+    axis.line        = element_blank(),
+    axis.title       = element_markdown(),
+    axis.title.y     = element_markdown(),
+    panel.grid.major = element_line(linetype = "17", linewidth = GRID_WIDTH)
+  )
+```
+:::
+::::
+:::::
+::::::::::
+
+::: notes
+So, let's say $\theta$ is multivariate normal with covariane matrix $\mathbf{\Sigma}$.
+
+\[NEXT\]
+
+For the sake of the example, let's say it has unitary variances with a 0,5 correlation.
+
+\[NEXT\]
+
+Now, we can apply a "transformation" in the latent space that results in an identity covariance matrix.
+
+\[NEXT\]
+
+And if we want the geometrical space to be a representation of the latent space, the meaningful way is to represent these coordinates in an orthonormal basis (the covariane matrix is an identity matrix, the basis also forms an identity matrix).
+:::
+
+## Oblique axes {.smaller}
+
+<br>
+
 :::::: columns
 ::: {.column width="33%"}
 ```{r}
 #| fig-width:  5.5
 #| fig-height: 5.5
+
+ts_basis <- cbind(
+  c(1, 0),
+  c(sqrt(.25), sqrt(.75))
+)
+ls_basis <- t(solve(ts_basis))
+
+thetas_transf <- thetas |>
+  group_by(i) |>
+  pivot_longer(starts_with("trait")) |>
+  mutate(value = ls_basis %*% value |> drop()) |>
+  pivot_wider() |>
+  ungroup()
+
 thetas_transf |>
   ggplot(mapping = aes(trait_1, trait_2)) +
   geom_point(alpha = .33, shape = 16, colour = I(PALETTE_BLUE["normal"])) +
@@ -1520,11 +1678,6 @@ rot_grid
 
 ```{r grid-ts-basis}
 #| fig-width: 5
-ts_basis <- cbind(
-  c(1, 0),
-  c(sqrt(.25), sqrt(.75))
-)
-
 ts_grid <- transform_grid(ts_basis)
 
 ts_grid
@@ -1536,8 +1689,6 @@ ts_grid
 
 ```{r grid-ls-basis}
 #| fig-width: 5
-ls_basis <- t(solve(ts_basis))
-
 ls_grid <- transform_grid(ls_basis)
 
 ls_grid
@@ -1545,14 +1696,10 @@ ls_grid
 :::
 ::::::
 
-::: fragment
 [Answers in 3, 2, 1...](https://wall.sli.do/event/dPunB4BMx3S8hfSjaFSuFh?section=ae77dd00-34fb-4600-9677-337a65b04b83)
-:::
 
 ::: notes
 So, here are three possible options; one of them is the correct one.
-
-\[NEXT\]
 
 Take a few seconds to answer and we will see next which is the correct one.
 :::
@@ -1567,7 +1714,7 @@ Take a few seconds to answer and we will see next which is the correct one.
 
 ```{r scatter-orthogonal-rotation}
 #| fig-width: 5
-thetas_transf <- thetas |>
+thetas_transf_rot <- thetas |>
   group_by(i) |>
   pivot_longer(starts_with("trait")) |>
   mutate(value = rot_basis %*% value |> drop()) |>
@@ -1576,7 +1723,7 @@ thetas_transf <- thetas |>
 
 rot_grid +
   geom_point(
-    data    = thetas_transf,
+    data    = thetas_transf_rot,
     mapping = aes(trait_1, trait_2),
     alpha   = .33,
     shape   = 16,
@@ -1596,7 +1743,7 @@ rot_grid +
 ::: fragment
 ```{r scatter-ts-basis}
 #| fig-width: 5
-thetas_transf <- thetas |>
+thetas_transf_wrong <- thetas |>
   group_by(i) |>
   pivot_longer(starts_with("trait")) |>
   mutate(value = ts_basis %*% value |> drop()) |>
@@ -1605,7 +1752,7 @@ thetas_transf <- thetas |>
   
 ts_grid +
   geom_point(
-    data    = thetas_transf,
+    data    = thetas_transf_wrong,
     mapping = aes(trait_1, trait_2),
     alpha   = .33,
     shape   = 16,
@@ -1627,13 +1774,6 @@ ts_grid +
 ::: fragment
 ```{r scatter-ls-basis}
 #| fig-width: 5
-thetas_transf <- thetas |>
-  group_by(i) |>
-  pivot_longer(starts_with("trait")) |>
-  mutate(value = ls_basis %*% value |> drop()) |>
-  pivot_wider() |>
-  ungroup()
-
 ls_scatter <- ls_grid +
   geom_point(
     data    = thetas_transf,
