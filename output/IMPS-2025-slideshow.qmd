@@ -2007,37 +2007,22 @@ You can see here:
 
 ::: fragment
 -   M2PL model extensions: Graded scale, nominal response, 3PL...
-:::
 
 <br>
 
-::: fragment
 -   Other models
 :::
 
 ::: notes
-Esta de hecho puede ser una futura línea de investigación.
-Puede parecer evidente el paralelismo (o al menos a mí me lo parece), pero si una cosa me ha enseñado el estar trabajando en este problema de los parámetros (y toparme con el problema de los dos espacios), es que no hay que fiarse de las apariencias.
-Por eso aplicamos el método científico (el método puramente deductivo, en este caso)
+This opens up other interesting questions, such as how this mirrors results from the factor analytic theory,...
 
 \[NEXT\]
 
-El modelo multidimensional logístico de 2 parámetros se puede considerar como "anidado", o un caso más simple de varios modelos.
-Así que partiendo de este como base, lo interesante es aplicarlo a otros más complejos, pero más útiles en la práctica.
-Por cierto, que esto también lo hace mucha gente, aplica las fórmulas de Reckase a otros modelos y a correr, se quedan "tan anchos".
-
-El modelo de escala graduada, por ejemplo, sería el equivalente al modelo de AF para respuestas ordinales, con varios umbrales o "posiciones" en TRI.
-
-El de crédito parcial, por ejemplo, puede servir también para formatos con varias opciones de respuesta que miden o pesan en factores diferentes cada una de ella.
-
-El logístico de 3 parámetros es como el de 2, pero añadiendo un parámetro de pseudoazar, para modelar el que un participante acierte un ítem por pura suerte, respondiendo "a ciegas" (esto sólo valdría para ítems cognitivos).
-
-Estos modelos, que son "extensiones" de este más básico, deberían partir de estos parámetros como fundamento.
-Pero un investigador no debería dar los parámetros sin más de ese modelo, sin proporcionar una prueba formal de que se aplica esa fórmula y se cumplen los supuestos.
-
-\[NEXT\]
-
-Y por supuesto, existen muchos otros modelos psicométricos, muy útiles y aplicados en la investigación en Psicología y Educación, en los cuales no está claro aún cómo generalizar estos resultados al ámbito multidimensional.
+...and how this applies to other models, extensions of the multidimensional 2PL, or completely different ones.
 :::
+
+# The end
+
+<!-- TODO: Add contact info -->
 
 ## References {.smaller}
