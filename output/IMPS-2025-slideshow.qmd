@@ -1716,12 +1716,9 @@ Remember that in this example, the covariance matrix has unitary variance and .5
 
 ## Oblique axes {.smaller}
 
-:::::::::::::::::::::::::::::::::::::::: columns
-::::::::::::::::::::::::::::::::::::::: {.column width="33%"}
-<center>
-
-A?`<`{=html}
-`/center>`{=html}
+:::::: columns
+::: {.column width="33%"}
+<center>A?</center>
 
 ```{r grid-orthogonal-rotation-spherical-option}
 #| fig-width: 5
@@ -1739,14 +1736,10 @@ rot_grid +
     alpha = .33, shape = 16, colour = I(PALETTE_BLUE["normal"])
   )
 ```
-
 :::
 
-:::::::::::::::::::::::::::::::::::::: {.column width="33%"}
-<center>
-
-B?`<`{=html}
-`/center>`{=html}
+::: {.column width="33%"}
+<center>B?</center>
 
 ```{r grid-ts-basis-spherical-option}
 #| fig-width: 5
@@ -1759,14 +1752,10 @@ ts_grid +
     alpha = .33, shape = 16, colour = I(PALETTE_BLUE["normal"])
   )
 ```
-
 :::
 
-::::::::::::::::::::::::::::::::::::: {.column width="33%"}
-<center>
-
-C?`<`{=html}
-`/center>`{=html}
+::: {.column width="33%"}
+<center>C?</center>
 
 ```{r grid-ls-basis-spherical-option}
 #| fig-width: 5
@@ -1779,9 +1768,7 @@ ls_grid +
     alpha = .33, shape = 16, colour = I(PALETTE_BLUE["normal"])
   )
 ```
-
 :::
-
 ::::::
 
 <br>
@@ -2151,7 +2138,3 @@ This opens up other interesting questions, such as how this mirrors results from
 <br>
 
 <center>Contact: [danielmorillo.ac\@gmail.com](mailto:danielmorillo.ac@gmail.com){.email}</center>
-:::::::::::::::::::::::::::::::::::::
-::::::::::::::::::::::::::::::::::::::
-:::::::::::::::::::::::::::::::::::::::
-::::::::::::::::::::::::::::::::::::::::
