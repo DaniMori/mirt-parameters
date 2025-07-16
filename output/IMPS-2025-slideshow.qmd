@@ -629,6 +629,8 @@ $$
 :::
 :::::
 
+<br>
+
 <center>
 
 ::: fragment
@@ -665,19 +667,19 @@ $$
 
 ::::::: {.fragment fragment-index="1"}
 ::: {style="color:#5c6eb1; padding-left:300px;"}
-$D_1 = 0$
+$D_1 = \quad 0$
 :::
 
 ::: {style="color:#90214a; padding-left:300px;"}
-$D_2 = 0.35$
+$D_2 = \quad 0.35$
 :::
 
 ::: {style="color:#749f4c; padding-left:300px;"}
-$D_3 = 0.18$
+$D_3 = \quad 0.18$
 :::
 
 ::: {style="color:#d76f47; padding-left:300px;"}
-$D_4 = -0.18$
+$D_4 = \; -0.18$
 :::
 :::::::
 ::::::::
@@ -2114,6 +2116,8 @@ This opens up other interesting questions, such as how this mirrors results from
 :::
 
 ## The end
+
+<br>
 
 <center>
 
