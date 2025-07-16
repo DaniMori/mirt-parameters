@@ -2066,9 +2066,25 @@ $$
 ```{r item-plot-out}
 #| fig-cap:   Item representation in non-orthonormal test space
 #| fig-align: center
-plot_oblique +
-  scale_color_manual(values = ITEMS_PALETTE, guide = NULL) +
-  theme(axis.ticks = element_blank()) ## TODO: Tema ggplot
+transform_grid(
+  ts_basis,
+  x_limits   = c(-2, 3),
+  y_limits   = c(-2, 2.8),
+  break_step = 1
+) +
+  geom_segment(
+    arrow     = arrow(angle = 20, length = unit(10, "points"), type = "closed"),
+    linejoin  = "mitre",
+    linewidth = VECTOR_WIDTH,
+    data      = items_oblique |> arrange(desc(item)),
+    mapping   = aes(
+      origin_transf_1, origin_transf_2,
+      xend  = end_transf_1, yend = end_transf_2,
+      color = item, fill = item
+    )
+  ) +
+  scale_color_manual(values = PALETTE, guide = NULL) +
+  coord_fixed(expand = FALSE, clip = "on")
 ```
 :::
 :::::
