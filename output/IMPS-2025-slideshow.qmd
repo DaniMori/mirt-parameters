@@ -24,12 +24,11 @@ author:    |
   </table>
 institute: |
   <table>
-    <!-- # TODO: Fix vertical alignment in logos-->
     <tr>
-      <td style="width: 400px">
+      <td style="width: 290px; vertical-align: middle; text-align: center">
         [![](../www/slideshow-assets/logos_fac_psicologia.svg){height="60"}](https://www.uned.es/universidad/facultades/psicologia.html)
       </td>
-      <td style="width: 100px">
+      <td style="width: 270px; vertical-align: middle; text-align: center">
         [![](../www/slideshow-assets/logo_udelar.svg){height="120"}](https://udelar.edu.uy)
       </td>
     </tr>
