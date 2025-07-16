@@ -53,6 +53,7 @@ knitr:
   opts_chunk: 
     results:   asis
     autodep:   true
+    cache:     true
 format:
   revealjs:
     auto-stretch:            true
@@ -62,12 +63,14 @@ format:
     fig-format:              svg
     fig-asp:                 1
     fig-width:               6
+    footer:                  https://bit.ly/vote-coords
     incremental:             false
     keep-md:                 false
     link-external-newwindow: true
     margin:                  0
     self-contained:          true
     slide-number:            false
+    smaller:                 true
     theme:                   ../www/slideshow-assets/extra-styles.scss
     transition:              none
     view-distance:           3
@@ -213,6 +216,16 @@ theme_set( # `ggplot` output configuration
 MARGINS <- c(12, 1.3, 8, 1.3) # margins for the sem path plots
 ```
 
+## Participate!
+
+<center>
+
+![](../www/slideshow-assets/bit.ly_vote-coords.svg){width="400px"}
+
+<https://bit.ly/vote-coords>
+
+</center>
+
 ## Multidimensional IRT {.smaller}
 
 -   Multidimensional 2PL (M2PL) model [@mckinley_extension_1983]:
@@ -323,12 +336,9 @@ contour_plot
 ::::::
 
 ::: notes
-The Multidimensional 2PL model is one of many extensions of the 2PL model.
+The Multidimensional 2-Parameter Logistic model (M2PL) is one of many extensions of the 2PL model.
 
 It assumes that the probability of a correct response to an item is a function of the linear combination of the latent traits weighted by item discrimination parameters.
-(This here is a vector inner product; the "T" means that the discrimination vector is transposed).
-
-And it has this additional "intercept parameter"; so it is basically a logistic multivariate regression with latent predictors.
 
 \[NEXT\]
 
@@ -336,8 +346,6 @@ This results in a response probability function where equal probability points f
 :::
 
 ## Multidimensional parameters {.smaller}
-
-<br>
 
 -   Unidimensional 2PL model: $P(Y_i = 1) = \Phi_L (a_i (\theta - b_i))$
 
@@ -358,7 +366,7 @@ This results in a response probability function where equal probability points f
 :::
 
 ::: notes
-The problem with the M2PL is that its parameters do not have a clear interpretation in IRT terms.
+The M2PL has a problem though, in that its parameters do not have a clear interpretation in IRT terms.
 
 \[NEXT\]
 
@@ -368,8 +376,6 @@ He does it in this 1985 paper, and in a subsequent one in 1991...
 :::
 
 ## Multidimensional parameters {.smaller}
-
-<br>
 
 ::::: columns
 ::: column
@@ -384,14 +390,14 @@ $$
 -   @reckase_difficulty_1985:
 
 $$
-  MID_i = \begin{Bmatrix}
+  MIL_i = \begin{Bmatrix}
     D_i &= \frac{-d_i}{MDISC_i} \\
     \cos \mathbf{\alpha}_i &= \frac{\mathbf{a}_i}{MDISC_i}
   \end{Bmatrix}
 $$
 :::
 
-::: {.column .fragment}
+::: column
 -   @ackerman_graphical_1996:
 
 ```{r m2pl-representation}
@@ -502,21 +508,17 @@ mirt_item_coords |>
 :::::
 
 ::: notes
-...Reckase & McKinley define the item discrimination, which is an extension of the Pythagorean theorem.
+...Reckase & McKinley define the item discrimination, which you can see is like a multidimensional version Pythagoras' theorem.
 
-This discrimination can be used to define the item difficulty, finding a parameterization that parallels the unidimensional 2PL model.
+This MDISC can be used to define the item difficulty (or location as we will call it here), finding a parameterization that parallels the unidimensional case.
 
-Note though that, in this case, the difficulty has two components: a "signed distance" from the origin, and a direction.
+Only that, in this case, the location has two components: a "signed distance" from the origin, which is the opposite of the intercept sign, and a direction.
 
-\[NEXT\]
-
-It is easier to appreciate this with the graphical representation, that was proposed by Ackerman a few years later, where we can see that the item vector is applied at a point given by the difficulty (with its distance and direction), and has a length equal to the discrimination.
-The vector direction always goes through the origin, and the sign of the distance (positive in this case), which is the opposite of the intercept sign, will determine whether the vector is displaced forward or backward along that direction.
+The item vector is applied at a point given by the location (with its distance and direction), and has a length equal to the discrimination.
+The direction always goes through the origin, and the sign of the distance (positive in this case), will determine whether the vector is displaced forward or backward along that direction.
 :::
 
 ## Assumptions {.smaller}
-
-<br>
 
 @reckase_difficulty_1985:
 
@@ -529,19 +531,19 @@ The vector direction always goes through the origin, and the sign of the distanc
 > \[...\] before performing the differentiation, the constraint that Σ cos^2^**α** = 1 is added to the expression for the slope \[...\]
 
 ::: notes
-However, there are two assumptions for defining the multidimensional parameters.
+However, there are two assumptions for defining these parameters.
 
-First, that the probability of a correct answer increases monotonically with each dimension.
+First, that the probability of a positive response increases monotonically with each dimension.
 
-And second, this constrain you see there, which implies that the item is represented in an orthogonal basis.
-This is necessary for applying the "general Pythagorean theorem" as we saw before.
+And second, this constrain you see there, which implies that the item is represented in orthogonal coodrinates.
+This is necessary for applying the "multidimensional Pythagoras' theorem" as we saw before.
 
-So, our purpose is **to relax these two assumptions**.
+So, our purpose is **to relax these two assumptions**, which derive heavily from the traditional application of this model to the cognitive domain.
+
+But we want to apply multidimensional IRT to non-cognitive items as well, like personality measures, for example.
 :::
 
 ## Increasing monotony {.smaller}
-
-<br>
 
 ::::: columns
 ::: column
@@ -550,7 +552,7 @@ So, our purpose is **to relax these two assumptions**.
 -- [International Personality Item Pool](https://ipip.ori.org/newAB5CKey.htm#Conscientiousness)
 :::
 
-::: {.column .fragment fragment-index="1"}
+::: column
 ```{r inverse-item-curve}
 #| fig-align:  center
 #| fig-asp:    0.5344
@@ -614,7 +616,7 @@ logit_curve_data_long |>
 :::
 :::::
 
-::::: {.columns .fragment fragment-index="2"}
+::::: {.columns .fragment}
 ::: column
 $$
   P(Y_i = 1) = \Phi_L (a_i (\theta - b_i))
@@ -628,27 +630,25 @@ $$
 :::
 :::::
 
-::: {.fragment .r-center}
+<center>
+
+::: fragment
 ### Generalization: "Constant monotony"
 :::
 
+</center>
+
 ::: notes
-Because they derive from the traditional application of the model to the cognitive domain, but we want to apply multidimensional IRT to non-cognitive items as well, e.g. to personality measures.
+In these cases, we can have items with "decreasing" probability.
 
 \[NEXT\]
 
-Here, we can have items with "decreasing" probability.
+Which formally implies a negative discrimination parameter.
 
-\[NEXT\]
-
-Formally, what this would imply is a negative discrimination parameter.
-
-In the multidimensional case, this may imply a mix of positive and negative discrimination parameters, even in the same item.
+In the multidimensional case, we may have a mix of positive and negative discrimination parameters.
 :::
 
 ## Constant monotony {.smaller}
-
-<br>
 
 :::::::::: columns
 :::::::: column
@@ -666,19 +666,19 @@ $$
 
 ::::::: {.fragment fragment-index="1"}
 ::: {style="color:#5c6eb1; padding-left:300px;"}
-$d_1 = 0$
+$D_1 = 0$
 :::
 
 ::: {style="color:#90214a; padding-left:300px;"}
-$d_2 = -0.5$
+$D_2 = 0.35$
 :::
 
 ::: {style="color:#749f4c; padding-left:300px;"}
-$d_3 = -0.25$
+$D_3 = 0.18$
 :::
 
 ::: {style="color:#d76f47; padding-left:300px;"}
-$d_4 = 0.25$
+$D_4 = -0.18$
 :::
 :::::::
 ::::::::
@@ -752,17 +752,17 @@ mirt_item_coords |>
 ::::::::::
 
 ::: notes
-The generalization is straightforward: The MDISC implies squared values of the discrimination components (this is the inner product expanded), so it is always positive regardless of the sign of the discrimination components.
+The generalization is straightforward: The MDISC implies squared values of the discrimination components (this is the previous inner product expanded), so it is always positive.
 
-The signed distance is also the same, and the direction only needs to take into account the sign of each component when computing that corresponding cosine.
+The signed distance is the same, and the direction only needs to take into account one sign, that of the corresponding component for computing each cosine.
 
 \[NEXT\]
 
-Graphically, we can see that each item points in a direction given by its discrimination components, including their signs (so, 1 1, 1 -1, etc.).
+We can see that each item points in a direction given by its discrimination components with their signs (so, 1 1, 1 -1, etc.).
 
 And the displacement from the origin is again with respect to the pointing direction.
 
-This seems obvious enough, but we must explicitly state that this definitions are valid in these cases, and that they have the same interpretation.
+This seems obvious enough, but we must explicitly state that this definitions are valid in these cases, and that their interpretation do not change.
 
 \[PAUSE\]
 
@@ -770,8 +770,6 @@ Now, to the "not so obvious"...
 :::
 
 ## Orthogonality {.smaller}
-
-<br>
 
 :::::: columns
 ::: column
@@ -909,8 +907,6 @@ We can transform these axes to another coordinate system, for example, applying 
 :::
 
 ## Orthogonality {.smaller}
-
-<br>
 
 ::::: columns
 ::: column
@@ -1051,11 +1047,9 @@ If we applied here Reckase's restriction...
 
 ## Orthogonality {.smaller}
 
-<br>
-
 ::::: columns
 ::: column
-```{r item-oblique-axes-4}
+```{r item-oblique-axes-3}
 #| fig-align:  center
 #| fig-height: 8
 #| fig-width:  8
@@ -1182,8 +1176,6 @@ As you can see, does not seem intuitively right to assume that both coordinate s
 
 ## Orthogonality {.smaller}
 
-<br>
-
 ::::: columns
 ::: column
 ```{r item-oblique-axes-2}
@@ -1199,29 +1191,31 @@ As you can see, does not seem intuitively right to assume that both coordinate s
 :::
 :::::
 
+<center>
+
 ::: {.fragment .r-center}
 ### Generalization: "Oblique axes"
 :::
 
+</center>
+
 ::: notes
 What we actually need is to compute the multidimensional parameters in this general space,...
-
 
 \[NEXT\]
 
 ...which is not necessarily orthogonal (or, we should say more generally, not necessarily orthonormal).
 
-¿Why? Because we want this space to have a meaningful interpretation; we want it to be a geometrical representation of the probabilistic properties of our sample.
+¿Why?
+Because we want this space to have a meaningful interpretation; we want it to be a geometrical representation of the probabilistic properties of our sample.
 :::
 
 ## Oblique axes {.smaller}
 
-<br>
-
 :::::::::: columns
 :::::: column
 $$
-  cor (\mathbf{\theta}) = \mathbf{\Sigma}
+  cov (\mathbf{\theta}) = \mathbf{\Sigma}
 $$
 
 ::: {.fragment fragment-index="1"}
@@ -1241,7 +1235,7 @@ $$
 
 ::: {.fragment fragment-index="2"}
 $$
-  cor (\mathbf{\theta}^*) =
+  cov (\mathbf{\theta}^*) =
     \mathbf{\Sigma}^* =
     \begin{bmatrix}
       1 & 0 \\
@@ -1343,7 +1337,7 @@ thetas_transf |>
 ::::::::::
 
 ::: notes
-So, let's say $\theta$ is multivariate normal with covariane matrix $\mathbf{\Sigma}$.
+So, let's say our latent trait vector is multivariate normal with covariane matrix $\mathbf{\Sigma}$.
 
 \[NEXT\]
 
@@ -1355,12 +1349,13 @@ Now, we can apply a "transformation" in the latent space that results in an iden
 
 \[NEXT\]
 
-And if we want the geometrical space to be a representation of the latent space, the meaningful way is to represent these coordinates in an orthonormal basis (the covariane matrix is an identity matrix, the basis also forms an identity matrix).
+And if we want the geometrical space to be a representation of the latent space, the meaningful way is to represent these coordinates in an orthonormal basis (the covariance matrix is an identity matrix, the basis of this coordinate system also forms an identity matrix).
+
+But, if this is the coordinate system of $\mathbf{\theta^*}$, if we want to draw here the axes of $\mathbf{\theta}$, they cannot be these same ones, right?
+If they were, then the point cloud would be the ellipse we had before.
 :::
 
 ## Oblique axes {.smaller}
-
-<br>
 
 :::::: columns
 ::: {.column width="33%"}
@@ -1390,7 +1385,7 @@ thetas_transf |>
     limits = c(-4, 4),
     expand = expansion(),
     name   = NULL,
-    sec.axis = dup_axis(name = "{*&theta;*~1~, *&theta;*~2~}", labels = NULL)
+    sec.axis = dup_axis(name = "{*&theta;*~1~, *&theta;*~2~} ?", labels = NULL)
   ) +
   scale_y_continuous(
     minor_breaks = NULL,
@@ -1413,16 +1408,16 @@ thetas_transf |>
 ::: {.column .fragment width="33%" fragment-index="1"}
 ```{r question-mark}
 fa(
-  "question",
+  "arrow-right",
   fill           = "#929acb",
   height         = "200px",
-  vertical_align = "-10em",
-  margin_left    = "4em"
+  vertical_align = "-9.5em",
+  margin_left    = "2em"
 )
 ```
 :::
 
-::: {.column .fragment width="33%" fragment-index="2"}
+::: {.column .fragment width="33%" fragment-index="1"}
 ```{r corr-traits-transf-example}
 #| fig-width:  5.5
 #| fig-height: 5.5
@@ -1430,10 +1425,17 @@ fa(
 :::
 ::::::
 
+<br>
+
 <center>
 
-::: {.fragment fragment-index="2"}
-Which coordinate system *θ* makes *θ\** "spherical"?
+::: {.fragment fragment-index="1"}
+$$
+  \mathbf{\Sigma} = \begin{bmatrix}
+      1 & 0.5 \\
+      0.5 & 1
+    \end{bmatrix}
+$$
 :::
 
 </center>
@@ -1441,18 +1443,14 @@ Which coordinate system *θ* makes *θ\** "spherical"?
 ::: notes
 So, if the basis matrix of $\mathbf{\theta^*}$, which has an identity covariance matrix, is an identity covariance matrix, what is $\mathbf{P}$, the basis matrix of $\mathbf{\theta}$.
 
-In other words,...
-
-\[NEXT\]
-
-...what is the coordinate system of $\mathbf{\theta}$...
+In other words: What is the coordinate system of $\mathbf{\theta}$...
 
 \[NEXT\]
 
 ...that makes $\mathbf{\theta^*}$ spherical?
 :::
 
-## Oblique axes
+## Oblique axes {.smaller}
 
 ```{r create-grid-function}
 create_grid <- function(basis,
@@ -1654,8 +1652,6 @@ transform_grid <- function(basis,
 }
 ```
 
-<br>
-
 :::::: columns
 ::: {.column width="33%"}
 <center>A</center>
@@ -1696,17 +1692,108 @@ ls_grid
 :::
 ::::::
 
-[Answers in 3, 2, 1...](https://wall.sli.do/event/dPunB4BMx3S8hfSjaFSuFh?section=ae77dd00-34fb-4600-9677-337a65b04b83)
+<center>$$
+  \mathbf{\Sigma} = \begin{bmatrix}
+      1 & 0.5 \\
+      0.5 & 1
+    \end{bmatrix}
+$$</center>
 
 ::: notes
 So, here are three possible options; one of them is the correct one.
 
-Take a few seconds to answer and we will see next which is the correct one.
+Remember that in this example, the covariance matrix has unitary variance and .5 correlation.
 :::
 
 ## Oblique axes
 
+<center>
+
+![](../www/slideshow-assets/bit.ly_vote-coords.svg){width="400px"}
+
+<https://bit.ly/vote-coords>
+
+</center>
+
+## Oblique axes {.smaller}
+
+:::::::::::::::::::::::::::::::::::::::: columns
+::::::::::::::::::::::::::::::::::::::: {.column width="33%"}
+<center>
+
+A?`<`{=html}
+`/center>`{=html}
+
+```{r grid-orthogonal-rotation-spherical-option}
+#| fig-width: 5
+rot_basis <- cbind(
+  c(sqrt(.75), -sqrt(.25)),
+  c(sqrt(.25), sqrt(.75))
+)
+
+rot_grid <- transform_grid(rot_basis)
+
+rot_grid +
+    geom_point(
+    mapping = aes(trait_1, trait_2),
+    data    = thetas_transf,
+    alpha = .33, shape = 16, colour = I(PALETTE_BLUE["normal"])
+  )
+```
+
+:::
+
+:::::::::::::::::::::::::::::::::::::: {.column width="33%"}
+<center>
+
+B?`<`{=html}
+`/center>`{=html}
+
+```{r grid-ts-basis-spherical-option}
+#| fig-width: 5
+ts_grid <- transform_grid(ts_basis)
+
+ts_grid +
+    geom_point(
+    mapping = aes(trait_1, trait_2),
+    data    = thetas_transf,
+    alpha = .33, shape = 16, colour = I(PALETTE_BLUE["normal"])
+  )
+```
+
+:::
+
+::::::::::::::::::::::::::::::::::::: {.column width="33%"}
+<center>
+
+C?`<`{=html}
+`/center>`{=html}
+
+```{r grid-ls-basis-spherical-option}
+#| fig-width: 5
+ls_grid <- transform_grid(ls_basis)
+
+ls_grid +
+    geom_point(
+    mapping = aes(trait_1, trait_2),
+    data    = thetas_transf,
+    alpha = .33, shape = 16, colour = I(PALETTE_BLUE["normal"])
+  )
+```
+
+:::
+
+::::::
+
 <br>
+
+[Answers in 3, 2, 1...](https://wall.sli.do/event/dPunB4BMx3S8hfSjaFSuFh?section=ae77dd00-34fb-4600-9677-337a65b04b83)
+
+::: notes
+\[CLICK LINK AFTER A WHILE\]
+:::
+
+## Oblique axes {.smaller}
 
 :::::::::: columns
 ::: {.column width="33%"}
@@ -1815,13 +1902,13 @@ Well, the truth is that it is not.
 
 ## Latent space vs. test space {.smaller}
 
-<br>
-
 ::::::: columns
 :::: column
 $$
   P(Y_i = 1) = \Phi_L (\mathbf{a}_i^T \mathbf{\theta} + d_i)
 $$
+
+<br>
 
 ::: {.fragment fragment-index="1"}
 $$
@@ -1835,6 +1922,8 @@ $$
   \mathbf{\theta}^* = \mathbf{P} \mathbf{\theta}
 $$
 
+<br>
+
 ::: {.fragment fragment-index="1"}
 $$
   \mathbf{a}^*_i = \mathbf{Q} \mathbf{a}_i \\
@@ -1842,6 +1931,8 @@ $$
 :::
 ::::
 :::::::
+
+<br>
 
 ::: {.fragment fragment-index="2"}
 $$
@@ -1871,8 +1962,6 @@ And its transformation must be the opposite of the latent trait transformation.
 
 ## Latent space vs. test space {.smaller}
 
-<br>
-
 ::::: columns
 ::: column
 <center>Latent space</center>
@@ -1895,6 +1984,10 @@ ts_grid
 
 ::: notes
 As it turns out, this gives a space where the axes actually do represent faithfully the latent covariances.
+
+But it is not the latent space, where the latent traits are represented.
+It is a specific space for the items, and we call it "test space".
+And we know it, because the inner products in both spaces have to be different from each other, for the model to be invariant to changes of bases, like the one you have just seen.
 :::
 
 ## Latent space vs. test space {.smaller}
@@ -1928,13 +2021,11 @@ INNER_PROD_DISCR_DEF <- latex(DISCR_VECTOR_T, COV_MATRIX, DISCR_VECTOR_J)
 INNER_PROD_DISCR_EQ  <- latex_eq(INNER_PROD_DISCR, INNER_PROD_DISCR_DEF)
 ```
 
-<br>
-
-::: fragment
 > \[...\] the latent space should be regarded as a general Euclidean space with its *inner product* defined by $`r INNER_PROD_EQ`$.
 
 --- @zhang_theoretical_1999 [p. 221]
-:::
+
+<br>
 
 ::: fragment
 > \[...\] the *inner product* in \[the test space\] is consistently defined by
@@ -1945,16 +2036,18 @@ INNER_PROD_DISCR_EQ  <- latex_eq(INNER_PROD_DISCR, INNER_PROD_DISCR_DEF)
 :::
 
 ::: notes
-This is actually not new, it was already noted by Zhang & Stout, more than 25 years ago, to solve a different problem, but unfortunately they didn't provide a deduction as we do here.
+This is actually not new, it was already noted by Zhang & Stout, more than 25 years ago, to solve a different problem, but unfortunately they didn't provide a mathematical proof as we do here.
 
-But the important thing here, is that we have two different spaces: One for the latent traits and one for the items.
+As you see here, the latent space Gram matrix is the inverse covariance matrix (which results from the transformation matrix P, pre-multiplied by itself, P\^T P).
+The invariant distance then, in the latent space, is the Mahalanobis distance, which is the square root of the inner product of the latent trait vector with itself.
+And in the test space, the Gram matrix is the covariance distance.
+
+But the important thing here, is that we have two different spaces, and that the item representation must be in their own space, the test space.
 
 And knowing these...
 :::
 
-## Generalized MIRT parameters {.smaller}
-
-<br>
+## Generalized M2PL parameters {.smaller}
 
 ::::: columns
 ::: column
@@ -1970,9 +2063,15 @@ $$
      latex_curlybraces("$DISTANCE_COV_DEF$, $DIR_COS_ITEM_VEC_COV_DEF$")
    )`
 $$
+
+<br>
+
+$$
+  \mathbf{\Sigma} = \mathbf{S} \mathbf{R} \mathbf{S}
+$$
 :::
 
-::: column
+::: {.column .fragment}
 ```{r item-plot-out}
 #| fig-cap:   Item representation in non-orthonormal test space
 #| fig-align: center
@@ -1986,20 +2085,22 @@ plot_oblique +
 ::: notes
 The complete definition and representation of the parameters is as you see here.
 
-\[IF THERE IS TIME\]
+The MDISC is the square root of the inner product of the discrimination vector; the signed distance does not change.
+
+And the direction cosines incorporate this term: It pre-multiplies the discrimination vector by the covariance matrix, and also has this "normalizing term" that is a diagonal matrix of standard deviations..
+
+\[IF THERE IS TIME; NEXT\]
 
 You can see here:
 
-- Items in the first or third quadrant are "stretched"; their MDISC become larger, while the opposite happens in the other two quadrants (these two items have components with the same absolute values)
+-   Items in the first or third quadrant are "stretched"; their MDISC become larger, while the opposite happens in the other two quadrants (these two items have components with the same absolute values)
 
-- Simple items (in one of the axis) are rotated, but their MDISC is not affected.
+-   Simple items (in one of the axis) are rotated, but their MDISC is not affected.
 
-- Also, simple iems are not necessarily orthogonal to the other axis, while complex items can be.
+-   Also, simple iems are not necessarily orthogonal to the other axis, while complex items can be.
 :::
 
 ## To be continued...
-
-<br>
 
 -   Multidimensional IRT - FA parallelism
 
@@ -2021,8 +2122,37 @@ This opens up other interesting questions, such as how this mirrors results from
 ...and how this applies to other models, extensions of the multidimensional 2PL, or completely different ones.
 :::
 
-# The end
-
-<!-- TODO: Add contact info -->
-
 ## References {.smaller}
+
+::: {#refs}
+:::
+
+## The end
+
+<center>
+
+### Thanks for your attention!
+
+</center>
+
+::::: columns
+::: column
+![](../www/slideshow-assets/foto_daniel.jpg){width="200px" fig-align="center"}
+
+<center>Daniel Morillo, Ph.D.</center>
+:::
+
+::: column
+![](../www/slideshow-assets/foto_mario.jpg){width="200px" fig-align="center"}
+
+<center>Mario Luzardo, Ph.D.</center>
+:::
+:::::
+
+<br>
+
+<center>Contact: [danielmorillo.ac\@gmail.com](mailto:danielmorillo.ac@gmail.com){.email}</center>
+:::::::::::::::::::::::::::::::::::::
+::::::::::::::::::::::::::::::::::::::
+:::::::::::::::::::::::::::::::::::::::
+::::::::::::::::::::::::::::::::::::::::
