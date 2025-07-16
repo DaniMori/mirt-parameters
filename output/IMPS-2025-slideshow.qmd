@@ -955,7 +955,7 @@ item_spikes_transf_ob <- item_spikes_transf |>
   ) |>
   pivot_wider(names_from = dim, values_from = start:end)
 
-mirt_item_coords |>
+item_oblique_space <- mirt_item_coords |>
   ggplot(
     aes(
       origin_1, origin_2,
@@ -1025,6 +1025,8 @@ mirt_item_coords |>
       linetype  = "17"
     )
   )
+
+item_oblique_space
 ```
 :::
 
@@ -1179,7 +1181,8 @@ As you can see, does not seem intuitively right to assume that both coordinate s
 
 ::::: columns
 ::: column
-```{r item-oblique-axes-2}
+```{r item-oblique-axes-2-rep}
+item_oblique_space
 ```
 :::
 
