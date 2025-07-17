@@ -272,7 +272,7 @@ plot_ly(
   z = ~mirt_prob_surface,
   colorscale = list(c(0, 1), PALETTE_BLUE["normal"] |> rep(2)),
   type = 'surface',
-  hovertemplate = 'P(I<sub>i</sub> = 1) = %{z:.2f}<extra></extra>',
+  hovertemplate = 'P(Y<sub>i</sub> = 1) = %{z:.2f}<extra></extra>',
   showscale = FALSE,
   hoverinfo = 'Z'
 ) |>
