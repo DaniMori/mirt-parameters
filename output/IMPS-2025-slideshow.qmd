@@ -2031,7 +2031,10 @@ This is actually not new, it was already noted by Zhang & Stout, more than 25 ye
 
 As you see here, the latent space Gram matrix is the inverse covariance matrix (which results from the transformation matrix P, pre-multiplied by itself, P\^T P).
 The invariant distance then, in the latent space, is the Mahalanobis distance, which is the square root of the inner product of the latent trait vector with itself.
-And in the test space, the Gram matrix is the covariance distance.
+
+\[NEXT\]
+
+And in the test space, the Gram matrix is the covariance matrix.
 
 But the important thing here, is that we have two different spaces, and that the item representation must be in their own space, the test space.
 
@@ -2090,7 +2093,7 @@ transform_grid(
 :::::
 
 ::: notes
-The complete definition and representation of the parameters is as you see here.
+The complete definition of the parameters is as you see here.
 
 The MDISC is the square root of the inner product of the discrimination vector; the signed distance does not change.
 
