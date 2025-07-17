@@ -2140,8 +2140,6 @@ This opens up other interesting questions, such as how this mirrors results from
 
 ## The end
 
-<br>
-
 <center>
 
 ### Thanks for your attention!
@@ -2162,6 +2160,8 @@ This opens up other interesting questions, such as how this mirrors results from
 :::
 :::::
 
-<br>
+Contact: [danielmorillo.ac\@gmail.com](mailto:danielmorillo.ac@gmail.com){.email}
 
-<center>Contact: [danielmorillo.ac\@gmail.com](mailto:danielmorillo.ac@gmail.com){.email}</center>
+Comments & questions welcome!
+
+Read the preprint: <https://bit.ly/mirt-preprint>
