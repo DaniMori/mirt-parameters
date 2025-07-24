@@ -279,9 +279,14 @@ item_response_prob <- function(items,
     rename(!!!discr_names) |>
     pivot_longer(cols = !!trait_names)
   
+  ## TODO: Complete function
 }
+
+logit <- function(x) 1 / (1 + exp(-x))
 
 irs2d <- function(a_1, a_2, d, theta_1, theta_2) {
   
   logit(a_1 * theta_1 + a_2 * theta_2 + d)
 }
+
+irf   <- function(a, b, theta) logit(a * (theta - b))

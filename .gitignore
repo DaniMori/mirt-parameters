@@ -45,13 +45,15 @@ vignettes/*.pdf
 *.docx
 *.html
 *.lnk
-*.md
 *.pdf
 *.svg
+*.gif
 *.url
 !doc/Response_text_field.md
 !www/slideshow-assets/title-slide.html
 !www/slideshow-assets/logos_fac_psicologia.svg
+!www/slideshow-assets/logo_udelar.svg
+!www/slideshow-assets/bit.ly_vote-coords.svg
 
 # Specific outputs to ignore
 www/packages.bib

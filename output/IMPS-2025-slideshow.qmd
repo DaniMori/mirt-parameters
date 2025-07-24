@@ -1,0 +1,2167 @@
+---
+title:     |
+  A generalization of multidimensional item response theory parameters
+author:    |
+  <table>
+    <tr>
+      <td>Daniel Morillo, Ph.D.</td>
+      <td>Mario Luzardo, Ph.D.</td>
+    </tr>
+    <tr>
+      <td>
+        <center>
+          [![](../www/slideshow-assets/github-logo.png){height="50"}](https://github.com/DaniMori/)&emsp;
+          [![](../www/slideshow-assets/orcid.png){height="50"}](https://orcid.org/0000-0003-3021-3878)
+        </center>
+      </td>
+      <td>
+        <center>
+          [![](../www/slideshow-assets/github-logo.png){height="50"}](https://github.com/mluzardov/)&emsp;
+          [![](../www/slideshow-assets/orcid.png){height="50"}](https://orcid.org/0000-0002-9360-2806)
+        </center>
+      </td>
+    </tr>
+  </table>
+institute: |
+  <table>
+    <tr>
+      <td style="width: 290px; vertical-align: middle; text-align: center">
+        [![](../www/slideshow-assets/logos_fac_psicologia.svg){height="60"}](https://www.uned.es/universidad/facultades/psicologia.html)
+      </td>
+      <td style="width: 270px; vertical-align: middle; text-align: center">
+        [![](../www/slideshow-assets/logo_udelar.svg){height="120"}](https://udelar.edu.uy)
+      </td>
+    </tr>
+  </table>
+bibliography:  ../www/Multidimensional-parameters-MCLM.bib
+csl:           ../www/apa-old-doi-prefix.csl
+date:          "2024-07-17"
+date-meta:     "2024-11-27"
+date-format:   long
+editor:
+  mode:        source
+  markdown: 
+    wrap:      sentence
+    canonical: true # TODO: Restore
+execute: 
+  cache:       true
+lang:          en
+knitr:
+  # opts_knit: # Does not work, see line 102
+  #   root_dir:  here::here()
+  opts_chunk: 
+    results:   asis
+    autodep:   true
+    cache:     true
+format:
+  revealjs:
+    auto-stretch:            true
+    code-annotations:        hover
+    df-print:                paged
+    fig-cap-location:        bottom
+    fig-format:              svg
+    fig-asp:                 1
+    fig-width:               6
+    footer:                  https://bit.ly/vote-coords
+    incremental:             false
+    keep-md:                 false
+    link-external-newwindow: true
+    margin:                  0
+    self-contained:          true
+    slide-number:            false
+    smaller:                 true
+    theme:                   ../www/slideshow-assets/extra-styles.scss
+    transition:              none
+    view-distance:           3
+    template-partials:
+      - ../www/slideshow-assets/title-slide.html
+editor_options:
+  chunk_output_type: console
+---
+
+```{r libraries}
+#| cache:   false
+#| include: false
+
+library(tibble)
+library(dplyr)
+library(knitr)
+library(lavaan)
+library(semPlot)
+library(extrafont)
+library(tidyr)
+library(ggplot2)
+library(units)
+library(ggtext)
+library(ggridges)
+library(qgraph)
+library(stringr)
+library(purrr)
+library(plotly)
+library(metR)
+library(scales)
+library(fontawesome)
+library(mvtnorm)
+library(patchwork)
+```
+
+```{r setup}
+#| cache:   false
+#| include: false
+opts_knit$set(root.dir = here::here()) # See lines 43-44
+
+# Graphical configuration options:
+loadfonts(device = "win") # Load fonts (if necessary)
+par(family = "Arial", adj = 0.5) # Set graphical device params
+```
+
+```{r sources}
+source("R/Formulae.R",                  encoding = 'UTF-8')
+source("R/Output.R",                    encoding = 'UTF-8')
+source("R/Mirt_toolbox.R",              encoding = 'UTF-8')
+source("src/Graphical_example_paper.R", encoding = 'UTF-8')
+```
+
+```{r graphical-constants}
+# Color palettes:
+
+PALETTE_UNED <- c(
+  normal = "#00533e",
+  medium = "#427562",
+  light  = "#86a699",
+  white  = "#cddad5"
+)
+PALETTE_APPLE <- c(
+  normal = "#749f4c",
+  medium = "#8aac5d",
+  light  = "#a2bc7e",
+  white  = "#cddbb8"
+)
+PALETTE_BLUE <- c(
+  normal = "#5c6eb1",
+  medium = "#7683bd",
+  light  = "#929acb",
+  white  = "#d4d6eb"
+)
+PALETTE_TANGERINE <- c(
+  normal = "#d76f47",
+  medium = "#dd8964",
+  light  = "#e4a482",
+  white  = "#f0cfb9"
+)
+PALETTE_STRAWBERRY <- c(
+  normal = "#da5268",
+  medium = "#c87384",
+  light  = "#daa6b1",
+  white  = "#efdbdf"
+)
+PALETTE_RASPBERRY <- c(
+  normal = "#90214a",
+  medium = "#8e4d60",
+  light  = "#af848b",
+  white  = "#dac7c7"
+)
+
+# Factor axis colors:
+F1_COLOR <- unname(PALETTE_BLUE["normal"])
+F2_COLOR <- unname(PALETTE_RASPBERRY["normal"])
+
+# Item colors:
+ITEMS_PALETTE <- c(
+  PALETTE_BLUE["normal"],
+  PALETTE_RASPBERRY["normal"],
+  PALETTE_APPLE["normal"],
+  PALETTE_TANGERINE["normal"],
+  PALETTE_UNED["medium"]
+) |>
+  unname() |>
+  setNames(1:5)
+
+# Grid breaks:
+X_BREAKS <- seq(-3, 3, length.out = 5)
+
+# Probability axes:
+PROB_AXIS <- seq(-3.3, 3.3, by = .01)
+PROB_AXIS_2D <- seq(-3, 3, by = 0.05) # Axis for the probability contour plots
+```
+
+```{r graphical-output-conf}
+#| cache: false
+
+# Graphical output constants:
+GRAPH_FONT   <- "Arial"  # Replace default font to comply with UNED identity
+FONT_SIZE    <- 24       # Replace default font size for slideshow
+AXIS_LAB_POS <-  0.5     # Replace default axis label position for slideshow
+LINE_WIDTH   <-  0.75    # Replace default line width for slideshow
+GRID_WIDTH   <-  0.5     # Width for grid and axis lines
+AXIS_COLOR   <- "gray70" # Replace default grid line color for slideshow
+VECTOR_WIDTH <- 1.5      # Replace default vector width for slideshow
+
+theme_set( # `ggplot` output configuration
+  theme_classic(
+    base_size      = FONT_SIZE,
+    base_family    = GRAPH_FONT,
+    base_line_size = LINE_WIDTH
+  ) %+replace%
+    theme(
+      axis.title.x       = element_text(hjust = AXIS_LAB_POS),
+      axis.title.y       = element_text(vjust = AXIS_LAB_POS, angle = 0),
+      axis.title.y.right = element_text(vjust = AXIS_LAB_POS, angle = 0),
+      panel.grid         = element_line(color = AXIS_COLOR),
+      panel.grid.minor   = element_line(linetype = "17", color = AXIS_COLOR)
+    )
+)
+
+MARGINS <- c(12, 1.3, 8, 1.3) # margins for the sem path plots
+```
+
+## Participate!
+
+<center>
+
+![](../www/slideshow-assets/bit.ly_vote-coords.svg){width="400px"}
+
+<https://bit.ly/vote-coords>
+
+</center>
+
+## Multidimensional IRT {.smaller}
+
+-   Multidimensional 2PL (M2PL) model [@mckinley_extension_1983]:
+
+:::::: columns
+:::: column
+$$
+  P(Y_i = 1) = \Phi_L (\mathbf{a}_i^T \mathbf{\theta} + d_i)
+$$
+
+::: {.fragment fragment-index="1"}
+```{r mirt-model-irs-3d}
+#| fig-width:  5
+#| fig-height: 5
+mirt_item <- tribble(
+  ~item, ~a_1, ~a_2, ~d,
+  1,     1,    0.5,  -0.5
+)
+
+irs2d <- function(a_1, a_2, d, theta_1, theta_2) {
+  
+  logit(a_1 * theta_1 + a_2 * theta_2 + d)
+}
+
+mirt_item_probs <- expand_grid(
+  trait_2 = PROB_AXIS_2D,
+  trait_1 = PROB_AXIS_2D
+) |>
+  mutate(
+    mirt_item |>
+      select(-item) |>
+      pmap(irs2d, theta_1 = trait_1, theta_2 = trait_2) |>
+      bind_cols()
+  ) |>
+    rename(prob = `...1`)
+
+mirt_prob_surface <- mirt_item_probs |>
+  pivot_wider(names_from = trait_1, values_from = prob) |>
+    select(-trait_2) |>
+    as.matrix()
+
+plot_ly(
+  x = ~PROB_AXIS_2D,
+  y = ~PROB_AXIS_2D,
+  z = ~mirt_prob_surface,
+  colorscale = list(c(0, 1), PALETTE_BLUE["normal"] |> rep(2)),
+  type = 'surface',
+  hovertemplate = 'P(Y<sub>i</sub> = 1) = %{z:.2f}<extra></extra>',
+  showscale = FALSE,
+  hoverinfo = 'Z'
+) |>
+  layout(
+    scene = list(
+      xaxis = list(title = "<i>θ</i><sub>1</sub>"),
+      yaxis = list(title = "<i>θ</i><sub>2</sub>"),
+      zaxis = list(title = "P(I<sub>i</sub> = 1)"),
+      camera = list(
+        center = list(x = -.1, z = -.2),
+        eye = list(x = -.12, y = -1.8, z = 1)
+      )
+    )
+  ) |>
+  config(displayModeBar = FALSE, scrollZoom = FALSE)
+```
+:::
+::::
+
+::: {.column .fragment fragment-index="1"}
+<br>
+
+```{r mirt-model-irs-contour}
+contour_plot <- mirt_item_probs |>
+  ggplot(mapping = aes(trait_1, trait_2, z = prob, label = after_stat(level))) +
+  geom_vline(xintercept = 0, linewidth = GRID_WIDTH) +
+  geom_hline(yintercept = 0, linewidth = GRID_WIDTH) +
+  geom_contour2(
+    color = F1_COLOR,
+    linewidth = LINE_WIDTH,
+    breaks = c(.05, .1, .2, .3, .5, .7, .8, .9, .95),
+    label.placer = label_placer_fraction(frac = .90, rot_adjuster = 0)
+  ) +
+  scale_x_continuous(
+    minor_breaks = NULL,
+    limits = range(PROB_AXIS_2D),
+    expand = expansion(),
+    name   = NULL,
+    sec.axis = dup_axis(name = "*&theta;*~2~", labels = NULL)
+  ) +
+  scale_y_continuous(
+    minor_breaks = NULL,
+    limits = range(PROB_AXIS_2D),
+    expand = expansion(),
+    name   = NULL,
+    sec.axis = dup_axis(name = "*&theta;*~1~", labels = NULL)
+  ) +
+  coord_fixed() +
+  theme(
+    axis.ticks       = element_blank(),
+    axis.line        = element_blank(),
+    axis.title       = element_markdown(),
+    axis.title.y     = element_markdown(),
+    panel.grid.major = element_line(linetype = "17", linewidth = GRID_WIDTH)
+  )
+
+contour_plot
+```
+:::
+::::::
+
+::: notes
+The Multidimensional 2-Parameter Logistic model (M2PL) is one of many extensions of the 2PL model.
+
+It assumes that the probability of a correct response to an item is a function of the linear combination of the latent traits weighted by item discrimination parameters.
+
+\[NEXT\]
+
+This results in a response probability function where equal probability points form a straight line in the latent space.
+:::
+
+## Multidimensional parameters {.smaller}
+
+-   Unidimensional 2PL model: $P(Y_i = 1) = \Phi_L (a_i (\theta - b_i))$
+
+    -   $a_i$ = discrimination
+
+    -   $b_i$ = difficulty (location)
+
+-   Multidimensional 2PL model: $P(Y_i = 1) = \Phi_L (\mathbf{a}_i^T \mathbf{\theta} + d_i)$
+
+    -   $\mathbf{a}_i$ = ?
+
+    -   $d_i$ = ?
+
+::: fragment
+@reckase_difficulty_1985 [p. 402]:
+
+> \[...\] means of describing the characteristics of an item that takes into account the dimensionality of the skills \[...\] can then be used to determine how or if it is possible to compare items that measure different combinations of abilities.
+:::
+
+::: notes
+The M2PL has a problem though, in that its parameters do not have a clear interpretation in IRT terms.
+
+\[NEXT\]
+
+That is why Reckase proposes to find a way of describing the characteristics of multidimensional items, taking their dimensionality into account.
+
+He does it in this 1985 paper, and in a subsequent one in 1991...
+:::
+
+## Multidimensional parameters {.smaller}
+
+::::: columns
+::: column
+-   @reckase_discriminating_1991:
+
+$$
+  MDISC_i = \sqrt{\mathbf{a}_i^T \mathbf{a}_i}
+$$
+
+<br>
+
+-   @reckase_difficulty_1985:
+
+$$
+  MIL_i = \begin{Bmatrix}
+    D_i &= \frac{-d_i}{MDISC_i} \\
+    \cos \mathbf{\alpha}_i &= \frac{\mathbf{a}_i}{MDISC_i}
+  \end{Bmatrix}
+$$
+:::
+
+::: column
+-   @ackerman_graphical_1996:
+
+```{r m2pl-representation}
+#| fig-align:  center
+#| fig-height: 6.2
+#| fig-width:  6.2
+
+mirt_item <- tribble(
+  ~item, ~a_1, ~a_2, ~d,
+  1,     1,    0.5,  -0.5
+)
+
+mirt_item_params <- mirt_item |>
+  compute_mirt_params(d, starts_with('a'))
+
+mirt_item_coords <- mirt_item_params |>
+  compute_mirt_coords(D, MDISC, starts_with("cos"), original_coords = FALSE) |>
+    rename_with(str_remove, pattern = "transf_")
+
+d_i_spike <- mirt_item_coords |>
+  select(item, trait_1 = origin_1, trait_2 = origin_2) |>
+  bind_rows(tibble(item = 1, trait_1 = 0, trait_2 = 0)) |>
+  add_column(type = c("end", "start")) |>
+  pivot_wider(names_from = type, values_from = starts_with("trait"))
+
+mirt_item_coords |>
+  ggplot(
+    aes(
+      origin_1, origin_2,
+      xend = end_1,
+      yend = end_2,
+      color = factor(item), fill = factor(item)
+    ),
+  )                                                  +
+  geom_vline(xintercept = 0, linewidth = GRID_WIDTH) +
+  geom_hline(yintercept = 0, linewidth = GRID_WIDTH) +
+  geom_segment(
+    data    = d_i_spike,
+    mapping = aes(
+      trait_1_start, trait_2_start,
+      xend = trait_1_end,
+      yend = trait_2_end
+    ),
+    inherit.aes = FALSE,
+    linewidth = LINE_WIDTH,
+    linetype  = '43',
+    color = PALETTE_BLUE["light"]
+  ) +
+  geom_point(
+    data = mirt_item_coords,
+    mapping = aes(origin_1, origin_2),
+    inherit.aes = FALSE,
+    size = I(4)
+  ) +
+  geom_segment(
+    arrow     = arrow(angle = 20, length = unit(10, "points"), type = "closed"),
+    linejoin  = "mitre",
+    linewidth = VECTOR_WIDTH
+  ) +
+  scale_x_continuous(
+    limits       = c(-1, 1.5),
+    breaks       = -1:2,
+    minor_breaks = NULL,
+    name         = NULL,
+    sec.axis     = dup_axis(name = "*&theta;*~2~", labels = NULL)
+  ) +
+  scale_y_continuous(
+    limits       = c(-1, 1.5),
+    breaks       = -1:2,
+    minor_breaks = NULL,
+    name         = NULL,
+    sec.axis     = dup_axis(name = "*&theta;*~1~", labels = NULL)
+  ) +
+  scale_color_manual(values = unname(PALETTE_BLUE["normal"]), guide = NULL) +
+  annotate(
+    geom = "richtext",
+    x = 0.16, y = 0.20,
+    label = "*D~i~*",
+    size = 9,
+    angle = mirt_item_params |> pull(deg_1),
+    label.colour  = NA,
+    fill = NA
+  ) +
+  annotate(
+    "richtext",
+    x = mirt_item_coords |> pull(origin_1) + 0.40,
+    y = mirt_item_coords |> pull(origin_2) + 0.32,
+    label = "*MDISC~i~*",
+    size  = 9,
+    angle = mirt_item_params |> pull(deg_1),
+    label.colour  = NA,
+    fill = NA
+  ) +
+  coord_fixed(clip = "on") +
+  theme(
+    axis.line          = element_blank(),
+    axis.title         = element_markdown(size = 20, padding = unit(0, "lines")),
+    axis.title.x       = element_markdown(hjust = .4),
+    axis.title.y.right = element_markdown(vjust = .4),
+    axis.ticks         = element_blank(),
+    panel.grid.major   = element_line(
+      linewidth = GRID_WIDTH,
+      linetype  = "17"
+    ),
+  )
+```
+:::
+:::::
+
+::: notes
+...Reckase & McKinley define the item discrimination, which you can see is like a multidimensional version Pythagoras' theorem.
+
+This MDISC can be used to define the item difficulty (or location as we will call it here), finding a parameterization that parallels the unidimensional case.
+
+Only that, in this case, the location has two components: a "signed distance" from the origin, which is the opposite of the intercept sign, and a direction.
+
+The item vector is applied at a point given by the location (with its distance and direction), and has a length equal to the discrimination.
+The direction always goes through the origin, and the sign of the distance (positive in this case), will determine whether the vector is displaced forward or backward along that direction.
+:::
+
+## Assumptions {.smaller}
+
+@reckase_difficulty_1985:
+
+-   Increasing monotony (p. 402):
+
+> the probability of answering an item correctly increases monotonically with an increase in each dimension being measured
+
+-   Orthogonality (p. 404):
+
+> \[...\] before performing the differentiation, the constraint that Σ cos^2^**α** = 1 is added to the expression for the slope \[...\]
+
+::: notes
+However, there are two assumptions for defining these parameters.
+
+First, that the probability of a positive response increases monotonically with each dimension.
+
+And second, this constrain you see there, which implies that the item is represented in orthogonal coodrinates.
+This is necessary for applying the "multidimensional Pythagoras' theorem" as we saw before.
+
+So, our purpose is **to relax these two assumptions**, which derive heavily from the traditional application of this model to the cognitive domain.
+
+But we want to apply multidimensional IRT to non-cognitive items as well, like personality measures, for example.
+:::
+
+## Increasing monotony {.smaller}
+
+::::: columns
+::: column
+> "*I neglect my duties*"
+
+-- [International Personality Item Pool](https://ipip.ori.org/newAB5CKey.htm#Conscientiousness)
+:::
+
+::: column
+```{r inverse-item-curve}
+#| fig-align:  center
+#| fig-asp:    0.5344
+#| fig-width:  9
+
+ITEMS <- tribble(
+  ~item, ~a,   ~b,
+   1,    -1.5, 0
+)
+
+logit_curve_data <- tibble(
+  latent_trait = PROB_AXIS,
+  prob         = ITEMS |>
+    select(-item) |>
+    pmap(irf, theta = latent_trait) |>
+    bind_cols()
+) |>
+  unnest(
+    prob,
+    names_sep = '_'
+  ) |>
+  rename_with(str_remove, pattern = 'prob_\\.{3}')
+
+logit_curve_data_long <- logit_curve_data |>
+  pivot_longer(matches('\\d'), names_to = "item", values_to = "prob")
+
+logit_curve_data_long |>
+  ggplot(
+    mapping = aes(
+      latent_trait, prob,
+      color = item,
+      group = after_scale(color)
+    )
+  )                                                        +
+  geom_line(linewidth = LINE_WIDTH)                        +
+  labs(x = "Conscientiousness", y = "P(Y~i~ = 1)")           +
+  scale_y_continuous(
+    breaks       = 0:1,
+    minor_breaks = NULL,
+    limits       = 0:1,
+    expand       = expansion(mult = c(0, .05))
+  )                                                        +
+  scale_x_continuous(
+    minor_breaks = NULL,
+    expand = expansion()
+  )                                                        +
+  scale_color_manual(values = ITEMS_PALETTE, guide = NULL) +
+  theme(
+    axis.title       = element_markdown(),
+    axis.title.x     = element_text(margin = margin(t = 1, unit = "lines")),
+    axis.title.y     = element_markdown(angle = 90),
+    panel.grid.major = element_line(linetype = "17", linewidth = GRID_WIDTH),
+    # The following is necessary to avoid showing the axis breaks, as dropping
+    #   them prevents the axis line from being drawn (see
+    #   https://github.com/tidyverse/ggplot2/issues/2983)
+    axis.text.x.bottom = element_blank(),
+    axis.ticks.length.x.bottom = unit(0, units = "cm"),
+    panel.grid.major.x = element_blank()
+  )
+```
+:::
+:::::
+
+::::: {.columns .fragment}
+::: column
+$$
+  P(Y_i = 1) = \Phi_L (a_i (\theta - b_i))
+$$
+:::
+
+::: {.column style="color:#5c6eb1;"}
+$$
+  a_i < 0
+$$
+:::
+:::::
+
+<br>
+
+<center>
+
+::: fragment
+### Generalization: "Constant monotony"
+:::
+
+</center>
+
+::: notes
+In these cases, we can have items with "decreasing" probability.
+
+\[NEXT\]
+
+Which formally implies a negative discrimination parameter.
+
+In the multidimensional case, we may have a mix of positive and negative discrimination parameters.
+:::
+
+## Constant monotony {.smaller}
+
+:::::::::: columns
+:::::::: column
+$$
+  MDISC_i = \sqrt{a_{1i}^2 + ... + a_{ni}^2}
+$$
+
+$$
+  D_i = \frac{-d_i}{MDISC_i}
+$$
+
+$$
+  \cos \, \mathbf{\alpha}_i = \frac{\mathbf{a}_i}{MDISC_i}
+$$
+
+::::::: {.fragment fragment-index="1"}
+::: {style="color:#5c6eb1; padding-left:300px;"}
+$D_1 = \quad 0$
+:::
+
+::: {style="color:#90214a; padding-left:300px;"}
+$D_2 = \quad 0.35$
+:::
+
+::: {style="color:#749f4c; padding-left:300px;"}
+$D_3 = \quad 0.18$
+:::
+
+::: {style="color:#d76f47; padding-left:300px;"}
+$D_4 = \; -0.18$
+:::
+:::::::
+::::::::
+
+::: {.column .fragment fragment-index="1"}
+```{r inverse-item-representation-distance}
+#| fig-align:  center
+#| fig-height: 8
+#| fig-width:  8
+
+mirt_item <- tribble(
+  ~item, ~a_1, ~a_2, ~d,
+  1,      1,    1,    0,
+  2,      1,   -1,   -0.5,
+  3,     -1,   -1,   -0.25,
+  4,     -1,    1,    0.25
+)
+
+mirt_item_params <- mirt_item |>
+  compute_mirt_params(d, starts_with('a'))
+
+mirt_item_coords <- mirt_item_params |>
+  compute_mirt_coords(D, MDISC, starts_with("cos"), original_coords = FALSE) |>
+  rename_with(str_remove, pattern = "transf_")
+
+mirt_item_coords |>
+  ggplot(
+    aes(
+      origin_1, origin_2,
+      xend = end_1,
+      yend = end_2,
+      color = factor(item), fill = factor(item)
+    ),
+  )                                                  +
+  geom_vline(xintercept = 0, linewidth = GRID_WIDTH) +
+  geom_hline(yintercept = 0, linewidth = GRID_WIDTH) +
+  geom_segment(
+    arrow     = arrow(angle = 20, length = unit(10, "points"), type = "closed"),
+    linejoin  = "mitre",
+    linewidth = VECTOR_WIDTH
+  ) +
+  scale_x_continuous(
+    limits       = c(-1.5, 1.5),
+    breaks       = -1:2,
+    minor_breaks = NULL,
+    name         = NULL,
+    sec.axis     = dup_axis(name = "*&theta;*~2~", labels = NULL)
+  ) +
+  scale_y_continuous(
+    limits       = c(-1.5, 1.5),
+    breaks       = -1:2,
+    minor_breaks = NULL,
+    name         = NULL,
+    sec.axis     = dup_axis(name = "*&theta;*~1~", labels = NULL)
+  ) +
+  scale_color_manual(values = ITEMS_PALETTE, guide = NULL) +
+  coord_fixed(clip = "on") +
+  theme(
+    axis.line          = element_blank(),
+    axis.title        = element_markdown(size = 20, padding = unit(0, "lines")),
+    axis.title.x       = element_markdown(hjust = .5),
+    axis.title.y.right = element_markdown(vjust = .5),
+    axis.ticks         = element_blank(),
+    panel.grid.major   = element_line(
+      linewidth = GRID_WIDTH,
+      linetype  = "17"
+    ),
+  )
+```
+:::
+::::::::::
+
+::: notes
+The generalization is straightforward: The MDISC implies squared values of the discrimination components (this is the previous inner product expanded), so it is always positive.
+
+The signed distance is the same, and the direction only needs to take into account one sign, that of the corresponding component for computing each cosine.
+
+\[NEXT\]
+
+We can see that each item points in a direction given by its discrimination components with their signs (so, 1 1, 1 -1, etc.).
+
+And the displacement from the origin is again with respect to the pointing direction.
+
+This seems obvious enough, but we must explicitly state that this definitions are valid in these cases, and that their interpretation do not change.
+
+\[PAUSE\]
+
+Now, to the "not so obvious"...
+:::
+
+## Orthogonality {.smaller}
+
+:::::: columns
+::: column
+```{r item-oblique-axes-1}
+#| fig-align:  center
+#| fig-height: 8
+#| fig-width:  8
+mirt_item <- tribble(
+  ~item, ~a_1, ~a_2, ~d,
+  1,     0.5,  1,    0
+)
+
+mirt_item_params <- mirt_item |>
+  compute_mirt_params(d, starts_with('a'))
+
+mirt_item_coords <- mirt_item_params |>
+  compute_mirt_coords(D, MDISC, starts_with("cos"), original_coords = FALSE) |>
+    rename_with(str_remove, pattern = "transf_")
+
+item_spikes <- mirt_item_coords        |>
+  slice(1 |> rep(2))                   |>
+  add_column(dim = 'F' |> paste0(1:2)) |>
+  mutate(
+    origin_1 = if_else(dim == 'F1', end_1, origin_1),
+    origin_2 = if_else(dim == 'F2', end_2, origin_2),
+  )
+
+mirt_item_coords |>
+  ggplot(
+    aes(
+      origin_1, origin_2,
+      xend = end_1,
+      yend = end_2,
+      color = factor(item), fill = factor(item)
+    ),
+  )                                                  +
+  geom_vline(xintercept = 0, linewidth = GRID_WIDTH) +
+  geom_hline(yintercept = 0, linewidth = GRID_WIDTH) +
+  geom_segment(
+    data = item_spikes,
+    mapping = aes(origin_1, origin_2, xend = end_1, yend = end_2),
+    linewidth = LINE_WIDTH,
+    linetype  = '43',
+    color     = PALETTE_BLUE["light"]
+  ) +
+  geom_segment(
+    arrow     = arrow(angle = 20, length = unit(10, "points"), type = "closed"),
+    linejoin  = "mitre",
+    linewidth = VECTOR_WIDTH
+  ) +
+  scale_x_continuous(
+    limits       = c(-0.75, 1.5),
+    breaks       = (-1:3)/2,
+    minor_breaks = NULL,
+    name         = NULL,
+    expand       = expansion(),
+    sec.axis     = dup_axis(name = "*&theta;*^*^~2~", labels = NULL)
+  ) +
+  scale_y_continuous(
+    limits       = c(-0.75, 1.5),
+    breaks       = (-1:2)/2,
+    minor_breaks = NULL,
+    name         = NULL,
+    expand       = expansion(),
+    sec.axis     = dup_axis(name = "*&theta;*^*^~1~", labels = NULL)
+  ) +
+  scale_color_manual(values = unname(PALETTE_BLUE["normal"]), guide = NULL) +
+  annotate(
+    "richtext",
+    x = c(0.5, -0.1), y = c(-0.1, 1),
+    label         = c("*a*^*^~11~", "*a*^*^~21~"),
+    size          = 8,
+    label.colour  = NA,
+    label.padding = unit(0, "lines"),
+    fill = NA
+  ) +
+  coord_fixed(clip = "on") +
+  theme(
+    axis.line          = element_blank(),
+    axis.title         = element_markdown(size = 20, padding = unit(0, "lines")),
+    axis.title.x       = element_markdown(hjust = 1/3),
+    axis.title.y.right = element_markdown(vjust = 1/3),
+    axis.ticks         = element_blank(),
+    panel.grid.major   = element_line(
+      linewidth = GRID_WIDTH,
+      linetype  = "17"
+    )
+  )
+```
+:::
+
+:::: column
+$$
+  \begin{align}
+    \mathbf{a}^*_1 &=
+      \begin{bmatrix}
+        0.5 \\
+        1
+      \end{bmatrix}\\
+      d^*_1 &= 0
+  \end{align}
+$$
+
+<br>
+
+::: fragment
+$$
+  \begin{align}
+    MDISC^*_1 &= \sqrt{
+        [0.5, 1]
+        \begin{bmatrix}
+          0.5 \\
+          1
+        \end{bmatrix}
+      } \\
+      &= \sqrt{ 0.5 · 0.5 + 1 · 1 } \\
+      &= \sqrt{ 0.25 + 1 } \\
+      &= \sqrt{ 1.25 } \approx 1.12
+  \end{align}
+$$
+:::
+::::
+::::::
+
+::: notes
+You'll recall that we needed orthogonal axes to apply Reckase's formulas.
+
+So let's say we have these "theta star" axes,...
+
+\[NEXT\]
+
+...where we have this item, with discrimination (.5, 1) in this coordinate system, where we may compute its MDISC.
+
+We can transform these axes to another coordinate system, for example, applying an oblique rotation...
+:::
+
+## Orthogonality {.smaller}
+
+::::: columns
+::: column
+```{r item-oblique-axes-2}
+#| fig-align:  center
+#| fig-height: 8
+#| fig-width:  8
+BASIS_VEC_1 <- c(1, 0)
+BASIS_VEC_2 <- c(-.5, 1)
+
+axis_slope <- BASIS_VEC_2[2] / BASIS_VEC_2[1]
+transf_matrix <- cbind(BASIS_VEC_1, BASIS_VEC_2) |> unname()
+
+item_coords_transf <- mirt_item_coords |>
+  pivot_longer(-item) |>
+  separate(name, into = c("coord", "dim")) |>
+  group_by(coord) |>
+  mutate(
+    dim   = paste0('F', dim),
+    value = solve(transf_matrix) %*% value |> drop()
+  ) |>
+  ungroup() |>
+  pivot_wider(names_from = dim)
+
+item_spikes_transf <- item_coords_transf         |>
+  select(-item)                                  |>
+  filter(coord == "end")                         |>
+  bind_rows(tibble(F1 = 0, F2 = 0))              |>
+  complete(F1, F2, fill = list(coord = "start")) |>
+  filter(F1 != 0 | F2 != 0)
+
+item_spikes_transf <- item_spikes_transf               |>
+  bind_rows(item_spikes_transf |> slice(3))            |>
+  mutate(n = paste0('F', (row_number() + 1) %% 2 + 1)) |>
+  pivot_wider(names_from = coord, values_from = F1:F2)
+
+item_spikes_transf_ob <- item_spikes_transf |>
+  pivot_longer(starts_with("F")) |>
+  separate(name, into = c("dim", "coord")) |>
+  pivot_wider(names_from = coord, values_from = value) |>
+  group_by(n) |>
+  mutate(
+    start = (transf_matrix %*% start |> drop()),
+    end   = (transf_matrix %*% end   |> drop())
+  ) |>
+  pivot_wider(names_from = dim, values_from = start:end)
+
+item_oblique_space <- mirt_item_coords |>
+  ggplot(
+    aes(
+      origin_1, origin_2,
+      xend = end_1,
+      yend = end_2,
+      color = factor(item), fill = factor(item)
+    ),
+  ) +
+  geom_abline(
+    intercept = -2:3,
+    slope     = -2,
+    linewidth = GRID_WIDTH,
+    linetype  = "17",
+    color     = AXIS_COLOR
+  ) +
+  geom_abline(slope = -2, linewidth = GRID_WIDTH) +
+  geom_hline(yintercept = 0,  linewidth = GRID_WIDTH) +
+  geom_segment(
+    data = item_spikes_transf_ob,
+    mapping = aes(start_F1, start_F2, xend = end_F1, yend = end_F2),
+    inherit.aes = FALSE,
+    linewidth = LINE_WIDTH,
+    linetype  = '43',
+    color     = PALETTE_BLUE["light"]
+  ) +
+  geom_segment(
+    arrow     = arrow(angle = 20, length = unit(10, "points"), type = "closed"),
+    linejoin  = "mitre",
+    linewidth = VECTOR_WIDTH
+  ) +
+  scale_x_continuous(
+    limits       = c(-0.75, 1.5),
+    breaks       = (-2:2)/2 + .375,
+    labels       = ~number(. - .375, .1),
+    minor_breaks = NULL,
+    name         = NULL,
+    expand       = expansion(),
+    sec.axis     = dup_axis(name = "*&theta;*~2~", labels = NULL)
+  ) +
+  scale_y_continuous(
+    limits       = c(-0.75, 1.5),
+    breaks       = (-1:2)/2,
+    minor_breaks = NULL,
+    name         = NULL,
+    expand       = expansion(),
+    sec.axis     = dup_axis(name = "*&theta;*~1~", labels = NULL)
+  ) +
+  scale_color_manual(values = unname(PALETTE_BLUE["normal"]), guide = NULL) +
+  annotate(
+    "richtext",
+    x = c(1, -0.59), y = c(-0.07, 1),
+    label         = c("*a*~11~", "*a*~21~"),
+    size          = 8,
+    label.colour  = NA,
+    label.padding = unit(0, "lines"),
+    fill = NA
+  ) +
+  coord_fixed(clip = "on") +
+  theme(
+    axis.line          = element_blank(),
+    axis.title         = element_markdown(size = 20, padding = unit(0, "lines")),
+    axis.title.x       = element_markdown(hjust = 0),
+    axis.title.y.right = element_markdown(vjust = 1/3),
+    axis.ticks         = element_blank(),
+    panel.grid.major.y = element_line(
+      linewidth = GRID_WIDTH,
+      linetype  = "17"
+    )
+  )
+
+item_oblique_space
+```
+:::
+
+::: {.column .fragment}
+<br> <br>
+
+> \[...\] before performing the differentiation, the constraint that Σ cos^2^**α** = 1 is added to the expression for the slope \[...\]
+
+--- @reckase_difficulty_1985 [p. 404]
+:::
+:::::
+
+::: notes
+...to obtain these "theta axes" (let's say, because they align with personality traits of our interest).
+We have now different discrimination components than in the "theta star" axes.
+
+\[NEXT\]
+
+If we applied here Reckase's restriction...
+:::
+
+## Orthogonality {.smaller}
+
+::::: columns
+::: column
+```{r item-oblique-axes-3}
+#| fig-align:  center
+#| fig-height: 8
+#| fig-width:  8
+mirt_item_transf <- tribble(
+  ~item, ~a_1, ~a_2, ~d,
+  1,     1,    1,    0
+)
+
+mirt_item_params_transf <- mirt_item_transf |>
+  compute_mirt_params(d, starts_with('a'))
+
+mirt_item_coords_transf <- mirt_item_params_transf |>
+  compute_mirt_coords(D, MDISC, starts_with("cos"), original_coords = FALSE) |>
+    rename_with(str_remove, pattern = "transf_")
+
+item_spikes <- mirt_item_coords_transf |>
+  slice(1 |> rep(2))                   |>
+  add_column(dim = 'F' |> paste0(1:2)) |>
+  mutate(
+    origin_1 = if_else(dim == 'F1', end_1, origin_1),
+    origin_2 = if_else(dim == 'F2', end_2, origin_2),
+  )
+
+mirt_item_coords_transf |>
+  ggplot(
+    aes(
+      origin_1, origin_2,
+      xend = end_1,
+      yend = end_2,
+      color = factor(item), fill = factor(item)
+    ),
+  )                                                  +
+  geom_vline(xintercept = 0, linewidth = GRID_WIDTH) +
+  geom_hline(yintercept = 0, linewidth = GRID_WIDTH) +
+  geom_segment(
+    data = item_spikes,
+    mapping = aes(origin_1, origin_2, xend = end_1, yend = end_2),
+    linewidth = LINE_WIDTH,
+    linetype  = '43',
+    color     = PALETTE_BLUE["light"]
+  ) +
+  geom_segment(
+    arrow     = arrow(angle = 20, length = unit(10, "points"), type = "closed"),
+    linejoin  = "mitre",
+    linewidth = VECTOR_WIDTH
+  ) +
+  scale_x_continuous(
+    limits       = c(-0.75, 1.5),
+    breaks       = (-1:3)/2,
+    minor_breaks = NULL,
+    name         = NULL,
+    expand       = expansion(),
+    sec.axis     = dup_axis(name = "*&theta;*~2~", labels = NULL)
+  ) +
+  scale_y_continuous(
+    limits       = c(-0.75, 1.5),
+    breaks       = (-1:2)/2,
+    minor_breaks = NULL,
+    name         = NULL,
+    expand       = expansion(),
+    sec.axis     = dup_axis(name = "*&theta;*~1~", labels = NULL)
+  ) +
+  scale_color_manual(values = unname(PALETTE_BLUE["normal"]), guide = NULL) +
+  annotate(
+    "richtext",
+    x = c(1, -0.1), y = c(-0.1, 1),
+    label         = c("*a*~11~", "*a*~21~"),
+    size          = 8,
+    label.colour  = NA,
+    label.padding = unit(0, "lines"),
+    fill = NA
+  ) +
+  coord_fixed(clip = "on") +
+  theme(
+    axis.line          = element_blank(),
+    axis.title         = element_markdown(size = 20, padding = unit(0, "lines")),
+    axis.title.x       = element_markdown(hjust = 1/3),
+    axis.title.y.right = element_markdown(vjust = 1/3),
+    axis.ticks         = element_blank(),
+    panel.grid.major   = element_line(
+      linewidth = GRID_WIDTH,
+      linetype  = "17"
+    )
+  )
+```
+:::
+
+::: column
+$$
+  \begin{align}
+    \mathbf{a}_1 &=
+      \begin{bmatrix}
+        1 \\
+        1
+      \end{bmatrix}\\
+      d_1 &= 0
+  \end{align}
+$$
+
+<br>
+
+$$
+  \begin{align}
+    MDISC_1 &= \sqrt{
+        [1, 1]
+        \begin{bmatrix}
+          1 \\
+          1
+        \end{bmatrix}
+      } \\
+      &= \sqrt{ 1 · 1 + 1 · 1 } \\
+      &= \sqrt{ 1 + 1 } \\
+      &= \sqrt{ 2 } \approx 1.41
+  \end{align}
+$$
+:::
+:::::
+
+::: notes
+...we would be assuming that the axes are actually orthogonal, implying that the MDISC is not invariant.
+
+As you can see, does not seem intuitively right to assume that both coordinate systems are orthogonal, ¿right?
+:::
+
+## Orthogonality {.smaller}
+
+::::: columns
+::: column
+```{r item-oblique-axes-2-rep}
+item_oblique_space
+```
+:::
+
+::: column
+<br> <br>
+
+> ~~\[...\] before performing the differentiation, the constraint that Σ cos^2^**α** = 1 is added to the expression for the slope \[...\]~~
+
+--- @reckase_difficulty_1985 [p. 404]
+:::
+:::::
+
+<center>
+
+::: {.fragment .r-center}
+### Generalization: "Oblique axes"
+:::
+
+</center>
+
+::: notes
+What we actually need is to compute the multidimensional parameters in this general space,...
+
+\[NEXT\]
+
+...which is not necessarily orthogonal (or, we should say more generally, not necessarily orthonormal).
+
+¿Why?
+Because we want this space to have a meaningful interpretation; we want it to be a geometrical representation of the probabilistic properties of our sample.
+:::
+
+## Oblique axes {.smaller}
+
+:::::::::: columns
+:::::: column
+$$
+  cov (\mathbf{\theta}) = \mathbf{\Sigma}
+$$
+
+::: {.fragment fragment-index="1"}
+$$
+  \mathbf{\Sigma} = \begin{bmatrix}
+      1 & 0.5 \\
+      0.5 & 1
+    \end{bmatrix}
+$$
+:::
+
+::: {.fragment fragment-index="2"}
+$$
+  \mathbf{\theta}^* = \mathbf{P} \mathbf{\theta}
+$$
+:::
+
+::: {.fragment fragment-index="2"}
+$$
+  cov (\mathbf{\theta}^*) =
+    \mathbf{\Sigma}^* =
+    \begin{bmatrix}
+      1 & 0 \\
+      0 & 1
+    \end{bmatrix}
+$$
+:::
+::::::
+
+::::: column
+:::: {.r-stack .fragment .fade-in fragment-index="1"}
+```{r corr-traits-example}
+#| fig-width:  5.5
+#| fig-height: 5.5
+
+set.seed(7117)
+
+corr_matrix <- matrix(c(1, .5, .5, 1), nrow = 2)
+
+thetas <- rmvnorm(10^4, sigma = corr_matrix) |>
+  as_tibble(.name_repair = ~paste0("trait_", 1:2)) |>
+    rownames_to_column("i")
+
+thetas |>
+  ggplot(mapping = aes(trait_1, trait_2)) +
+  geom_vline(xintercept = 0, linewidth = GRID_WIDTH) +
+  geom_hline(yintercept = 0, linewidth = GRID_WIDTH) +
+  geom_point(alpha = .33, shape = 16, colour = I(PALETTE_BLUE["normal"])) +
+  scale_x_continuous(
+    minor_breaks = NULL,
+    limits = c(-4, 4),
+    expand = expansion(),
+    name   = NULL,
+    sec.axis = dup_axis(name = "*&theta;*~2~", labels = NULL)
+  ) +
+  scale_y_continuous(
+    minor_breaks = NULL,
+    limits = c(-4, 4),
+    expand = expansion(),
+    name   = NULL,
+    sec.axis = dup_axis(name = "*&theta;*~1~", labels = NULL)
+  ) +
+  coord_fixed() +
+  theme(
+    axis.ticks       = element_blank(),
+    axis.line        = element_blank(),
+    axis.title       = element_markdown(),
+    axis.title.y     = element_markdown(),
+    panel.grid.major = element_line(linetype = "17", linewidth = GRID_WIDTH)
+  )
+```
+
+::: {.fragment .fade-in fragment-index="4"}
+```{r corr-traits-transf-example}
+#| fig-width:  5.5
+#| fig-height: 5.5
+
+# This is a square root of the correlation matrix, then inverted and transposed:
+orth_matrix <- c(1, 0, .5, sqrt(.75)) |> matrix(nrow = 2) |> solve() |> t()
+
+thetas_transf <- thetas |>
+  pivot_longer(starts_with("trait")) |>
+  group_by(i) |>
+  mutate(value = orth_matrix %*% value |> drop()) |>
+  pivot_wider() |>
+  ungroup()
+
+thetas_transf |>
+  ggplot(mapping = aes(trait_1, trait_2)) +
+  geom_vline(xintercept = 0, linewidth = GRID_WIDTH) +
+  geom_hline(yintercept = 0, linewidth = GRID_WIDTH) +
+  geom_point(alpha = .33, shape = 16, colour = I(PALETTE_BLUE["normal"])) +
+  scale_x_continuous(
+    minor_breaks = NULL,
+    limits = c(-4, 4),
+    expand = expansion(),
+    name   = NULL,
+    sec.axis = dup_axis(name = "*&theta;*^*^~2~", labels = NULL)
+  ) +
+  scale_y_continuous(
+    minor_breaks = NULL,
+    limits = c(-4, 4),
+    expand = expansion(),
+    name   = NULL,
+    sec.axis = dup_axis(name = "*&theta;*^*^~1~", labels = NULL)
+  ) +
+  coord_fixed() +
+  theme(
+    axis.ticks       = element_blank(),
+    axis.line        = element_blank(),
+    axis.title       = element_markdown(),
+    axis.title.y     = element_markdown(),
+    panel.grid.major = element_line(linetype = "17", linewidth = GRID_WIDTH)
+  )
+```
+:::
+::::
+:::::
+::::::::::
+
+::: notes
+So, let's say our latent trait vector is multivariate normal with covariane matrix $\mathbf{\Sigma}$.
+
+\[NEXT\]
+
+For the sake of the example, let's say it has unitary variances with a 0,5 correlation.
+
+\[NEXT\]
+
+Now, we can apply a "transformation" in the latent space that results in an identity covariance matrix.
+
+\[NEXT\]
+
+And if we want the geometrical space to be a representation of the latent space, the meaningful way is to represent these coordinates in an orthonormal basis (the covariance matrix is an identity matrix, the basis of this coordinate system also forms an identity matrix).
+
+But, if this is the coordinate system of $\mathbf{\theta^*}$, if we want to draw here the axes of $\mathbf{\theta}$, they cannot be these same ones, right?
+If they were, then the point cloud would be the ellipse we had before.
+:::
+
+## Oblique axes {.smaller}
+
+:::::: columns
+::: {.column width="33%"}
+```{r}
+#| fig-width:  5.5
+#| fig-height: 5.5
+
+ts_basis <- cbind(
+  c(1, 0),
+  c(sqrt(.25), sqrt(.75))
+)
+ls_basis <- t(solve(ts_basis))
+
+thetas_transf <- thetas |>
+  group_by(i) |>
+  pivot_longer(starts_with("trait")) |>
+  mutate(value = ls_basis %*% value |> drop()) |>
+  pivot_wider() |>
+  ungroup()
+
+thetas_transf |>
+  ggplot(mapping = aes(trait_1, trait_2)) +
+  geom_point(alpha = .33, shape = 16, colour = I(PALETTE_BLUE["normal"])) +
+  scale_x_continuous(
+    minor_breaks = NULL,
+    labels = \(breaks) '' |> rep(length(breaks)),
+    limits = c(-4, 4),
+    expand = expansion(),
+    name   = NULL,
+    sec.axis = dup_axis(name = "{*&theta;*~1~, *&theta;*~2~} ?", labels = NULL)
+  ) +
+  scale_y_continuous(
+    minor_breaks = NULL,
+    labels = \(breaks) '' |> rep(length(breaks)),
+    limits = c(-4, 4),
+    expand = expansion(),
+    name   = NULL
+  ) +
+  coord_fixed() +
+  theme(
+    axis.ticks   = element_blank(),
+    axis.line    = element_blank(),
+    axis.title   = element_markdown(),
+    axis.title.y = element_markdown(),
+    panel.grid   = element_blank()
+  )
+```
+:::
+
+::: {.column .fragment width="33%" fragment-index="1"}
+```{r question-mark}
+fa(
+  "arrow-right",
+  fill           = "#929acb",
+  height         = "200px",
+  vertical_align = "-9.5em",
+  margin_left    = "2em"
+)
+```
+:::
+
+::: {.column .fragment width="33%" fragment-index="1"}
+```{r corr-traits-transf-example}
+#| fig-width:  5.5
+#| fig-height: 5.5
+```
+:::
+::::::
+
+<br>
+
+<center>
+
+::: {.fragment fragment-index="1"}
+$$
+  \text{example:} \qquad
+  \mathbf{\Sigma} = \begin{bmatrix}
+      1 & 0.5 \\
+      0.5 & 1
+    \end{bmatrix}
+$$
+:::
+
+</center>
+
+::: notes
+So, if the basis matrix of $\mathbf{\theta^*}$, which has an identity covariance matrix, is an identity covariance matrix, what is $\mathbf{P}$, the basis matrix of $\mathbf{\theta}$.
+
+In other words: What is the coordinate system of $\mathbf{\theta}$...
+
+\[NEXT\]
+
+...that makes $\mathbf{\theta^*}$ spherical?
+:::
+
+## Oblique axes {.smaller}
+
+```{r create-grid-function}
+create_grid <- function(basis,
+                        x_limits = c(-4, 4),
+                        y_limits = c(-4, 4),
+                        break_step = 2) {
+  # Argument checking and formatting: ----
+    
+  ## Basis vectors tangents and norms
+  vec_tan <- basis[2, ] / basis[1, ]
+  
+  
+  # Main: ----
+  
+  # Define grid limits as a function of the axes limits (in canonical metric):
+  grid_box <- expand_grid(x = x_limits, y = y_limits) |> mutate(
+    x_lim = if_else(x == x_limits[1], "inf", "sup"),
+    y_lim = if_else(y == y_limits[1], "inf", "sup")
+  )
+  
+  # Select delimiting grid vertices, based on the basis vector directions
+  grid_bounds <- bind_rows(
+    h = grid_box |> mutate(slope = vec_tan[1], limit = y_lim),
+    v = grid_box |> mutate(slope = vec_tan[2], limit = x_lim),
+    .id = "grid"
+  ) |>
+    filter(xor(slope > 0, x_lim == y_lim)) |>
+    mutate(limit_intercept = y - slope * x) # Compute their intercept
+  
+  # Transformed (1, 1), expressed in the canonical basis
+  unit_point <- basis %*% c(1, 1) |> drop() |>
+    as_tibble(.name_repair = "minimal") |>
+    add_column(name = c('x', 'y') |> paste0('_unit')) |>
+    pivot_wider(values_from = value)
+  
+  # Grid specifications, in canonical basis
+  grid_specs <- grid_bounds |>
+    bind_cols(unit_point) |>
+    mutate(unit_intercept = y_unit - slope * x_unit) |>
+    select(-ends_with("unit")) |>
+    mutate(
+      n_units  = trunc(limit_intercept / unit_intercept),
+      n_breaks = n_units %/% break_step * break_step
+    )
+  
+  # Create vertical grid data, if the second basis vector is completely vertical
+  if (is.infinite(vec_tan[2])) {
+    
+    # Create vertical grid data
+    v_grid <- grid_bounds |>
+      filter(grid == "v") |>
+      mutate(
+        unit     = basis[1, 1],
+        n_units  = trunc(x / unit),
+        n_breaks = n_units %/% break_step * break_step
+      ) |>
+      select(grid, limit, n_breaks, unit) |>
+      pivot_wider(names_from = "limit", values_from = n_breaks) |>
+      reframe(coord = seq(from = inf, to = sup, by = break_step) * unit) |>
+      mutate(
+        grid      = 'v',
+        slope     = Inf,
+        intercept = NA_real_,
+        label_pos = coord,
+        ref       = as.character(!coord)
+      )
+    
+    # Filter out non-valid grid values
+    grid_specs <- grid_specs |> filter(!is.infinite(slope))
+  }
+  
+  # Create grid data
+  grid <- grid_specs |>
+    select(grid, limit, slope, unit_intercept, n_breaks) |>
+    pivot_wider(names_from = limit, values_from = n_breaks) |>
+    group_by(grid) |>
+    reframe(
+      slope,
+      coord = seq(from = inf, to = sup, by = break_step),
+      intercept = coord * unit_intercept
+    ) |>
+    mutate(
+      label_pos = if_else(
+        grid == "h",
+         intercept   + x_limits[1] * vec_tan[1],
+        (y_limits[1] - intercept)  / vec_tan[2]
+      ),
+      ref = as.character(!intercept)
+    )
+  
+    if (is.infinite(vec_tan[2])) return(grid |> bind_rows(v_grid))
+    
+    grid
+}
+
+plot_grid <- function(grid,
+                      x_limits = c(-4, 4),
+                      y_limits = c(-4, 4),
+                      break_step = 2,
+                      linetype_axis = 'solid',
+                      linetype_grid = 'dashed') {
+  
+  # Argument checking and formatting: ----
+    
+  ## Grid plot linetypes
+  linetypes <- c(`TRUE` = linetype_axis, `FALSE` = linetype_grid)
+  
+  ## Basis vectors tangents and norms
+  vec_tan <- grid |> distinct(grid, slope) |> deframe()
+  
+  ## Axis title positions
+  y_axis_titpos <- (y_limits[2] / vec_tan[2] - x_limits[1]) /
+    (x_limits[2] - x_limits[1])
+  x_axis_titpos <- (x_limits[2] * vec_tan[1] - y_limits[1]) /
+    (y_limits[2] - y_limits[1])
+  
+  
+  # Main: ----
+  
+  # Assign x axis label values and coordinates (to account for the vertical
+  #   special case)
+  x_labels <- grid |> filter(grid == "v") |> select(coord, label_pos)
+    
+  # Create vertical grid geometry if the second vector is completely vertical
+  if (is.infinite(vec_tan[2])) {
+
+    geom_vgrid <- geom_vline(
+      mapping = aes(xintercept = coord, linetype = ref),
+      data = grid |> filter(grid == "v")
+    )
+    
+    grid <- grid |> filter(grid == "h")
+  }
+  
+  grid_plot <- grid |>
+    ggplot() +
+    geom_abline(
+      mapping = aes(
+        intercept = intercept,
+        slope     = slope,
+        linetype  = ref
+      )
+    )
+  
+  if (is.infinite(vec_tan[2])) grid_plot <- grid_plot + geom_vgrid
+  
+  grid_plot +
+    scale_x_continuous(
+      minor_breaks = NULL,
+      breaks = x_labels |> pull(label_pos),
+      labels = x_labels |> pull(coord),
+      limits = x_limits,
+      expand = expansion(),
+      name   = NULL,
+      sec.axis = dup_axis(name = "*&theta;*~2~", labels = NULL)
+    ) +
+    scale_y_continuous(
+      minor_breaks = NULL,
+      breaks = grid |> filter(grid == "h") |> pull(label_pos),
+      labels = grid |> filter(grid == "h") |> pull(coord),
+      limits = y_limits,
+      expand = expansion(),
+      name   = NULL,
+      sec.axis = dup_axis(name = "*&theta;*~1~", labels = NULL)
+    ) +
+    scale_linetype_manual(values = linetypes, guide = NULL) +
+    coord_fixed() +
+    theme(
+      axis.ticks   = element_blank(),
+      axis.line    = element_blank(),
+      axis.title.x       = element_markdown(hjust = y_axis_titpos),
+      axis.title.y.right = element_markdown(vjust = x_axis_titpos)
+    )
+}
+
+transform_grid <- function(basis,
+                           x_limits = c(-4, 4),
+                           y_limits = c(-4, 4),
+                           break_step = 2,
+                           linetype_axis = 'solid',
+                           linetype_grid = 'dashed') {
+  
+  # Argument checking and formatting: ----
+  
+  # Main: ----
+  basis |>
+    create_grid(
+      x_limits   = x_limits,
+      y_limits   = y_limits,
+      break_step = break_step
+    ) |>
+    plot_grid(
+      x_limits   = x_limits,
+      y_limits   = y_limits,
+      break_step = break_step,
+      linetype_axis = 'solid',
+      linetype_grid = 'dashed'
+    )
+}
+```
+
+:::::: columns
+::: {.column width="33%"}
+<center>A</center>
+
+```{r grid-orthogonal-rotation}
+#| fig-width: 5
+rot_basis <- cbind(
+  c(sqrt(.75), -sqrt(.25)),
+  c(sqrt(.25), sqrt(.75))
+)
+
+rot_grid <- transform_grid(rot_basis)
+
+rot_grid
+```
+:::
+
+::: {.column width="33%"}
+<center>B</center>
+
+```{r grid-ts-basis}
+#| fig-width: 5
+ts_grid <- transform_grid(ts_basis)
+
+ts_grid
+```
+:::
+
+::: {.column width="33%"}
+<center>C</center>
+
+```{r grid-ls-basis}
+#| fig-width: 5
+ls_grid <- transform_grid(ls_basis)
+
+ls_grid
+```
+:::
+::::::
+
+<center>$$
+  \mathbf{\Sigma} = \begin{bmatrix}
+      1 & 0.5 \\
+      0.5 & 1
+    \end{bmatrix}
+$$</center>
+
+::: notes
+So, here are three possible options; one of them is the correct one.
+
+Remember that in this example, the covariance matrix has unitary variance and .5 correlation.
+:::
+
+## Oblique axes
+
+<center>
+
+![](../www/slideshow-assets/bit.ly_vote-coords.svg){width="400px"}
+
+<https://bit.ly/vote-coords>
+
+</center>
+
+## Oblique axes {.smaller}
+
+:::::: columns
+::: {.column width="33%"}
+<center>A?</center>
+
+```{r grid-orthogonal-rotation-spherical-option}
+#| fig-width: 5
+rot_basis <- cbind(
+  c(sqrt(.75), -sqrt(.25)),
+  c(sqrt(.25), sqrt(.75))
+)
+
+rot_grid <- transform_grid(rot_basis)
+
+rot_grid +
+    geom_point(
+    mapping = aes(trait_1, trait_2),
+    data    = thetas_transf,
+    alpha = .33, shape = 16, colour = I(PALETTE_BLUE["normal"])
+  )
+```
+:::
+
+::: {.column width="33%"}
+<center>B?</center>
+
+```{r grid-ts-basis-spherical-option}
+#| fig-width: 5
+ts_grid <- transform_grid(ts_basis)
+
+ts_grid +
+    geom_point(
+    mapping = aes(trait_1, trait_2),
+    data    = thetas_transf,
+    alpha = .33, shape = 16, colour = I(PALETTE_BLUE["normal"])
+  )
+```
+:::
+
+::: {.column width="33%"}
+<center>C?</center>
+
+```{r grid-ls-basis-spherical-option}
+#| fig-width: 5
+ls_grid <- transform_grid(ls_basis)
+
+ls_grid +
+    geom_point(
+    mapping = aes(trait_1, trait_2),
+    data    = thetas_transf,
+    alpha = .33, shape = 16, colour = I(PALETTE_BLUE["normal"])
+  )
+```
+:::
+::::::
+
+<br>
+
+[Answers in 3, 2, 1...](https://wall.sli.do/event/dPunB4BMx3S8hfSjaFSuFh?section=ae77dd00-34fb-4600-9677-337a65b04b83)
+
+::: notes
+\[CLICK LINK AFTER A WHILE\]
+:::
+
+## Oblique axes {.smaller}
+
+:::::::::: columns
+::: {.column width="33%"}
+<center>A</center>
+
+```{r scatter-orthogonal-rotation}
+#| fig-width: 5
+thetas_transf_rot <- thetas |>
+  group_by(i) |>
+  pivot_longer(starts_with("trait")) |>
+  mutate(value = rot_basis %*% value |> drop()) |>
+  pivot_wider() |>
+  ungroup()
+
+rot_grid +
+  geom_point(
+    data    = thetas_transf_rot,
+    mapping = aes(trait_1, trait_2),
+    alpha   = .33,
+    shape   = 16,
+    colour = I(PALETTE_BLUE["normal"])
+  )
+```
+:::
+
+::::: {.column width="33%"}
+<center>B</center>
+
+:::: r-stack
+```{r grid-ts-basis}
+#| fig-width: 5
+```
+
+::: fragment
+```{r scatter-ts-basis}
+#| fig-width: 5
+thetas_transf_wrong <- thetas |>
+  group_by(i) |>
+  pivot_longer(starts_with("trait")) |>
+  mutate(value = ts_basis %*% value |> drop()) |>
+  pivot_wider() |>
+  ungroup()
+  
+ts_grid +
+  geom_point(
+    data    = thetas_transf_wrong,
+    mapping = aes(trait_1, trait_2),
+    alpha   = .33,
+    shape   = 16,
+    colour = I(PALETTE_BLUE["normal"])
+  )
+```
+:::
+::::
+:::::
+
+::::: {.column width="33%"}
+<center>C</center>
+
+:::: r-stack
+```{r grid-ls-basis}
+#| fig-width: 5
+```
+
+::: fragment
+```{r scatter-ls-basis}
+#| fig-width: 5
+ls_scatter <- ls_grid +
+  geom_point(
+    data    = thetas_transf,
+    mapping = aes(trait_1, trait_2),
+    alpha   = .33,
+    shape   = 16,
+    colour = I(PALETTE_BLUE["normal"])
+  )
+
+ls_scatter
+```
+:::
+::::
+:::::
+::::::::::
+
+::: notes
+A is pretty clearly not the answer, as it is just an orthogonal rotation.
+
+Now, if you chose B, you probably thought that the axis units should not change (because the variances are unitary), and that the axes should form an angle which cosine is the correlation, that is, 0.5 (a 60º angle).
+
+In that case, you think exactly like I do.
+
+But if you picture this transformation in your mind, you will notice that when you make the axes closer, you will be squeezing the points in the distribution, making them look even more like a "sausage", so to speak.
+
+\[NEXT\]
+
+The resulting distribution is this; it took us hundreds of hours of work, during more than two years to realise this.
+
+So if you want to actually "stretch" the cloud of points in the distribution, you need to pull the axes apart,...
+
+\[NEXT\]
+
+...as in the coordinate axes C.
+
+But how is our intuition so wrong then?
+Well, the truth is that it is not.
+:::
+
+## Latent space vs. test space {.smaller}
+
+::::::: columns
+:::: column
+$$
+  P(Y_i = 1) = \Phi_L (\mathbf{a}_i^T \mathbf{\theta} + d_i)
+$$
+
+<br>
+
+::: {.fragment fragment-index="1"}
+$$
+  P(Y_i = 1) = \Phi_L ({\mathbf{a}^*_i}^T \mathbf{\theta}^* + d_i)
+$$
+:::
+::::
+
+:::: column
+$$
+  \mathbf{\theta}^* = \mathbf{P} \mathbf{\theta}
+$$
+
+<br>
+
+::: {.fragment fragment-index="1"}
+$$
+  \mathbf{a}^*_i = \mathbf{Q} \mathbf{a}_i \\
+$$
+:::
+::::
+:::::::
+
+<br>
+
+::: {.fragment fragment-index="2"}
+$$
+  \mathbf{a}_i^T \mathbf{\theta} =
+    {\mathbf{a}^*_i}^T \mathbf{\theta}^* =
+    \mathbf{a}_i^T \mathbf{Q}^T \mathbf{P} \mathbf{\theta}
+$$
+:::
+
+::: {.fragment fragment-index="2"}
+$$
+  \mathbf{Q} = (\mathbf{P}^{-1})^T
+$$
+:::
+
+::: notes
+The model probability must be invariant to a change of basis like this.
+
+\[NEXT\]
+
+So, the item vector must be transformed as well.
+
+\[NEXT\]
+
+And its transformation must be the opposite of the latent trait transformation.
+:::
+
+## Latent space vs. test space {.smaller}
+
+::::: columns
+::: column
+<center>Latent space</center>
+
+```{r scatter-latent-space}
+#| fig-width: 6.5
+ls_scatter
+```
+:::
+
+::: column
+<center>Test space</center>
+
+```{r grid-test-space}
+#| fig-width: 6.5
+ts_grid
+```
+:::
+:::::
+
+::: notes
+As it turns out, this gives a space where the axes actually do represent faithfully the latent covariances.
+
+But it is not the latent space, where the latent traits are represented.
+It is a specific space for the items, and we call it "test space".
+And we know it, because the inner products in both spaces have to be different from each other, for the model to be invariant to changes of bases, like the one you have just seen.
+:::
+
+## Latent space vs. test space {.smaller}
+
+```{r space-inner-products}
+# Mahalanobis distance:
+TRAIT_VECTOR        <- latex_bf("\\theta")
+TRAIT_NORM          <- latex_norm(TRAIT_VECTOR)
+TRAIT_VECTOR_T      <- latex_transp(TRAIT_VECTOR)
+TRAIT_COV_INV_TRAIT <- latex(TRAIT_VECTOR_T, COV_MATRIX_INV, TRAIT_VECTOR)
+MAH_DIST_DEF        <- latex_sqrt(TRAIT_COV_INV_TRAIT)
+MAH_DIST_EQ         <- latex_eq(TRAIT_NORM, MAH_DIST_DEF)
+
+INNER_PROD_INV_COV_EQ <- latex_eq(COV_MATRIX_INV, INNER_PROD_TRANSF_DEF)
+
+# Latent space:
+TRAIT_VECTOR_1    <- latex_sub(TRAIT_VECTOR, 1)
+TRAIT_VECTOR_2    <- latex_sub(TRAIT_VECTOR, 2)
+TRAIT_VECTOR_1_T  <- latex_transp(TRAIT_VECTOR_1)
+
+INNER_PROD     <- latex_innerprod(TRAIT_VECTOR_1, TRAIT_VECTOR_2)
+INNER_PROD_DEF <- latex(TRAIT_VECTOR_1_T, COV_MATRIX_INV, TRAIT_VECTOR_2)
+INNER_PROD_EQ  <- latex_eq(INNER_PROD, INNER_PROD_DEF)
+
+# Test space:
+DISCR_VECTOR_J <- latex_sub(DISCR_VECTOR_ANY, AUX_INDEX)
+DISCR_VECTOR_T <- latex_transp(DISCR_VECTOR)
+
+INNER_PROD_DISCR     <- latex_innerprod(DISCR_VECTOR, DISCR_VECTOR_J)
+INNER_PROD_DISCR_DEF <- latex(DISCR_VECTOR_T, COV_MATRIX, DISCR_VECTOR_J)
+INNER_PROD_DISCR_EQ  <- latex_eq(INNER_PROD_DISCR, INNER_PROD_DISCR_DEF)
+```
+
+> \[...\] the latent space should be regarded as a general Euclidean space with its *inner product* defined by $`r INNER_PROD_EQ`$.
+
+--- @zhang_theoretical_1999 [p. 221]
+
+<br>
+
+::: fragment
+> \[...\] the *inner product* in \[the test space\] is consistently defined by
+>
+> $`r INNER_PROD_DISCR_EQ`$
+
+--- @zhang_theoretical_1999 [p. 221]
+:::
+
+::: notes
+This is actually not new, it was already noted by Zhang & Stout, more than 25 years ago, to solve a different problem, but unfortunately they didn't provide a mathematical proof as we do here.
+
+As you see here, the latent space Gram matrix is the inverse covariance matrix (which results from the transformation matrix P, pre-multiplied by itself, P\^T P).
+The invariant distance then, in the latent space, is the Mahalanobis distance, which is the square root of the inner product of the latent trait vector with itself.
+
+\[NEXT\]
+
+And in the test space, the Gram matrix is the covariance matrix.
+
+But the important thing here, is that we have two different spaces, and that the item representation must be in their own space, the test space.
+
+And knowing these...
+:::
+
+## Generalized M2PL parameters {.smaller}
+
+::::: columns
+::: column
+$$
+`r latex_eq(MDISC_COV_PARAM, DISCR_VECTOR_COV_MODULE)`
+$$
+
+<br>
+
+$$
+`r latex_eq(
+     MIL_COV_PARAM,
+     latex_curlybraces("$DISTANCE_COV_DEF$, $DIR_COS_ITEM_VEC_COV_DEF$")
+   )`
+$$
+
+<br>
+
+$$
+  \mathbf{\Sigma} = \mathbf{S} \mathbf{R} \mathbf{S}
+$$
+:::
+
+::: {.column .fragment}
+```{r item-plot-out}
+#| fig-cap:   Item representation in non-orthonormal test space
+#| fig-align: center
+transform_grid(
+  ts_basis,
+  x_limits   = c(-2, 3),
+  y_limits   = c(-2, 2.8),
+  break_step = 1
+) +
+  geom_segment(
+    arrow     = arrow(angle = 20, length = unit(10, "points"), type = "closed"),
+    linejoin  = "mitre",
+    linewidth = VECTOR_WIDTH,
+    data      = items_oblique |> arrange(desc(item)),
+    mapping   = aes(
+      origin_transf_1, origin_transf_2,
+      xend  = end_transf_1, yend = end_transf_2,
+      color = item, fill = item
+    )
+  ) +
+  scale_color_manual(values = PALETTE, guide = NULL) +
+  coord_fixed(expand = FALSE, clip = "on")
+```
+:::
+:::::
+
+::: notes
+The complete definition of the parameters is as you see here.
+
+The MDISC is the square root of the inner product of the discrimination vector; the signed distance does not change.
+
+And the direction cosines incorporate this term: It pre-multiplies the discrimination vector by the covariance matrix, and also has this "normalizing term" that is a diagonal matrix of standard deviations..
+
+\[IF THERE IS TIME; NEXT\]
+
+You can see here:
+
+-   Items in the first or third quadrant are "stretched"; their MDISC become larger, while the opposite happens in the other two quadrants (these two items have components with the same absolute values)
+
+-   Simple items (in one of the axis) are rotated, but their MDISC is not affected.
+
+-   Also, simple iems are not necessarily orthogonal to the other axis, while complex items can be.
+:::
+
+## To be continued...
+
+-   Multidimensional IRT - FA parallelism
+
+<br>
+
+::: fragment
+-   M2PL model extensions: Graded scale, nominal response, 3PL...
+
+<br>
+
+-   Other models
+:::
+
+::: notes
+This opens up other interesting questions, such as how this mirrors results from the factor analytic theory,...
+
+\[NEXT\]
+
+...and how this applies to other models, extensions of the multidimensional 2PL, or completely different ones.
+:::
+
+## References {.smaller}
+
+::: {#refs}
+:::
+
+## The end
+
+<center>
+
+### Thanks for your attention!
+
+</center>
+
+::::: columns
+::: column
+![](../www/slideshow-assets/foto_daniel.jpg){width="200px" fig-align="center"}
+
+<center>Daniel Morillo, Ph.D.</center>
+:::
+
+::: column
+![](../www/slideshow-assets/foto_mario.jpg){width="200px" fig-align="center"}
+
+<center>Mario Luzardo, Ph.D.</center>
+:::
+:::::
+
+Contact: [danielmorillo.ac\@gmail.com](mailto:danielmorillo.ac@gmail.com){.email}
+
+Comments & questions welcome!
+
+Read the preprint: <https://bit.ly/mirt-preprint>
