@@ -185,8 +185,7 @@ the two measured dimensions are orthogonal in the first group
 and perfectly correlated in the second one.
 While the previous formula seems correct in the first group,
 one can intuitively say that,
-because the two dimensions are *perfectly aligned* and thus
-simply sum up in the second group,
+because the two dimensions are *perfectly aligned* in the second group,
 the item `r MDISC_SYM` should be the algebraic sum of both components,
 that is, $`r MDISC_VALUE_COLLIN`$.
 Similarly, the correlation between two simple items,
