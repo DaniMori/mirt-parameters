@@ -95,9 +95,17 @@ geometrical representation of the measured construct. [...]
 
 # Responses to Reviewer 4:
 
+###### It is always best, many would say required, to label the axes. The lack of axis labels in the graphics of Figure 1 make the rest of these comments difficult to type, so for convenience I imagine the axes are labeled conventionally x and y in the left panel, and x and y' in the right panel, indicating that y' is a rotated representation of y. (In the ms., it would be best to tie the labeling notation to the algebra used.)
+
+We had overlooked labelling the axes and have done so in this new version.
+We thank once again the reviewer for pointing this out.
+
 ###### One part of the factor model that is understated in this ms. is the population distribution of the factor scores (not estimates, but the latent variable values). That could be ameliorated by adding a few contours of the bivariate normal (0, 1, rho=0) (that is, circles :) to the left panel graphic. That population distribution is implicit in EFA, and the original Reckase work.
 
-
+Our understanding of Reckase's original work is the same as the reviewer's.
+We think that the orthogonality (actually, orthonormality) assumption was implicit at the time of @reckase_difficulty_1985.
+Because of that, an orthonormal (not just orthogonal) basis was a sound assumption.
+However, as Multidimensional IRT theory, applied researchers started applying these and Reckase and McKinley's -@reckase_discriminating_1991 formulae without noticing they were applying them to a more general case (this is part of another work-in-progress manuscript).
 
 ###### Then one could make another version of the left panel with contours for the rho=0.5 population distribution. Comparison of that with the previously-described version would show that the arrows representing discrimination do not have the same numerical meaning with respect to the variance (standard deviation) of the population distribution *in the direction of the arrows*, which is part of the point of all of this.
 
@@ -109,7 +117,13 @@ geometrical representation of the measured construct. [...]
 
 ###### This graphic is potentially confusing. In addition to the absence of axis labels mentioned above, it has oddly placed gray dotted grid lines. I would think it would have vertical gray dotted grid lines showing placement on the horizontal axis (x), and oblique gray dotted grid lines (orthogonal to y') showing placement on the (oblique) axis y'. With axis values -2 ... 0 ... +2 at the margins of *those* gridlines. Instead, it has the opposite: labeled horizontal grid lines that don't correspond to any axis values, and oblique grid lines labeled 0-1-2-3-4 that similarly don't correspond to any axis, but rather to how far away a point is from y'. Basically, the graphic would be easier to understand with labels on the axes, and two sets of grid lines orthogonal to those that are currently there (omitting those that are currently there).
 
-
+We understand this graphic may be misleading, but the grid lines are properly placed in our version of the figure:
+Each point in the test space is intended to represent a coordinate vector, which is the displacement from the origin given by a linear combination of the basis vector, with the vector components being the coefficient of each basis vector.
+For example, the tip of the vector representing item 1 is at coordinate (+2, +2).
+This means the point is displaced twice the length of the first vector basis along its direction (i.e., along the horizontal axis), that is, two units along the horizontal axis, and then another _two units parallel to the direction of the oblique axis_.
+These displacements, parallel to the direction of the axess, is what the grid lines intend to represent.
+This representation is somewhat equivalent to a _pattern matrix_ representation in the factor model, while the one proposed by the reviewer would stand for the correlation of the item with each latent dimension, being somewhat equivalent to a _structure matrix_ representation.
+This can be more easily understood by comparing figures <!-- # TODO: complete --> and <!-- # TODO: complete --> in @harman_modern_1976 <!-- # TODO: complete -->.
 
 ###### That said, one could also add elliptical contours representing the population distribution to the left panel of Figure 1. That would be a little complicated to compute; it's a "squeezed in" ellipsoid due to the rotation of the y axis to y'. but when compared to a version of the right panel with ellipses for a correlation of 0.5, the arrows would represent the same numerical values of discrimination relative to the standard deviation of the population in the arrows' directions.
 
