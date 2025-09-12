@@ -1,0 +1,56 @@
+---
+output:
+  officedown::rdocx_document:
+    mapstyles:
+      First Paragraph: Body Text
+    base_format: bookdown::word_document2
+    reference_docx: ../www/Template.docx
+    number_sections: no
+    keep_md:         no
+bibliography: ../www/Multidimensional-parameters-MCLM.bib
+csl:          ../www/apa-old-doi-prefix.csl
+editor_options: 
+  chunk_output_type: console
+---
+
+June 2, 2025.
+
+<br>
+
+Sandip Sinharay, PhD \
+Editor, *Psychometrika* \
+Educational Testing Service, USA
+
+<br>
+
+Dear Dr. Sinharay:
+
+Please find attached the updated version of our manuscript
+*"A generalized definition of multidimensional item response theory
+parameters"*.
+We hope that this new version lives up to the expectations of
+the action editor and the reviewers;
+we have put as much effort as we have been able to address all the comments and
+suggestions, which we believe have helped improve the quality of our paper.
+You will find our thorough responses in the document attached to this letter.
+However, we acknowledge we may not have resolved satisfactorily all the action
+editor's and reviewers' concerns.
+Therefore, we would kindly ask you to forward to them our good will
+and predisposition to address any other comments or suggestions,
+or clarify further on the previous ones.
+
+We thank you in advance for considering our reviewed manuscript.
+Please feel free to contact us again at my aforementioned email address
+(dvmorillo@psi.uned.es).
+We will be happy to address any additional comments or suggestions
+the action editor or the reviewers may deem necessary.
+
+<br>
+
+Sincerely,
+
+Daniel Morillo, Ph.D.\
+Department of Behavioral Science Methodology \
+Universidad Nacional de Educación a Distancia (UNED) \
+C. Juan del Rosal 10, Office 2.74 \
+28040 Madrid, Spain
