@@ -59,7 +59,7 @@ source("R/Constants.R", encoding = 'UTF-8')
 
 We have made most of the corrections suggested by Thissen (with only two exceptions, see below), which no doubt will improve the quality of our manuscript.
 We would also like to thank this reviewer for having the courtesy of performing this thorough grammar review; being the authors non-native English speakers, we have made the mistake of being overconfident on our language skills and automatic correction tools.
-This review has also helped setting our condifence to a more realistic level for future submissions.
+This review has also helped to set our confidence to a more realistic level for future submissions.
 
 The only suggestions not accepted are:
 
