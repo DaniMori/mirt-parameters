@@ -57,21 +57,62 @@ source("R/Constants.R", encoding = 'UTF-8')
 
 ###### 1) Minor grammatical errors/phrasing, as pointed out by Thissen’s (who is Reviewer 4 according to ScholarOne) Review 1 (that is attached) need to be addressed.
 
+We have made most of the corrections suggested by Thissen (with only two exceptions, see below), which no doubt will improve the quality of our manuscript.
+We would also like to thank this reviewer for having the courtesy of performing this thorough grammar review; being the authors non-native English speakers, we have made the mistake of being overconfident on our language skills and automatic correction tools.
+This review has also helped setting our condifence to a more realistic level for future submissions.
+
+The only suggestions not accepted are:
+
+In p. 4 (line 2), we think that "the two dimensions [...] _combine_ in the second group" does not reflect accurately the fact that the two dimensions are collapsed into a single one when the correlation is 1.
+We have therefore decided to just drop this clause, as it is redundant with the previous one which states that "the two dimensions are _perfectly aligned_".
+This sentence now reads:
+
+> [...] because the two dimensions are *perfectly aligned* in the second group,
+the item `r MDISC_SYM` should be the algebraic sum of both components, [...]
+
+In p. 13 (line 2), dropping, "the squared direction cosines sum ~up~ to 1" did not sound well, so instead we reformulated the sentence as:
+
+> To compute the direction of the maximum slope,
+Reckase leverages the property that
+the sum of the squared direction cosines equals 1 (see Equation 7 therein).
+[...]
+
+Finally, the sentence that was found difficult to understand in the abstract (p. 1, lines 5-7) has been rewritten as follows:
+
+>  [...]
+We apply Reckase's maximum discrimination point method to define them in an
+arbitrary algebraic basis.
+Then, we define such basis to be a
+geometrical representation of the measured construct. [...]
+
 ###### 2) I would like to see the graphics improved as suggested by Thissen's Review 2.  Labeling of axes is key for clarity.  And providing contour plots of the factor score ( latent variable) distributions will also help the reader’s understanding, especially for those readers coming from the IRT perspective.
 
+
+
 ###### 3) I would like to see additional comments in their closing paragraph on how testing practitioners should use or what insights can be obtained by reviewing the different representations of the latent ability space and the item space. I see the mention of multigroup equating/linking, but I would like to see more discussion about how the test results and subsequent uses could be affected.
+
 
 
 # Responses to Reviewer 4:
 
 ###### One part of the factor model that is understated in this ms. is the population distribution of the factor scores (not estimates, but the latent variable values). That could be ameliorated by adding a few contours of the bivariate normal (0, 1, rho=0) (that is, circles :) to the left panel graphic. That population distribution is implicit in EFA, and the original Reckase work.
 
+
+
 ###### Then one could make another version of the left panel with contours for the rho=0.5 population distribution. Comparison of that with the previously-described version would show that the arrows representing discrimination do not have the same numerical meaning with respect to the variance (standard deviation) of the population distribution *in the direction of the arrows*, which is part of the point of all of this.
+
+
 
 ###### Two graphics with orthogonal axes but different population distributions are the way orthogonal vs. oblique solutions are represented in MIRT analyses. The ms. misses an opportunity to clarify that. Different population distributions on orthogonal axes are the way MIRT folks have thought about factor correlation; factor analysts have thought about 'rotation' and oblique axes (the left panel of Figure 1); it's two sides of the same coin.
 
+
+
 ###### This graphic is potentially confusing. In addition to the absence of axis labels mentioned above, it has oddly placed gray dotted grid lines. I would think it would have vertical gray dotted grid lines showing placement on the horizontal axis (x), and oblique gray dotted grid lines (orthogonal to y') showing placement on the (oblique) axis y'. With axis values -2 ... 0 ... +2 at the margins of *those* gridlines. Instead, it has the opposite: labeled horizontal grid lines that don't correspond to any axis values, and oblique grid lines labeled 0-1-2-3-4 that similarly don't correspond to any axis, but rather to how far away a point is from y'. Basically, the graphic would be easier to understand with labels on the axes, and two sets of grid lines orthogonal to those that are currently there (omitting those that are currently there).
 
+
+
 ###### That said, one could also add elliptical contours representing the population distribution to the left panel of Figure 1. That would be a little complicated to compute; it's a "squeezed in" ellipsoid due to the rotation of the y axis to y'. but when compared to a version of the right panel with ellipses for a correlation of 0.5, the arrows would represent the same numerical values of discrimination relative to the standard deviation of the population in the arrows' directions.
+
+
 
 # References
