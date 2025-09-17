@@ -165,7 +165,9 @@ plot_grid <- function(grid,
                       y_limits = c(-4, 4),
                       break_step = 2,
                       linetype_axis = 'solid',
-                      linetype_grid = 'dashed') {
+                      linetype_grid = 'dashed',
+                      linewidth     = .5,
+                      axis_ticks    = FALSE) {
   
   # Argument checking and formatting: ----
   
@@ -192,7 +194,11 @@ plot_grid <- function(grid,
   if (is.infinite(vec_tan[2])) {
     
     geom_vgrid <- geom_vline(
-      mapping = aes(xintercept = coord, linetype = ref),
+      mapping = aes(
+        xintercept = coord,
+        linetype   = ref,
+        linewidth  = I(linewidth)
+      ),
       data = grid |> filter(grid == "v")
     )
     
@@ -205,7 +211,8 @@ plot_grid <- function(grid,
       mapping = aes(
         intercept = intercept,
         slope     = slope,
-        linetype  = ref
+        linetype  = ref,
+        linewidth = I(linewidth)
       )
     )
   
@@ -233,10 +240,12 @@ plot_grid <- function(grid,
     scale_linetype_manual(values = linetypes, guide = NULL) +
     coord_fixed() +
     theme(
-      axis.ticks   = element_blank(),
-      axis.line    = element_blank(),
+      axis.ticks         = if (axis_ticks) element_line() else element_blank(),
+      axis.ticks.x.top   = element_blank(),
+      axis.ticks.y.right = element_blank(),
+      axis.line          = element_blank(),
       axis.title.x       = element_markdown(hjust = y_axis_titpos),
-      axis.title.y.right = element_markdown(vjust = x_axis_titpos)
+      axis.title.y.right = element_markdown(vjust = x_axis_titpos, angle = 0)
     )
 }
 
@@ -245,7 +254,9 @@ transform_grid <- function(basis,
                            y_limits = c(-4, 4),
                            break_step = 2,
                            linetype_axis = 'solid',
-                           linetype_grid = 'dashed') {
+                           linetype_grid = 'dashed',
+                           linewidth = .5,
+                           axis_ticks = FALSE) {
   
   # Argument checking and formatting: ----
   
@@ -260,7 +271,9 @@ transform_grid <- function(basis,
       x_limits   = x_limits,
       y_limits   = y_limits,
       break_step = break_step,
-      linetype_axis = 'solid',
-      linetype_grid = 'dashed'
+      linetype_axis = linetype_axis,
+      linetype_grid = linetype_grid,
+      linewidth = linewidth,
+      axis_ticks = axis_ticks
     )
 }

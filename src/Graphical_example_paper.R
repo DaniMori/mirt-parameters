@@ -74,9 +74,9 @@ theme_set( # `ggplot` output configuration
     base_line_size = LINE_WIDTH
   ) %+replace%
     theme(
-      axis.title.x = element_text(hjust = AXIS_LAB_POS),
-      axis.title.y = element_text(vjust = AXIS_LAB_POS, angle = 0),
-      panel.grid   = element_line(color = AXIS_COLOR)
+      axis.title.x       = element_text(hjust = AXIS_LAB_POS),
+      axis.title.y.right = element_text(vjust = AXIS_LAB_POS, angle = 0),
+      panel.grid         = element_line(color = AXIS_COLOR)
     )
 )
 
@@ -259,93 +259,49 @@ item_params_output <- item_params                          |>
   set_table_properties(layout = "autofit")
 
 ## ----compose-oblique-plot----
-plot_oblique <- items_oblique |>
-  arrange(desc(item))         |> # To plot them in reverse order
-  ggplot(
-    aes(
+
+plot_oblique <- transform_grid(
+  transform_matrix_inv_transp,
+  x_limits = c(-2, 3),
+  y_limits = c(-2, 2.8),
+  break_step = 1,
+  linetype_grid = "17",
+  linewidth = LINE_WIDTH,
+  axis_ticks = TRUE
+) +
+  geom_segment(
+    mapping   = aes(
       origin_transf_1, origin_transf_2,
       xend  = end_transf_1, yend = end_transf_2,
-      color = item, fill = item
+      color = item
     ),
-  )                                                         +
-  geom_abline(slope = CORR_ARC_TAN, linewidth = LINE_WIDTH) +
-  geom_abline(
-    slope     =  CORR_ARC_TAN,
-    intercept = -CORR_ARC_TAN * (-4:4),
-    linewidth = LINE_WIDTH,
-    linetype  = "17"
-  )                                                         +
-  geom_hline(yintercept = 0, linewidth = LINE_WIDTH)        +
-  geom_segment(
+    data = items_oblique |> arrange(desc(item)), # To plot them in reverse order
     arrow     = arrow(angle = 20, length = unit(10, "points"), type = "closed"),
     linejoin  = "mitre",
     linewidth = VECTOR_WIDTH
-  )                                                         +
-  scale_x_continuous(
-    limits       = c(-2, 3),
-    breaks       = (0:4) - 2 / CORR_ARC_TAN,
-    labels       = 0:4,
-    minor_breaks = NULL,
-    name         = NULL,
-    oob          = oob_keep
-  )                                                         +
-  scale_y_continuous(
-    limits       = c(-2, 2.8),
-    breaks       = -3:3 * CORR_ARC_SIN,
-    labels       = function(x) x / CORR_ARC_SIN,
-    minor_breaks = 0,
-    name         = NULL,
-    oob          = oob_keep
-  )                                                         +
-  scale_color_manual(values = PALETTE, guide = NULL)        +
-  coord_fixed(expand = FALSE, clip = "on")                  +
-  theme(
-    axis.line          = element_blank(),
-    panel.grid.major.y = element_line(
-      color     = "black",
-      linewidth = LINE_WIDTH,
-      linetype  = "17"
-    )
-  )
+  ) +
+  scale_color_manual(values = PALETTE, guide = NULL)
 
 ## ----compose-orthogonal-plot----
 
-plot_orth <- items_orth |>
-  arrange(desc(item))   |> # To plot them in reverse order
-  ggplot(
-    aes(
+plot_orth <- transform_grid(
+  diag(2),
+  x_limits = c(-2.5, 2.5),
+  y_limits = c(-2, 2.8),
+  break_step = 1,
+  linetype_grid = "17",
+  linewidth = LINE_WIDTH,
+  axis_ticks = TRUE
+) +
+  geom_segment(
+    mapping   = aes(
       origin_transf_1, origin_transf_2,
       xend  = end_transf_1, yend = end_transf_2,
-      color = item, fill = item
+      color = item
     ),
-  )                                                  +
-  geom_vline(xintercept = 0, linewidth = LINE_WIDTH) +
-  geom_hline(yintercept = 0, linewidth = LINE_WIDTH) +
-  geom_segment(
+    data = items_orth |> arrange(desc(item)), # To plot them in reverse order
     arrow     = arrow(angle = 20, length = unit(10, "points"), type = "closed"),
     linejoin  = "mitre",
     linewidth = VECTOR_WIDTH
   ) +
-  scale_x_continuous(
-    limits       = c(-2.5, 2.5),
-    breaks       = -2:2,
-    minor_breaks = NULL,
-    name         = NULL,
-    oob          = oob_keep
-  ) +
-  scale_y_continuous(
-    limits       = c(-2, 2.8),
-    breaks       = -3:3,
-    name         = NULL,
-    oob          = oob_keep
-  ) +
-  scale_color_manual(values = PALETTE)               +
-  coord_fixed(expand = FALSE, clip = "on")           +
-  theme(
-    axis.line        = element_blank(),
-    panel.grid.major = element_line(
-      color     = "black",
-      linewidth = LINE_WIDTH,
-      linetype  = "17"
-    )
-  )
+  scale_color_manual(values = PALETTE)
