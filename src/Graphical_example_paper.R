@@ -267,7 +267,7 @@ plot_oblique <- transform_grid(
   break_step = 1,
   linetype_grid = "17",
   linewidth = LINE_WIDTH,
-  axis_ticks = TRUE
+  axis_ticks = "axis"
 ) +
   geom_segment(
     mapping   = aes(
@@ -291,7 +291,7 @@ plot_orth <- transform_grid(
   break_step = 1,
   linetype_grid = "17",
   linewidth = LINE_WIDTH,
-  axis_ticks = TRUE
+  axis_ticks = "axis"
 ) +
   geom_segment(
     mapping   = aes(
