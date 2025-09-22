@@ -262,8 +262,8 @@ item_params_output <- item_params                          |>
 
 plot_oblique <- transform_grid(
   transform_matrix_inv_transp,
-  x_limits = c(-2, 3),
-  y_limits = c(-2, 2.8),
+  x_limits = c(-2,    3),
+  y_limits = c(-1.99, 2.81),
   break_step = 1,
   linetype_grid = "17",
   linewidth = LINE_WIDTH,
@@ -286,12 +286,13 @@ plot_oblique <- transform_grid(
 
 plot_orth <- transform_grid(
   diag(2),
-  x_limits = c(-2.5, 2.5),
-  y_limits = c(-2, 2.8),
+  x_limits = c(-2.5,  2.5),
+  y_limits = c(-1.99, 2.81),
   break_step = 1,
   linetype_grid = "17",
   linewidth = LINE_WIDTH,
-  axis_ticks = "axis"
+  axis_ticks = "axis",
+  axis_lab_disp = c(.15, -.15)
 ) +
   geom_segment(
     mapping   = aes(

@@ -70,8 +70,7 @@ format_prop_like <- function(values, sig = 3, drop_0 = TRUE) {
 create_grid <- function(basis,
                         x_limits = c(-4, 4),
                         y_limits = c(-4, 4),
-                        break_step = 2,
-                        pos_axis = FALSE) {
+                        break_step = 2) {
   # Argument checking and formatting: ----
   
   ## Basis vectors tangents and norms
@@ -111,79 +110,68 @@ create_grid <- function(basis,
     deframe()
     
   # Grid specifications, in canonical basis
-  grid_specs <- grid_bounds |>
-    mutate(unit_intercept = unit_point[['y']] - slope * unit_point[['x']]) |>
-    mutate(
-      n_units  = trunc(limit_intercept / unit_intercept),
-      n_breaks = n_units %/% break_step * break_step
-    )
+  grid_specs <- grid_bounds |> mutate(
+    unit_intercept = unit_point[['y']] - slope * unit_point[['x']],
+    n_units  = trunc(limit_intercept / unit_intercept),
+    n_breaks = n_units %/% break_step * break_step
+  )
   
-  # Filter out non-valid grid values
-  if (is.infinite(vec_tan[2])) {
-    
-    grid_specs <- grid_specs |> filter(!is.infinite(slope))
-  }
   
   # Create grid data
   grid <- grid_specs |>
     select(grid, limit, slope, unit_intercept, n_breaks) |>
+    filter(!is.infinite(slope)) |> # Filter out vertical grid lines
     pivot_wider(names_from = limit, values_from = n_breaks) |>
     group_by(grid, slope) |>
     reframe(
-      coord     = seq(from = inf, to = sup, by = break_step),
-      distance  = coord,                 # Distance to axis (in canonical basis)
-      ref       = as.character(!coord),  # Reference axis (for `coord == 0`)
-      intercept = coord * unit_intercept # y for x = 0 (in canonical basis) 
-    )
-  
-  if (is.infinite(vec_tan[2])) {
-    
-    # Create vertical grid data, if the second basis vector is completely vertical
-    v_grid <- grid_bounds |>
-      filter(grid == "v") |>
-      mutate(
-        unit     = basis[1, 1],
-        n_units  = trunc(x / unit),
-        n_breaks = n_units %/% break_step * break_step
-      ) |>
-      select(grid, limit, n_breaks, unit) |>
-      pivot_wider(names_from = "limit", values_from = n_breaks) |>
-      reframe(distance = seq(from = inf, to = sup, by = break_step) * unit) |>
-      mutate(
-        grid      = 'v',
-        slope     = Inf,
-        intercept = NA_real_,
-        label_pos = distance, # Distance in the canonical basis
-        ref       = as.character(!distance) # Reference axis (for `coord == 0`)
-      )
-    
-    grid <- grid |> bind_rows(v_grid)
-  }
-  
-  grid <- if (pos_axis) {
-    
-    # Label coordinates on the axes (when they must be positioned on them)
-    # label_coords <- 
-      grid |>
-      mutate(dist = coord, main = coord, alt = 0) |>
-      group_by(grid, dist) |>
-      pivot_longer(main:alt, names_to = "coord_type") |>
-      mutate(coord)
-      
-      
-  } else {
-    
-    # Label positions on the margins
-    grid |> mutate(
+      label     = seq(from = inf, to = sup, by = break_step), # to axis
+      intercept = label * unit_intercept # y for `x == 0` (canonical)
+    ) |>
+    # Compute the position of the axis labels (on the plot margins)
+    mutate(
       label_pos = if_else(
         grid == "h",
-        intercept   + x_limits[1] * vec_tan[1],
+         intercept   + x_limits[1] * vec_tan[1],
         (y_limits[1] - intercept)  / vec_tan[2]
       )
     )
+  
+  if (vec_tan |> is.infinite() |> any()) {
+    
+    # Create vertical grid data, if any of the basis vectors is vertical
+    grid <- grid |> bind_rows(
+      grid_bounds |>
+        filter(is.infinite(slope)) |>
+        mutate(
+          unit     = basis[1, 1], # NOTE: May misbehave if axis 1 is vertical.
+          n_units  = trunc(x / unit),
+          n_breaks = n_units %/% break_step * break_step
+        ) |>
+        select(grid, slope, limit, n_breaks, unit) |>
+        pivot_wider(names_from = "limit", values_from = n_breaks) |>
+        group_by(across(grid:slope)) |>
+        reframe(
+          label     = seq(from = inf, to = sup, by = break_step),
+          label_pos = label * unit,
+        ) |>
+        mutate(
+          intercept = NA_real_
+          # ref       = as.character(!label) # Reference axis (for `coord == 0`)
+        )
+    )
   }
   
-  grid
+  grid |> mutate(
+    ref     = as.character(!label), # Reference axis (when `position == 0`)
+    coord_x = if_else(grid == "v", label, 0), # Axis point coordinates
+    coord_y = if_else(grid == "h", label, 0)  #   (x and y for both axes)
+  ) |>
+    # Transform coordinates with the basis matrix
+    pivot_longer(coord_x:coord_y, names_to  = "coord") |>
+    group_by(across(grid:ref)) |>
+    mutate(value = basis %*% value |> drop()) |>
+    ungroup() |>
+    pivot_wider(names_from = coord, values_from = value)
 }
 
 plot_grid <- function(grid,
@@ -192,7 +180,8 @@ plot_grid <- function(grid,
                       linetype_axis = 'solid',
                       linetype_grid = 'dashed',
                       linewidth     = .5,
-                      axis_ticks    = c("margin", "axis", "off")) {
+                      axis_ticks    = c("margin", "axis", "both", "off"),
+                      axis_lab_disp = c(.1, -.15)) {
   
   # Argument checking and formatting: ----
   
@@ -208,30 +197,11 @@ plot_grid <- function(grid,
   x_axis_titpos <- (x_limits[2] * vec_tan[1] - y_limits[1]) /
     (y_limits[2] - y_limits[1])
   
-  margin_ticks <- axis_ticks == "margin"
-  axis_ticks   <- axis_ticks == "axis"
+  margin_ticks <- axis_ticks %in% c("margin", "both")
+  axis_ticks   <- axis_ticks %in% c("axis",   "both")
   
   
   # Main: ----
-  
-  # Assign x axis label values and coordinates (to account for the vertical
-  #   special case)
-  x_labels <- grid |> filter(grid == "v") |> select(coord, label_pos)
-  
-  # Create vertical grid geometry if the second vector is completely vertical
-  if (is.infinite(vec_tan[2])) {
-    
-    geom_vgrid <- geom_vline(
-      mapping = aes(
-        xintercept = coord,
-        linetype   = ref,
-        linewidth  = I(linewidth)
-      ),
-      data = grid |> filter(grid == "v")
-    )
-    
-    grid <- grid |> filter(grid == "h")
-  }
   
   grid_plot <- grid |>
     ggplot() +
@@ -244,22 +214,24 @@ plot_grid <- function(grid,
       )
     )
   
-  if (is.infinite(vec_tan[2])) grid_plot <- grid_plot + geom_vgrid
+  # Create vertical grid geometry if the second vector is completely vertical
+  if (is.infinite(vec_tan[2])) {
+    
+    grid_plot <- grid_plot + geom_vline(
+      mapping = aes(
+        xintercept = label_pos,
+        linetype   = ref,
+        linewidth  = I(linewidth)
+      ),
+      data = grid |> filter(is.infinite(slope))
+    )
+  }
   
-  # if (axis_ticks) {
-  #   
-  #   grid_plot <- grid_plot +
-  #     annotate(
-  #       geom = "text",
-  #       x = x_labels |> pull(label_pos),
-  #     )
-  # }
-  
-  grid_plot +
+  grid_plot <- grid_plot +
     scale_x_continuous(
       minor_breaks = NULL,
-      breaks = x_labels |> pull(label_pos),
-      labels = x_labels |> pull(coord),
+      breaks = grid |> filter(grid == "v") |> pull(label_pos),
+      labels = grid |> filter(grid == "v") |> pull(label),
       limits = x_limits,
       expand = expansion(),
       name   = NULL,
@@ -268,7 +240,7 @@ plot_grid <- function(grid,
     scale_y_continuous(
       minor_breaks = NULL,
       breaks = grid |> filter(grid == "h") |> pull(label_pos),
-      labels = grid |> filter(grid == "h") |> pull(coord),
+      labels = grid |> filter(grid == "h") |> pull(label),
       limits = y_limits,
       expand = expansion(),
       name   = NULL,
@@ -277,13 +249,38 @@ plot_grid <- function(grid,
     scale_linetype_manual(values = linetypes, guide = NULL) +
     coord_fixed() +
     theme(
-      axis.ticks         = if (margin_ticks) element_line() else element_blank(),
       axis.ticks.x.top   = element_blank(),
       axis.ticks.y.right = element_blank(),
       axis.line          = element_blank(),
       axis.title.x       = element_markdown(hjust = y_axis_titpos),
       axis.title.y.right = element_markdown(vjust = x_axis_titpos, angle = 0)
     )
+  
+  if (margin_ticks) {
+    
+    grid_plot <- grid_plot + theme(
+      axis.ticks  = element_line(),
+      axis.text   = element_text()
+    )
+    
+  } else {
+    
+    grid_plot <- grid_plot + theme(
+      axis.ticks  = element_blank(),
+      axis.text   = element_blank()
+    )
+  }
+  
+  if (axis_ticks) {
+    
+    grid_plot <- grid_plot +
+      geom_text(
+        mapping = aes(x = coord_x, y = coord_y, label = label),
+        position = position_nudge(x = axis_lab_disp[1], y = axis_lab_disp[2])
+      )
+  }
+  
+  grid_plot
 }
 
 transform_grid <- function(basis,
@@ -293,7 +290,8 @@ transform_grid <- function(basis,
                            linetype_axis = 'solid',
                            linetype_grid = 'dashed',
                            linewidth = .5,
-                           axis_ticks = c("margin", "axis", "off")) {
+                           axis_ticks = c("margin", "axis", "both", "off"),
+                           axis_lab_disp = c(.1, -.15)) {
   
   # Argument checking and formatting: ----
   axis_ticks <- match.arg(axis_ticks)
@@ -303,8 +301,7 @@ transform_grid <- function(basis,
     create_grid(
       x_limits   = x_limits,
       y_limits   = y_limits,
-      break_step = break_step,
-      pos_axis   = axis_ticks == "axis"
+      break_step = break_step
     ) |>
     plot_grid(
       x_limits   = x_limits,
@@ -312,6 +309,7 @@ transform_grid <- function(basis,
       linetype_axis = linetype_axis,
       linetype_grid = linetype_grid,
       linewidth = linewidth,
-      axis_ticks = axis_ticks
+      axis_ticks = axis_ticks,
+      axis_lab_disp = axis_lab_disp
     )
 }
