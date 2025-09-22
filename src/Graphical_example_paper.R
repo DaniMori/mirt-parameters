@@ -306,3 +306,7 @@ plot_orth <- transform_grid(
     linewidth = VECTOR_WIDTH
   ) +
   scale_color_manual(values = PALETTE)
+
+# TODO:
+# - Change style of labels on axes
+# - Check correct behavior in slideshows
