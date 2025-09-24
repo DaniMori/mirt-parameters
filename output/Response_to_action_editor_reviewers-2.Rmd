@@ -93,6 +93,7 @@ Please see our responses to Thissen's suggestions below.
 ###### 3) I would like to see additional comments in their closing paragraph on how testing practitioners should use or what insights can be obtained by reviewing the different representations of the latent ability space and the item space. I see the mention of multigroup equating/linking, but I would like to see more discussion about how the test results and subsequent uses could be affected.
 
 <!-- # TODO: Discuss complex items, and the proper representation in the test space. -->
+<!-- # TODO: Discuss "latent space" transformation is an artifact, not something to "explore". -->
 
 # Responses to Reviewer 4:
 
