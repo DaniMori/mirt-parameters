@@ -1207,8 +1207,9 @@ so its $`r MDISC_CORR_PARAM_ITEM`$ is unaffected by the correlation.
 #| cache:          false
 #| fig.cap:   Item Plots in an Orthogonal (Left) and Oblique (Right) Test Space
 #| fig.topcaption: true
-#| fig.height:     3.1
+#| fig.height:     3
 #| fig.width:      6.65
+#| warning:        false
 plot_orth + plot_oblique
 
 ggsave(file.path(DOC_DIR, "Figure_1.svg"))

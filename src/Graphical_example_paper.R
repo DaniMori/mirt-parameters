@@ -262,7 +262,7 @@ item_params_output <- item_params                          |>
 
 plot_oblique <- transform_grid(
   transform_matrix_inv_transp,
-  x_limits = c(-2,    3),
+  x_limits = c(-1.7,    3.3),
   y_limits = c(-1.99, 2.81),
   break_step = 1,
   linetype_grid = "17",
@@ -292,7 +292,7 @@ plot_orth <- transform_grid(
   linetype_grid = "17",
   linewidth = LINE_WIDTH,
   axis_ticks = "axis",
-  axis_lab_disp = c(.15, -.15)
+  axis_lab_disp = c(-.03, -.15)
 ) +
   geom_segment(
     mapping   = aes(
@@ -306,7 +306,3 @@ plot_orth <- transform_grid(
     linewidth = VECTOR_WIDTH
   ) +
   scale_color_manual(values = PALETTE)
-
-# TODO:
-# - Change style of labels on axes
-# - Check correct behavior in slideshows

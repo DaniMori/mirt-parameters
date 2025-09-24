@@ -181,7 +181,7 @@ plot_grid <- function(grid,
                       linetype_grid = 'dashed',
                       linewidth     = .5,
                       axis_ticks    = c("margin", "axis", "both", "off"),
-                      axis_lab_disp = c(.1, -.15)) {
+                      axis_lab_disp = c(.005, -.15)) {
   
   # Argument checking and formatting: ----
   
@@ -297,7 +297,7 @@ transform_grid <- function(basis,
                            linetype_grid = 'dashed',
                            linewidth = .5,
                            axis_ticks = c("margin", "axis", "both", "off"),
-                           axis_lab_disp = c(.1, -.15)) {
+                           axis_lab_disp = c(.005, -.15)) {
   
   # Argument checking and formatting: ----
   axis_ticks <- match.arg(axis_ticks)
