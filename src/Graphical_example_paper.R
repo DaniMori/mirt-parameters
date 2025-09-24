@@ -260,7 +260,7 @@ item_params_output <- item_params                          |>
 
 ## ----compose-oblique-plot----
 
-plot_oblique <- transform_grid(
+grid_oblique <- transform_grid(
   transform_matrix_inv_transp,
   x_limits = c(-1.7,    3.3),
   y_limits = c(-1.99, 2.81),
@@ -269,22 +269,25 @@ plot_oblique <- transform_grid(
   linewidth = LINE_WIDTH,
   axis_ticks = "axis"
 ) +
-  geom_segment(
-    mapping   = aes(
-      origin_transf_1, origin_transf_2,
-      xend  = end_transf_1, yend = end_transf_2,
-      color = item
-    ),
-    data = items_oblique |> arrange(desc(item)), # To plot them in reverse order
-    arrow     = arrow(angle = 20, length = unit(10, "points"), type = "closed"),
-    linejoin  = "mitre",
-    linewidth = VECTOR_WIDTH
-  ) +
   scale_color_manual(values = PALETTE, guide = NULL)
+
+items_geom_oblique <- geom_segment(
+  mapping   = aes(
+    origin_transf_1, origin_transf_2,
+    xend  = end_transf_1, yend = end_transf_2,
+    color = item
+  ),
+  data      = items_oblique |> arrange(desc(item)), # Plot them in reverse order
+  arrow     = arrow(angle = 20, length = unit(10, "points"), type = "closed"),
+  linejoin  = "mitre",
+  linewidth = VECTOR_WIDTH
+)
+
+plot_oblique <- grid_oblique + items_geom_oblique
 
 ## ----compose-orthogonal-plot----
 
-plot_orth <- transform_grid(
+grid_orth <- transform_grid(
   diag(2),
   x_limits = c(-2.5,  2.5),
   y_limits = c(-1.99, 2.81),
@@ -294,15 +297,18 @@ plot_orth <- transform_grid(
   axis_ticks = "axis",
   axis_lab_disp = c(-.03, -.15)
 ) +
-  geom_segment(
-    mapping   = aes(
-      origin_transf_1, origin_transf_2,
-      xend  = end_transf_1, yend = end_transf_2,
-      color = item
-    ),
-    data = items_orth |> arrange(desc(item)), # To plot them in reverse order
-    arrow     = arrow(angle = 20, length = unit(10, "points"), type = "closed"),
-    linejoin  = "mitre",
-    linewidth = VECTOR_WIDTH
-  ) +
   scale_color_manual(values = PALETTE)
+
+items_geom_orth <- geom_segment(
+  mapping   = aes(
+    origin_transf_1, origin_transf_2,
+    xend  = end_transf_1, yend = end_transf_2,
+    color = item
+  ),
+  data = items_orth |> arrange(desc(item)), # To plot them in reverse order
+  arrow     = arrow(angle = 20, length = unit(10, "points"), type = "closed"),
+  linejoin  = "mitre",
+  linewidth = VECTOR_WIDTH
+)
+
+plot_orth <- grid_orth + items_geom_orth
