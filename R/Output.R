@@ -273,10 +273,16 @@ plot_grid <- function(grid,
   
   if (axis_ticks) {
     
+    axis_alignment <- axis_lab_disp[1] |>
+      sign() |>
+      case_match(-1 ~ "right", 0 ~ "center", 1 ~ "left")
+    
     grid_plot <- grid_plot +
       geom_text(
-        mapping = aes(x = coord_x, y = coord_y, label = label),
-        position = position_nudge(x = axis_lab_disp[1], y = axis_lab_disp[2])
+        mapping  = aes(x = coord_x, y = coord_y, label = label),
+        position = position_nudge(x = axis_lab_disp[1], y = axis_lab_disp[2]),
+        family   = GRAPH_FONT,
+        hjust    = axis_alignment
       )
   }
   
