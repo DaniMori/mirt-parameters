@@ -20,6 +20,7 @@ library(tidyverse)
 library(flextable)
 library(officer)
 library(scales)
+library(mvtnorm)
 
 ## ----sources----
 source("R/Mirt_toolbox.R", encoding = 'UTF-8')
@@ -40,6 +41,16 @@ AXIS_COLOR   <- "black"
 LINE_WIDTH   <- .1
 VECTOR_WIDTH <- .5
 PALETTE      <- c("darkred", "darkgoldenrod3", "green3", "cyan3", "blue3")
+
+PROB_AXIS_2D   <- seq(-3, 3, by = 0.05) # Axis for the density contour plots
+CONTOUR_BREAKS <- c(.1, .5, .9)         # Breaks for the density contour plots
+CONTOUR_COLOR  <- "#5c6eb1" # Color for the probability contour lines
+
+latent_space_grid <- expand_grid( # Grid for the density contour plots
+  trait_1 = PROB_AXIS_2D,
+  trait_2 = PROB_AXIS_2D
+)
+
 
 # Item parameters:
 items_M2PL <- tribble(
@@ -257,11 +268,37 @@ item_params_output <- item_params                          |>
   set_table_properties(layout = "autofit")
 
 ## ----compose-oblique-plot----
+## ----density-contours----
 
 grid_oblique <- transform_grid(
   transform_matrix_inv_transp,
   x_limits = c(-1.7,    3.3),
   y_limits = c(-1.99, 2.81),
+# Bivariate normal distribution densities:
+mvn_densities <- latent_space_grid |> mutate(
+  orth = cbind(trait_1, trait_2) |> dmvnorm(),
+  corr = cbind(trait_1, trait_2) |> dmvnorm(sigma = corr_matrix),
+  across(orth:corr, list(norm = ~ . / max(.)))
+)
+
+# Orthogonal contours:
+contour_orth <- mvn_densities |> geom_contour(
+  mapping     = aes(trait_1, trait_2, z = orth_norm),
+  color        = CONTOUR_COLOR,
+  alpha        = .3,
+  linewidth    = VECTOR_WIDTH,
+  breaks       = CONTOUR_BREAKS
+)
+
+# Oblique contours:
+contour_obl <- mvn_densities |> geom_contour(
+  mapping     = aes(trait_1, trait_2, z = corr_norm),
+  color        = CONTOUR_COLOR,
+  alpha        = .3,
+  linewidth    = VECTOR_WIDTH,
+  breaks       = CONTOUR_BREAKS
+)
+
   break_step = 1,
   linetype_grid = "17",
   linewidth = LINE_WIDTH,
