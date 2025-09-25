@@ -39,7 +39,6 @@ AXIS_LAB_POS <- 1   # Axis label position (right or upper extreme)
 AXIS_COLOR   <- "black"
 LINE_WIDTH   <- .1
 VECTOR_WIDTH <- .5
-# POINT_CHAR   <- 19L
 PALETTE      <- c("darkred", "darkgoldenrod3", "green3", "cyan3", "blue3")
 
 # Item parameters:
@@ -56,7 +55,6 @@ items_M2PL <- tribble(
 CORR_VALUE   <- .5
 CORR_ARC     <- acos(CORR_VALUE)
 CORR_ARC_SIN <- sin(CORR_ARC)
-CORR_ARC_TAN <- tan(CORR_ARC)
 
 # Table output objects:
 CORR_VALUE_OUT <- CORR_VALUE |> format_prop_like(sig = 1)
