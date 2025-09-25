@@ -267,13 +267,8 @@ item_params_output <- item_params                          |>
   fontsize(size = 12,       part = "all")                  |>
   set_table_properties(layout = "autofit")
 
-## ----compose-oblique-plot----
 ## ----density-contours----
 
-grid_oblique <- transform_grid(
-  transform_matrix_inv_transp,
-  x_limits = c(-1.7,    3.3),
-  y_limits = c(-1.99, 2.81),
 # Bivariate normal distribution densities:
 mvn_densities <- latent_space_grid |> mutate(
   orth = cbind(trait_1, trait_2) |> dmvnorm(),
@@ -299,33 +294,13 @@ contour_obl <- mvn_densities |> geom_contour(
   breaks       = CONTOUR_BREAKS
 )
 
-  break_step = 1,
-  linetype_grid = "17",
-  linewidth = LINE_WIDTH,
-  axis_ticks = "axis"
-) +
-  scale_color_manual(values = PALETTE, guide = NULL)
-
-items_geom_oblique <- geom_segment(
-  mapping   = aes(
-    origin_transf_1, origin_transf_2,
-    xend  = end_transf_1, yend = end_transf_2,
-    color = item
-  ),
-  data      = items_oblique |> arrange(desc(item)), # Plot them in reverse order
-  arrow     = arrow(angle = 20, length = unit(10, "points"), type = "closed"),
-  linejoin  = "mitre",
-  linewidth = VECTOR_WIDTH
-)
-
-plot_oblique <- grid_oblique + items_geom_oblique
-
 ## ----compose-orthogonal-plot----
 
+# Orthogonal grid:
 grid_orth <- transform_grid(
   diag(2),
-  x_limits = c(-2.5,  2.5),
-  y_limits = c(-1.99, 2.81),
+  x_limits = c(-2.8,  2.7),
+  y_limits = c(-2.65, 2.65),
   break_step = 1,
   linetype_grid = "17",
   linewidth = LINE_WIDTH,
@@ -334,6 +309,7 @@ grid_orth <- transform_grid(
 ) +
   scale_color_manual(values = PALETTE)
 
+# Orthogonal items:
 items_geom_orth <- geom_segment(
   mapping   = aes(
     origin_transf_1, origin_transf_2,
@@ -346,4 +322,33 @@ items_geom_orth <- geom_segment(
   linewidth = VECTOR_WIDTH
 )
 
-plot_orth <- grid_orth + items_geom_orth
+plot_orth <- grid_orth + contour_orth + items_geom_orth
+
+## ----compose-oblique-plot----
+
+# Oblique grid:
+grid_oblique <- transform_grid(
+  transform_matrix_inv_transp,
+  x_limits = c(-2.3,  3.2),
+  y_limits = c(-2.65, 2.65),
+  break_step = 1,
+  linetype_grid = "17",
+  linewidth = LINE_WIDTH,
+  axis_ticks = "axis"
+) +
+  scale_color_manual(values = PALETTE, guide = NULL)
+
+# Oblique items:
+items_geom_oblique <- geom_segment(
+  mapping   = aes(
+    origin_transf_1, origin_transf_2,
+    xend  = end_transf_1, yend = end_transf_2,
+    color = item
+  ),
+  data      = items_oblique |> arrange(desc(item)), # Plot them in reverse order
+  arrow     = arrow(angle = 20, length = unit(10, "points"), type = "closed"),
+  linejoin  = "mitre",
+  linewidth = VECTOR_WIDTH
+)
+
+plot_oblique <- grid_oblique + contour_obl + items_geom_oblique

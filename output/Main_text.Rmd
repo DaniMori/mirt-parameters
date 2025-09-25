@@ -1195,6 +1195,9 @@ stretches the latter.
 Finally, note that item 4 has one discrimination parameter equal to 0,
 so its $`r MDISC_CORR_PARAM_ITEM`$ is unaffected by the correlation.
 
+```{r density-contours}
+```
+
 ```{r compose-oblique-plot}
 ```
 
