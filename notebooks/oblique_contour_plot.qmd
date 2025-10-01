@@ -1,0 +1,20 @@
+---
+title: "Untitled"
+format: html
+editor: visual
+---
+
+```{r}
+library(ConfidenceEllipse)
+
+data("glass", package = "ConfidenceEllipse")
+# Confidence ellipse
+ellipse <- confidence_ellipse(.data = glass, x = SiO2, y = Na2O)
+ellipse_grp <- confidence_ellipse(
+  .data = glass,
+  x = SiO2,
+  y = Na2O,
+  .group_by = glassType
+)
+
+```
