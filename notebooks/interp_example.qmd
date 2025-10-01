@@ -4,41 +4,27 @@ format: html
 editor: visual
 ---
 
-```{r}
+```{r setup}
+#| include: false
 library(interp)
 
-data(franke)
-## x-y irregular grid points:
-oldseed <- set.seed(42)
-ni <- 64
-xi <- runif(ni,0,1)
-yi <- runif(ni,0,1)
-xyi <- cbind(xi,yi)
-## linear interpolation
-fi <- franke.fn(xi,yi,1)
-IL <- interp(xi,yi,fi,nx=80,ny=80,method="linear")
-## prepare breaks and colors that match for image and contour:
-breaks <- pretty(seq(min(IL$z,na.rm=TRUE),max(IL$z,na.rm=TRUE),length=11))
-db <- breaks[2]-breaks[1]
-nb <- length(breaks)
-breaks <- c(breaks[1]-db,breaks,breaks[nb]+db)
-colors <- terrain.colors(length(breaks)-1)
-image(IL,breaks=breaks,col=colors,main="Franke function 1",
-      sub=paste("linear interpolation, ", ni,"points"))
-contour(IL,add=TRUE,levels=breaks)
-points(xi,yi)
-## spline interpolation
-fi <- franke.fn(xi,yi,1)
-IS <- interp(xi,yi,fi,method="akima",
-             kernel="gaussian",solver="QR")
-## prepare breaks and colors that match for image and contour:
-breaks <- pretty(seq(min(IS$z,na.rm=TRUE),max(IS$z,na.rm=TRUE),length=11))
-db <- breaks[2]-breaks[1]
-nb <- length(breaks)
-breaks <- c(breaks[1]-db,breaks,breaks[nb]+db)
-colors <- terrain.colors(length(breaks)-1)
-image(IS,breaks=breaks,col=colors,main="Franke function 1",
-      sub=paste("spline interpolation, ", ni,"points"))
-contour(IS,add=TRUE,levels=breaks)
-        points(xi,yi)
+ROOT_DIR <- here::here()
+knitr::opts_knit$set(root.dir = ROOT_DIR)
+
+```
+
+```{r sources}
+#| include: false
+source("src/Graphical_example_paper.R", encoding = "UTF-8")
+```
+
+```{r}
+mvn_densities <- mvn_densities |>
+  bind_cols(latent_space_grid_rot |> rename_with(~paste0(., '_rot')))
+
+interp(
+  mvn_densities$trait_1_rot,
+  mvn_densities$trait_2_rot,
+  mvn_densities$corr_norm
+)
 ```
