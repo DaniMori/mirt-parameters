@@ -269,6 +269,14 @@ item_params_output <- item_params                          |>
 
 ## ----density-contours----
 
+# Compute grid of rotated coordinates:
+latent_space_grid_rot <- latent_space_grid |> mutate(
+  rot = transform_matrix_inv_transp %*% rbind(trait_1, trait_2) |>
+    t() |>
+    as_tibble(.name_repair = ~paste0("trait_", 1:2))
+) |>
+  pull()
+
 # Bivariate normal distribution densities:
 mvn_densities <- latent_space_grid |> mutate(
   orth = cbind(trait_1, trait_2) |> dmvnorm(),
@@ -285,8 +293,8 @@ contour_orth <- mvn_densities |> geom_contour(
   breaks       = CONTOUR_BREAKS
 )
 
-# Oblique contours:
-contour_obl <- mvn_densities |> geom_contour(
+# Correlated contours (in orthongonal coordinates):
+contour_corr <- mvn_densities |> geom_contour(
   mapping     = aes(trait_1, trait_2, z = corr_norm),
   color        = CONTOUR_COLOR,
   alpha        = .3,
@@ -322,7 +330,8 @@ items_geom_orth <- geom_segment(
   linewidth = VECTOR_WIDTH
 )
 
-plot_orth <- grid_orth + contour_orth + items_geom_orth
+plot_orth_uncorr_contours <- grid_orth + contour_orth + items_geom_orth
+plot_orth_corr_contours   <- grid_orth + contour_corr + items_geom_orth
 
 ## ----compose-oblique-plot----
 
@@ -351,4 +360,5 @@ items_geom_oblique <- geom_segment(
   linewidth = VECTOR_WIDTH
 )
 
-plot_oblique <- grid_oblique + contour_obl + items_geom_oblique
+plot_oblique <- grid_oblique + items_geom_oblique
+## TODO; Add contours in oblique space
