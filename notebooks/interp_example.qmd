@@ -7,6 +7,7 @@ editor: visual
 ```{r setup}
 #| include: false
 library(interp)
+library(magrittr)
 
 ROOT_DIR <- here::here()
 knitr::opts_knit$set(root.dir = ROOT_DIR)
@@ -22,9 +23,26 @@ source("src/Graphical_example_paper.R", encoding = "UTF-8")
 mvn_densities <- mvn_densities |>
   bind_cols(latent_space_grid_rot |> rename_with(~paste0(., '_rot')))
 
-interp(
+mvn_dens_obl_interp <- interp(
   mvn_densities$trait_1_rot,
   mvn_densities$trait_2_rot,
   mvn_densities$corr_norm
 )
+
+mvn_dens_obl <- mvn_dens_obl_interp %$%
+  expand_grid(trait_1 = x, trait_2 = y) |>
+  add_column(dens = mvn_dens_obl_interp$z |> as.vector())
+
+contour_obl <- mvn_dens_obl |> geom_contour(
+  mapping     = aes(trait_1, trait_2, z = dens),
+  color        = CONTOUR_COLOR,
+  alpha        = .3,
+  linewidth    = VECTOR_WIDTH,
+  breaks       = CONTOUR_BREAKS
+)
+
+grid_oblique + contour_obl
 ```
+
+These contour plots do not seem to be correct.
+Do they actually represent a standard normal distribution with the intended covariance structure, in the test space?
