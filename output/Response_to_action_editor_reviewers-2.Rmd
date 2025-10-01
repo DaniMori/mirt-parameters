@@ -100,31 +100,35 @@ Please see our responses to Thissen's suggestions below.
 ###### It is always best, many would say required, to label the axes. The lack of axis labels in the graphics of Figure 1 make the rest of these comments difficult to type, so for convenience I imagine the axes are labeled conventionally x and y in the left panel, and x and y' in the right panel, indicating that y' is a rotated representation of y. (In the ms., it would be best to tie the labeling notation to the algebra used.)
 
 We had overlooked labelling the axes and have done so in this new version.
-We thank once again the reviewer for pointing this out.
+We thank the reviewer once again for pointing this out.
 
 ###### One part of the factor model that is understated in this ms. is the population distribution of the factor scores (not estimates, but the latent variable values). That could be ameliorated by adding a few contours of the bivariate normal (0, 1, rho=0) (that is, circles :) to the left panel graphic. That population distribution is implicit in EFA, and the original Reckase work.
 
-Our understanding of Reckase's original work is the same as the reviewer's.
-We think that the orthogonality (actually, orthonormality) assumption was implicit at the time of @reckase_difficulty_1985.
+Our understanding of Reckase's original work is the same as the reviewer's:
+That the orthogonality (actually, orthonormality) assumption was implicit at the time of @reckase_difficulty_1985.
 Because of that, an orthonormal (not just orthogonal) basis was a sound assumption.
-However, as Multidimensional IRT theory, applied researchers started applying these and Reckase and McKinley's -@reckase_discriminating_1991 formulae without noticing they were applying them to a more general case (this is part of another work-in-progress manuscript).
+However, as Multidimensional IRT theory became mainstream, some applied researchers started applying these and Reckase and McKinley's -@reckase_discriminating_1991 formulae without noticing they were applying them to a more general case with non-orthonormal dimensions (this is part of another work-in-progress manuscript).
 
 ###### Then one could make another version of the left panel with contours for the rho=0.5 population distribution. Comparison of that with the previously-described version would show that the arrows representing discrimination do not have the same numerical meaning with respect to the variance (standard deviation) of the population distribution *in the direction of the arrows*, which is part of the point of all of this.
-
-
+ 
+We have taken into account this suggestion and added the contours plots accordingly.
+<!-- # TODO: Explain the new panel labelling -->
 
 ###### Two graphics with orthogonal axes but different population distributions are the way orthogonal vs. oblique solutions are represented in MIRT analyses. The ms. misses an opportunity to clarify that. Different population distributions on orthogonal axes are the way MIRT folks have thought about factor correlation; factor analysts have thought about 'rotation' and oblique axes (the left panel of Figure 1); it's two sides of the same coin.
 
-
+This is indeed the message we want to convey with our manuscript, and are thankful to the reviewer for the suggestion.
+<!-- # TODO: Clarify in paper and complete response. -->
 
 ###### This graphic is potentially confusing. In addition to the absence of axis labels mentioned above, it has oddly placed gray dotted grid lines. I would think it would have vertical gray dotted grid lines showing placement on the horizontal axis (x), and oblique gray dotted grid lines (orthogonal to y') showing placement on the (oblique) axis y'. With axis values -2 ... 0 ... +2 at the margins of *those* gridlines. Instead, it has the opposite: labeled horizontal grid lines that don't correspond to any axis values, and oblique grid lines labeled 0-1-2-3-4 that similarly don't correspond to any axis, but rather to how far away a point is from y'. Basically, the graphic would be easier to understand with labels on the axes, and two sets of grid lines orthogonal to those that are currently there (omitting those that are currently there).
 
-We understand this graphic may be hard to interpret, but the grid lines are properly placed; the rationale is this:
+We understand this graphic may be hard to interpret, but our interpretation is that the grid lines are properly placed.
+The rationale is as follows:
 Each point in the test space is intended to represent a coordinate vector, which is the displacement from the origin given by a linear combination of the basis vectors, with the components of the coordinate vector being the coefficients of those basis vectors (please refer to the expression $`r DISCR_COORDS_ALT_EQ`$ in p. 8 of the previous version of our manuscript, or p. <!-- # TODO: Complete --> in the new submission).
 For example, the tip of the vector representing item 1 is at coordinate (+2, +2).
-This means the point is displaced twice the length of the first vector basis along its direction (i.e., along the horizontal axis), that is, two units along the horizontal axis, and then another two units parallel to the direction of the oblique axis.
-These displacements, parallel to the direction of the axes, is what the grid lines intend to represent.
-This representation is somewhat equivalent to a _factor pattern_ (i.e., description in linear combination terms, see @harman_modern_1976, p. 267) representation in the factor model, while the one proposed by the reviewer would be somewhat equivalent to the _factor structure_ (i.e., description in terms of correlations with the latent dimensions) representation. Please see @harman_modern_1976 (p. 265 and p. 267, respectively) for the two representations.
+This means the point is displaced twice the length of the first vector basis along its direction (i.e., two units along the horizontal axis) and then twice the length of the first vector basis along its direction (i.e., another two units parallel to the direction of the oblique axis).
+These displacements, parallel to the direction of the axes, are what the grid lines intend to represent.
+This representation is somewhat equivalent to a _factor pattern_ (i.e., description in linear combination terms, see @harman_modern_1976, p. 267) representation in the factor model, while the one proposed by the reviewer would be paralleled by the _factor structure_ representation (i.e., description in terms of correlations with the latent dimensions).
+Please see @harman_modern_1976 (p. 265 and p. 267, respectively) for the two representations.
 This can be more easily understood by comparing figures 4.2 (p. 61, a representation equivalent to the one we propose) and 12.8 (p. 266) in @harman_modern_1976.
 
 ###### That said, one could also add elliptical contours representing the population distribution to the left panel of Figure 1. That would be a little complicated to compute; it's a "squeezed in" ellipsoid due to the rotation of the y axis to y'. but when compared to a version of the right panel with ellipses for a correlation of 0.5, the arrows would represent the same numerical values of discrimination relative to the standard deviation of the population in the arrows' directions.
