@@ -25,7 +25,6 @@ mvn_densities <- mvn_densities |>
 interp(
   mvn_densities$trait_1_rot,
   mvn_densities$trait_2_rot,
-  mvn_densities$corr_norm,
-  deltri = "deldir"
+  mvn_densities$corr_norm
 )
 ```
