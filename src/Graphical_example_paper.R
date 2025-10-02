@@ -269,13 +269,6 @@ item_params_output <- item_params                          |>
 
 ## ----density-contours----
 
-# Compute grid of rotated coordinates:
-latent_space_grid_rot <- latent_space_grid |> mutate(
-  rot = transform_matrix_inv_transp %*% rbind(trait_1, trait_2) |>
-    t() |>
-    as_tibble(.name_repair = ~paste0("trait_", 1:2))
-) |>
-  pull()
 
 # Bivariate normal distribution densities:
 mvn_densities <- latent_space_grid |> mutate(
