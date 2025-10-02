@@ -42,6 +42,7 @@ LINE_WIDTH   <- .1
 VECTOR_WIDTH <- .5
 PALETTE      <- c("darkred", "darkgoldenrod3", "green3", "cyan3", "blue3")
 
+# Latent space grid for density contours:
 PROB_AXIS_2D   <- seq(-3, 3, by = 0.05) # Axis for the density contour plots
 CONTOUR_BREAKS <- c(.1, .5, .9)         # Breaks for the density contour plots
 CONTOUR_COLOR  <- "#5c6eb1" # Color for the probability contour lines
@@ -76,6 +77,7 @@ CORR_ORTH_OUT  <- latex_eq(CORR, 0)              |> as.character()
 ## ---- CONFIGURATION: ---------------------------------------------------------
 
 ## ----graphical-output-conf----
+
 theme_set( # `ggplot` output configuration
   theme_classic(
     base_size      = FONT_SIZE,
@@ -88,6 +90,11 @@ theme_set( # `ggplot` output configuration
       panel.grid         = element_line(color = AXIS_COLOR)
     )
 )
+
+# Color scales (with and without legend):
+colorscale_legend    <- scale_color_manual(values = PALETTE)
+colorscale_no_legend <- scale_color_manual(values = PALETTE, guide = NULL)
+
 
 ## ---- MAIN: ------------------------------------------------------------------
 
@@ -106,7 +113,6 @@ items_orth_coords <- items_orth_params |> compute_mirt_coords(
   original_coords = FALSE
 )
 items_orth  <- full_join(items_orth_params, items_orth_coords, by = ITEM_COLKEY)
-
 
 # Oblique case:
 
@@ -321,8 +327,7 @@ grid_orth <- transform_grid(
   linewidth = LINE_WIDTH,
   axis_ticks = "axis",
   axis_lab_disp = c(-.03, -.15)
-) +
-  scale_color_manual(values = PALETTE)
+)
 
 # Orthogonal items:
 items_geom_orth <- geom_segment(
@@ -337,8 +342,10 @@ items_geom_orth <- geom_segment(
   linewidth = VECTOR_WIDTH
 )
 
-plot_orth_uncorr_contours <- grid_orth + contour_orth + items_geom_orth
-plot_orth_corr_contours   <- grid_orth + contour_corr + items_geom_orth
+plot_orth_uncorr_contours <- grid_orth +
+  contour_orth +
+  items_geom_orth +
+  colorscale_legend
 
 ## ----compose-test-space-oblique-plot----
 
@@ -367,4 +374,8 @@ items_geom_oblique <- geom_segment(
   linewidth = VECTOR_WIDTH
 )
 
-plot_oblique_ts <- grid_ts + contour_obl + items_geom_oblique
+plot_oblique_ts <- grid_ts +
+  contour_obl +
+  items_geom_oblique +
+  colorscale_no_legend
+
