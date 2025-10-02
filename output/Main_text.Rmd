@@ -1198,10 +1198,10 @@ so its $`r MDISC_CORR_PARAM_ITEM`$ is unaffected by the correlation.
 ```{r density-contours}
 ```
 
-```{r compose-oblique-plot}
+```{r compose-orthogonal-plot}
 ```
 
-```{r compose-orthogonal-plot}
+```{r compose-test-space-oblique-plot}
 ```
 
 <br>
@@ -1213,7 +1213,7 @@ so its $`r MDISC_CORR_PARAM_ITEM`$ is unaffected by the correlation.
 #| fig.height:     3
 #| fig.width:      6.65
 #| warning:        false
-plot_orth_uncorr_contours + plot_oblique
+plot_orth_uncorr_contours + plot_oblique_ts
 
 ggsave(file.path(DOC_DIR, "Figure_1.svg"))
 ```

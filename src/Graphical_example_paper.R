@@ -340,12 +340,12 @@ items_geom_orth <- geom_segment(
 plot_orth_uncorr_contours <- grid_orth + contour_orth + items_geom_orth
 plot_orth_corr_contours   <- grid_orth + contour_corr + items_geom_orth
 
-## ----compose-oblique-plot----
+## ----compose-test-space-oblique-plot----
 
 # Oblique grid:
-grid_oblique <- transform_grid(
+grid_ts <- transform_grid(
   transform_matrix_inv_transp,
-  x_limits = c(-2.3,  3.2),
+  x_limits = c(-3.2,  3.2),
   y_limits = c(-2.65, 2.65),
   break_step = 1,
   linetype_grid = "17",
@@ -367,4 +367,4 @@ items_geom_oblique <- geom_segment(
   linewidth = VECTOR_WIDTH
 )
 
-plot_oblique <- grid_oblique + contour_obl + items_geom_oblique
+plot_oblique_ts <- grid_ts + contour_obl + items_geom_oblique
