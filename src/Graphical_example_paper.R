@@ -269,12 +269,17 @@ item_params_output <- item_params                          |>
 
 ## ----density-contours----
 
+# Compute correlation matrix transformed to the oblique test space:
+corr_matrix_ts <- transform_matrix_inv_transp %*%
+  corr_matrix %*%
+  transform_matrix_inv
 
 # Bivariate normal distribution densities:
 mvn_densities <- latent_space_grid |> mutate(
-  orth = cbind(trait_1, trait_2) |> dmvnorm(),
-  corr = cbind(trait_1, trait_2) |> dmvnorm(sigma = corr_matrix),
-  across(orth:corr, list(norm = ~ . / max(.)))
+  orth    = cbind(trait_1, trait_2) |> dmvnorm(),
+  corr    = cbind(trait_1, trait_2) |> dmvnorm(sigma = corr_matrix),
+  corr_ts = cbind(trait_1, trait_2) |> dmvnorm(sigma = corr_matrix_ts),
+  across(orth:corr_ts, list(norm = ~ . / max(.)))
 )
 
 # Orthogonal contours:
@@ -289,6 +294,15 @@ contour_orth <- mvn_densities |> geom_contour(
 # Correlated contours (in orthongonal coordinates):
 contour_corr <- mvn_densities |> geom_contour(
   mapping     = aes(trait_1, trait_2, z = corr_norm),
+  color        = CONTOUR_COLOR,
+  alpha        = .3,
+  linewidth    = VECTOR_WIDTH,
+  breaks       = CONTOUR_BREAKS
+)
+
+# Correlated contours (in oblique coordinates, i.e., test space):
+contour_obl <- mvn_densities |> geom_contour(
+  mapping     = aes(trait_1, trait_2, z = corr_ts_norm),
   color        = CONTOUR_COLOR,
   alpha        = .3,
   linewidth    = VECTOR_WIDTH,
@@ -353,5 +367,4 @@ items_geom_oblique <- geom_segment(
   linewidth = VECTOR_WIDTH
 )
 
-plot_oblique <- grid_oblique + items_geom_oblique
-## TODO; Add contours in oblique space
+plot_oblique <- grid_oblique + contour_obl + items_geom_oblique
