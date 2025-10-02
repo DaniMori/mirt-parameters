@@ -314,7 +314,7 @@ contour_obl <- mvn_densities |> geom_contour(
 # Orthogonal grid:
 grid_orth <- transform_grid(
   diag(2),
-  x_limits = c(-2.8,  2.7),
+  x_limits = c(-3.2,  3.2),
   y_limits = c(-2.65, 2.65),
   break_step = 1,
   linetype_grid = "17",

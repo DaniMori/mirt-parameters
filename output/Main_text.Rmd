@@ -1213,7 +1213,7 @@ so its $`r MDISC_CORR_PARAM_ITEM`$ is unaffected by the correlation.
 #| fig.height:     3
 #| fig.width:      6.65
 #| warning:        false
-plot_orth + plot_oblique
+plot_orth_uncorr_contours + plot_oblique
 
 ggsave(file.path(DOC_DIR, "Figure_1.svg"))
 ```
