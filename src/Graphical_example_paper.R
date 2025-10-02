@@ -137,7 +137,7 @@ items_oblique_params <- items_M2PL |> compute_mirt_params(
 items_oblique_coords <- items_oblique_params |> compute_mirt_coords(
   D, MDISC, starts_with(COSINE_DIRTYPE),
   transform       = transform_matrix_inv_transp,
-  original_coords = FALSE
+  original_coords = TRUE
 )
 items_oblique        <- full_join(
   items_oblique_params, items_oblique_coords,
@@ -152,6 +152,17 @@ item_params <- full_join(
 )
 
 item_params <- full_join(items_M2PL, item_params, by = ITEM_COLKEY)
+
+# Compute items in latent space (needs to be computed manually, because the
+#   covariance matrix is computed from the transform matrix in
+#   `compute_mirt_coords()` and the inverse matrix would be used instead):
+items_ls <- items_oblique_coords |>
+  pivot_longer(origin_1:end_2) |>
+  separate(name, into = c('end', 'coord'), sep = "_", remove = FALSE) |>
+  group_by(item, end) |>
+  mutate(value = transform_matrix %*% value |> drop()) |>
+  ungroup() |>
+  pivot_wider(id_cols = item:end_transf_2, values_from = value)
 
 
 ## ----compose-example-items-table----
@@ -358,8 +369,7 @@ grid_ts <- transform_grid(
   linetype_grid = "17",
   linewidth = LINE_WIDTH,
   axis_ticks = "axis"
-) +
-  scale_color_manual(values = PALETTE, guide = NULL)
+)
 
 # Oblique items:
 items_geom_oblique <- geom_segment(
@@ -377,5 +387,42 @@ items_geom_oblique <- geom_segment(
 plot_oblique_ts <- grid_ts +
   contour_obl +
   items_geom_oblique +
+  colorscale_legend
+
+## ----compose-test-space-orthogonal-plot----
+
+plot_orth_corr <- grid_orth +
+  contour_corr +
+  items_geom_orth +
   colorscale_no_legend
 
+## ----compose-latent-space-plot----
+
+# Oblique grid:
+grid_ls <- transform_grid(
+  transform_matrix,
+  x_limits = c(-3.2,  3.2),
+  y_limits = c(-2.65, 2.65),
+  break_step = 1,
+  linetype_grid = "17",
+  linewidth = LINE_WIDTH,
+  axis_ticks = "axis"
+)
+
+# Oblique items:
+items_geom_ls_obl <- geom_segment(
+  mapping   = aes(
+    origin_1, origin_2,
+    xend  = end_1, yend = end_2,
+    color = item
+  ),
+  data      = items_ls |> arrange(desc(item)), # Plot them in reverse order
+  arrow     = arrow(angle = 20, length = unit(10, "points"), type = "closed"),
+  linejoin  = "mitre",
+  linewidth = VECTOR_WIDTH
+)
+
+plot_oblique_ls <- grid_ls +
+  contour_orth +
+  items_geom_ls_obl +
+  colorscale_no_legend
