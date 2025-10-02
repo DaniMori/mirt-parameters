@@ -213,7 +213,7 @@ compute_mirt_coords <- function(items,
         deg = cos(dir / RAD_DEG_FACTOR)
       ),
       ## Compute the "direction vector" from the cosines:
-      dir    = cov_matrix_inv %*% scaling_matrix %*% cos,
+      dir    = drop(cov_matrix_inv %*% scaling_matrix %*% cos),
       ## Compute the coordinates:
       origin = D * dir,
       end    = origin + MDISC * dir,
