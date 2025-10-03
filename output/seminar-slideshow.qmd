@@ -5230,16 +5230,14 @@ Pero los cosenos directores es necesario calcularlos en el espacio test, no en e
 #| fig-asp:     .5
 #| fig-width: 13
 
-plot_orth <- plot_orth +
-  scale_color_manual(values = ITEMS_PALETTE) +
+plot_orth <- plot_orth_uncorr_contours +
   theme(
     axis.ticks       = element_blank(),
     legend.title     = element_blank(),
     panel.grid.minor = element_blank()
   )
 
-plot_oblique <- plot_oblique +
-  scale_color_manual(values = ITEMS_PALETTE, guide = NULL) +
+plot_oblique <- plot_oblique_ts +
   theme(axis.ticks = element_blank())
 
 plot_orth + plot_oblique ## TODO: Tema ggplot

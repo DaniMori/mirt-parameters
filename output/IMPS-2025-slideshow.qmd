@@ -1879,18 +1879,8 @@ transform_grid(
   y_limits   = c(-2, 2.8),
   break_step = 1
 ) +
-  geom_segment(
-    arrow     = arrow(angle = 20, length = unit(10, "points"), type = "closed"),
-    linejoin  = "mitre",
-    linewidth = VECTOR_WIDTH,
-    data      = items_oblique |> arrange(desc(item)),
-    mapping   = aes(
-      origin_transf_1, origin_transf_2,
-      xend  = end_transf_1, yend = end_transf_2,
-      color = item, fill = item
-    )
-  ) +
-  scale_color_manual(values = PALETTE, guide = NULL) +
+  items_geom_oblique +
+  colorscale_no_legend +
   coord_fixed(expand = FALSE, clip = "on")
 ```
 :::
