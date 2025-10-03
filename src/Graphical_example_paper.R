@@ -42,6 +42,9 @@ LINE_WIDTH   <- .1
 VECTOR_WIDTH <- .5
 PALETTE      <- c("darkred", "darkgoldenrod3", "green3", "cyan3", "blue3")
 
+X_RANGE <- c(-2.97, 3.23)
+Y_RANGE <- c(-2.59, 2.61)
+
 # Latent space grid for density contours:
 PROB_AXIS_2D   <- seq(-3, 3, by = 0.05) # Axis for the density contour plots
 CONTOUR_BREAKS <- c(.1, .5, .9)         # Breaks for the density contour plots
@@ -331,13 +334,13 @@ contour_obl <- mvn_densities |> geom_contour(
 # Orthogonal grid:
 grid_orth <- transform_grid(
   diag(2),
-  x_limits = c(-3.2,  3.2),
-  y_limits = c(-2.65, 2.65),
+  x_limits = X_RANGE,
+  y_limits = Y_RANGE,
   break_step = 1,
   linetype_grid = "17",
   linewidth = LINE_WIDTH,
   axis_ticks = "axis",
-  axis_lab_disp = c(-.03, -.15)
+  axis_lab_disp = c(-.03, -.2)
 )
 
 # Orthogonal items:
@@ -363,8 +366,8 @@ plot_orth_uncorr_contours <- grid_orth +
 # Oblique grid:
 grid_ts <- transform_grid(
   transform_matrix_inv_transp,
-  x_limits = c(-3.2,  3.2),
-  y_limits = c(-2.65, 2.65),
+  x_limits = X_RANGE,
+  y_limits = Y_RANGE,
   break_step = 1,
   linetype_grid = "17",
   linewidth = LINE_WIDTH,
@@ -401,12 +404,13 @@ plot_orth_corr <- grid_orth +
 # Oblique grid:
 grid_ls <- transform_grid(
   transform_matrix,
-  x_limits = c(-3.2,  3.2),
-  y_limits = c(-2.65, 2.65),
+  x_limits = X_RANGE,
+  y_limits = Y_RANGE,
   break_step = 1,
   linetype_grid = "17",
   linewidth = LINE_WIDTH,
-  axis_ticks = "axis"
+  axis_ticks = "axis",
+  axis_lab_disp = c(-.03, -.15)
 )
 
 # Oblique items:
