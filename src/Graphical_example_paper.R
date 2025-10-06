@@ -94,9 +94,8 @@ theme_set( # `ggplot` output configuration
     )
 )
 
-# Color scales (with and without legend):
-colorscale_legend    <- scale_color_manual(values = PALETTE)
-colorscale_no_legend <- scale_color_manual(values = PALETTE, guide = NULL)
+# Color scale:
+colorscale <- scale_color_manual(values = PALETTE)
 
 
 ## ---- MAIN: ------------------------------------------------------------------
@@ -348,7 +347,8 @@ items_geom_orth <- geom_segment(
 plot_orth_uncorr_contours <- grid_orth +
   contour_orth +
   items_geom_orth +
-  colorscale_legend
+  colorscale +
+  annotate("text", -2.5, 2, label = "A", family = GRAPH_FONT, size = 6)
 
 ## ----compose-test-space-oblique-plot----
 
@@ -405,7 +405,8 @@ items_geom_cov_based_orth <- geom_segment(
   linewidth = VECTOR_WIDTH
 )
 
-  colorscale_no_legend
 plot_cov_based_orth <- grid_orth +
   contour_corr +
   items_geom_cov_based_orth +
+  colorscale +
+  annotate("text", -2.5, 2, label = "D", family = GRAPH_FONT, size = 6)
