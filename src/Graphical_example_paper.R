@@ -43,7 +43,7 @@ VECTOR_WIDTH <- .5
 PALETTE      <- c("darkred", "darkgoldenrod3", "green3", "cyan3", "blue3")
 
 X_RANGE <- c(-2.97, 3.23)
-Y_RANGE <- c(-2.59, 2.61)
+Y_RANGE <- c(-2.35,  2.2)
 
 # Latent space grid for density contours:
 PROB_AXIS_2D   <- seq(-3, 3, by = 0.05) # Axis for the density contour plots
@@ -155,17 +155,6 @@ item_params <- full_join(
 )
 
 item_params <- full_join(items_M2PL, item_params, by = ITEM_COLKEY)
-
-# Compute items in latent space (needs to be computed manually, because the
-#   covariance matrix is computed from the transform matrix in
-#   `compute_mirt_coords()` and the inverse matrix would be used instead):
-items_ls <- items_oblique_coords |>
-  pivot_longer(origin_1:end_2) |>
-  separate(name, into = c('end', 'coord'), sep = "_", remove = FALSE) |>
-  group_by(item, end) |>
-  mutate(value = transform_matrix %*% value |> drop()) |>
-  ungroup() |>
-  pivot_wider(id_cols = item:end_transf_2, values_from = value)
 
 
 ## ----compose-example-items-table----
@@ -390,43 +379,33 @@ items_geom_oblique <- geom_segment(
 plot_oblique_ts <- grid_ts +
   contour_obl +
   items_geom_oblique +
-  colorscale_legend
+  colorscale +
+  annotate("text", -2.5, 2, label = "B", family = GRAPH_FONT, size = 6)
 
 ## ----compose-test-space-orthogonal-plot----
 
 plot_orth_corr <- grid_orth +
   contour_corr +
   items_geom_orth +
-  colorscale_no_legend
+  colorscale +
+  annotate("text", -2.5, 2, label = "C", family = GRAPH_FONT, size = 6)
 
-## ----compose-latent-space-plot----
+## ----compose-rectangular-cov-based-plot----
 
-# Oblique grid:
-grid_ls <- transform_grid(
-  transform_matrix,
-  x_limits = X_RANGE,
-  y_limits = Y_RANGE,
-  break_step = 1,
-  linetype_grid = "17",
-  linewidth = LINE_WIDTH,
-  axis_ticks = "axis",
-  axis_lab_disp = c(-.03, -.15)
-)
-
-# Oblique items:
-items_geom_ls_obl <- geom_segment(
+# Covariance-based items in rectangular grid:
+items_geom_cov_based_orth <- geom_segment(
   mapping   = aes(
     origin_1, origin_2,
     xend  = end_1, yend = end_2,
     color = item
   ),
-  data      = items_ls |> arrange(desc(item)), # Plot them in reverse order
+  data      = items_oblique_coords |> arrange(desc(item)), # In reverse order
   arrow     = arrow(angle = 20, length = unit(10, "points"), type = "closed"),
   linejoin  = "mitre",
   linewidth = VECTOR_WIDTH
 )
 
-plot_oblique_ls <- grid_ls +
-  contour_orth +
-  items_geom_ls_obl +
   colorscale_no_legend
+plot_cov_based_orth <- grid_orth +
+  contour_corr +
+  items_geom_cov_based_orth +

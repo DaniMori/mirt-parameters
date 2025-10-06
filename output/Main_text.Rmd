@@ -1207,7 +1207,7 @@ so its $`r MDISC_CORR_PARAM_ITEM`$ is unaffected by the correlation.
 ```{r compose-test-space-orthogonal-plot}
 ```
 
-```{r compose-latent-space-plot}
+```{r compose-rectangular-cov-based-plot}
 ```
 
 <br>
@@ -1216,15 +1216,14 @@ so its $`r MDISC_CORR_PARAM_ITEM`$ is unaffected by the correlation.
 #| cache:          false
 #| fig.cap:   Item Plots in an Orthogonal (Left) and Oblique (Right) Test Space
 #| fig.topcaption: true
-#| fig.height:     5.2
+#| fig.height:     4.7
 #| fig.width:      6.65
 #| warning:        false
 (plot_orth_uncorr_contours + plot_orth_corr) /
-  (plot_oblique_ts + plot_oblique_ls) +
+  (plot_oblique_ts + plot_cov_based_orth) +
   plot_layout(guides = "collect")
-## TODO: Review and reformat axis labels
 
-ggsave(file.path(DOC_DIR, "Figure_1.svg"), width = 6.65, height = 5.2)
+ggsave(file.path(DOC_DIR, "Figure_1.svg"), width = 6.65, height = 4.7)
 ```
 
 We can also see how the sign of $`r INTERCEPT_PARAM`$ affects
