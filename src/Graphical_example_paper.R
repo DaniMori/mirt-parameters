@@ -45,6 +45,10 @@ PALETTE      <- c("darkred", "darkgoldenrod3", "green3", "cyan3", "blue3")
 X_RANGE <- c(-2.97, 3.23)
 Y_RANGE <- c(-2.35,  2.2)
 
+# Plot panel label position:
+PANEL_LABEL_X <- -2.5
+PANEL_LABEL_Y <-  2
+
 # Latent space grid for density contours:
 PROB_AXIS_2D   <- seq(-3, 3, by = 0.05) # Axis for the density contour plots
 CONTOUR_BREAKS <- c(.1, .5, .9)         # Breaks for the density contour plots
@@ -348,7 +352,15 @@ plot_orth_uncorr_contours <- grid_orth +
   contour_orth +
   items_geom_orth +
   colorscale +
-  annotate("text", -2.5, 2, label = "A", family = GRAPH_FONT, size = 6)
+  annotate(
+    "text",
+    x        = PANEL_LABEL_X,
+    y        = PANEL_LABEL_Y,
+    label    = "(a)",
+    family   = GRAPH_FONT,
+    size     = 6,
+    fontface = "bold"
+  )
 
 ## ----compose-test-space-oblique-plot----
 
@@ -380,7 +392,15 @@ plot_oblique_ts <- grid_ts +
   contour_obl +
   items_geom_oblique +
   colorscale +
-  annotate("text", -2.5, 2, label = "B", family = GRAPH_FONT, size = 6)
+  annotate(
+    "text",
+    x        = PANEL_LABEL_X,
+    y        = PANEL_LABEL_Y,
+    label    = "(b)",
+    family   = GRAPH_FONT,
+    size     = 6,
+    fontface = "bold"
+  )
 
 ## ----compose-test-space-orthogonal-plot----
 
@@ -388,7 +408,15 @@ plot_orth_corr <- grid_orth +
   contour_corr +
   items_geom_orth +
   colorscale +
-  annotate("text", -2.5, 2, label = "C", family = GRAPH_FONT, size = 6)
+  annotate(
+    "text",
+    x        = PANEL_LABEL_X,
+    y        = PANEL_LABEL_Y,
+    label    = "(c)",
+    family   = GRAPH_FONT,
+    size     = 6,
+    fontface = "bold"
+  )
 
 ## ----compose-rectangular-cov-based-plot----
 
@@ -409,4 +437,12 @@ plot_cov_based_orth <- grid_orth +
   contour_corr +
   items_geom_cov_based_orth +
   colorscale +
-  annotate("text", -2.5, 2, label = "D", family = GRAPH_FONT, size = 6)
+  annotate(
+    "text",
+    x        = -2.5,
+    y        =  2,
+    label    = "(d)",
+    family   = GRAPH_FONT,
+    size     = 6,
+    fontface = "bold"
+  )

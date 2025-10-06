@@ -1214,7 +1214,13 @@ so its $`r MDISC_CORR_PARAM_ITEM`$ is unaffected by the correlation.
 
 ```{r item-plot-out}
 #| cache:          false
-#| fig.cap:   Item Plots in an Orthogonal (Left) and Oblique (Right) Test Space
+#| fig.cap:        |
+#|   Item vector plots with uncorrelated (a) and correlated latent dimensions.
+#|   The latter coordinates are computed with
+#|   (b) the agnostic multidimensional parameters, or
+#|   with the covariance/correlation-based ones, which are then plot either
+#|   (c) in an oblique basis, appropriate for the covariance structure, or
+#|   (d) in the canonical basis.
 #| fig.topcaption: true
 #| fig.height:     4.7
 #| fig.width:      6.65
@@ -1225,6 +1231,20 @@ so its $`r MDISC_CORR_PARAM_ITEM`$ is unaffected by the correlation.
 
 ggsave(file.path(DOC_DIR, "Figure_1.svg"), width = 6.65, height = 4.7)
 ```
+
+```{r format-contour-plot-props}
+contour_breaks_out <- CONTOUR_BREAKS |>
+  percent() |>
+  glue_collapse(sep = ', ', last = ', and ')
+```
+
+::: {custom-style="FigureNote"}
+*Note.* The items are represented along with
+a standard bivariate normal distribution, with null correlation (a),
+or with correlation $`r CORR_OBL_OUT`$ (b-d).
+The contour plots represent the `r contour_breaks_out` of the maximum density,
+from outer to inner, respectively.
+:::
 
 We can also see how the sign of $`r INTERCEPT_PARAM`$ affects
 the distance to the origin:
