@@ -276,7 +276,7 @@ item_params_output <- item_params                          |>
   )                                                        |>
   style(
     pr_p = fp_par(
-      line_spacing   = 1.25,
+      line_spacing   = 2,
       padding.bottom = 0
     ),
     part = "footer",

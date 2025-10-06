@@ -1242,8 +1242,8 @@ contour_breaks_out <- CONTOUR_BREAKS |>
 *Note.* The items are represented along with
 a standard bivariate normal distribution, with null correlation (a),
 or with correlation $`r CORR_OBL_OUT`$ (b-d).
-The contour plots represent the `r contour_breaks_out` of the maximum density,
-from outer to inner, respectively.
+The contour plots represent (from outer to inner)
+the `r contour_breaks_out` of the maximum density.
 :::
 
 We can also see how the sign of $`r INTERCEPT_PARAM`$ affects
