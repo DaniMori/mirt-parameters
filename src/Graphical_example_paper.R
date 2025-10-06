@@ -42,6 +42,14 @@ LINE_WIDTH   <- .1
 VECTOR_WIDTH <- .5
 PALETTE      <- c("darkred", "darkgoldenrod3", "green3", "cyan3", "blue3")
 
+# Item vector arrow head specification:
+ITEM_ARROW_SPEC <- arrow(
+  angle  = 20,
+  length = unit(10, "points"),
+  type   = "closed"
+)
+
+# Item plot ranges:
 X_RANGE <- c(-2.97, 3.23)
 Y_RANGE <- c(-2.35,  2.2)
 
@@ -342,8 +350,8 @@ items_geom_orth <- geom_segment(
     xend  = end_transf_1, yend = end_transf_2,
     color = item
   ),
-  data = items_orth |> arrange(desc(item)), # To plot them in reverse order
-  arrow     = arrow(angle = 20, length = unit(10, "points"), type = "closed"),
+  data      = items_orth |> arrange(desc(item)), # To plot them in reverse order
+  arrow     = ITEM_ARROW_SPEC,
   linejoin  = "mitre",
   linewidth = VECTOR_WIDTH
 )
@@ -383,7 +391,7 @@ items_geom_oblique <- geom_segment(
     color = item
   ),
   data      = items_oblique |> arrange(desc(item)), # Plot them in reverse order
-  arrow     = arrow(angle = 20, length = unit(10, "points"), type = "closed"),
+  arrow     = ITEM_ARROW_SPEC,
   linejoin  = "mitre",
   linewidth = VECTOR_WIDTH
 )
@@ -428,7 +436,7 @@ items_geom_cov_based_orth <- geom_segment(
     color = item
   ),
   data      = items_oblique_coords |> arrange(desc(item)), # In reverse order
-  arrow     = arrow(angle = 20, length = unit(10, "points"), type = "closed"),
+  arrow     = ITEM_ARROW_SPEC,
   linejoin  = "mitre",
   linewidth = VECTOR_WIDTH
 )
