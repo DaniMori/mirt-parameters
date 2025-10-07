@@ -1088,9 +1088,13 @@ Plotting on a display usually requires providing
 coordinates in a rectangular Cartesian system.
 Therefore, we must compute the equivalent rectangular coordinates
 of our general, possibly non-rectangular coordinates.
-This implies pre-multiplying its coordinates in basis $`r TEST_SPACE_BASIS`$
-by $`r TRANSFORM_MATRIX_TRANSP_INV`$, to find
-the equivalent, orthonormalized coordinates.
+Coordinates in a rectangular Cartesian system are commonly assumed
+to be simply represented in the canonical basis.
+To represent an item in the test space properly, however,
+we must use its basis $`r TEST_SPACE_BASIS`$,
+which implies pre-multiplying its coordinates
+by $`r TRANSFORM_MATRIX_TRANSP_INV`$
+to find the equivalent coordinates in the canonical basis.
 Hence, we will need a convenient value for $`r TRANSFORM_MATRIX_TRANSP_INV`$
 that allows us to represent the test space structure and the items
 in a rectangular Cartesian system.
@@ -1147,6 +1151,12 @@ read_chunk("src/Graphical_example_paper.R")
 ```{r compute-example-items}
 ```
 
+```{r format-contour-plot-props}
+contour_breaks_out <- CONTOUR_BREAKS |>
+  percent() |>
+  glue_collapse(sep = ', ', last = ', and ')
+```
+
 Up to now, all our derivations have considered $`r N_DIMS`$-dimensional spaces;
 that is, multidimensional parameters and item vector coordinates
 can be computed in an arbitrary large number of dimensions.
@@ -1157,24 +1167,54 @@ currently available technology),
 we limit ourselves to the bidimensional case here.
 The example in Figure \@ref(fig:item-plot-out) showcases a representation of
 a set of items in two different bidimensional spaces.
-In the first case, the two latent dimensions are independent,
-with $`r TRANSFORM_MATRIX_TRANSP_INV`$ being an identity matrix.
-In the second one, the correlation between the dimensions is $`r CORR_OBL_OUT`$.
+Their parameters are shown in Table \@ref(tab:example-items-table-out),
+both in the original `r MODEL_ACRONYM` metric, and in the multidimensional
+metric in two different cases, with different latent covariance structures.
+In the first case (columns $`r CORR_ORTH_OUT`$),
+the two latent dimensions are independent;
+in the second one (columns $`r CORR_ORTH_OUT`$),
+the correlation between the dimensions is .5.
+Note that, although the `r MODEL_ACRONYM` parameters are the same in both cases,
+their (correlation-based) multidimensional parameters change when different
+correlations are used.
+
+Panel (a) of Figure \@ref(fig:item-plot-out) shows
+the item representation in the uncorrelated case,
+while the correlated case is shown in panels (b) to (d)
+under different conditions.
+In all the four panels, the contours of a bivariate standard normal density
+with the corresponding correlation are plot along with the items
+(from outer to inner, the contours are the `r contour_breaks_out` of
+the density at its mode).
+Note that the stretched ellipses in panel (c) are the result of transforming
+the distribution in the latent space to the test space,
+according to \@ref(eq:trait-coords-spaces-transform).
+In panel (b), the item coordinates are computed from
+the agnostic version of the parameters.
+These coordinates are the same ones as in the first case, but
+their relative position with respect to the latent trait distribution is not
+---This is the effect of disregarding the covariance structure.
+Panel (c) shows the items with their coordinates computed using
+the correlation-based version of the parameters.
 To keep the horizontal axis invariant,
-we define $`r TRANSFORM_MATRIX_TRANSP_INV`$ such that
+we have defined $`r TRANSFORM_MATRIX_TRANSP_INV`$ such that
 it only rotates the vertical axis [@harman_modern_1976]:
 
 \begin{equation}
   `r TRANSFORM_MATRIX_EXAMPLE_EQ`.
 \end{equation}
 
-The sample items have the same `r MODEL_ACRONYM` parameters
-in both test spaces.
-However, their multidimensional parameters differ due to the correlation among
-the latent dimensions.
-The parameters in both spaces,
-along with their corresponding `r MODEL_ACRONYM` parameters,
-are shown in Table \@ref(tab:example-items-table-out).
+Comparing it to panel (b), we can see that the item coordinates are in general
+not the same as the ones computed with the agnostic version of the parameters;
+this effect is especially salient in items 2 and 3,
+which are close to the 90% contour in the agnostic version,
+but are almost along the 50% contour in the correlation-based one.
+Finally, panel (d) illustrates the effect of plotting the coordinates directly
+on the canonical basis; the relative positions and distances are correctly
+represented (which allow a more direct comparison with panel (b)),
+but the angles of the items with the axes are distorted:
+For example, item 1 forms 45-degree angles with both axes,
+instead of the 30-degree ones shown in Table \@ref(tab:example-items-table-out).
 
 ```{r compose-example-items-table}
 ```
@@ -1197,7 +1237,7 @@ item_params_output
 
 <br>
 
-Figure \@ref(fig:item-plot-out) illustrates the effect of
+A comparison of panels (a) and (c) allows understanding the effect of
 a positive correlation on the $`r MDISC_CORR_PARAM`$
 (and consequently the $`r MIL_CORR_PARAM`$) value:
 The components of the discrimination parameters tend to
@@ -1253,15 +1293,9 @@ so its $`r MDISC_CORR_PARAM_ITEM`$ is unaffected by the correlation.
 ggsave(file.path(DOC_DIR, "Figure_1.svg"), width = 6.65, height = 4.7)
 ```
 
-```{r format-contour-plot-props}
-contour_breaks_out <- CONTOUR_BREAKS |>
-  percent() |>
-  glue_collapse(sep = ', ', last = ', and ')
-```
-
 ::: {custom-style="FigureNote"}
 *Note.* The items are represented along with
-a standard bivariate normal distribution, with null correlation (a),
+a bivariate standard normal distribution, with null correlation (a),
 or with correlation $`r CORR_OBL_OUT`$ (b-d).
 The contour plots represent (from outer to inner)
 the `r contour_breaks_out` of the maximum density.
