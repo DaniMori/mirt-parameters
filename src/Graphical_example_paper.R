@@ -404,7 +404,7 @@ plot_oblique_ts <- grid_ts +
     "text",
     x        = PANEL_LABEL_X,
     y        = PANEL_LABEL_Y,
-    label    = "(b)",
+    label    = "(c)",
     family   = GRAPH_FONT,
     size     = 6,
     fontface = "bold"
@@ -420,7 +420,7 @@ plot_orth_corr <- grid_orth +
     "text",
     x        = PANEL_LABEL_X,
     y        = PANEL_LABEL_Y,
-    label    = "(c)",
+    label    = "(b)",
     family   = GRAPH_FONT,
     size     = 6,
     fontface = "bold"
