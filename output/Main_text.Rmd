@@ -1167,15 +1167,20 @@ currently available technology),
 we limit ourselves to the bidimensional case here.
 The example in Figure \@ref(fig:item-plot-out) showcases a representation of
 a set of items in two different bidimensional spaces.
+(The axes are labelled as $`r TRAIT_COMP_1`$ and $`r TRAIT_COMP_2`$
+for simplicity, but note that they represent the coordinates of
+a latent trait point transformed to the test space,
+that is, $`r TRAIT_COORD_1`$ and  $`r TRAIT_COORD_2`$.)
 Their parameters are shown in Table \@ref(tab:example-items-table-out),
-both in the original `r MODEL_ACRONYM` metric, and in the multidimensional
-metric in two different cases, with different latent covariance structures.
+both in the original `r MODEL_ACRONYM` metric and
+in the multidimensional metric,
+in two different cases with different latent covariance structures.
 In the first case (columns $`r CORR_ORTH_OUT`$),
 the two latent dimensions are independent;
 in the second one (columns $`r CORR_ORTH_OUT`$),
 the correlation between the dimensions is .5.
-Note that, although the `r MODEL_ACRONYM` parameters are the same in both cases,
-their (correlation-based) multidimensional parameters change when different
+The same `r MODEL_ACRONYM` parameters are used in both cases,
+but their (correlation-based) multidimensional parameters change when different
 correlations are used.
 
 Panel (a) of Figure \@ref(fig:item-plot-out) shows
