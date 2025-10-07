@@ -739,19 +739,24 @@ by projecting one space onto the other;
 that is, we can set
 
 \begin{equation}
-  `r DISCR_COORDS_TRANSF_EQ`                  (\#eq:trait-coords-orth-spaces-eq)
+  `r TRAIT_COORDS_ORTH_EQ`                    (\#eq:trait-coords-orth-spaces-eq)
 \end{equation}
 
 
 for any point, $`r TRAIT_VECTOR`$ or $`r DISCR_VECTOR`$.
-This allows representing the coordinates of the discrimination vectors
-in the latent space and, conversely,
-the coordinates of the latent trait vectors in the test space:
+This allows representing the coordinates of the latent space vectors
+in the test space and, conversely,
+the coordinates of the discrimination vectors in the latent space:
 By \@ref(eq:change-basis), \@ref(eq:discr-vector-std),
 and  \@ref(eq:trait-coords-orth-spaces-eq)
-any coordinate vector $`r DISCR_COORDS`$ in $`r TEST_SPACE_BASIS`$
-can be expressed in
-$`r LS_BASIS`$ as $`r DISCR_COORDS_TS_EQ`$, and vice versa.
+any coordinate vector $`r TRAIT_COORDS`$ in $`r LS_BASIS`$
+can be expressed in $`r TEST_SPACE_BASIS`$ as
+
+\begin{equation}
+  `r TRAIT_COORDS_TS_EQ`,                   (\#eq:trait-coords-spaces-transform)
+\end{equation}
+  
+and vice versa.
 As we can see, the invariance of the model holds,
 regardless of the space in which we represent the coordinates.
 
