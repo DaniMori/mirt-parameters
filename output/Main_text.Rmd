@@ -829,10 +829,12 @@ Although we do not know, in principle, what
 the interpretation of a latent space basis should be, we may assume that
 it must be somewhat related to the covariance structure.
 Therefore, an orthonormal basis should represent independent,
-standard coordinates;
-formally, if $`r COV_MATRIX_ORTH`$ is the covariance matrix of
-$`r TRAIT_ORTH_COORDS`$, then $`r COV_MATRIX_ORTH_EQ`$.
-Applying Equation \@ref(eq:change-basis), $`r COV_MATRIX_TRANSF_EQ`$, and thus,
+standard coordinates.
+Formally, if $`r COV_MATRIX_ORTH`$ is the covariance matrix of
+$`r TRAIT_ORTH_COORDS`$, then $`r COV_MATRIX_ORTH_EQ`$,
+which implies that Equation \@ref(eq:change-basis) actually represents
+a *whitening transformation* [@fukunaga_introduction_2013].
+Given this, $`r COV_MATRIX_TRANSF_EQ`$, and thus
 
 \begin{equation}
   \begin{split}
