@@ -87,9 +87,9 @@ geometrical representation of the measured construct. [...]
 
 ###### 2) I would like to see the graphics improved as suggested by Thissen's Review 2.  Labeling of axes is key for clarity.  And providing contour plots of the factor score ( latent variable) distributions will also help the reader’s understanding, especially for those readers coming from the IRT perspective.
 
-Please see our detailed responses to Thissen's suggestions below.
-These changes have required a quite high effort to make sure they represent the algebra adequately. Also, we have deemed it necessary to rewrite some parts of the manuscript to improve the clarity of the plots.
-<!-- # TODO: Review upon completion. -->
+We have made the changes proposed, updated the figure caption accordingly, and added an appropriate footer.
+These changes have required a rather high effort to make sure they represent the algebra adequately, as well as some edits to improve the clarity of the plots and justify the computations.
+Please see our detailed responses to Thissen's comments below.
 
 ###### 3) I would like to see additional comments in their closing paragraph on how testing practitioners should use or what insights can be obtained by reviewing the different representations of the latent ability space and the item space. I see the mention of multigroup equating/linking, but I would like to see more discussion about how the test results and subsequent uses could be affected.
 
@@ -112,6 +112,12 @@ the coordinates in either space, so this labeling should be clear enough,
 while relying only upon the algebraic interpretation of the model,
 thus avoiding the geometrical details,
 which are only necessary for deriving the results.
+This choice of labeling is explained in the text in p. <!-- # TODO: Complete -->, ll. <!-- # TODO: Complete -->:
+
+> (The axes are labelled as $`r TRAIT_COMP_1`$ and $`r TRAIT_COMP_2`$
+> for simplicity, but note that they represent the coordinates of
+> a latent trait point transformed to the test space,
+> that is, $`r TRAIT_COORD_1`$ and  $`r TRAIT_COORD_2`$.)
 
 ###### One part of the factor model that is understated in this ms. is the population distribution of the factor scores (not estimates, but the latent variable values). That could be ameliorated by adding a few contours of the bivariate normal (0, 1, rho=0) (that is, circles :) to the left panel graphic. That population distribution is implicit in EFA, and the original Reckase work.
 
@@ -124,16 +130,27 @@ We have added the contour plots to the left panel of Figure 1 (panel (a) in the 
 
 ###### Then one could make another version of the left panel with contours for the rho=0.5 population distribution. Comparison of that with the previously-described version would show that the arrows representing discrimination do not have the same numerical meaning with respect to the variance (standard deviation) of the population distribution *in the direction of the arrows*, which is part of the point of all of this.
  
-We have taken into account this suggestion and added the contours plots accordingly.
-This is represented as panel (b) in the new version.
-The text also explains the different interpretation of the coordinates relative to the distribution.
-<!-- # TODO: Explain changes in text -->
-
 ###### Two graphics with orthogonal axes but different population distributions are the way orthogonal vs. oblique solutions are represented in MIRT analyses. The ms. misses an opportunity to clarify that. Different population distributions on orthogonal axes are the way MIRT folks have thought about factor correlation; factor analysts have thought about 'rotation' and oblique axes (the left panel of Figure 1); it's two sides of the same coin.
 
 This is indeed the message we want to convey with our manuscript, and are thankful to the reviewer for the comments.
-As can be seen, we have made changes to the text in our manuscript to clarify this message.
-<!-- # TODO: Explain changes in text -->
+We have taken into account the suggestion and added the contours plots accordingly.
+This is represented as panel (b) in the new version.
+The text also explains the different interpretation of the coordinates relative to the distribution now.
+Please see the new paragraphs added in third and fourth place in section "Graphical Representation Example" (p. <!-- # TODO: Complete -->, ll. <!-- # TODO: Complete -->):
+
+> In panel (b), the item coordinates are computed from
+> the agnostic version of the parameters.
+> These coordinates are the same ones as in the first case, but
+> their relative position with respect to the latent trait distribution is not
+> ---This is the effect of disregarding the covariance structure.
+> Panel (c) shows the items with their coordinates computed using
+> the correlation-based version of the parameters. [...]
+>
+> Comparing it to panel (b), we can see that the item coordinates are in general
+> not the same as the ones computed with the agnostic version of the parameters;
+> this effect is especially salient in items 2 and 3,
+> which are close to the 90% contour in the agnostic version,
+> but are almost along the 50% contour in the correlation-based one. [...]
 
 ###### This graphic is potentially confusing. In addition to the absence of axis labels mentioned above, it has oddly placed gray dotted grid lines. I would think it would have vertical gray dotted grid lines showing placement on the horizontal axis (x), and oblique gray dotted grid lines (orthogonal to y') showing placement on the (oblique) axis y'. With axis values -2 ... 0 ... +2 at the margins of *those* gridlines. Instead, it has the opposite: labeled horizontal grid lines that don't correspond to any axis values, and oblique grid lines labeled 0-1-2-3-4 that similarly don't correspond to any axis, but rather to how far away a point is from y'. Basically, the graphic would be easier to understand with labels on the axes, and two sets of grid lines orthogonal to those that are currently there (omitting those that are currently there).
 
@@ -153,12 +170,103 @@ As suggested, we have added these elliptical contours.
 The computation is also explained in the text; to clarify it, we have had to add some additional results in previous parts of the manuscript.
 The changes we have made in this new version are the following:
 
-<!-- # TODO: Explain changes in text -->
+- The second paragraph of section "Relationship Between Test Space and Latent Space" explains how coordinates can be converted from the latent trait to the test space, and vice versa.
+For explaining this, we have needed to add and reference two new equations.
+This paragraph (p. <!-- # TODO: Complete -->, ll. <!-- # TODO: Complete -->) now reads as follows:
+
+> [...]
+> First, the transformation to the orthonormal bases of the two spaces allows
+> mapping the $`r MODEL_ACRONYM`$ parameters interchangeably in the two spaces,
+> by projecting one space onto the other;
+> that is, we can set
+> 
+> \begin{equation}
+>   `r TRAIT_COORDS_ORTH_SPACES_EQ` \t (23)
+> \end{equation}
+> 
+> 
+> for any point, $`r TRAIT_VECTOR`$ or $`r DISCR_VECTOR`$.
+> This allows representing the coordinates of the latent space vectors
+> in the test space and, conversely,
+> the coordinates of the discrimination vectors in the latent space:
+> By Equations (2), (5), and (23)
+> any coordinate vector $`r TRAIT_COORDS`$ in $`r LS_BASIS`$
+> can be expressed in $`r TEST_SPACE_BASIS`$ as
+> 
+> \begin{equation}
+>   `r TRAIT_COORDS_TS_EQ`, \t (24)
+> \end{equation}
+>   
+> and vice versa. [...]
+
+- The second paragraph in section "Graphical Representation" now clarifies better that the representation in the test space must use its basis instead of the canonical basis, to make the plot be a faithful representation of the actual directions of the items with respect to the latent trait dimensions.
+This paragraph now reads (p. <!-- # TODO: Complete -->, ll. <!-- # TODO: Complete -->):
+
+> [...] Coordinates in a rectangular Cartesian system are commonly assumed
+> to be simply represented in the canonical basis.
+> To represent an item in the test space properly, however,
+> we must use its basis $`r TEST_SPACE_BASIS`$,
+> which implies pre-multiplying its coordinates
+> by $`r TRANSFORM_MATRIX_TRANSP_INV`$
+> to find the equivalent coordinates in the canonical basis. [...]
+
+- The section "Graphical Representation Example" has been expanded to explain better both Table 1 and Figure 1.
+Starting in the first paragraph (p. <!-- # TODO: Complete -->, l. <!-- # TODO: Complete -->), this section now reads:
+
+> Their parameters are shown in Table 1,
+> both in the original `r MODEL_ACRONYM` metric and
+> in the multidimensional metric,
+> in two different cases with different latent covariance structures.
+> In the first case (columns $`r CORR_ORTH_OUT`$),
+> the two latent dimensions are independent;
+> in the second one (columns $`r CORR_ORTH_OUT`$),
+> the correlation between the dimensions is .5.
+> The same `r MODEL_ACRONYM` parameters are used in both cases,
+> but their (correlation-based) multidimensional parameters change when different
+> correlations are used.
+> 
+> Panel (a) of Figure 1 shows
+> the item representation in the uncorrelated case,
+> while the correlated case is shown in panels (b) to (d)
+> under different conditions.
+> In all the four panels, the contours of a bivariate standard normal density
+> with the corresponding correlation are plot along with the items
+> (from outer to inner, the contours are the `r contour_breaks_out` of
+> the density at its mode).
+> Note that the stretched ellipses in panel (c) are the result of transforming
+> the distribution in the latent space to the test space,
+> according to Equation (24).
+> This implies that the covariance matrix of the distribution projected into
+> the test space is transformed inversely as in the latent space, that is,
+> $`r COV_MATRIX_TRANSF_TS_EQ`$.
+> 
+> In panel (b), the item coordinates are computed from
+> the agnostic version of the parameters.
+> These coordinates are the same ones as in the first case, but
+> their relative position with respect to the latent trait distribution is not
+> ---This is the effect of disregarding the covariance structure.
+> Panel (c) shows the items with their coordinates computed using
+> the correlation-based version of the parameters. [...]
+> 
+> Comparing it to panel (b), we can see that the item coordinates are in general
+> not the same as the ones computed with the agnostic version of the parameters;
+> this effect is especially salient in items 2 and 3,
+> which are close to the 90% contour in the agnostic version,
+> but are almost along the 50% contour in the correlation-based one. [...]
+> 
+> A comparison of panels (a) and (c) allows understanding the effect of
+> a positive correlation on the $`r MDISC_CORR_PARAM`$
+> (and consequently the $`r MIL_CORR_PARAM`$) value:
 
 Finally, we have added a fourth panel (panel (d)) that illustrates how the items would be plot if we omitted using the proper test space basis (and just using the canonical basis instead).
 Incidentally, this also serves the purpose of allowing an easier comparison of the coordinates computed from the two versions (the agnostic, and the correlation-based one) of the multidimensional parameters.
 We have briefly explained this, adding in p. <!-- # TODO: Complete -->, ll. <!-- # TODO: Complete -->:
 
-<!-- # TODO: Explain changes in text --> 
+> Finally, panel (d) illustrates the effect of plotting the coordinates directly
+> on the canonical basis; the relative positions and distances are correctly
+> represented (which allow a more direct comparison with panel (b)),
+> but the angles of the items with the axes are distorted:
+> For example, item 1 forms 45-degree angles with both axes,
+> instead of the 30-degree ones shown in Table 1.
 
 # References
