@@ -100,25 +100,40 @@ These changes have required a quite high effort to make sure they represent the 
 
 ###### It is always best, many would say required, to label the axes. The lack of axis labels in the graphics of Figure 1 make the rest of these comments difficult to type, so for convenience I imagine the axes are labeled conventionally x and y in the left panel, and x and y' in the right panel, indicating that y' is a rotated representation of y. (In the ms., it would be best to tie the labeling notation to the algebra used.)
 
-We had overlooked labelling the axes and have done so in this new version.
-We thank the reviewer once again for pointing this out.
+We had overlooked labelling the axes and have done so in this new version;
+we thank the reviewer once again for pointing this out.
+$`r TRAIT_COMP_1`$/$`r TRAIT_COMP_2`$ have been used as labels for simplicity
+(both in the code for plotting them, and for the reader's understanding),
+but note that they represent the coordinates of
+a latent trait point transformed to the test space,
+that is, $`r TRAIT_COORD_1`$/$`r TRAIT_COORD_2`$.
+However, there is a direct correspondence between the algebraic components and
+the coordinates in either space, so this labeling should be clear enough,
+while relying only upon the algebraic interpretation of the model,
+thus avoiding the geometrical details,
+which are only necessary for deriving the results.
 
 ###### One part of the factor model that is understated in this ms. is the population distribution of the factor scores (not estimates, but the latent variable values). That could be ameliorated by adding a few contours of the bivariate normal (0, 1, rho=0) (that is, circles :) to the left panel graphic. That population distribution is implicit in EFA, and the original Reckase work.
 
 Our understanding of Reckase's original work is the same as the reviewer's:
 That the orthogonality (actually, orthonormality) assumption was implicit at the time of @reckase_difficulty_1985.
 Because of that, an orthonormal (not just orthogonal) basis was a sound assumption.
-However, as Multidimensional IRT theory became mainstream, some applied researchers started applying these and Reckase and McKinley's -@reckase_discriminating_1991 formulae without noticing they were applying them to a more general case with non-orthonormal dimensions (this is part of another work-in-progress manuscript).
+However, as Multidimensional IRT theory became mainstream, some applied researchers started applying these and Reckase and McKinley's -@reckase_discriminating_1991 formulae without noticing they were applying them to a more general case with non-orthonormal dimensions, finding inconsistencies in their estimates (this topic is part of another work-in-progress manuscript).
+
+We have added the contour plots to the left panel of Figure 1 (panel (a) in the new version), as suggested.
 
 ###### Then one could make another version of the left panel with contours for the rho=0.5 population distribution. Comparison of that with the previously-described version would show that the arrows representing discrimination do not have the same numerical meaning with respect to the variance (standard deviation) of the population distribution *in the direction of the arrows*, which is part of the point of all of this.
  
 We have taken into account this suggestion and added the contours plots accordingly.
-<!-- # TODO: Explain the new panel labelling -->
+This is represented as panel (b) in the new version.
+The text also explains the different interpretation of the coordinates relative to the distribution.
+<!-- # TODO: Explain changes in text -->
 
 ###### Two graphics with orthogonal axes but different population distributions are the way orthogonal vs. oblique solutions are represented in MIRT analyses. The ms. misses an opportunity to clarify that. Different population distributions on orthogonal axes are the way MIRT folks have thought about factor correlation; factor analysts have thought about 'rotation' and oblique axes (the left panel of Figure 1); it's two sides of the same coin.
 
-This is indeed the message we want to convey with our manuscript, and are thankful to the reviewer for the suggestion.
-<!-- # TODO: Clarify in paper and complete response. -->
+This is indeed the message we want to convey with our manuscript, and are thankful to the reviewer for the comments.
+As can be seen, we have made changes to the text in our manuscript to clarify this message.
+<!-- # TODO: Explain changes in text -->
 
 ###### This graphic is potentially confusing. In addition to the absence of axis labels mentioned above, it has oddly placed gray dotted grid lines. I would think it would have vertical gray dotted grid lines showing placement on the horizontal axis (x), and oblique gray dotted grid lines (orthogonal to y') showing placement on the (oblique) axis y'. With axis values -2 ... 0 ... +2 at the margins of *those* gridlines. Instead, it has the opposite: labeled horizontal grid lines that don't correspond to any axis values, and oblique grid lines labeled 0-1-2-3-4 that similarly don't correspond to any axis, but rather to how far away a point is from y'. Basically, the graphic would be easier to understand with labels on the axes, and two sets of grid lines orthogonal to those that are currently there (omitting those that are currently there).
 
@@ -134,6 +149,16 @@ This can be more easily understood by comparing figures 4.2 (p. 61, a representa
 
 ###### That said, one could also add elliptical contours representing the population distribution to the left panel of Figure 1. That would be a little complicated to compute; it's a "squeezed in" ellipsoid due to the rotation of the y axis to y'. but when compared to a version of the right panel with ellipses for a correlation of 0.5, the arrows would represent the same numerical values of discrimination relative to the standard deviation of the population in the arrows' directions.
 
+As suggested, we have added these elliptical contours.
+The computation is also explained in the text; to clarify it, we have had to add some additional results in previous parts of the manuscript.
+The changes we have made in this new version are the following:
 
+<!-- # TODO: Explain changes in text -->
+
+Finally, we have added a fourth panel (panel (d)) that illustrates how the items would be plot if we omitted using the proper test space basis (and just using the canonical basis instead).
+Incidentally, this also serves the purpose of allowing an easier comparison of the coordinates computed from the two versions (the agnostic, and the correlation-based one) of the multidimensional parameters.
+We have briefly explained this, adding in p. <!-- # TODO: Complete -->, ll. <!-- # TODO: Complete -->:
+
+<!-- # TODO: Explain changes in text --> 
 
 # References
