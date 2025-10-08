@@ -96,6 +96,19 @@ Please see our detailed responses to Thissen's comments below.
 <!-- # TODO: Discuss complex items, and the proper representation in the test space. -->
 <!-- # TODO: Discuss "latent space" transformation is an artifact, not something to "explore". -->
 
+In addition to the previous changes, we have made a minor addition in the "Covariance-based version" section, to refer to the transformation that turns the latent trait distribution into a standard normal by its usual name in the literature, i.e., a whitening transformation.
+The second paragraph of this section (p. <!-- # TODO: Complete -->, ll. <!-- # TODO: Complete -->) now reads:
+
+> Therefore, an orthonormal basis should represent independent,
+> standard coordinates.
+> Formally, if $`r COV_MATRIX_ORTH`$ is the covariance matrix of
+> $`r TRAIT_ORTH_COORDS`$, then $`r COV_MATRIX_ORTH_EQ`$,
+> which implies that Equation \@ref(eq:change-basis) actually represents
+> a *whitening transformation* [@fukunaga_introduction_2013].
+> Given this, $`r COV_MATRIX_TRANSF_EQ`$, and thus
+
+(Please also note the update in the title page to acknowledge the colleague who brought this previous literature to our attention, as well as the valuable contributions of the reviewers.)
+
 # Responses to Reviewer 4:
 
 ###### It is always best, many would say required, to label the axes. The lack of axis labels in the graphics of Figure 1 make the rest of these comments difficult to type, so for convenience I imagine the axes are labeled conventionally x and y in the left panel, and x and y' in the right panel, indicating that y' is a rotated representation of y. (In the ms., it would be best to tie the labeling notation to the algebra used.)
