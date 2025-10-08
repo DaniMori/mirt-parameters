@@ -70,7 +70,7 @@ This sentence now reads:
 > [...] because the two dimensions are *perfectly aligned* in the second group,
 the item `r MDISC_SYM` should be the algebraic sum of both components, [...]
 
-In p. 13 (line 2), dropping, "the squared direction cosines sum ~up~ to 1" did not sound well, so instead we reformulated the sentence as:
+In p. 13 (line 2), dropping "up", i.e., "the squared direction cosines sum ~up~ to 1", did not sound well to us, so instead we reformulated the sentence as:
 
 > To compute the direction of the maximum slope,
 Reckase leverages the property that
@@ -87,7 +87,8 @@ geometrical representation of the measured construct. [...]
 
 ###### 2) I would like to see the graphics improved as suggested by Thissen's Review 2.  Labeling of axes is key for clarity.  And providing contour plots of the factor score ( latent variable) distributions will also help the reader’s understanding, especially for those readers coming from the IRT perspective.
 
-Please see our responses to Thissen's suggestions below.
+Please see our detailed responses to Thissen's suggestions below.
+These changes have required a quite high effort to make sure they represent the algebra adequately. Also, we have deemed it necessary to rewrite some parts of the manuscript to improve the clarity of the plots.
 <!-- # TODO: Review upon completion. -->
 
 ###### 3) I would like to see additional comments in their closing paragraph on how testing practitioners should use or what insights can be obtained by reviewing the different representations of the latent ability space and the item space. I see the mention of multigroup equating/linking, but I would like to see more discussion about how the test results and subsequent uses could be affected.
