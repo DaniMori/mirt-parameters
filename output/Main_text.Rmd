@@ -1193,7 +1193,11 @@ with the corresponding correlation are plot along with the items
 the density at its mode).
 Note that the stretched ellipses in panel (c) are the result of transforming
 the distribution in the latent space to the test space,
-according to \@ref(eq:trait-coords-spaces-transform).
+according to Equation \@ref(eq:trait-coords-spaces-transform).
+This implies that the covariance matrix of the distribution projected into
+the test space is transformed inversely as in the latent space, that is,
+$`r COV_MATRIX_TRANSF_TS_EQ`$.
+
 In panel (b), the item coordinates are computed from
 the agnostic version of the parameters.
 These coordinates are the same ones as in the first case, but

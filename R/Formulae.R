@@ -1255,6 +1255,15 @@ TRAIT_COMP_2  <- latex_sub(TRAIT_SYMBOL, 2)
 TRAIT_COORD_1 <- latex_raised_to(TRAIT_COMP_1, exp = TEST_SPACE_BASIS)
 TRAIT_COORD_2 <- latex_raised_to(TRAIT_COMP_2, exp = TEST_SPACE_BASIS)
 
+# Covariance matrix transform to test space:
+COV_MATRIX_TS           <- latex_raised_to(COV_MATRIX, exp = TEST_SPACE_BASIS)
+COV_MATRIX_TRANSF_TS    <- latex(
+  TRANSFORM_MATRIX_TRANSP_INV,
+  COV_MATRIX,
+  TRANSFORM_MATRIX_INV
+)
+COV_MATRIX_TRANSF_TS_EQ <- latex_eq(COV_MATRIX_TS, COV_MATRIX_TRANSF_TS)
+
 CORR <- latex("\\rho")
 
 TRANSFORM_MATRIX_EXAMPLE    <- latex(
