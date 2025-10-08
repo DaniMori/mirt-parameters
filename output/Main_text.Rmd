@@ -739,7 +739,7 @@ by projecting one space onto the other;
 that is, we can set
 
 \begin{equation}
-  `r TRAIT_COORDS_ORTH_EQ`                    (\#eq:trait-coords-orth-spaces-eq)
+  `r TRAIT_COORDS_ORTH_SPACES_EQ`             (\#eq:trait-coords-orth-spaces-eq)
 \end{equation}
 
 
@@ -747,7 +747,7 @@ for any point, $`r TRAIT_VECTOR`$ or $`r DISCR_VECTOR`$.
 This allows representing the coordinates of the latent space vectors
 in the test space and, conversely,
 the coordinates of the discrimination vectors in the latent space:
-By \@ref(eq:change-basis), \@ref(eq:discr-vector-std),
+By Equations \@ref(eq:change-basis), \@ref(eq:discr-vector-std),
 and  \@ref(eq:trait-coords-orth-spaces-eq)
 any coordinate vector $`r TRAIT_COORDS`$ in $`r LS_BASIS`$
 can be expressed in $`r TEST_SPACE_BASIS`$ as
