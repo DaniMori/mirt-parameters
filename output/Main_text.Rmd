@@ -1203,7 +1203,7 @@ only rotates the vertical axis [@harman_modern_1976]:
 \end{equation}
 
 In all four panels, the contours of a bivariate standard normal density
-with the corresponding correlation are plot along with the items
+with the corresponding correlation are plotted along with the items
 (from outer to inner, the contours are the `r contour_breaks_out` of
 the density at its mode).
 The stretched ellipses in panel (c) are the result of transforming
@@ -1217,7 +1217,7 @@ Panels (a) and (b) show that,
 even if the agnostic coordinates are the same in both cases,
 their relative position with respect to the latent trait distribution is not
 ---this is the effect of disregarding the covariance structure.
-The correlation-based coordinates, plot in panels (c) and (d),
+The correlation-based coordinates, plotted in panels (c) and (d),
 are also different in general from their agnostic counterpart (panel (b)).
 Although they do not vary in some cases (items 1 and 4),
 the difference is especially salient in the location of items 2 and 3,
@@ -1296,7 +1296,7 @@ so its $`r MDISC_CORR_PARAM_ITEM`$ is unaffected by the correlation.
 #|   Item vector plots with uncorrelated (a) and correlated latent dimensions.
 #|   The latter coordinates are computed with
 #|   (b) the agnostic multidimensional parameters, or
-#|   with the covariance/correlation-based ones, which are then plot either
+#|   with the correlation-based ones, which are then plotted either
 #|   (c) in an oblique basis, appropriate for the covariance structure, or
 #|   (d) in the canonical basis.
 #| fig.topcaption: true
