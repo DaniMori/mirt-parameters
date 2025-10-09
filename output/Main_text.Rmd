@@ -1075,7 +1075,7 @@ When we have an estimate of the latent space covariances,
 we may use either the covariance-based or the correlation-based version.
 However, we have already seen how
 the distance to the origin depends on the $`r MDISC_SYM`$.
-Also, in the covariance-based,
+Also, in the covariance-based version,
 the term $`r INNER_PROD_MAT_DIAG_INV_PROD`$ becomes $`r COV_BASED_SCALE_MAT_EQ`$
 which, as we have argued before, implies a change of scale.
 In the case of the correlation-based version, however,
@@ -1166,64 +1166,71 @@ is difficult on a bidimensional display
 currently available technology),
 we limit ourselves to the bidimensional case here.
 The example in Figure \@ref(fig:item-plot-out) showcases a representation of
-a set of items in two different bidimensional spaces.
+a set of items with two different latent trait distributions.
 (The axes are labelled as $`r TRAIT_COMP_1`$ and $`r TRAIT_COMP_2`$
 for simplicity, but note that they represent the coordinates of
 a latent trait point transformed to the test space,
 that is, $`r TRAIT_COORD_1`$ and  $`r TRAIT_COORD_2`$.)
 Their parameters are shown in Table \@ref(tab:example-items-table-out),
 both in the original `r MODEL_ACRONYM` metric and
-in the multidimensional metric,
-in two different cases with different latent covariance structures.
+in the multidimensional metric under the two cases,
+which differ in the latent trait correlation.
 In the first case (columns $`r CORR_ORTH_OUT`$),
 the two latent dimensions are independent;
-in the second one (columns $`r CORR_ORTH_OUT`$),
-the correlation between the dimensions is .5.
+in the second one ($`r CORR_OBL_OUT`$),
+the correlation between them is .5.
 The same `r MODEL_ACRONYM` parameters are used in both cases,
-but their (correlation-based) multidimensional parameters change when different
-correlations are used.
+but their (correlation-based) multidimensional parameters change
+with the correlation.
+If we used the agnostic version instead, the multidimensional parameters,
+given by the values under $`r CORR_ORTH_OUT`$, would be the same in both cases.
 
 Panel (a) of Figure \@ref(fig:item-plot-out) shows
 the item representation in the uncorrelated case,
-while the correlated case is shown in panels (b) to (d)
-under different conditions.
-In all the four panels, the contours of a bivariate standard normal density
-with the corresponding correlation are plot along with the items
-(from outer to inner, the contours are the `r contour_breaks_out` of
-the density at its mode).
-Note that the stretched ellipses in panel (c) are the result of transforming
-the distribution in the latent space to the test space,
-according to Equation \@ref(eq:trait-coords-spaces-transform).
-This implies that the covariance matrix of the distribution projected into
-the test space is transformed inversely as in the latent space, that is,
-$`r COV_MATRIX_TRANSF_TS_EQ`$.
-
-In panel (b), the item coordinates are computed from
-the agnostic version of the parameters.
-These coordinates are the same ones as in the first case, but
-their relative position with respect to the latent trait distribution is not
----This is the effect of disregarding the covariance structure.
-Panel (c) shows the items with their coordinates computed using
-the correlation-based version of the parameters.
-To keep the horizontal axis invariant,
-we have defined $`r TRANSFORM_MATRIX_TRANSP_INV`$ such that
-it only rotates the vertical axis [@harman_modern_1976]:
+while the $`r CORR_OBL_OUT`$ case is shown in panels (b) to (d)
+under different conditions:
+with item coordinates computed from the agnostic version of the parameters
+(panel (b)), or from the correlation-based version,
+either using an appropriate oblique basis (panel (c)),
+or plotting them directly in the canonical basis (panel (d)).
+Keeping the horizontal axis invariant in panel (c)
+allows for a better comparison with the other plots;
+therefore, we have chosen a $`r TRANSFORM_MATRIX_TRANSP_INV`$ that
+only rotates the vertical axis [@harman_modern_1976]:
 
 \begin{equation}
   `r TRANSFORM_MATRIX_EXAMPLE_EQ`.
 \end{equation}
 
-Comparing it to panel (b), we can see that the item coordinates are in general
-not the same as the ones computed with the agnostic version of the parameters;
-this effect is especially salient in items 2 and 3,
+In all four panels, the contours of a bivariate standard normal density
+with the corresponding correlation are plot along with the items
+(from outer to inner, the contours are the `r contour_breaks_out` of
+the density at its mode).
+The stretched ellipses in panel (c) are the result of transforming
+the distribution in the latent space to the test space,
+according to Equation \@ref(eq:trait-coords-spaces-transform).
+This implies that the covariance matrix of the distribution projected into
+the test space is transformed inversely as in the latent space, i.e.,
+$`r COV_MATRIX_TRANSF_TS_EQ`$.
+
+Panels (a) and (b) show that,
+although the agnostic coordinates are the same in both cases,
+their relative position with respect to the latent trait distribution is not
+---This is the effect of disregarding the covariance structure.
+The correlation-based coordinates, plot in panels (c) and (d),
+are also different in general from their agnostic counterpart (panel (b)).
+This difference is especially salient in the location of items 2 and 3,
 which are close to the 90% contour in the agnostic version,
 but are almost along the 50% contour in the correlation-based one.
-Finally, panel (d) illustrates the effect of plotting the coordinates directly
-on the canonical basis; the relative positions and distances are correctly
-represented (which allow a more direct comparison with panel (b)),
-but the angles of the items with the axes are distorted:
+Panel (d) also illustrates the effect of plotting the coordinates directly
+on the canonical basis;
+the item locations and relative positions to the distribution
+are correctly represented (allowing a more direct comparison with panel (b)),
+but their angles with the axes and discrimination parameters are distorted:
 For example, item 1 forms 45-degree angles with both axes,
-instead of the 30-degree ones shown in Table \@ref(tab:example-items-table-out).
+instead of the 30-degree ones shown in Table \@ref(tab:example-items-table-out);
+items 4 and 5 seem to be equally discriminating,
+when Table \@ref(tab:example-items-table-out) panel (c) show they are not.
 
 ```{r compose-example-items-table}
 ```
@@ -1309,6 +1316,8 @@ or with correlation $`r CORR_OBL_OUT`$ (b-d).
 The contour plots represent (from outer to inner)
 the `r contour_breaks_out` of the maximum density.
 :::
+
+<br>
 
 We can also see how the sign of $`r INTERCEPT_PARAM`$ affects
 the distance to the origin:
