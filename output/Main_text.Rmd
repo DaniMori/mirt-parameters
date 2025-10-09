@@ -1216,21 +1216,22 @@ $`r COV_MATRIX_TRANSF_TS_EQ`$.
 Panels (a) and (b) show that,
 although the agnostic coordinates are the same in both cases,
 their relative position with respect to the latent trait distribution is not
----This is the effect of disregarding the covariance structure.
+---this is the effect of disregarding the covariance structure.
 The correlation-based coordinates, plot in panels (c) and (d),
 are also different in general from their agnostic counterpart (panel (b)).
-This difference is especially salient in the location of items 2 and 3,
-which are close to the 90% contour in the agnostic version,
-but are almost along the 50% contour in the correlation-based one.
+Although they do not vary in some cases (items 1 and 4),
+the difference is especially salient in the location of items 2 and 3,
+which are close to the 90% contour in the agnostic version
+but almost on the 50% contour in the correlation-based one.
 Panel (d) also illustrates the effect of plotting the coordinates directly
 on the canonical basis;
-the item locations and relative positions to the distribution
-are correctly represented (allowing a more direct comparison with panel (b)),
-but their angles with the axes and discrimination parameters are distorted:
-For example, item 1 forms 45-degree angles with both axes,
-instead of the 30-degree ones shown in Table \@ref(tab:example-items-table-out);
-items 4 and 5 seem to be equally discriminating,
-when Table \@ref(tab:example-items-table-out) panel (c) show they are not.
+the item locations and their positions relative to the distribution
+are correctly represented (which makes comparing with panel (b) easier),
+but their discrimination parameters and angles with the axes are distorted:
+For example, items 4 and 5 seem to be equally discriminating,
+when Table \@ref(tab:example-items-table-out) panel (c) show they are not;
+and item 1 forms 45-degree angles with both axes,
+instead of the 30-degree ones shown in Table \@ref(tab:example-items-table-out).
 
 ```{r compose-example-items-table}
 ```
@@ -1321,7 +1322,7 @@ the `r contour_breaks_out` of the maximum density.
 
 We can also see how the sign of $`r INTERCEPT_PARAM`$ affects
 the distance to the origin:
-The item vector is applied at the origin when its value is null (item 1),
+An item vector is applied at the origin when its value is null (item 1),
 and tends to be shifted
 *against* the item direction when its value is positive (items 2 and 4) and
 *towards* the item direction when it is negative (items 3 and 5).
@@ -1336,7 +1337,7 @@ The direction relative to the axes will be given by the relative absolute value
 of the two parameters, but also by the correlation:
 Items 2 and 3 especially illustrate this effect,
 as each of them is orthogonal to one of the axes in the oblique space,
-even when they are not parallel to the other axis.
+even when they are not parallel to the other one
 
 # Application to Examples From the Literature
 
