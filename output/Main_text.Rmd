@@ -1620,39 +1620,16 @@ already make use of this generalization
 However, this generalization had never been formalized, up to now.
 Therefore, we highlight here the interest of showing how
 the item psychometric properties are paralleled by their geometrical properties,
-and how this holds for any case of unchanging monotony
+and how this holds for any case of unchanging monotonicity
 of the item response function.
 Regarding the first generalization,
 it is worth noting that @zhang_theoretical_1999 already proposed a formulation
 of the $`r MDISC_SYM`$ equivalent to our covariance-based version,
 but for a more general, semi-parametric formulation
-(although constrained to non-decreasing monotony).
+(although constrained to non-decreasing monotonicity).
 However, they provided no formal proof for this result either.
 Our results provide this formal derivation, although only for the specific
 case of the `r MODEL_ACRONYM` model.
-
-As we have seen, taking the latent space structure into account may have a
-substantial effect in the resulting values and interpretation of the parameters,
-something not contemplated by the original
-(hereby referred to as agnostic) version.
-Moreover, in applications where the latent space structure is critical
-(e.g., multi-group IRT, equating, and linking),
-the agnostic version may overlook relevant differences in
-the values of the multidimensional parameters.
-Different covariance structures across groups may significantly affect
-the value of these parameters,
-due to differences in either the variances or the correlation structure.
-Therefore, even when the model parameters are equal across groups,
-the multidimensional parameters may not be the same
-if the covariance structure differs across groups.
-Conversely, the same multidimensional parameters may correspond
-to different parameter models.
-The subsequent invariance of either the M2PL parameters
-or the multidimensional ones may lead to different interpretations of
-the same model when applied to different groups.
-Although this is an empirical question that requires further research,
-it could have significant implications for future theoretical developments
-in the understanding of MIRT theory.
 
 With that purpose in mind, we have defined two new versions of these parameters:
 One that takes into account the whole covariance structure,
@@ -1708,9 +1685,9 @@ the target of the instrument"
 (Reckase, M.D., personal communication, 28 April 2015).
 Such a procedure will of course yield identical results,
 given the invariance of $`r MDISC_COV_PARAM`$ to a change of basis.
-However, the computations in the oblique space allow us to obtain
-the direction cosines relative to the original latent dimensions,
-which may give relevant information if these are actual, substantive traits.
+However, the representation in the test space allows us to obtain
+the direction cosines relative to the original latent trait axes,
+which may be useful if they represent actual, substantive traits.
 Computing the parameters in the orthonormalized (or just orthogonalized) space,
 by contrast, would require transforming the cosines to
 the original, non-orthonormal basis afterwards.
@@ -1752,9 +1729,13 @@ This result is both surprising and counterintuitive
 ---Several instances in the MIRT literature suggest that
 "the angle between the axes [of the latent ability space] represents
 the degree of correlation" [@ackerman_multidimensional_2005-1, p. 16].
+In fact, we have only defined the latent space as a geometrical artifact
+for obtaining the multidimensional parameters.
+Interpreting the items in the latent space
+could only mislead researchers to wrong conclusions.
+<!-- #TODO: Iem plots in latent space in Supplement? -->
 We hope our results help shed a clearer light on
 this often misunderstood topic.
-
 It is worth noting that a similar relationship exists in
 the common factor literature
 between the *primary factors* and Thurstone's *reference axes*
@@ -1767,8 +1748,8 @@ generalizable to the common factor model.
 Those relationships deserve further exploration on their own.
 
 Making a distinction between the two spaces can also have a significant impact
-on our understanding of MIRT applications that involve several latent spaces,
-such as multi-group equating and linking.
+on our understanding of MIRT applications that involve several latent spaces
+(e.g., multi-group IRT, equating, and linking).
 Although the usual transformations among coordinate systems still apply
 under this consideration
 [see Chapter 8 of @reckase_multidimensional_2009,
@@ -1795,6 +1776,43 @@ given by the diagonal elements of the inverse transform matrix.
 These implications will require future exploration of
 the relationships between the latent and test spaces
 as mathematically separate entities.
+
+As we have seen, taking the latent space structure into account may have a
+substantial effect in the resulting values and interpretation of the parameters,
+something not contemplated by the original
+(hereby referred to as agnostic) version.
+Interpreting the item properties correctly requires a solid understanding of
+their relationship with the latent covariance structure,
+and we have seen that this can only be achieved
+with a proper geometrical representation.
+Although simple items are not affected much by this issue,
+as MIRT evolves and converges with the common factor psychometric tradition,
+we find MIRT models applied more often to new problems,
+involving complex multidimensional item structures
+(even including items with opposite-signed loadings).
+Our results will be especially relevant in such cases,
+where the item interpretation may be more affected.
+For example, the relative importance of an item in scoring a given trait
+could be downplayed if it is strongly aligned with that dimension
+but this alignment is overlooked.
+Moreover, in multi-group applications,
+where differences in the latent space structure is critical,
+the agnostic version may overlook relevant differences in
+the values of the multidimensional parameters.
+Different covariance structures across groups may significantly affect
+the value of these parameters,
+due to differences in either the variances or the correlation structure.
+Therefore, even when the model parameters are equal across groups,
+the multidimensional parameters may not be the same
+if the covariance structures differ.
+Conversely, the same multidimensional parameters may correspond
+to different parameter models.
+The subsequent invariance of either the M2PL parameters
+or the multidimensional ones may lead to different interpretations of
+the same model when applied to different groups.
+Although this is an empirical question that requires further research,
+it could have significant implications for future theoretical developments
+in the understanding of MIRT theory.
 
 Finally, we must also warn against generalizing these results
 to other IRT models without further consideration.
