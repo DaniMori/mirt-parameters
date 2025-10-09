@@ -103,10 +103,10 @@ DISTANCE_EXPLANATION  <- list(
 ANGLE_EXPLANATION     <- list(
   as_equation(as.character(ANGLE_TS_ITEM)),
   " = Direction component of the multidimensional item location parameter",
-  " (in dimension ", as_equation(as.character(DIM_INDEX)), "); "
+  " (in dimension ", as_equation(as.character(DIM_INDEX)), ")"
 )
 CORR_VER_EXPLANATION  <-
-  "Multidimensional components refer to the correlation-based version"
+  "The multidimensional components are the correlation-based version"
 AG_VER_EXPLANATION    <- glue("{AGNOSTIC_ABBR} = Agnostic version; ")
 COV_VER_EXPLANATION   <- list(
   as_equation(as.character(COV_MATRIX)),
