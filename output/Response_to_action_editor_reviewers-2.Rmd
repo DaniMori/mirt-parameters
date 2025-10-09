@@ -129,7 +129,7 @@ This choice of labeling is explained in the text in p. <!-- # TODO: Complete -->
 
 > (The axes are labelled as $`r TRAIT_COMP_1`$ and $`r TRAIT_COMP_2`$
 > for simplicity, but note that they represent the coordinates of
-> a latent trait point transformed to the test space,
+> a latent trait point expressed in test space coordinates,
 > that is, $`r TRAIT_COORD_1`$ and  $`r TRAIT_COORD_2`$.)
 
 ###### One part of the factor model that is understated in this ms. is the population distribution of the factor scores (not estimates, but the latent variable values). That could be ameliorated by adding a few contours of the bivariate normal (0, 1, rho=0) (that is, circles :) to the left panel graphic. That population distribution is implicit in EFA, and the original Reckase work.
@@ -149,21 +149,18 @@ This is indeed the message we want to convey with our manuscript, and are thankf
 We have taken into account the suggestion and added the contours plots accordingly.
 This is represented as panel (b) in the new version.
 The text also explains the different interpretation of the coordinates relative to the distribution now.
-Please see the new paragraphs added in third and fourth place in section "Graphical Representation Example" (p. <!-- # TODO: Complete -->, ll. <!-- # TODO: Complete -->):
+Please see the new paragraph added in third place in section "Graphical Representation Example" (p. <!-- # TODO: Complete -->, ll. <!-- # TODO: Complete -->):
 
-> In panel (b), the item coordinates are computed from
-> the agnostic version of the parameters.
-> These coordinates are the same ones as in the first case, but
+> Panels (a) and (b) show that,
+> even if the agnostic coordinates are the same in both cases,
 > their relative position with respect to the latent trait distribution is not
-> ---This is the effect of disregarding the covariance structure.
-> Panel (c) shows the items with their coordinates computed using
-> the correlation-based version of the parameters. [...]
->
-> Comparing it to panel (b), we can see that the item coordinates are in general
-> not the same as the ones computed with the agnostic version of the parameters;
-> this effect is especially salient in items 2 and 3,
-> which are close to the 90% contour in the agnostic version,
-> but are almost along the 50% contour in the correlation-based one. [...]
+> ---this is the effect of disregarding the covariance structure.
+> The correlation-based coordinates, plot in panels (c) and (d),
+> are also different in general from their agnostic counterpart (panel (b)).
+> Although they do not vary in some cases (items 1 and 4),
+> the difference is especially salient in the location of items 2 and 3,
+> which are close to the 90% contour in the agnostic version
+> but almost on the 50% contour in the correlation-based one. [...]
 
 ###### This graphic is potentially confusing. In addition to the absence of axis labels mentioned above, it has oddly placed gray dotted grid lines. I would think it would have vertical gray dotted grid lines showing placement on the horizontal axis (x), and oblique gray dotted grid lines (orthogonal to y') showing placement on the (oblique) axis y'. With axis values -2 ... 0 ... +2 at the margins of *those* gridlines. Instead, it has the opposite: labeled horizontal grid lines that don't correspond to any axis values, and oblique grid lines labeled 0-1-2-3-4 that similarly don't correspond to any axis, but rather to how far away a point is from y'. Basically, the graphic would be easier to understand with labels on the axes, and two sets of grid lines orthogonal to those that are currently there (omitting those that are currently there).
 
@@ -226,60 +223,80 @@ This paragraph now reads (p. <!-- # TODO: Complete -->, ll. <!-- # TODO: Complet
 - The section "Graphical Representation Example" has been expanded to explain better both Table 1 and Figure 1.
 Starting in the first paragraph (p. <!-- # TODO: Complete -->, l. <!-- # TODO: Complete -->), this section now reads:
 
+> [...] The example in Figure 1 showcases a representation of
+> a set of items with two different latent trait distributions.
+> (The axes are labelled as $`r TRAIT_COMP_1`$ and $`r TRAIT_COMP_2`$
+> for simplicity, but note that they represent the coordinates of
+> a latent trait point expressed in test space coordinates,
+> that is, $`r TRAIT_COORD_1`$ and  $`r TRAIT_COORD_2`$.)
 > Their parameters are shown in Table 1,
 > both in the original `r MODEL_ACRONYM` metric and
-> in the multidimensional metric,
-> in two different cases with different latent covariance structures.
+> in the multidimensional metric under the two cases,
+> which differ in the latent trait correlation.
 > In the first case (columns $`r CORR_ORTH_OUT`$),
 > the two latent dimensions are independent;
-> in the second one (columns $`r CORR_ORTH_OUT`$),
-> the correlation between the dimensions is .5.
+> in the second one ($`r CORR_OBL_OUT`$),
+> the correlation between them is .5.
 > The same `r MODEL_ACRONYM` parameters are used in both cases,
-> but their (correlation-based) multidimensional parameters change when different
-> correlations are used.
+> but their (correlation-based) multidimensional parameters change
+> with the correlation.
+> If we used the agnostic version instead, the multidimensional parameters,
+> given by the values under $`r CORR_ORTH_OUT`$, would be the same in both cases.
 > 
 > Panel (a) of Figure 1 shows
 > the item representation in the uncorrelated case,
-> while the correlated case is shown in panels (b) to (d)
-> under different conditions.
-> In all the four panels, the contours of a bivariate standard normal density
+> while the $`r CORR_OBL_OUT`$ case is shown in panels (b) to (d)
+> under different conditions:
+> with item coordinates computed from the agnostic version of the parameters
+> (panel (b)), or from the correlation-based version,
+> either using an appropriate oblique basis (panel (c)),
+> or plotting them directly in the canonical basis (panel (d)).
+> Keeping the horizontal axis invariant in panel (c)
+> allows for a better comparison with the other plots;
+> therefore, we have chosen a $`r TRANSFORM_MATRIX_TRANSP_INV`$ that
+> only rotates the vertical axis [@harman_modern_1976]:
+> 
+> \begin{equation}
+>   `r TRANSFORM_MATRIX_EXAMPLE_EQ`.
+> \end{equation}
+> 
+> In all four panels, the contours of a bivariate standard normal density
 > with the corresponding correlation are plot along with the items
 > (from outer to inner, the contours are the `r contour_breaks_out` of
 > the density at its mode).
-> Note that the stretched ellipses in panel (c) are the result of transforming
+> The stretched ellipses in panel (c) are the result of transforming
 > the distribution in the latent space to the test space,
-> according to Equation (24).
+> according to Equation \@ref(eq:trait-coords-spaces-transform).
 > This implies that the covariance matrix of the distribution projected into
-> the test space is transformed inversely as in the latent space, that is,
+> the test space is transformed inversely as in the latent space, i.e.,
 > $`r COV_MATRIX_TRANSF_TS_EQ`$.
 > 
-> In panel (b), the item coordinates are computed from
-> the agnostic version of the parameters.
-> These coordinates are the same ones as in the first case, but
+> Panels (a) and (b) show that,
+> even if the agnostic coordinates are the same in both cases,
 > their relative position with respect to the latent trait distribution is not
-> ---This is the effect of disregarding the covariance structure.
-> Panel (c) shows the items with their coordinates computed using
-> the correlation-based version of the parameters. [...]
-> 
-> Comparing it to panel (b), we can see that the item coordinates are in general
-> not the same as the ones computed with the agnostic version of the parameters;
-> this effect is especially salient in items 2 and 3,
-> which are close to the 90% contour in the agnostic version,
-> but are almost along the 50% contour in the correlation-based one. [...]
+> ---this is the effect of disregarding the covariance structure.
+> The correlation-based coordinates, plot in panels (c) and (d),
+> are also different in general from their agnostic counterpart (panel (b)).
+> Although they do not vary in some cases (items 1 and 4),
+> the difference is especially salient in the location of items 2 and 3,
+> which are close to the 90% contour in the agnostic version
+> but almost on the 50% contour in the correlation-based one.
+> Panel (d) also illustrates the effect of plotting the coordinates directly
+> on the canonical basis;
+> the item locations and their positions relative to the distribution
+> are correctly represented (which makes comparing with panel (b) easier),
+> but their discrimination parameters and angles with the axes are distorted:
+> For example, items 4 and 5 seem to be equally discriminating,
+> when Table 1 panel (c) show they are not;
+> and item 1 forms 45-degree angles with both axes,
+> instead of the 30-degree ones shown in Table 1.
 > 
 > A comparison of panels (a) and (c) allows understanding the effect of
 > a positive correlation on the $`r MDISC_CORR_PARAM`$
-> (and consequently the $`r MIL_CORR_PARAM`$) value:
+> (and consequently the $`r MIL_CORR_PARAM`$) value: [...]
 
 Finally, we have added a fourth panel (panel (d)) that illustrates how the items would be plot if we omitted using the proper test space basis (and just using the canonical basis instead).
 Incidentally, this also serves the purpose of allowing an easier comparison of the coordinates computed from the two versions (the agnostic, and the correlation-based one) of the multidimensional parameters.
-We have briefly explained this, adding in p. <!-- # TODO: Complete -->, ll. <!-- # TODO: Complete -->:
-
-> Finally, panel (d) illustrates the effect of plotting the coordinates directly
-> on the canonical basis; the relative positions and distances are correctly
-> represented (which allow a more direct comparison with panel (b)),
-> but the angles of the items with the axes are distorted:
-> For example, item 1 forms 45-degree angles with both axes,
-> instead of the 30-degree ones shown in Table 1.
+We have briefly explained this in p. <!-- # TODO: Complete -->, ll. <!-- # TODO: Complete --> (please refer to the changes explained above).
 
 # References

@@ -1169,7 +1169,7 @@ The example in Figure \@ref(fig:item-plot-out) showcases a representation of
 a set of items with two different latent trait distributions.
 (The axes are labelled as $`r TRAIT_COMP_1`$ and $`r TRAIT_COMP_2`$
 for simplicity, but note that they represent the coordinates of
-a latent trait point transformed to the test space,
+a latent trait point expressed in test space coordinates,
 that is, $`r TRAIT_COORD_1`$ and  $`r TRAIT_COORD_2`$.)
 Their parameters are shown in Table \@ref(tab:example-items-table-out),
 both in the original `r MODEL_ACRONYM` metric and
@@ -1214,7 +1214,7 @@ the test space is transformed inversely as in the latent space, i.e.,
 $`r COV_MATRIX_TRANSF_TS_EQ`$.
 
 Panels (a) and (b) show that,
-although the agnostic coordinates are the same in both cases,
+even if the agnostic coordinates are the same in both cases,
 their relative position with respect to the latent trait distribution is not
 ---this is the effect of disregarding the covariance structure.
 The correlation-based coordinates, plot in panels (c) and (d),
@@ -1337,7 +1337,7 @@ The direction relative to the axes will be given by the relative absolute value
 of the two parameters, but also by the correlation:
 Items 2 and 3 especially illustrate this effect,
 as each of them is orthogonal to one of the axes in the oblique space,
-even when they are not parallel to the other one
+even when they are not parallel to the other one.
 
 # Application to Examples From the Literature
 
