@@ -94,10 +94,64 @@ Please see our detailed responses to Thissen's comments below.
 
 ###### 3) I would like to see additional comments in their closing paragraph on how testing practitioners should use or what insights can be obtained by reviewing the different representations of the latent ability space and the item space. I see the mention of multigroup equating/linking, but I would like to see more discussion about how the test results and subsequent uses could be affected.
 
-<!-- # TODO: Discuss complex items, and the proper representation in the test space. -->
-<!-- # TODO: Discuss "latent space" transformation is an artifact, not something to "explore". -->
+We have tried our best to give a satisfactory response to this comment.
+Although we acknowledge that we are not completely sure we have succeeded, we have carefully thought about the broader implications to our results, and made changes to our "Discussion" section to address this comment.
+Besides some minor changes to adapt our discussion (please refer to the tracked changes in the main text of the submission), we have made two major changes.
+The first one is the inclusion of additional comments to discuss the implications in terms of the test results and how their uses could be affected.
+They have been included in what was previously the second paragraph;
+we consider this text was misplaced in our previous version and have moved it accordingly, nearly to the end of the section.
+After the changes, this paragraph (now in p. <!-- # TODO: Complete -->, ll. <!-- # TODO: Complete -->) reads:
 
-In addition to the previous changes, we have made a minor addition in the "Covariance-based version" section, to refer to the transformation that turns the latent trait distribution into a standard normal by its usual name in the literature, i.e., a "whitening transformation".
+> We have seen that taking the latent space structure into account may have a
+> substantial effect in the resulting values and
+> interpretation of the parameters, something not contemplated by the original
+> (hereby referred to as agnostic) version.
+> Interpreting the item properties correctly requires a solid understanding of
+> their relationship with the latent covariance structure,
+> and we have shown that this can only be achieved
+> with a proper geometrical representation.
+> Simple items are not affected much by this issue but,
+> as MIRT evolves and converges with the common factor psychometric tradition,
+> we find MIRT models applied more often to new problems,
+> involving complex multidimensional item structures
+> (even including items with opposite-signed loadings).
+> Our results will be especially relevant in those cases,
+> where the interpretation of the items may be affected more drastically.
+> For example, the relative importance of an item in scoring a given trait
+> could be downplayed if it is strongly aligned with that trait dimension
+> but this alignment is overlooked.
+> Once again, in multi-group applications,
+> where differences in the latent space structure is critical,
+> the agnostic version may overlook relevant differences in
+> the values of the multidimensional parameters.
+> Different covariance structures across groups may significantly affect them
+> due to differences in either the variances or the correlation structure.
+> Therefore, even when the model parameters are equal across groups,
+> the multidimensional parameters may not be the same
+> if the covariance structures differ.
+> Conversely, the same multidimensional parameters may correspond
+> to different parameter models.
+> The subsequent invariance of either the M2PL parameters
+> or the multidimensional ones may lead to different interpretations of
+> the same model when applied to different groups.
+> Although this is an empirical question that requires further research,
+> it could have significant implications for future theoretical developments
+> in the understanding of MIRT theory.
+
+Regarding the insights that can be obtained from the different representations,
+we hope that the changes to Figure 1 and the subsequent additions
+should account for how the test space representation should be interpreted.
+Regarding the latent space, our latest version already stated that "the axes defined by the test space basis, and not the ones defined by the latent space basis, are a geometrical representation of the covariance structure. Indeed, the cosines of the angles among the test space axes are the geometric equivalent of the correlations. This result is both surprising and counterintuitive [...]".
+The manuscript implicitly showed that the latent space transformation is as an "geometric artifact", necessary for arriving at the proper representation of the items in the test space.
+We acknowledge though that this might not be necessarily clear in the previous submission.
+The second change in the discussion consists of stating this explicitly now at the end of the fourth paragraph (previously the fifth one) of the "Discussion" section, in p. <!-- # TODO: Complete -->, ll. <!-- # TODO: Complete -->:
+
+> [...] In fact, we have only defined the latent space as a geometrical artifact
+> for obtaining the multidimensional parameters.
+> Interpreting the items in the latent space
+> could only lead researchers to wrong conclusions. [...]
+
+Besides the aforementioned changes, we would like to highlight a minor addition to the "Covariance-based version" section, to refer to the transformation of the latent trait distribution into another one with an identity covariance matrix by its usual name in the literature, i.e., a "whitening transformation".
 The second paragraph of this section (p. <!-- # TODO: Complete -->, ll. <!-- # TODO: Complete -->) now reads:
 
 > Therefore, an orthonormal basis should represent independent,
@@ -108,7 +162,7 @@ The second paragraph of this section (p. <!-- # TODO: Complete -->, ll. <!-- # T
 > a *whitening transformation* [@fukunaga_introduction_2013].
 > Given this, $`r COV_MATRIX_TRANSF_EQ`$, and thus
 
-(Please also note the update in the title page to acknowledge the colleague who brought this previous literature to our attention, as well as the contributions of the reviewers.)
+(Please note also the update in the title page to acknowledge the colleague who brought this previous literature to our attention, as well as the contributions of the reviewers.)
 
 # Responses to Reviewer 4:
 
