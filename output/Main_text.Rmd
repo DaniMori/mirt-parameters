@@ -1640,13 +1640,14 @@ comparable among different latent spaces.
 More importantly, the covariance-based version
 of the multidimensional parameters is invariant to
 changes of latent-space basis.
-Once again, this is relevant in applications where
-potentially different bases are involved.
+This is especially relevant in applications where
+potentially different bases are involved
+(e.g., multi-group IRT, equating, and linking).
 Furthermore, we have found that using this version yields a norm in
 the latent space given by the Mahalanobis distance.
 This statistical distance not only takes
 the latent covariance structure into account,
-but also makes the latent space norm invariant to changes of basis.
+but makes the latent space norm also invariant to changes of basis.
 Given these considerations,
 we propose adopting the covariance-based version of
 the multidimensional parameters as the most general definition,
@@ -1707,10 +1708,9 @@ The distinction between the latent space and the test space.
 Our derivations show that, to properly represent the items,
 we need to define a vector space that has
 the latent covariance (or correlation) matrix as its inner product matrix.
-On the other hand, the latent space,
-where the person parameters are represented,
+The latent space, where the person parameters are represented,
 has the inverse of the covariance (correlation) matrix as
-its inner product matrix.
+its inner product matrix though.
 [Note that in the original derivations by @reckase_difficulty_1985;
 and @reckase_discriminating_1991, both matrices simplify to the identity matrix,
 so there was no need to make this distinction.]
@@ -1726,10 +1726,11 @@ the degree of correlation" [@ackerman_multidimensional_2005-1, p. 16].
 In fact, we have only defined the latent space as a geometrical artifact
 for obtaining the multidimensional parameters.
 Interpreting the items in the latent space
-could only mislead researchers to wrong conclusions.
+could only lead researchers to wrong conclusions.
 <!-- #TODO: Iem plots in latent space in Supplement? -->
 We hope our results help shed a clearer light on
 this often misunderstood topic.
+
 It is worth noting that a similar relationship exists in
 the common factor literature
 between the *primary factors* and Thurstone's *reference axes*
@@ -1742,8 +1743,8 @@ generalizable to the common factor model.
 Those relationships deserve further exploration on their own.
 
 Making a distinction between the two spaces can also have a significant impact
-on our understanding of MIRT applications that involve several latent spaces
-(e.g., multi-group IRT, equating, and linking).
+on our understanding of multi-group MIRT applications,
+which involve several latent spaces.
 Although the usual transformations among coordinate systems still apply
 under this consideration
 [see Chapter 8 of @reckase_multidimensional_2009,
@@ -1751,9 +1752,9 @@ for an exhaustive discussion on the topic],
 the different geometric bases on which each of the two spaces is represented
 must be considered.
 However, as they are mutually dependent,
-any transformation in any of the two spaces will imply
+any transformation in any of them will imply
 the inverse transformation in the other one,
-thus preserving the relationship between the two spaces.
+thus preserving their relationship.
 Nevertheless, using non-orthogonal rotation matrices for aligning the items
 (in a common-item design procedure) or persons
 [in a common-person one, see Chapter 9 in @reckase_multidimensional_2009]
@@ -1771,30 +1772,29 @@ These implications will require future exploration of
 the relationships between the latent and test spaces
 as mathematically separate entities.
 
-As we have seen, taking the latent space structure into account may have a
+We have seen that taking the latent space structure into account may have a
 substantial effect in the resulting values and interpretation of the parameters,
 something not contemplated by the original
 (hereby referred to as agnostic) version.
 Interpreting the item properties correctly requires a solid understanding of
 their relationship with the latent covariance structure,
-and we have seen that this can only be achieved
+and we have shown that this can only be achieved
 with a proper geometrical representation.
-Although simple items are not affected much by this issue,
+Simple items are not affected much by this issue but,
 as MIRT evolves and converges with the common factor psychometric tradition,
 we find MIRT models applied more often to new problems,
 involving complex multidimensional item structures
 (even including items with opposite-signed loadings).
-Our results will be especially relevant in such cases,
-where the item interpretation may be more affected.
+Our results will be especially relevant in those cases,
+where the interpretation of the items may be affected more drastically.
 For example, the relative importance of an item in scoring a given trait
-could be downplayed if it is strongly aligned with that dimension
+could be downplayed if it is strongly aligned with that trait dimension
 but this alignment is overlooked.
-Moreover, in multi-group applications,
+Once again, in multi-group applications,
 where differences in the latent space structure is critical,
 the agnostic version may overlook relevant differences in
 the values of the multidimensional parameters.
-Different covariance structures across groups may significantly affect
-the value of these parameters,
+Different covariance structures across groups may significantly affect them
 due to differences in either the variances or the correlation structure.
 Therefore, even when the model parameters are equal across groups,
 the multidimensional parameters may not be the same
