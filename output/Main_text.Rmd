@@ -1151,12 +1151,6 @@ read_chunk("src/Graphical_example_paper.R")
 ```{r compute-example-items}
 ```
 
-```{r format-contour-plot-props}
-contour_breaks_out <- CONTOUR_BREAKS |>
-  percent() |>
-  glue_collapse(sep = ', ', last = ', and ')
-```
-
 Up to now, all our derivations have considered $`r N_DIMS`$-dimensional spaces;
 that is, multidimensional parameters and item vector coordinates
 can be computed in an arbitrary large number of dimensions.

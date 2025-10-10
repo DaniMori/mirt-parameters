@@ -58,9 +58,12 @@ PANEL_LABEL_X <- -2.5
 PANEL_LABEL_Y <-  2
 
 # Latent space grid for density contours:
-PROB_AXIS_2D   <- seq(-3, 3, by = 0.05) # Axis for the density contour plots
-CONTOUR_BREAKS <- c(.1, .5, .9)         # Breaks for the density contour plots
-CONTOUR_COLOR  <- "#5c6eb1" # Color for the probability contour lines
+PROB_AXIS_2D       <- seq(-3, 3, by = 0.05) # Axis for density contour plots
+CONTOUR_BREAKS     <- c(.1, .5, .9)         # Breaks for density contour plots
+CONTOUR_COLOR      <- "#5c6eb1"             # Color for density contour lines
+contour_breaks_out <- CONTOUR_BREAKS |>     # Text output for contour breaks
+  percent() |>
+  glue_collapse(sep = ', ', last = ', and ')
 
 latent_space_grid <- expand_grid( # Grid for the density contour plots
   trait_1 = PROB_AXIS_2D,
