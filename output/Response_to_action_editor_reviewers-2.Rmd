@@ -104,7 +104,7 @@ The second paragraph of this section (p. <!-- # TODO: Complete -->, ll. <!-- # T
 > standard coordinates.
 > Formally, if $`r COV_MATRIX_ORTH`$ is the covariance matrix of
 > $`r TRAIT_ORTH_COORDS`$, then $`r COV_MATRIX_ORTH_EQ`$,
-> which implies that Equation \@ref(eq:change-basis) actually represents
+> which implies that Equation (2) actually represents
 > a *whitening transformation* [@fukunaga_introduction_2013].
 > Given this, $`r COV_MATRIX_TRANSF_EQ`$, and thus
 
@@ -267,7 +267,7 @@ Starting in the first paragraph (p. <!-- # TODO: Complete -->, l. <!-- # TODO: C
 > the density at its mode).
 > The stretched ellipses in panel (c) are the result of transforming
 > the distribution in the latent space to the test space,
-> according to Equation \@ref(eq:trait-coords-spaces-transform).
+> according to Equation (24).
 > This implies that the covariance matrix of the distribution projected into
 > the test space is transformed inversely as in the latent space, i.e.,
 > $`r COV_MATRIX_TRANSF_TS_EQ`$.
