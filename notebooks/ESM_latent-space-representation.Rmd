@@ -1,0 +1,116 @@
+---
+output:
+  officedown::rdocx_document:
+    tables:
+      style: APA_Like_style
+      caption:
+        style: Image Caption
+        pre: "Table S."
+        sep: ' '
+    mapstyles:
+      Body Text: First Paragraph
+    base_format: bookdown::word_document2
+    reference_docx: ../www/Template.docx
+    number_sections: no
+    keep_md:         no
+    fig_width:       4
+    fig_height:      4
+bibliography: [../www/Multidimensional-parameters-MCLM.bib, ../www/packages.bib]
+csl:          ../www/apa-old-doi-prefix.csl
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r setup}
+#| include: false
+
+# Includes:
+
+library(here)
+library(knitr)
+library(patchwork)
+library(officer)
+
+ROOT_DIR <- here()
+
+opts_knit$set(root.dir = ROOT_DIR)
+opts_chunk$set(
+  echo     = FALSE,
+  message  = FALSE,
+  cache    = FALSE,
+  dev      = "png",
+  dpi      = 1200L,
+  dev.args = list(type = "cairo-png"),
+  fig.cap.fp_text = fp_text_lite(italic = FALSE, bold = TRUE)
+)
+
+# Output configuration options:
+options(digits = 3)
+```
+
+```{r reset-root-wd}
+#| cache: false
+
+# Necessary for knitr to find the source file:
+opts_knit$set(root.dir = ROOT_DIR)
+```
+
+```{r sources}
+source("src/Graphical_example_paper.R", encoding = 'UTF-8')
+```
+
+# Representation in the latent space
+
+```{r}
+# Compute items in latent space (needs to be computed manually, because the
+#   covariance matrix is computed from the transform matrix in
+#   `compute_mirt_coords()` and the inverse matrix would be used instead):
+items_ls <- items_oblique_coords |>
+  pivot_longer(origin_1:end_2) |>
+  separate(name, into = c('end', 'coord'), sep = "_", remove = FALSE) |>
+  group_by(item, end) |>
+  mutate(value = transform_matrix %*% value |> drop()) |>
+  ungroup() |>
+  pivot_wider(id_cols = item:end_transf_2, values_from = value)
+
+## Compose latent space plot:
+
+# Oblique grid:
+grid_ls <- transform_grid(
+  transform_matrix,
+  x_limits = c(-3.2,  3.2),
+  y_limits = c(-2.65, 2.65),
+  break_step = 1,
+  linetype_grid = "17",
+  linewidth = LINE_WIDTH,
+  axis_ticks = "axis"
+)
+
+# Oblique items:
+items_geom_ls_obl <- geom_segment(
+  mapping   = aes(
+    origin_1, origin_2,
+    xend  = end_1, yend = end_2,
+    color = item
+  ),
+  data      = items_ls |> arrange(desc(item)), # Plot them in reverse order
+  arrow     = arrow(angle = 20, length = unit(10, "points"), type = "closed"),
+  linejoin  = "mitre",
+  linewidth = VECTOR_WIDTH
+)
+
+plot_oblique_ls <- grid_ls +
+  contour_orth +
+  items_geom_ls_obl +
+  colorscale
+```
+
+```{r items-latent-space-plot-out}
+#| cache:          false
+#| fig.topcaption: true
+#| fig.height:     4.7
+#| fig.width:      6.65
+#| warning:        false
+plot_oblique_ls
+```
+
