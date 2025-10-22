@@ -80,7 +80,7 @@ difficulty (MID) parameters in the Multidimensional 2-Parameter Logistic model
 to account for non-identity latent covariances and negatively-keyed items.
 We apply Reckase's maximum discrimination point method to define them in an
 arbitrary algebraic basis.
-Then, we define such basis to be a
+Then, we define that basis to be a
 geometrical representation of the measured construct.
 This results in three different versions of the parameters: The original one,
 based on the item parameters solely, one that incorporates the covariance
@@ -748,7 +748,7 @@ This allows representing the coordinates of the latent space vectors
 in the test space and, conversely,
 the coordinates of the discrimination vectors in the latent space:
 By Equations \@ref(eq:change-basis), \@ref(eq:discr-vector-std),
-and  \@ref(eq:trait-coords-orth-spaces-eq)
+and  \@ref(eq:trait-coords-orth-spaces-eq),
 any coordinate vector $`r TRAIT_COORDS`$ in $`r LS_BASIS`$
 can be expressed in $`r TEST_SPACE_BASIS`$ as
 
@@ -1162,7 +1162,7 @@ currently available technology),
 we limit ourselves to the bidimensional case here.
 The example in Figure \@ref(fig:item-plot-out) showcases a representation of
 a set of items with two different latent trait distributions.
-(The axes are labelled as $`r TRAIT_COMP_1`$ and $`r TRAIT_COMP_2`$
+(The axes are labeled as $`r TRAIT_COMP_1`$ and $`r TRAIT_COMP_2`$
 for simplicity, but note that they represent the coordinates of
 a latent trait point expressed in test space coordinates,
 that is, $`r TRAIT_COORD_1`$ and  $`r TRAIT_COORD_2`$.)
@@ -1256,11 +1256,11 @@ The components of the discrimination parameters tend to
 *sum up* in the same direction as they get *more aligned*.
 Thus, if the discrimination parameters have the same sign, as in items 1 and 5,
 the $`r MDISC_CORR_PARAM_ITEM`$ value tends to increase;
-on the contrary, when the discrimination parameters have opposite signs
-they tend to cancel each other out and $`r MDISC_CORR_PARAM_ITEM`$ decreases,
+on the contrary, when the discrimination parameters have opposite signs,
+they tend to cancel each other out, and $`r MDISC_CORR_PARAM_ITEM`$ decreases,
 as happens with items 2 and 3.
 This effect can be especially noticed by comparing
-the $`r MDISC_CORR_PARAM_ITEM`$ of items 3 and 5:
+the $`r MDISC_CORR_PARAM_ITEM`$ values of items 3 and 5:
 Their discrimination parameters are equal in absolute value,
 so their $`r MDISC_CORR_PARAM_ITEM`$ values are equal in the orthogonal space;
 however, the effect of the correlation shrinks the former and
@@ -1570,7 +1570,7 @@ the effect of correlated dimensions on negative discrimination parameters.
 In their model, dimensions 1 and 4 are estimated to have a correlation of
 `r DIMS_CORR`.
 With this latent space structure, items that strongly discriminate in either or
-both of these two dimensions change drastically their multidimensional
+both of these two dimensions drastically change their multidimensional
 parameters from the agnostic to the covariance-based version
 (see Table \@ref(tab:empirical-table-Tezza2018-out))
 ---this happens,
@@ -1585,15 +1585,16 @@ other two dimensions, and around 1º in most cases.
 
 On the other hand, cases such as items 12 or 59, which have
 relatively low discrimination parameters on those two dimensions
-(compared with the ones in dimension 2 and 3, respectively) are barely affected.
+(compared with the ones in dimensions 2 and 3, respectively)
+are barely affected.
 The most extreme change in these two examples occurs in
 the direction of item 12 with respect to dimension 4. We see how the large
 discrimination in dimension 1, when combined with the correlation
 with dimension 4, induces a decrease in the angular direction
 with that dimension.
-In this case, because the discrimination in dimension 4 so low, the situation is
-very similar to item 4 in Table \@ref(tab:example-items-table-out)
-and Figure \@ref(fig:item-plot-out).
+In this case, because the discrimination in dimension 4 is so low,
+the situation is very similar to item 4
+in Table \@ref(tab:example-items-table-out) and Figure \@ref(fig:item-plot-out).
 
 # Discussion
 
@@ -1602,8 +1603,8 @@ general enough to "be used with any model that yields probabilities that
 increase monotonically with an increase in ability on any dimension" (p. 411).
 However, this definition implicitly assumes
 the orthonormality of the latent space.
-Applying the general procedure outlined by @reckase_difficulty_1985 and later
-extended by @reckase_discriminating_1991
+Applying the general procedure outlined by @reckase_difficulty_1985,
+and later extended by @reckase_discriminating_1991,
 we have obtained a set of multidimensional parameters
 that generalize the original results in two aspects:
 (1) to a non-orthonormal space that accounts for the covariance structure of
@@ -1648,7 +1649,7 @@ Furthermore, we have found that using this version yields a norm in
 the latent space given by the Mahalanobis distance.
 This statistical distance not only takes
 the latent covariance structure into account,
-but makes the latent space norm also invariant to changes of basis.
+but also makes the latent space norm invariant to changes of basis.
 Given these considerations,
 we propose adopting the covariance-based version of
 the multidimensional parameters as the most general definition,
@@ -1685,13 +1686,13 @@ However, the representation in the test space allows us to obtain
 the direction cosines relative to the original latent trait axes,
 which may be useful if they represent actual, substantive traits.
 Computing the parameters in the orthonormalized (or just orthogonalized) space,
-by contrast, would require transforming the cosines to
-the original, non-orthonormal basis afterwards.
+by contrast, would require transforming the cosines back to
+the original, non-orthonormal basis.
 Nevertheless, most available MIRT software solutions,
 such as flexMIRT [@cai_flexmirt_2024], IRTPRO [@cai_irtpro_2017],
 or R package {mirt} [@chalmers_mirt_2012],
 initially estimate an uncorrelated solution (at least in the exploratory case)
-and apply an oblique rotation afterwards.
+and apply an oblique rotation afterward.
 Taking advantage of the invariance property,
 we may compute the parameters in the orthogonal space
 (in fact, this is exactly what {mirt} functions `MDISC()` and `MDIFF()` do).
@@ -1711,7 +1712,7 @@ we need to define a vector space that has
 the latent covariance (or correlation) matrix as its inner product matrix.
 The latent space, where the person parameters are represented,
 has the inverse of the covariance (correlation) matrix as
-its inner product matrix though.
+its inner product matrix, though.
 [Note that in the original derivations by @reckase_difficulty_1985;
 and @reckase_discriminating_1991, both matrices simplify to the identity matrix,
 so there was no need to make this distinction.]
@@ -1773,7 +1774,7 @@ the relationships between the latent and test spaces
 as mathematically separate entities.
 
 We have seen that taking the latent space structure into account may have a
-substantial effect in the resulting values and interpretation of the parameters,
+substantial effect on the resulting values and interpretation of the parameters,
 something not contemplated by the original
 (hereby referred to as agnostic) version.
 Interpreting the item properties correctly requires a solid understanding of
@@ -1791,7 +1792,7 @@ For example, the relative importance of an item in scoring a given trait
 could be downplayed if it is strongly aligned with that trait dimension
 but this alignment is overlooked.
 Once again, in multi-group applications,
-where differences in the latent space structure is critical,
+where differences in the latent space structure are critical,
 the agnostic version may overlook relevant differences in
 the values of the multidimensional parameters.
 Different covariance structures across groups may significantly affect them
