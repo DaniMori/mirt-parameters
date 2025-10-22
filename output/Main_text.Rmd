@@ -1026,10 +1026,11 @@ The (signed) distance to the origin,
 given by the first component of $`r MIL_PARAM`$, has an interesting property:
 By the definition of the inner product,
 $`r MDISC_SYM`$ is strictly positive for non-null vectors.
-Therefore, the sign of $`r DISTANCE_PARAM`$ is equal to
+Therefore, the sign of $`r DISTANCE_PARAM`$ is the opposite of
 the sign of $`r INTERCEPT_PARAM`$.
-The implication is that the item is displaced along
-its measurement direction forward or backward with respect to the origin.
+The implication is that the item is displaced along its measurement direction
+forward or backward with respect to the origin, depending on
+whether $`r INTERCEPT_PARAM`$ is negative or positive, respectively.
 As the $`r MDISC_SYM`$ appears in the denominator of $`r DISTANCE_PARAM`$,
 that displacement will be inversely proportional
 to the discrimination of the item.
