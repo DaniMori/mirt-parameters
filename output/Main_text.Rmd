@@ -1728,7 +1728,6 @@ In fact, we have only defined the latent space as a geometrical artifact
 for obtaining the multidimensional parameters.
 Interpreting the items in the latent space
 could only lead researchers to wrong conclusions.
-<!-- #TODO: Iem plots in latent space in Supplement? -->
 We hope our results help shed a clearer light on
 this often misunderstood topic.
 
