@@ -787,7 +787,8 @@ from the origin to the point of maximum slope [@reckase_difficulty_1985].
 By analogy with the unidimensional case, $`r MDISC_SYM`$ is defined as
 $4 `r SLOPE_MAX_PARAM`$ [@reckase_discriminating_1991].
 Hence we may define the $`r MIL_PARAM`$ and $`r MDISC_SYM`$ using
-Equations \@ref(eq:distance-param) through \@ref(eq:dir-cos-vec-test-space).
+Equations \@ref(eq:distance-param), \@ref(eq:slope-param),
+and \@ref(eq:dir-cos-vec-test-space).
 However, as they depend on the inner product matrix $`r INNER_PROD_MATRIX`$,
 the choice we make of this matrix will lead us to different definitions of
 the parameters.
