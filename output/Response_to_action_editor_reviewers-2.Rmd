@@ -71,6 +71,13 @@ This sentence now reads:
 > [...] because the two dimensions are *perfectly aligned* in the second group,
 the item `r MDISC_SYM` should be the algebraic sum of both components, [...]
 
+In p. 12 (line 8), simply dropping "already" made the sentence lose the intended
+meaning that the implicit assumption of orthogonality in @reckase_difficulty_1985 is already present in Equation 3, and not just from Equation 7 (p. 404) on, as one might think in the first place.
+We deem this point important because it took us quite some effort to notice that generalizing the transformation to polar coordinates to non-orthonormal bases implied reformulating this equation.
+In an attempt to keep the intended meaning while improving the sentence structure, we have restated it as:
+
+> [...] this shows that the orthogonality of the latent space in @reckase_difficulty_1985 is assumed as early on as in Equation 3 (p. 403) [...]
+
 In p. 13 (line 2), dropping "up", i.e., "the squared direction cosines sum ~up~ to 1", did not sound well to us, so instead we reformulated the sentence as:
 
 > To compute the direction of the maximum slope,
