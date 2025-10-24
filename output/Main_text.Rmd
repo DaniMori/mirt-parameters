@@ -1803,12 +1803,14 @@ involving complex multidimensional item structures
 (even including items with opposite-signed loadings).
 Our results will be especially relevant in those cases,
 where the interpretation of the items may be affected more drastically.
-For example, the relative importance of an item in scoring a given trait
-could be downplayed if it is strongly aligned with that trait dimension
-but this alignment is overlooked.
-Once again, in multi-group applications,
-where differences in the latent space structure are critical,
-the agnostic version may overlook relevant differences in
+For example, using the agnostic version of the parameters and/or an orthogonal plot,
+the alignment of an item with the trait axes could be easily misinterpreted.
+Then, the information it provides about each of those traits
+(and, subsequently, its quality for assessing them)
+could be either downplayed or exaggerated.
+Once again, this is paramount in multi-group applications,
+where differences in the latent space structure are critical and
+the agnostic version could overlook relevant differences in
 the values of the multidimensional parameters.
 Different covariance structures across groups may significantly affect them
 due to differences in either the variances or the correlation structure.
