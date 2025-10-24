@@ -1250,6 +1250,8 @@ TRANSF_MATRIX_INV_SQ_CORR_EQ <- latex_eq(INNER_PROD_MATRIX_INV_DEF, CORR_MATRIX)
 
 #### Graphical representation example: ----
 
+ITEM_BASIS_VECTOR_2 <- latex_sub(ITEM_BASIS_VECTOR, 2)
+
 TRAIT_COMP_1  <- latex_sub(TRAIT_SYMBOL, 1)
 TRAIT_COMP_2  <- latex_sub(TRAIT_SYMBOL, 2)
 TRAIT_COORD_1 <- latex_raised_to(TRAIT_COMP_1, exp = TEST_SPACE_BASIS)

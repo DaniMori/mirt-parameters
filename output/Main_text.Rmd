@@ -1161,13 +1161,27 @@ is difficult on a bidimensional display
 (and hardly possible at all for more than three dimensions with the
 currently available technology),
 we limit ourselves to the bidimensional case here.
-The example in Figure \@ref(fig:item-plot-out) showcases a representation of
-a set of items with two different latent trait distributions.
-(The axes are labeled as $`r TRAIT_COMP_1`$ and $`r TRAIT_COMP_2`$
-for simplicity, but note that they represent the coordinates of
-a latent trait point expressed in test space coordinates,
-that is, $`r TRAIT_COORD_1`$ and  $`r TRAIT_COORD_2`$.)
-Their parameters are shown in Table \@ref(tab:example-items-table-out),
+The example in Figure \@ref(fig:item-plot-out) showcases
+the test space representation of a set of items
+under two different latent trait distributions.
+In formal terms, the proper axis labeling of this figure
+should correspond to the vectors that make up basis $`r TEST_SPACE_BASIS`$,
+in this case, $`r ITEM_BASIS_VECTOR_FIRST`$ and $`r ITEM_BASIS_VECTOR_2`$;
+the coordinates represent the coefficients that multiply each basis vector to
+obtain the corresponding coordinate in the test space.
+However, these coefficients correspond to the values of
+a vector in the test space, be it $`r DISCR_COORDS`$ for $`r DISCR_VECTOR`$,
+or $`r TRAIT_COORDS_TRANSF_TS`$ for $`r TRAIT_VECTOR`$
+(as given by Equation \@ref(eq:trait-coords-spaces-transform)).
+For the sake of simplicity,
+we label the axes as $`r TRAIT_COMP_1`$ and $`r TRAIT_COMP_2`$,
+highlighting the comparison of the items with the latent trait vectors.
+However, note that these coordinates actually correspond to
+the components of $`r TRAIT_COORDS_TRANSF_TS`$, i.e.,
+$`r TRAIT_COORD_1`$ and  $`r TRAIT_COORD_2`$.
+
+The parameters of the items in Figure \@ref(fig:item-plot-out) are shown
+in Table \@ref(tab:example-items-table-out),
 both in the original `r MODEL_ACRONYM` metric and
 in the multidimensional metric under the two cases,
 which differ in the latent trait correlation.
@@ -1178,8 +1192,8 @@ the correlation between them is .5.
 The same `r MODEL_ACRONYM` parameters are used in both cases,
 but their (correlation-based) multidimensional parameters change
 with the correlation.
-If we used the agnostic version instead, the multidimensional parameters,
-given by the values under $`r CORR_ORTH_OUT`$, would be the same in both cases.
+(If we used the agnostic version instead, the multidimensional parameters,
+given by the values under $`r CORR_ORTH_OUT`$, would be the same in both cases.)
 
 Panel (a) of Figure \@ref(fig:item-plot-out) shows
 the item representation in the uncorrelated case,
