@@ -1266,22 +1266,22 @@ item_params_output
 
 A comparison of panels (a) and (c) allows understanding the effect of
 a positive correlation on the $`r MDISC_CORR_PARAM`$
-(and consequently the $`r MIL_CORR_PARAM`$) value:
+(and consequently the $`r MIL_CORR_PARAM`$) value of an item:
 The components of the discrimination parameters tend to
 *sum up* in the same direction as they get *more aligned*.
 Thus, if the discrimination parameters have the same sign, as in items 1 and 5,
-the $`r MDISC_CORR_PARAM_ITEM`$ value tends to increase;
+the $`r MDISC_CORR_PARAM`$ value tends to increase;
 on the contrary, when the discrimination parameters have opposite signs,
-they tend to cancel each other out, and $`r MDISC_CORR_PARAM_ITEM`$ decreases,
+they tend to cancel each other out, and $`r MDISC_CORR_PARAM`$ decreases,
 as happens with items 2 and 3.
 This effect can be especially noticed by comparing
-the $`r MDISC_CORR_PARAM_ITEM`$ values of items 3 and 5:
+the $`r MDISC_CORR_PARAM`$ values of items 3 and 5:
 Their discrimination parameters are equal in absolute value,
-so their $`r MDISC_CORR_PARAM_ITEM`$ values are equal in the orthogonal space;
+so their $`r MDISC_CORR_PARAM`$ values are equal in the orthogonal space;
 however, the effect of the correlation shrinks the former and
 stretches the latter.
 Finally, note that item 4 has one discrimination parameter equal to 0,
-so its $`r MDISC_CORR_PARAM_ITEM`$ is unaffected by the correlation.
+so its $`r MDISC_CORR_PARAM`$ is unaffected by the correlation.
 
 ```{r density-contours}
 ```
