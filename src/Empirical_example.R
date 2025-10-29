@@ -272,7 +272,7 @@ item_params_output <- item_params                          |>
   )                                                        |>
   style(
     pr_p = fp_par(
-      line_spacing   = 2,
+      line_spacing   = 1.5,
       padding.top    = 2,
       padding.bottom = 0
     ),
