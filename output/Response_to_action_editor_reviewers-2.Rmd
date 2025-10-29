@@ -85,12 +85,12 @@ Reckase leverages the property that
 the sum of the squared direction cosines equals 1 (see Equation 7 therein).
 [...]
 
-Finally, the sentence that was found difficult to understand in the abstract (p. 1, lines 5-7) has been rewritten as follows:
+Finally, the sentence that was found difficult to understand in the abstract (p. 1, ll. 5-7) has been rewritten as follows (p. 1, ll. <!-- # TODO: Complete --> in the current version):
 
 >  [...]
 We apply Reckase's maximum discrimination point method to define them in an
 arbitrary algebraic basis.
-Then, we define such basis to be a
+Then, we define that basis to be a
 geometrical representation of the measured construct. [...]
 
 ###### 2) I would like to see the graphics improved as suggested by Thissen's Review 2.  Labeling of axes is key for clarity.  And providing contour plots of the factor score ( latent variable) distributions will also help the reader’s understanding, especially for those readers coming from the IRT perspective.
@@ -110,7 +110,7 @@ we consider this text was misplaced in our previous version and have moved it ac
 After the changes, this paragraph (now in p. <!-- # TODO: Complete -->, ll. <!-- # TODO: Complete -->) reads:
 
 > We have seen that taking the latent space structure into account may have a
-> substantial effect in the resulting values and
+> substantial effect on the resulting values and
 > interpretation of the parameters, something not contemplated by the original
 > (hereby referred to as agnostic) version.
 > Interpreting the item properties correctly requires a solid understanding of
@@ -124,12 +124,15 @@ After the changes, this paragraph (now in p. <!-- # TODO: Complete -->, ll. <!--
 > (even including items with opposite-signed loadings).
 > Our results will be especially relevant in those cases,
 > where the interpretation of the items may be affected more drastically.
-> For example, the relative importance of an item in scoring a given trait
-> could be downplayed if it is strongly aligned with that trait dimension
-> but this alignment is overlooked.
-> Once again, in multi-group applications,
-> where differences in the latent space structure is critical,
-> the agnostic version may overlook relevant differences in
+> For example, using the agnostic version of the parameters
+> and/or an orthogonal plot,
+> the alignment of an item with the trait axes could be easily misinterpreted.
+> Then, the information it provides about each of those traits
+> (and, subsequently, its quality for assessing them)
+> could be either downplayed or exaggerated.
+> Once again, this is paramount in multi-group applications,
+> where differences in the latent space structure are critical and
+> the agnostic version could overlook relevant differences in
 > the values of the multidimensional parameters.
 > Different covariance structures across groups may significantly affect them
 > due to differences in either the variances or the correlation structure.
@@ -158,7 +161,24 @@ The second change in the discussion consists of stating this explicitly now at t
 > Interpreting the items in the latent space
 > could only lead researchers to wrong conclusions. [...]
 
-Besides the aforementioned changes, we would like to highlight a minor addition to the "Covariance-based version" section, to refer to the transformation of the latent trait distribution into another one with an identity covariance matrix by its usual name in the literature, i.e., a "whitening transformation".
+Besides the aforementioned changes and some minor corrections, we would like to highlight two additional changes: a correction, and a minor addition to the "Covariance-based version" section.
+The first one corrects ll. <!-- # TODO: Complete --> in p. <!-- # TODO: Complete --> in the previous version, which stated:
+
+> the sign of $`r DISTANCE_PARAM`$ is equal to
+> the sign of $`r INTERCEPT_PARAM`$.
+> The implication is that the item is displaced along
+> its measurement direction forward or backward with respect to the origin.
+
+This was an error, as the signs of $`r DISTANCE_PARAM`$ and $`r INTERCEPT_PARAM`$ are opposite to each other.
+With this correction applied, these lines now read (p. <!-- # TODO: Complete -->, ll. <!-- # TODO: Complete -->):
+
+> Therefore, the sign of $`r DISTANCE_PARAM`$ is the opposite of
+> the sign of $`r INTERCEPT_PARAM`$.
+> The implication is that the item is displaced along its measurement direction
+> forward or backward with respect to the origin, depending on
+> whether $`r INTERCEPT_PARAM`$ is negative or positive, respectively.
+
+In the "Covariance-based version" section, we have referred to the transformation of the latent trait distribution into one with an identity covariance matrix as  a "whitening transformation", its usual name in the literature (unknown to us before).
 The second paragraph of this section (p. <!-- # TODO: Complete -->, ll. <!-- # TODO: Complete -->) now reads:
 
 > Therefore, an orthonormal basis should represent independent,
@@ -261,7 +281,7 @@ This paragraph (p. <!-- # TODO: Complete -->, ll. <!-- # TODO: Complete -->) now
 > This allows representing the coordinates of the latent space vectors
 > in the test space and, conversely,
 > the coordinates of the discrimination vectors in the latent space:
-> By Equations (2), (5), and (23)
+> By Equations (2), (5), and (23),
 > any coordinate vector $`r TRAIT_COORDS`$ in $`r LS_BASIS`$
 > can be expressed in $`r TEST_SPACE_BASIS`$ as
 > 
@@ -270,6 +290,11 @@ This paragraph (p. <!-- # TODO: Complete -->, ll. <!-- # TODO: Complete -->) now
 > \end{equation}
 >   
 > and vice versa. [...]
+
+Subsequently, we have updated ll. <!-- # TODO: Complete --> in p. <!-- # TODO: Complete --> (now p. <!-- # TODO: Complete -->, ll. p. <!-- # TODO: Complete -->) as follows:
+
+> [...] Hence we may define the $`r MIL_PARAM`$ and $`r MDISC_SYM`$ using
+> Equations (20), (21), and (25). [...]
 
 - The second paragraph in section "Graphical Representation" now clarifies better that the representation in the test space must use its basis instead of the canonical basis, to make the plot be a faithful representation of the actual directions of the items with respect to the latent trait dimensions.
 This paragraph now reads (p. <!-- # TODO: Complete -->, ll. <!-- # TODO: Complete -->):
@@ -285,13 +310,26 @@ This paragraph now reads (p. <!-- # TODO: Complete -->, ll. <!-- # TODO: Complet
 - The section "Graphical Representation Example" has been expanded to explain better both Table 1 and Figure 1.
 Starting in the first paragraph (p. <!-- # TODO: Complete -->, l. <!-- # TODO: Complete -->), this section now reads:
 
-> [...] The example in Figure 1 showcases a representation of
-> a set of items with two different latent trait distributions.
-> (The axes are labelled as $`r TRAIT_COMP_1`$ and $`r TRAIT_COMP_2`$
-> for simplicity, but note that they represent the coordinates of
-> a latent trait point expressed in test space coordinates,
-> that is, $`r TRAIT_COORD_1`$ and  $`r TRAIT_COORD_2`$.)
-> Their parameters are shown in Table 1,
+> [...] The example in Figure 1 showcases
+> the test space representation of a set of items
+> under two different latent trait distributions.
+> In formal terms, the proper axis labeling of this figure
+> should correspond to the vectors that make up basis $`r TEST_SPACE_BASIS`$,
+> in this case, $`r ITEM_BASIS_VECTOR_FIRST`$ and $`r ITEM_BASIS_VECTOR_2`$;
+> the coordinates represent the coefficients that multiply each basis vector to
+> obtain the corresponding coordinate in the test space.
+> However, these coefficients correspond to the values of
+> a vector in the test space, be it $`r DISCR_COORDS`$ for $`r DISCR_VECTOR`$,
+> or $`r TRAIT_COORDS_TRANSF_TS`$ for $`r TRAIT_VECTOR`$
+> (as given by Equation (24)).
+> For the sake of simplicity,
+> we label the axes as $`r TRAIT_COMP_1`$ and $`r TRAIT_COMP_2`$,
+> highlighting the comparison of the items with the latent trait vectors.
+> However, note that these coordinates actually correspond to
+> the components of $`r TRAIT_COORDS_TRANSF_TS`$, i.e.,
+> $`r TRAIT_COORD_1`$ and  $`r TRAIT_COORD_2`$.
+> 
+> The parameters of the items in Figure 1 are shown in Table 1,
 > both in the original `r MODEL_ACRONYM` metric and
 > in the multidimensional metric under the two cases,
 > which differ in the latent trait correlation.
@@ -302,8 +340,9 @@ Starting in the first paragraph (p. <!-- # TODO: Complete -->, l. <!-- # TODO: C
 > The same `r MODEL_ACRONYM` parameters are used in both cases,
 > but their (correlation-based) multidimensional parameters change
 > with the correlation.
-> If we used the agnostic version instead, the multidimensional parameters,
-> given by the values under $`r CORR_ORTH_OUT`$, would be the same in both cases.
+> (If we used the agnostic version instead, the multidimensional parameters,
+> given by the values under $`r CORR_ORTH_OUT`$,
+> would be the same in both cases.)
 > 
 > Panel (a) of Figure 1 shows
 > the item representation in the uncorrelated case,
