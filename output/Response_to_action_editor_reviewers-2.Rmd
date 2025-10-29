@@ -85,7 +85,7 @@ Reckase leverages the property that
 the sum of the squared direction cosines equals 1 (see Equation 7 therein).
 [...]
 
-Finally, the sentence that was found difficult to understand in the abstract (p. 1, ll. 5-7) has been rewritten as follows (p. 1, ll. <!-- # TODO: Complete --> in the current version):
+Finally, the sentence that was found difficult to understand in the abstract (p. 1, ll. 5-7) has been rewritten as follows (p. 1, ll. 4-7 in the current version):
 
 >  [...]
 We apply Reckase's maximum discrimination point method to define them in an
@@ -107,7 +107,7 @@ Besides some minor changes to adapt our discussion (please refer to the tracked 
 The first one is the inclusion of additional comments to discuss the implications in terms of the test results and how their uses could be affected.
 They have been included in what was previously the second paragraph;
 we consider this text was misplaced in our previous version and have moved it accordingly, nearly to the end of the section.
-After the changes, this paragraph (now in p. <!-- # TODO: Complete -->, ll. <!-- # TODO: Complete -->) reads:
+After the changes, this paragraph (now in p. 38, l. 19 to p. 39, l. 18) reads:
 
 > We have seen that taking the latent space structure into account may have a
 > substantial effect on the resulting values and
@@ -154,7 +154,7 @@ should account for how the test space representation should be interpreted.
 Regarding the latent space, our latest version already stated that "the axes defined by the test space basis, and not the ones defined by the latent space basis, are a geometrical representation of the covariance structure. Indeed, the cosines of the angles among the test space axes are the geometric equivalent of the correlations. This result is both surprising and counterintuitive [...]".
 The manuscript implicitly showed that the latent space transformation is as an "geometric artifact", necessary for arriving at the proper representation of the items in the test space.
 We acknowledge though that this might not be necessarily clear in the previous submission.
-The second change in the discussion consists of stating this explicitly now at the end of the fourth paragraph (previously the fifth one) of the "Discussion" section, in p. <!-- # TODO: Complete -->, ll. <!-- # TODO: Complete -->:
+The second change in the discussion consists of stating this explicitly now at the end of the fourth paragraph (previously the fifth one) of the "Discussion" section, in p. 37, ll. 16-18:
 
 > [...] In fact, we have only defined the latent space as a geometrical artifact
 > for obtaining the multidimensional parameters.
@@ -162,7 +162,7 @@ The second change in the discussion consists of stating this explicitly now at t
 > could only lead researchers to wrong conclusions. [...]
 
 Besides the aforementioned changes and some minor corrections, we would like to highlight two additional changes: a correction, and a minor addition to the "Covariance-based version" section.
-The first one corrects ll. <!-- # TODO: Complete --> in p. <!-- # TODO: Complete --> in the previous version, which stated:
+The first one corrects ll. 16-18 in p. 19 in the previous version, which stated:
 
 > the sign of $`r DISTANCE_PARAM`$ is equal to
 > the sign of $`r INTERCEPT_PARAM`$.
@@ -170,7 +170,7 @@ The first one corrects ll. <!-- # TODO: Complete --> in p. <!-- # TODO: Complete
 > its measurement direction forward or backward with respect to the origin.
 
 This was an error, as the signs of $`r DISTANCE_PARAM`$ and $`r INTERCEPT_PARAM`$ are opposite to each other.
-With this correction applied, these lines now read (p. <!-- # TODO: Complete -->, ll. <!-- # TODO: Complete -->):
+With this correction applied, these lines now read (p. 20, ll. 16-18):
 
 > Therefore, the sign of $`r DISTANCE_PARAM`$ is the opposite of
 > the sign of $`r INTERCEPT_PARAM`$.
@@ -179,7 +179,7 @@ With this correction applied, these lines now read (p. <!-- # TODO: Complete -->
 > whether $`r INTERCEPT_PARAM`$ is negative or positive, respectively.
 
 In the "Covariance-based version" section, we have referred to the transformation of the latent trait distribution into one with an identity covariance matrix as  a "whitening transformation", its usual name in the literature (unknown to us before).
-The second paragraph of this section (p. <!-- # TODO: Complete -->, ll. <!-- # TODO: Complete -->) now reads:
+The second paragraph of this section (p. 16, ll. 18-20) now reads:
 
 > Therefore, an orthonormal basis should represent independent,
 > standard coordinates.
@@ -195,7 +195,7 @@ The second paragraph of this section (p. <!-- # TODO: Complete -->, ll. <!-- # T
 
 ###### It is always best, many would say required, to label the axes. The lack of axis labels in the graphics of Figure 1 make the rest of these comments difficult to type, so for convenience I imagine the axes are labeled conventionally x and y in the left panel, and x and y' in the right panel, indicating that y' is a rotated representation of y. (In the ms., it would be best to tie the labeling notation to the algebra used.)
 
-We had overlooked labelling the axes and have done so in this new version;
+We had overlooked labeling the axes and have done so in this new version;
 we thank the reviewer once again for pointing this out.
 $`r TRAIT_COMP_1`$/$`r TRAIT_COMP_2`$ have been used as labels for simplicity
 (both in the code for plotting them, and for the reader's understanding),
@@ -207,12 +207,23 @@ the coordinates in either space, so this labeling should be clear enough,
 while relying only upon the algebraic interpretation of the model,
 thus avoiding the geometrical details,
 which are only necessary for deriving the results.
-This choice of labeling is explained in the text in p. <!-- # TODO: Complete -->, ll. <!-- # TODO: Complete -->:
+This choice of labeling is explained in the text in p. 23, ll. 1-8 (see also our response to the last comment below):
 
-> (The axes are labelled as $`r TRAIT_COMP_1`$ and $`r TRAIT_COMP_2`$
-> for simplicity, but note that they represent the coordinates of
-> a latent trait point expressed in test space coordinates,
-> that is, $`r TRAIT_COORD_1`$ and  $`r TRAIT_COORD_2`$.)
+> In formal terms, the proper axis labeling of this figure
+> should correspond to the vectors that make up basis $`r TEST_SPACE_BASIS`$,
+> in this case, $`r ITEM_BASIS_VECTOR_FIRST`$ and $`r ITEM_BASIS_VECTOR_2`$;
+> the coordinates represent the coefficients that multiply each basis vector to
+> obtain the corresponding coordinate in the test space.
+> However, these coefficients correspond to the values of
+> a vector in the test space, be it $`r DISCR_COORDS`$ for $`r DISCR_VECTOR`$,
+> or $`r TRAIT_COORDS_TRANSF_TS`$ for $`r TRAIT_VECTOR`$
+> (as given by Equation \@ref(eq:trait-coords-spaces-transform)).
+> For the sake of simplicity,
+> we label the axes as $`r TRAIT_COMP_1`$ and $`r TRAIT_COMP_2`$,
+> highlighting the comparison of the items with the latent trait vectors.
+> However, note that these coordinates actually correspond to
+> the components of $`r TRAIT_COORDS_TRANSF_TS`$, i.e.,
+> $`r TRAIT_COORD_1`$ and  $`r TRAIT_COORD_2`$.
 
 ###### One part of the factor model that is understated in this ms. is the population distribution of the factor scores (not estimates, but the latent variable values). That could be ameliorated by adding a few contours of the bivariate normal (0, 1, rho=0) (that is, circles :) to the left panel graphic. That population distribution is implicit in EFA, and the original Reckase work.
 
@@ -231,7 +242,7 @@ This is indeed the message we want to convey with our manuscript, and are thankf
 We have taken into account the suggestion and added the contours plots accordingly.
 This is represented as panel (b) in the new version.
 The text also explains the different interpretation of the coordinates relative to the distribution now.
-Please see the new paragraph added in third place in section "Graphical Representation Example" (p. <!-- # TODO: Complete -->, ll. <!-- # TODO: Complete -->):
+Please see the new paragraph added in third place in section "Graphical Representation Example" (p. 24, ll. 11-17):
 
 > Panels (a) and (b) show that,
 > even if the agnostic coordinates are the same in both cases,
@@ -248,7 +259,7 @@ Please see the new paragraph added in third place in section "Graphical Represen
 
 We understand this graphic may be hard to interpret, but our interpretation is that the grid lines are properly placed.
 The rationale is as follows:
-Each point in the test space is intended to represent a coordinate vector, which is the displacement from the origin given by a linear combination of the basis vectors, with the components of the coordinate vector being the coefficients of those basis vectors (please refer to the expression $`r DISCR_COORDS_ALT_EQ`$ in p. 8 of the previous version of our manuscript, or p. <!-- # TODO: Complete --> in the new submission).
+Each point in the test space is intended to represent a coordinate vector, which is the displacement from the origin given by a linear combination of the basis vectors, with the components of the coordinate vector being the coefficients of those basis vectors (please refer to the expression $`r DISCR_COORDS_ALT_EQ`$ in p. 8 of the previous version of our manuscript, or p. 9, l. 1 in the new submission).
 For example, the tip of the vector representing item 1 is at coordinate (+2, +2).
 This means the point is displaced twice the length of the first vector basis along its direction (i.e., two units along the horizontal axis) and then twice the length of the first vector basis along its direction (i.e., another two units parallel to the direction of the oblique axis).
 These displacements, parallel to the direction of the axes, are what the grid lines intend to represent.
@@ -264,7 +275,7 @@ The changes we have made in this new version are the following:
 
 - The second paragraph of section "Relationship Between Test Space and Latent Space" explains how coordinates can be converted from the latent trait to the test space, and vice versa.
 For explaining this, we have needed to add and reference two new equations.
-This paragraph (p. <!-- # TODO: Complete -->, ll. <!-- # TODO: Complete -->) now reads as follows:
+This paragraph (p. 14, l. 16 to p. 15, l. 4) now reads as follows:
 
 > [...]
 > First, the transformation to the orthonormal bases of the two spaces allows
@@ -291,13 +302,13 @@ This paragraph (p. <!-- # TODO: Complete -->, ll. <!-- # TODO: Complete -->) now
 >   
 > and vice versa. [...]
 
-Subsequently, we have updated ll. <!-- # TODO: Complete --> in p. <!-- # TODO: Complete --> (now p. <!-- # TODO: Complete -->, ll. p. <!-- # TODO: Complete -->) as follows:
+Subsequently, we have updated ll. 14-15 in p. 15 (now ll. p. 18-19) as follows:
 
 > [...] Hence we may define the $`r MIL_PARAM`$ and $`r MDISC_SYM`$ using
 > Equations (20), (21), and (25). [...]
 
 - The second paragraph in section "Graphical Representation" now clarifies better that the representation in the test space must use its basis instead of the canonical basis, to make the plot be a faithful representation of the actual directions of the items with respect to the latent trait dimensions.
-This paragraph now reads (p. <!-- # TODO: Complete -->, ll. <!-- # TODO: Complete -->):
+This paragraph now reads (p. 21, l. 25 to p. 22, l. 4):
 
 > [...] Coordinates in a rectangular Cartesian system are commonly assumed
 > to be simply represented in the canonical basis.
@@ -308,7 +319,7 @@ This paragraph now reads (p. <!-- # TODO: Complete -->, ll. <!-- # TODO: Complet
 > to find the equivalent coordinates in the canonical basis. [...]
 
 - The section "Graphical Representation Example" has been expanded to explain better both Table 1 and Figure 1.
-Starting in the first paragraph (p. <!-- # TODO: Complete -->, l. <!-- # TODO: Complete -->), this section now reads:
+Starting in the first paragraph (p. 22, l. 24 to p. 25, l. 6), this section now reads:
 
 > [...] The example in Figure 1 showcases
 > the test space representation of a set of items
@@ -394,10 +405,10 @@ Starting in the first paragraph (p. <!-- # TODO: Complete -->, l. <!-- # TODO: C
 > 
 > A comparison of panels (a) and (c) allows understanding the effect of
 > a positive correlation on the $`r MDISC_CORR_PARAM`$
-> (and consequently the $`r MIL_CORR_PARAM`$) value: [...]
+> (and consequently the $`r MIL_CORR_PARAM`$) value of an item: [...]
 
 Finally, we have added a fourth panel (panel (d)) that illustrates how the items would be plotted if we omitted using the proper test space basis (and just using the canonical basis instead).
 Incidentally, this also serves the purpose of allowing an easier comparison of the coordinates computed from the two versions (the agnostic, and the correlation-based one) of the multidimensional parameters.
-We have briefly explained this in p. <!-- # TODO: Complete -->, ll. <!-- # TODO: Complete --> (please refer to the changes explained above).
+We have briefly explained this in p. 24, ll. 17-25 (please refer to the changes explained above).
 
 # References
