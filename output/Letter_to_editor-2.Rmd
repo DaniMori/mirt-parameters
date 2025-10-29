@@ -32,8 +32,10 @@ we have carefully taken into account Thissen's and your own
 review and suggestions, addressing all the comments and suggestions diligently.
 Where we have decided not to follow a certain suggestion,
 we have striven to explain our reasons in the clearest possible way.
-Also, besides addressing the comments,
-we have added an additional clarification
+Besides addressing the comments,
+we have thoroughly reviewed the grammar and style,
+in the hope of avoiding these kind of errors in our new submission,
+and have also added an additional clarification
 about the "covariance matrix whitening",
 a terminology previously unknown to us.
 
