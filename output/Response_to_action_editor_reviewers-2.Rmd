@@ -217,7 +217,7 @@ This choice of labeling is explained in the text in p. 23, ll. 1-8 (see also our
 > However, these coefficients correspond to the values of
 > a vector in the test space, be it $`r DISCR_COORDS`$ for $`r DISCR_VECTOR`$,
 > or $`r TRAIT_COORDS_TRANSF_TS`$ for $`r TRAIT_VECTOR`$
-> (as given by Equation \@ref(eq:trait-coords-spaces-transform)).
+> (as given by Equation (24)).
 > For the sake of simplicity,
 > we label the axes as $`r TRAIT_COMP_1`$ and $`r TRAIT_COMP_2`$,
 > highlighting the comparison of the items with the latent trait vectors.
