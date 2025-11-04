@@ -23,7 +23,7 @@ source("R/Formulae.R", encoding = 'UTF-8')
 
 ### File names:
 MANUSCRIPT_FILENAME               <- "Main_text.Rmd"
-SUPPLEMENT_FILENAME               <- "Supplementary_material.Rmd"
+SUPPLEMENT_FILENAME               <- "ESM_1.Rmd"
 TITLEPAGE_FILENAME                <- "Title_page.Rmd"
 COVERLETTER_FILENAME              <- "Cover_letter.Rmd"
 ITEM_PARAMS_RECKASE_2009_FILENAME <- "Table_6.1_Reckase_2009.csv"
