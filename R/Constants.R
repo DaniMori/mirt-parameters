@@ -23,22 +23,36 @@ source("R/Formulae.R", encoding = 'UTF-8')
 
 ### File names:
 MANUSCRIPT_FILENAME               <- "Main_text.Rmd"
-SUPPLEMENT_FILENAME               <- "Supplementary_material.Rmd"
+SUPPLEMENT_FILENAME               <- "ESM_1.Rmd"
 TITLEPAGE_FILENAME                <- "Title_page.Rmd"
 COVERLETTER_FILENAME              <- "Cover_letter.Rmd"
+RESPONSELETTER_1_FILENAME         <- "Letter_to_editor-1.Rmd"
+RESPONSELETTER_2_FILENAME         <- "Letter_to_editor-2.Rmd"
+RESPONSE_REVIEWERS_1_FILENAME     <- "Response_to_action_editor_reviewers-1.Rmd"
+RESPONSE_REVIEWERS_2_FILENAME     <- "Response_to_action_editor_reviewers-2.Rmd"
 ITEM_PARAMS_RECKASE_2009_FILENAME <- "Table_6.1_Reckase_2009.csv"
 ITEM_PARAMS_TEZZA_2018_FILENAME   <- "Table_5_Tezza_et_al_2018.csv"
 
 ### Project directories:
-DATA_DIR       <- "dat"
-OUTPUT_DIR     <- "output"
+DATA_DIR   <- "dat"
+OUTPUT_DIR <- "output"
 
 ### File paths:
 
-MANUSCRIPT_PATH  <- file.path(OUTPUT_DIR, MANUSCRIPT_FILENAME)
-SUPPLEMENT_PATH  <- file.path(OUTPUT_DIR, SUPPLEMENT_FILENAME)
-TITLEPAGE_PATH   <- file.path(OUTPUT_DIR, TITLEPAGE_FILENAME)
-COVERLETTER_PATH <- file.path(OUTPUT_DIR, COVERLETTER_FILENAME)
+MANUSCRIPT_PATH           <- file.path(OUTPUT_DIR, MANUSCRIPT_FILENAME)
+SUPPLEMENT_PATH           <- file.path(OUTPUT_DIR, SUPPLEMENT_FILENAME)
+TITLEPAGE_PATH            <- file.path(OUTPUT_DIR, TITLEPAGE_FILENAME)
+COVERLETTER_PATH          <- file.path(OUTPUT_DIR, COVERLETTER_FILENAME)
+RESPONSELETTER_1_PATH     <- file.path(OUTPUT_DIR, RESPONSELETTER_1_FILENAME)
+RESPONSELETTER_2_PATH     <- file.path(OUTPUT_DIR, RESPONSELETTER_2_FILENAME)
+RESPONSE_REVIEWERS_1_PATH <- file.path(
+  OUTPUT_DIR,
+  RESPONSE_REVIEWERS_1_FILENAME
+)
+RESPONSE_REVIEWERS_2_PATH <- file.path(
+  OUTPUT_DIR,
+  RESPONSE_REVIEWERS_2_FILENAME
+)
 
 ITEM_PARAMS_RECKASE_2009_FILEPATH <- file.path(
   DATA_DIR,
@@ -105,6 +119,8 @@ ANGLE_EXPLANATION     <- list(
   " = Direction component of the multidimensional item location parameter",
   " (in dimension ", as_equation(as.character(DIM_INDEX)), ")"
 )
+CORR_VER_EXPLANATION  <-
+  "The multidimensional components are the correlation-based version"
 AG_VER_EXPLANATION    <- glue("{AGNOSTIC_ABBR} = Agnostic version; ")
 COV_VER_EXPLANATION   <- list(
   as_equation(as.character(COV_MATRIX)),

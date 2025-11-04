@@ -20,6 +20,7 @@ library(tidyverse)
 library(flextable)
 library(officer)
 library(scales)
+library(mvtnorm)
 
 ## ----sources----
 source("R/Mirt_toolbox.R", encoding = 'UTF-8')
@@ -39,8 +40,36 @@ AXIS_LAB_POS <- 1   # Axis label position (right or upper extreme)
 AXIS_COLOR   <- "black"
 LINE_WIDTH   <- .1
 VECTOR_WIDTH <- .5
-# POINT_CHAR   <- 19L
 PALETTE      <- c("darkred", "darkgoldenrod3", "green3", "cyan3", "blue3")
+
+# Item vector arrow head specification:
+ITEM_ARROW_SPEC <- arrow(
+  angle  = 20,
+  length = unit(10, "points"),
+  type   = "closed"
+)
+
+# Item plot ranges:
+X_RANGE <- c(-2.97, 3.23)
+Y_RANGE <- c(-2.35,  2.2)
+
+# Plot panel label position:
+PANEL_LABEL_X <- -2.5
+PANEL_LABEL_Y <-  2
+
+# Latent space grid for density contours:
+PROB_AXIS_2D       <- seq(-3, 3, by = 0.05) # Axis for density contour plots
+CONTOUR_BREAKS     <- c(.1, .5, .9)         # Breaks for density contour plots
+CONTOUR_COLOR      <- "#5c6eb1"             # Color for density contour lines
+contour_breaks_out <- CONTOUR_BREAKS |>     # Text output for contour breaks
+  percent() |>
+  glue_collapse(sep = ', ', last = ', and ')
+
+latent_space_grid <- expand_grid( # Grid for the density contour plots
+  trait_1 = PROB_AXIS_2D,
+  trait_2 = PROB_AXIS_2D
+)
+
 
 # Item parameters:
 items_M2PL <- tribble(
@@ -56,7 +85,6 @@ items_M2PL <- tribble(
 CORR_VALUE   <- .5
 CORR_ARC     <- acos(CORR_VALUE)
 CORR_ARC_SIN <- sin(CORR_ARC)
-CORR_ARC_TAN <- tan(CORR_ARC)
 
 # Table output objects:
 CORR_VALUE_OUT <- CORR_VALUE |> format_prop_like(sig = 1)
@@ -67,6 +95,7 @@ CORR_ORTH_OUT  <- latex_eq(CORR, 0)              |> as.character()
 ## ---- CONFIGURATION: ---------------------------------------------------------
 
 ## ----graphical-output-conf----
+
 theme_set( # `ggplot` output configuration
   theme_classic(
     base_size      = FONT_SIZE,
@@ -74,11 +103,15 @@ theme_set( # `ggplot` output configuration
     base_line_size = LINE_WIDTH
   ) %+replace%
     theme(
-      axis.title.x = element_text(hjust = AXIS_LAB_POS),
-      axis.title.y = element_text(vjust = AXIS_LAB_POS, angle = 0),
-      panel.grid   = element_line(color = AXIS_COLOR)
+      axis.title.x       = element_text(hjust = AXIS_LAB_POS),
+      axis.title.y.right = element_text(vjust = AXIS_LAB_POS, angle = 0),
+      panel.grid         = element_line(color = AXIS_COLOR)
     )
 )
+
+# Color scale:
+colorscale <- scale_color_manual(values = PALETTE)
+
 
 ## ---- MAIN: ------------------------------------------------------------------
 
@@ -97,7 +130,6 @@ items_orth_coords <- items_orth_params |> compute_mirt_coords(
   original_coords = FALSE
 )
 items_orth  <- full_join(items_orth_params, items_orth_coords, by = ITEM_COLKEY)
-
 
 # Oblique case:
 
@@ -122,7 +154,7 @@ items_oblique_params <- items_M2PL |> compute_mirt_params(
 items_oblique_coords <- items_oblique_params |> compute_mirt_coords(
   D, MDISC, starts_with(COSINE_DIRTYPE),
   transform       = transform_matrix_inv_transp,
-  original_coords = FALSE
+  original_coords = TRUE
 )
 items_oblique        <- full_join(
   items_oblique_params, items_oblique_coords,
@@ -211,7 +243,8 @@ footer_values <- as_paragraph(
       INTERCEPT_EXPLANATION,
       MDISC_EXPLANATION,
       DISTANCE_EXPLANATION,
-      ANGLE_EXPLANATION, DOT
+      ANGLE_EXPLANATION, DOT, SEP,
+      CORR_VER_EXPLANATION, DOT
     )
 )
 
@@ -247,7 +280,8 @@ item_params_output <- item_params                          |>
   )                                                        |>
   style(
     pr_p = fp_par(
-      line_spacing   = 1.25,
+      line_spacing   = 2,
+      padding.top    = 2,
       padding.bottom = 0
     ),
     part = "footer",
@@ -258,94 +292,170 @@ item_params_output <- item_params                          |>
   fontsize(size = 12,       part = "all")                  |>
   set_table_properties(layout = "autofit")
 
-## ----compose-oblique-plot----
-plot_oblique <- items_oblique |>
-  arrange(desc(item))         |> # To plot them in reverse order
-  ggplot(
-    aes(
-      origin_transf_1, origin_transf_2,
-      xend  = end_transf_1, yend = end_transf_2,
-      color = item, fill = item
-    ),
-  )                                                         +
-  geom_abline(slope = CORR_ARC_TAN, linewidth = LINE_WIDTH) +
-  geom_abline(
-    slope     =  CORR_ARC_TAN,
-    intercept = -CORR_ARC_TAN * (-4:4),
-    linewidth = LINE_WIDTH,
-    linetype  = "17"
-  )                                                         +
-  geom_hline(yintercept = 0, linewidth = LINE_WIDTH)        +
-  geom_segment(
-    arrow     = arrow(angle = 20, length = unit(10, "points"), type = "closed"),
-    linejoin  = "mitre",
-    linewidth = VECTOR_WIDTH
-  )                                                         +
-  scale_x_continuous(
-    limits       = c(-2, 3),
-    breaks       = (0:4) - 2 / CORR_ARC_TAN,
-    labels       = 0:4,
-    minor_breaks = NULL,
-    name         = NULL,
-    oob          = oob_keep
-  )                                                         +
-  scale_y_continuous(
-    limits       = c(-2, 2.8),
-    breaks       = -3:3 * CORR_ARC_SIN,
-    labels       = function(x) x / CORR_ARC_SIN,
-    minor_breaks = 0,
-    name         = NULL,
-    oob          = oob_keep
-  )                                                         +
-  scale_color_manual(values = PALETTE, guide = NULL)        +
-  coord_fixed(expand = FALSE, clip = "on")                  +
-  theme(
-    axis.line          = element_blank(),
-    panel.grid.major.y = element_line(
-      color     = "black",
-      linewidth = LINE_WIDTH,
-      linetype  = "17"
-    )
-  )
+## ----density-contours----
+
+# Compute correlation matrix transformed to the oblique test space:
+corr_matrix_ts <- transform_matrix_inv_transp %*%
+  corr_matrix %*%
+  transform_matrix_inv
+
+# Bivariate normal distribution densities:
+mvn_densities <- latent_space_grid |> mutate(
+  orth    = cbind(trait_1, trait_2) |> dmvnorm(),
+  corr    = cbind(trait_1, trait_2) |> dmvnorm(sigma = corr_matrix),
+  corr_ts = cbind(trait_1, trait_2) |> dmvnorm(sigma = corr_matrix_ts),
+  across(orth:corr_ts, list(norm = ~ . / max(.)))
+)
+
+# Orthogonal contours:
+contour_orth <- mvn_densities |> geom_contour(
+  mapping     = aes(trait_1, trait_2, z = orth_norm),
+  color        = CONTOUR_COLOR,
+  alpha        = .3,
+  linewidth    = VECTOR_WIDTH,
+  breaks       = CONTOUR_BREAKS
+)
+
+# Correlated contours (in orthongonal coordinates):
+contour_corr <- mvn_densities |> geom_contour(
+  mapping     = aes(trait_1, trait_2, z = corr_norm),
+  color        = CONTOUR_COLOR,
+  alpha        = .3,
+  linewidth    = VECTOR_WIDTH,
+  breaks       = CONTOUR_BREAKS
+)
+
+# Correlated contours (in oblique coordinates, i.e., test space):
+contour_obl <- mvn_densities |> geom_contour(
+  mapping     = aes(trait_1, trait_2, z = corr_ts_norm),
+  color        = CONTOUR_COLOR,
+  alpha        = .3,
+  linewidth    = VECTOR_WIDTH,
+  breaks       = CONTOUR_BREAKS
+)
 
 ## ----compose-orthogonal-plot----
 
-plot_orth <- items_orth |>
-  arrange(desc(item))   |> # To plot them in reverse order
-  ggplot(
-    aes(
-      origin_transf_1, origin_transf_2,
-      xend  = end_transf_1, yend = end_transf_2,
-      color = item, fill = item
-    ),
-  )                                                  +
-  geom_vline(xintercept = 0, linewidth = LINE_WIDTH) +
-  geom_hline(yintercept = 0, linewidth = LINE_WIDTH) +
-  geom_segment(
-    arrow     = arrow(angle = 20, length = unit(10, "points"), type = "closed"),
-    linejoin  = "mitre",
-    linewidth = VECTOR_WIDTH
-  ) +
-  scale_x_continuous(
-    limits       = c(-2.5, 2.5),
-    breaks       = -2:2,
-    minor_breaks = NULL,
-    name         = NULL,
-    oob          = oob_keep
-  ) +
-  scale_y_continuous(
-    limits       = c(-2, 2.8),
-    breaks       = -3:3,
-    name         = NULL,
-    oob          = oob_keep
-  ) +
-  scale_color_manual(values = PALETTE)               +
-  coord_fixed(expand = FALSE, clip = "on")           +
-  theme(
-    axis.line        = element_blank(),
-    panel.grid.major = element_line(
-      color     = "black",
-      linewidth = LINE_WIDTH,
-      linetype  = "17"
-    )
+# Orthogonal grid:
+grid_orth <- transform_grid(
+  diag(2),
+  x_limits = X_RANGE,
+  y_limits = Y_RANGE,
+  break_step = 1,
+  linetype_grid = "17",
+  linewidth = LINE_WIDTH,
+  axis_ticks = "axis",
+  axis_lab_disp = c(-.03, -.2)
+)
+
+# Orthogonal items:
+items_geom_orth <- geom_segment(
+  mapping   = aes(
+    origin_transf_1, origin_transf_2,
+    xend  = end_transf_1, yend = end_transf_2,
+    color = item
+  ),
+  data      = items_orth |> arrange(desc(item)), # To plot them in reverse order
+  arrow     = ITEM_ARROW_SPEC,
+  linejoin  = "mitre",
+  linewidth = VECTOR_WIDTH
+)
+
+plot_orth_uncorr_contours <- grid_orth +
+  contour_orth +
+  items_geom_orth +
+  colorscale +
+  annotate(
+    "text",
+    x        = PANEL_LABEL_X,
+    y        = PANEL_LABEL_Y,
+    label    = "(a)",
+    family   = GRAPH_FONT,
+    size     = 6,
+    fontface = "bold"
+  )
+
+## ----compose-test-space-oblique-plot----
+
+# Oblique grid:
+grid_ts <- transform_grid(
+  transform_matrix_inv_transp,
+  x_limits = X_RANGE,
+  y_limits = Y_RANGE,
+  break_step = 1,
+  linetype_grid = "17",
+  linewidth = LINE_WIDTH,
+  axis_ticks = "axis"
+)
+
+# Oblique items:
+items_geom_oblique <- geom_segment(
+  mapping   = aes(
+    origin_transf_1, origin_transf_2,
+    xend  = end_transf_1, yend = end_transf_2,
+    color = item
+  ),
+  data      = items_oblique |> arrange(desc(item)), # Plot them in reverse order
+  arrow     = ITEM_ARROW_SPEC,
+  linejoin  = "mitre",
+  linewidth = VECTOR_WIDTH
+)
+
+plot_oblique_ts <- grid_ts +
+  contour_obl +
+  items_geom_oblique +
+  colorscale +
+  annotate(
+    "text",
+    x        = PANEL_LABEL_X,
+    y        = PANEL_LABEL_Y,
+    label    = "(c)",
+    family   = GRAPH_FONT,
+    size     = 6,
+    fontface = "bold"
+  )
+
+## ----compose-test-space-orthogonal-plot----
+
+plot_orth_corr <- grid_orth +
+  contour_corr +
+  items_geom_orth +
+  colorscale +
+  annotate(
+    "text",
+    x        = PANEL_LABEL_X,
+    y        = PANEL_LABEL_Y,
+    label    = "(b)",
+    family   = GRAPH_FONT,
+    size     = 6,
+    fontface = "bold"
+  )
+
+## ----compose-rectangular-cov-based-plot----
+
+# Covariance-based items in rectangular grid:
+items_geom_cov_based_orth <- geom_segment(
+  mapping   = aes(
+    origin_1, origin_2,
+    xend  = end_1, yend = end_2,
+    color = item
+  ),
+  data      = items_oblique_coords |> arrange(desc(item)), # In reverse order
+  arrow     = ITEM_ARROW_SPEC,
+  linejoin  = "mitre",
+  linewidth = VECTOR_WIDTH
+)
+
+plot_cov_based_orth <- grid_orth +
+  contour_corr +
+  items_geom_cov_based_orth +
+  colorscale +
+  annotate(
+    "text",
+    x        = -2.5,
+    y        =  2,
+    label    = "(d)",
+    family   = GRAPH_FONT,
+    size     = 6,
+    fontface = "bold"
   )

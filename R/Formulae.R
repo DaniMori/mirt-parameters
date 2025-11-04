@@ -838,6 +838,27 @@ DISCR_STD_COORDS_MOD_EQ <- latex_eq(
 
 ### Relationship between test space and latent space: ----
 
+# Orthonormalized coordinates equivalence:
+TRAIT_COORDS_TRANSF_ORTH_TS <- latex_raised_to(
+  TRAIT_VECTOR,
+  exp = TEST_SPACE_STD_BASIS
+)
+TRAIT_COORDS_ORTH_SPACES_EQ <- latex_eq(
+  TRAIT_ORTH_COORDS,
+  TRAIT_COORDS_TRANSF_ORTH_TS
+)
+TRAIT_COORDS_TRANSF_TS      <- latex_raised_to(
+  TRAIT_VECTOR,
+  exp = TEST_SPACE_BASIS
+)
+TRAIT_COORDS_TRANSF_DEF     <- latex(TRANSFORM_MATRIX_TRANSP, TRAIT_TRANSFORM)
+TRAIT_COORDS_GRAM_TR_DEF    <- latex(INNER_PROD_MATRIX, TRAIT_COORDS)
+TRAIT_COORDS_TS_EQ          <- latex_eq(
+  TRAIT_COORDS_TRANSF_TS,
+  TRAIT_COORDS_TRANSF_DEF,
+  TRAIT_COORDS_GRAM_TR_DEF
+)
+
 # Item direction cosines (in test space):
 ANGLE_TS                          <- latex("\\alpha")
 ANGLE_VEC_TS                      <- latex_bf(ANGLE_TS)
@@ -1228,6 +1249,24 @@ END_ITEM_EQ   <- latex_eq(END_ITEM_BASIS, END_ITEM_COMP)
 TRANSF_MATRIX_INV_SQ_CORR_EQ <- latex_eq(INNER_PROD_MATRIX_INV_DEF, CORR_MATRIX)
 
 #### Graphical representation example: ----
+
+ITEM_BASIS_VECTOR_2 <- latex_sub(ITEM_BASIS_VECTOR, 2)
+
+TRAIT_COMP_1  <- latex_sub(TRAIT_SYMBOL, 1)
+TRAIT_COMP_2  <- latex_sub(TRAIT_SYMBOL, 2)
+TRAIT_COORD_1 <- latex_raised_to(TRAIT_COMP_1, exp = TEST_SPACE_BASIS)
+TRAIT_COORD_2 <- latex_raised_to(TRAIT_COMP_2, exp = TEST_SPACE_BASIS)
+
+# Covariance matrix transform to test space:
+COV_MATRIX_TS             <- latex_raised_to(COV_MATRIX, exp = TEST_SPACE_BASIS)
+TRANSF_MAT_AUX_INV        <- latex_inverse(TRANSFORM_MATRIX_AUX)
+TRANSF_MAT_AUX_INV_TRANSP <- latex_transp(TRANSF_MAT_AUX_INV, .par = TRUE)
+COV_MATRIX_TRANSF_TS      <- latex(
+  TRANSF_MAT_AUX_INV_TRANSP,
+  COV_MATRIX,
+  TRANSF_MAT_AUX_INV
+)
+COV_MATRIX_TRANSF_TS_EQ   <- latex_eq(COV_MATRIX_TS, COV_MATRIX_TRANSF_TS)
 
 CORR <- latex("\\rho")
 

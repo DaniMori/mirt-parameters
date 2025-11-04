@@ -36,17 +36,21 @@ Email address: dvmorillo@psi.uned.es
 
 # Acknowledgements
 
-The authors would like to thank Patricia Recio-Saboya, Ph.D.
-(ORCID: [0000-0002-0530-4404](https://orcid.org/0000-0002-0530-4404))
-for her valuable guidance regarding multidimensional estimation
-in IRT software packages.
+The authors would like to thank:
+[Patricia Recio-Saboya, Ph.D.](https://orcid.org/0000-0002-0530-4404),
+for her guidance regarding multidimensional estimation
+in IRT software packages;
+[Jay Verkuilen, Ph.D.](https://orcid.org/0000-0003-3546-3411),
+for his comments and suggestions regarding covariance whitening;
+David Thissen and three additional anonymous reviewers for
+their valuable comments on early drafts of this manuscript.
 
 # Data Availability Statement
 
 All the materials and code of this paper are available as
 a Software Heritage repository, under the following SWHID persistent identifier:
 
-[swh:1:dir:3914435e67a2b34847e36a712a181d7d9d76f35e;origin=https://github.com/DaniMori/mirt-parameters;visit=swh:1:snp:9069b256471ea08d5748e8bb021b7ee876aee724;anchor=swh:1:rev:fe49f438bf940606ae7e3c86c3c55f202e6920af](https://archive.softwareheritage.org/swh:1:dir:3914435e67a2b34847e36a712a181d7d9d76f35e;origin=https://github.com/DaniMori/mirt-parameters;visit=swh:1:snp:9069b256471ea08d5748e8bb021b7ee876aee724;anchor=swh:1:rev:fe49f438bf940606ae7e3c86c3c55f202e6920af)
+[swh:1:dir:6195936c6e16023c4a0b6a4500b81a34469d64f1;origin=https://github.com/DaniMori/mirt-parameters;visit=swh:1:snp:410cf1a6fb4dd4c10bdf0ce7f12f6890f560549d;anchor=swh:1:rev:1f1a708a7477dd61c0ba5c82dcf1d8523ab3d8ff](https://archive.softwareheritage.org/swh:1:dir:6195936c6e16023c4a0b6a4500b81a34469d64f1;origin=https://github.com/DaniMori/mirt-parameters;visit=swh:1:snp:410cf1a6fb4dd4c10bdf0ce7f12f6890f560549d;anchor=swh:1:rev:1f1a708a7477dd61c0ba5c82dcf1d8523ab3d8ff)
 
 # Financial Support
 

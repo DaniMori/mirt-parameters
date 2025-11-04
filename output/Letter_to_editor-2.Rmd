@@ -1,0 +1,54 @@
+---
+output:
+  officedown::rdocx_document:
+    mapstyles:
+      First Paragraph: Body Text
+    base_format: bookdown::word_document2
+    reference_docx: ../www/Template.docx
+    number_sections: no
+    keep_md:         no
+bibliography: ../www/Multidimensional-parameters-MCLM.bib
+csl:          ../www/apa-old-doi-prefix.csl
+editor_options: 
+  chunk_output_type: console
+---
+
+October XX <!-- # TODO: Complete -->, 2025.
+
+<br>
+
+Sandip Sinharay, PhD \
+Editor, *Psychometrika* \
+Educational Testing Service, USA
+
+<br>
+
+Dear Dr. Sinharay:
+
+Please find attached our second review of the manuscript
+*"A generalized definition of multidimensional item response theory
+parameters"*.
+we have carefully taken into account the reviewer and action editor's
+review and suggestions, addressing all the comments and suggestions diligently.
+Where we have decided not to follow a certain suggestion,
+we have striven to explain our reasons in the clearest possible way.
+Besides addressing the comments,
+we have thoroughly reviewed the grammar and style,
+in the hope of avoiding these kind of errors in our new submission,
+and have also added an additional clarification
+about the "covariance matrix whitening",
+a terminology previously unknown to us.
+
+Once again, we thank you for considering our reviewed manuscript.
+Please feel free to contact us again regarding any further concerns at
+[dvmorillo@psi.uned.es](mailto:dvmorillo@psi.uned.es).
+
+<br>
+
+Sincerely,
+
+Daniel Morillo, Ph.D.\
+Department of Behavioral Science Methodology \
+Universidad Nacional de Educación a Distancia (UNED) \
+C. Juan del Rosal 10, Office 2.74 \
+28040 Madrid, Spain
