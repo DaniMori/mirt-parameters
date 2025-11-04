@@ -74,11 +74,11 @@ the item `r MDISC_SYM` should be the algebraic sum of both components, [...]
 In p. 12 (line 8), simply dropping "already" made the sentence lose the intended
 meaning that the implicit assumption of orthogonality in @reckase_difficulty_1985 is already present in Equation 3, and not just from Equation 7 (p. 404) on, as one might think in the first place.
 We deem this point important because it took us quite some effort to notice that generalizing the transformation to polar coordinates to non-orthonormal bases implied reformulating this equation.
-In an attempt to keep the intended meaning while improving the sentence structure, we have restated it as:
+In an attempt to keep the intended meaning while improving the sentence structure, we have restated it as (p. 12, ll. 3-4):
 
 > [...] this shows that the orthogonality of the latent space in @reckase_difficulty_1985 is assumed as early on as in Equation 3 (p. 403) [...]
 
-In p. 13 (line 2), dropping "up", i.e., "the squared direction cosines sum ~up~ to 1", did not sound well to us, so instead we reformulated the sentence as:
+In p. 13 (line 2), dropping "up", i.e., "the squared direction cosines sum ~up~ to 1", did not sound well to us, so instead we reformulated the sentence as (p. 12, ll. 20-21):
 
 > To compute the direction of the maximum slope,
 Reckase leverages the property that
@@ -107,7 +107,7 @@ Besides some minor changes to adapt our discussion (please refer to the tracked 
 The first one is the inclusion of additional comments to discuss the implications in terms of the test results and how their uses could be affected.
 They have been included in what was previously the second paragraph;
 we consider this text was misplaced in our previous version and have moved it accordingly, nearly to the end of the section.
-After the changes, this paragraph (now in p. 38, l. 19 to p. 39, l. 18) reads:
+After the changes, this paragraph (now in p. 41, l. 4 to p. 41, l. 3) reads:
 
 > We have seen that taking the latent space structure into account may have a
 > substantial effect on the resulting values and
@@ -154,7 +154,7 @@ should account for how the test space representation should be interpreted.
 Regarding the latent space, our latest version already stated that "the axes defined by the test space basis, and not the ones defined by the latent space basis, are a geometrical representation of the covariance structure. Indeed, the cosines of the angles among the test space axes are the geometric equivalent of the correlations. This result is both surprising and counterintuitive [...]".
 The manuscript implicitly showed that the latent space transformation is as an "geometric artifact", necessary for arriving at the proper representation of the items in the test space.
 We acknowledge though that this might not be necessarily clear in the previous submission.
-The second change in the discussion consists of stating this explicitly now at the end of the fourth paragraph (previously the fifth one) of the "Discussion" section, in p. 37, ll. 16-18:
+The second change in the discussion consists of stating this explicitly now at the end of the fourth paragraph (previously the fifth one) of the "Discussion" section, in p. 40, ll. 1-3:
 
 > [...] In fact, we have only defined the latent space as a geometrical artifact
 > for obtaining the multidimensional parameters.
@@ -179,7 +179,7 @@ With this correction applied, these lines now read (p. 20, ll. 16-18):
 > whether $`r INTERCEPT_PARAM`$ is negative or positive, respectively.
 
 In the "Covariance-based version" section, we have referred to the transformation of the latent trait distribution into one with an identity covariance matrix as  a "whitening transformation", its usual name in the literature (unknown to us before).
-The second paragraph of this section (p. 16, ll. 18-20) now reads:
+The second paragraph of this section (p. 16, ll. 16-19) now reads:
 
 > Therefore, an orthonormal basis should represent independent,
 > standard coordinates.
@@ -207,7 +207,7 @@ the coordinates in either space, so this labeling should be clear enough,
 while relying only upon the algebraic interpretation of the model,
 thus avoiding the geometrical details,
 which are only necessary for deriving the results.
-This choice of labeling is explained in the text in p. 23, ll. 1-8 (see also our response to the last comment below):
+This choice of labeling is explained in the text in p. 23, ll. 4-11 (see also our response to the last comment below):
 
 > In formal terms, the proper axis labeling of this figure
 > should correspond to the vectors that make up basis $`r TEST_SPACE_BASIS`$,
@@ -302,7 +302,7 @@ This paragraph (p. 14, l. 16 to p. 15, l. 4) now reads as follows:
 >   
 > and vice versa. [...]
 
-Subsequently, we have updated ll. 14-15 in p. 15 (now ll. p. 18-19) as follows:
+Subsequently, we have updated ll. 14-15 in p. 15 (now ll. 17-18) as follows:
 
 > [...] Hence we may define the $`r MIL_PARAM`$ and $`r MDISC_SYM`$ using
 > Equations (20), (21), and (25). [...]
