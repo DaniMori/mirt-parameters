@@ -1180,6 +1180,70 @@ However, note that these coordinates actually correspond to
 the components of $`r TRAIT_COORDS_TRANSF_TS`$, i.e.,
 $`r TRAIT_COORD_1`$ and  $`r TRAIT_COORD_2`$.
 
+```{r density-contours}
+```
+
+```{r compose-orthogonal-plot}
+```
+
+```{r compose-test-space-oblique-plot}
+```
+
+```{r compose-test-space-orthogonal-plot}
+```
+
+```{r compose-rectangular-cov-based-plot}
+```
+
+<br>
+
+```{r item-plot-out}
+#| cache:          false
+#| fig.cap:        |
+#|   Item vector plots with uncorrelated (a) and correlated latent dimensions.
+#|   The latter coordinates are computed with
+#|   (b) the agnostic multidimensional parameters, or
+#|   with the correlation-based ones, which are then plotted either
+#|   (c) in an oblique basis, appropriate for the covariance structure, or
+#|   (d) in the canonical basis.
+#| fig.topcaption: true
+#| fig.height:     4.7
+#| fig.width:      6.65
+#| warning:        false
+(plot_orth_uncorr_contours + plot_orth_corr) /
+  (plot_oblique_ts + plot_cov_based_orth) +
+  plot_layout(guides = "collect")
+
+ggsave(file.path(DOC_DIR, "Figure_1.svg"), width = 6.65, height = 4.7)
+```
+
+::: {custom-style="FigureNote"}
+*Note.* The items are represented along with
+a bivariate standard normal distribution, with null correlation (a),
+or with correlation $`r CORR_OBL_OUT`$ (b-d).
+The contour plots represent (from outer to inner)
+the `r contour_breaks_out` of the maximum density.
+:::
+
+```{r compose-example-items-table}
+```
+
+```{r set-flextable-wd}
+#| cache: false
+
+# Necessary for officedown to find the template file:
+opts_knit$set(root.dir = DOC_DIR)
+```
+
+```{r example-items-table-out}
+#| cache:   false
+#| tab_id:  example-items-table-out
+#| tab.cap: Item Parameters for the Graphical Representation Example
+item_params_output
+```
+
+<br>
+
 The parameters of the items in Figure \@ref(fig:item-plot-out) are shown
 in Table \@ref(tab:example-items-table-out),
 both in the original `r MODEL_ACRONYM` metric and
@@ -1243,27 +1307,6 @@ when Table \@ref(tab:example-items-table-out) panel (c) show they are not;
 and item 1 forms 45-degree angles with both axes,
 instead of the 30-degree ones shown in Table \@ref(tab:example-items-table-out).
 
-```{r compose-example-items-table}
-```
-
-```{r set-flextable-wd}
-#| cache: false
-
-# Necessary for officedown to find the template file:
-opts_knit$set(root.dir = DOC_DIR)
-```
-
-<br>
-
-```{r example-items-table-out}
-#| cache:   false
-#| tab_id:  example-items-table-out
-#| tab.cap: Item Parameters for the Graphical Representation Example
-item_params_output
-```
-
-<br>
-
 A comparison of panels (a) and (c) allows understanding the effect of
 a positive correlation on the $`r MDISC_CORR_PARAM`$
 (and consequently the $`r MIL_CORR_PARAM`$) value of an item:
@@ -1282,53 +1325,6 @@ however, the effect of the correlation shrinks the former and
 stretches the latter.
 Finally, note that item 4 has one discrimination parameter equal to 0,
 so its $`r MDISC_CORR_PARAM`$ is unaffected by the correlation.
-
-```{r density-contours}
-```
-
-```{r compose-orthogonal-plot}
-```
-
-```{r compose-test-space-oblique-plot}
-```
-
-```{r compose-test-space-orthogonal-plot}
-```
-
-```{r compose-rectangular-cov-based-plot}
-```
-
-<br>
-
-```{r item-plot-out}
-#| cache:          false
-#| fig.cap:        |
-#|   Item vector plots with uncorrelated (a) and correlated latent dimensions.
-#|   The latter coordinates are computed with
-#|   (b) the agnostic multidimensional parameters, or
-#|   with the correlation-based ones, which are then plotted either
-#|   (c) in an oblique basis, appropriate for the covariance structure, or
-#|   (d) in the canonical basis.
-#| fig.topcaption: true
-#| fig.height:     4.7
-#| fig.width:      6.65
-#| warning:        false
-(plot_orth_uncorr_contours + plot_orth_corr) /
-  (plot_oblique_ts + plot_cov_based_orth) +
-  plot_layout(guides = "collect")
-
-ggsave(file.path(DOC_DIR, "Figure_1.svg"), width = 6.65, height = 4.7)
-```
-
-::: {custom-style="FigureNote"}
-*Note.* The items are represented along with
-a bivariate standard normal distribution, with null correlation (a),
-or with correlation $`r CORR_OBL_OUT`$ (b-d).
-The contour plots represent (from outer to inner)
-the `r contour_breaks_out` of the maximum density.
-:::
-
-<br>
 
 We can also see how the sign of $`r INTERCEPT_PARAM`$ affects
 the distance to the origin:
@@ -1487,6 +1483,23 @@ high correlation induces an alignment between the two dimensions
 (compare item 1 in the two test spaces in
 Table \@ref(tab:example-items-table-out) and Figure \@ref(fig:item-plot-out)).
 
+```{r set-flextable-wd}
+#| cache: false
+```
+
+\newpage
+
+```{r empirical-table-Reckase2009-out}
+#| cache:   false
+#| tab.id:  empirical-table-Reckase2009-out
+#| tab.cap: |
+#|   Agnostic and Covariance-Based Multidimensional Item Parameters in
+#|   Reckase (2009), With a (Rank-Complete) Three-Dimensional Covariance Matrix
+item_params_output
+```
+
+\newpage
+
 The latter effect can be better noticed in another case, in which Reckase
 uses the same item parameters to demonstrate the over-specification of
 dimensions (see p. 183).
@@ -1504,22 +1517,7 @@ The reader interested can check that this is the case for
 the covariance-based version of the direction angles
 in the table in Online Resource 1.
 
-```{r set-flextable-wd}
-#| cache: false
-```
-
-\newpage
-
-```{r empirical-table-Reckase2009-out}
-#| cache:   false
-#| tab.id:  empirical-table-Reckase2009-out
-#| tab.cap: |
-#|   Agnostic and Covariance-Based Multidimensional Item Parameters in
-#|   Reckase (2009), With a (Rank-Complete) Three-Dimensional Covariance Matrix
-item_params_output
-```
-
-<br>
+## @tezza_modelo_2018
 
 ```{r set-cov-matrix-Tezza2018}
 # See Tezza et al., 2018, p. 927:
@@ -1560,26 +1558,6 @@ in Tezza 2018, table 5 -->
 ```{r compose-output-table}
 ```
 
-<!---BLOCK_LANDSCAPE_START--->
-
-```{r set-flextable-wd}
-#| cache: false
-```
-
-```{r empirical-table-Tezza2018-out}
-#| cache:   false
-#| tab.id:  empirical-table-Tezza2018-out
-#| tab.cap: |
-#|   Agnostic and Covariance-Based Multidimensional Item Parameters in
-#|   Tezza et al. (2018)
-item_params_output |>
-  fontsize(size = 11, part = "body")
-```
-
-<!---BLOCK_LANDSCAPE_STOP--->
-
-## @tezza_modelo_2018
-
 @tezza_modelo_2018 provide us with another example that showcases
 the effect of correlated dimensions on negative discrimination parameters.
 In their model, dimensions 1 and 4 are estimated to have a correlation of
@@ -1597,6 +1575,24 @@ thus the decrease in their $`r MDISC_ITEM`$ parameter.
 The effect on the direction is also apparent in the angles these items make with
 these dimensions, which change up to almost 20º, compared with at most 7º in the
 other two dimensions, and around 1º in most cases.
+
+<!---BLOCK_LANDSCAPE_START--->
+
+```{r set-flextable-wd}
+#| cache: false
+```
+
+```{r empirical-table-Tezza2018-out}
+#| cache:   false
+#| tab.id:  empirical-table-Tezza2018-out
+#| tab.cap: |
+#|   Agnostic and Covariance-Based Multidimensional Item Parameters in
+#|   Tezza et al. (2018)
+item_params_output |>
+  fontsize(size = 11, part = "body")
+```
+
+<!---BLOCK_LANDSCAPE_STOP--->
 
 On the other hand, cases such as items 12 or 59, which have
 relatively low discrimination parameters on those two dimensions
