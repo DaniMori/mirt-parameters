@@ -22,7 +22,7 @@ source("R/Formulae.R", encoding = 'UTF-8')
 ## File system:
 
 ### File names:
-MANUSCRIPT_FILENAME               <- "Main_text.Rmd"
+MANUSCRIPT_FILENAME               <- "AM_Main.Rmd"
 SUPPLEMENT_FILENAME               <- "ESM_1.Rmd"
 TITLEPAGE_FILENAME                <- "Title_page.Rmd"
 COVERLETTER_FILENAME              <- "Cover_letter.Rmd"

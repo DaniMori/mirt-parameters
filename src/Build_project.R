@@ -41,7 +41,6 @@ source("R/Constants.R", encoding = 'UTF-8')
 
 Rscript_call(render, list(input = MANUSCRIPT_PATH))
 Rscript_call(render, list(input = SUPPLEMENT_PATH))
-Rscript_call(render, list(input = TITLEPAGE_PATH))
 Rscript_call(render, list(input = COVERLETTER_PATH))
 Rscript_call(render, list(input = RESPONSELETTER_1_PATH))
 Rscript_call(render, list(input = RESPONSELETTER_2_PATH))
