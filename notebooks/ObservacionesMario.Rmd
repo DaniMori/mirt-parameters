@@ -1,0 +1,542 @@
+---
+title: "ObservacionesMario"
+author: "Mario Luzardo"
+date: "2024-03-12"
+output: html_document
+---
+
+  
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+rm(list=ls()) 
+library(pspline)
+library(mvtnorm)
+library(sn)
+library(mnormt)
+library(scatterplot3d)
+library(copula)
+library(ggplot2)
+library(fungible)
+library(pracma)
+library(matlib)
+library(rgl)
+library(MASS)
+library(mirt)
+library(tidyverse)
+set.seed(123)
+```
+
+
+
+# Observación 1
+
+Tenemos que $M=P^TP$ es decir viene a partir de la matriz de cambio de base. 
+En nuestro problema tenemos conocidos  los ejes oblicuos dado que ellos representan los rasgos latentes del fenómeno de estudio y por lo tanto la matriz P. 
+
+
+Pero como saso de estudio consideremos que tenemos $M$ y queremos determinar P y por lo tanto la base oblicua. 
+A partir de $M$ no se determina univocamente la matriz $P$ (y por lo tanto la base). Para ver la clase de las matrices $P$ o de cambio de base que son compatibles observemos que si $P_1$ es una matriz de cambio de base que verifica $M=P_1^TP_1$ entonces $P_2=AP_1$ con A matriz ortogonal ($A^T=A^{-1}$) determina la misma matriz de producto interno pues
+
+$$P_2^TP_2=P_1^T A^TAP_1=P_1^T=P_1=M$$
+Las rotaciones cumplen con esta propiedad
+
+Esto implica que cualquiera de estas matrices (finalmente bases) determinan la misma matriz de Gramm sin embargo cualitativamente no tienen porque dar cuenta del fenómeno.
+
+
+## Caso $M=R^{-1}$
+
+Veamos ahora algunas observaciones respecto a la seccion Generalized multidimensional parameters cuando $M=R^{-1}$
+  
+  Además $M=P^tP$ donde P es una matriz de cambio de base.
+Entonces cabe hallar P tal que $R^{-1}=P^tP$
+  
+  Estamos psrtiendo del hecho que no conocemos la base B pues si la conocemos, tenemos P y por ende M y esta puede o no coincidir con $R^{-1}$ (en general no).
+
+Pondré dos posible formas de hallar P que no son la únicas pero sirven para ejemplificar.
+
+a) via descompisición de Cholesky
+b) via descomposición espectral
+
+## Halla P mediante descompisición de Cholesky
+
+Como R es simétrica y supongamos definida positiva entonces por Cholesky podemos escribir
+
+$$R=L L^t$$
+  donde L es una matrz triangular inferior, 
+
+$$M=R^{-1}=(L^{-1})^T L^{-1}$$
+  
+  luego
+
+o sea $P=L^{-1}$
+  
+  
+  
+  
+## Halla P mediante descompisición de espectral
+  
+  
+  Idem como R es simétrica  y definida positiva por el teorema de la descomposición espectral
+
+$$R=QDQ^T$$
+  con Q matriz de vectores propios y D matriz diagonal de valores propios
+
+luego  
+
+$$R=(U \sqrt(D))(\sqrt(D) U)^T$$
+  
+  
+  por lo que $$P=(U\sqrt(D))^{-1}$$
+  
+  
+  Ejemplo
+
+Simulemos datos con matriz de varianza covarianzas
+
+```{r  include=FALSE, echo=FALSE}
+S1 <- matrix(c(4.4, 2.5, 2.5, 8), nrow = 2, ncol = 2)
+print(S1)
+```
+
+
+
+```{r  include=FALSE, echo=FALSE}
+S1 <- matrix(c(4.4, 2.5, 2.5, 8), nrow = 2, ncol = 2)
+# Generar datos normales bivariados
+n <- 30000  # Número de observaciones
+mu <- c(0, 0)  # Medias de las variables
+set.seed(1234567)
+data <- mvrnorm(n = n, mu = mu, Sigma = S1)
+
+# Convertir a data frame para visualización
+data_df <- as.data.frame(data)
+```
+
+Los datos simulados tiene esta matriz $\Sigma$
+  
+```{r   echo=FALSE}
+S1_E=var(data_df)
+print(S1_E)
+```
+
+y matriz $R$
+
+```{r   echo=FALSE}
+R1=cor(data_df)
+print(R1)
+```
+```{r   echo=FALSE}
+plot(data_df$V1,data_df$V2)
+```
+
+Vamos a encontrar dos bases que pueden servir para estos datos y que generan la misma matriz de producto interno.
+
+### Base usando Cholesky queda
+
+```{r   echo=FALSE}
+L=t(chol(R1))
+P=solve(L)
+print(P)
+```
+
+Angulo entre los ejes y la base canónica
+
+```{r }
+matlib::angle(P[,1],P[,2])
+matlib::angle(P[,1],c(1,0))
+matlib::angle(P[,2],c(1,0))
+matlib::angle(P[,1],c(0,1))
+matlib::angle(P[,2],c(0,1))
+```
+
+Usando que $$\theta^E=P\theta^B$$ (con E la base canónica) obtenemos las coordenadas en E
+
+```{r   echo=FALSE}
+thetaE1=as.matrix(data_df)%*%t(P)
+```
+Con varianza covarianza y correlaciones
+
+```{r }
+var(thetaE1)
+cor(thetaE1)
+```
+
+Vemos que $\Sigma'$ no es diagonal
+
+
+### Base usando descomposición espectral
+```{r   echo=FALSE}
+DE=eigen(R1)
+raizD=diag(sqrt(DE$values))
+K=DE$vectors%*%raizD
+P2=solve(K)
+print(P2)
+```
+Angulo entre los ejes y la base canónica
+
+```{r }
+matlib::angle(P2[,1],P2[,2])
+matlib::angle(P2[,1],c(1,0))
+matlib::angle(P2[,2],c(1,0))
+matlib::angle(P2[,1],c(0,1))
+matlib::angle(P2[,2],c(0,1))
+```
+Igual que antes se transforman los datos a la base canónica y se halla la matriz de varianza de los datos transformados
+
+```{r   echo=FALSE}
+thetaE2=as.matrix(data_df)%*%t(P2)
+print(cov(thetaE2))
+print(cor(thetaE2))
+```
+
+Igual que antes la matriz Vemos que $\Sigma'$ no es diagonal
+
+
+## Caso $M=\Sigma ^{-1}$
+
+En este caso $\Sigma ^{-1}=P^TP$ por lo tanto la matriz de varianzas y covarianzas del transformado es
+
+$$Var(\theta^E)=Pvar(\theta^B) P^T=P \Sigma P^T=P P^{-1}(P^T)^{-1}P^T=I$$
+Vemos que sto se verifica con los datos simulados
+
+
+### Base usando Cholesky queda
+
+```{r   echo=FALSE}
+LS=t(chol(S1_E))
+PS=solve(LS)
+print(PS)
+```
+
+Angulo entre los ejes y la base canónica
+
+```{r }
+matlib::angle(PS[,1],PS[,2])
+matlib::angle(PS[,1],c(1,0))
+matlib::angle(PS[,2],c(1,0))
+matlib::angle(PS[,1],c(0,1))
+matlib::angle(PS[,2],c(0,1))
+```
+
+Coordenadas en E
+
+```{r   echo=FALSE}
+thetaES=as.matrix(data_df)%*%t(PS)
+```
+Con varianza covarianza y correlaciones
+
+```{r }
+var(thetaES)
+cor(thetaES)
+```
+
+### Base usando descomposición espectral
+
+```{r   echo=FALSE}
+DE_S=eigen(S1_E)
+raizD_S=diag(sqrt(DE_S$values))
+K_S=DE_S$vectors%*%raizD_S
+P2_S=solve(K_S)
+print(P2_S)
+```
+Angulo entre los ejes y la base canónica
+
+```{r }
+matlib::angle(P2_S[,1],P2_S[,2])
+matlib::angle(P2_S[,1],c(1,0))
+matlib::angle(P2_S[,2],c(1,0))
+matlib::angle(P2_S[,1],c(0,1))
+matlib::angle(P2_S[,2],c(0,1))
+```
+Igual que antes se transforman los datos a la base canónica y se halla la matriz de varianza de los datos transformados
+
+```{r   echo=FALSE}
+thetaE2_S=as.matrix(data_df)%*%t(P2_S)
+print(cov(thetaE2_S))
+print(cor(thetaE2_S))
+```
+
+
+
+# Observación 2
+Este punto para mi es importante pues las secciones anteriores se formulan en base a que conocemos la base oblicua donde el fenómeno es interpretable y tiene las dimensiones "verdaderas".
+
+Entonces si uno tiene las respuestas por ej dicotomicas de los ítems hay una directa relación entre los parámetros y los loadings y comunalidades del análisis factorial 
+
+Por ejemplo en mirt se realiza un analisis factorial (con nfact) donde las variables son los ítems y se calculan los parámetros como
+
+$$a_{ij}=\frac{loading_{ij}}{\sqrt(1-h_j^2)}$$
+
+y si $q_j$ es la normal inversa de la dificultad
+
+$$d_j=\frac{q_j}{\sqrt(1-h_j^2)}$$
+
+Esto esta computado en el test space
+
+
+Si usamos una rotación (por ej oblimin) podemos calcular la base en que estan los parametros comparandola con la solucion sin rotar. 
+
+Vemos un ejemplo simple de como proceder en el caso bidimensional pero facilmente generalizable a cualquier dimensión
+
+Consideremos el espacio test y allí se realiza el analisis factorial
+
+Consideremos primero la solución factorial sin rotar y sea $F_1$ y $F_2$ estos factores ortogonales o sea $r_{F_1F_2}=0$ ysean $T_1$ y $T_2$ los factores oblicuos
+Notemos por $\alpha$ al ángulo de $T_1$ con $F_1$ y $\beta$ al ángulo de $T_2$ también con $F_1$ y sea $\phi$ al ángulo del vector que representa a un ítem genérico (evitamos el sub índice para simplificar) con $F_1$
+
+
+Sea 
+\begin{equation} L=\begin{bmatrix}
+l_{11} & l_{12} \\
+l_{21} & l_{22} \\ \vdots & \vdots \\
+l_{n1} & l_{n2}
+\end{bmatrix}
+\end{equation}
+
+ la matriz que contiene los pesos factoriales en los factores ortogonales $F_1$ y $F_2$
+ 
+ Se cumple que $l_{j1}=h_j \cos(\phi)$ y $l_{j2}=h_j \sin(\phi)$
+ 
+ 
+
+Sea $S$ la matriz que contiene las correlaciones de cada item con los ejere rotados o sea
+
+\begin{equation} S=\begin{bmatrix}
+r_{1T_1} & r_{1T_2} \\
+r_{2T_1} & r_{2T_2} \\ \vdots & \vdots \\
+r_{nT_1} & r_{nT_2}
+\end{bmatrix}
+\end{equation}
+
+Es facil ver (Harman) que se cumple $$S=LT$$ 
+
+con
+
+
+\begin{equation} T=\begin{bmatrix}
+\cos(\alpha) & \cos(\beta)  \\
+\sin(\alpha) & \sin(\beta) 
+\end{bmatrix}
+\end{equation}
+
+Sea ahora 
+
+\begin{equation} B=\begin{bmatrix}
+b_{11} & b_{12} \\
+b_{21} & b_{22} \\ \vdots & \vdots \\
+b_{n1} & b_{n2}
+\end{bmatrix}
+\end{equation}
+
+la matriz de coordenadas de los ítems respecto a los ejes oblicuos $T_1$ y $T_2$
+
+Se cumple que $$S=B \Phi$$
+
+con
+
+
+\begin{equation} \Phi=\begin{bmatrix}
+1 & r_{T_1T_2} \\
+r_{T_1T_2} & 1 
+\end{bmatrix}
+\end{equation}
+
+Sabemos que $\Phi=T^tT$ entonces a partir de lo anterior
+$$B=S\Phi^{-1}=LT(T^tT)^{-1}$$
+entonces
+
+$$ B=L(T^t)^{-1}$$
+
+
+Vemos un ejemplo
+
+```{r}
+#generemos 3000 datos con distribucion bivariada
+S1 <- matrix(c(4.4, 2.5, 2.5, 8), nrow = 2, ncol = 2)
+# Generar datos normales bivariados
+n <- 3000  # Número de observaciones
+mu <- c(0, 0)  # Medias de las variables
+set.seed(1234567)
+data <- mvrnorm(n = n, mu = mu, Sigma = S1)
+
+#generemos un banco de 10 items
+a<-matrix(c(.7471, .1428,.4595, .0097, .0067, .4840,
+ .0470,.5521, .0204, .1482,
+1.3547, .0064, .5362,
+1.3761, .0861, .4676,
+.8525, .0383, .2574,0.87),ncol=2,byrow=T)
+
+d <- matrix(c(.1826,-.1924,-.4656,.5845,-1.0403,
+.6431,.0912,-.8082,-1.8398,.4139),ncol=1)*1.702
+
+dataset1 <- simdata(a, d, itemtype = '2PL',Theta=data)
+
+```
+
+
+
+Primero obtenganos la solución sin rotar
+
+```{r}
+#Estimacion de la solución sin rotar
+
+mod2=mirt(dataset1, 2, itemtype='2PL', verbose = FALSE)
+
+
+coefs <- coef(mod2, rotate = 'none') |> map(as_tibble)
+item_pars <- coefs |>
+  bind_rows()      |>
+  slice(1:10)       |>
+  select(a1:d)     |>
+  rownames_to_column(var = "item")
+cov_pars <- coefs[['GroupPars']] |>
+  pivot_longer(everything())     |>
+  deframe()
+cov_matrix <- cov_pars[c('COV_11', 'COV_21', 'COV_21', 'COV_22')] |>
+  matrix(nrow = 2)
+print(item_pars)
+print(cov_matrix)
+```
+
+Si queremos ver la relación entre los factores y los parámetros de los ítems antes mencionada
+
+```{r}
+# Esto muestra la relacion de los factores con los items
+
+sum <- summary(mod2, rotate = 'none')
+sum$rotF      |>
+  as_tibble() |>
+  mutate(
+    across(everything(), ~1.702 * . / sqrt(1-as.numeric(sum$h2)))
+  )           |>
+rename_with(str_replace, everything(), pattern = 'F', replacement = 'a')
+```
+
+
+Sea ahora la solución rotada
+
+```{r}
+#AHORA ROTADA
+
+coefsR <- coef(mod2, rotate = 'oblimin') |> map(as_tibble)
+item_parsR <- coefsR |>
+  bind_rows()      |>
+  slice(1:10)       |>
+  select(a1:d)     |>
+  rownames_to_column(var = "item")
+cov_parsR <- coefsR[['GroupPars']] |>
+  pivot_longer(everything())     |>
+  deframe()
+cov_matrixR <- cov_parsR[c('COV_11', 'COV_21', 'COV_21', 'COV_22')] |>
+  matrix(nrow = 2)
+print(item_parsR)
+print(cov_matrixR)
+```
+
+Se da igual que hoy la relaci'on entre los parámetros de los ítems y los pesos en la solución rotada 
+
+```{r}
+sumR <- summary(mod2, rotate = 'oblimin')
+sumR$rotF      |>
+  as_tibble() |>
+  mutate(
+    across(everything(), ~1.702 * . / sqrt(1-as.numeric(sum$h2)))
+  )           |>
+  rename_with(str_replace, everything(), pattern = 'F', replacement = 'a')
+
+```
+
+
+Calculemos entonces
+
+```{r}
+#parametros solucion ortogonal
+L<-as.matrix(item_pars[,2:3])
+#parametros ejes oblicuos
+B<-as.matrix(item_parsR[,2:3])
+# Matriz de correlacion entre los factores rotados
+PHI<-cov_matrixR
+
+```
+
+Como $$S=B \Phi$$
+y  $$S=LT$$
+
+Veamos que tanto S como L son matrices  nx2 y T 2x2.
+Entonces la relación debe verificarse para todos (esta sobreidentificada)
+y me alcanza resolverla para dos ítems por ejemplo el j y el k.
+La matriz $(L)_{jk}$ es 2x2 y si el sistema tiene soluci'o invertible
+
+entonces $$T=(L^{-1})_{jk} (B \Phi)_{jk}$$
+
+```{r}
+#Tomaremos item 1 y 2
+S=B%*%PHI
+T=solve(L[1:2,])%*%S[1:2,]
+print(T)
+```
+
+Verifiquemos ahora que esta solución sirve para las matrices completas 
+
+```{r}
+#Verificacon
+round(L%*%T-S,8)
+```
+
+Nosotros consideramosen el espacio test la base $E^*$ canónica y $B^*$ que se relacionaban mediante 
+
+\begin{equation}
+a_i^{E^*}=(P^{-1})^t a_i^{B^*}
+\end{equation}
+
+siendo $P$ la matriz de cambio de base en el espacio latente o sea $$\theta^E=P\theta^B$$ siendo E la base ortonormal en el espacio latente y B la base oblicua.
+
+Recordemos que se cumple $$ B=L(T^t)^{-1}$$
+
+de donde
+$$ L=BT^t$$
+
+Matricialmente
+
+\begin{equation}
+\begin{bmatrix}
+l_{11} & l_{12} \\
+l_{21} & l_{22} \\ \vdots & \vdots \\
+l_{n1} & l_{n2}
+\end{bmatrix}=
+\begin{bmatrix}
+b_{11} & b_{12} \\
+b_{21} & b_{22} \\ \vdots & \vdots \\
+b_{n1} & b_{n2}
+\end{bmatrix} \begin{bmatrix}
+\cos(\alpha) & \cos(\beta)  \\
+\sin(\alpha) & \sin(\beta) 
+\end{bmatrix}^t
+\end{equation}
+
+o sea
+
+\begin{equation}
+\begin{bmatrix}
+l_{11} & l_{11} & \vdots & l_{n1} \\
+l_{12} & l_{22} &  \vdots & l_{n2}\\
+\end{bmatrix}=\begin{bmatrix}
+\cos(\alpha) & \cos(\beta)  \\
+\sin(\alpha) & \sin(\beta) 
+\end{bmatrix}
+\begin{bmatrix}
+b_{11} & b_{11} & \vdots & b_{n1} \\
+b_{12} & b_{22} &  \vdots & b_{n2}\\
+\end{bmatrix} 
+\end{equation}
+
+O sea T es la matriz de cambio de base en el espacio test.
+Esto facilmente se puede ver también geométricamente sin necesidad de operar. 
+
+Es decir $$T=(P^{-1})^t$$
+
+por lo que $$P=(T^{-1})^t$$
+
+```{r}
+P=t(solve(T))
+print(P)
+```
