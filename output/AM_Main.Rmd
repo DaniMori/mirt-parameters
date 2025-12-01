@@ -1309,9 +1309,9 @@ the item representation in the uncorrelated case,
 while the $`r CORR_OBL_OUT`$ case is shown in panels (b) to (d)
 under different conditions:
 with item coordinates computed from the agnostic version of the parameters
-(panel (b)), or from the correlation-based version,
-either using an appropriate oblique basis (panel (c)),
-or plotting them directly in the canonical basis (panel (d)).
+(panel [b]), or from the correlation-based version,
+either using an appropriate oblique basis (panel [c]),
+or plotting them directly in the canonical basis (panel [d]).
 Keeping the horizontal axis invariant in panel (c)
 allows for a better comparison with the other plots;
 therefore, we have chosen a $`r TRANSFORM_MATRIX_TRANSP_INV`$ that
@@ -1403,7 +1403,7 @@ even if the agnostic coordinates are the same in both cases,
 their relative position with respect to the latent trait distribution is not
 ---this is the effect of disregarding the covariance structure.
 The correlation-based coordinates, plotted in panels (c) and (d),
-are also different in general from their agnostic counterpart (panel (b)).
+are also different in general from their agnostic counterpart (panel [b]).
 Although they do not vary in some cases (items 1 and 4),
 the difference is especially salient in the location of items 2 and 3,
 which are close to the 90% contour in the agnostic version
@@ -1411,8 +1411,8 @@ but almost on the 50% contour in the correlation-based one.
 Panel (d) also illustrates the effect of plotting the coordinates directly
 on the canonical basis;
 the item locations and their positions relative to the distribution
-are correctly represented (which makes comparing with panel (b) easier),
-but their discrimination parameters and angles with the axes are distorted:
+are correctly represented (which makes comparing with panel [b] easier),
+but their discrimination parameters and angles with the axes are distorted.
 For example, items 4 and 5 seem to be equally discriminating,
 when Table \@ref(tab:example-items-table-out) panel (c) show they are not;
 and item 1 forms 45-degree angles with both axes,
