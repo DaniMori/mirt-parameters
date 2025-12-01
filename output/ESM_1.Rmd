@@ -7,8 +7,6 @@ output:
         style: Image Caption
         pre: "Table S."
         sep: ' '
-    mapstyles:
-      Body Text: First Paragraph
     base_format: bookdown::word_document2
     reference_docx: ../www/Template.docx
     number_sections: no
@@ -105,6 +103,7 @@ which yields the correlation matrix
   `r cor_matrix_value_out`.
 \end{equation}
 
+::: {custom-style="Body Text"}
 As in Table 2, the agnostic versions (columns labelled _`r AGNOSTIC_ABBR`_)
 coincide with Reckase's columns A, B, and $\alpha_1$ to $\alpha_3$.
 However, the covariance-based versions (columns labelled $`r COV_MATRIX`$)
@@ -116,6 +115,7 @@ the $`r MDISC_ITEM`$ value, due to the very high alignment of the dimensions,
 the scaling effect of the variances has a stronger weight.
 The $`r DISTANCE_PARAM`$ parameter values decrease consequently,
 as we have seen before.
+:::
 
 More interesting is the effect on the direction angles:
 We can see how their values are all very close to 0.
