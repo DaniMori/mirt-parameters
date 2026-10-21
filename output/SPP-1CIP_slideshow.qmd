@@ -164,6 +164,22 @@ PALETTE_RASPBERRY <- c(
   white  = "#dac7c7"
 )
 
+# Factor axis colors:
+F1_COLOR <- unname(PALETTE_BLUE["normal"])
+F2_COLOR <- unname(PALETTE_RASPBERRY["normal"])
+
+# Item colors:
+ITEMS_PALETTE <- c(
+  PALETTE_BLUE["normal"],
+  PALETTE_RASPBERRY["normal"],
+  PALETTE_APPLE["normal"],
+  PALETTE_TANGERINE["normal"],
+  PALETTE_UNED["medium"]
+) |>
+  unname() |>
+  setNames(1:5)
+
+
 GRAPH_FONT   <- "Arial"  # Replace default font to comply with UNED identity
 FONT_SIZE    <- 24       # Replace default font size for slideshow
 AXIS_LAB_POS <-  0.5     # Replace default axis label position for slideshow
@@ -171,6 +187,14 @@ LINE_WIDTH   <-  0.75    # Replace default line width for slideshow
 GRID_WIDTH   <-  0.5     # Width for grid and axis lines
 AXIS_COLOR   <- "gray70" # Replace default grid line color for slideshow
 VECTOR_WIDTH <- 1.5      # Replace default vector width for slideshow
+
+
+# Grid breaks:
+ERROR_POINTS   <- seq(-3, 3, length.out = 5)
+
+# Probability axes:
+PROB_AXIS <- seq(-3.3, 3.3, by = .01)
+PROB_AXIS_2D <- seq(-3, 3, by = 0.05) # Axis for the probability contour plots
 ```
 
 ```{r graphical-output-conf}
@@ -529,44 +553,6 @@ $$
 Veamos un ejemplo de cuál sería la probabilidad de respuesta de una persona con puntuaciones de rasgo de 1 y -1.
 
 (Hacer cálculos matriciales)
-:::
-
-## AF en métrica TRI {.smaller}
-
-<br>
-
-$$
-  \begin{align}
-    P(Y_i = 1) &= \Phi_N \left(
-      \frac{\mathbf{\lambda}_i^T \mathbf{F} + \tau_i}{\sqrt{var(U_i)}}
-    \right) =
-      \Phi_N \left(
-        \frac{1}{\sqrt{var(U_i)}} \mathbf{\lambda}_i^T \mathbf{F} +
-          \frac{1}{\sqrt{var(U_i)}} \tau_i
-      \right)\\
-    P(Y_i = 1) &= \Phi_L (\mathbf{a}_i^T \mathbf{\theta} + d_i)
-  \end{align}
-$$
-
-<br>
-
-::: fragment
-@takane_relationship_1987:
-
-$$
-  \begin{align}
-    \mathbf{a}_i &= \frac{1.7}{\sqrt{var(U_i)}} \mathbf{\lambda}_i \\
-    d_i &= \frac{1.7}{\sqrt{var(U_i)}} \tau_i
-  \end{align}
-$$
-:::
-
-::: notes
-Claro, si ponemos las ecuaciones del AF y de TRI lado a lado, es fácil ver que existe un paralelismo entre ambos modelos.
-
-Pues resulta que estas dos curvas, la normal y la logística, son muy parecidas; tanto, que es posible transformar los parámetros de la métrica del AF a métrica de TRI, obteniendo modelos indistinguibles en la práctica.
-Las dos curvas se diferencian por este factor de 1.7, pero aplicándo ese factor y escalando por la desviación estándar de la unicidad del ítem, obtenemos los mismos parámetros en métrica de TRI mulidimensional con función de respuesta logística.
-Y de hecho, esto es necesario y se hace así para hacer la estimación máximo-verosimil de la que hablábamos antes.
 :::
 
 ## Parámetros multidimensionales de TRI {.smaller}
