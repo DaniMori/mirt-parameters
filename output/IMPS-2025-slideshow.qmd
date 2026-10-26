@@ -1873,6 +1873,9 @@ $$
 ```{r item-plot-out}
 #| fig-cap:   Item representation in non-orthonormal test space
 #| fig-align: center
+
+colorscale_no_legend <- scale_color_manual(values = PALETTE, guide = NULL)
+
 transform_grid(
   ts_basis,
   x_limits   = c(-2, 3),
