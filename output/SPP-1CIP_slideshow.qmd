@@ -57,15 +57,16 @@ format:
     auto-stretch:            true
     code-annotations:        hover
     df-print:                paged
+    embed-resources:         true
     fig-cap-location:        bottom
     fig-format:              svg
     fig-asp:                 1
-    fig-width:               6
+    fig-width:               4.5
+    footer:                  https://bit.ly/vote-mirt
     incremental:             false
     keep-md:                 false
-    link-external-newwindow: true
+    link-external-newwindow: false
     margin:                  0
-    self-contained:          true
     slide-number:            false
     theme:                   ../www/slideshow-assets/extra-styles.scss
     transition:              none
@@ -124,7 +125,7 @@ source("R/Mirt_toolbox.R",              encoding = 'UTF-8')
 source("src/Graphical_example_paper.R", encoding = 'UTF-8')
 ```
 
-```{r color-palettes}
+```{r graphical-constants}
 MARGINS <- c(12, 1.3, 8, 1.3) # margins for the sem path plots
 
 PALETTE_UNED <- c(
@@ -190,7 +191,7 @@ VECTOR_WIDTH <- 1.5      # Replace default vector width for slideshow
 
 
 # Grid breaks:
-ERROR_POINTS   <- seq(-3, 3, length.out = 5)
+X_BREAKS <- seq(-3, 3, length.out = 5)
 
 # Probability axes:
 PROB_AXIS <- seq(-3.3, 3.3, by = .01)
@@ -214,6 +215,16 @@ theme_set( # `ggplot` output configuration
     )
 )
 ```
+
+## ¡Participen por favor!
+
+<center>
+
+![](../www/slideshow-assets/bit.ly_vote-trim.svg){width="400px"}
+
+<https://bit.ly/vote-trim>
+
+</center>
 
 ## Teoría de respuesta al ítem {.smaller}
 
@@ -276,7 +287,7 @@ logit_curve_data_long |>
     expand       = expansion(mult = c(0, .05))
   )                                        +
   scale_x_continuous(
-    breaks       = ERROR_POINTS,
+    breaks       = X_BREAKS,
     minor_breaks = NULL,
     limits = range(PROB_AXIS),
     expand = expansion()
@@ -287,6 +298,8 @@ logit_curve_data_long |>
     axis.title.y     = element_markdown(angle = 90),
     panel.grid.major = element_line(linetype = "17", linewidth = GRID_WIDTH),
   )
+
+MARGINS <- c(12, 1.3, 8, 1.3) # margins for the sem path plots
 ```
 
 <!-- TODO: Como ecuaciones (sin punto y coma?) -->
@@ -355,8 +368,8 @@ $$
 ::::: columns
 ::: column
 ```{r mirt-model-irs-3d}
-#| fig-width:  5
-#| fig-height: 5
+#| fig-width:  4.5
+#| fig-height: 4.5
 PROB_AXIS_2D <- seq(-3, 3, by = .1)
 
 mirt_item <- tribble(
@@ -461,7 +474,7 @@ Pertenece a una familia de modelos llamados "compensatorios" en TRI, ya que un n
 ## TRI multidimensional: Ejemplo {.smaller}
 
 :::::: columns
-::: column
+::: {.column width="40%"}
 $$
   P(Y_1 = 1) = \Phi_L (\mathbf{a}_1^T \mathbf{\theta} + d_1)
 $$
@@ -510,7 +523,7 @@ contour_plot +
 ```
 :::
 
-:::: column
+:::: {.column width="60%"}
 \begin{matrix}
   \mathbf{\theta} =
     \begin{bmatrix}
@@ -758,8 +771,8 @@ Es decir, una vez estoy pasada la recta, aunque esté cerca, ¿es el ítem muy f
 ::::: columns
 ::: {.column .fragment}
 ```{r low-disc-contour}
-#| fig-width:  4.7
-#| fig-height: 4.7
+#| fig-width:  3.5
+#| fig-height: 3.5
 mirt_item <- tribble(
   ~item, ~a_1, ~a_2, ~d,
   1,     0.5,  0.25,  -0.125
@@ -817,8 +830,8 @@ mirt_item_probs |>
 
 ::: {.column .fragment}
 ```{r high-disc-contour}
-#| fig-width:  4.7
-#| fig-height: 4.7
+#| fig-width:  3.5
+#| fig-height: 3.5
 
 mirt_item <- tribble(
   ~item, ~a_1, ~a_2, ~d,
@@ -1171,8 +1184,8 @@ Y así, esta sería la expresión completa de los parámetros multidimensionales
 ::: r-center
 ```{r m2pl-representation}
 #| fig-align:  center
-#| fig-height: 7.2
-#| fig-width:  7.2
+#| fig-height: 5.5
+#| fig-width:  5.5
 
 mirt_item_coords |>
   ggplot(
@@ -1269,8 +1282,8 @@ Ackerman propone que el ítem se represente como un vector de longitud dada por 
 ::: r-center
 ```{r m2pl-representation-final}
 #| fig-align:  center
-#| fig-height: 7.2
-#| fig-width:  7.2
+#| fig-height: 5.5
+#| fig-width:  5.5
 
 mirt_item_coords |>
   ggplot(
@@ -2219,8 +2232,8 @@ $$
 ::: column
 ```{r m2pl-representation-unidimensional}
 #| fig-align:  center
-#| fig-height: 7.2
-#| fig-width:  6
+#| fig-height: 4.5
+#| fig-width:  4.5
 
 mirt_item <- tribble(
   ~item, ~a_1, ~a_2, ~d,
@@ -3565,14 +3578,41 @@ Pero a la hora de calcular los parámetros (y Ackerman lo hace en este capítulo
 
 ## Generalización: Ejes oblicuos {.smaller}
 
-> \[...\] before performing the differentiation, the constraint that Σ cos^2^**α** = 1 is added to the expression for the slope \[...\]
-
----@reckase_difficulty_1985 [p. 404]
-
-:::::::::::: columns
+:::::::::: columns
 :::::: column
-::::: r-stack
+$$
+  cov (\mathbf{\theta}) = \mathbf{\Sigma}
+$$
+
 ::: {.fragment fragment-index="1"}
+$$
+  \mathbf{\Sigma} = \begin{bmatrix}
+      1 & 0.5 \\
+      0.5 & 1
+    \end{bmatrix}
+$$
+:::
+
+::: {.fragment fragment-index="2"}
+$$
+  \mathbf{\theta}^* = \mathbf{P} \mathbf{\theta}
+$$
+:::
+
+::: {.fragment fragment-index="2"}
+$$
+  cov (\mathbf{\theta}^*) =
+    \mathbf{\Sigma}^* =
+    \begin{bmatrix}
+      1 & 0 \\
+      0 & 1
+    \end{bmatrix}
+$$
+:::
+::::::
+
+::::: column
+:::: {.r-stack .fragment .fade-in fragment-index="1"}
 ```{r corr-traits-example}
 #| fig-width:  5.5
 #| fig-height: 5.5
@@ -3613,7 +3653,6 @@ thetas |>
     panel.grid.major = element_line(linetype = "17", linewidth = GRID_WIDTH)
   )
 ```
-:::
 
 ::: {.fragment .fade-in fragment-index="4"}
 ```{r corr-traits-transf-example}
@@ -3659,45 +3698,30 @@ thetas_transf |>
   )
 ```
 :::
+::::
 :::::
-::::::
-
-::::::: column
-::: {.fragment fragment-index="1"}
-$$
-  cor (\mathbf{\theta}) = \mathbf{R}
-$$
-:::
-
-::: {.fragment fragment-index="2"}
-$$
-  \mathbf{R} = \begin{bmatrix}
-      1 & 0.5 \\
-      0.5 & 1
-    \end{bmatrix}
-$$
-:::
-
-::: {.fragment fragment-index="3"}
-$$
-  \mathbf{\theta}^* = \mathbf{P} \mathbf{\theta}
-$$
-:::
-
-::: {.fragment fragment-index="4"}
-$$
-  cor (\mathbf{\theta}^*) =
-    \mathbf{R}^* =
-    \begin{bmatrix}
-      1 & 0 \\
-      0 & 1
-    \end{bmatrix}
-$$
-:::
-:::::::
-::::::::::::
+::::::::::
 
 ::: notes
+So, let's say our latent trait vector is multivariate normal with covariane matrix $\mathbf{\Sigma}$.
+
+\[NEXT\]
+
+For the sake of the example, let's say it has unitary variances with a 0,5 correlation.
+
+\[NEXT\]
+
+Now, we can apply a "transformation" in the latent space that results in an identity covariance matrix.
+
+\[NEXT\]
+
+And if we want the geometrical space to be a representation of the latent space, the meaningful way is to represent these coordinates in an orthonormal basis (the covariance matrix is an identity matrix, the basis of this coordinate system also forms an identity matrix).
+
+But, if this is the coordinate system of $\mathbf{\theta^*}$, if we want to draw here the axes of $\mathbf{\theta}$, they cannot be these same ones, right?
+If they were, then the point cloud would be the ellipse we had before.
+
+\[ES\]
+
 Hacer esta generalización no es algo tan directo como ocurría con la probabilidad "monótonamente decreciente".
 Si os acordáis, Reckase aplicaba esta restricción de que la suma de cosenos directores era 1 (que se deriva del teorema de Pitágoras).
 Pero para aplicarla hace falta asumir que esos cosenos directores son todos ortogonales entre sí, como ya hemos visto.
@@ -3733,34 +3757,25 @@ Esto es equivalente a decir, ¿cuáles son los ejes originales en los que tenemo
 
 ## Generalización: Ejes oblicuos {.smaller}
 
-<center>
-
-<br>
-
-[bit.ly/vote-coords](https://bit.ly/vote-coords) ([slido.com](https://slido.com) : #1904926)
-
-<br>
-
-![](../www/slideshow-assets/bit.ly_vote-coords.svg){width="40%" height="40%"}
-
-</center>
-
-::: notes
-En base a lo planteado anteriormente, me gustaría hacer una prueba con vosotras y vosotros.
-Aquí tenéis un enlace y QR para participar en una breve "encuesta".
-:::
-
-## Generalización: Ejes oblicuos {.smaller}
-
-<br>
-
-<!-- # TODO: Faltan dos primeros paneles -->
-
 :::::: columns
 ::: {.column width="33%"}
 ```{r}
 #| fig-width:  5.5
 #| fig-height: 5.5
+
+ts_basis <- cbind(
+  c(1, 0),
+  c(sqrt(.25), sqrt(.75))
+)
+ls_basis <- t(solve(ts_basis))
+
+thetas_transf <- thetas |>
+  group_by(i) |>
+  pivot_longer(starts_with("trait")) |>
+  mutate(value = ls_basis %*% value |> drop()) |>
+  pivot_wider() |>
+  ungroup()
+
 thetas_transf |>
   ggplot(mapping = aes(trait_1, trait_2)) +
   geom_point(alpha = .33, shape = 16, colour = I(PALETTE_BLUE["normal"])) +
@@ -3770,7 +3785,7 @@ thetas_transf |>
     limits = c(-4, 4),
     expand = expansion(),
     name   = NULL,
-    sec.axis = dup_axis(name = "{*&theta;*~1~, *&theta;*~2~}", labels = NULL)
+    sec.axis = dup_axis(name = "{*&theta;*~1~, *&theta;*~2~} ?", labels = NULL)
   ) +
   scale_y_continuous(
     minor_breaks = NULL,
@@ -3790,19 +3805,19 @@ thetas_transf |>
 ```
 :::
 
-::: {.column .fragment width="33%"}
-```{r question-mark}
+::: {.column .fragment width="33%" fragment-index="1"}
+```{r arrow}
 fa(
-  "question",
+  "arrow-right",
   fill           = "#929acb",
   height         = "200px",
-  vertical_align = "-10em",
-  margin_left    = "4em"
+  vertical_align = "-9.5em",
+  margin_left    = "2em"
 )
 ```
 :::
 
-::: {.column .fragment width="33%"}
+::: {.column .fragment width="33%" fragment-index="1"}
 ```{r corr-traits-transf-example}
 #| fig-width:  5.5
 #| fig-height: 5.5
@@ -3810,7 +3825,21 @@ fa(
 :::
 ::::::
 
-¿Cuál es el sistema de coordenadas de *θ* para que *θ\** sea "esférica"?
+<br>
+
+<center>
+
+::: {.fragment fragment-index="1"}
+$$
+  \text{ejemplo:} \qquad
+  \mathbf{\Sigma} = \begin{bmatrix}
+      1 & 0.5 \\
+      0.5 & 1
+    \end{bmatrix}
+$$
+:::
+
+</center>
 
 ::: notes
 Supongamos una distribución bivariada de rasgos latentes, con una correlación de .5, como la mostrada anteriormente.
@@ -3827,9 +3856,7 @@ Esto es equivalente a preguntar:
 de forma que al transformarlos a coordenadas rectangulares (mediante la matriz $\mathbf{P}$) obtuviésemos una distribución con correlaciones de 0 y varianzas de 1, es decir, una distribución "esférica"?
 :::
 
-## Generalización: Ejes oblicuos
-
-<br>
+## Generalización: Ejes oblicuos {.smaller}
 
 :::::: columns
 ::: {.column width="33%"}
@@ -3848,29 +3875,22 @@ rot_grid
 ```
 :::
 
-::: {.column .fragment width="33%"}
+::: {.column width="33%"}
 <center>B</center>
 
 ```{r grid-ts-basis}
 #| fig-width: 5
-ts_basis <- cbind(
-  c(1, 0),
-  c(sqrt(.25), sqrt(.75))
-)
-
 ts_grid <- transform_grid(ts_basis)
 
 ts_grid
 ```
 :::
 
-::: {.column .fragment width="33%"}
+::: {.column width="33%"}
 <center>C</center>
 
 ```{r grid-ls-basis}
 #| fig-width: 5
-ls_basis <- t(solve(ts_basis))
-
 ls_grid <- transform_grid(ls_basis)
 
 ls_grid
@@ -3878,37 +3898,107 @@ ls_grid
 :::
 ::::::
 
-::: fragment
-[Respuestas en 3, 2, 1...](https://wall.sli.do/event/dPunB4BMx3S8hfSjaFSuFh?section=ae77dd00-34fb-4600-9677-337a65b04b83)
-:::
+<center>
+
+$$
+  \text{ejemplo:} \qquad
+  \mathbf{\Sigma} = \begin{bmatrix}
+      1 & 0.5 \\
+      0.5 & 1
+    \end{bmatrix}
+$$
+
+</center>
+
+## Generalización: Ejes oblicuos {.smaller}
+
+<center>
+
+![](../www/slideshow-assets/bit.ly_vote-trim.svg){width="400px"}
+
+<https://bit.ly/vote-trim> ([slido.com](https://slido.com) : #vote-trim)
+
+</center>
 
 ::: notes
--   ¿Será el A?
-
-\[NEXT\]
-
--   ¿O puede ser el B?
-
-\[NEXT\]
-
--   ¿O es el C?
-
-\[NEXT\]
-
-Tomáos vuestro tiempo y en seguida vemos las respuestas.
+En base a lo planteado anteriormente, me gustaría hacer una prueba con vosotras y vosotros.
+Aquí tenéis un enlace y QR para participar en una breve "encuesta".
 :::
 
-## Generalización: Ejes oblicuos
+## Generalización: Ejes oblicuos {.smaller}
+
+:::::: columns
+::: {.column width="33%"}
+<center>A?</center>
+
+```{r grid-orthogonal-rotation-spherical-option}
+#| fig-width: 5
+rot_basis <- cbind(
+  c(sqrt(.75), -sqrt(.25)),
+  c(sqrt(.25), sqrt(.75))
+)
+
+rot_grid <- transform_grid(rot_basis)
+
+rot_grid +
+    geom_point(
+    mapping = aes(trait_1, trait_2),
+    data    = thetas_transf,
+    alpha = .33, shape = 16, colour = I(PALETTE_BLUE["normal"])
+  )
+```
+:::
+
+::: {.column width="33%"}
+<center>B?</center>
+
+```{r grid-ts-basis-spherical-option}
+#| fig-width: 5
+ts_grid <- transform_grid(ts_basis)
+
+ts_grid +
+    geom_point(
+    mapping = aes(trait_1, trait_2),
+    data    = thetas_transf,
+    alpha = .33, shape = 16, colour = I(PALETTE_BLUE["normal"])
+  )
+```
+:::
+
+::: {.column width="33%"}
+<center>C?</center>
+
+```{r grid-ls-basis-spherical-option}
+#| fig-width: 5
+ls_grid <- transform_grid(ls_basis)
+
+ls_grid +
+    geom_point(
+    mapping = aes(trait_1, trait_2),
+    data    = thetas_transf,
+    alpha = .33, shape = 16, colour = I(PALETTE_BLUE["normal"])
+  )
+```
+:::
+::::::
 
 <br>
 
-:::::::: columns
+[Respuestas en 3, 2, 1...](https://wall.sli.do/event/wPAVu4xdNWCBuieXfX6VEx?section=505552cd-4e6f-4501-b72c-1122088eb72c&integration=shared-present-mode&utm_source=slidoadmin)
+
+::: notes
+\[CLICK LINK AFTER A WHILE\]
+:::
+
+## Generalización: Ejes oblicuos {.smaller}
+
+:::::::::: columns
 ::: {.column width="33%"}
 <center>A</center>
 
 ```{r scatter-orthogonal-rotation}
 #| fig-width: 5
-thetas_transf <- thetas |>
+thetas_transf_rot <- thetas |>
   group_by(i) |>
   pivot_longer(starts_with("trait")) |>
   mutate(value = rot_basis %*% value |> drop()) |>
@@ -3917,7 +4007,7 @@ thetas_transf <- thetas |>
 
 rot_grid +
   geom_point(
-    data    = thetas_transf,
+    data    = thetas_transf_rot,
     mapping = aes(trait_1, trait_2),
     alpha   = .33,
     shape   = 16,
@@ -3926,7 +4016,7 @@ rot_grid +
 ```
 :::
 
-::::: {.column .fragment width="33%"}
+::::: {.column width="33%"}
 <center>B</center>
 
 :::: r-stack
@@ -3937,7 +4027,7 @@ rot_grid +
 ::: fragment
 ```{r scatter-ts-basis}
 #| fig-width: 5
-thetas_transf <- thetas |>
+thetas_transf_wrong <- thetas |>
   group_by(i) |>
   pivot_longer(starts_with("trait")) |>
   mutate(value = ts_basis %*% value |> drop()) |>
@@ -3946,7 +4036,7 @@ thetas_transf <- thetas |>
   
 ts_grid +
   geom_point(
-    data    = thetas_transf,
+    data    = thetas_transf_wrong,
     mapping = aes(trait_1, trait_2),
     alpha   = .33,
     shape   = 16,
@@ -3957,18 +4047,17 @@ ts_grid +
 ::::
 :::::
 
-::: {.column .fragment width="33%"}
+::::: {.column width="33%"}
 <center>C</center>
 
+:::: r-stack
+```{r grid-ls-basis}
+#| fig-width: 5
+```
+
+::: fragment
 ```{r scatter-ls-basis}
 #| fig-width: 5
-thetas_transf <- thetas |>
-  group_by(i) |>
-  pivot_longer(starts_with("trait")) |>
-  mutate(value = ls_basis %*% value |> drop()) |>
-  pivot_wider() |>
-  ungroup()
-
 ls_scatter <- ls_grid +
   geom_point(
     data    = thetas_transf,
@@ -3981,7 +4070,9 @@ ls_scatter <- ls_grid +
 ls_scatter
 ```
 :::
-::::::::
+::::
+:::::
+::::::::::
 
 ::: notes
 El primero yo creo que estamos de acuerdo en que no, ya que solamente es una "rotación ortogonal" (como la llamaríamos en el ámbito psicométrico).
@@ -4215,52 +4306,66 @@ Y lo más importante: Esto nos demuestra efectivamente que tenemos dos espacios 
 Y esto es así porque la operación del producto interno está definida de manera distinta en los dos espacios; si la matriz del producto interno es la inversa de las covarianzas en el espacio latente, entonces en el espacio test, donde la transformación del parámetro de discriminación es inversa (como recordaréis), pues la matriz del producto interno es la matriz de covarianzas.
 :::
 
-## Parámetros multidimensionales generalizados
+## Parámetros multidimensionales generalizados {.smaller}
 
-<br>
-
+::::: columns
+::: column
 $$
 `r latex_eq(MDISC_COV_PARAM, DISCR_VECTOR_COV_MODULE)`
 $$
 
 <br>
 
-::: fragment
 $$
 `r latex_eq(
      MIL_COV_PARAM,
      latex_curlybraces("$DISTANCE_COV_DEF$, $DIR_COS_ITEM_VEC_COV_DEF$")
    )`
 $$
+
+<br>
+
+$$
+  \mathbf{\Sigma} = \mathbf{S} \mathbf{R} \mathbf{S}
+$$
 :::
+
+::: {.column .fragment}
+```{r item-plot-out}
+#| fig-cap:   Items representados en espacio test no ortonormal
+#| fig-align: center
+
+colorscale_no_legend <- scale_color_manual(values = PALETTE, guide = NULL)
+
+transform_grid(
+  ts_basis,
+  x_limits   = c(-2, 3),
+  y_limits   = c(-2, 2.8),
+  break_step = 1
+) +
+  items_geom_oblique +
+  colorscale_no_legend +
+  coord_fixed(expand = FALSE, clip = "on")
+```
+:::
+:::::
 
 ::: notes
 Si tenemos en cuenta las correlaciones (más generalmente, covarianzas) de la distribución de puntuaciones factoriales, lo que obtenemos son estas expresiones para los parámetros multidimensionales.
 
 Muy importante, la distancia con signo y la discriminación multidimensional son iguales, no importa en qué espacio (latente, o test) queramos obtenerlas y representarlas.
 Pero los cosenos directores es necesario calcularlos en el espacio test, no en el espacio de puntuaciones latentes, como decía Reckase, porque este es el espacio que va a representar en realidad la relación entre las variables latentes.
+
+\[NEXT; EN\]
+
+You can see here:
+
+-   Items in the first or third quadrant are "stretched"; their MDISC become larger, while the opposite happens in the other two quadrants (these two items have components with the same absolute values)
+
+-   Simple items (in one of the axis) are rotated, but their MDISC is not affected.
+
+-   Also, simple iems are not necessarily orthogonal to the other axis, while complex items can be.
 :::
-
-## Representación gráfica completa
-
-```{r item-plot-out}
-#| fig-cap:   Espacio test ortogonal (izquierda) y oblicuo (derecha)
-#| fig-align: center
-#| fig-asp:     .5
-#| fig-width: 13
-
-plot_orth <- plot_orth_uncorr_contours +
-  theme(
-    axis.ticks       = element_blank(),
-    legend.title     = element_blank(),
-    panel.grid.minor = element_blank()
-  )
-
-plot_oblique <- plot_oblique_ts +
-  theme(axis.ticks = element_blank())
-
-plot_orth + plot_oblique ## TODO: Tema ggplot
-```
 
 ## Conclusiones
 
@@ -4296,7 +4401,7 @@ Además, esta "distinción" se halla también en los modelos factoriales: Existe
 <!-- # TODO: Hace cuántos años? (Thurstone) --> Sin embargo, cuidado con esto, porque no está claro que esos espacios en TRI multidimensional se puedan asimilar directamente a los ejes en un modelo de AF.
 :::
 
-## To be continued...
+## Continuará...
 
 <br>
 
@@ -4339,25 +4444,37 @@ Pero un investigador no debería dar los parámetros sin más de ese modelo, sin
 Y por supuesto, existen muchos otros modelos psicométricos, muy útiles y aplicados en la investigación en Psicología y Educación, en los cuales no está claro aún cómo generalizar estos resultados al ámbito multidimensional.
 :::
 
-## Últimas palabras
+## References {.smaller}
 
-<!-- # TODO: Imagen ilustrativa -->
-
-::: notes
-A este respecto, me gustaría terminar recalcando esto último que he mencionado, aplicado no sólo a cuestiones psicométricas, o de TRI.
-Cuando estaba empezando a preparar este seminario, una de mis inquietudes era la complejidad, tanto conceptual como formal de esta investigación.
-Compartiendo estas inquietudes con algunos compañeros, me aconsejaron utilizar digamos este discurso como excusa para lanzar este "mensaje" en general: La idea de que tenemos que ser muy precavidos a la hora de aplicar estos métodos, sean cuales sean (cuantitativos, cualitativos, o del tipo que sean) sin reflexionar sobre si son los más adecuados o no.
-Y bueno, a este respecto comentar que, no sólo yo, sino el departamento de Metodología al completo, hacemos una tipo de investigación que precisamente se encarga de eso, de intentar entender estos métodos, saber si son los más adecuados, y saber cuándo, cómo, y sobre todo, por qué, aplicarlos en la investigación aplicada (aplicada para nosotros, al menos).
-
-Así que bueno, ya lo sabéis, estamos disponibles en el departamento para colaborar en esas investigaciones, si lo consideráis oportuno, para aplicar los métodos más apropiados a los problemas de investigación que tengáis.
-En mi caso en concreto, no sólo puedo proporcionar cierto "expertise" psicométrico.
-También me dedico mucho a cuestiones de ciencia abierta y reproduciblidad, así que si queréis darle a vuestra investigación un giro en ese sentido, para hacerla más sostenible y alineada con los objetivos de los organismos financiadores (y si no queréis, deberíais ir queriendo), podéis contactar conmigo, y podemos plantear líneas de colaboración.
-Eso sí, me gustaría pediros, si necesitáis colaboración, no sólo metodológica, sino de cualquier tipo, por favor no nos llaméis cuando tengáis un lío de datos, y no sepáis bien cómo resolver la papeleta (no digo que sea vuestro caso, pero me he encontrado con muchos casos, que son verdaderas historias de terror).
-Contad por favor con nosotros desde el momento de escribir vuestro proyecto, para solicitar la financiación, porque es en ese punto en el que se pueden prevér problemas y anticiparse a ellos.
-Porque si una investigación no está bien diseñada desde el principio, teniendo en cuenta estos aspectos metodológicos, de reproducibilidad, etc., si tenemos mala suerte pueden surgir problemas que se puedan resolver sólo con muchísimo trabajo, o incluso que ya nunca se puedan resolver, y tengamos que tirar a la basura todo ese esfuerzo de investigación.
-
-Eso es todo, muchas gracias.
-Y espero vuestras preguntas y comentarios.
+::: {#refs}
 :::
 
-## References {.smaller}
+## Fin {.smaller}
+
+<center>
+
+### ¡Gracias por su atención!
+
+::::: columns
+::: column
+![](../www/slideshow-assets/foto_daniel.jpg){width="200px" fig-align="center"}
+
+<center>Daniel Morillo, Ph.D.</center>
+:::
+
+::: column
+![](../www/slideshow-assets/foto_mario.jpg){width="200px" fig-align="center"}
+
+<center>Mario Luzardo, Ph.D.</center>
+:::
+:::::
+
+<br>
+
+Contacto: [danielmorillo.ac\@gmail.com](mailto:danielmorillo.ac@gmail.com){.email}
+
+¡Esperamos sus comentarios y preguntas!
+
+Lea el artículo: <https://bit.ly/parametros-mirt>
+
+</center>
