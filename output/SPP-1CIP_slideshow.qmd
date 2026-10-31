@@ -26,10 +26,10 @@ institute: |
   <table>
     <tr>
       <td style="width: 290px; vertical-align: middle; text-align: center">
-        [![](../www/slideshow-assets/logos_fac_psicologia.svg){height="60"}](https://www.uned.es/universidad/facultades/psicologia.html)
+        [![](../www/slideshow-assets/logos_fac_psicologia.svg){height="50"}](https://www.uned.es/universidad/facultades/psicologia.html)
       </td>
       <td style="width: 270px; vertical-align: middle; text-align: center">
-        [![](../www/slideshow-assets/logo_udelar.svg){height="120"}](https://udelar.edu.uy)
+        [![](../www/slideshow-assets/logo_udelar.svg){height="100"}](https://udelar.edu.uy)
       </td>
     </tr>
   </table>
@@ -3165,7 +3165,6 @@ mirt_item_coords |>
 :::
 
 ::::: column
-::: fragment
 $$
   \begin{align}
     \mathbf{a}^*_1 &=
@@ -3176,7 +3175,6 @@ $$
       d^*_1 &= 0
   \end{align}
 $$
-:::
 
 <br>
 
@@ -3204,6 +3202,9 @@ Supongamos un ítem, en coordenadas ortogonales (de una solución sin rotar).
 (Con vuestro permiso, le voy a llamar "a asterico", para representar las coordenadas "originales" de una solución ortogonal, antes de una rotación).
 El vector muestra los componentes de su parámetrosde discriminación en las dos dimensiones de los ejes representados.
 Esto sería la "solución sin rotar" que resulta típicamente de ajustar un modelo de TRI multdimensional, o un análisis factorial exploratorio (si lo convertimos a métrica de TRI).
+
+[NEXT]
+
 La discriminación multidimensional de este vector es (explicar paso a paso).
 
 Supongamos que aplicamos una rotación oblicua.
@@ -3703,25 +3704,6 @@ thetas_transf |>
 ::::::::::
 
 ::: notes
-So, let's say our latent trait vector is multivariate normal with covariane matrix $\mathbf{\Sigma}$.
-
-\[NEXT\]
-
-For the sake of the example, let's say it has unitary variances with a 0,5 correlation.
-
-\[NEXT\]
-
-Now, we can apply a "transformation" in the latent space that results in an identity covariance matrix.
-
-\[NEXT\]
-
-And if we want the geometrical space to be a representation of the latent space, the meaningful way is to represent these coordinates in an orthonormal basis (the covariance matrix is an identity matrix, the basis of this coordinate system also forms an identity matrix).
-
-But, if this is the coordinate system of $\mathbf{\theta^*}$, if we want to draw here the axes of $\mathbf{\theta}$, they cannot be these same ones, right?
-If they were, then the point cloud would be the ellipse we had before.
-
-\[ES\]
-
 Hacer esta generalización no es algo tan directo como ocurría con la probabilidad "monótonamente decreciente".
 Si os acordáis, Reckase aplicaba esta restricción de que la suma de cosenos directores era 1 (que se deriva del teorema de Pitágoras).
 Pero para aplicarla hace falta asumir que esos cosenos directores son todos ortogonales entre sí, como ya hemos visto.
@@ -3729,13 +3711,13 @@ Si no tenemos ángulos rectos, esa condición no se cumple.
 
 \[NEXT\]
 
-Y lo que nosotros estamos asumiendo es que tenemos una distribución de vectores de rasgo latente ($\theta$) con una matriz de correlaciones $R$ (la que sea).
+Y lo que nosotros estamos asumiendo es que tenemos una distribución de vectores de rasgo latente ($\theta$) con una matriz de covarianzas $\Sigma$ (la que sea).
 
 \[NEXT\]
 
 (En este ejemplo, vamos a usar una distribución normal estandarizada con correlación de 0,5).
 
-Normalmente representamos esos vectores en coordenadas rectangulares (ejes ortogonales), pero para obtener los parámetros multidimensionales generalizados a ejes oblicuos tenemos que representados en una base no ortogonal (aquí también hablaría de "unidades no estandarizadas", es decir, que la distancia entre el 0 y el 1 pueda ser "distinta de la base estándar, pero digamos solamente "no ortogonal" por simplificar).
+Normalmente representamos esos vectores en coordenadas rectangulares (ejes ortogonales), pero para obtener los parámetros multidimensionales generalizados a ejes oblicuos tenemos que representados en una base no ortogonal (aquí también hablaríamos de "unidades no estandarizadas", es decir, una base "no ortonormal" donde la distancia entre el 0 y el 1 pueda ser "distinta de la base estándar, pero digamos solamente "no ortogonal" por simplificar).
 
 ¿Cómo podríamos solucionar esto?
 
@@ -3749,10 +3731,6 @@ Ahora bien, como recordaréis, queremos representar los ítems en unos ejes que 
 Estas nuevas coordenadas (transformadas), que ahora están en una base ortogonal, queremos que representen una distribución en la que las correlaciones sean nulas, es decir, que la matriz de correlaciones transformada ($R^*$ la vamos a llamar) sea una matriz identidad (unos en la diagonal, ceros en el resto).
 Pero hay que tener en cuenta que esto es un "artefacto matemático".
 Estamos haciendo esto por conveniencia, pero las coordenadas que realmente nos interesan como investigadores, porque son las que verdaderamente representan algo que nos interesa investigar, son esas coordenadas originales, que pueden representar cualquier fenómeno que sea de nuestro interés (rasgos de personalidad, síntomas, actitudes, inteligencia, conocimientos... lo que estemos investigando).
-
-Llegados a este punto, la incógnita es: ¿Qué matriz es $\mathbf{P}$, es decir, la matriz que nos permite pasar de las coordenadas originales, $\mathbf{\theta}$, a las transformadas $\mathbf{\theta^*}$?
-Esto es equivalente a decir, ¿cuáles son los ejes originales en los que tenemos que representar $\mathbf{\theta}$?
-(Recordad, para que $\mathbf{R^*}$ sea una matriz identidad, 1's en la diagonal y 0's fuera de ella).
 :::
 
 ## Generalización: Ejes oblicuos {.smaller}
@@ -3842,18 +3820,13 @@ $$
 </center>
 
 ::: notes
-Supongamos una distribución bivariada de rasgos latentes, con una correlación de .5, como la mostrada anteriormente.
-Queremos saber cuál es la matriz $\mathbf{P}$ que nos permite pasar de las coordenadas originales, $\mathbf{\theta}$, a las transformadas $\mathbf{\theta^*}$.
-
-Esto es equivalente a preguntar:
-
-\[NEXT\]
-
+Es decir:
 ¿Cuál es el sistema de coordenadas que representaría adecuadamente los ejes de una distribución bivariada,...
 
 \[NEXT\]
 
 de forma que al transformarlos a coordenadas rectangulares (mediante la matriz $\mathbf{P}$) obtuviésemos una distribución con correlaciones de 0 y varianzas de 1, es decir, una distribución "esférica"?
+(Con matriz de covarianzas identidad.)
 :::
 
 ## Generalización: Ejes oblicuos {.smaller}
@@ -3984,7 +3957,7 @@ ls_grid +
 
 <br>
 
-[Respuestas en 3, 2, 1...](https://wall.sli.do/event/wPAVu4xdNWCBuieXfX6VEx?section=505552cd-4e6f-4501-b72c-1122088eb72c&integration=shared-present-mode&utm_source=slidoadmin)
+[Respuestas en 3, 2, 1...](https://wall.sli.do/event/wPAVu4xdNWCBuieXfX6VEx?section=505552cd-4e6f-4501-b72c-1122088eb72c&integration=slido-admin)
 
 ::: notes
 \[CLICK LINK AFTER A WHILE\]
@@ -4356,15 +4329,15 @@ Si tenemos en cuenta las correlaciones (más generalmente, covarianzas) de la di
 Muy importante, la distancia con signo y la discriminación multidimensional son iguales, no importa en qué espacio (latente, o test) queramos obtenerlas y representarlas.
 Pero los cosenos directores es necesario calcularlos en el espacio test, no en el espacio de puntuaciones latentes, como decía Reckase, porque este es el espacio que va a representar en realidad la relación entre las variables latentes.
 
-\[NEXT; EN\]
+\[NEXT\]
 
-You can see here:
+Aquí podéis ver:
 
--   Items in the first or third quadrant are "stretched"; their MDISC become larger, while the opposite happens in the other two quadrants (these two items have components with the same absolute values)
+-   Los ítems en el primer y tercer cuadrante "se estiran"; sus MDISC se hacen más altos, mientras que lo contrario pasa en los otros dos cuadrantes (estos dos ítems tienen componentes con los mismos valores absolutos)
 
--   Simple items (in one of the axis) are rotated, but their MDISC is not affected.
+-   Los ítems simples (en uno de los ejes) se rotan junto con el eje, pero su MDISC no cambia.
 
--   Also, simple iems are not necessarily orthogonal to the other axis, while complex items can be.
+-   Ahora bien, estos ítems simples ya no son necesariamente ortogonales al otro eje. Sin embargo, los ítems complejos sí puedesn serlo.
 :::
 
 ## Conclusiones
@@ -4475,6 +4448,6 @@ Contacto: [danielmorillo.ac\@gmail.com](mailto:danielmorillo.ac@gmail.com){.emai
 
 ¡Esperamos sus comentarios y preguntas!
 
-Lea el artículo: <https://bit.ly/parametros-mirt>
+Lean el artículo: <https://bit.ly/parametros-mirt>
 
 </center>
