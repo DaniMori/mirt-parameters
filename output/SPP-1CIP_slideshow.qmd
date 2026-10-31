@@ -62,7 +62,7 @@ format:
     fig-format:              svg
     fig-asp:                 1
     fig-width:               4.5
-    footer:                  https://bit.ly/vote-mirt
+    footer:                  https://bit.ly/vote-trim
     incremental:             false
     keep-md:                 false
     link-external-newwindow: false
